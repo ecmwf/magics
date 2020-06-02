@@ -34,8 +34,10 @@ using namespace magics;
 Contour::Contour() : matrix_(0), styleInfo_(0), legendIsOn_(false) {}
 
 Contour::~Contour() {
-  if (matrix_) delete (matrix_);
-  if (styleInfo_) delete (styleInfo_);
+    if (matrix_)
+        delete (matrix_);
+    if (styleInfo_)
+        delete (styleInfo_);
 }
 
 /*!
@@ -43,139 +45,148 @@ Contour::~Contour() {
 */
 
 void Contour::print(ostream& out) const {
-  out << "Contour[";
-  ContourAttributes::print(out);
-  out << "]";
+    out << "Contour[";
+    ContourAttributes::print(out);
+    out << "]";
 }
 
 class MatrixTreshold : public MatrixHandler {
- public:
-  MatrixTreshold(const AbstractMatrix& matrix, double min, double max)
-      : MatrixHandler(matrix), min_(min), max_(max) {}
-  double operator()(int row, int column) const {
-    double val = this->matrix_(row, column);
-    if (same(val, this->matrix_.missing())) return val;
-    if (val < min_) return min_;
-    if (val > max_) return max_;
-    return val;
-  }
-  double min_;
-  double max_;
+public:
+    MatrixTreshold(const AbstractMatrix& matrix, double min, double max) :
+        MatrixHandler(matrix), min_(min), max_(max) {}
+    double operator()(int row, int column) const {
+        double val = this->matrix_(row, column);
+        if (same(val, this->matrix_.missing()))
+            return val;
+        if (val < min_)
+            return min_;
+        if (val > max_)
+            return max_;
+        return val;
+    }
+    double min_;
+    double max_;
 };
 
 void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
-  try {
-    ParameterManager::set("contour_automatic_library_path", library_path_);
-    ContourLibrary* library = MagTranslator<string, ContourLibrary>()(setting_);
+    try {
+        ParameterManager::set("contour_automatic_library_path", library_path_);
+        ContourLibrary* library = MagTranslator<string, ContourLibrary>()(setting_);
 
-    MetaDataCollector request, needAttributes;
+        MetaDataCollector request, needAttributes;
 
-    bool legend_only = contour_->legend_only_;
-    if (predefined_.size()) {
-      library->getStyle(predefined_, automaticAttributes_);
+        bool legend_only = contour_->legend_only_;
+        if (predefined_.size()) {
+            library->getStyle(predefined_, automaticAttributes_);
 
-      set(automaticAttributes_);
-      auto text = automaticAttributes_.find("contour_legend_text");
-      if (text != automaticAttributes_.end())
-        ParameterManager::set("contour_legend_text", text->second);
-    } else {
-      library->askId(request);
-      data.visit(request);
+            set(automaticAttributes_);
+            auto text = automaticAttributes_.find("contour_legend_text");
+            if (text != automaticAttributes_.end())
+                ParameterManager::set("contour_legend_text", text->second);
+        }
+        else {
+            library->askId(request);
+            data.visit(request);
 
-      if (library->checkId(request, needAttributes)) {
-        data.visit(needAttributes);
-        needAttributes["theme"] = theme_;
-        library->getStyle(needAttributes, automaticAttributes_, *styleInfo_);
+            if (library->checkId(request, needAttributes)) {
+                data.visit(needAttributes);
+                needAttributes["theme"] = theme_;
+                library->getStyle(needAttributes, automaticAttributes_, *styleInfo_);
 
-        if (!legendIsOn_ && !legend_) automaticAttributes_["legend"] = "off";
+                if (!legendIsOn_ && !legend_)
+                    automaticAttributes_["legend"] = "off";
 
-        set(automaticAttributes_);
-      } else {
-        request["theme"] = theme_;
-        styleInfo_ = new StyleEntry();
+                set(automaticAttributes_);
+            }
+            else {
+                request["theme"] = theme_;
+                styleInfo_       = new StyleEntry();
 
-        library->getStyle(request, automaticAttributes_, *styleInfo_);
+                library->getStyle(request, automaticAttributes_, *styleInfo_);
 
-        automaticAttributes_["contour_legend_only"] = contour_->legend_only_;
-        if (!legendIsOn_ && !legend_) automaticAttributes_["legend"] = "off";
-        if (metadata_only_) automaticAttributes_["contour_legend_only"] = "on";
-        set(automaticAttributes_);
-        /*
-        for (auto s = attributes.begin(); s != attributes.end(); ++s)
-            cout << s->first << "-->" << s->second << endl;
-        */
-        auto text = automaticAttributes_.find("contour_legend_text");
-        if (text != automaticAttributes_.end())
-          ParameterManager::set("contour_legend_text", text->second);
-      }
+                automaticAttributes_["contour_legend_only"] = contour_->legend_only_;
+                if (!legendIsOn_ && !legend_)
+                    automaticAttributes_["legend"] = "off";
+                if (metadata_only_)
+                    automaticAttributes_["contour_legend_only"] = "on";
+                set(automaticAttributes_);
+                /*
+                for (auto s = attributes.begin(); s != attributes.end(); ++s)
+                    cout << s->first << "-->" << s->second << endl;
+                */
+                auto text = automaticAttributes_.find("contour_legend_text");
+                if (text != automaticAttributes_.end())
+                    ParameterManager::set("contour_legend_text", text->second);
+            }
+        }
+
+        contour_->legend_only_ = legend_only;
+
+        delete library;
+
+        data.getReady(parent.transformation());
+        if (!data.valid()) {
+            throw MagicsException("Invalid data for contouring");
+        }
+
+        if (data.matrix().tile()) {
+            (*this->contour_)(data.matrix(), parent);
+            return;
+        }
+        MatrixHandler* box = data.matrix().getReady(parent.transformation());
+        if (!box) {
+            throw MagicsException("Invalid data for contouring");
+        }
+        if (!box->rows() || !box->columns()) {
+            (*this->contour_)(data, parent);
+            (*this->grid_)(data, parent);
+            matrix_ = 0;
+            delete box;
+            return;
+        }
+
+        matrix_ = (*this->method_).handler(*box, parent);
+        // matrix_ = box;
+
+        if (this->floor_ != -INT_MAX || this->ceiling_ != INT_MAX)
+            matrix_ = new MatrixTreshold(*matrix_, this->floor_, this->ceiling_);
+
+        {
+            Timer timer("setMinMax", "setMainMax");
+            double min, max;
+            {
+                Timer timer("Max", "Max");
+                min = matrix_->min();
+            }
+            {
+                Timer timer("MIN", "MIN");
+                max = matrix_->max();
+            }
+            (*this->contour_).adjust(min, max);
+        }
+        {
+            Timer timer("CONTOUR", "CONTOUR");
+            (*this->contour_)(*matrix_, parent);
+        }
+        (*this->contour_)(data, parent);
+        if (magCompare(this->grid_->getType(), "akima"))
+            (*this->grid_)(*matrix_, parent);
+        else
+            (*this->grid_)(data, parent);
+        (*this->hilo_)(*matrix_, parent);
+
+        // We do not need the box anymore!
+        delete box;
     }
-
-    contour_->legend_only_ = legend_only;
-
-    delete library;
-
-    data.getReady(parent.transformation());
-    if (!data.valid()) {
-      throw MagicsException("Invalid data for contouring");
+    catch (MagicsException& e) {
+        throw e;  // forwarding exception
     }
-
-    if (data.matrix().tile()) {
-      (*this->contour_)(data.matrix(), parent);
-      return;
-    }
-    MatrixHandler* box = data.matrix().getReady(parent.transformation());
-    if (!box) {
-      throw MagicsException("Invalid data for contouring");
-    }
-    if (!box->rows() || !box->columns()) {
-      (*this->contour_)(data, parent);
-      (*this->grid_)(data, parent);
-      matrix_ = 0;
-      delete box;
-      return;
-    }
-
-    matrix_ = (*this->method_).handler(*box, parent);
-    // matrix_ = box;
-
-    if (this->floor_ != -INT_MAX || this->ceiling_ != INT_MAX)
-      matrix_ = new MatrixTreshold(*matrix_, this->floor_, this->ceiling_);
-
-    {
-      Timer timer("setMinMax", "setMainMax");
-      double min, max;
-      {
-        Timer timer("Max", "Max");
-        min = matrix_->min();
-      }
-      {
-        Timer timer("MIN", "MIN");
-        max = matrix_->max();
-      }
-      (*this->contour_).adjust(min, max);
-    }
-    {
-      Timer timer("CONTOUR", "CONTOUR");
-      (*this->contour_)(*matrix_, parent);
-    }
-    (*this->contour_)(data, parent);
-    if (magCompare(this->grid_->getType(), "akima"))
-      (*this->grid_)(*matrix_, parent);
-    else
-      (*this->grid_)(data, parent);
-    (*this->hilo_)(*matrix_, parent);
-
-    // We do not need the box anymore!
-    delete box;
-  } catch (MagicsException& e) {
-    throw e;  // forwarding exception
-  }
 }
 
 void Contour::visit(Data& data, HistoVisitor& visitor) {
-  if (!matrix_) return;
-  contour_->visit(data, data.points(*visitor.dataLayoutTransformation(), false),
-                  visitor);
+    if (!matrix_)
+        return;
+    contour_->visit(data, data.points(*visitor.dataLayoutTransformation(), false), visitor);
 }
 
 static SimpleObjectMaker<EcChartLibrary, ContourLibrary> ecchart("ecchart");
@@ -184,12 +195,14 @@ static SimpleObjectMaker<WebLibrary, ContourLibrary> style_name("style_name");
 static SimpleObjectMaker<WebLibrary, ContourLibrary> ecmwf("ecmwf");
 
 void Contour::visit(Data& data, LegendVisitor& legend) {
-  if (!legend_) return;
-  legend.set(automaticAttributes_);
-  contour_->visit(data, legend);
+    if (!legend_)
+        return;
+    legend.set(automaticAttributes_);
+    contour_->visit(data, legend);
 }
 
 void Contour::visit(MetaDataVisitor& visitor) {
-  if (styleInfo_) visitor.add(styleInfo_);
-  styleInfo_ = 0;
+    if (styleInfo_)
+        visitor.add(styleInfo_);
+    styleInfo_ = 0;
 }
