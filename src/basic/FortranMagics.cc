@@ -959,6 +959,7 @@ void FortranMagics::epsshading() {
 }
 
 void FortranMagics::paxis() {
+    actions();
     try {
         string orientation;
 
@@ -967,12 +968,12 @@ void FortranMagics::paxis() {
         if (magCompare(orientation, "vertical")) {
             Axis* vaxis = new VerticalAxis();
             MagLog::dev() << *vaxis << "\n";
-            axis_.push(vaxis);
+            top()->push_back(vaxis);
         }
         else {
             Axis* haxis = new HorizontalAxis();
             MagLog::dev() << *haxis << "\n";
-            axis_.push(haxis);
+            top()->push_back(haxis);
         }
     }
     catch (MagicsException& e) {
