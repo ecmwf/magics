@@ -318,11 +318,10 @@ NetcdfInterpretor* NetcdfOrcaInterpretor::guess(const NetcdfInterpretor& from) {
     string latlon("lat lon");
     coordinates = coordinates.substr(0, latlon.size());
 
-    cout << "COORDINATES" << coordinates << endl;
 
     if (coordinates == "lat lon" || coordinates == "lon lat") {
         NetcdfOrcaInterpretor* interpretor = new NetcdfOrcaInterpretor();
-        cout << "FOUND ORCA " << endl;
+
 
         interpretor->NetcdfInterpretor::copy(from);
         interpretor->latitude_  = "lat";

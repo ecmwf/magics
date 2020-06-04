@@ -241,6 +241,9 @@ struct NetVariable {
     void get(vector<short>& data, vector<size_t>& start, vector<size_t>& edges) {
         nc_get_vara_short(netcdf_, id_, &start.front(), &edges.front(), &data.front());
     }
+    void get(vector<unsigned short>& data, vector<size_t>& start, vector<size_t>& edges) {
+        nc_get_vara_ushort(netcdf_, id_, &start.front(), &edges.front(), &data.front());
+    }
     void get(vector<signed char>& data, vector<size_t>& start, vector<size_t>& edges) {
         nc_get_vara_schar(netcdf_, id_, &start.front(), &edges.front(), &data.front());
     }
@@ -449,8 +452,12 @@ private:
 template <class T>
 void Accessor<T>::access(vector<T>& data, vector<size_t>& start, vector<size_t>& edges, NetVariable& var) {
     typename map<nc_type, Accessor<T>*>::const_iterator accessor = accessors_->find(var.type());
-    if (accessor == accessors_->end())
+    if (accessor == accessors_->end()) {
+        MagLog::error() << "NetcdfDecoder : No accessor available for " << var.type() << endl;
+        MagLog::error() << "Throwing excpetion for  " << var.type() << endl;
+
         throw new MagicsException("No accessor available");
+    }
 
     (*(*accessor).second)(data, start, edges, var);
 }
