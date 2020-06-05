@@ -475,12 +475,10 @@ void VerticalAxis::title(VerticalAxisVisitor& out) {
     out.frameIt();
     double angle = out.angleTitle();
     double x     = title_position_;
-    cout << "VerticalAxis::title-->" << x << endl;
+
     double shift = (out.maxX() - out.minX()) * 0.1;
     x            = x - shift;
 
-    cout << "VerticalAxis::title-->" << x << " " << shift << endl;
-    cout << "min:" << out.minX() << " max:" << out.maxX() << endl;
 
     Text* text = new Text();
     MagFont font(title_font_, title_font_style_, title_height_);

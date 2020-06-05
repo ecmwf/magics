@@ -290,6 +290,7 @@ int NetVariable::find(const string& value) {
     // First , is the variable a time variable:
     string val = interpretTime(value);
 
+
     nc_type t = type();
     if (t == NC_DOUBLE) {
         vector<double> values;
@@ -302,10 +303,7 @@ int NetVariable::find(const string& value) {
         vector<int> values;
         values.resize(getSize());
         get(values);
-
-
         int dval = tonumber(val);
-
 
         return ::find(dval, values);
     }
@@ -321,6 +319,14 @@ int NetVariable::find(const string& value) {
         values.resize(getSize());
         get(values);
         short dval = tonumber(val);
+        return ::find(dval, values);
+    }
+    if (t == NC_UBYTE) {
+        vector<short> values;
+        values.resize(getSize());
+        get(values);
+        short dval = tonumber(val);
+        cout << "PRINT-->" << dval << endl;
         return ::find(dval, values);
     }
 
@@ -377,15 +383,18 @@ map<nc_type, Accessor<int>*>* Accessor<int>::accessors_ = 0;
 }  // namespace magics
 
 
+static TypedAccessor<signed char, float> u_byte_float_accessor(NC_UBYTE);
 static TypedAccessor<signed char, float> byte_float_accessor(NC_BYTE);
 static TypedAccessor<short, float> short_float_accessor(NC_SHORT);
+static TypedAccessor<unsigned short, float> u_short_float_accessor(NC_USHORT);
 static TypedAccessor<int, float> int_float_accessor(NC_INT);
 static TypedAccessor<float, float> float_float_accessor(NC_FLOAT);
 static TypedAccessor<double, float> double_float_accessor(NC_FLOAT);
 
-// static TypedAccessor<nc_byte, double>  byte_double_accessor(NC_BYTE);
+static TypedAccessor<signed char, double> u_byte_double_accessor(NC_UBYTE);
 static TypedAccessor<signed char, double> byte_double_accessor(NC_BYTE);
-static TypedAccessor<short, double> short_double_accessor(NC_SHORT);
+static TypedAccessor<short, double> u_short_double_accessor(NC_SHORT);
+static TypedAccessor<unsigned short, double> short_double_accessor(NC_USHORT);
 static TypedAccessor<int, double> int_double_accessor(NC_INT);
 static TypedAccessor<float, double> float_double_accessor(NC_FLOAT);
 static TypedAccessor<double, double> double_double_accessor(NC_DOUBLE);
