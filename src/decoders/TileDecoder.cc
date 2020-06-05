@@ -514,7 +514,7 @@ void TileDecoder::decode() {
 
     auto val = dvalues.begin();
     for (auto l = dindex.begin(); l != dindex.end(); ++l) {
-        if (*l < 0)
+        if (*l < 0 || *val == missing)
             cvalues.push_back(missing);
         else {
             cvalues.push_back((*val * scaling) + offset);
