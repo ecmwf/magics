@@ -26,6 +26,7 @@
 #include "GribDecoder.h"
 #include "LocalTable.h"
 #include "Matrix.h"
+#include "ProjP.h"
 #include "RasterData.h"
 #include "Timer.h"
 
@@ -1856,6 +1857,7 @@ void GribPolarStereoInterpretor::interpretAsMatrix(GribDecoder& grib) const {
     MagLog::dev() << *matrix << "\n";
 }
 
+
 void GribInterpretor::interpolate(const GribDecoder& grib, Matrix& matrix) const {
     int err;
 
@@ -1889,4 +1891,122 @@ void GribInterpretor::interpolate(const GribDecoder& grib, Matrix& matrix) const
     }
     /* At the end the iterator is deleted to free memory. */
     grib_iterator_delete(iter);
+}
+
+void GribProjInterpretor::interpretAsMatrix(GribDecoder& grib) const {
+    Timer timer("gribapi", " read grib");
+    MagLog::dev() << "GribProjInterpretor::interpretAsMatrix"
+                  << "\n";
+
+    string proj = grib.getString("projString");
+
+
+    Matrix* matrix = grib.u(new Proj4Matrix(proj));
+    // Matrix* matrix2 = grib.v(new Proj4Matrix(proj));
+
+
+    Matrix* matrix2 = 0;
+
+    size_t nb;
+    grib_get_size(grib.id(), "values", &nb);
+
+    MagLog::dev() << "numberOfFieldValues[" << nb << "]"
+                  << "\n";
+    double missing = INT_MAX;
+    grib.setDouble("missingValue", missing);
+    matrix->missing(missing);
+
+
+    long nblon = grib.getLong("numberOfPointsAlongXAxis");
+    long nblat = grib.getLong("numberOfPointsAlongYAxis");
+    // nblon      = grib.getLong("Ni");
+    // nblat      = grib.getLong("Nj");
+
+    double y = grib.getDouble("latitudeOfFirstGridPointInDegrees");
+    double x = grib.getDouble("longitudeOfFirstGridPointInDegrees");
+
+
+    LatLonProjP helper(proj);
+
+    helper.convert(x, y);
+
+
+    double rx = x;
+    double ry = y;
+
+    helper.revert(rx, ry);
+
+
+    double dx = grib.getDouble("DxInMetres");
+    double dy = grib.getDouble("DyInMetres");
+    // dx        = grib.getDouble("iDirectionIncrementInDegrees");
+    // dy        = grib.getDouble("jDirectionIncrementInDegrees");
+
+
+    matrix->columnsAxis().reserve(nb);
+    matrix->rowsAxis().reserve(nb);
+
+
+    double xx = x;
+    for (int i = 0; i < nblon; i++) {
+        matrix->columnsAxis().push_back(xx);
+        xx = x + (i + 1) * dx;
+    }
+    double yy = y;
+    for (int i = 0; i < nblat; i++) {
+        matrix->rowsAxis().push_back(yy);
+        yy = y + (i + 1) * dy;
+    }
+
+
+    if (matrix2 != NULL) {
+        MagLog::error() << "Wind method not yet implemented" << endl;
+    }
+
+
+    long jPointsAreConsecutive = grib.getLong("jPointsAreConsecutive");
+
+    try {
+        matrix->resize(nb);
+        size_t aux = size_t(nb);
+
+        // if jPointsAreConsecutive=1 then the values represent columns of data
+        // instead of rows, so we have to 'reshape' the array so that it is
+        // reorganised into rows.
+
+        if (jPointsAreConsecutive) {
+            vector<double>* d = new vector<double>(nb);  // temporary array
+            double* d1        = &d->front();             // temporary array pointer
+            double* d2        = &matrix->front();        // final array
+
+            grib_get_double_array(grib.id(), "values", d1, &aux);
+            /*
+                        for (int i = 0; i < nblon; i++) {
+                            for (int j = 0; j < nblat; j++) {
+                                d2[j * nblon + i] = d1[i * nblat + j];
+                            }
+                        }*/
+            delete d;
+        }
+        else  // otherwise, just copy the array of values as they are
+        {
+            if (matrix2 != NULL) {
+                MagLog::error() << "Wind method not yet implemented" << endl;
+            }
+            else {
+                grib_get_double_array(grib.handle(), "values", &matrix->front(), &aux);
+            }
+        }
+
+        matrix->missing(missing);
+        matrix->setMapsAxis();
+    }
+    catch (...) {
+        throw MagicsException("GribRegularInterpretor - Not enough memory");
+    }
+}
+
+void GribProjInterpretor::print(ostream& out) const {
+    out << "GribRegularInterpretor[";
+    out << "]";
 }

@@ -1,5 +1,5 @@
 /*
- * (getSC) Copyright 1996-2016 ECMWF.
+ * (C) Copyright 1996-2016 ECMWF.
  *
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
@@ -7,7 +7,6 @@
  * granted to it by virtue of its status as an intergovernmental organisation
  * nor does it submit to any jurisdiction.
  */
-
 /*! \file GribDecoder.cc
     \brief Implementation of the class GribDecoder.
 
@@ -313,19 +312,20 @@ void GribDecoder::read() {
         return;
     }
 
-    current_handle_             = field_;
-    const string representation = getstring("typeOfGrid");  // Make sure we only get one info
+    current_handle_   = field_;
+    const string grid = representation();
+
 
     try {
         if (!interpretor_) {
-            interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
+            interpretor_ = SimpleObjectMaker<GribInterpretor>::create(grid);
         }
         interpretor_->interpretAsMatrix(*this);
         Matrix* matrix = u();
         if (u() == 0) {
             valid_ = false;
             ostringstream msg;
-            msg << "Grib Decoder: Representation [" << representation << "] not yet fully implemented";
+            msg << "Grib Decoder: Representation [" << grid << "] not yet fully implemented";
             MagLog::error() << msg.str() << std::endl;
             throw MagicsException(msg.str());
         }
@@ -333,7 +333,7 @@ void GribDecoder::read() {
     }
     catch (NoFactoryException&) {
         ostringstream msg;
-        msg << "Grib Decoder - read: Representation [" << representation << "] not supported";
+        msg << "Grib Decoder - read: Representation [" << grid << "] not supported";
         MagLog::error() << msg.str() << endl;
         valid_ = false;
         throw MagicsException(msg.str());
@@ -344,22 +344,19 @@ void GribDecoder::read(const Transformation& transformation) {
     if (!field_) {
         return;
     }
-    const string representation = getstring("typeOfGrid");
-    const string proj           = getstring("proj4String");
+    const string grid = representation();
 
-    cout << "FOUND PROJ-->" << proj << endl;
 
     try {
         if (!interpretor_) {
-            interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
+            interpretor_ = SimpleObjectMaker<GribInterpretor>::create(grid);
         }
         interpretor_->interpretAsMatrix(*this, transformation);
         Matrix* matrix = u();
         interpretor_->scaling(*this, *matrix);
     }
     catch (NoFactoryException&) {
-        MagLog::error() << "Grib Decoder - read: Representation [" << representation << "] not supported.\n"
-                        << std::endl;
+        MagLog::error() << "Grib Decoder - read: Representation [" << grid << "] not supported.\n" << std::endl;
         ;
         valid_ = false;
         throw MagicsException("Grib Decoder: Representation [] not supported.");
@@ -430,16 +427,15 @@ void GribDecoder::decode2D() {
     openThirdComponent();
     read();
 
-    const string representation = getstring("typeOfGrid");
+    const string grid = representation();
     try {
         if (!interpretor_) {
-            interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
+            interpretor_ = SimpleObjectMaker<GribInterpretor>::create(grid);
         }
         interpretor_->keepOriginal(true);
     }
     catch (NoFactoryException&) {
-        MagLog::warning() << "Grib Decoder: Vector cobination of representations [" << representation
-                          << "] not supported.\n"
+        MagLog::warning() << "Grib Decoder: Vector cobination of representations [" << grid << "] not supported.\n"
                           << std::endl;
         ;
         valid_ = false;
@@ -456,10 +452,10 @@ void GribDecoder::customisedPoints(const AutomaticThinningMethod& thinning, cons
     decode();
     long repres;
     grib_get_long(field_, "dataRepresentationType", &repres);
-    const string representation = getstring("typeOfGrid");
+    const string grid = representation();
     try {
         if (!interpretor_) {
-            interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
+            interpretor_ = SimpleObjectMaker<GribInterpretor>::create(grid);
         }
 
         // Compute the thinning factor...
@@ -485,7 +481,7 @@ void GribDecoder::customisedPoints(const AutomaticThinningMethod& thinning, cons
         customisedPoints(transformation, points, xstep, ystep, 0);
     }
     catch (NoFactoryException&) {
-        MagLog::error() << "Grib Decoder - customisedPoints: Representation [" << representation << "] not supported.\n"
+        MagLog::error() << "Grib Decoder - customisedPoints: Representation [" << grid << "] not supported.\n"
                         << std::endl;
         ;
         throw MagicsException("Grib Decoder: Representation [] not supported.");
@@ -673,10 +669,10 @@ void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Tr
     decode();
     long repres;
     grib_get_long(field_, "dataRepresentationType", &repres);
-    const string representation = getstring("typeOfGrid");
+    const string grid = representation();
     try {
         if (!interpretor_) {
-            interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
+            interpretor_ = SimpleObjectMaker<GribInterpretor>::create(grid);
         }
 
         // Compute the thinning factor...
@@ -695,7 +691,7 @@ void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Tr
         customisedPoints(transformation, points, gap * thinning.factor(), gap * thinning.factor(), gap);
     }
     catch (NoFactoryException&) {
-        MagLog::error() << "Grib Decoder- customisedPoints: Representation [" << representation << "] not supported.\n"
+        MagLog::error() << "Grib Decoder- customisedPoints: Representation [" << grid << "] not supported.\n"
                         << std::endl;
         ;
         throw MagicsException("Grib Decoder: Representation [] not supported.");
@@ -868,17 +864,16 @@ void GribDecoder::decodePoints() {
     if (Data::dimension_ == 1) {
         double scaling;
         double offset;
-        const string representation = getstring("typeOfGrid");
-        double missing              = getDouble("missingValue");
+        const string grid = representation();
+        double missing    = getDouble("missingValue");
         try {
             if (!interpretor_) {
-                interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
+                interpretor_ = SimpleObjectMaker<GribInterpretor>::create(grid);
             }
             interpretor_->scaling(*this, scaling, offset);
         }
         catch (NoFactoryException&) {
-            MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not supported.\n"
-                              << std::endl;
+            MagLog::warning() << "Grib Decoder: Representation [" << grid << "] not supported.\n" << std::endl;
             ;
             scaling = 1;
             offset  = 0;
@@ -902,8 +897,8 @@ void GribDecoder::decodePoints() {
         return;
     }
 
-    const string representation = getstring("typeOfGrid");
-    double missing              = getDouble("missingValue");
+
+    double missing = getDouble("missingValue");
 
     grib_iterator* iter1 = grib_iterator_new(field_, flags, &error);
     grib_iterator* iter2 = grib_iterator_new(component2_, flags, &error);
@@ -1409,18 +1404,18 @@ void GribDecoder::visit(ValuesCollector& points) {
 
     double scaling, offset;
     string oriUnits, derivedUnits;
-    string representation = getstring("typeOfGrid");
+    string grid = representation();
 
     // Scaling works only for scalar data!!!
 
     try {
         if (!interpretor_) {
-            interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
+            interpretor_ = SimpleObjectMaker<GribInterpretor>::create(grid);
         }
         interpretor_->scaling(*this, scaling, offset, oriUnits, derivedUnits);
     }
     catch (NoFactoryException&) {
-        MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not supported.\n" << std::endl;
+        MagLog::warning() << "Grib Decoder: Representation [" << grid << "] not supported.\n" << std::endl;
         ;
         scaling = 1;
         offset  = 0;
@@ -1442,7 +1437,7 @@ void GribDecoder::visit(ValuesCollector& points) {
         points.setUnits(oriUnits);
         points.setScaledUnits(derivedUnits);
 
-        nearestGridpoints(inlats, inlons, outlats, outlons, values, distances, nb, representation, missing);
+        nearestGridpoints(inlats, inlons, outlats, outlons, values, distances, nb, grid, missing);
 
         for (int i = 0; i < nb; i++) {
             points[i].push_back(new ValuesCollectorData(outlons[i], outlats[i], values[i], distances[i]));
@@ -1460,8 +1455,8 @@ void GribDecoder::visit(ValuesCollector& points) {
         points.setUnits(oriUnits);
         points.setScaledUnits("/");
 
-        nearestGridpoints(inlats, inlons, outlats, outlons, x, distances, nb, representation, missing);
-        nearestGridpoints(inlats, inlons, outlats, outlons, y, distances, nb, representation, missing);
+        nearestGridpoints(inlats, inlons, outlats, outlons, x, distances, nb, grid, missing);
+        nearestGridpoints(inlats, inlons, outlats, outlons, y, distances, nb, grid, missing);
 
         for (int i = 0; i < nb; i++) {
             points[i].push_back(wind_mode_->values(outlons[i], outlats[i], x[i], y[i], distances[i]));
@@ -1546,6 +1541,16 @@ void GribDecoder::visit(MetaDataVisitor& meta) {
     meta.add("grib", grib.str());
 }
 
+string GribDecoder::representation() {
+    string grid = getstring("typeOfGrid");
+    string proj = getstring("projString");
+
+    if (grid == "regular_ll")
+        return grid;
+
+    return (proj.size()) ? "proj" : grid;
+}
+
 void GribDecoder::visit(MetaDataCollector& step) {
     // Here we gather information for the label!
     const Transformation& transformation = step.transformation();
@@ -1602,10 +1607,9 @@ void GribDecoder::visit(MetaDataCollector& step) {
                 else if (key->first == "scaling_formula" || key->first == "scaled_units") {
                     double scaling, offset;
                     string oriUnits, derivedUnits;
-                    string representation = getstring("typeOfGrid");
+                    string grid = representation();
                     try {
-                        unique_ptr<GribInterpretor> interpretor_(
-                            SimpleObjectMaker<GribInterpretor>::create(representation));
+                        unique_ptr<GribInterpretor> interpretor_(SimpleObjectMaker<GribInterpretor>::create(grid));
                         interpretor_->scaling(*this, scaling, offset, oriUnits, derivedUnits);
                         if (scaling == 1 && offset == 0) {
                             information_["scaling_formula"] = "";
@@ -1619,7 +1623,7 @@ void GribDecoder::visit(MetaDataCollector& step) {
                         }
                     }
                     catch (NoFactoryException&) {
-                        MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not supported.\n"
+                        MagLog::warning() << "Grib Decoder: Representation [" << grid << "] not supported.\n"
                                           << std::endl;
                         ;
                         information_[key->first] = "N/A";
@@ -1630,8 +1634,8 @@ void GribDecoder::visit(MetaDataCollector& step) {
                     // Octahedral reduced Gaussian grids:
                     // - only reduced Gaussian grids can be octahedral
                     // - the isOctahedral key only works properly with global fields
-                    string representation = getstring("typeOfGrid");
-                    if (representation == "reduced_gg") {
+                    string grid = getstring("typeOfGrid");
+                    if (grid == "reduced_gg") {
                         if (getLong("global") == 1) {
                             information_["isOctahedral"] = (getLong("isOctahedral") == 1) ? "yes" : "no";
                         }
@@ -1787,17 +1791,17 @@ void GribDecoder::visit(TextVisitor& title) {
 void GribDecoder::decodeRaster(const Transformation& transformation) {
     decode();
 
-    string representation = getstring("typeOfGrid");
+    string grid = representation();
 
     try {
         if (!interpretor_) {
-            interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
+            interpretor_ = SimpleObjectMaker<GribInterpretor>::create(grid);
         }
         interpretor_->interpretAsRaster(*this, raster_, transformation);
     }
 
     catch (NoFactoryException&) {
-        MagLog::error() << "Grib Decoder: Raster representation [" << representation << "] not supported.\n";
+        MagLog::error() << "Grib Decoder: Raster representation [" << grid << "] not supported.\n";
         throw MagicsException("Grib Decoder: Raster representation [] not supported.");
     }
 }
@@ -2369,6 +2373,7 @@ static SimpleObjectMaker<GribLambertAzimutalInterpretor, GribInterpretor> lamber
     "lambert_azimuthal_equal_area");
 static SimpleObjectMaker<GribLambertInterpretor, GribInterpretor> lambert("lambert");
 static SimpleObjectMaker<GribPolarStereoInterpretor, GribInterpretor> polar("polar_stereographic");
+static SimpleObjectMaker<GribProjInterpretor, GribInterpretor> proj("proj");
 
 #include "GribSatelliteInterpretor.h"
 static SimpleObjectMaker<GribSatelliteInterpretor, GribInterpretor> satellite("space_view");
