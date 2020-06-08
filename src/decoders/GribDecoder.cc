@@ -166,7 +166,7 @@ long GribDecoder::getLong(const string& key, bool warnIfKeyAbsent) const {
     int err = grib_get_long(current_handle_, key.c_str(), &val);
     if (err) {
         if (warnIfKeyAbsent) {
-            MagLog::warning() << "Grib API: can not find key [" << key << "]  - " << grib_get_error_message(err)
+            MagLog::warning() << "ecCodes: cannot find key [" << key << "]  - " << grib_get_error_message(err)
                               << "\n";
         }
         return 0;
@@ -191,7 +191,7 @@ string GribDecoder::getstring(const string& key, bool warnIfKeyAbsent, bool cach
 
     if (err) {
         if (warnIfKeyAbsent) {
-            MagLog::warning() << "Grib API: can not find key [" << key << "]  - " << grib_get_error_message(err)
+            MagLog::warning() << "ecCodes: cannot find key [" << key << "]  - " << grib_get_error_message(err)
                               << "\n";
         }
         return "";
@@ -240,7 +240,7 @@ double GribDecoder::getDouble(const string& key, bool warnIfKeyAbsent) const {
     int err = grib_get_double(current_handle_, key.c_str(), &val);
     if (err) {
         if (warnIfKeyAbsent) {
-            MagLog::warning() << "Grib API: can not find key [" << key << "]  - " << grib_get_error_message(err)
+            MagLog::warning() << "ecCodes: cannot find key [" << key << "]  - " << grib_get_error_message(err)
                               << "\n";
         }
         return 0;
@@ -252,13 +252,13 @@ double GribDecoder::getDouble(const string& key, bool warnIfKeyAbsent) const {
 void GribDecoder::setDouble(const string& key, double val) const {
     int err = grib_set_double(current_handle_, key.c_str(), val);
     if (err) {
-        MagLog::warning() << "Grib API: can not find key [" << key << "]  - " << grib_get_error_message(err) << "\n";
+        MagLog::warning() << "ecCodes: cannot find key [" << key << "]  - " << grib_get_error_message(err) << "\n";
     }
 
     if (component2_)
         err = grib_set_double(component2_, key.c_str(), val);
     if (err) {
-        MagLog::warning() << "Grib API: can not find key [" << key << "]  - " << grib_get_error_message(err) << "\n";
+        MagLog::warning() << "ecCodes: cannot find key [" << key << "]  - " << grib_get_error_message(err) << "\n";
     }
 }
 
