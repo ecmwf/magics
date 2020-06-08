@@ -192,6 +192,8 @@ public:
         return field_;
     }
 
+    string representation();
+
     long getLong(const string&, bool warnIfKeyAbsent = true) const;
     string getString(const string&, bool warnIfKeyAbsent = true) const;
     double getDouble(const string&, bool warnIfKeyAbsent = true) const;
