@@ -7,69 +7,23 @@
 
  ***************************** LICENSE END *************************************/
 
-// MvObs.h,   vk july94
-//        rev vk 010724
-//        rev fi 20170801
-
 #ifndef MvBufrObs_DEFINED
 #define MvBufrObs_DEFINED
-
-//#define MV_BUFRDC_TEST  //ec remove later
 
 #include "MvLocation.h"
 #include "fmettim.h"
 
 #include <eccodes.h>
 
-#include <map>
-#include <memory>
-#include <sstream>
 #include <vector>
+#include <memory>
+#include <map>
+#include <sstream>
 
 #ifdef METVIEW
 #include "MvDate.h"
 #include "MvRequest.h"
 #endif
-
-#ifdef MV_BUFRDC_TEST
-#include "MvBufr.h"
-
-//---------------------------------------------------
-// Function definitions for the FORTRAN BUFR routines
-//---------------------------------------------------
-#ifdef FORTRAN_NO_UNDERSCORE
-#define BUS012 bus012
-#define BUPRS0 buprs0
-#define BUPRS1 buprs1
-#define BUPRS2 buprs2
-#define BUFREX bufrex
-#define BUFREN bufren
-#define BUSEL busel
-#define BUSEL2 busel2
-#define BUUKEY buukey
-#define BUPRS3 buprs3
-#define BUBOX bubox
-#define BUPRTBOX buprtbox
-#define FT_OP6 ft_op6
-#define FT_CLO ft_clo
-#else
-#define BUS012 bus012_
-#define BUPRS0 buprs0_
-#define BUPRS1 buprs1_
-#define BUPRS2 buprs2_
-#define BUFREX bufrex_
-#define BUFREN bufren_
-#define BUSEL busel_
-#define BUSEL2 busel2_
-#define BUUKEY buukey_
-#define BUPRS3 buprs3_
-#define BUBOX bubox_
-#define BUPRTBOX buprtbox_
-#define FT_OP6 ft_op6_
-#define FT_CLO ft_clo_
-#endif
-
-#endif  // MV_BUFRDC_TEST
 
 #ifdef ECCODES_UI  //#ifndef METVIEW   //ECCODES_UI
 #include "FortranTypes.h"
@@ -92,14 +46,10 @@ enum EBufrConfState
 /*! Warning: This is Q&C ("quick&dirty") hack to access
  *  QC FB data behind operator descriptor 222000.
  */
-class MvBufrConfidence {
+class MvBufrConfidence
+{
 public:
-#ifdef MV_BUFRDC_TEST
-    MvBufrConfidence(MvBufr* aBufr, int aSubsetNr);
-#else
     MvBufrConfidence(int aSubsetNr);
-#endif
-
     ~MvBufrConfidence();
 
     bool hasConfidences();
@@ -113,27 +63,22 @@ protected:
     int delta(int anIndex);
 
 private:
-#ifdef MV_BUFRDC_TEST
-    MvBufr* _bufr;
-#endif
-
     int _subsetNr;
     int _startOfDataPresent;
     int _startOfConfidences;
     EBufrConfState _state;
 };
-#endif  // DOXYGEN_SHOULD_SKIP_THIS
+#endif  //DOXYGEN_SHOULD_SKIP_THIS
 
-#ifndef MV_BUFRDC_TEST
 const float kBufrMissingValue  = 1.7e38;
 const int kBufrMissingIntValue = 2147483647;
-#endif
 
-class MvEccHandle {
+class MvEccHandle
+{
 public:
     MvEccHandle(codes_handle* ecH) : ecH_(ecH) {}
-    codes_handle* handle() const { return ecH_; }
-    void clear() { ecH_ = nullptr; }
+    codes_handle* handle() const {return ecH_;}
+    void clear() {ecH_=nullptr;}
 
 protected:
     codes_handle* ecH_;
@@ -171,12 +116,14 @@ typedef std::shared_ptr<MvEccHandle> MvEccHandle_ptr;
 
 class MvBufrEdition;
 
-class MvBufrSubsetData {
+class MvBufrSubsetData
+{
     friend class MvObs;
 
 public:
     MvBufrSubsetData() {}
-    void clear() {
+    void clear()
+    {
         longData_.clear();
         doubleData_.clear();
     }
@@ -195,18 +142,10 @@ protected:
     std::map<std::string, std::vector<double> > doubleData_;
 };
 
-class MvObs {
-#ifdef MV_BUFRDC_TEST
-    friend class MvBufrOut;
-#endif
-
+class MvObs
+{
     friend class MvObsSet;
     friend class MvObsSetIterator;
-
-#ifdef MV_BUFRDC_TEST
-    void _copy(MvBufr* b);
-#endif
-
     void _copy(const MvObs& b);
 
 public:
@@ -214,12 +153,9 @@ public:
 /*! Arguments are mainly used by MvObsSet and MvObsSetIterator.
  *  Applications normally call this constructor without arguments.
  */
-#ifdef MV_BUFRDC_TEST
-    MvObs(MvBufr* b = NULL, int subset_current = 1, bool unpacked = false, codes_handle** ecH = NULL);
-#else
-    MvObs(MvEccHandle_ptr, int subset_current = 1, bool unpacked = false, bool cacheCompressedData = true);
+    MvObs(MvEccHandle_ptr, int subset_current = 1, bool unpacked = false,
+          bool cacheCompressedData = true);
     MvObs() {}
-#endif
 
     //! Copy constructor
     MvObs(const MvObs&);
@@ -232,18 +168,18 @@ public:
 
     //! Operator to test the validity of a new MvObs
     /*! In this example operator void*() is used implicitly
-     *  in testing the validity of MvObs object returned by
-     *  MvObsSetIterator object:
-     * <PRE>
-     *      MvObsSet mySet("/path/to/my/file");
-     *      MvObsSetIterator myIter(mySet);
-     *      ...
-     *      while(myObs=myIter()) //-- void*() is called here
-     *      {
-     *         ... //-- do the stuff
-     *      }
-     * </PRE>
-     */
+ *  in testing the validity of MvObs object returned by
+ *  MvObsSetIterator object:
+ * <PRE>
+ *      MvObsSet mySet("/path/to/my/file");
+ *      MvObsSetIterator myIter(mySet);
+ *      ...
+ *      while(myObs=myIter()) //-- void*() is called here
+ *      {
+ *         ... //-- do the stuff
+ *      }
+ * </PRE>
+ */
     operator void*();
 
     // Clear/initialise variable members
@@ -256,14 +192,14 @@ public:
     void init();
 
     codes_handle* getHandle() const;
-    //    {
-    //        return *_ecH;
-    //    }
+//    {
+//        return *_ecH;
+//    }
 
-    //    void setHandle(codes_handle** h)
-    //    {
-    //        _ecH = h;
-    //    }
+//    void setHandle(codes_handle** h)
+//    {
+//        _ecH = h;
+//    }
 
     //----------------------------------------------------------------------------
     //-- APIs for requesting info from the Header, BUFR Section 0,1,2 --//
@@ -286,15 +222,15 @@ public:
 
     //! Returns either the local or the international message subtype
     /*! In BUFR Edition 3 only the local subtype was available.
-     *  In BUFR Edition 4 the WMO defined international subtype was
-     *  added. Local subtype was left for backwards compatibility.
-     *
-     *  For BUFR Edition 3 messages this function always returns the local subtype.
-     *
-     *  For later Editions this function returns the international subtype if
-     *  it has been set. If not set (has a value 255) then the local subtype
-     *  is returned
-     */
+    *  In BUFR Edition 4 the WMO defined international subtype was
+    *  added. Local subtype was left for backwards compatibility.
+    *
+    *  For BUFR Edition 3 messages this function always returns the local subtype.
+    *
+    *  For later Editions this function returns the international subtype if
+    *  it has been set. If not set (has a value 255) then the local subtype
+    *  is returned
+    */
     int messageSubtype();
 
     //! Returns the locally defined Message Subtype code from BUFR section 1
@@ -302,8 +238,8 @@ public:
 
     //! Returns the international Message Subtype code (WMO defined) from BUFR section 1
     /*! Note that this code is available only in BUFR Edition 4 messages. For Edition 3
-     *  messages a value of 255 is returned (255 corresponds to an octet with all bits '1').
-     */
+    *  messages a value of 255 is returned (255 corresponds to an octet with all bits '1').
+    */
     int messageSubtypeInternational();
 
     int messageRdbtype();
@@ -317,7 +253,7 @@ public:
 
     //! Returns the Master Table code from BUFR section 1
     /*! Master Table 0 is for Meteorology, 10 is for Oceanography
-     */
+    */
     int masterTable();
 
     //! Returns the Master Table version from BUFR section 1
@@ -337,15 +273,15 @@ public:
 
     //! Advances to the next subset in a multisubset BUFR message
     /*! Returns 'false' if current subset is the last (or the only)
-     *  one. Returns 'true' on success.
-     */
+ *  one. Returns 'true' on success.
+ */
     bool Advance();
 
     //! Checks whether this MvObs contains a BUFR message or is empty
     bool operator!();
 
     //! Checks that this MvObs contains a valid decodable BUFR message
-    // ec maybe can be removed?
+    //ec maybe can be removed?
     bool msg_ok() const;  // { return _bufr_id == _bufrIn->currentBufrId(); }
 
     // ----  A P I   f u n c t i o n s :  ---- //
@@ -354,11 +290,11 @@ public:
 
     //! Returns the value of an element defined by 'aDescriptor'
     /*! Also sets Current Descriptor.
-     *  Missing value indicator is returned if the observation report
-     *  does not contain elements of type 'aDescriptor', or if the element
-     *  does not have value.
-     */
-    double valueC(const std::string&);  // input can be a number (descriptor) or a key
+ *  Missing value indicator is returned if the observation report
+ *  does not contain elements of type 'aDescriptor', or if the element
+ *  does not have value.
+ */
+    double valueC(const std::string&);  //input can be a number (descriptor) or a key
     double value(const long, const int occurrence);
     double value(const long);
     double value(const std::string&, const int);
@@ -367,7 +303,7 @@ public:
 
     //! Returns the value of an element defined by 'aDescriptor' as 'long'
     /*! Also sets Current Descriptor.
-     */
+ */
     long intValue(const long, const int occurrence);
     long intValue(const long);
     long intValue(const std::string&, const int);
@@ -379,7 +315,7 @@ public:
 
     //! Returns the value of an element defined by 'aDescriptor' as 'string'
     /*! Also sets Current Descriptor.
-     */
+ */
     std::string stringValue(const long, const int occurrence);
     std::string stringValue(const long);
     std::string stringValue(const std::string&, const int);
@@ -391,38 +327,20 @@ public:
 
     //! Returns the value corresponding to the 'n'th occurrence of descriptor 'descr'
     /*! Method searches the current subset from the beginning looking
-     *  for descriptors 'descr'. If BUFR message contains 'n' (or more)
-     *  occurrences of descriptor 'descr', the corresponding data value
-     *  is returned, otherwise 'kBufrMissingValue' is returned.
-     */
-    double valueByOccurrenceC(int, const std::string&);  // input can be a number (descriptor) or a key
+ *  for descriptors 'descr'. If BUFR message contains 'n' (or more)
+ *  occurrences of descriptor 'descr', the corresponding data value
+ *  is returned, otherwise 'kBufrMissingValue' is returned.
+ */
+    double valueByOccurrenceC(int, const std::string&);  //input can be a number (descriptor) or a key
     double valueByOccurrence(int, const std::string&);
     double valueByOccurrence(int, long);
 
     //! Index access operator returns the 'n'th data value
     /*! This operator treats BUFR message as an array
-     *  and returns the value of the 'n'th element as 'double'.
-     *  Index 'n' starts from '1', i.e. n=1,2,3,...
-     */
+ *  and returns the value of the 'n'th element as 'double'.
+ *  Index 'n' starts from '1', i.e. n=1,2,3,...
+ */
     double operator[](int n);  //-- n starts from 1: 1,2,...,n
-
-#ifdef MV_BUFRDC_TEST
-    //! Returns the value from the 'col'th feedback column for Current Descriptor
-    /*! Uses 'bufrdc' subroutine 'BUBOX()' to arrange feedback values into
-     *  a two dimensional array. Argument 'col' refers to a column in this array.
-     */
-    double feedbackValue(int);
-
-    //! Returns the value of the 'row'th element in the 'col'th feedback column
-    /*! Uses 'bufrdc' subroutine 'BUBOX()' to arrange feedback values into
-     *  a two dimensional array. Arguments 'row' and 'col' are indices into
-     *  this array.
-     */
-    double feedbackValue(int, int);
-
-    std::string feedbackItemName(int);
-    std::string feedbackItemUnit(int);
-#endif
 
     //-- APIs for requesting parameter metadata --//
 
@@ -439,7 +357,10 @@ public:
     std::string unit();
 
     // Returns the compress data indicator (true: compress, false: uncompress)
-    bool compressData() { return _compressed_data; }
+    bool compressData()
+    {
+        return _compressed_data;
+    }
 
     // Expand message
     void expand();
@@ -490,42 +411,42 @@ public:
     //-- APIs for requesting weather station values --//
     //! Returns the 5 digit WMO station identifier
     /*! Looks for WMO block number 'BB' and station identifier 'SSS'
-     *  and returns the value of 'BBSSS' if found. Returns zero if
-     * 'BB' or 'SSS' is not found.
-     */
+ *  and returns the value of 'BBSSS' if found. Returns zero if
+ * 'BB' or 'SSS' is not found.
+ */
     long WmoIdentNumber();
 
     //! Returns the 2 digit WMO block identifier 'BB'
     /*! Returns zero if 'BB' not found.
-     */
+ */
     int WmoBlockNumber();
 
     //! Returns the 3 digit WMO station identifier 'SSS'
     /*! Returns zero if 'SSS' not found.
-     */
+ */
     int WmoStationNumber();
 
     //! Returns the the value of the "ident" key from ECMWF (centre=98) local section
     /*! Returns an empty string if "ident" is not defined.
-     */
+*/
     const std::string& headerIdent();
 
     //! Looks for an ident from the BUFR message
     /*! Looks for the following message identifiers: \n
-     *  - WMO Station Identifier 'BBSSS' \n
-     *  - Ship or mobile land station identifier (001011) \n
-     *  - Buoy/platform identifier (001005) \n
-     *  - Aircraft flight number (001006) \n
-     *  - Satellite identifier (001007) \n
-     *  - Aircraft registration number (001008) \n
-     *  - Stationary buoy platform identifier (001010) \n
-     *  - Storm identifier (001025)
-     *  - WMO storm name (001026)
-     *  - WMO long storm name (001027)
-     *
-     *  and returns the first one found, as a string. If none
-     *  of the above is found, returns "id???".
-     */
+ *  - WMO Station Identifier 'BBSSS' \n
+ *  - Ship or mobile land station identifier (001011) \n
+ *  - Buoy/platform identifier (001005) \n
+ *  - Aircraft flight number (001006) \n
+ *  - Satellite identifier (001007) \n
+ *  - Aircraft registration number (001008) \n
+ *  - Stationary buoy platform identifier (001010) \n
+ *  - Storm identifier (001025)
+ *  - WMO storm name (001026)
+ *  - WMO long storm name (001027)
+ *
+ *  and returns the first one found, as a string. If none
+ *  of the above is found, returns "id???".
+ */
     std::string findSomeIdent();
 
     //-- APIs for accessing replicated parameters --//
@@ -543,132 +464,94 @@ public:
 
     //! Returns the value of the specified data for the specified level
     /*! First looks for a data block related to level 'aLevel' as the
-     *  value of the data element related to level descriptor 'aLevelDescriptor',
-     *  and then looks for a data element related to descriptor 'aDescriptor'
-     *  within this level.
-     */
-    double valueByLevelC(const std::string&, float, const std::string&);  // input can be a number (descriptor) or a key
+ *  value of the data element related to level descriptor 'aLevelDescriptor',
+ *  and then looks for a data element related to descriptor 'aDescriptor'
+ *  within this level.
+ */
+    double valueByLevelC(const std::string&, float, const std::string&);  //input can be a number (descriptor) or a key
     double valueByLevel(long, float, long);
     double valueByLevel(const std::string&, float, const std::string&);
 
-    double valueByLevelRangeC(const std::string&, float, float,
-                              const std::string&);  // input can be a number (descriptor) or a key
+    double valueByLevelRangeC(const std::string&, float, float, const std::string&);  //input can be a number (descriptor) or a key
     double valueByLevelRange(long, float, float, long);
     double valueByLevelRange(const std::string&, float, float, const std::string&);
 
     //! Returns the number of pressure levels found in the observation report
-    /*! Pressure level descriptor is 007004, key "pressure", so this is an
-     * alias for member function numberOfLevels("pressure").
-     */
+    /*! Pressure level descriptor is 007004, key "pressure", so this is an 
+ * alias for member function numberOfLevels("pressure").
+ */
     int numberOfPressureLevels();
 
     //! Returns the value of the first pressure level in hPa
     /*! Original pressure values are stored in Pa, so this is
-     *  the same as 100.0*firstLevel(7004).
-     */
+ *  the same as 100.0*firstLevel(7004).
+ */
     double firstPressureLevel();
 
     //! Returns the value of the next pressure level in hPa
     /*! Original pressure values are stored in Pa, so this is
-     *  the same as 100.0*nextLevel(7004).
-     */
+ *  the same as 100.0*nextLevel(7004).
+ */
     double nextPressureLevel();
 
     //! Returns the value of the data corresponding to 'aDescriptor' on level 'aLevel'
     /*! Here 'aLevel' is given in hPa. Original pressure values are stored in Pa,
-     *  so this is the same as \n
-     * <PRE>
-     *      valueByLevel( 7004, 100.0*aLevel, aDescriptor )
-     * </PRE>
-     */
-    double valueByPressureLevelC(float, const std::string&);  // input can be a number (descriptor) or a key
+ *  so this is the same as \n
+ * <PRE>
+ *      valueByLevel( 7004, 100.0*aLevel, aDescriptor )
+ * </PRE>
+ */
+    double valueByPressureLevelC(float, const std::string&);  //input can be a number (descriptor) or a key
     double valueByPressureLevel(float, long);
     double valueByPressureLevel(float, const std::string&);
 
-    // e This function needs to be updated later.
+    //e This function needs to be updated later.
     //! Returns the value of the data corresponding to 'aDescriptor' in a layer
     /*! Level values are for the top and the bottom pressure values of a layer
-     *  and they are given in hPa. \n \n
-     *  This method looks for two consecutive pressure coordinate descriptors
-     *  007004 with the given values (hPa is first converted to Pa). If such
-     *  a layer is found and the layer contains 'aDescriptor' then the corresponding
-     *  data value is returned, otherwise 'kBufrMissingValue' is returned.
-     */
-    float valueByLayerC(float, float, const std::string&);  // input can be a number (descriptor) or a key
+ *  and they are given in hPa. \n \n
+ *  This method looks for two consecutive pressure coordinate descriptors
+ *  007004 with the given values (hPa is first converted to Pa). If such
+ *  a layer is found and the layer contains 'aDescriptor' then the corresponding
+ *  data value is returned, otherwise 'kBufrMissingValue' is returned.
+ */
+    float valueByLayerC(float, float, const std::string&);  //input can be a number (descriptor) or a key
     float valueByLayer(float, float, long);
-
-#ifdef MV_BUFRDC_TEST
-    //-- APIs for printing obs --//
-    // Section 0,1,2 and 3 just delegated to bufr class.
-
-    //! Prints BUFR section 0 to output stream 'aStream'
-    bool printSection0(ostream& aStream = cout) { return _bufrIn->printSection_012(aStream, 0); }
-
-    //! Prints BUFR section 1 to output stream 'aStream'
-    bool printSection1(ostream& aStream = cout) { return _bufrIn->printSection_012(aStream, 1); }
-
-    //! Prints BUFR section 2 to output stream 'aStream'
-    bool printSection2(ostream& aStream = cout) { return _bufrIn->printSection_012(aStream, 2); }
-
-    //! Prints BUFR section 3 to output stream 'aStream'
-    bool printSection3(ostream& aStream = cout) { return _bufrIn->printSection(aStream, 3); }
-
-    //! Decode BUFR section 2 and place the result into an std::map
-    bool getDataFromSection2(map<std::string, std::string>& data) { return _bufrIn->getDataFromSection2(data); }
-#endif  // MV_BUFRDC_TEST
 
     //! Prints all data values into standard output
     /*! For output format see method 'writeAllValues' below
-     */
+ */
     bool printAllValues();
 
     //! Writes all data values into output stream 'aStream'
     /*! Writes the data, one data value per line. Each line consists of:
-     *  - index of the data
-     *  - data value
-     *  - name of the data
-     *  - unit of the data, in square brackets
-     *  - the corresponding BUFR descriptor, in parenthesis
-     *
-     *  Example output (an extract from a SYNOP report): \n
-     * <PRE>
-     *       1.      10 Wmo Block Number [NUMERIC] (01001)
-     *       2.     500 Wmo Station Number [NUMERIC] (01002)
-     *       3.       1 Type Of Station [CODE TABLE 002001] (02001)
-     *       4.    2007 Year [YEAR] (04001)
-     *       5.      11 Month [MONTH] (04002)
-     *       6.       6 Day [DAY] (04003)
-     *       7.      22 Hour [HOUR] (04004)
-     *       8.       0 Minute [MINUTE] (04005)
-     *       9.   50.97 Latitude (High Accuracy) [DEGREE] (05001)
-     *      10.    6.05 Longitude (High Accuracy) [DEGREE] (06001)
-     *      11.      98 Height Of Station [M] (07001)
-     *     ...
-     * </PRE>
-     */
+ *  - index of the data
+ *  - data value
+ *  - name of the data
+ *  - unit of the data, in square brackets
+ *  - the corresponding BUFR descriptor, in parenthesis
+ *
+ *  Example output (an extract from a SYNOP report): \n
+ * <PRE>
+ *       1.      10 Wmo Block Number [NUMERIC] (01001)
+ *       2.     500 Wmo Station Number [NUMERIC] (01002)
+ *       3.       1 Type Of Station [CODE TABLE 002001] (02001)
+ *       4.    2007 Year [YEAR] (04001)
+ *       5.      11 Month [MONTH] (04002)
+ *       6.       6 Day [DAY] (04003)
+ *       7.      22 Hour [HOUR] (04004)
+ *       8.       0 Minute [MINUTE] (04005)
+ *       9.   50.97 Latitude (High Accuracy) [DEGREE] (05001)
+ *      10.    6.05 Longitude (High Accuracy) [DEGREE] (06001)
+ *      11.      98 Height Of Station [M] (07001)
+ *     ...
+ * </PRE>
+ */
     bool writeAllValues(std::ostream&);
 
     //! Writes all data values into file 'aPathName'
     /*! For output format see the version of method 'writeAllValues' above
-     */
+ */
     bool writeAllValues(const char*);
-
-#ifdef MV_BUFRDC_TEST
-
-    //! Calls 'bufren' routine BUPRTBOX to write feedback data into stream 'aStream'
-    bool writeBufrBox(ostream& aStream = cout);
-
-    bool getBufrBoxSize(int& rows, int& cols) { return _bufrIn->getBufrBoxSize(rows, cols, _subsetNr); }
-
-    //-- APIs for accessing original section 1 and 2 headers --//
-
-    // const unsigned char* section1Ptr(){ return (unsigned char*)(_bufrIn->Sec1->start()); }
-
-    //! Returns a pointer to the beginning of local section 2 in BUFR message
-    /*! Returns 0 (NULL) if message has no local section 2
-     */
-    const unsigned char* section2Ptr() { return _bufrIn->fTotalSec2; }
-#endif
 
     //! Returns 'true' if BUFR message contains local section 2, 'false' if not
     bool hasSection2();
@@ -677,24 +560,19 @@ public:
 
     //! Checks whether the BUFR message contains confidence values or not
     /*! Returns 'true' if operator descriptor 222000 is found in the
-     *  message, otherwise 'false'.
-     */
+ *  message, otherwise 'false'.
+ */
     bool hasConfidences();
 
     //! Returns the confidence value for the current data, if exists
     /*! Otherwise returns -1.
-     */
+ */
     int confidence();
 
     //-- Q&D: valueBySpecifier & specifierIndex made public
     //--      so that ObsPicker can use them freely (vk/Jul)
     double valueBySpecifier(long, double, long, int firstIndexValue = 0);
     double valueBySpecifier(const std::string&, double, const std::string&);
-
-#ifdef MV_BUFRDC_TEST
-    int specifierIndex(long, double, int firstIndexValue = 0);
-    bool writeConfidenceValues(ostream& aStream);
-#endif
 
 #ifdef METVIEW
     //! Decodes OPERA BUFR radar data into unsigned char array
@@ -721,85 +599,72 @@ private:
     bool descriptorToKey(const long, std::string&);
     bool descriptor_to_key(const long, std::string&);
 
-#ifdef MV_BUFRDC_TEST
-    double level(const std::string&, int, long, int);
-    double pressureLevel(int, int);
-    int subsetOffset() const;
-    const unsigned char* section1Ptr() { return (unsigned char*)(_bufrIn->Sec1->start()); }
-#endif
-
 protected:
-    // It is implemeted in MvMiscellanous, but because of magics we cannot
-    // use  MvMisc ... here!
+    //It is implemeted in MvMiscellanous, but because of magics we cannot
+    //use  MvMisc ... here!
     template <typename TYPE>
-    inline std::string toString(const TYPE& in) {
+    inline std::string toString(const TYPE& in)
+    {
         std::ostringstream os;
         os << in;
         return os.str();
     }
 
 
-    bool _skipConfidence{true};      // true: skip Confidence values
-    std::string _currentKey;         // mainly to be used in the key iterator within a message
-    std::string _currentLevelKey;    // Level parameter name
-    int _currentLevelOccurrence{0};  // Level parameter occurrence (1..N)
-    int _subsetNr{1};                // current subset (1.._number_of_subsets)
+    bool _skipConfidence {true};          // true: skip Confidence values
+    std::string _currentKey;       // mainly to be used in the key iterator within a message
+    std::string _currentLevelKey;  // Level parameter name
+    int _currentLevelOccurrence {0};   // Level parameter occurrence (1..N)
+    int _subsetNr {1};                 // current subset (1.._number_of_subsets)
 
     // Info from the Header, BUFR Section 1
-    bool _compressed_data{false};  // true: compressed, false: uncompress
-    bool _unpacked{false};         // true: data unpacked, false: data packed
-    long _messageTotalLen{-1};
-    long _editionNumber{-1};
-    long _number_of_subsets{-1};
-    long _messageType{-1};
-    long _subTypeInternational{-1};
-    long _subTypeLocal{-1};
-    long _rdbType{-1};
-    long _originatingCentre{-1};
-    long _originatingSubCentre{-1};
+    bool _compressed_data {false};  // true: compressed, false: uncompress
+    bool _unpacked {false};         // true: data unpacked, false: data packed
+    long _messageTotalLen {-1};
+    long _editionNumber {-1};
+    long _number_of_subsets {-1};
+    long _messageType {-1};
+    long _subTypeInternational {-1};
+    long _subTypeLocal {-1};
+    long _rdbType {-1};
+    long _originatingCentre {-1};
+    long _originatingSubCentre {-1};
     std::string _originatingCentreStr;
-    long _masterTable{-1};
-    long _masterTableVersion{-1};
-    long _localTableVersion{-1};
-    long _lyear{-1};
-    long _lmonth{-1};
-    long _lday{-1};
-    long _lhour{-1};
-    long _lminute{-1};
-    std::string headerIdent_{"__UNDEF__"};
+    long _masterTable {-1};
+    long _masterTableVersion {-1};
+    long _localTableVersion {-1};
+    long _lyear {-1};
+    long _lmonth {-1};
+    long _lday {-1};
+    long _lhour {-1};
+    long _lminute {-1};
+    std::string headerIdent_ {"__UNDEF__"};
 
-    MvBufrEdition* _edition{nullptr};
-    MvBufrConfidence* _confidence{nullptr};
+    MvBufrEdition* _edition {nullptr};
+    MvBufrConfidence* _confidence {nullptr};
 
-    // use eccodes optimisation
-    bool useSkipExtraAttributes_{true};
+    //use eccodes optimisation
+    bool useSkipExtraAttributes_ {true};
 
-    // For compressed messages
-    bool cacheCompressedData_{true};
+    //For compressed messages
+    bool cacheCompressedData_ {true};
     MvBufrSubsetData compressedData_;
-
-#ifdef MV_BUFRDC_TEST
-    MvBufr* _bufrIn;
-    int _currentLevelIndex1;
-    int _lastSpecifierIndex1;  // required???? used by who?????
-    long _currentLevelCoordinate1;
-    long _bufr_id;
-#endif
 
     MvEccHandle_ptr _ecH;
 
-    codes_handle* _ecHSS{nullptr};  // handle access to a subset.
-                                    // function Destructor should delete it
+    codes_handle* _ecHSS {nullptr};  // handle access to a subset.
+                           // function Destructor should delete it
 
-    codes_bufr_keys_iterator* _ecIter{nullptr};  // eccodes key iterator within a message
-    const void* _bufferSS{nullptr};              // auxiliary pointer
+    codes_bufr_keys_iterator* _ecIter {nullptr};  // eccodes key iterator within a message
+    const void* _bufferSS {nullptr};              // auxiliary pointer
 };
 
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 //--------------------------------------------------------------- MvBufrParam
 
-class MvBufrParam {
+class MvBufrParam
+{
 public:
     MvBufrParam(const char* aParamName);
     MvBufrParam(const long anIntAsDescriptor) { fDescriptor = anIntAsDescriptor; }
@@ -824,63 +689,20 @@ private:
 
 class MvObsSet;
 
-#ifdef MV_BUFRDC_TEST
-const int MAX_KDLEN = 2000;  //-- big value needed for some NCEP PrepBUFR files
-
-//! Wrapper around Fortran 'bufren', for (re)encoding
-/*! This class and its methods are a lower level wrapper around Fortran
- *  subroutine 'bufren'. These methods should be called only via MvObs class.
- */
-class MvBufrOut : public MvBufrBase
-#else
 class MvBufrOut
-#endif
 {
     friend class MvObs;
     friend class MvObsSet;
 
 protected:
-#ifdef MV_BUFRDC_TEST
-    MvBufrOut(const long len, MvObsSet* anOutSet);
-#else
     MvBufrOut(MvObsSet*);
-#endif
-
     ~MvBufrOut(void);
 
     void add(MvObs& anObs);
     //   void  write( MvObs& anObs );   //FAMI20171023 maybe we do not need this function or maybe
     // we could remove the previous function (add) and use this one.
 
-#ifdef MV_BUFRDC_TEST
-    static long _bufrOut_ref;
-    void createBuffers();
-    void resetBuffers(void);
-    void write_bufrdc(MvObs& anObs);  // FAMI20171023 temporary function created to
-                                      // avoid clashing with the other write(MvObs&) function.
-    void formatBuffers(const MvObs& anObs);
-    void addIntoBuffers(MvObs& anObs);
-    void encode(void);
-    void checkDescriptors(const MvObs& anObs);
-    int differentDescriptors(void) const;
-    int differentHeader(const MvObs& anObs) const;
-    int shouldBeWritten(void);
-    void setSubsetCount(int MaxNrSubsets);
-    bool isDelayedDescriptor(const long aDescriptor) const;
-    // long  msgLength( void ) { return _msgIntLen*sizeof( int ); }
-#endif
-
 protected:
-#ifdef MV_BUFRDC_TEST
-    int _maxNrSubsets;
-    int _nextValue;
-    int _nextCharParamPos;
-    EBufrOutState _outState;
-    int _KDLEN;
-    int _KDATA[MAX_KDLEN];
-    Section1Base* _currentSec1;
-#endif
-
     MvObsSet* _outSet;
 };
 
