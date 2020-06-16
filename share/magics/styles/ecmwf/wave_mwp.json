@@ -12,7 +12,7 @@
         "shortName": "mwp"
       },
       {
-        "long_name": "Mean wave period"
+        "long_name": ["Mean wave period","Mean period of combined wind waves and swell"]
       }
     ]
   }

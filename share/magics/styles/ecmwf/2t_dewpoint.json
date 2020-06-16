@@ -20,7 +20,7 @@
         "shortName": "2d"
       },
       {
-        "long_name": "2 metre dewpoint temperature"
+        "long_name": ["2 metre dewpoint temperature","2m dewpoint temperature"]
       }
     ]
   }
