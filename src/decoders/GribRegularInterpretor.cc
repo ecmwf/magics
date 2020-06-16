@@ -1900,9 +1900,12 @@ void GribProjInterpretor::interpretAsMatrix(GribDecoder& grib) const {
 
     string proj = grib.getString("projString");
 
+    // 0 Resolved u- and v- components of vector quantities relative to easterly and northerly directions
+    // 1 Resolved u- and v- components of vector quantities relative to the defined grid in the direction of increasing
+    // x and y (or i and j) coordinates, respectively
+
 
     Matrix* matrix = grib.u(new Proj4Matrix(proj));
-    // Matrix* matrix2 = grib.v(new Proj4Matrix(proj));
 
 
     Matrix* matrix2 = 0;
@@ -1919,8 +1922,6 @@ void GribProjInterpretor::interpretAsMatrix(GribDecoder& grib) const {
 
     long nblon = grib.getLong("numberOfPointsAlongXAxis");
     long nblat = grib.getLong("numberOfPointsAlongYAxis");
-    // nblon      = grib.getLong("Ni");
-    // nblat      = grib.getLong("Nj");
 
     double y = grib.getDouble("latitudeOfFirstGridPointInDegrees");
     double x = grib.getDouble("longitudeOfFirstGridPointInDegrees");
@@ -1939,8 +1940,10 @@ void GribProjInterpretor::interpretAsMatrix(GribDecoder& grib) const {
 
     double dx = grib.getDouble("DxInMetres");
     double dy = grib.getDouble("DyInMetres");
-    // dx        = grib.getDouble("iDirectionIncrementInDegrees");
-    // dy        = grib.getDouble("jDirectionIncrementInDegrees");
+
+
+    dx *= grib.getLong("iScansPositively") ? 1 : -1;
+    dy *= grib.getLong("jScansPositively") ? 1 : -1;
 
 
     matrix->columnsAxis().reserve(nb);
@@ -1973,6 +1976,7 @@ void GribProjInterpretor::interpretAsMatrix(GribDecoder& grib) const {
         // if jPointsAreConsecutive=1 then the values represent columns of data
         // instead of rows, so we have to 'reshape' the array so that it is
         // reorganised into rows.
+        // This will have to be checked more ..
 
         if (jPointsAreConsecutive) {
             vector<double>* d = new vector<double>(nb);  // temporary array

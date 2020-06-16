@@ -166,8 +166,7 @@ long GribDecoder::getLong(const string& key, bool warnIfKeyAbsent) const {
     int err = grib_get_long(current_handle_, key.c_str(), &val);
     if (err) {
         if (warnIfKeyAbsent) {
-            MagLog::warning() << "ecCodes: cannot find key [" << key << "]  - " << grib_get_error_message(err)
-                              << "\n";
+            MagLog::warning() << "ecCodes: cannot find key [" << key << "]  - " << grib_get_error_message(err) << "\n";
         }
         return 0;
     }
@@ -191,8 +190,7 @@ string GribDecoder::getstring(const string& key, bool warnIfKeyAbsent, bool cach
 
     if (err) {
         if (warnIfKeyAbsent) {
-            MagLog::warning() << "ecCodes: cannot find key [" << key << "]  - " << grib_get_error_message(err)
-                              << "\n";
+            MagLog::warning() << "ecCodes: cannot find key [" << key << "]  - " << grib_get_error_message(err) << "\n";
         }
         return "";
     }
@@ -240,8 +238,7 @@ double GribDecoder::getDouble(const string& key, bool warnIfKeyAbsent) const {
     int err = grib_get_double(current_handle_, key.c_str(), &val);
     if (err) {
         if (warnIfKeyAbsent) {
-            MagLog::warning() << "ecCodes: cannot find key [" << key << "]  - " << grib_get_error_message(err)
-                              << "\n";
+            MagLog::warning() << "ecCodes: cannot find key [" << key << "]  - " << grib_get_error_message(err) << "\n";
         }
         return 0;
     }
@@ -1543,10 +1540,8 @@ void GribDecoder::visit(MetaDataVisitor& meta) {
 
 string GribDecoder::representation() {
     string grid = getstring("typeOfGrid");
-    string proj = getstring("projString");
+    string proj = getstring("projTargetString");
 
-    if (grid == "regular_ll")
-        return grid;
 
     return (proj.size()) ? "proj" : grid;
 }
