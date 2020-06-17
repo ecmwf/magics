@@ -61,6 +61,7 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
 
     string proj4 = proj4Detected(netcdf);
 
+
     if (proj4.empty()) {
         matrix_ = new Matrix();
         matrix_->akimaEnabled();
@@ -76,22 +77,29 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
         settings.askId(needs);
         for (auto need = needs.begin(); need != needs.end(); ++need) {
             need->second = getAttribute(field_, need->first, "");
-            // cout << need->first << "--->" << need->second << endl;
         }
 
         settings.getScaling(needs, scaling_, offset_);
-        // cout << "Apply scaling " << scaling_ << " and " << offset_ << endl;
     }
 
     // get the data ...
     try {
         double missing_value = netcdf.getMissing(field_, missing_attribute_);
+
+
+        if (std::isnan(missing_value)) {
+            missing_value = std::numeric_limits<double>::max();
+        }
+
         map<string, string> first, last;
         setDimensions(dimension_, first, last);
         vector<double> inlon, outlon;
         vector<double> inlat, outlat;
 
+
         netcdf.get(longitude_, matrix_->columnsAxis(), first, last);
+
+
         netcdf.get(latitude_, matrix_->rowsAxis(), first, last);
 
         matrix_->missing(missing_value);
@@ -122,7 +130,6 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
                 i++;
             }
         }
-        // cout << "Apply scaling " << scaling_ << " and " << offset_ << endl;
         matrix_->multiply(scaling_);
         matrix_->plus(offset_);
         matrix_->setMapsAxis();
