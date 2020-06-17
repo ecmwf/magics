@@ -1363,8 +1363,16 @@ void GribDecoder::nearestGridpoints(double* inlats, double* inlons, double* outl
         if (nearHandle) {
             // TODO: Should really catch the error (return value) from
             // grib_nearest_find
-            grib_nearest_find(nearHandle, field_, inlats[i], inlons[i], GRIB_NEAREST_SAME_GRID, outlats4, outlons4,
-                              outvals4, outdist4, outindexes, &len);
+
+            int err = codes_grib_nearest_find(nearHandle, field_, inlats[i], inlons[i], GRIB_NEAREST_SAME_GRID,
+                                              outlats4, outlons4, outvals4, outdist4, outindexes, &len);
+            if (err) {
+                outlats[i]   = missing;
+                outlons[i]   = missing;
+                values[i]    = missing;
+                distances[i] = missing;
+            }
+
             vector<double> vdistances(outdist4, outdist4 + 4);
             int closestIndex = distance(vdistances.begin(), min_element(vdistances.begin(), vdistances.end()));
             outlats[i]       = outlats4[closestIndex];
