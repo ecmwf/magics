@@ -14,7 +14,7 @@
 
 using namespace magics;
 
-double scale_ = 1e10;
+double scale_ = 1e7;
 
 void convert(const deque<PaperPoint>& in, ClipperLib::Path& out, bool print = false) {
     out.reserve(in.size());
