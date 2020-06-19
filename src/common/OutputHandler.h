@@ -55,6 +55,8 @@ public:
 
     static double patchLineSpacing() { return lineSpacing_; }
 
+    static void drivers(vector<string>& d);
+
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).

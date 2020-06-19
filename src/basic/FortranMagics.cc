@@ -506,6 +506,33 @@ const char* FortranMagics::metagrib() {
     return temp.c_str();
 }
 
+const char* FortranMagics::knownDrivers() {
+    vector<string> drivers;
+
+
+    OutputHandler::drivers(drivers);
+
+    ostringstream out;
+
+    out << "{ \"drivers\" : [";
+
+    string sep = "";
+
+    for (auto& d : drivers) {
+        out << sep << "\"" << d << "\"";
+
+        sep = ", ";
+    }
+    out << "]}";
+
+
+    static string results;
+    results = out.str();
+
+
+    return results.c_str();
+}
+
 #include "MagConfig.h"
 
 const char* FortranMagics::detect(const string& data, const string& dim) {

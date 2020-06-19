@@ -105,7 +105,6 @@ public:
             singleton_ = new FortranMagics();
         return *singleton_;
     }
-
     static void close() {
         if (singleton_)
             delete singleton_;
@@ -130,6 +129,8 @@ public:
     void flagInputSymbol() { symbolinput_todo_ = true; }
     void flagInputMatrix() { matrixinput_todo_ = true; }
     void flagInputPoly() { polyinput_todo_ = true; }
+
+    const char* knownDrivers();
 
 protected:
     //! Method to print string about this class on to a stream of type ostream.

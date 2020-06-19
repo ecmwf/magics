@@ -63,6 +63,21 @@ void OutputHandler::set(const XmlNode& node, DriverManager& magics) {
     }
 }
 
+void OutputHandler::drivers(vector<string>& ds) {
+    vector<string> all = {"ps",        "eps",     "ps_pdf", "gd_png", "jpeg",  "gif",       "gif_animation",
+                          "svg",       "mgb",     "png",    "pdf",    "cairo", "cairo_svg", "cairo_ps",
+                          "cairo_eps", "geotiff", "kml",    "geojson"};
+
+    for (const auto& d : all) {
+        try {
+            OutputFactory* factory = MagTranslator<string, OutputFactory>()(d);
+            ds.push_back(d);
+        }
+        catch (...) {
+        }
+    }
+}
+
 
 OutputHandler::~OutputHandler() {
     for (const auto& factory : factories_)

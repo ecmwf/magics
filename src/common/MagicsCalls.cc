@@ -909,6 +909,10 @@ MAGICS_EXPORT const char* metagrib_() {
     return magics_->metagrib();
 }
 
+MAGICS_EXPORT const char* knowndrivers_() {
+    return magics_->knownDrivers();
+}
+
 MAGICS_EXPORT const char* version() {
     static string version = getMagicsVersionString();
     return version.c_str();
@@ -1297,6 +1301,7 @@ MAGICS_EXPORT void mag_grib() {
 }
 PYTHON(py_grib, pgrib_)
 PYTHONS(py_metagrib, metagrib_)
+PYTHONS(py_knowndrivers, knowndrivers_)
 MAGICS_EXPORT void mag_mapgen() {
     pmapgen_();
 }
