@@ -212,6 +212,9 @@ public:
     virtual double offsetTip();
     virtual VerticalAlign textAlignment(const string&) { return MBOTTOM; }
     virtual Justification justificationTickLabel(const string&) { return MCENTRE; }
+    virtual double percentX(double) { return 0; }
+    virtual double percentY(double) { return 0; }
+
 
 protected:
 };
@@ -231,6 +234,8 @@ public:
     virtual double offsetTip();
     virtual Justification justificationTickLabel(const string&);
     virtual VerticalAlign textAlignment(const string&) { return MHALF; }
+    virtual double percentX(double) { return 0; }
+    virtual double percentY(double) { return 0; }
 
 protected:
 };
@@ -250,6 +255,8 @@ public:
     virtual double angleTip();
     virtual double offsetTip();
     virtual VerticalAlign textAlignment(const string&);
+    virtual double percentX(double);
+    virtual double percentY(double);
 
 protected:
 };
@@ -270,6 +277,8 @@ public:
     virtual double angleTip();
     virtual double offsetTip();
     virtual VerticalAlign textAlignment(const string&);
+    virtual double percentX(double);
+    virtual double percentY(double);
 
 protected:
 };
@@ -289,6 +298,8 @@ public:
     virtual double angleTip();
     virtual double offsetTip();
     virtual VerticalAlign textAlignment(const string&);
+    virtual double percentX(double);
+    virtual double percentY(double);
 
 protected:
 };
@@ -308,6 +319,8 @@ public:
     virtual double angleTip();
     virtual double offsetTip();
     virtual VerticalAlign textAlignment(const string&);
+    virtual double percentX(double);
+    virtual double percentY(double);
 
 protected:
 };

@@ -110,7 +110,8 @@ does it submit to any jurisdiction.
 				<set name="axis_title_colour" value="on">		</set> 
 				<set name="axis_title_height" value="on">		</set> 
 				<set name="axis_title_font" value="on">		</set> 
-				<set name="axis_title_font_style" value="on">		</set>          
+				<set name="axis_title_font_style" value="on">		</set> 
+        <set name="axis_title_position" value="on">   </set>           
   	</parameter>
   
   	<parameter xml="text" from="string" name="axis_title_text" default="" member="title_text" to="string">
@@ -136,6 +137,10 @@ does it submit to any jurisdiction.
   	<parameter member="title_font_style" to="string" default="normal" from="string" name="axis_title_font_style">
          		<documentation>Font style of axis title 		</documentation>
   	</parameter>
+    <parameter member="title_relative_position" to="float" default="-1" from="float" name="axis_title_position">
+            <documentation> Position of the title in %  of the axis box - by default Magics computes what it thinks is the best position.</documentation>
+    </parameter>
+  
   
  
   	<parameter member="tick" to="bool" default="on" from="string" name="axis_tick">
