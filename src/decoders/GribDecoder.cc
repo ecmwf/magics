@@ -1548,7 +1548,7 @@ void GribDecoder::visit(MetaDataVisitor& meta) {
 
 string GribDecoder::representation() {
     string grid = getstring("typeOfGrid");
-    string proj = getstring("projTargetString");
+    string proj = getstring("projTargetString", false);
 
 
     return (proj.size()) ? "proj" : grid;
