@@ -382,3 +382,39 @@ VerticalAlign RightAxisVisitor::textAlignment(const string& orientation) {
     // vertical == parallel
     return (magCompare(orientation, "horizontal")) ? MHALF : MTOP;
 }
+
+double RightAxisVisitor::percentX(double percent) {
+    double pos = ((current_->xmax_ - current_->xmin_) / 100) * percent;
+    return current_->xmin_ + pos;
+}
+double RightAxisVisitor::percentY(double percent) {
+    double pos = ((current_->ymax_ - current_->ymin_) / 100) * percent;
+    return current_->ymin_ + pos;
+}
+
+double LeftAxisVisitor::percentX(double percent) {
+    double pos = ((current_->xmax_ - current_->xmin_) / 100) * percent;
+    return current_->xmax_ - pos;
+}
+double LeftAxisVisitor::percentY(double percent) {
+    double pos = ((current_->ymax_ - current_->ymin_) / 100) * percent;
+    return current_->ymin_ + pos;
+}
+
+double BottomAxisVisitor::percentX(double percent) {
+    double pos = ((current_->xmax_ - current_->xmin_) / 100) * percent;
+    return current_->xmin_ + pos;
+}
+double BottomAxisVisitor::percentY(double percent) {
+    double pos = ((current_->ymax_ - current_->ymin_) / 100) * percent;
+    return current_->ymin_ + pos;
+}
+
+double TopAxisVisitor::percentX(double percent) {
+    double pos = ((current_->xmax_ - current_->xmin_) / 100) * percent;
+    return current_->xmin_ + pos;
+}
+double TopAxisVisitor::percentY(double percent) {
+    double pos = ((current_->ymax_ - current_->ymin_) / 100) * percent;
+    return current_->ymin_ + pos;
+}

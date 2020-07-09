@@ -474,11 +474,16 @@ void VerticalAxis::title(VerticalAxisVisitor& out) {
         return;
     out.frameIt();
     double angle = out.angleTitle();
-    double x     = title_position_;
+
+
+    double x = title_position_;
+
 
     double shift = (out.maxX() - out.minX()) * 0.1;
     x            = x - shift;
 
+    if (title_relative_position_ != -1)
+        x = out.percentX(title_relative_position_);
 
     Text* text = new Text();
     MagFont font(title_font_, title_font_style_, title_height_);
