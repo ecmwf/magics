@@ -303,8 +303,8 @@ public:
     virtual void operator()(const ObsDecoder&, MvObs& obs, double& val) const {
         const BufrIdentifiers& table = BufrIdentTable::get(obs.originatingCentre());
         val                          = obs.valueByOccurrence(index_, descriptor_);
-        MagLog::dev() << "BufrMultiValueAccessor-Descriptor--->" << descriptor_ << " INDEX--->" << index_
-                      << " Value--->" << val << endl;
+        //FMagLog::dev() << "BufrMultiValueAccessor-Descriptor--->" << descriptor_ << " INDEX--->" << index_
+        //F              << " Value--->" << val << endl;
     }
     virtual void print() {}
 
@@ -418,14 +418,14 @@ public:
             val = 0;
         }
         else {
-            // MagLog::dev()<< " look for --->" << table.ident(altitude_) << " at " << decoder.getLevel();
+            //FMagLog::dev()<< " look for --->" << table.ident(altitude_) << " at " << decoder.getLevel();
             // upper-air data
             if (type == 5 || type == 4)
                 val = 0;
             else  // Multi-level data {
                 val = abs(obs.valueByPressureLevel(decoder.level_, table.ident(keyword_)) -
                           obs.valueByPressureLevel(decoder.level2_, table.ident(keyword_)));
-            // MagLog::dev()<< " : get --->" << val << endl;
+            //FMagLog::dev()<< " : get --->" << val << endl;
         }
     }
 
@@ -623,7 +623,7 @@ void ObsDecoder::getInfo(const std::set<string>& tokens, multimap<string, string
         }
 
         for (std::set<string>::const_iterator no = noduplicate.begin(); no != noduplicate.end(); ++no) {
-            MagLog::debug() << " ObsDecoderToken: " << *token << " -> " << *no << "\n";
+            //FMagLog::debug() << " ObsDecoderToken: " << *token << " -> " << *no << "\n";
 
             // here we add it to the list, only if it is the obs_types_list!
             if (findInTypes(*no))
@@ -691,7 +691,7 @@ void ObsDecoder::customisedPoints(const Transformation& transformation, const st
                 ostringstream title;
                 title << "[ type = " << obs.messageType() << " , subtype = " << obs.messageSubtype() << "]";
                 title_ = title.str();
-                MagLog::debug() << " ObsTitle: " << title_ << "\n";
+                //FMagLog::debug() << " ObsTitle: " << title_ << "\n";
                 first = false;
             }
 

@@ -145,8 +145,7 @@ bool MinMaxFilter::Process() {
 
     // Initialize input buffer
     if (this->InitBuffer() == false) {
-        MagLog::debug() << " InitBuffer Error"
-                        << "\n";
+        //FMagLog::debug() << " InitBuffer Error" << "\n";
         return false;
     }
 
@@ -177,7 +176,7 @@ bool MinMaxFilter::Process() {
 
                 if (found)  // minimum found
                 {
-                    //				MagLog::debug() << "Min " << lin+fcr+1 << " " << col+fcc+1 << " " << val << "\n";
+                    //FMagLog::debug() << "Min " << lin+fcr+1 << " " << col+fcc+1 << " " << val << "\n";
                     lo = lo + 1;
                     push_back(UserPoint(this->matrix_.column(lin + fcr, col + fcc),
                                         this->matrix_.row(lin + fcr, col + fcc), val));
@@ -205,7 +204,7 @@ bool MinMaxFilter::Process() {
 
                 if (found)  // minimum found
                 {
-                    //				MagLog::debug() << "Max " << lin+fcr+1 << " " << col+fcc+1 << " " << val << "\n";
+                    //FMagLog::debug() << "Max " << lin+fcr+1 << " " << col+fcc+1 << " " << val << "\n";
                     hi = hi + 1;
                     push_back(UserPoint(this->matrix_.column(lin + fcr, col + fcc),
                                         this->matrix_.row(lin + fcr, col + fcc), val));
@@ -219,8 +218,8 @@ bool MinMaxFilter::Process() {
             break;
     }
 
-    MagLog::debug() << "TOTAL POINTS LOW = " << lo << "\n"
-                    << "TOTAL POINTS HI  = " << hi << "\n";
+    //FMagLog::debug() << "TOTAL POINTS LOW = " << lo << "\n"
+    //F                << "TOTAL POINTS HI  = " << hi << "\n";
     return true;
 }
 
@@ -242,8 +241,7 @@ void MinMaxFilter::test_build_data() {
 
     // Initialize input buffer
     if (this->InitBuffer() == false) {
-        MagLog::debug() << " InitBuffer Error"
-                        << "\n";
+        //FMagLog::debug() << " InitBuffer Error" << "\n";
         return;
     }
 
@@ -252,11 +250,11 @@ void MinMaxFilter::test_build_data() {
     // Processing
     for (lin = 0; lin <= this->matrix_.rows() - this->nrows_; lin++) {
         printf("\n");
-        for (i = 0; i < this->nrows_; i++) {
-            for (j = 0; j < this->matrix_.columns(); j++)
-                MagLog::debug() << this->fbuf_[i][j] << " ";
-            printf("\n");
-        }
+        //Ffor (i = 0; i < this->nrows_; i++) {
+        //F    for (j = 0; j < this->matrix_.columns(); j++)
+                //FMagLog::debug() << this->fbuf_[i][j] << " ";
+        //F    printf("\n");
+        //F}
 
         for (col = 0; col <= this->matrix_.columns() - this->ncols_; col++) {
             // check min value
@@ -278,8 +276,8 @@ void MinMaxFilter::test_build_data() {
 
                 if (found)  // minimum found
                 {
-                    MagLog::debug() << "\n"
-                                    << "Min " << lin + fcr + 1 << " " << col + fcc + 1 << " " << val << "\n";
+                    //FMagLog::debug() << "\n"
+                    //F                << "Min " << lin + fcr + 1 << " " << col + fcc + 1 << " " << val << "\n";
                     lo = lo + 1;
                 }
             }
@@ -303,8 +301,8 @@ void MinMaxFilter::test_build_data() {
 
                 if (found)  // minimum found
                 {
-                    MagLog::debug() << "\n"
-                                    << "Max " << lin + fcr + 1 << " " << col + fcc + 1 << " " << val << "\n";
+                    //FMagLog::debug() << "\n"
+                    //F                << "Max " << lin + fcr + 1 << " " << col + fcc + 1 << " " << val << "\n";
                     hi = hi + 1;
                 }
             }
@@ -314,8 +312,8 @@ void MinMaxFilter::test_build_data() {
             break;
     }
 
-    MagLog::debug() << "TOTAL POINTS LOW=" << lo << "\n";
-    MagLog::debug() << "TOTAL POINTS HI =" << hi << "\n";
+    //FMagLog::debug() << "TOTAL POINTS LOW=" << lo << "\n";
+    //FMagLog::debug() << "TOTAL POINTS HI =" << hi << "\n";
 
     printf("\n\nEND TEST\n");
 }
