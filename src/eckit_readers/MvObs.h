@@ -17,4 +17,4 @@
 #include "MvPrepBufrPrep.h"
 #endif
 
-#endif // MvObs_DEFINED_
+#endif  // MvObs_DEFINED_
