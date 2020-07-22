@@ -17,6 +17,8 @@ environment:
   GIT_CLONE_DIR: $(ECMWF)\git
   INSTALL_DIR: $(ECMWF)\install
   MAGICS_SRC: $(GIT_CLONE_DIR)\magics
+  MAGICS_TEST_SRC: ${MAGICS_SRC}/../magics-test
+  MAGICS_PYTHON_TEST: ${MAGICS_TEST_SRC}/test/gallery
   MAGICS_PYTHON_TESTS: $(MAGICS_SRC)\test\python
   MAGPLUS_HOME: $(INSTALL_DIR)
   MAGICS_PYTHON_SRC: $(GIT_CLONE_DIR)\magics_python
@@ -53,6 +55,7 @@ install:
 
   # install magics-python src
   - cmd: git clone -b master --depth 1 https://github.com/ecmwf/magics-python.git %MAGICS_PYTHON_SRC%
+  - cmd: git clone --depth 1 https://github.com/ecmwf/magics-test.git %MAGICS_TESTS_SRC%
 
   # install linux utils
   - cmd: conda install -c msys2 m2-bash ^
