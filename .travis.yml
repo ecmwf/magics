@@ -26,6 +26,12 @@ matrix:
 
     - os: osx
       osx_image: xcode10.1
+      addons:
+        homebrew:
+          packages:
+            - pango
+            - cairo
+
       env:
         MINICONDA_FILE="Miniconda3-latest-MacOSX-x86_64.sh"
 
@@ -82,10 +88,8 @@ install:
   - conda install boost libnetcdf expat jinja2 xarray scipy cftime
   - conda install -c conda-forge proj4=6 eccodes pytest cairo pango pip
   # search for conda-installed libraries
-  - |
-    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      export LDFLAGS="$LDFLAGS -L${CONDA_PREFIX}/lib -Wl,-rpath,${CONDA_PREFIX}/lib"
-    fi
+  - export LDFLAGS="$LDFLAGS -L${CONDA_PREFIX}/lib -Wl,-rpath,${CONDA_PREFIX}/lib"
+  
 
 #---------------------------------#
 #       build configuration       #
