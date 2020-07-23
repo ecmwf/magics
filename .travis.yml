@@ -92,7 +92,7 @@ install:
 script:
   # build
   - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
-  - echo "In build dir"
+  - echo "In build dir--> ${MAGICS_SRC}"
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       cmake -D CMAKE_INSTALL_PREFIX=${INSTALL_DIR}
