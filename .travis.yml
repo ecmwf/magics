@@ -30,6 +30,7 @@ matrix:
         homebrew:
           packages:
             - pango
+            - cairo
 
       env:
         MINICONDA_FILE="Miniconda3-latest-MacOSX-x86_64.sh"
