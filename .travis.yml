@@ -93,15 +93,26 @@ install:
 script:
   # build
   - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
-  - cmake -D CMAKE_INSTALL_PREFIX=${INSTALL_DIR}
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      cmake -D CMAKE_INSTALL_PREFIX=${INSTALL_DIR}
           -D ENABLE_FORTRAN=0
           ${MAGICS_SRC}
+    fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      # No Cairo for osx .. 
+      cmake -D CMAKE_INSTALL_PREFIX=${INSTALL_DIR}
+          -D ENABLE_FORTRAN=0 -D ENABLE_CAIRO=0
+          ${MAGICS_SRC}
+    fi
+
   - make -j2
   - ctest -j2 --output-on-failure
   - make install > /dev/null
-  # test
-  - cd ${MAGICS_PYTHON_SRC}
-  - pytest
+  # test only on linux for now
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      cd ${MAGICS_PYTHON_SRC}
+      pytest
+    fi
 
 after_success:
   # Run script to generate PNGs and push result to magics-tests
