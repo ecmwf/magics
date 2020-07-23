@@ -92,14 +92,12 @@ install:
 script:
   # build
   - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
-  - |
-    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       cmake -D CMAKE_INSTALL_PREFIX=${INSTALL_DIR}
           -D ENABLE_FORTRAN=0
           ${MAGICS_SRC}
     fi
-  - |
-    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       # No Cairo for osx .. 
       cmake -D CMAKE_INSTALL_PREFIX=${INSTALL_DIR}
           -D ENABLE_FORTRAN=0 -D ENABLE_CAIRO=0
@@ -109,8 +107,7 @@ script:
   - ctest -j2 --output-on-failure
   - make install > /dev/null
   # test only on linux for now
-  - |
-    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       cd ${MAGICS_PYTHON_SRC}
       pytest
     fi
