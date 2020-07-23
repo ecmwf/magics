@@ -104,7 +104,6 @@ script:
           -D ENABLE_FORTRAN=0 -D ENABLE_CAIRO=0
           ${MAGICS_SRC}
     fi
-
   - make -j2
   - ctest -j2 --output-on-failure
   - make install > /dev/null
