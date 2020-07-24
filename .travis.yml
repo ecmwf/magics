@@ -23,23 +23,20 @@ matrix:
       env:
         MINICONDA_FILE="Miniconda3-latest-Linux-x86_64.sh"
         PROJ4_PATH=~/miniconda3
+        CAIRO=""
 
     - os: osx
       osx_image: xcode10.1
-      addons:
-        homebrew:
-          packages:
-            - pango
-
       env:
         MINICONDA_FILE="Miniconda3-latest-MacOSX-x86_64.sh"
+        CAIRO="-D ENABLE_CAIRO=0"
 
 env:
   global:
     - MAGICS_SRC=${TRAVIS_BUILD_DIR}
     - MAGICS_PYTHON_SRC=${MAGICS_SRC}/../magics-python
     - MAGICS_TEST_SRC=${MAGICS_SRC}/../magics-test
-    - MAGICS_PYTHON_TESTS=${MAGICS_SRC}/test/python
+    - MAGICS_PYTHON_TESTS=${MAGICS_TEST_SRC}/test/gallery
     - ECBUILD_SRC=${MAGICS_SRC}/../ecbuild
     - BUILD_DIR=${MAGICS_SRC}/build
     - INSTALL_DIR=/tmp/install
@@ -56,7 +53,8 @@ before_install:
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       echo $(clang-format --version)
       echo $(bash --version)
-      bash check_formatting.sh
+      echo "No check for now"
+      #bash check_formatting.sh
     fi
   # prepare install dir
   - mkdir ${INSTALL_DIR}
@@ -86,10 +84,8 @@ install:
   - conda install boost libnetcdf expat jinja2 xarray scipy cftime
   - conda install -c conda-forge proj4=6 eccodes pytest cairo pango pip
   # search for conda-installed libraries
-  - |
-    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      export LDFLAGS="$LDFLAGS -L${CONDA_PREFIX}/lib -Wl,-rpath,${CONDA_PREFIX}/lib"
-    fi
+  - export LDFLAGS="$LDFLAGS -L${CONDA_PREFIX}/lib -Wl,-rpath,${CONDA_PREFIX}/lib"
+  
 
 #---------------------------------#
 #       build configuration       #
@@ -98,17 +94,20 @@ install:
 script:
   # build
   - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
+  - echo "In build dir--> ${MAGICS_SRC}"
   - cmake -D CMAKE_INSTALL_PREFIX=${INSTALL_DIR}
           -D ENABLE_FORTRAN=0
-          ${MAGICS_SRC}
+          ${MAGICS_SRC} ${CAIRO}
   - make -j2
   - ctest -j2 --output-on-failure
   - make install > /dev/null
-  # test
-  # - cd ${MAGICS_PYTHON_SRC}
-  # - pytest
-  - cd ${MAGICS_TEST_SRC}
-  - pytest
+  # test only on linux for now
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      echo "In build dir--> ${MAGICS_PYTHON_SRC}"
+      cd ${MAGICS_PYTHON_SRC}
+      pytest
+    fi
 
 after_success:
   # Run script to generate PNGs and push result to magics-tests

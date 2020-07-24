@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include "magics_api.h"
 
-#define NUM_FORMATS 3
+#define NUM_FORMATS 1
 
 
 void myprint_error(void* data, const char* msg) {
@@ -40,10 +40,11 @@ int main() {
     mag_add_warning_listener(&data, myprint_warning);
     mag_add_error_listener(&data, myprint_error);
     mag_open();
-    const char* formats[NUM_FORMATS];
+    const char* formats[3];
     formats[0] = "ps";
     formats[1] = "png";
     formats[2] = "pdf";
+
 
     mag_set1c("output_formats", formats, NUM_FORMATS);
 
@@ -63,7 +64,7 @@ int main() {
     mag_setc("contour", "on");
     mag_setc("contour_line_colour", "sky");
     mag_setc("CONTOUR_HIGHLIGHT_COLOUR", "GREEN");
-    mag_setc("cjgskljdfkljdontour_label", "on");
+    mag_setc("contour_label", "on");
     mag_cont();
 
 
