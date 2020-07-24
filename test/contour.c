@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include "magics_api.h"
 
-#define NUM_FORMATS 3
+#define NUM_FORMATS 1
 
 
 void myprint_error(void* data, const char* msg) {
@@ -63,7 +63,7 @@ int main() {
     mag_setc("contour", "on");
     mag_setc("contour_line_colour", "sky");
     mag_setc("CONTOUR_HIGHLIGHT_COLOUR", "GREEN");
-    mag_setc("cjgskljdfkljdontour_label", "on");
+    mag_setc("dontour_label", "on");
     mag_cont();
 
 
