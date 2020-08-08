@@ -10,6 +10,8 @@
 
 #include "magics_windows.h"
 
+#ifdef _MSC_VER
 bool operator<(const pthread_t& left, const pthread_t& right) {
     return (left.p < right.p);
 }
+#endif

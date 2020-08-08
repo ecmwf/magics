@@ -18,7 +18,9 @@
 #endif
 
 #ifdef __GNUG__
+#ifndef _WIN32
 #include "linux.h"
+#endif
 #endif
 
 #ifdef __sgi
