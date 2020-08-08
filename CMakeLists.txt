@@ -198,6 +198,11 @@ endif(APPLE)
 # compiler options
 
 if( EC_OS_NAME MATCHES "windows" )
+
+    ecbuild_add_c_flags("-DMAGICS_ON_WINDOWS")
+    ecbuild_add_cxx_flags("-DMAGICS_ON_WINDOWS")
+
+
     if(CMAKE_C_COMPILER_ID MATCHES "MSVC")
       # Suppress compliler warnings
       # Suppress warnings about using 'insecure' functions. Fixing this would require changes all over
@@ -325,11 +330,15 @@ get_directory_property( MAGICS_DEFINITIONS COMPILE_DEFINITIONS )
 include_directories( ${MAGICS_INCLUDE_DIRS} ${MAGICS_EXTRA_INCLUDE_DIRS} )
 
 
-add_subdirectory( tools )
 add_subdirectory( src )
 add_subdirectory( share )
-add_subdirectory( apps )
-add_subdirectory( test )
+
+if (ENABLE_BUILD_TOOLS)
+    add_subdirectory( tools )
+    add_subdirectory( apps )
+    add_subdirectory( test )
+endif()
+
 if( ENABLE_REGRESSION )
     add_subdirectory( regression )
 endif()
