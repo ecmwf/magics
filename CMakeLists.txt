@@ -220,6 +220,10 @@ if( EC_OS_NAME MATCHES "windows" )
 
       # Prevent fatal error C1128
       ecbuild_add_cxx_flags("/bigobj")
+
+    else()
+      # cross compilation
+      ecbuild_add_cxx_flags( -lz  )
     endif()
 endif()
 
