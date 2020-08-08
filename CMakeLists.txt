@@ -222,8 +222,8 @@ if( EC_OS_NAME MATCHES "windows" )
       ecbuild_add_cxx_flags("/bigobj")
 
     else()
-      # cross compilation
-      ecbuild_add_cxx_flags( -lz  )
+      find_library( Z_LIB z PATHS ENV PATH )
+      list( APPEND MAGICS_EXTRA_LIBRARIES ${Z_LIB} )
     endif()
 endif()
 
