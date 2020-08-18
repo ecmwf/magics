@@ -77,6 +77,13 @@ Colour::Colour(const string& name) : name_(lowerCase(name)), automatic_(false) {
     }
 }
 
+string Colour::rgb() const {
+    ostringstream val;
+    val << "RGBA(" << int(rgb_.red_ * 255) << "," << int(rgb_.green_ * 255) << "," << int(rgb_.blue_ * 255) << ","
+        << rgb_.alpha_ << ")";
+    return val.str();
+}
+
 void Colour::set(const XmlNode& xml) {
     MagLog::debug() << "set Colour-->" << xml << "\n";
     try {

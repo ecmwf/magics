@@ -688,7 +688,7 @@ void BoxEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend
     box_->push_back(PaperPoint(x - width, y - height));
     box_->setColour(Colour("black"));
 
-    LegendVisitor::addLegendInfo("legend_entry_colour", box_->getFillColour().name());
+    LegendVisitor::addLegendInfo("legend_entry_colour", box_->getFillColour().rgb());
     LegendVisitor::addLegendInfo("legend_entry_min_text", from());
     LegendVisitor::addLegendInfo("legend_entry_max_text", to());
 
@@ -792,7 +792,8 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
         legend.push_back(left);
     }
 
-    LegendVisitor::addLegendInfo("legend_entry_colour", box_->getFillColour().name());
+    LegendVisitor::addLegendInfo("legend_entry_colour", box_->getFillColour().rgb());
+    cout << "GHFGHJFGHFGHFHG" << box_->getFillColour().rgb() << endl;
     LegendVisitor::addLegendInfo("legend_entry_min_text", from());
     LegendVisitor::addLegendInfo("legend_entry_max_text", to());
 }
@@ -1062,7 +1063,7 @@ void BoxEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& 
         legend.push_back(bottom);
     }
 
-    LegendVisitor::addLegendInfo("legend_entry_colour", box_->getFillColour().name());
+    LegendVisitor::addLegendInfo("legend_entry_colour", box_->getFillColour().rgb());
     LegendVisitor::addLegendInfo("legend_entry_min_text", from());
     LegendVisitor::addLegendInfo("legend_entry_max_text", to());
 }
