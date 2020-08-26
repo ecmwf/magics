@@ -75,8 +75,9 @@ find_package(Jinja2 REQUIRED)
 
 ######## TO BE REMOVED ######################  if Fortran compiler run tests
 ecbuild_add_option( FEATURE FORTRAN
-                    DEFAULT ON
+                    DEFAULT OFF
                     DESCRIPTION "enable Fortran interface" )
+set( HAVE_FORTRAN 0 )
 
 ecbuild_add_option( FEATURE METVIEW
                     DEFAULT OFF
