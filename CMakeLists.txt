@@ -31,8 +31,8 @@ set (CMAKE_C_STANDARD 99)
 ###############################################################################
 # some variables of this project
 
-ecbuild_use_package( PROJECT eccodes VERSION 2.9.2 REQUIRED
-                     FAILURE_MSG "ecCodes is required in order to build Magics" )
+ecbuild_find_package( NAME eccodes VERSION 2.9.2 REQUIRED
+                      FAILURE_MSG "ecCodes is required in order to build Magics" )
 
 set( HAVE_GRIB 1 )     ##### remove both
 set( HAVE_BUFR 1 )
