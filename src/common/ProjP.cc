@@ -20,6 +20,8 @@
 
 using namespace magics;
 
+PJ_CONTEXT* ProjP::context_ = 0;
+
 ProjP::ProjP() : converter_(0) {}
 ProjP::ProjP(const string& from, const string& to) : from_(from), to_(to), converter_(0) {
     from_ = "EPSG:4326";
@@ -27,10 +29,11 @@ ProjP::ProjP(const string& from, const string& to) : from_(from), to_(to), conve
     // to_ =
     //     "+proj=lcc +lat_1=43 +lat_2=62 +lat_0=30 +lon_0=10 +x_0=0 +y_0=0 "
     //     "+ellps=intl +units=m +no_defs";
-    PJ_CONTEXT* context = proj_context_create();
-    PJ* p               = proj_create_crs_to_crs(context, from_.c_str(), to_.c_str(), NULL);
+    if (!context_)
+        context_ = proj_context_create();
+    PJ* p = proj_create_crs_to_crs(context_, from_.c_str(), to_.c_str(), NULL);
     assert(p);
-    converter_ = proj_normalize_for_visualization(context, p);
+    converter_ = proj_normalize_for_visualization(context_, p);
 
     assert(converter_);
     // double x = -180;
@@ -42,6 +45,7 @@ ProjP::ProjP(const string& from, const string& to) : from_(from), to_(to), conve
 ProjP::~ProjP() {
     if (converter_)
         proj_destroy(converter_);
+
     converter_ = 0;
 }
 
