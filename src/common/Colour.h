@@ -132,6 +132,7 @@ public:
     float green() const { return rgb_.green_; }
     float alpha() const { return rgb_.alpha_; }
     string name() const { return name_; }
+    string rgb() const;
 
     bool operator==(const Colour& other) const { return other.rgb_ == rgb_; }
 

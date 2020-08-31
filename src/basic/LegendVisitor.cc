@@ -129,6 +129,11 @@ void LineEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& ou
     line_->push_back(PaperPoint(x - 0.5, y));
     line_->push_back(PaperPoint(x + 0.5, y));
     out.push_back(line_);
+    LegendVisitor::addLegendInfo("legend_entry_line_colour", line_->getColour().rgb());
+    LegendVisitor::addLegendInfo("legend_entry_line_style", tostring(line_->getLineStyle()));
+    LegendVisitor::addLegendInfo("legend_entry_line_thickness", tostring(line_->getThickness()));
+    LegendVisitor::addLegendInfo("legend_entry_text", label_);
+    LegendVisitor::addLegendInfo("legend_entry_type", "line");
 }
 void RainbowEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& out) {
     double x = point.x();
@@ -137,6 +142,12 @@ void RainbowEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer&
     line_->push_back(PaperPoint(x - 0.5, y + 0.5));
     line_->push_back(PaperPoint(x + 0.5, y + 0.5));
     out.push_back(line_);
+    LegendVisitor::addLegendInfo("legend_entry_line_colour", line_->getColour().rgb());
+    LegendVisitor::addLegendInfo("legend_entry_line_style", tostring(line_->getLineStyle()));
+    LegendVisitor::addLegendInfo("legend_entry_line_thickness", tostring(line_->getThickness()));
+    LegendVisitor::addLegendInfo("legend_entry_line_colour", line_->getColour().rgb());
+    LegendVisitor::addLegendInfo("legend_entry_text", label_);
+    LegendVisitor::addLegendInfo("legend_entry_type", "rainbow");
 }
 void RainbowEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& out) {
     double x = point.x();
@@ -145,6 +156,12 @@ void RainbowEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContain
     line_->push_back(PaperPoint(x - 0.9, y));
     line_->push_back(PaperPoint(x - 0.2, y));
     out.push_back(line_);
+    LegendVisitor::addLegendInfo("legend_entry_line_colour", line_->getColour().rgb());
+    LegendVisitor::addLegendInfo("legend_entry_line_style", tostring(line_->getLineStyle()));
+    LegendVisitor::addLegendInfo("legend_entry_line_thickness", tostring(line_->getThickness()));
+    LegendVisitor::addLegendInfo("legend_entry_line_colour", line_->getColour().rgb());
+    LegendVisitor::addLegendInfo("legend_entry_text", label_);
+    LegendVisitor::addLegendInfo("legend_entry_type", "rainbow");
 }
 void LineEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& out) {
     double x = point.x();
@@ -153,6 +170,11 @@ void LineEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer&
     line_->push_back(PaperPoint(x - 15, y));
     line_->push_back(PaperPoint(x + 1, y));
     out.push_back(line_);
+    LegendVisitor::addLegendInfo("legend_entry_line_colour", line_->getColour().rgb());
+    LegendVisitor::addLegendInfo("legend_entry_line_style", tostring(line_->getLineStyle()));
+    LegendVisitor::addLegendInfo("legend_entry_line_thickness", tostring(line_->getThickness()));
+    LegendVisitor::addLegendInfo("legend_entry_text", label_);
+    LegendVisitor::addLegendInfo("legend_entry_type", "line");
 }
 void DoubleLineEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& out) {
     set(point, out);
@@ -529,6 +551,8 @@ void ArrowEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& lege
     pos.x_ -= width;
     arrow_->push_back(ArrowPoint(arrow_->getScale(), 0, pos));
     legend.push_back(arrow_);
+    LegendVisitor::addLegendInfo("legend_entry_text", label_);
+    LegendVisitor::addLegendInfo("legend_entry_type", "arrow");
 }
 void ArrowEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
     set(point, legend);
@@ -537,6 +561,8 @@ void ArrowEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& l
     text->push_back(leftTextBox(point));
     text->setJustification(MLEFT);
     legend.push_back(text);
+    LegendVisitor::addLegendInfo("legend_entry_text", label_);
+    LegendVisitor::addLegendInfo("legend_entry_type", "arrow");
 }
 void ArrowEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
     PaperPoint pos(centreSymbolBox(point));
@@ -553,6 +579,8 @@ void ArrowEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer
     pos.y_ -= 0.2;
     arrow_->push_back(ArrowPoint(arrow_->getScale(), 0, pos));
     legend.push_back(arrow_);
+    LegendVisitor::addLegendInfo("legend_entry_text", label_);
+    LegendVisitor::addLegendInfo("legend_entry_type", "arrow");
 }
 
 void FlagEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
@@ -563,6 +591,9 @@ void FlagEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legen
     legend.push_back(flag_);
     flag_->setLength(legend.absoluteHeight());
     flag_->back().set(40, 85);
+
+    LegendVisitor::addLegendInfo("legend_entry_text", label_);
+    LegendVisitor::addLegendInfo("legend_entry_type", "flag");
 }
 
 void FlagEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
@@ -572,6 +603,8 @@ void FlagEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& le
     text->push_back(leftTextBox(point));
     text->setJustification(MLEFT);
     legend.push_back(text);
+    LegendVisitor::addLegendInfo("legend_entry_text", label_);
+    LegendVisitor::addLegendInfo("legend_entry_type", "flag");
 }
 void FlagEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
     set(point, legend);
@@ -585,6 +618,9 @@ void FlagEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer&
     text->push_back(pos);
     text->setJustification(MLEFT);
     legend.push_back(text);
+
+    LegendVisitor::addLegendInfo("legend_entry_text", label_);
+    LegendVisitor::addLegendInfo("legend_entry_type", "flag");
 }
 Colour BoxEntry::colour() {
     return box_->getFillColour();
@@ -688,9 +724,10 @@ void BoxEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend
     box_->push_back(PaperPoint(x - width, y - height));
     box_->setColour(Colour("black"));
 
-    LegendVisitor::addLegendInfo("legend_entry_colour", box_->getFillColour().name());
+    LegendVisitor::addLegendInfo("legend_entry_colour", box_->getFillColour().rgb());
     LegendVisitor::addLegendInfo("legend_entry_min_text", from());
     LegendVisitor::addLegendInfo("legend_entry_max_text", to());
+    LegendVisitor::addLegendInfo("legend_entry_type", "colorbar");
 
     legend.push_back(box_);
 }
@@ -792,9 +829,10 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
         legend.push_back(left);
     }
 
-    LegendVisitor::addLegendInfo("legend_entry_colour", box_->getFillColour().name());
+    LegendVisitor::addLegendInfo("legend_entry_colour", box_->getFillColour().rgb());
     LegendVisitor::addLegendInfo("legend_entry_min_text", from());
     LegendVisitor::addLegendInfo("legend_entry_max_text", to());
+    LegendVisitor::addLegendInfo("legend_entry_type", "colorbar");
 }
 
 void BoxEntry::rowHisto(const PaperPoint& point, BasicGraphicsObjectContainer& legend, const Colour& colour) {
@@ -1062,9 +1100,10 @@ void BoxEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& 
         legend.push_back(bottom);
     }
 
-    LegendVisitor::addLegendInfo("legend_entry_colour", box_->getFillColour().name());
+    LegendVisitor::addLegendInfo("legend_entry_colour", box_->getFillColour().rgb());
     LegendVisitor::addLegendInfo("legend_entry_min_text", from());
     LegendVisitor::addLegendInfo("legend_entry_max_text", to());
+    LegendVisitor::addLegendInfo("legend_entry_type", "colorbar");
 }
 
 void BoxEntry::columnHisto(const PaperPoint& point, BasicGraphicsObjectContainer& legend, const Colour& colour) {
@@ -1125,11 +1164,11 @@ void BoxEntry::columnHisto(const PaperPoint& point, BasicGraphicsObjectContainer
 }
 
 Colour LineEntry::colour() {
-    return line_->getColour();
+    return line_->getColour().rgb();
 }
 
 Colour DoubleLineEntry::colour() {
-    return line1_->getColour();
+    return line1_->getColour().rgb();
 }
 
 void LineEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
@@ -1140,6 +1179,10 @@ void LineEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legen
     line_->push_back(PaperPoint(x - width, y));
     line_->push_back(PaperPoint(x + width, y));
     legend.push_back(line_);
+    LegendVisitor::addLegendInfo("legend_entry_line_colour", line_->getColour().rgb());
+    LegendVisitor::addLegendInfo("legend_entry_line_style", tostring(line_->getLineStyle()));
+    LegendVisitor::addLegendInfo("legend_entry_line_thickness", tostring(line_->getThickness()));
+    LegendVisitor::addLegendInfo("legend_entry_type", "line");
 }
 
 void CdfEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
@@ -1162,11 +1205,24 @@ void DoubleLineEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer&
     line1_->push_back(PaperPoint(x - width, y - height));
     line1_->push_back(PaperPoint(x + width, y - height));
     legend.push_back(line1_);
-    if (!line2_)
+
+    if (!line2_) {
+        LegendVisitor::addLegendInfo("legend_entry_line_colour", line1_->getColour().rgb());
+        LegendVisitor::addLegendInfo("legend_entry_line_style", tostring(line1_->getLineStyle()));
+        LegendVisitor::addLegendInfo("legend_entry_line_thickness", tostring(line1_->getThickness()));
+        LegendVisitor::addLegendInfo("legend_entry_type", "line");
         return;
+    }
     line2_->push_back(PaperPoint(x - width, y + height));
     line2_->push_back(PaperPoint(x + width, y + height));
     legend.push_back(line2_);
+    LegendVisitor::addLegendInfo("legend_entry_line1_colour", line1_->getColour().rgb());
+    LegendVisitor::addLegendInfo("legend_entry_line1_style", tostring(line1_->getLineStyle()));
+    LegendVisitor::addLegendInfo("legend_entry_line1_thickness", tostring(line1_->getThickness()));
+    LegendVisitor::addLegendInfo("legend_entry_line2_colour", line2_->getColour().rgb());
+    LegendVisitor::addLegendInfo("legend_entry_line2_style", tostring(line2_->getLineStyle()));
+    LegendVisitor::addLegendInfo("legend_entry_line2_thickness", tostring(line2_->getThickness()));
+    LegendVisitor::addLegendInfo("legend_entry_type", "double-line");
 }
 
 void check(const string& line, vector<string>& lines) {
