@@ -553,6 +553,7 @@ void ArrowEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& lege
     legend.push_back(arrow_);
     LegendVisitor::addLegendInfo("legend_entry_text", label_);
     LegendVisitor::addLegendInfo("legend_entry_type", "arrow");
+    LegendVisitor::addLegendInfo("legend_entry_colour", arrow_->getColour().name());
 }
 void ArrowEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
     set(point, legend);
@@ -563,6 +564,7 @@ void ArrowEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& l
     legend.push_back(text);
     LegendVisitor::addLegendInfo("legend_entry_text", label_);
     LegendVisitor::addLegendInfo("legend_entry_type", "arrow");
+    LegendVisitor::addLegendInfo("legend_entry_colour", arrow_->getColour().name());
 }
 void ArrowEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
     PaperPoint pos(centreSymbolBox(point));
@@ -581,6 +583,8 @@ void ArrowEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer
     legend.push_back(arrow_);
     LegendVisitor::addLegendInfo("legend_entry_text", label_);
     LegendVisitor::addLegendInfo("legend_entry_type", "arrow");
+    LegendVisitor::addLegendInfo("legend_entry_colour", arrow_->getColour().name());
+    
 }
 
 void FlagEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
@@ -594,6 +598,7 @@ void FlagEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legen
 
     LegendVisitor::addLegendInfo("legend_entry_text", label_);
     LegendVisitor::addLegendInfo("legend_entry_type", "flag");
+    LegendVisitor::addLegendInfo("legend_entry_colour", flag_->getColour().name());
 }
 
 void FlagEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
@@ -605,6 +610,7 @@ void FlagEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& le
     legend.push_back(text);
     LegendVisitor::addLegendInfo("legend_entry_text", label_);
     LegendVisitor::addLegendInfo("legend_entry_type", "flag");
+    LegendVisitor::addLegendInfo("legend_entry_type", flag_->getColour().name());
 }
 void FlagEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
     set(point, legend);
@@ -621,6 +627,7 @@ void FlagEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer&
 
     LegendVisitor::addLegendInfo("legend_entry_text", label_);
     LegendVisitor::addLegendInfo("legend_entry_type", "flag");
+    LegendVisitor::addLegendInfo("legend_entry_type", flag_->getColour().name());
 }
 Colour BoxEntry::colour() {
     return box_->getFillColour();
