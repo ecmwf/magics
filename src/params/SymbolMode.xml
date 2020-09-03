@@ -1,5 +1,5 @@
 <magics>
-<class directory="visualisers" prefix="symbol" xmltag="table" name="SymbolMode">
+<class directory="visualisers" prefix="symbol" xmltag="table" name="SymbolMode" python="msymb">
 <!--
 (C) Copyright 1996-2016 ECMWF.
 
