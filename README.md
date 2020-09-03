@@ -19,7 +19,7 @@ Python Package: Pypi or conda
 Gallery of Notebooks
 --------------------
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ecmwf/notebook-examples.git/master)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ecmwf/notebook-examples/master?filepath=%2Fhome%2Fjovyan%2Fvisualisation)
 
 
 Docker Image
