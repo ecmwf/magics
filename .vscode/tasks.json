@@ -27,6 +27,17 @@
                 "panel": "shared",
             },
             "isBuildCommand": true
-        }
+        },
+        {
+            "label": "debug",
+            "type": "shell",
+            "command": "python3 ",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "panel": "shared",
+            },
+        },
+
     ]
 }

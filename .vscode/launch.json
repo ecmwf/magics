@@ -5,16 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(lldb) Launch - Basic Magics contour",
-            "type": "cppdbg",
+            "name": "Python: Current File",
+            "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/../../build/magics/test/contour_c",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/../../build/magics/test/",
-            "environment": [],
-            "externalConsole": false,
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "(lldb) Attach",
+            "type": "cppdbg",
+            "request": "attach",
+            "program": "/usr/local/opt/python/bin/python3.7",
+            "processId": "${command:pickProcess}",
             "MIMode": "lldb"
-        }
+        },
     ]
 }
