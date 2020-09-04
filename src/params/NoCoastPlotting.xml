@@ -100,12 +100,12 @@ does it submit to any jurisdiction.
 	<parameter from="string" name="map_efas_domain" default="current" member="efas_domain" to="string" values="current/extended" python="off" inherit_parent_reqs="no">
  		<documentation>Display EFAS Domain (on/off)		</documentation> 		
 	</parameter>
-	<parameter from="string" name="map_efas_style" default="solid" member="efas_style" to="LineStyle" inherit_parent_reqs="no">
+	<parameter from="string" name="map_efas_style" default="solid" member="efas_style" to="LineStyle"  python="off" inherit_parent_reqs="no">
   		<documentation>Line style for EFAS	</documentation>
   		<release>2.11		</release>
 	</parameter>       
 
-	<parameter from="string" name="map_efas_colour" default="blue" member="efas_colour" to="Colour" inherit_parent_reqs="no">
+	<parameter from="string" name="map_efas_colour" default="blue" member="efas_colour" to="Colour"  python="off" inherit_parent_reqs="no">
  		<documentation>Colour of the EFAS		</documentation>
  		<release>2.12		</release>
 	</parameter>
