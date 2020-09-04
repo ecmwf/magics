@@ -1,5 +1,5 @@
 <magics>
-<class xmltag="coastlines" name="Coastlines" metview="MCOAST" directory="visualisers" prefix="map" action="pcoast">
+<class xmltag="coastlines" name="Coastlines" metview="MCOAST" directory="visualisers" prefix="map" action="pcoast" python = "mcoast">
 <!--
 (C) Copyright 1996-2016 ECMWF.
 

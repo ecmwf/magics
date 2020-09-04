@@ -1,5 +1,5 @@
 <magics>
-<class inherits="NoCoastPlotting" xmltag="coast" name="CoastPlotting" used_by="Coastlines" directory="visualisers" prefix="map/map_coastline" action="pcoast" doc_inherits="no">
+<class inherits="NoCoastPlotting" xmltag="coast" name="CoastPlotting" used_by="Coastlines" directory="visualisers" prefix="map/map_coastline" action="pcoast" python="mcoast" doc_inherits="no">
 <!--
 (C) Copyright 1996-2016 ECMWF.
 

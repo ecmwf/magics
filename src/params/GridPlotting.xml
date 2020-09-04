@@ -1,5 +1,5 @@
 <magics>
-<class inherits="NoGridPlotting" xmltag="grid" name="GridPlotting" directory="visualisers" prefix="map/map_grid" action="pcoast" doc_inherits="no">
+<class inherits="NoGridPlotting" xmltag="grid" name="GridPlotting" directory="visualisers" prefix="map/map_grid" action="pcoast" python="mcoast" doc_inherits="no">
 <!--
 (C) Copyright 1996-2016 ECMWF.
 
