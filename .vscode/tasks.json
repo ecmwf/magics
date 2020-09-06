@@ -5,7 +5,7 @@
     "isShellCommand":true,
     "options": {
         "cwd": "${workspaceRoot}/../../build/magics/"
-    }
+    },
     "tasks": [
         {
             "label": "cmake",
@@ -20,7 +20,7 @@
         {
             "label": "make",
             "type": "shell",
-            "command": "make -j 4",
+            "command": "make -j 4 install",
             "presentation": {
                 "echo": true,
                 "reveal": "always",

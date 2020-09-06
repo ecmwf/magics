@@ -38,6 +38,7 @@ protected:
     string from_;
     string to_;
     PJ* converter_;
+    static PJ_CONTEXT* context_;
 
 private:
     //! Copy constructor - No copy allowed

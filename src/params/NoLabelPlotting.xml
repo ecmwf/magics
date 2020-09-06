@@ -1,5 +1,5 @@
 <magics>
-<class action="pcoast" directory="visualisers" xmltag="nolabel" include="LabelPlotting.h" name="NoLabelPlotting">
+<class action="pcoast" directory="visualisers" xmltag="nolabel" include="LabelPlotting.h" name="NoLabelPlotting" python="mcoast">
 <!--
 (C) Copyright 1996-2016 ECMWF.
 
