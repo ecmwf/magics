@@ -515,7 +515,7 @@ void GeoJSon::decode() {
                 ifstream is(path_.c_str());
                 json_spirit::read_or_throw(is, value);
             }
-            catch (json_spirit::Error_position e) {
+            catch (json_spirit::Error_position& e) {
                 MagLog::error() << "JSON error in file: " << path_ << ": " << e.reason_ << "[line: " << e.line_;
                 return;
             }

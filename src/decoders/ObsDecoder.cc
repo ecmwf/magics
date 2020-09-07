@@ -619,7 +619,7 @@ void ObsDecoder::getInfo(const std::set<string>& tokens, multimap<string, string
                 obs = obsIterator();
             }
         }
-        catch (NoFactoryException) {
+        catch (NoFactoryException&) {
         }
 
         for (std::set<string>::const_iterator no = noduplicate.begin(); no != noduplicate.end(); ++no) {

@@ -50,7 +50,7 @@ MagConfigHandler::MagConfigHandler(const string& config, MagConfig& magics) {
             magics.callback(entry->name_, entry->value_);
         }
     }
-    catch (json_spirit::Error_position e) {
+    catch (json_spirit::Error_position& e) {
         MagLog::error() << "JSON error in file: " << config << ": " << e.reason_ << "[line: " << e.line_
                         << ", column: " << e.column_ << "]" << endl;
     }
@@ -481,7 +481,7 @@ void DimensionGuess::init() {
             data_.insert(make_pair(entry->name_, def));
         }
     }
-    catch (json_spirit::Error_position e) {
+    catch (json_spirit::Error_position& e) {
         MagLog::error() << "JSON error in" << definitions_ << ": " << e.reason_ << "[line: " << e.line_
                         << ", column: " << e.column_ << "]" << endl;
     }
