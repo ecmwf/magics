@@ -420,7 +420,7 @@ void ShapeDecoder::decode(vector<magics::Polyline*>& data, const Transformation&
         SHPDestroyObject(psShape);
         SHPClose(hSHP);
     }
-    catch (std::exception e) {
+    catch (std::exception& e) {
         MagLog::error() << "Can not open Shapefile " << path_ << endl;
     }
 }

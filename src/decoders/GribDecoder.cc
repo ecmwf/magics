@@ -394,7 +394,7 @@ void GribDecoder::visit(Transformation& transformation) {
     try {
         decode();
     }
-    catch (MagicsException) {
+    catch (MagicsException&) {
         valid_ = true;
         decode1D();
     }
