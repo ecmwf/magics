@@ -30,9 +30,7 @@
 #include "Timer.h"
 #include "ViewNode.h"
 #include "VisualAction.h"
-#ifdef HAVE_GRIB
 #include "GribDecoder.h"
-#endif
 #include "Axis.h"
 #include "BoxPlotDecoder.h"
 #include "BoxPlotVisualiser.h"
@@ -59,10 +57,9 @@
 #include "NetcdfDecoder.h"
 #endif
 
-#ifdef HAVE_BUFR
 #include "EpsBufr.h"
 #include "ObsDecoder.h"
-#endif
+
 
 #include "ObsJSon.h"
 #include "ObsPlotting.h"
@@ -392,7 +389,6 @@ void FortranMagics::ptephi() {
 }
 void FortranMagics::pobs() {
     actions();
-#ifdef HAVE_BUFR
     action_         = new VisualAction();
     ObsDecoder* obs = new ObsDecoder();
     if (obs->defined()) {
@@ -400,16 +396,7 @@ void FortranMagics::pobs() {
         top()->push_back(action_);
         action_->visdef(new ObsPlotting());
         return;
-    }
-#endif
-
-    action_ = new VisualAction();
-    action_->data(new ObsJSon());
-    top()->push_back(action_);
-    action_->visdef(new ObsPlotting());
-    return;
-
-    MagLog::warning() << "No Support for Obs Plotting" << endl;
+    }   
 }
 
 #include "MatrixTestDecoder.h"
@@ -609,7 +596,7 @@ const char* FortranMagics::metainput() {
     return temp.c_str();
 }
 
-#ifdef HAVE_GRIB
+
 void FortranMagics::pgrib() {
     actions();
     action_ = new VisualAction();
@@ -641,13 +628,7 @@ void FortranMagics::pgrib() {
 void FortranMagics::pimage() {
     MagLog::warning() << " pimage is deprecated! Please use pcont." << endl;
 }
-#else
-void FortranMagics::pgrib() {}
 
-void FortranMagics::pimage() {
-    MagLog::warning() << " pimage is deprecated! Please use pcont." << endl;
-}
-#endif
 
 void FortranMagics::pgeo() {
     actions();
@@ -737,13 +718,9 @@ void FortranMagics::pcont() {
             action_->data(input);
         else {
             delete input;
-#ifdef HAVE_GRIB
             // Sylvie: Is this causing GribDecoder MagExceptions when matrx input is
             // faulty?
             action_->data(new GribDecoder());
-#else
-            MagLog::warning() << " Attempt to decode data from GRIB, but GRIB support is disabled!" << endl;
-#endif
         }
         top()->push_back(action_);
     }
@@ -764,15 +741,11 @@ void FortranMagics::pwind() {
             action_->data(input);
         else {
             delete input;
-#ifdef HAVE_GRIB
             // Sylvie: Is this causing GribDecoder MagExceptions when matrx input is
             // faulty?
             GribDecoder* grib = new GribDecoder();
             grib->dimension(2);
             action_->data(grib);
-#else
-            MagLog::warning() << " Attempt to decode Wind from GRIB, but GRIB support is disabled!" << endl;
-#endif
         }
         top()->push_back(action_);
     }
@@ -876,7 +849,7 @@ void FortranMagics::wrepjson() {
     action_->data(wrep);
 }
 void FortranMagics::metbufr() {
-#ifdef HAVE_BUFR
+
     actions();
     action_ = new VisualAction();
 
@@ -885,10 +858,8 @@ void FortranMagics::metbufr() {
     top()->push_back(action_);
     action_->data(bufr);
     return;
-
-#endif
-    MagLog::warning() << "No Support for Weather Parameters Plotting" << endl;
 }
+
 void FortranMagics::epsinput() {
     actions();
     action_ = new VisualAction();
