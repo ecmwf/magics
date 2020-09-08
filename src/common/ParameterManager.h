@@ -193,7 +193,7 @@ public:
             return;
         }
 
-#ifdef MAGICS_EXCEPTION
+
         try {
             param->get(val);
             object = SimpleObjectMaker<T>::create(val);
@@ -213,23 +213,6 @@ public:
                 throw e2;
             }
         }
-#else
-        param->get(val);
-        object = SimpleObjectMaker<T>::create(val);
-
-        if (!object) {
-            param->reset();
-            param->get(def);
-            MagLog::warning() << "parameter \"" << name << "\" : value [" << val << "] is not valid ---> default ["
-                              << def << "] used" << endl;
-            object = SimpleObjectMaker<T>::create(def);
-            if (!object) {
-                MagLog::error() << "default [" << def << "] not found ---> contact Magics team\n"
-                                << "Serious Error --> abort" << endl;
-                throw NoFactoryException("name");
-            }
-        }
-#endif
     }
 
     void resetAll();

@@ -194,8 +194,8 @@ void CairoDriver::setupNewSurface() const {
         dimensionYglobal_ = static_cast<int>(getYDeviceLength() * 72 / 2.54);
         cairo_ps_surface_dsc_comment(surface_, "%%PageOrientation: Landscape");
 
-        if (magCompare(MAGICS_SITE, "ecmwf"))
-            cairo_ps_surface_dsc_comment(surface_, "%%Copyright: ECMWF");
+       // if (magCompare(MAGICS_SITE, "ecmwf"))
+       //     cairo_ps_surface_dsc_comment(surface_, "%%Copyright: ECMWF");
 #endif
     }
 

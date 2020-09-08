@@ -475,7 +475,7 @@ void ClassicMtgDecoder::decode() {
     if (!points_.empty())
         return;
 
-#ifdef MAGICS_EXCEPTION
+
     try {
         parameter_ = SimpleFactory<MetgramParameter>::create(param_);
     }
@@ -484,14 +484,7 @@ void ClassicMtgDecoder::decode() {
         MagLog::warning() << "Eps Data access: parameter [" << param_ << "] unknown\n";
         parameter_ = new MetgramParameter(param_, param_title_, param_);
     }
-#else
-    parameter_ = SimpleFactory<MetgramParameter>::create(param_);
-    if (!parameter_) {
-        // The data do not know how to verify the criter ....
-        MagLog::warning() << "Eps Data access: parameter [" << param_ << "] unknown\n";
-        parameter_ = new MetgramParameter(param_, param_title_, param_);
-    }
-#endif
+
     parameter_->scaling(param_scaling_);
     parameter_->offset(param_offset_);
     spot_query_result* result;
