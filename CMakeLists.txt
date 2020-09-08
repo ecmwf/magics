@@ -139,6 +139,8 @@ if( EC_OS_NAME MATCHES "windows" )
     list( APPEND MAGICS_EXTRA_LIBRARIES ${PTHREAD_LIB} )
 endif()
 
+find_package( Boost 1.53.0 REQUIRED)
+
 # adding NO_MODULE means that if we don't find it, CMake will not generate
 # strange error messages about not being able to find the FindProj4.cmake file.
 # this should find proj if it has been installed via CMake, but if it has been
@@ -198,7 +200,8 @@ set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_SOURCE_DIR}/src/eckit_readers
      ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders
      ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/kernel
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/libMagWrapper)
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/libMagWrapper
+     ${Boost_INCLUDE_DIRS} )
 
 if( HAVE_CAIRO )
   list( APPEND MAGICS_TPLS PangoCairo)
