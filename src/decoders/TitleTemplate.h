@@ -107,7 +107,7 @@ public:
         }
 
         for (auto& entry : template_) {
-#ifdef MAGICS_EXCEPTION
+
             try {
                 unique_ptr<TitleFieldHandler> object(SimpleObjectMaker<TitleFieldHandler>::create(entry->name()));
                 (*object)(*entry, lines, data);
@@ -117,17 +117,7 @@ public:
                 MagLog::debug() << "Can Not Create the TitleFieldHandler for " << entry->name() << "\n";
                 (*entry)(lines);
             }
-#else
-            TitleFieldHandler* object = SimpleObjectMaker<TitleFieldHandler>::create(entry->name());
-            if (object) {
-                (*object)(*entry, lines, data);
-            }
-            else {
-                // The data do not know how to verify the criter ....
-                MagLog::debug() << "Can Not Create the TitleFieldHandler for " << entry->name() << "\n";
-                (*entry)(lines);
-            }
-#endif
+
         }
 
         for (vector<string>::iterator line = lines.begin(); line != lines.end(); ++line)
@@ -135,9 +125,7 @@ public:
                 out.push_back(*line);
     }
 
-    /*!
-     \todo code needed if MAGICS_EXCEPTION are disabled!
-    */
+   
 
     bool verify(const GribDecoder& data) const;
 
