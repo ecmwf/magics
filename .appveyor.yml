@@ -114,8 +114,7 @@ build_script:
   - cmd: cmake -G "NMake Makefiles JOM" ^
                -D CMAKE_INSTALL_PREFIX=%INSTALL_DIR% ^
                -D CMAKE_BUILD_TYPE=Release ^
-               -D GTK_PATH=%GTK% ^
-               -D ENABLE_FORTRAN=0
+               -D GTK_PATH=%GTK% 
                ..
   - cmd: jom -j2
   - cmd: ctest --output-on-failure
