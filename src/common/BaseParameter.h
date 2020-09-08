@@ -33,9 +33,9 @@
 typedef grib_handle* GribHandlePtr;
 #endif
 
-#ifndef MAGICS_Exception
+
 #include <MagLog.h>
-#endif
+
 
 namespace magics {
 
@@ -130,7 +130,7 @@ public:
     string getType(ArrowPosition) const { return "ArrowPosition"; }
     string getType(Matrix) const { return "2DMatrix"; }
 
-
+    virtual string type() const = 0;
 protected:
     virtual void print(ostream&) const;
     string name_;
