@@ -10,7 +10,10 @@
 #       -DCMAKE_PREFIX_PATH=/path/to/jasper:/path/to/any/package/out/of/place
 #
 
-cmake_minimum_required( VERSION 3.6.0 FATAL_ERROR )
+cmake_minimum_required( VERSION 3.12 FATAL_ERROR )
+
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../ecbuild/cmake")
+find_package( ecbuild 3.4 REQUIRED )
 
 project( magics VERSION 4.4.5 LANGUAGES CXX )
 
@@ -20,18 +23,16 @@ project( magics VERSION 4.4.5 LANGUAGES CXX )
 # note also that we need to CACHE this so that ecbuild_declare_project() does not overwrite it
 set(INSTALL_INCLUDE_DIR include/magics CACHE PATH "Magics installation directory for header files")
 
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../ecbuild/cmake")
-
 include(ecbuild_system NO_POLICY_SCOPE)
 
-
-set (CMAKE_CXX_STANDARD 14)
-set (CMAKE_C_STANDARD 99)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD 99)
 
 ###############################################################################
 # some variables of this project
 
-ecbuild_find_package( NAME eccodes VERSION 2.9.2 REQUIRED
+ecbuild_find_package( NAME eccodes VERSION 2.19.0 REQUIRED
                       FAILURE_MSG "ecCodes is required in order to build Magics" )
 
 set( HAVE_GRIB 1 )     ##### remove both
@@ -156,7 +157,7 @@ endif()
 find_package( EXPAT REQUIRED )   # for MagML
 
 if(APPLE)
-  find_package( zlib REQUIRED )       # dependency of minizip - KMZ support
+  find_package( zlib REQUIRED )  # dependency of minizip - KMZ support
 endif(APPLE)
 
 ###############################################################################
@@ -218,40 +219,6 @@ endif()
 
 set( MAGICS_LIBRARIES MagPlus )
 
-foreach( _tpl ${MAGICS_TPLS} )
-    string( TOUPPER ${_tpl} TPL )
-
-    if( REPLACE_TPL_ABSOLUTE_PATHS )
-        # replace TPL absolute paths with their library names
-        # this helps make Magics relocatable
-        set( _TMP "" )
-
-        string(REPLACE " " ";" LIB_LIST "${${TPL}_LIBRARIES}") # lists of libs can have spaces; replace with semicolon
-        foreach( _lib ${LIB_LIST} )
-            get_filename_component( _lib_name ${_lib} NAME_WE )
-            string( REGEX REPLACE "^lib" "" _name ${_lib_name} )
-            if( NOT ${_name} STREQUAL ${_lib_name} )
-              list( APPEND _TMP "-l${_name}" )
-            else()
-              list( APPEND _TMP "${_lib}" )
-          endif()
-        endforeach()
-        list(REMOVE_DUPLICATES  _TMP)
-        list(REMOVE_ITEM _TMP debug)
-        list(REMOVE_ITEM _TMP optimized)
-
-        set( ${TPL}_LIBRARIES ${_TMP} )
-        set( _TMP "" )
-    endif()
-
-    list( APPEND MAGICS_EXTRA_DEFINITIONS ${${TPL}_DEFINITIONS}  )
-    list( APPEND MAGICS_EXTRA_INCLUDE_DIRS ${${TPL}_INCLUDE_DIRS} )
-    string(REGEX REPLACE "[ ]+$" "" ${TPL}_LIBRARIES "${${TPL}_LIBRARIES}") # strips leading whitespaces
-    string(REGEX REPLACE "^[ ]+" "" ${TPL}_LIBRARIES "${${TPL}_LIBRARIES}") # strips trailing whitespaces
-    list( APPEND MAGICS_EXTRA_LIBRARIES ${${TPL}_LIBRARIES} )
-    ecbuild_info("${TPL}_LIBRARIES [${${TPL}_LIBRARIES}]") # add this to confirm that indeed it was cleaned up
-endforeach()
-
 if( MAGICS_QT )
   list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${Qt5Widgets_INCLUDE_DIR} )
   list( APPEND MAGICS_EXTRA_LIBRARIES     ${Qt5Widgets_LIBRARIES} )
@@ -282,7 +249,6 @@ ecbuild_debug("MAGICS_EXTRA_DEFINITIONS  => ${MAGICS_EXTRA_DEFINITIONS}")
 ecbuild_debug("MAGICS_EXTRA_INCLUDE_DIRS => ${MAGICS_EXTRA_INCLUDE_DIRS}")
 ecbuild_debug("MAGICS_EXTRA_LIBRARIES    => ${MAGICS_EXTRA_LIBRARIES}")
 
-# set_directory_properties( PROPERTIES COMPILE_DEFINITIONS "${ECKIT_DEFINITIONS}" )
 get_directory_property( MAGICS_DEFINITIONS COMPILE_DEFINITIONS )
 
 include_directories( ${MAGICS_INCLUDE_DIRS} ${MAGICS_EXTRA_INCLUDE_DIRS} )

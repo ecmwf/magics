@@ -124,64 +124,32 @@ ecbuild_add_library( TARGET    MagPlus
                         ${odb_srcs}
                      TEMPLATES
                         ${common_templates}
-                     DEFINITIONS
+                     PUBLIC_DEFINITIONS
                         ${MAGICS_EXTRA_DEFINITIONS} MAGICS_EXCEPTION=on
-                     LIBS
-                        ${MAGICS_EXTRA_LIBRARIES}
+                     PUBLIC_LIBS
+                        ${MAGICS_EXTRA_LIBRARIES} eccodes expat ${PROJ_LIBRARIES}
                      TYPE SHARED )
 
-ecbuild_add_library( TARGET      MagPlusSingle
-                     SOURCES     MagicsSingle.cc
-                     LIBS        MagPlus
-                     TYPE        SHARED )
-
-ecbuild_add_library( TARGET      MagPlusDouble
-                     SOURCES     MagicsDouble.cc
-                     LIBS        MagPlus
-                     TYPE        SHARED )
-
-if ( BUILD_SHARED_LIBS STREQUAL "BOTH" )
-ecbuild_add_library( TARGET    MagPlusStatic
-                     DEPENDS   magics_params
-                     SOURCES
-                        magics.h
-                        ${magics_params_srcs}
-                        ${common_srcs}
-                        ${basic_srcs}
-                        ${web_srcs}
-                        ${visualisers_srcs}
-                        ${eckit_srcs}
-                        ${drivers_srcs}
-                        ${qt_srcs}
-                        ${decoders_srcs}
-                        ${clipper_srcs}
-                        ${terralib_srcs}
-                        ${odb_srcs}
-                     TEMPLATES
-                        ${common_templates}
-                     DEFINITIONS
-                        ${MAGICS_EXTRA_DEFINITIONS}
-                     LIBS
-                        ${MAGICS_EXTRA_LIBRARIES}
-                     TYPE STATIC
-                     OUTPUT_NAME MagPlus )
-
-ecbuild_add_library( TARGET      MagPlusSingleStatic
-                     SOURCES     MagicsSingle.cc
-                     LIBS        MagPlusStatic
-                     TYPE        STATIC
-                     OUTPUT_NAME MagPlusSingle )
-
-ecbuild_add_library( TARGET      MagPlusDoubleStatic
-                     SOURCES     MagicsDouble.cc
-                     LIBS        MagPlusStatic
-                     TYPE        STATIC
-                     OUTPUT_NAME MagPlusDouble )
-
+if(HAVE_CAIRO)
+    target_link_libraries(MagPlus PRIVATE ${PANGOCAIRO_LIBRARIES})
 endif()
 
+if(HAVE_NETCDF)
+    target_link_libraries(MagPlus PRIVATE NetCDF::NetCDF_C)
+endif()
+
+ecbuild_add_library( TARGET         MagPlusSingle
+                     SOURCES        MagicsSingle.cc
+                     PRIVATE_LIBS   MagPlus
+                     TYPE           SHARED )
+
+ecbuild_add_library( TARGET         MagPlusDouble
+                     SOURCES        MagicsDouble.cc
+                     PRIVATE_LIBS   MagPlus
+                     TYPE           SHARED )
+
 if( metview )
- include_directories(  ${CMAKE_CURRENT_SOURCE_DIR}
+   include_directories(  ${CMAKE_CURRENT_SOURCE_DIR}
                         ${CMAKE_CURRENT_BINARY_DIR}
                         ${CMAKE_CURRENT_BINARY_DIR}/params
                         ${CMAKE_CURRENT_SOURCE_DIR}/common
@@ -195,37 +163,42 @@ if( metview )
                         ${CMAKE_CURRENT_SOURCE_DIR}/libMagWrapper )
 
 
-
-  ecbuild_add_library( TARGET    MagWrapper
-                     DEPENDS   mv_params magics_params
+   ecbuild_add_library( TARGET    MagWrapper
+                     DEPENDS     mv_params magics_params
                      SOURCES
                         magics.h
                         ${metview_srcs}
                         ${metview_wrappers_srcs}
-                     DEFINITIONS
-                        ${MAGICS_EXTRA_DEFINITIONS}
-                    LIBS
-                        ${MAGICS_EXTRA_LIBRARIES}
-                    TYPE STATIC
+                     PUBLIC_DEFINITIONS   ${MAGICS_EXTRA_DEFINITIONS}
+                     PRIVATE_LIBS         ${MAGICS_EXTRA_LIBRARIES} eccodes expat ${PROJ_LIBRARIES}
+                     TYPE                 STATIC
                     )
+   if(HAVE_CAIRO)
+    target_link_libraries(MagWrapper PRIVATE ${PANGOCAIRO_LIBRARIES})
+   endif()
+
+   if(HAVE_NETCDF)
+    target_link_libraries(MagWrapper PRIVATE NetCDF::NetCDF_C)
+   endif()
+
    list( APPEND attributes_include
-				OutputHandlerAttributes.h
-				FortranRootSceneNodeAttributes.h
-                BinningObjectAttributes.h
-                GribDecoderAttributes.h
-                DateGribLoopStepAttributes.h
-                GribLoopAttributes.h
-                GeoRectangularProjectionAttributes.h
-                LegendVisitorAttributes.h
-				XmlRootNodeAttributes.h
-				WrepRootNodeAttributes.h
-                ContinuousLegendMethodAttributes.h
-                HistogramLegendMethodAttributes.h
-                XmlBasicNodeAttributes.h
-                #ImagePlottingAttributes.h
-                LookupTableModeAttributes.h
-                FixedTableModeAttributes.h
-				)
+            OutputHandlerAttributes.h
+            FortranRootSceneNodeAttributes.h
+            BinningObjectAttributes.h
+            GribDecoderAttributes.h
+            DateGribLoopStepAttributes.h
+            GribLoopAttributes.h
+            GeoRectangularProjectionAttributes.h
+            LegendVisitorAttributes.h
+            XmlRootNodeAttributes.h
+            WrepRootNodeAttributes.h
+            ContinuousLegendMethodAttributes.h
+            HistogramLegendMethodAttributes.h
+            XmlBasicNodeAttributes.h
+            #ImagePlottingAttributes.h
+            LookupTableModeAttributes.h
+            FixedTableModeAttributes.h
+   )
    if(qt)
      list(APPEND attributes_include
                  QtDriverAttributes.h)
@@ -238,18 +211,19 @@ if( metview )
 				   terralib/kernel/TeSingleton.h
 				   terralib/kernel/TeDatum.h
 				   terralib/kernel/TeUtils.h
-
-
 				   DESTINATION ${INSTALL_INCLUDE_DIR})
-   install( FILES AutoVector.h  DESTINATION ${INSTALL_INCLUDE_DIR})
-   install( FILES Iterable.h  DESTINATION ${INSTALL_INCLUDE_DIR})
+
+   install( FILES AutoVector.h       DESTINATION ${INSTALL_INCLUDE_DIR})
+   install( FILES Iterable.h         DESTINATION ${INSTALL_INCLUDE_DIR})
    install( FILES ReverseIterable.h  DESTINATION ${INSTALL_INCLUDE_DIR})
+
    foreach( file ${attributes_include} )
      install( FILES ${CMAKE_CURRENT_BINARY_DIR}/params/${file}  DESTINATION ${INSTALL_INCLUDE_DIR})
    endforeach()
    install( FILES ${metview_include} DESTINATION ${INSTALL_INCLUDE_DIR})
 endif()
-install( FILES magics.h  DESTINATION ${INSTALL_INCLUDE_DIR})
+
+install( FILES magics.h                DESTINATION ${INSTALL_INCLUDE_DIR})
 install( FILES common/magics_export.h  DESTINATION ${INSTALL_INCLUDE_DIR})
 install( FILES common/magics_windef.h  DESTINATION ${INSTALL_INCLUDE_DIR})
 
@@ -261,7 +235,7 @@ foreach( target     MagPlus
                     MagPlusDouble
                     MagPlusDoubleStatic
                     MagWrapper )
-    if( TARGET ${target} AND DEFINED ecbuild_VERSION AND NOT ${ecbuild_VERSION} VERSION_LESS 3.1 )
+    if( TARGET ${target} AND DEFINED ecbuild_VERSION)
         target_include_directories( ${target} INTERFACE $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DIR}> )
     endif()
 endforeach()
