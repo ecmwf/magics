@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include "magics_api.h"
 
-#define NUM_FORMATS 1
+#define NUM_FORMATS 3
 
 
 void myprint_error(void* data, const char* msg) {
@@ -40,11 +40,10 @@ int main() {
     mag_add_warning_listener(&data, myprint_warning);
     mag_add_error_listener(&data, myprint_error);
     mag_open();
-    const char* formats[3];
+    const char* formats[NUM_FORMATS];
     formats[0] = "ps";
     formats[1] = "png";
     formats[2] = "pdf";
-
 
     mag_set1c("output_formats", formats, NUM_FORMATS);
 

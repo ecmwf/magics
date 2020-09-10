@@ -17,10 +17,6 @@ find_package( ecbuild 3.4 REQUIRED )
 
 project( magics VERSION 4.4.5 LANGUAGES CXX )
 
-if(POLICY CMP0004)
-  cmake_policy(SET CMP0004 NEW)
-endif()
-
 # make sure that the header files are installed into include/magics
 # note that this needs to be done before ecbuild_declare_project()
 # to ensure that the ecbuild header files are also put there
@@ -47,21 +43,15 @@ ecbuild_add_option( FEATURE ODB
                     DESCRIPTION "ODB support - to be deprecated"
                     REQUIRED_PACKAGES "NAME odb_api VERSION 0.10.2")
 
-#ecbuild_add_option( FEATURE CAIRO
-#                    DEFAULT ON
-#                    DESCRIPTION "cairo support[png/jpeg]"
-#                    REQUIRED_PACKAGES PangoCairo)
+ecbuild_add_option( FEATURE CAIRO
+                    DEFAULT ON
+                    DESCRIPTION "cairo support[png/jpeg]"
+                    REQUIRED_PACKAGES PangoCairo)
 
-option( ENABLE_CAIRO "cairo support[png/jpeg]" ON )
-if( ENABLE_CAIRO )
-  find_package(PangoCairo REQUIRED)
-  if( NOT PANGOCAIRO_FOUND)
-    message(FATAL_ERROR "Cairo support (PNG & PDF output) requested, but requirements were not found - can be disabled with -DENABLE_CAIRO=OFF")
-  endif()
+string(STRIP ${PANGOCAIRO_LIBRARIES} PANGOCAIRO_LIBRARIES)
+if(PANGOCAIRO_FOUND)
   set(HAVE_CAIRO ON)
   ecbuild_enable_feature( CAIRO )
-else()
-  ecbuild_disable_feature( CAIRO )
 endif()
 
 ecbuild_add_option( FEATURE GEOTIFF
@@ -291,10 +281,10 @@ ecbuild_pkgconfig(
 )
 
 ### print all variables
-#get_cmake_property(_variableNames VARIABLES)
-#foreach (_variableName ${_variableNames})
-#    ecbuild_info("${_variableName}=${${_variableName}}")
-#endforeach()
+get_cmake_property(_variableNames VARIABLES)
+foreach (_variableName ${_variableNames})
+    ecbuild_info("${_variableName}=${${_variableName}}")
+endforeach()
 
 ecbuild_install_project( NAME Magics )
 
