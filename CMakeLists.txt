@@ -17,6 +17,10 @@ find_package( ecbuild 3.4 REQUIRED )
 
 project( magics VERSION 4.4.5 LANGUAGES CXX )
 
+if(POLICY CMP0004)
+  cmake_policy(SET CMP0004 NEW)
+endif()
+
 # make sure that the header files are installed into include/magics
 # note that this needs to be done before ecbuild_declare_project()
 # to ensure that the ecbuild header files are also put there
@@ -153,6 +157,8 @@ if (NOT PROJ4_FOUND)
         message(FATAL_ERROR "Package 'proj' was not found - at least version 6.1.0 required.")
     endif()
 endif()
+include_directories(${PROJ4_INCLUDE_DIRS} ${PROJ_INCLUDE_DIRS})
+list( APPEND MAGICS_EXTRA_LIBRARIES ${PROJ4_LIBRARIES} ${PROJ_LIBRARIES})
 
 find_package( EXPAT REQUIRED )   # for MagML
 
@@ -252,7 +258,7 @@ ecbuild_debug("MAGICS_EXTRA_LIBRARIES    => ${MAGICS_EXTRA_LIBRARIES}")
 get_directory_property( MAGICS_DEFINITIONS COMPILE_DEFINITIONS )
 
 include_directories( ${MAGICS_INCLUDE_DIRS} ${MAGICS_EXTRA_INCLUDE_DIRS} )
-
+include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/common ${CMAKE_CURRENT_BINARY_DIR}/params)
 
 add_subdirectory( tools )
 add_subdirectory( src )
@@ -283,6 +289,12 @@ ecbuild_pkgconfig(
     URL          "https://software.ecmwf.int/magics"
     LIBRARIES    ${MAGICS_LIBRARIES}
 )
+
+### print all variables
+#get_cmake_property(_variableNames VARIABLES)
+#foreach (_variableName ${_variableNames})
+#    ecbuild_info("${_variableName}=${${_variableName}}")
+#endforeach()
 
 ecbuild_install_project( NAME Magics )
 

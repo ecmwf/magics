@@ -17,5 +17,5 @@ install ( FILES ${CMAKE_CURRENT_SOURCE_DIR}/metgram  ${CMAKE_CURRENT_BINARY_DIR}
 ecbuild_add_executable( TARGET        metgramx
                         SOURCES       metgramx.cc
                         DEFINITIONS   ${MAGICS_EXTRA_DEFINITIONS}
-                        PRIVATE_LIBS  MagPlus ${MAGICS_EXTRA_LIBRARIES}
+                        LIBS          MagPlus ${PROJ_LIBRARIES} ${MAGICS_EXTRA_LIBRARIES}
     )

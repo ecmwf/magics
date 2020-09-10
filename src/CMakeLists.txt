@@ -29,7 +29,6 @@ add_subdirectory( params )
 
 
 foreach( file ${magics_xmls} )
-
       get_filename_component( path     ${file} PATH   )
       get_filename_component( basefile ${file} NAME_WE )
 
@@ -46,11 +45,9 @@ foreach( file ${magics_xmls} )
       set_source_files_properties( ${basefile}Attributes.cc GENERATED )
 
       list( APPEND magics_params_srcs ${ouputfiles} )
-
 endforeach()
 
 if ( metview )
-
 	foreach( file ${metview_xmls} )
 	      get_filename_component( path     ${file} PATH   )
           get_filename_component( basefile ${file} NAME_WE )
@@ -84,6 +81,7 @@ endif()
 
 add_custom_target( magics_params DEPENDS ${magics_params_srcs} )
 add_custom_target( mv_params DEPENDS ${metview_wrappers_srcs} )
+
 ###############################################################################
 
 add_subdirectory( common )
@@ -104,7 +102,7 @@ if( HAVE_ODB )
 	add_subdirectory( oda )
 endif()
 
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/common )
+
 
 ecbuild_add_library( TARGET    MagPlus
                      DEPENDS   magics_params
@@ -127,7 +125,7 @@ ecbuild_add_library( TARGET    MagPlus
                      PUBLIC_DEFINITIONS
                         ${MAGICS_EXTRA_DEFINITIONS} MAGICS_EXCEPTION=on
                      PUBLIC_LIBS
-                        ${MAGICS_EXTRA_LIBRARIES} eccodes expat ${PROJ_LIBRARIES}
+                        ${MAGICS_EXTRA_LIBRARIES} eccodes expat
                      TYPE SHARED )
 
 if(HAVE_CAIRO)
@@ -149,7 +147,7 @@ ecbuild_add_library( TARGET         MagPlusDouble
                      TYPE           SHARED )
 
 if( metview )
-   include_directories(  ${CMAKE_CURRENT_SOURCE_DIR}
+   include_directories( ${CMAKE_CURRENT_SOURCE_DIR}
                         ${CMAKE_CURRENT_BINARY_DIR}
                         ${CMAKE_CURRENT_BINARY_DIR}/params
                         ${CMAKE_CURRENT_SOURCE_DIR}/common
@@ -170,7 +168,7 @@ if( metview )
                         ${metview_srcs}
                         ${metview_wrappers_srcs}
                      PUBLIC_DEFINITIONS   ${MAGICS_EXTRA_DEFINITIONS}
-                     PRIVATE_LIBS         ${MAGICS_EXTRA_LIBRARIES} eccodes expat ${PROJ_LIBRARIES}
+                     PRIVATE_LIBS         ${MAGICS_EXTRA_LIBRARIES} eccodes expat
                      TYPE                 STATIC
                     )
    if(HAVE_CAIRO)
@@ -205,13 +203,13 @@ if( metview )
    endif()
 
    install( FILES terralib/kernel/TeProjection.h
-				   terralib/kernel/TeCoord2D.h
-				   terralib/kernel/TeDefines.h
-				   terralib/kernel/TePrecision.h
-				   terralib/kernel/TeSingleton.h
-				   terralib/kernel/TeDatum.h
-				   terralib/kernel/TeUtils.h
-				   DESTINATION ${INSTALL_INCLUDE_DIR})
+		  terralib/kernel/TeCoord2D.h
+		  terralib/kernel/TeDefines.h
+		  terralib/kernel/TePrecision.h
+		  terralib/kernel/TeSingleton.h
+		  terralib/kernel/TeDatum.h
+		  terralib/kernel/TeUtils.h
+		  DESTINATION ${INSTALL_INCLUDE_DIR})
 
    install( FILES AutoVector.h       DESTINATION ${INSTALL_INCLUDE_DIR})
    install( FILES Iterable.h         DESTINATION ${INSTALL_INCLUDE_DIR})
@@ -222,6 +220,7 @@ if( metview )
    endforeach()
    install( FILES ${metview_include} DESTINATION ${INSTALL_INCLUDE_DIR})
 endif()
+
 
 install( FILES magics.h                DESTINATION ${INSTALL_INCLUDE_DIR})
 install( FILES common/magics_export.h  DESTINATION ${INSTALL_INCLUDE_DIR})
