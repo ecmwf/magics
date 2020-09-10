@@ -18,3 +18,12 @@ ecbuild_add_test( TARGET          contour_c
                   ENVIRONMENT     MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
                                    ${eccodes_environment}
                   LINKER_LANGUAGE C )
+
+ecbuild_add_test( TARGET          netcdf_c
+                  SOURCES         netcdf.c
+                  CONDITION       HAVE_NETCDF
+                  RESOURCES       era5_2mt.nc
+                  LIBS            MagPlusSingle MagPlus
+                  ENVIRONMENT     MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
+                  LINKER_LANGUAGE C )
+
