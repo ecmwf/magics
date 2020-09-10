@@ -30,13 +30,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_C_STANDARD 99)
 
 ###############################################################################
-# some variables of this project
-
-ecbuild_find_package( NAME eccodes VERSION 2.19.0 REQUIRED
-                      FAILURE_MSG "ecCodes is required in order to build Magics" )
-
-set( HAVE_GRIB 1 )     ##### remove both
-set( HAVE_BUFR 1 )
+# some build options for this project
                     
 ecbuild_add_option( FEATURE ODB
                     DEFAULT OFF
@@ -65,10 +59,6 @@ ecbuild_add_option( FEATURE NETCDF
                     DESCRIPTION "enable netcdf support"
                     REQUIRED_PACKAGES "NetCDF 4 COMPONENTS C" )
 
-find_package(PythonInterp REQUIRED)
-find_package(Jinja2 REQUIRED)
-
-
 ecbuild_add_option( FEATURE METVIEW
                     DEFAULT OFF
                     DESCRIPTION "enable Metview interface" )
@@ -83,8 +73,7 @@ ecbuild_add_option( FEATURE EFAS
 
 
 set( MAGICS_NAME          "Magics" )
-set( MAGICS_EXCEPTION     "ON" )    ##################### REMOVE 
-set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )    ##### Stephan will check
+set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 
 
 ###############################################################################
@@ -126,6 +115,14 @@ ecbuild_declare_project()
 ###############################################################################
 # find extra packages
 
+ecbuild_find_package( NAME eccodes VERSION 2.19.0 REQUIRED
+                      FAILURE_MSG "ecCodes is required in order to build Magics" )
+set( HAVE_GRIB 1 )
+set( HAVE_BUFR 1 )
+
+find_package(PythonInterp REQUIRED)
+find_package(Jinja2 REQUIRED)
+
 set( CMAKE_THREAD_PREFER_PTHREAD 1 )
 find_package( Threads )
 
@@ -140,15 +137,15 @@ find_package( Boost 1.53.0 REQUIRED)
 # strange error messages about not being able to find the FindProj4.cmake file.
 # this should find proj if it has been installed via CMake, but if it has been
 # installed via autotools, then we will need to try another method
-find_package( PROJ4 6.1.0 NO_MODULE )
-if (NOT PROJ4_FOUND)
+ecbuild_find_package(NAME PROJ4 VERSION 6.1.0 REQUIRED )
+#find_package( PROJ4 6.1.0 NO_MODULE )
+if(NOT PROJ4_FOUND)
     find_package(Proj 6.1.0 REQUIRED)
     if (NOT PROJ_FOUND)
         message(FATAL_ERROR "Package 'proj' was not found - at least version 6.1.0 required.")
     endif()
 endif()
 include_directories(${PROJ4_INCLUDE_DIRS} ${PROJ_INCLUDE_DIRS})
-list( APPEND MAGICS_EXTRA_LIBRARIES ${PROJ4_LIBRARIES} ${PROJ_LIBRARIES})
 
 find_package( EXPAT REQUIRED )   # for MagML
 
@@ -181,8 +178,6 @@ endif()
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS eccodes EXPAT NetCDF PROJ4 Proj zlib )
-
 set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_BINARY_DIR}/src
      ${CMAKE_CURRENT_BINARY_DIR}/src/params
@@ -201,12 +196,10 @@ set( MAGICS_INCLUDE_DIRS
      ${Boost_INCLUDE_DIRS} )
 
 if( HAVE_CAIRO )
-  list( APPEND MAGICS_TPLS PangoCairo)
   list( APPEND MAGICS_INCLUDE_DIRS ${PANGOCAIRO_INCLUDE_DIRS})
 endif()
 
 if( HAVE_ODB )    ### deprecated!!!
-  list( APPEND MAGICS_TPLS odb_api )
   list( APPEND MAGICS_INCLUDE_DIRS
         ${CMAKE_CURRENT_SOURCE_DIR}/src/oda
         ${ODB_API_INCLUDE_DIRS}
@@ -225,9 +218,9 @@ if( MAGICS_QT )
 endif()
 
 if( HAVE_GEOTIFF )
-	list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${GEOTIFF_INCLUDE_DIR} )
-	list( APPEND MAGICS_EXTRA_LIBRARIES  ${GEOTIFF_LIBRARY} )
-  list( APPEND MAGICS_EXTRA_DEFINITIONS HAVE_GEOTIFF )
+	list( APPEND MAGICS_EXTRA_INCLUDE_DIRS	${GEOTIFF_INCLUDE_DIR} )
+	list( APPEND MAGICS_EXTRA_LIBRARIES	${GEOTIFF_LIBRARY} )
+	list( APPEND MAGICS_EXTRA_DEFINITIONS	HAVE_GEOTIFF )
 endif()
 
 list( APPEND MAGICS_EXTRA_LIBRARIES     ${CMAKE_THREAD_LIBS_INIT} )
@@ -256,9 +249,8 @@ add_subdirectory( share )
 add_subdirectory( apps )
 add_subdirectory( test )
 
-if( HAVE_EFAS )
-else()
-ecbuild_add_resources( TARGET noefas DONT_PACK_DIRS share/magics/efas)
+if(NOT HAVE_EFAS)
+  ecbuild_add_resources( TARGET noefas DONT_PACK_DIRS share/magics/efas)
 endif()
 
 # Directories not need in the distribution tar ball!

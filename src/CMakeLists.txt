@@ -24,9 +24,9 @@ function( add_metview_definition_file )
 
 endfunction(add_metview_definition_file)
 
+
+
 add_subdirectory( params )
-
-
 
 foreach( file ${magics_xmls} )
       get_filename_component( path     ${file} PATH   )
@@ -47,27 +47,27 @@ foreach( file ${magics_xmls} )
       list( APPEND magics_params_srcs ${ouputfiles} )
 endforeach()
 
+
 if ( metview )
-	foreach( file ${metview_xmls} )
-	      get_filename_component( path     ${file} PATH   )
-          get_filename_component( basefile ${file} NAME_WE )
+  foreach( file ${metview_xmls} )
+	get_filename_component( path     ${file} PATH   )
+	get_filename_component( basefile ${file} NAME_WE )
 
-		  set( metviewfiles ${path}/${basefile}Wrapper.h ${path}/${basefile}Wrapper.cc )
+	set( metviewfiles ${path}/${basefile}Wrapper.h ${path}/${basefile}Wrapper.cc )
 
+	# generate the code
+	add_custom_command(
+		OUTPUT  ${metviewfiles}
+		COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/../tools/xml2cc_mv.py ${CMAKE_CURRENT_SOURCE_DIR}/../tools/ ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${CMAKE_CURRENT_BINARY_DIR}/params nosubdir
+		DEPENDS ${file}
+	)
 
-		# generate the code
-		  add_custom_command(
-				OUTPUT  ${metviewfiles}
-                COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/../tools/xml2cc_mv.py ${CMAKE_CURRENT_SOURCE_DIR}/../tools/ ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${CMAKE_CURRENT_BINARY_DIR}/params nosubdir
-				DEPENDS ${file}
-			)
+	set_source_files_properties( ${basefile}Wrapper.h  GENERATED )
+	set_source_files_properties( ${basefile}Wrapper.cc GENERATED )
+	list( APPEND metview_wrappers_srcs ${metviewfiles} )
+  endforeach()
 
-		  set_source_files_properties( ${basefile}Wrapper.h  GENERATED )
-          set_source_files_properties( ${basefile}Wrapper.cc GENERATED )
-          list( APPEND metview_wrappers_srcs ${metviewfiles} )
-      endforeach()
-
-     if(qt)
+  if(qt)
         SET(qt_drivers_HEADERS drivers/MgQ/MgQPlotScene.h)
         if( MAGICS_QT5 )
           QT5_WRAP_CPP(qt_drivers_HEADERS_MOC ${qt_drivers_HEADERS})
@@ -75,9 +75,8 @@ if ( metview )
           QT4_WRAP_CPP(qt_drivers_HEADERS_MOC ${qt_drivers_HEADERS})
         endif()
         list( APPEND drivers_srcs  drivers/MgQ/MgQPlotScene.cc  ${qt_drivers_HEADERS_MOC})
-     endif()
+  endif()
 endif()
-
 
 add_custom_target( magics_params DEPENDS ${magics_params_srcs} )
 add_custom_target( mv_params DEPENDS ${metview_wrappers_srcs} )
@@ -103,7 +102,6 @@ if( HAVE_ODB )
 endif()
 
 
-
 ecbuild_add_library( TARGET    MagPlus
                      DEPENDS   magics_params
                      SOURCES
@@ -123,10 +121,12 @@ ecbuild_add_library( TARGET    MagPlus
                      TEMPLATES
                         ${common_templates}
                      PUBLIC_DEFINITIONS
-                        ${MAGICS_EXTRA_DEFINITIONS} MAGICS_EXCEPTION=on
+                        ${MAGICS_EXTRA_DEFINITIONS}
                      PUBLIC_LIBS
                         ${MAGICS_EXTRA_LIBRARIES} eccodes expat
                      TYPE SHARED )
+
+target_link_libraries(MagPlus PRIVATE ${PROJ4_LIBRARIES} ${PROJ_LIBRARIES})
 
 if(HAVE_CAIRO)
     target_link_libraries(MagPlus PRIVATE ${PANGOCAIRO_LIBRARIES})
@@ -160,16 +160,14 @@ if( metview )
                         ${CMAKE_CURRENT_SOURCE_DIR}/terralib/kernel
                         ${CMAKE_CURRENT_SOURCE_DIR}/libMagWrapper )
 
-
-   ecbuild_add_library( TARGET    MagWrapper
-                     DEPENDS     mv_params magics_params
-                     SOURCES
-                        magics.h
-                        ${metview_srcs}
-                        ${metview_wrappers_srcs}
-                     PUBLIC_DEFINITIONS   ${MAGICS_EXTRA_DEFINITIONS}
-                     PRIVATE_LIBS         ${MAGICS_EXTRA_LIBRARIES} eccodes expat
-                     TYPE                 STATIC
+   ecbuild_add_library(	TARGET			MagWrapper
+                     	DEPENDS			mv_params magics_params
+                     	SOURCES			magics.h
+                        			${metview_srcs}
+                        			${metview_wrappers_srcs}
+                     	PUBLIC_DEFINITIONS	${MAGICS_EXTRA_DEFINITIONS}
+                     	PUBLIC_LIBS		${MAGICS_EXTRA_LIBRARIES} eccodes expat
+                     	TYPE			STATIC
                     )
    if(HAVE_CAIRO)
     target_link_libraries(MagWrapper PRIVATE ${PANGOCAIRO_LIBRARIES})
@@ -193,13 +191,11 @@ if( metview )
             ContinuousLegendMethodAttributes.h
             HistogramLegendMethodAttributes.h
             XmlBasicNodeAttributes.h
-            #ImagePlottingAttributes.h
             LookupTableModeAttributes.h
             FixedTableModeAttributes.h
    )
    if(qt)
-     list(APPEND attributes_include
-                 QtDriverAttributes.h)
+     list(APPEND attributes_include QtDriverAttributes.h)
    endif()
 
    install( FILES terralib/kernel/TeProjection.h
@@ -238,3 +234,4 @@ foreach( target     MagPlus
         target_include_directories( ${target} INTERFACE $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DIR}> )
     endif()
 endforeach()
+
