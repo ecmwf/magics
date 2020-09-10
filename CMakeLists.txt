@@ -137,7 +137,7 @@ find_package( Boost 1.53.0 REQUIRED)
 # strange error messages about not being able to find the FindProj4.cmake file.
 # this should find proj if it has been installed via CMake, but if it has been
 # installed via autotools, then we will need to try another method
-ecbuild_find_package(NAME PROJ4 VERSION 6.1.0 REQUIRED )
+ecbuild_find_package(NAME PROJ4 VERSION 6.1.0 QUIET )
 #find_package( PROJ4 6.1.0 NO_MODULE )
 if(NOT PROJ4_FOUND)
     find_package(Proj 6.1.0 REQUIRED)

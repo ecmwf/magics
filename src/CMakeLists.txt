@@ -128,6 +128,10 @@ ecbuild_add_library( TARGET    MagPlus
 
 target_link_libraries(MagPlus PRIVATE ${PROJ4_LIBRARIES} ${PROJ_LIBRARIES})
 
+if(APPLE)
+  target_link_libraries(MagPlus PRIVATE ${ZLIB_LIBRARIES})
+endif(APPLE)
+
 if(HAVE_CAIRO)
     target_link_libraries(MagPlus PRIVATE ${PANGOCAIRO_LIBRARIES})
 endif()
