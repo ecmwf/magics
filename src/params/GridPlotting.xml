@@ -40,7 +40,7 @@ does it submit to any jurisdiction.
             </parameter>
             <parameter member="colour"
                   to="Colour"
-                  default="BLACK"
+                  default="black"
                   from="string"
                   name="map_grid_colour">
                   <documentation>
