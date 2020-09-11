@@ -23,7 +23,7 @@ does it submit to any jurisdiction.
 		</parameter>
 		<parameter member="colour"
 			to="Colour"
-			default="BLUE"
+			default="blue"
 			from="string"
 			name="symbol_colour">
 			<documentation>Colour of symbols.</documentation>
