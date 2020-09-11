@@ -12,6 +12,7 @@ does it submit to any jurisdiction.
 		name="LevelListSelectionType"
 		directory="visualisers"
 		prefix="contour"
+		python = "mcont"
 		action="pcont">
 		<documentation>Users may supply a list of the contour levels to be plotted
  by setting the parameter CONTOUR_LEVEL_SELECTION_TYPE to 'LEVEL_LIST'
@@ -24,8 +25,6 @@ does it submit to any jurisdiction.
 			member="list"
 			to="floatarray">
 			<documentation>List of contour levels to be plotted</documentation>
-			<migration>New Magics: Parameter contour_level_list sent to new Magics[LevelListSelectionType].</migration>
-			<release>Magics++0.1</release>
 		</parameter>
 	</class>
 </magics>

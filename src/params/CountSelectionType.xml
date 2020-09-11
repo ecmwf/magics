@@ -12,6 +12,7 @@ does it submit to any jurisdiction.
 		name="CountSelectionType"
 		directory="visualisers"
 		prefix="contour/contour/contour_level"
+		python = "mcont"
 		action="pcont">
 		<documentation>
   The number of contour levels may be set by the user by setting
@@ -32,7 +33,7 @@ does it submit to any jurisdiction.
 			name="contour_level_count">
 			<documentation>Count or number of levels to be plotted. Magics will try to find "nice levels",
          this means that the number of levels could be slightly different from the asked number of levels</documentation>
-			<release>Magics++0.1</release>
+			
 		</parameter>
 		<parameter member="tolerance"
 			to="int"
@@ -40,7 +41,6 @@ does it submit to any jurisdiction.
 			from="int"
 			name="contour_level_tolerance">
 			<documentation>Tolerance: Do not use nice levels if the number of levels is really to different [count +/- tolerance]</documentation>
-			<release>Magics++0.1</release>
 		</parameter>
 		<parameter member="reference"
 			to="float"
@@ -48,7 +48,7 @@ does it submit to any jurisdiction.
 			from="float"
 			name="contour_reference_level">
 			<documentation>Contour level from which contour interval is calculated</documentation>
-			<release>Magics++0.1</release>
+		
 		</parameter>
 	</class>
 </magics>

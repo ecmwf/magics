@@ -12,6 +12,7 @@ does it submit to any jurisdiction.
         used_by="IsoPlot"
         directory="visualisers"
         action="pcont"
+        python = "mcont"
         include="IsoLabel.h"
         doc_inherits="no"/>
 </magics>

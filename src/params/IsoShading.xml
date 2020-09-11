@@ -18,6 +18,7 @@ does it submit to any jurisdiction.
 			to="ShadingTechnique"
 			default="polygon_shading"
 			from="string"
+			values = "polygon/grid_shading/cell_shading/marker"
 			name="contour_shade_technique">
 			<documentation>Technique used for shading (POLYGON_SHADING/ CELL_SHADING/ MARKER)</documentation>
 			<option xml="polygon" fortran="polygon_shading" include="PolyShadingTechnique.h" name="PolyShadingTechnique"></option>
@@ -30,7 +31,7 @@ does it submit to any jurisdiction.
 				visible="no"></option>
 			<option xml="marker" fortran="marker" include="MarkerShadingTechnique.h" name="MarkerShadingTechnique"></option>
 			<set name="contour_shade_method" value="polygon_shading"></set>
-			<release>0.2</release>
+
 		</parameter>
 		<parameter member="max"
 			to="float"
@@ -38,7 +39,6 @@ does it submit to any jurisdiction.
 			from="float"
 			name="contour_shade_max_level">
 			<documentation>Maximum level for which shading is required</documentation>
-			<release>0.2</release>
 		</parameter>
 		<parameter member="min"
 			to="float"
@@ -46,12 +46,12 @@ does it submit to any jurisdiction.
 			from="float"
 			name="contour_shade_min_level">
 			<documentation>Minimum level for which shading is required</documentation>
-			<release>0.2</release>
 		</parameter>
 		<parameter member="colourMethod"
 			to="ColourTechnique"
 			default="calculate"
 			from="string"
+			values = "calculate/list/gradients/palette"
 			name="contour_shade_colour_method">
 			<documentation>Method of generating the colours of the bands in contour shading (list/calculate/advanced)</documentation>
 			<option xml="calculate" fortran="calculate" include="CalculateColourTechnique.h" name="CalculateColourTechnique"></option>
@@ -64,6 +64,7 @@ does it submit to any jurisdiction.
 			default="on"
 			metview="hidden"
 			member=""
+			python = "off"
 			to="bool">
 			<documentation>Added for backwards compatibility with existing Metview Contour icons/macros</documentation>
 		</metview_parameter>

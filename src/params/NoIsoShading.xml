@@ -11,5 +11,6 @@ does it submit to any jurisdiction.
         directory="visualisers"
         include="IsoShading.h"
         name="NoIsoShading"
+        python = "mcont"
         doc_inherits="no"/>
 </magics>

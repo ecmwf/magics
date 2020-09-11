@@ -12,7 +12,8 @@ does it submit to any jurisdiction.
 		name="IntervalSelectionType"
 		directory="visualisers"
 		prefix="contour/contour/contour"
-		action="pcont">
+		action="pcont"
+		python = "mcont">
 		<documentation>
   If the parameter CONTOUR_LEVEL_SELECTION_TYPE is set to 'INTERVAL' ,
   MAGICS will plot contours at regularly spaced intervals

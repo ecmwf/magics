@@ -26,11 +26,9 @@ does it submit to any jurisdiction.
 			to="string"
 			default="number"
 			from="string"
+			values = "text/number/both"
 			name="contour_label_type">
-			<documentation>Type of label (TEXT/NUMBER/BOTH)</documentation>
-			<migration>New Magics: Parameter contour_label_type sent to new Magics[IsoLabel].</migration>
-			<release>Magics++2.8</release>
-			<release_info>number is used by default in: expected in 0.6</release_info>
+			<documentation>Type of label (text/number/both</documentation>
 		</parameter>
 		<parameter member="text"
 			to="string"
@@ -38,8 +36,6 @@ does it submit to any jurisdiction.
 			from="string"
 			name="contour_label_text">
 			<documentation>Text for labels</documentation>
-			<migration>New Magics: Parameter Contour sent to new Magics[IsoLabel].</migration>
-			<release>Magics++2.8</release>
 		</parameter>
 		<parameter xml="height"
 			from="float"
@@ -48,8 +44,6 @@ does it submit to any jurisdiction.
 			member="height"
 			to="float">
 			<documentation>Height of contour labels</documentation>
-			<migration>New Magics: Parameter contour_label_height sent to new Magics[IsoLabel].</migration>
-			<release>Magics++0.1</release>
 		</parameter>
 		<parameter xml="format"
 			from="string"
@@ -58,8 +52,6 @@ does it submit to any jurisdiction.
 			member="format"
 			to="string">
 			<documentation>Format of contour labels (MAGICS Format/(AUTOMATIC))</documentation>
-			<migration>New Magics: Parameter contour_label_format sent to new Magics[IsoLabel].</migration>
-			<release>Magics++0.1</release>
 		</parameter>
 		<parameter xml="blanking"
 			from="string"
@@ -68,18 +60,6 @@ does it submit to any jurisdiction.
 			member="blanking"
 			to="bool">
 			<documentation>Label Blanking</documentation>
-			<release>Magics++ 0.4</release>
-		</parameter>
-		<parameter xml="quality"
-			from="string"
-			name="contour_label_quality"
-			default="low"
-			member="quality"
-			to="string"
-			implemented="no">
-			<documentation>(LOW/MEDIUM/HIGH)</documentation>
-			<release>Deprecated</release>
-			<release_info>Use label_font and label_font_style</release_info>
 		</parameter>
 		<parameter member="font"
 			to="string"
@@ -87,18 +67,15 @@ does it submit to any jurisdiction.
 			from="string"
 			name="contour_label_font">
 			<documentation>Name of the font</documentation>
-			<migration>New Magics: Parameter contour_label_quality sent to new Magics[IsoLabel].</migration>
-			<release>Magics++0.1</release>
 		</parameter>
 		<parameter xml="font_style"
 			from="string"
 			name="contour_label_font_style"
 			default="normal"
+			values = "normal/bold/italic"
 			member="style"
 			to="string">
-			<documentation>Style of the font bold/italic</documentation>
-			<migration>New Magics: Parameter contour_label_quality sent to new Magics[IsoLabel].</migration>
-			<release>Magics++ 1.4</release>
+			<documentation>Style of the font normal/bold/italic</documentation>
 		</parameter>
 		<parameter default="contour_line_colour"
 			from="string"
@@ -107,8 +84,6 @@ does it submit to any jurisdiction.
 			member="colour"
 			to="string">
 			<documentation>Colour of contour labels</documentation>
-			<migration>New Magics: Parameter contour_label_colour sent to new Magics[IsoLabel].</migration>
-			<release>Magics++0.4</release>
 		</parameter>
 		<parameter member="frequency"
 			to="int"
@@ -116,8 +91,6 @@ does it submit to any jurisdiction.
 			from="int"
 			name="contour_label_frequency">
 			<documentation>Every Nth contour line is labelled</documentation>
-			<migration>New Magics: Parameter contour_label_frequency sent to new Magics[IsoLabel].</migration>
-			<release>Magics++0.4</release>
 		</parameter>
 	</class>
 </magics>

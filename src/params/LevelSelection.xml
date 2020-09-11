@@ -11,6 +11,7 @@ does it submit to any jurisdiction.
 		directory="visualisers"
 		prefix="contour"
 		name="LevelSelection"
+		pythin = "mcont"
 		xml_tag="level">
 		<documentation></documentation>
 		<parameter from="float"
