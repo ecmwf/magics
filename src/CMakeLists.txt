@@ -135,8 +135,9 @@ ecbuild_add_library( TARGET    MagPlus
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/decoders>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/visualisers>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/terralib/kernel>
-                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/eckit_readers/>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/eckit_readers>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/web>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/drivers/MgQ>
                                      $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/src>
                                      $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/src/params>
                      TYPE SHARED )
