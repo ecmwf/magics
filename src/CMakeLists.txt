@@ -123,7 +123,22 @@ ecbuild_add_library( TARGET    MagPlus
                      PUBLIC_DEFINITIONS
                         ${MAGICS_EXTRA_DEFINITIONS}
                      PUBLIC_LIBS
-                        ${MAGICS_EXTRA_LIBRARIES} eccodes expat
+                        ${MAGICS_EXTRA_LIBRARIES} eccodes expat proj
+                     PRIVATE_INCLUDES $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/clipper>
+                                      ${MAGICS_PRIVATE_INCLUDE_DIRS}
+                                     
+                     PUBLIC_INCLUDES $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DIR}>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/basic>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/common>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/drivers>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/decoders>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/visualisers>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/terralib/kernel>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/eckit_readers/>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/web>
+                                     $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/src>
+                                     $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/src/params>
                      TYPE SHARED )
 
 target_link_libraries(MagPlus PRIVATE ${PROJ4_LIBRARIES} ${PROJ_LIBRARIES})
@@ -151,18 +166,6 @@ ecbuild_add_library( TARGET         MagPlusDouble
                      TYPE           SHARED )
 
 if( metview )
-   include_directories( ${CMAKE_CURRENT_SOURCE_DIR}
-                        ${CMAKE_CURRENT_BINARY_DIR}
-                        ${CMAKE_CURRENT_BINARY_DIR}/params
-                        ${CMAKE_CURRENT_SOURCE_DIR}/common
-                        ${CMAKE_CURRENT_SOURCE_DIR}/basic
-                        ${CMAKE_CURRENT_SOURCE_DIR}/web
-                        ${CMAKE_CURRENT_SOURCE_DIR}/visualisers
-                        ${CMAKE_CURRENT_SOURCE_DIR}/drivers
-                        ${CMAKE_CURRENT_SOURCE_DIR}/decoders
-                        ${CMAKE_CURRENT_SOURCE_DIR}/clipper
-                        ${CMAKE_CURRENT_SOURCE_DIR}/terralib/kernel
-                        ${CMAKE_CURRENT_SOURCE_DIR}/libMagWrapper )
 
    ecbuild_add_library(	TARGET			MagWrapper
                      	DEPENDS			mv_params magics_params
@@ -170,7 +173,9 @@ if( metview )
                         			${metview_srcs}
                         			${metview_wrappers_srcs}
                      	PUBLIC_DEFINITIONS	${MAGICS_EXTRA_DEFINITIONS}
-                     	PUBLIC_LIBS		${MAGICS_EXTRA_LIBRARIES} eccodes expat
+                     	PUBLIC_LIBS		MagPlus
+                        PRIVATE_INCLUDES ${MAGICS_PRIVATE_INCLUDE_DIRS}
+                        PUBLIC_INCLUDES $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/libMagWrapper>
                      	TYPE			STATIC
                     )
    if(HAVE_CAIRO)

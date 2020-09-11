@@ -178,32 +178,18 @@ endif()
 ###############################################################################
 # contents
 
-set( MAGICS_INCLUDE_DIRS
-     ${CMAKE_CURRENT_BINARY_DIR}/src
-     ${CMAKE_CURRENT_BINARY_DIR}/src/params
-     ${CMAKE_CURRENT_SOURCE_DIR}/src
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/common
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/basic
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/clipper
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/web
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/visualisers
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/drivers
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/drivers/MgQ
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/eckit_readers
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/kernel
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/libMagWrapper
-     ${Boost_INCLUDE_DIRS} )
 
 if( HAVE_CAIRO )
-  list( APPEND MAGICS_INCLUDE_DIRS ${PANGOCAIRO_INCLUDE_DIRS})
+  list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS ${PANGOCAIRO_INCLUDE_DIRS})
 endif()
 
+
 if( HAVE_ODB )    ### deprecated!!!
-  list( APPEND MAGICS_INCLUDE_DIRS
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/oda
-        ${ODB_API_INCLUDE_DIRS}
-		${ECKIT_INCLUDE_DIRS} )
+# FOR SYLVIE TO LOOK AT WHEN MIGRATING TO ODC!
+#  list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS
+#        ${CMAKE_CURRENT_SOURCE_DIR}/src/oda
+#        ${ODB_API_INCLUDE_DIRS}
+#		${ECKIT_INCLUDE_DIRS} )
 endif()
 
 set( MAGICS_LIBRARIES MagPlus )
@@ -239,9 +225,6 @@ ecbuild_debug("MAGICS_EXTRA_INCLUDE_DIRS => ${MAGICS_EXTRA_INCLUDE_DIRS}")
 ecbuild_debug("MAGICS_EXTRA_LIBRARIES    => ${MAGICS_EXTRA_LIBRARIES}")
 
 get_directory_property( MAGICS_DEFINITIONS COMPILE_DEFINITIONS )
-
-include_directories( ${MAGICS_INCLUDE_DIRS} ${MAGICS_EXTRA_INCLUDE_DIRS} )
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/common ${CMAKE_CURRENT_BINARY_DIR}/params)
 
 add_subdirectory( tools )
 add_subdirectory( src )
