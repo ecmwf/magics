@@ -273,10 +273,10 @@ ecbuild_pkgconfig(
 )
 
 ### print all variables
-get_cmake_property(_variableNames VARIABLES)
-foreach (_variableName ${_variableNames})
-    ecbuild_info("${_variableName}=${${_variableName}}")
-endforeach()
+#get_cmake_property(_variableNames VARIABLES)
+#foreach (_variableName ${_variableNames})
+#    ecbuild_info("${_variableName}=${${_variableName}}")
+#endforeach()
 
 ecbuild_install_project( NAME Magics )
 
