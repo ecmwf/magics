@@ -11,7 +11,7 @@ does it submit to any jurisdiction.
 		name="OdaGeoDecoder"
 		directory="oda"
 		prefix="odb"
-		action="podb"
+		action="podb">
 		<documentation>
 		New odb Access (Prototype Status)
 		</documentation>
@@ -19,7 +19,7 @@ does it submit to any jurisdiction.
 			to="string"
 			default=""
 			from="string"
-			name="odb_filename">
+			name="odb_filename">ß
 			<documentation>odb Database Path</documentation>
 		</parameter>
 		<parameter member="latitude"
