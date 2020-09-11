@@ -11,6 +11,8 @@ does it submit to any jurisdiction.
 		xmltag="gridvalues"
 		name="ValuePlot"
 		directory="visualisers"
+		python = "mcont"
+		pythoin-rank= "3"
 		prefix="contour/contour_grid_value/contour_grid_value"
 		action="pcont">
 		<parameter from="string"
@@ -26,6 +28,7 @@ does it submit to any jurisdiction.
 			from="string"
 			name="contour_grid_value_plot_type"
 			default="value"
+			values = "value/marker/both"
 			member="method"
 			to="ValuePlotMethod">
 			<documentation>(VALUE/MARKER/BOTH)</documentation>
