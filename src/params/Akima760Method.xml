@@ -12,6 +12,7 @@ does it submit to any jurisdiction.
 		used_by="ContourTechnique"
 		directory="visualisers"
 		action="pcont"
+		python = "mcont"
 		doc_inherits="no">
 		<documentation>
   Generates contour lines from a regular/irregular grid of data points.

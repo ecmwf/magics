@@ -7,5 +7,9 @@ granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
 <magics>
-    <class inherits="ContourMethod" directory="visualisers" include="AutomaticContourMethod.h" name="AutomaticContourMethod"/>
+    <class inherits="ContourMethod" 
+    directory="visualisers" 
+    include="AutomaticContourMethod.h" 
+    name="AutomaticContourMethod"
+    python = "mcont"/>
 </magics>

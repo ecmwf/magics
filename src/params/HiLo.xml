@@ -12,6 +12,7 @@ does it submit to any jurisdiction.
 		name="HiLo"
 		directory="visualisers"
 		prefix="contour/contour_hilo"
+		python = "mcont"
 		action="pcont">
 		<documentation>
   Maxima/minima may be plotted as text and/or as numerical values,
@@ -25,6 +26,7 @@ does it submit to any jurisdiction.
 			to="HiLoTechnique"
 			default="text"
 			from="string"
+			values="text/number/both"
 			name="contour_hilo_type">
 			<documentation>Type of high/low (TEXT/NUMBER/BOTH)</documentation>
 			<migration>New Magics: Parameter contour_hilo_type sent to new Magics[HiLo].</migration>
@@ -44,24 +46,7 @@ does it submit to any jurisdiction.
 			<release>0.1</release>
 			<release_info>new Parameter : we envisage  to have different methods to calculate Hi/Lo in future releases</release_info>
 		</parameter>
-		<parameter from="float"
-			name="contour_hilo_reduction_radius"
-			default="0.0"
-			member="reduction_radius"
-			to="float"
-			implemented="no">
-			<documentation>Search radius (in grid points) for reducing the number of minima</documentation>
-			<migration>New Magics: Parameter contour_hilo_reduction_radius sent to new Magics[HiLo].</migration>
-		</parameter>
-		<parameter member="suppress_radius"
-			to="float"
-			default="15.0"
-			from="float"
-			name="contour_hilo_suppress_radius"
-			implemented='no'>
-			<documentation>Radius of HiLo search in grid points (default value is for global cylindrical map)</documentation>
-			<migration>New Magics: Parameter contour_hilo_suppress_radius sent to new Magics[HiLo].</migration>
-		</parameter>
+	
 		<parameter member="hilo_max_value"
 			to="float"
 			default="1.0e+21"
@@ -118,6 +103,7 @@ does it submit to any jurisdiction.
 			to="HiLoMarkerBase"
 			default="off"
 			from="string"
+			values = "on/off"
 			name="contour_hilo_marker">
 			<documentation>Plot hilo marker (ON/OFF)</documentation>
 			<option xml="marker" fortran="on" include="HiLoMarker.h" name="HiLoMarker"></option>

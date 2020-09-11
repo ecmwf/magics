@@ -11,5 +11,6 @@ does it submit to any jurisdiction.
         directory="visualisers"
         include="IsoPlot.h"
         name="NoIsoPlot"
+        python = "mcont"
         doc_inherits="no"/>
 </magics>
