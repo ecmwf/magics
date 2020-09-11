@@ -59,7 +59,7 @@ does it submit to any jurisdiction.
 		</parameter>
 		<parameter member="crs_maxx"
 			to="float"
-			deÌault="180."
+			default="180."
 			from="float"
 			name="crs_maxx">
 			<documentation>Metview info :Crs used for the import</documentation>
