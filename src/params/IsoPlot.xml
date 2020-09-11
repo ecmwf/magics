@@ -12,12 +12,15 @@ does it submit to any jurisdiction.
 		used_by="Contour"
 		directory="visualisers"
 		prefix="contour/contour_line"
-		action="pcont">
+		action="pcont"
+		python="mcont"
+		python_rank="2">
 		<documentation>This object contains all the attributes of the isolines</documentation>
 		<parameter from="string"
 			name="contour_special_legend"
 			visible="no"
 			default=""
+			python="off"
 			member="legend_special"
 			to="string">
 			<documentation>Used in wrep to produce special legend such as spaghetti!</documentation>
@@ -27,6 +30,7 @@ does it submit to any jurisdiction.
 			name="contour_threads"
 			visible="no"
 			default="4"
+			python="off"
 			member="user_thread"
 			to="int"
 			documented="off">
@@ -36,6 +40,7 @@ does it submit to any jurisdiction.
 			name="contour_internal_reduction_factor"
 			visible="no"
 			default="4"
+			python="off"
 			member="resolution"
 			to="float"
 			documented="off">
@@ -45,6 +50,7 @@ does it submit to any jurisdiction.
 		<parameter from="string"
 			name="contour_internal_technique"
 			visible="no"
+			python="off"
 			default="interpolate"
 			member="technique"
 			to="string"
@@ -54,6 +60,7 @@ does it submit to any jurisdiction.
 		<parameter from="string"
 			name="contour_legend_text"
 			visible="no"
+			python="off"
 			default=" "
 			member="legend_text"
 			to="string"
@@ -105,6 +112,7 @@ does it submit to any jurisdiction.
 			to="ColourTechnique"
 			default="calculate"
 			from="string"
+			values= "calculate/list"
 			name="contour_line_colour_rainbow_method">
 			<documentation>Method of generating the colours for isoline</documentation>
 			<set name="contour_line_colour_rainbow_colour_list" value="list"></set>
@@ -133,7 +141,7 @@ does it submit to any jurisdiction.
 			default="anti_clockwise"
 			member="rainbowDirection"
 			to="string"
-			values="clockwise/anti-clockwise">
+			values="clockwise/anti_clockwise">
 			<documentation>Direction of colour sequencing for colouring</documentation>
 		</parameter>
 		<parameter member="rainbowColours"
@@ -186,6 +194,7 @@ does it submit to any jurisdiction.
 			name="contour_highlight"
 			default="on"
 			member="highlight"
+			values = "on/off"
 			to="NoIsoHighlight"
 			include="IsoHighlight.h">
 			<documentation>Plot contour highlights (ON/OFF)</documentation>
@@ -199,6 +208,7 @@ does it submit to any jurisdiction.
 			name="contour_level_selection_type"
 			default="count"
 			member="levelSelection"
+			values = "count/interval/list"
 			to="LevelSelection"
 			inherit_parent_reqs="no">
 			<documentation>count: calculate a reasonable  contour interval taking into account the min/max and the requested number of isolines.
@@ -214,6 +224,7 @@ does it submit to any jurisdiction.
 			default="on"
 			member="label"
 			to="NoIsoLabel"
+			values = "on/off"
 			include="IsoLabel.h"
 			inherit_parent_reqs="no">
 			<documentation>Plot labels on contour lines</documentation>
@@ -227,6 +238,7 @@ does it submit to any jurisdiction.
 			name="contour_shade"
 			default="off"
 			member="shading"
+			values = "on/off"
 			to="NoIsoShading"
 			include="IsoShading.h"
 			inherit_parent_reqs="no">

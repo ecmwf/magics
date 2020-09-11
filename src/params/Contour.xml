@@ -14,6 +14,8 @@ does it submit to any jurisdiction.
 		prefix="contour"
 		directory="visualisers"
 		fortan="pcont"
+		python="mcont"
+		python_rank="1"
 		root="contour">
 		<documentation>
     This controls the plotting of isolines, contour bands and grid points.
@@ -32,6 +34,7 @@ does it submit to any jurisdiction.
 			to="IsoPlot"
 			default="on"
 			from="string"
+			values="on/off"
 			name="contour">
 			<documentation>Turn contouring on or off</documentation>
 			<option xml="isoline" fortran="on" include="IsoPlot.h" name="IsoPlot"></option>
@@ -41,6 +44,7 @@ does it submit to any jurisdiction.
 			to="ContourMethod"
 			default="automatic"
 			from="string"
+			values="automatic/linear/akima474/akima760"
 			name="contour_method">
 			<documentation>Contouring method</documentation>
 			<option xml="automatic" fortran="automatic" include="AutomaticContourMethod.h" name="AutomaticContourMethod"></option>
@@ -95,6 +99,7 @@ does it submit to any jurisdiction.
 		<parameter from="string"
 			name="contour_automatic_library_path"
 			visible="off"
+			python="off"
 			default=""
 			member="library_path"
 			to="string">
@@ -104,6 +109,7 @@ does it submit to any jurisdiction.
 			to="HiLoBase"
 			default="off"
 			from="string"
+			values="on/off"
 			name="contour_hilo">
 			<documentation>Plot local maxima/minima</documentation>
 			<option xml="hilo" fortran="on" include="HiLo.h" name="HiLo"></option>
@@ -138,6 +144,7 @@ does it submit to any jurisdiction.
 			to="ValuePlotBase"
 			default="off"
 			from="string"
+			values="on/off"
 			name="contour_grid_value_plot">
 			<documentation>Plot Grid point values</documentation>
 			<option xml="gridvalues" fortran="on" include="ValuePlot.h" name="ValuePlot"></option>
