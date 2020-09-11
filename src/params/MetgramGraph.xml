@@ -1,22 +1,29 @@
-<magics>
-<class action="pmetgram" directory="visualisers" prefix="metgram" xmltag="metgraph" name="MetgramGraph">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
+<magics>
+	<class action="pmetgram"
+		directory="visualisers"
+		prefix="metgram"
+		xmltag="metgraph"
+		name="MetgramGraph">
 		<documentation>
 		The Epsgram is responsible for accessing the espgram database its data to MAGICS.
 		</documentation>
-        	<parameter member="style" to="MetgramStyle" default="curve" from="string" name="metgram_plot_style">           
-            		<documentation> Type of plot  		</documentation>
-            		<option xml="bar" fortran="bar" include="MetgramStyle.h" name="MetgramBar">		</option>
-            		<option xml="flags" fortran="flags" include="MetgramStyle.h" name="MetgramFlags">		</option>
-					<option xml="curve" fortran="curve" include="MetgramStyle.h" name="MetgramCurve">		</option>
-        	</parameter>
-</class></magics>
+		<parameter member="style"
+			to="MetgramStyle"
+			default="curve"
+			from="string"
+			name="metgram_plot_style">
+			<documentation>Type of plot</documentation>
+			<option xml="bar" fortran="bar" include="MetgramStyle.h" name="MetgramBar"></option>
+			<option xml="flags" fortran="flags" include="MetgramStyle.h" name="MetgramFlags"></option>
+			<option xml="curve" fortran="curve" include="MetgramStyle.h" name="MetgramCurve"></option>
+		</parameter>
+	</class>
+</magics>

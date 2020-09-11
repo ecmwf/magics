@@ -1,30 +1,43 @@
-<magics>
-<class inherits="BaseDriver" xmltag="ps" name="PostScriptDriver" directory="drivers" prefix="output_ps/output" action="PostScript">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
+<magics>
+	<class inherits="BaseDriver"
+		xmltag="ps"
+		name="PostScriptDriver"
+		directory="drivers"
+		prefix="output_ps/output"
+		action="PostScript">
 		<documentation for_docs="no">
-		This is the default driver for Magics, and PostScript is the default output format. 
+		This is the default driver for Magics, and PostScript is the default output format.
 		</documentation>
-
-	<parameter from="string" name="output_ps_colour_model" default="rgb" member="colour_model" to="string" values="rgb/cmyk/monochrome/gray/cmyk_monochrome/cmyk_gray">
-   		<metview default="" class="">  		</metview>
-   		<documentation>Defines the PostScript colour model .		</documentation>
-
-	</parameter>
-
-	<parameter member="scale" to="float" default="1.0" from="float" name="output_ps_scale">
-   		<documentation>Defines the PostScript scale between 0.1 and 1.0 (1.0 being the full page size).		</documentation>
-	</parameter>
-
-	<parameter member="split" to="bool" default="off" from="string" name="output_ps_split">
-   		<documentation>Enables the output to be split into different (single page) PostScript files.		</documentation>
-	</parameter>
-</class></magics>
+		<parameter from="string"
+			name="output_ps_colour_model"
+			default="rgb"
+			member="colour_model"
+			to="string"
+			values="rgb/cmyk/monochrome/gray/cmyk_monochrome/cmyk_gray">
+			<metview default="" class=""></metview>
+			<documentation>Defines the PostScript colour model .</documentation>
+		</parameter>
+		<parameter member="scale"
+			to="float"
+			default="1.0"
+			from="float"
+			name="output_ps_scale">
+			<documentation>Defines the PostScript scale between 0.1 and 1.0 (1.0 being the full page size).</documentation>
+		</parameter>
+		<parameter member="split"
+			to="bool"
+			default="off"
+			from="string"
+			name="output_ps_split">
+			<documentation>Enables the output to be split into different (single page) PostScript files.</documentation>
+		</parameter>
+	</class>
+</magics>

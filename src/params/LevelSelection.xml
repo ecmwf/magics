@@ -1,34 +1,53 @@
-<magics>
-<class action="pcont" directory="visualisers" prefix="contour" name="LevelSelection" xml_tag="level">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
-  	<documentation>  	</documentation>
-
-  	<parameter from="float" name="contour_max_level" default="1.0e+21" member="max" to="float" inherit_parent_reqs="no">
-         		<documentation> Highest level for contours to be drawn 		</documentation>
-         		<migration> New Magics: Parameter contour_max_level sent to new Magics[LevelSelection].  		</migration>
-         		<release>Magics++0.3		</release>
-  	</parameter>
-
-  	<parameter from="float" name="contour_min_level" default="-1.0e+21" member="min" to="float" inherit_parent_reqs="no">
-         		<documentation> Lowest level for contours to be drawn 		</documentation>
-         		<migration> New Magics: Parameter contour_min_level sent to new Magics[LevelSelection].  		</migration>
-         		<release>Magics++0.3		</release>
-  	</parameter>
-
-  	<parameter from="float" name="contour_shade_max_level" default="1.0e+21" member="max_shade" to="float" inherit_parent_reqs="no">
-         		<documentation> Highest level for contours to be shaded 		</documentation>
-  	</parameter>
-
-  	<parameter from="float" name="contour_shade_min_level" default="-1.0e+21" member="min_shade" to="float" inherit_parent_reqs="no">
-         		<documentation> Lowest level for contours to be shaded 		</documentation>
-  	</parameter>
-</class></magics>
+<magics>
+	<class action="pcont"
+		directory="visualisers"
+		prefix="contour"
+		name="LevelSelection"
+		xml_tag="level">
+		<documentation></documentation>
+		<parameter from="float"
+			name="contour_max_level"
+			default="1.0e+21"
+			member="max"
+			to="float"
+			inherit_parent_reqs="no">
+			<documentation>Highest level for contours to be drawn</documentation>
+			<migration>New Magics: Parameter contour_max_level sent to new Magics[LevelSelection].</migration>
+			<release>Magics++0.3</release>
+		</parameter>
+		<parameter from="float"
+			name="contour_min_level"
+			default="-1.0e+21"
+			member="min"
+			to="float"
+			inherit_parent_reqs="no">
+			<documentation>Lowest level for contours to be drawn</documentation>
+			<migration>New Magics: Parameter contour_min_level sent to new Magics[LevelSelection].</migration>
+			<release>Magics++0.3</release>
+		</parameter>
+		<parameter from="float"
+			name="contour_shade_max_level"
+			default="1.0e+21"
+			member="max_shade"
+			to="float"
+			inherit_parent_reqs="no">
+			<documentation>Highest level for contours to be shaded</documentation>
+		</parameter>
+		<parameter from="float"
+			name="contour_shade_min_level"
+			default="-1.0e+21"
+			member="min_shade"
+			to="float"
+			inherit_parent_reqs="no">
+			<documentation>Lowest level for contours to be shaded</documentation>
+		</parameter>
+	</class>
+</magics>

@@ -1,27 +1,41 @@
-<magics>
-<class directory="decoders" prefix="landgram" xmltag="landgram" name="LandgramDecoder">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
-  	<documentation> Landgram aplication	</documentation>
-
-  	<parameter member="path" to="string" default="" from="string" name="landgram_input_file_name">
-         		<documentation> path to the file containing the xml description of the lansdgram		</documentation>
-  	</parameter>
-  	<parameter member="scaling" to="float" default="1" from="float" name="landgram_input_scaling_factor">
-         		<documentation> path to the file containing the xml description of the lansdgram		</documentation>
-  	</parameter>
-  	<parameter member="offset" to="float" default="0" from="float" name="landgram_input_offset_factor">
-         		<documentation> path to the file containing the xml description of the lansdgram		</documentation>
-  	</parameter>
-  	<parameter member="title" to="string" default="landgram parameter" from="string" name="landgram_title">
-         		<documentation> title to display 		</documentation>
-  	</parameter>
-</class></magics>
+<magics>
+	<class directory="decoders" prefix="landgram" xmltag="landgram" name="LandgramDecoder">
+		<documentation>Landgram aplication</documentation>
+		<parameter member="path"
+			to="string"
+			default=""
+			from="string"
+			name="landgram_input_file_name">
+			<documentation>path to the file containing the xml description of the lansdgram</documentation>
+		</parameter>
+		<parameter member="scaling"
+			to="float"
+			default="1"
+			from="float"
+			name="landgram_input_scaling_factor">
+			<documentation>path to the file containing the xml description of the lansdgram</documentation>
+		</parameter>
+		<parameter member="offset"
+			to="float"
+			default="0"
+			from="float"
+			name="landgram_input_offset_factor">
+			<documentation>path to the file containing the xml description of the lansdgram</documentation>
+		</parameter>
+		<parameter member="title"
+			to="string"
+			default="landgram parameter"
+			from="string"
+			name="landgram_title">
+			<documentation>title to display</documentation>
+		</parameter>
+	</class>
+</magics>

@@ -1,34 +1,61 @@
-<magics>
-<class action="pmetgram" directory="visualisers" prefix="metgram" xmltag="metflags" name="MetgramFlags">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
-    	<documentation>
-        The metgram curve will plot the metgram a s a curve! 
-    	</documentation>
-        	<parameter member="colour" to="Colour" default="red" from="string" name="metgram_flag_colour">           
-            		<documentation> Colour of Flag  		</documentation>
-        	</parameter>
-        	<parameter member="frequency" to="int" default="1" from="int" name="metgram_flag_frequency">           
-            		<documentation> Frequency to plot the flags  		</documentation>
-        	</parameter>
-        	<parameter member="method" to="string" default="SD" from="string" name="metgram_flag_method">           
-            		<documentation> SD : speed/direction is given UV : U/V components  		</documentation>
-        	</parameter>
-        	<parameter member="component1" to="string" default="curve1" from="string" name="metgram_flag_component1">           
-            		<documentation> Keyword used for the First component  		</documentation>
-        	</parameter>
-        	<parameter member="component2" to="string" default="curve2" from="string" name="metgram_flag_component2">           
-            		<documentation> Keyword used for the second component  		</documentation>
-        	</parameter>
-        	<parameter member="length" to="float" default="0.5" from="float" name="metgram_flag_length">           
-            		<documentation> length of the flag  		</documentation>
-        	</parameter>
-</class></magics>
+<magics>
+	<class action="pmetgram"
+		directory="visualisers"
+		prefix="metgram"
+		xmltag="metflags"
+		name="MetgramFlags">
+		<documentation>
+        The metgram curve will plot the metgram a s a curve!
+		</documentation>
+		<parameter member="colour"
+			to="Colour"
+			default="red"
+			from="string"
+			name="metgram_flag_colour">
+			<documentation>Colour of Flag</documentation>
+		</parameter>
+		<parameter member="frequency"
+			to="int"
+			default="1"
+			from="int"
+			name="metgram_flag_frequency">
+			<documentation>Frequency to plot the flags</documentation>
+		</parameter>
+		<parameter member="method"
+			to="string"
+			default="SD"
+			from="string"
+			name="metgram_flag_method">
+			<documentation>SD : speed/direction is given UV : U/V components</documentation>
+		</parameter>
+		<parameter member="component1"
+			to="string"
+			default="curve1"
+			from="string"
+			name="metgram_flag_component1">
+			<documentation>Keyword used for the First component</documentation>
+		</parameter>
+		<parameter member="component2"
+			to="string"
+			default="curve2"
+			from="string"
+			name="metgram_flag_component2">
+			<documentation>Keyword used for the second component</documentation>
+		</parameter>
+		<parameter member="length"
+			to="float"
+			default="0.5"
+			from="float"
+			name="metgram_flag_length">
+			<documentation>length of the flag</documentation>
+		</parameter>
+	</class>
+</magics>

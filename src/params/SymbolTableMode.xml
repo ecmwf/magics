@@ -1,40 +1,62 @@
-<magics>
-<class inherits="SymbolMode" xmltag="table" name="SymbolTableMode" prefix="symbol" directory="visualisers" include="SymbolMode.h">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
-    	<documentation>
-        Here comes the description of the SymbolTableMode object 
-        	</documentation>
-
-    	<parameter member="min" to="floatarray" default="floatarray()" from="floatarray" name="symbol_min_table">
-        		<documentation> Table of minimum values.  The table is used in conjunction with SYMBOL_MAX_TABLE  		</documentation>
-    	</parameter>
-
-    	<parameter member="max" to="floatarray" default="floatarray()" from="floatarray" name="symbol_max_table">
-        		<documentation> Table of maximum values. The table is used in conjunction with SYMBOL_MIN_TABLE  		</documentation>
-    	</parameter>
-
-    	<parameter member="marker" to="intarray" default="intarray()" from="intarray" name="symbol_marker_table">
-            		<documentation> Table of MARKER indices. The table is to be used in conjunction with SYMBOL_MIN_TABLE and SYMBOL_MAX_TABLE  		</documentation>
-    	</parameter>
-
-    	<parameter member="symbol" to="stringarray" default="stringarray()" from="stringarray" name="symbol_name_table">
-        		<documentation> Table of Symbol names. The table is to be used in conjunction with SYMBOL_MIN_TABLE and SYMBOL_MAX_TABLE  		</documentation>
-    	</parameter>
-
-    	<parameter member="colour" to="stringarray" default="stringarray()" from="stringarray" name="symbol_colour_table">
-        		<documentation> Table of SYMBOL colours. T The table is to be used in conjunction with SYMBOL_MIN_TABLE and SYMBOL_MAX_TABLE  		</documentation>
-    	</parameter>
-
-    	<parameter member="height" to="floatarray" default="floatarray()" from="floatarray" name="symbol_height_table">
-        		<documentation> Table of SYMBOL heights.  The table is to be used in conjunction with SYMBOL_MIN_TABLE and SYMBOL_MAX_TABLE  		</documentation>
-    	</parameter>
-</class></magics>
+<magics>
+	<class inherits="SymbolMode"
+		xmltag="table"
+		name="SymbolTableMode"
+		prefix="symbol"
+		directory="visualisers"
+		include="SymbolMode.h">
+		<documentation>
+        Here comes the description of the SymbolTableMode object
+		</documentation>
+		<parameter member="min"
+			to="floatarray"
+			default="floatarray()"
+			from="floatarray"
+			name="symbol_min_table">
+			<documentation>Table of minimum values.  The table is used in conjunction with SYMBOL_MAX_TABLE</documentation>
+		</parameter>
+		<parameter member="max"
+			to="floatarray"
+			default="floatarray()"
+			from="floatarray"
+			name="symbol_max_table">
+			<documentation>Table of maximum values. The table is used in conjunction with SYMBOL_MIN_TABLE</documentation>
+		</parameter>
+		<parameter member="marker"
+			to="intarray"
+			default="intarray()"
+			from="intarray"
+			name="symbol_marker_table">
+			<documentation>Table of MARKER indices. The table is to be used in conjunction with SYMBOL_MIN_TABLE and SYMBOL_MAX_TABLE</documentation>
+		</parameter>
+		<parameter member="symbol"
+			to="stringarray"
+			default="stringarray()"
+			from="stringarray"
+			name="symbol_name_table">
+			<documentation>Table of Symbol names. The table is to be used in conjunction with SYMBOL_MIN_TABLE and SYMBOL_MAX_TABLE</documentation>
+		</parameter>
+		<parameter member="colour"
+			to="stringarray"
+			default="stringarray()"
+			from="stringarray"
+			name="symbol_colour_table">
+			<documentation>Table of SYMBOL colours. T The table is to be used in conjunction with SYMBOL_MIN_TABLE and SYMBOL_MAX_TABLE</documentation>
+		</parameter>
+		<parameter member="height"
+			to="floatarray"
+			default="floatarray()"
+			from="floatarray"
+			name="symbol_height_table">
+			<documentation>Table of SYMBOL heights.  The table is to be used in conjunction with SYMBOL_MIN_TABLE and SYMBOL_MAX_TABLE</documentation>
+		</parameter>
+	</class>
+</magics>

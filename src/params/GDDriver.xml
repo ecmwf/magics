@@ -1,36 +1,45 @@
-<magics>
-<class directory="drivers" inherits="BaseDriver" prefix="output" xmltag="gd" name="GDDriver">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
+<magics>
+	<class directory="drivers"
+		inherits="BaseDriver"
+		prefix="output"
+		xmltag="gd"
+		name="GDDriver">
 		<documentation for_docs="no">
 		This output driver produces raster output in PNG, GIF, and JPEG format.
 		PNG output can be produced with a transparent background which can be used for overlays.
-
-		JPEG output is included here for backwards compatibility, but is not an ideal format for 
-		scientific plots in raster format. 
-
+		JPEG output is included here for backwards compatibility, but is not an ideal format for
+		scientific plots in raster format.
 		See also the parameters for the Base Driver.
 		</documentation>
-
-		<parameter member="quality" to="int" default="-1" from="int" name="output_jpeg_quality">
-            		<documentation>Defines the quality of Jpeg output. The default of -1 should yield a good general quality/size tradeoff. Should be a value in the range 0-95.		</documentation>
-            		<migration>		</migration>
-        	</parameter>
-
-		<parameter member="delay" to="int" default="100" from="int" name="output_gif_delay">
-            		<documentation>Defines the delay in 1/100 seconds for GIF animations.		</documentation>
-        	</parameter>
-
-		<parameter member="transparent" to="bool" default="off" from="string" name="output_png_transparent">
-            		<documentation>Sets the background to transparent for overlays. Works only with PNG output. (ON/OFF)		</documentation>
-        	</parameter>
-
-</class></magics>
+		<parameter member="quality"
+			to="int"
+			default="-1"
+			from="int"
+			name="output_jpeg_quality">
+			<documentation>Defines the quality of Jpeg output. The default of -1 should yield a good general quality/size tradeoff. Should be a value in the range 0-95.</documentation>
+			<migration></migration>
+		</parameter>
+		<parameter member="delay"
+			to="int"
+			default="100"
+			from="int"
+			name="output_gif_delay">
+			<documentation>Defines the delay in 1/100 seconds for GIF animations.</documentation>
+		</parameter>
+		<parameter member="transparent"
+			to="bool"
+			default="off"
+			from="string"
+			name="output_png_transparent">
+			<documentation>Sets the background to transparent for overlays. Works only with PNG output. (ON/OFF)</documentation>
+		</parameter>
+	</class>
+</magics>

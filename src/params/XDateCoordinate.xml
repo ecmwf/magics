@@ -1,34 +1,56 @@
-<magics>
-<class inherits="XCoordinate" metview_prefix="subpage_" xmltag="x_date" name="XDateCoordinate" directory="common" prefix="subpage/subpage_x/subpage_x_date" action="pnew" include="Coordinate.h">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
+<magics>
+	<class inherits="XCoordinate"
+		metview_prefix="subpage_"
+		xmltag="x_date"
+		name="XDateCoordinate"
+		directory="common"
+		prefix="subpage/subpage_x/subpage_x_date"
+		action="pnew"
+		include="Coordinate.h">
   This object contains the common attributes to the cartesian Projections
-	<parameter xml="automatic" from="string" name="subpage_x_automatic" default="off" member="automatic" to="AxisAutomaticSetting" values="on/off/min_only/max_only">
-     		<release>Magics2.1		</release>
-     		<set name="subpage_x_max" value="off">		</set> 
-     		<set name="subpage_x_min" value="off">		</set>
-     		<set name="subpage_x_max" value="min_only">		</set> 
-     		<set name="subpage_x_min" value="max_only">		</set>
-     		<documentation> The Min and Max are calculated from the data		</documentation>    
-	</parameter>
-	<parameter member="date_min" to="string" default="" from="string" name="subpage_x_date_min">
-         		<release>Magics++0.1		</release>
-	</parameter> 
-
-	<parameter xml="max" from="string" name="subpage_x_date_max" default="" member="date_max" to="string">
-    		<release>Magics++0.1		</release>
-	</parameter>
-
-	<parameter member="reverse" to="bool" default="off" from="string" name="subpage_x_automatic_reverse">
-    		<release>Magics++0.1		</release>
-	</parameter>
-
-</class></magics>
+		<parameter xml="automatic"
+			from="string"
+			name="subpage_x_automatic"
+			default="off"
+			member="automatic"
+			to="AxisAutomaticSetting"
+			values="on/off/min_only/max_only">
+			<release>Magics2.1</release>
+			<set name="subpage_x_max" value="off"></set>
+			<set name="subpage_x_min" value="off"></set>
+			<set name="subpage_x_max" value="min_only"></set>
+			<set name="subpage_x_min" value="max_only"></set>
+			<documentation>The Min and Max are calculated from the data</documentation>
+		</parameter>
+		<parameter member="date_min"
+			to="string"
+			default=""
+			from="string"
+			name="subpage_x_date_min">
+			<release>Magics++0.1</release>
+		</parameter>
+		<parameter xml="max"
+			from="string"
+			name="subpage_x_date_max"
+			default=""
+			member="date_max"
+			to="string">
+			<release>Magics++0.1</release>
+		</parameter>
+		<parameter member="reverse"
+			to="bool"
+			default="off"
+			from="string"
+			name="subpage_x_automatic_reverse">
+			<release>Magics++0.1</release>
+		</parameter>
+	</class>
+</magics>

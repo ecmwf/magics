@@ -1,27 +1,30 @@
-<magics>
-  <class inherits="ColourTechnique" include="ColourTechnique.h" name="PaletteColourTechnique" directory="visualisers" action="pcont">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
-	
-  	<parameter member="palette" to="string" default="" from="string" name="contour_shade_palette_name">
-         		<documentation>  Colour used at the stops : the gradeint will be calculated between 2 consecutive ones.		</documentation>
-         
-  	</parameter>
-
-    <parameter from="string" name="contour_shade_palette_policy" default="lastone" member="palette_policy" to="ListPolicy">
-                <documentation> What to do if the list of colours is smaller that the list of levels: lastone/cycle   </documentation>
+<magics>
+  <class inherits="ColourTechnique"
+    include="ColourTechnique.h"
+    name="PaletteColourTechnique"
+    directory="visualisers"
+    action="pcont">
+    <parameter member="palette"
+      to="string"
+      default=""
+      from="string"
+      name="contour_shade_palette_name">
+      <documentation>Colour used at the stops : the gradeint will be calculated between 2 consecutive ones.</documentation>
     </parameter>
-
-    
-
-  
+    <parameter from="string"
+      name="contour_shade_palette_policy"
+      default="lastone"
+      member="palette_policy"
+      to="ListPolicy">
+      <documentation>What to do if the list of colours is smaller that the list of levels: lastone/cycle</documentation>
+    </parameter>
   </class>
 </magics>

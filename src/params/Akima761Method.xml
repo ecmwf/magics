@@ -1,30 +1,42 @@
-<magics>
-<class inherits="ContourMethod" name="Akima761Method" used_by="ContourTechnique" directory="visualisers" action="pcont" doc_inherits="no">
-  	<documentation>
-  Generates contour lines from an irregularly-distributed set of points.
-  	</documentation>
-  
-  	<parameter xml="x_resolution" from="float" name="contour_akima_x_resolution" default="1.5" member="resolutionX" to="float">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
-         		<documentation> X Resolution of the Akima output matrix 		</documentation>
-         		<migration> New Magics: Parameter resolutionX sent to new Magics[AKIMA760].  		</migration>
-         		<release>Magics++0.1		</release>
-         		<related_info> url_path 		</related_info>
-  	</parameter>
-  
-  	<parameter xml="y_resolution" from="float" name="contour_akima_y_resolution" default="1.5" member="resolutionY" to="float">
-         		<documentation> Y Resolution of the Akima output matrix 		</documentation>
-         		<migration> New Magics: Parameter resolutionY sent to new Magics[AKIMA760].  		</migration>
-         		<release>Magics++0.1		</release>
-         		<related_info> url_path 		</related_info>
-  	</parameter>
-</class></magics>
+ß<magics>
+	<class inherits="ContourMethod"
+		name="Akima761Method"
+		used_by="ContourTechnique"
+		directory="visualisers"
+		action="pcont"
+		doc_inherits="no">
+		<documentation>
+  Generates contour lines from an irregularly-distributed set of points.
+		</documentation>
+		<parameter xml="x_resolution"
+			from="float"
+			name="contour_akima_x_resolution"
+			default="1.5"
+			member="resolutionX"
+			to="float">
+			<documentation>X Resolution of the Akima output matrix</documentation>
+			<migration>New Magics: Parameter resolutionX sent to new Magics[AKIMA760].</migration>
+			<release>Magics++0.1</release>
+			<related_info>url_path</related_info>
+		</parameter>
+		<parameter xml="y_resolution"
+			from="float"
+			name="contour_akima_y_resolution"
+			default="1.5"
+			member="resolutionY"
+			to="float">
+			<documentation>Y Resolution of the Akima output matrix</documentation>
+			<migration>New Magics: Parameter resolutionY sent to new Magics[AKIMA760].</migration>
+			<release>Magics++0.1</release>
+			<related_info>url_path</related_info>
+		</parameter>
+	</class>
+</magics>

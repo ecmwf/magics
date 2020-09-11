@@ -1,28 +1,47 @@
-<magics>
-<class action="pmetgram" directory="visualisers" prefix="eps" xmltag="epsshade" name="EpsShade">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
+<magics>
+	<class action="pmetgram"
+		directory="visualisers"
+		prefix="eps"
+		xmltag="epsshade"
+		name="EpsShade">
 		<documentation>
 		The EpsSahde is responsible for plotting climate information as Shaded area.
 		</documentation>
-        	<parameter member="colour" to="Colour" default="red" from="string" name="eps_shade_colour">           
-            		<documentation> Colour of the darkest shade area ...  		</documentation>
-        	</parameter>
-        	<parameter member="line_colour" to="Colour" default="red" from="string" name="eps_shade_line_colour">           
-            		<documentation> Colour of the darkest shade area ...  		</documentation>
-        	</parameter>
-         	<parameter member="line_style" to="LineStyle" default="solid" from="string" name="eps_shade_line_style">           
-            		<documentation> Colour of the darkest shade area ...  		</documentation>
-        	</parameter>
-           	<parameter member="line_thickness" to="int" default="1" from="int" name="eps_shade_line_thickness">           
-            		<documentation> Colour of the darkest shade area ...  		</documentation>
-        	</parameter>
-</class></magics>
+		<parameter member="colour"
+			to="Colour"
+			default="red"
+			from="string"
+			name="eps_shade_colour">
+			<documentation>Colour of the darkest shade area ...</documentation>
+		</parameter>
+		<parameter member="line_colour"
+			to="Colour"
+			default="red"
+			from="string"
+			name="eps_shade_line_colour">
+			<documentation>Colour of the darkest shade area ...</documentation>
+		</parameter>
+		<parameter member="line_style"
+			to="LineStyle"
+			default="solid"
+			from="string"
+			name="eps_shade_line_style">
+			<documentation>Colour of the darkest shade area ...</documentation>
+		</parameter>
+		<parameter member="line_thickness"
+			to="int"
+			default="1"
+			from="int"
+			name="eps_shade_line_thickness">
+			<documentation>Colour of the darkest shade area ...</documentation>
+		</parameter>
+	</class>
+</magics>
