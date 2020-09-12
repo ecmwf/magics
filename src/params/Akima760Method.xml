@@ -13,6 +13,7 @@ does it submit to any jurisdiction.
 		directory="visualisers"
 		action="pcont"
 		python = "mcont"
+		python_rank="99"
 		doc_inherits="no">
 		<documentation>
   Generates contour lines from a regular/irregular grid of data points.

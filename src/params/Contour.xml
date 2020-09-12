@@ -17,6 +17,9 @@ does it submit to any jurisdiction.
 		python="mcont"
 		python_rank="1"
 		root="contour">
+		<userdoc>
+		This action controls the plotting of isolines, contour bands and grid points.
+		</userdoc>
 		<documentation>
     This controls the plotting of isolines, contour bands and grid points.
 		</documentation>

@@ -15,6 +15,7 @@ does it submit to any jurisdiction.
 		prefix="akima"
 		action="pcont"
 		python="mcont"
+		python_rank="99"
 		doc_inherits="no">
 		<documentation>
   Generates contour lines from a regular/irregular grid of data points.
@@ -30,7 +31,7 @@ does it submit to any jurisdiction.
 			default="1.5"
 			member="resolutionX"
 			to="float">
-			<documentation>X Resolution</documentation>
+			<documentation>X resolution of Akima interpolation.</documentation>
 			<release>Magics++0.1</release>
 		</parameter>
 		<parameter xml="y_resolution"
@@ -39,7 +40,7 @@ does it submit to any jurisdiction.
 			default="1.5"
 			member="resolutionY"
 			to="float">
-			<documentation>Y Resolution</documentation>
+			<documentation>Y resolution of Akima interpolation.</documentation>
 			<release>Magics++0.1</release>
 		</parameter>
 	</class>

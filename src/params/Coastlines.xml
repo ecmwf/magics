@@ -14,6 +14,9 @@ does it submit to any jurisdiction.
 		prefix="map"
 		action="pcoast"
 		python="mcoast">
+		<userdoc>
+		This action controls the plotting of coastlines, rivers, cities and country boundaries, as well as the latitude/longitude grid lines.
+		</userdoc>
 		<documentation>
 		The parameters relating to action routine PCOAST (C++ class Coastlines) enable
         users to control the plotting of coastlines and grid lines.
