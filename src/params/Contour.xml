@@ -19,6 +19,7 @@ does it submit to any jurisdiction.
 		root="contour">
 		<userdoc>
 		This action controls the plotting of isolines, contour bands and grid points.
+		It is used to plot gridded data, such as fields.
 		</userdoc>
 		<documentation>
     This controls the plotting of isolines, contour bands and grid points.

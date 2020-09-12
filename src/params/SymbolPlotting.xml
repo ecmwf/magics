@@ -14,6 +14,10 @@ does it submit to any jurisdiction.
 		prefix="symbol"
 		action="psymb"
 		python="msymb">
+		<userdoc>
+		This action controls the plotting of meteorological and marker symbols.
+		It is used to plot point data, such as observations.
+		</userdoc>
 		<documentation>
     This action routine (and C++object) controls the plotting of meteorological and marker symbols.
 		</documentation>

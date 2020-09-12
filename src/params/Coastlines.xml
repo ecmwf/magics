@@ -13,7 +13,8 @@ does it submit to any jurisdiction.
 		directory="visualisers"
 		prefix="map"
 		action="pcoast"
-		python="mcoast">
+		python="mcoast"
+		python_rank="1">
 		<userdoc>
 		This action controls the plotting of coastlines, rivers, cities and country boundaries, as well as the latitude/longitude grid lines.
 		</userdoc>
