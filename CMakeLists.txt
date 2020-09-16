@@ -32,10 +32,6 @@ set(CMAKE_C_STANDARD 99)
 ###############################################################################
 # some build options for this project
                     
-ecbuild_add_option( FEATURE ODB
-                    DEFAULT OFF
-                    DESCRIPTION "ODB support - to be deprecated"
-                    REQUIRED_PACKAGES "NAME odb_api VERSION 0.10.2")
 
 ecbuild_add_option( FEATURE CAIRO
                     DEFAULT ON
@@ -59,6 +55,11 @@ ecbuild_add_option( FEATURE NETCDF
                     DESCRIPTION "enable netcdf support"
                     REQUIRED_PACKAGES "NetCDF 4 COMPONENTS C" )
 
+ecbuild_add_option( FEATURE ODC
+                    DEFAULT OFF
+                    DESCRIPTION "ODC support - to be deprecated"
+                    REQUIRED_PACKAGES "odc" )
+
 ecbuild_add_option( FEATURE METVIEW
                     DEFAULT OFF
                     DESCRIPTION "enable Metview interface" )
@@ -74,6 +75,7 @@ ecbuild_add_option( FEATURE EFAS
 
 set( MAGICS_NAME          "Magics" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
+
 
 
 ###############################################################################
@@ -177,19 +179,14 @@ endif()
 
 ###############################################################################
 # contents
-
+if (HAVE_ODC)
+  list( APPEND MAGICS_EXTRA_LIBRARIES odccore )
+  # Adding path to the Oda directory to be able to build the metview wreappers
+  list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src/oda> )
+endif()
 
 if( HAVE_CAIRO )
   list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS ${PANGOCAIRO_INCLUDE_DIRS})
-endif()
-
-
-if( HAVE_ODB )    ### deprecated!!!
-# FOR SYLVIE TO LOOK AT WHEN MIGRATING TO ODC!
-#  list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS
-#        ${CMAKE_CURRENT_SOURCE_DIR}/src/oda
-#        ${ODB_API_INCLUDE_DIRS}
-#		${ECKIT_INCLUDE_DIRS} )
 endif()
 
 set( MAGICS_LIBRARIES MagPlus )
@@ -231,6 +228,7 @@ add_subdirectory( src )
 add_subdirectory( share )
 add_subdirectory( apps )
 add_subdirectory( test )
+
 
 if(NOT HAVE_EFAS)
   ecbuild_add_resources( TARGET noefas DONT_PACK_DIRS share/magics/efas)
