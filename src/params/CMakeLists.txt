@@ -285,7 +285,7 @@ if( HAVE_NETCDF )
 		)
 endif()
 
-if ( HAVE_ODC )
+if ( HAVE_ODB )
 	list ( APPEND _common_xmls
 		OdaGeoDecoder.xml
 		OdaXYDecoder.xml )

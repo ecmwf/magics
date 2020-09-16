@@ -97,10 +97,11 @@ if( metview )
 	add_subdirectory( libMagWrapper )
 endif()
 
-if( HAVE_ODC )
+if( HAVE_ODB )
 	add_subdirectory( oda )
+  # Adding path to the Oda directory 
+  list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/oda> )
 endif()
-
 
 ecbuild_add_library( TARGET    MagPlus
                      DEPENDS   magics_params

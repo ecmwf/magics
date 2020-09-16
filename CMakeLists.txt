@@ -55,9 +55,9 @@ ecbuild_add_option( FEATURE NETCDF
                     DESCRIPTION "enable netcdf support"
                     REQUIRED_PACKAGES "NetCDF 4 COMPONENTS C" )
 
-ecbuild_add_option( FEATURE ODC
+ecbuild_add_option( FEATURE ODB
                     DEFAULT OFF
-                    DESCRIPTION "ODC support - to be deprecated"
+                    DESCRIPTION "ODB support - to be deprecated"
                     REQUIRED_PACKAGES "odc" )
 
 ecbuild_add_option( FEATURE METVIEW
@@ -179,10 +179,10 @@ endif()
 
 ###############################################################################
 # contents
-if (HAVE_ODC)
-  list( APPEND MAGICS_EXTRA_LIBRARIES odccore )
-  # Adding path to the Oda directory to be able to build the metview wreappers
-  list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src/oda> )
+
+if ( HAVE_ODB )
+  ecbuild_info("Adding support for ODB")
+  list( APPEND MAGICS_EXTRA_LIBRARIES odccore)
 endif()
 
 if( HAVE_CAIRO )
