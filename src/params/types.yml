@@ -1,0 +1,22 @@
+---
+LineStyle:
+    - solid
+    - dash
+    - dot
+    - chain_dash
+    - chain_dot
+ListPolicy:
+    - lastone
+    - cycle
+Justification: 
+    - left
+    - centre
+    - right 
+Position:
+    - automatic
+    - top
+    - bottom
+    - left
+    - right
+      
+
