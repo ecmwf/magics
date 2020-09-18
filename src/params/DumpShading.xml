@@ -13,5 +13,6 @@ does it submit to any jurisdiction.
         directory="visualisers"
         prefix="contour"
         action="pcont"
+        python="mcont"
         include='CellShading.h'></class>
 </magics>

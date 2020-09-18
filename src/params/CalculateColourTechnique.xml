@@ -12,6 +12,7 @@ does it submit to any jurisdiction.
 		xmltag="calculate"
 		name="CalculateColourTechnique"
 		directory="visualisers"
+		python = "mcont"
 		prefix="contour/contour/contour_shade/contour_shade/contour_shade"
 		action="pcont">
 		<parameter member="max"
@@ -20,7 +21,6 @@ does it submit to any jurisdiction.
 			from="string"
 			name="contour_shade_max_level_colour">
 			<documentation>Highest shading band colour</documentation>
-			<release>0.2</release>
 		</parameter>
 		<parameter member="min"
 			to="Colour"
@@ -36,7 +36,7 @@ does it submit to any jurisdiction.
 			member="direction"
 			to="string"
 			values="clockwise/anti_clockwise">
-			<documentation>Direction of colour sequencing for shading (CLOCKWISE/ ANTI_CLOCKWISE)</documentation>
+			<documentation>Direction of colour sequencing for shading</documentation>
 			<release>0.2</release>
 		</parameter>
 	</class>

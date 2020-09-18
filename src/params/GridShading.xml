@@ -12,6 +12,7 @@ does it submit to any jurisdiction.
 		name="GridShading"
 		directory="visualisers"
 		action="pcont"
+		python="mcont"
 		include="PolyShadingTechnique.h"
 		doc_inherits="no">
 		<parameter from="string"
@@ -21,7 +22,6 @@ does it submit to any jurisdiction.
 			to="string"
 			values="middle/bottom_left">
 			<documentation>Middle : the point is in the midlle of the cell, bottom_left : the point is in the bottom left corner</documentation>
-			<release>0.2</release>
 		</parameter>
 	</class>
 </magics>

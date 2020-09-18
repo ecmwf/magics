@@ -11,5 +11,6 @@ does it submit to any jurisdiction.
         directory="visualisers"
         inherits="HiLoTechnique"
         xmltag="both"
+        python="mcont"
         name="HiLoBoth"/>
 </magics>

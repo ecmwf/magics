@@ -83,9 +83,9 @@ protected:
             map<string, TextSymbol::TextPosition>::iterator pos = poshandlers.find(lowerCase(position_));
             TextSymbol::TextPosition position = (pos != poshandlers.end()) ? pos->second : TextSymbol::M_ABOVE;
             marker_->position(position);
-            marker_->setMarker(markerIndex_);
-            marker_->setColour(*markerColour_);
-            marker_->setHeight(markerHeight_);
+            marker_->setMarker(marker_index_);
+            marker_->setColour(*marker_colour_);
+            marker_->setHeight(marker_height_);
             marker_->blanking(false);
             MagFont font;
             font.size(this->height_);

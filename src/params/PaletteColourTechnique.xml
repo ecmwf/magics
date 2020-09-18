@@ -11,13 +11,14 @@ does it submit to any jurisdiction.
     include="ColourTechnique.h"
     name="PaletteColourTechnique"
     directory="visualisers"
+    python = "mcont"
     action="pcont">
     <parameter member="palette"
       to="string"
       default=""
       from="string"
       name="contour_shade_palette_name">
-      <documentation>Colour used at the stops : the gradeint will be calculated between 2 consecutive ones.</documentation>
+      <documentation>Colour used at the stops : the gradient will be calculated between 2 consecutive ones.</documentation>
     </parameter>
     <parameter from="string"
       name="contour_shade_palette_policy"

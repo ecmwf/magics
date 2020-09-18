@@ -7,5 +7,5 @@ granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
 <magics>
-    <class directory="visualisers" include="ShadingTechnique.h" name="ShadingTechnique"/>
+    <class directory="visualisers" include="ShadingTechnique.h" name="ShadingTechnique" python="mcont"/>
 </magics>

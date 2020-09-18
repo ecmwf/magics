@@ -11,10 +11,11 @@ does it submit to any jurisdiction.
 		xmltag="both"
 		name="BothValuePlotMethod"
 		directory="visualisers"
+		python = "mcont"
 		prefix="contour/contour_grid_value/contour_grid_value"
 		action="pcont">
 		<documentation>This object is reponsible for plotting both values and markers on grid points.</documentation>
-		<parameter member="markerHeight"
+		<parameter member="marker_height"
 			to="float"
 			default="0.25"
 			from="float"
@@ -22,24 +23,22 @@ does it submit to any jurisdiction.
 			<documentation>Height of grid point markers</documentation>
 			<release>0.2</release>
 		</parameter>
-		<parameter member="markerColour"
+		<parameter member="marker_colour"
 			to="Colour"
 			default="red"
 			from="string"
 			name="contour_grid_value_marker_colour">
-			<documentation>Colour of grid point markers (Full choice of colours)</documentation>
-			<release>0.2</release>
+			<documentation>Colour of grid point markers</documentation>
 		</parameter>
-		<parameter member="markerQuality"
+		<parameter member="marker_quality"
 			to="string"
 			default="low"
 			from="string"
+			values= "high/medium/low"
 			name="contour_grid_value_marker_qual">
-			<documentation>(LOW/MEDIUM/HIGH)</documentation>
-			<release>0.2</release>
-			<release>Quality is not yet implemented. Expected Magics++0.3</release>
+			<documentation>Quality of the grid point marker</documentation>
 		</parameter>
-		<parameter member="markerIndex"
+		<parameter member="marker_index"
 			to="int"
 			default="3"
 			from="int"

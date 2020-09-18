@@ -7,5 +7,5 @@ granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
 <magics>
-    <class directory="visualisers" include="HiLoBase.h" name="HiLoBase"/>
+    <class directory="visualisers" include="HiLoBase.h" name="HiLoBase" python = "mcont"/>
 </magics>

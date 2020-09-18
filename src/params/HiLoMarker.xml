@@ -11,7 +11,9 @@ does it submit to any jurisdiction.
 		directory="visualisers"
 		used_by="HiLo"
 		name="HiLoMarker"
+		python="mcont"
 		inherits="HiLoMarkerBase">
+		
 		<documentation>
   The position of a maxima/minima value may be marked by plotting a symbol on the precise location.
   Users may define their own symbol by setting the parameter CONTOUR_HILO_MARKER_INDEX
@@ -22,8 +24,7 @@ does it submit to any jurisdiction.
 			default="0.1"
 			member="height"
 			to="float">
-			<documentation>Height of HILO marker symbol</documentation>
-			<release>Magics++0.2</release>
+			<documentation>Height of HighLow marker symbol</documentation>
 		</parameter>
 		<parameter xml="index"
 			from="int"
@@ -31,8 +32,7 @@ does it submit to any jurisdiction.
 			default="3"
 			member="index"
 			to="int">
-			<documentation>Table number of marker symbol. See chapter on Plotting Attributes</documentation>
-			<release>Magics++0.2</release>
+			<documentation>Index of marker symbol</documentation>
 		</parameter>
 		<parameter xml="colour"
 			from="string"
@@ -40,8 +40,7 @@ does it submit to any jurisdiction.
 			default="red"
 			member="colour"
 			to="Colour">
-			<documentation>Colour of grid point markers(Full choice of colours)</documentation>
-			<release>Magics++0.2</release>
+			<documentation>Colour of grid point markers</documentation>
 		</parameter>
 	</class>
 </magics>

@@ -12,6 +12,7 @@ does it submit to any jurisdiction.
 		xmltag="list"
 		name="ListColourTechnique"
 		directory="visualisers"
+		python = "mcont"
 		prefix="contour/contour/contour_shade/contour_shade/contour_shade"
 		action="pcont">
 		<parameter from="stringarray"
@@ -21,7 +22,6 @@ does it submit to any jurisdiction.
 			to="stringarray"
 			colourlist="on">
 			<documentation>List of colours to be used in contour shading.</documentation>
-			<release>0.2</release>
 		</parameter>
 	</class>
 </magics>

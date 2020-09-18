@@ -13,6 +13,7 @@ does it submit to any jurisdiction.
 		directory="visualisers"
 		prefix="contour/contour/contour_shade/contour_shade/contour_shade"
 		action="pcont"
+		python="mcont"
 		doc_inherits="no">
 		<parameter member="size"
 			to="float"
@@ -20,7 +21,6 @@ does it submit to any jurisdiction.
 			from="float"
 			name="contour_shade_dot_size">
 			<documentation>Size of dot in shading pattern</documentation>
-			<release>0.2</release>
 		</parameter>
 		<parameter member="max_density"
 			to="float"
@@ -28,7 +28,6 @@ does it submit to any jurisdiction.
 			from="float"
 			name="contour_shade_max_level_density">
 			<documentation>Dots/square centimetre in highest shading band</documentation>
-			<release>0.2</release>
 		</parameter>
 		<parameter xml="min_level_density"
 			from="float"
@@ -37,7 +36,6 @@ does it submit to any jurisdiction.
 			member="min_density"
 			to="float">
 			<documentation>Dots/square centimetre in lowest shading band</documentation>
-			<release>0.2</release>
 		</parameter>
 	</class>
 </magics>

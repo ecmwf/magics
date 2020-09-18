@@ -11,6 +11,7 @@ does it submit to any jurisdiction.
 		directory="visualisers"
 		prefix="contour/contour_hilo"
 		xmltag="hilo"
+		python="mcont"
 		name="HiLoTechnique">
 		<documentation>common attributes to the HiLo technique plotting</documentation>
 		<parameter xml="height"
@@ -20,15 +21,6 @@ does it submit to any jurisdiction.
 			member="contour_hilo_height"
 			to="float">
 			<documentation>Height of local maxima/minima text or numbers</documentation>
-			<release>0.1</release>
-		</parameter>
-		<parameter xml="quality"
-			from="string"
-			name="contour_hilo_quality"
-			default="low"
-			member="contour_hilo_quality"
-			to="string">
-			<documentation>(LOW/MEDIUM/HIGH)</documentation>
 			<release>0.1</release>
 		</parameter>
 		<parameter xml="hi_colour"

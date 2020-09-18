@@ -7,7 +7,7 @@ granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
 <magics>
-	<class action="pcont" directory="visualisers" inherits="HiLoTechnique" name="HiLoNumber">
+	<class action="pcont" directory="visualisers" inherits="HiLoTechnique" python="mcont" name="HiLoNumber">
 		<documentation>
 This object is reponsible for plotting the HI/Lo as text.
 		</documentation>

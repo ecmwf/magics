@@ -13,6 +13,7 @@ does it submit to any jurisdiction.
 		directory="visualisers"
 		prefix="contour/contour/contour_shade/contour_shade/contour_shade_hatch"
 		action="pcont"
+		python="mcont"
 		doc_inherits="no">
 		<parameter member="index"
 			to="int"
