@@ -1,22 +1,31 @@
 ---
 LineStyle:
-    - solid
-    - dash
-    - dot
-    - chain_dash
-    - chain_dot
-ListPolicy:
-    - lastone
-    - cycle
-Justification: 
-    - left
-    - centre
-    - right 
-Position:
-    - automatic
-    - top
-    - bottom
-    - left
-    - right
-      
+  documentation: hello
+  values:
+    solid: la doc
+    dash: la doc
+    dot: la doc
+    chain_dash: la doc
+    chain_dot: la doc
 
+ListPolicy:
+  documentation: hello
+  values:
+    lastone: la doc
+    cycle: la doc
+
+Justification:
+  documentation: hello
+  values:
+    left: la doc
+    centre: la doc
+    right: la doc
+
+Position:
+  documentation: hello
+  values:
+    automatic: la doc
+    top: la doc
+    bottom: la doc
+    left: la doc
+    right: la doc
