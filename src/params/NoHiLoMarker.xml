@@ -12,7 +12,7 @@ does it submit to any jurisdiction.
 		name="NoHiLoMarker"
 		directory="visualisers"
 		action="pcont"
-		python="mcoont"
+		python="mcont"
 		include="HiLoMarker.h">
 		<documentation>
    This object suppresses the plotting of Hi/Lo markers
