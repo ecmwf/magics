@@ -84,7 +84,7 @@ ecbuild_add_option( FEATURE SPOT
                     REQUIRED_PACKAGES "PROJECT spot" )
 
 find_package(PythonInterp REQUIRED)
-find_package(Jinja2 REQUIRED)
+#find_package(Jinja2 REQUIRED)
 
 
 
