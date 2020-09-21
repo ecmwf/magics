@@ -10,10 +10,12 @@
 
 
 #include <ostream>
+#include <cstring>
 
 #include "JSON.h"
 #include "Translator.h"
 #include "StringContent.h"
+
 
 
 namespace magics {
