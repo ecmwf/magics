@@ -238,11 +238,6 @@ struct NetVariable {
     void get(vector<int>& data, vector<size_t>& start, vector<size_t>& edges) {
         nc_get_vara_int(netcdf_, id_, &start.front(), &edges.front(), &data.front());
     }
-
-    void get(vector<long>& data, vector<size_t>& start, vector<size_t>& edges) {
-        nc_get_vara_long(netcdf_, id_, &start.front(), &edges.front(), &data.front());
-    }
-
     void get(vector<short>& data, vector<size_t>& start, vector<size_t>& edges) {
         nc_get_vara_short(netcdf_, id_, &start.front(), &edges.front(), &data.front());
     }
@@ -257,7 +252,6 @@ struct NetVariable {
     void get(vector<float>& data) { nc_get_var_float(netcdf_, id_, &data.front()); }
 
     void get(vector<int>& data) { nc_get_var_int(netcdf_, id_, &data.front()); }
-    void get(vector<long>& data) { nc_get_var_long(netcdf_, id_, &data.front()); }
     void get(vector<short>& data) { nc_get_var_short(netcdf_, id_, &data.front()); }
     void get(vector<signed char>& data) { nc_get_var_schar(netcdf_, id_, &data.front()); }
 

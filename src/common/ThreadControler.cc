@@ -15,6 +15,10 @@
 #include <assert.h>
 #include <signal.h>
 
+#if !(defined linux || defined magics_windows)
+#include <sys/sched.h>
+#endif
+
 #ifndef AutoLock_H
 #include "AutoLock.h"
 #endif
@@ -41,7 +45,7 @@ using namespace magics;
 
 ThreadControler::ThreadControler(Thread* proc, bool detached) :
     detached_(detached),
-#ifndef _MSC_VER
+#ifndef MAGICS_ON_WINDOWS
     thread_(0),
 #else
     thread_({{0}, {0}}),
@@ -110,7 +114,7 @@ void ThreadControler::execute() {
     }
     catch (MagException& e) {
         magics::MagLog::error() << "** " << e.what() << " Caught in " << here << endl;
-#ifndef _MSC_VER
+#ifndef MAGICS_ON_WINDOWS
         magics::MagLog::error() << "** MagException is termiates thread " << pthread_self() << endl;
 #else
         pthread_t pt = pthread_self();
@@ -119,7 +123,7 @@ void ThreadControler::execute() {
     }
     catch (...) {
         magics::MagLog::error() << "** UNKNOWN MagException Caught in " << here << endl;
-#ifndef _MSC_VER
+#ifndef MAGICS_ON_WINDOWS
         magics::MagLog::error() << "** MagException is termiates thread " << pthread_self() << endl;
 #else
         pthread_t pt = pthread_self();
@@ -137,7 +141,7 @@ void* ThreadControler::startThread(void* data) {
 }
 
 void ThreadControler::start() {
-#ifndef _MSC_VER
+#ifndef MAGICS_ON_WINDOWS
     ASSERT(thread_ == 0);
 #else
     ASSERT(thread_.p == 0);
@@ -193,7 +197,7 @@ void ThreadControler::wait() {
 }
 
 bool ThreadControler::active() {
-#ifndef _MSC_VER
+#ifndef MAGICS_ON_WINDOWS
     if (thread_ != 0)
 #else
     if (thread_.p != 0)
@@ -208,7 +212,7 @@ bool ThreadControler::active() {
 
         // The thread does not exist
         if (n != 0) {
-#ifndef _MSC_VER
+#ifndef MAGICS_ON_WINDOWS
             thread_ = 0;
 #else
             thread_.p = 0;
@@ -216,7 +220,7 @@ bool ThreadControler::active() {
 #endif
         }
     }
-#ifndef _MSC_VER
+#ifndef MAGICS_ON_WINDOWS
     return thread_ != 0;
 #else
     return thread_.p != 0;
