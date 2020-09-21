@@ -85,7 +85,7 @@ public:
 
     ~EcChartData() {}
 
-    void callback(const string&, const json_spirit::Value&);
+    void callback(const string&, const Value&);
     map<string, string> getMap(const int);
     void init();
     map<int, map<string, string> > data_;
@@ -112,7 +112,7 @@ public:
     }
     ~EcChartSetData() {}
 
-    void callback(const string&, const json_spirit::Value&);
+    void callback(const string&, const Value&);
     bool hasKey(const string&);
     vector<int> getSet(const string&);
 

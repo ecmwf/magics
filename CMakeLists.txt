@@ -36,7 +36,7 @@ ecbuild_find_package( NAME eccodes VERSION 2.9.2 REQUIRED
 
 set( HAVE_GRIB 1 )     ##### remove both
 set( HAVE_BUFR 1 )
-                    
+
 ecbuild_add_option( FEATURE ODB
                     DEFAULT OFF
                     DESCRIPTION "ODB support - to be deprecated"
@@ -71,7 +71,7 @@ ecbuild_add_option( FEATURE NETCDF
                     REQUIRED_PACKAGES "NetCDF 4 COMPONENTS C" )
 
 find_package(PythonInterp REQUIRED)
-find_package(Jinja2 REQUIRED)
+# find_package(Jinja2 REQUIRED)
 
 
 ecbuild_add_option( FEATURE METVIEW
@@ -88,7 +88,7 @@ ecbuild_add_option( FEATURE EFAS
 
 
 set( MAGICS_NAME          "Magics" )
-set( MAGICS_EXCEPTION     "ON" )    ##################### REMOVE 
+set( MAGICS_EXCEPTION     "ON" )    ##################### REMOVE
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )    ##### Stephan will check
 
 
@@ -299,7 +299,7 @@ endif()
 # Directories not need in the distribution tar ball!
 ecbuild_add_resources( TARGET bamboo DONT_PACK_DIRS bamboo)
 ecbuild_add_resources( TARGET old_resources
-		DONT_PACK_DIRS 
+		DONT_PACK_DIRS
 		docs
 		toolsjs
 		notebook)

@@ -22,11 +22,13 @@
 #include "MagicsDecoder.h"
 #include "PointsHandler.h"
 #include "UserPoint.h"
-#include "json_spirit.h"
 
 #include <limits>
 
 namespace magics {
+
+class Value;
+class ValueMap;
 
 class GeoObject;
 
@@ -35,7 +37,7 @@ public:
     GeoJSon();
     virtual ~GeoJSon();
 
-    typedef void (GeoJSon::*Method)(const json_spirit::Value&);
+    typedef void (GeoJSon::*Method)(const Value&);
 
     map<string, Method> methods_;
 
@@ -48,13 +50,13 @@ protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
     virtual void print(ostream&) const;
     void decode();
-    void dig(const json_spirit::Value&);
-    void coordinates(const json_spirit::Value&);
-    void properties(const json_spirit::Value&);
-    void type(const json_spirit::Value&);
-    void geometry(const json_spirit::Value&);
-    void features(const json_spirit::Value&);
-    string find(json_spirit::Object&, const string&);
+    void dig(const Value&);
+    void coordinates(const Value&);
+    void properties(const Value&);
+    void type(const Value&);
+    void geometry(const Value&);
+    void features(const Value&);
+    string find(ValueMap&, const string&);
 
     vector<CustomisedPoint*> points_;
     GeoObject* current_;

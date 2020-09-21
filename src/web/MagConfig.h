@@ -17,9 +17,12 @@
 
 
 #include <limits>
-#include "json_spirit.h"
 
 namespace magics {
+
+class Value;
+class ValueMap;
+class ValueList;
 
 
 class MagConfig {
@@ -27,10 +30,10 @@ public:
     MagConfig();
     ~MagConfig();
 
-    static string convert(const json_spirit::Value& value);
+    static string convert(const Value& value);
 
-    virtual void callback(const string&, const json_spirit::Value&) = 0;
-    virtual void callback(const json_spirit::Array&) {}
+    virtual void callback(const string&, const Value&) = 0;
+    virtual void callback(const ValueList&) {}
 };
 
 
@@ -41,8 +44,8 @@ public:
     MagConfigHandler(const string& config, MagConfig& object);
     virtual ~MagConfigHandler();
 
-    void dig(const json_spirit::Value&);
-    void ignore(const json_spirit::Value&) {}
+    void dig(const Value&);
+    void ignore(const Value&) {}
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
@@ -64,11 +67,11 @@ private:
 };
 
 struct MagDef : map<string, string> {
-    void values(const json_spirit::Value&);
+    void values(const Value&);
 
 
     string name_;
-    void set(const json_spirit::Object&);
+    void set(const ValueMap&);
     friend ostream& operator<<(ostream& s, const MagDef& p) {
         s << "[" << endl;
         for (auto def = p.begin(); def != p.end(); ++def)
@@ -89,7 +92,7 @@ public:
     }
     ~MagDefLibrary() {}
 
-    void callback(const string& name, const json_spirit::Value& value);
+    void callback(const string& name, const Value& value);
 
     void init(const string&);
     void init(const string&, const string&);
@@ -116,16 +119,16 @@ public:
 struct Style {
     typedef map<string, vector<string> > Match;
 
-    typedef void (Style::*SetMethod)(const json_spirit::Value&);
+    typedef void (Style::*SetMethod)(const Value&);
     map<string, SetMethod> methods_;
 
-    void criteria(const json_spirit::Value&);
-    void style(const json_spirit::Value&);
-    void units(const json_spirit::Value&);
-    void styles(const json_spirit::Value&);
-    void name(const json_spirit::Value&);
-    void match(const json_spirit::Value&);
-    void ignore(const json_spirit::Value&) {}
+    void criteria(const Value&);
+    void style(const Value&);
+    void units(const Value&);
+    void styles(const Value&);
+    void name(const Value&);
+    void match(const Value&);
+    void ignore(const Value&) {}
 
     vector<Match> criteria_;
     string preferedUnits_;
@@ -133,8 +136,8 @@ struct Style {
     vector<string> styles_;
 
 
-    void set(const json_spirit::Object&);
-    void set(json_spirit::Object&, Style::Match&);
+    void set(const ValueMap&);
+    void set(ValueMap&, Style::Match&);
 
     int score(const MetaDataCollector& data);
 
@@ -147,8 +150,8 @@ public:
     StyleLibrary(const string& path) : path_(path) { init(); }
     ~StyleLibrary() {}
 
-    void callback(const string& name, const json_spirit::Value& value);
-    void callback(const json_spirit::Array& values);
+    void callback(const string& name, const Value& value);
+    void callback(const ValueList& values);
 
     void init();
 
@@ -178,18 +181,18 @@ public:
 
 struct Palette {
     typedef vector<string> Definition;
-    typedef void (Palette::*SetMethod)(const json_spirit::Value&);
+    typedef void (Palette::*SetMethod)(const Value&);
 
     map<string, SetMethod> methods_;
 
-    void values(const json_spirit::Value&);
-    void tags(const json_spirit::Value&);
+    void values(const Value&);
+    void tags(const Value&);
 
 
     Definition colours_;
     Definition tags_;
     string name_;
-    void set(const json_spirit::Object&);
+    void set(const ValueMap&);
 };
 
 
@@ -199,7 +202,7 @@ public:
     PaletteLibrary(const string& family) { init(); }
     ~PaletteLibrary() {}
 
-    void callback(const string& name, const json_spirit::Value& value);
+    void callback(const string& name, const Value& value);
 
     void init();
 
@@ -222,7 +225,7 @@ public:
     NetcdfGuess() : name_("netcdf-convention") { init(); }
     ~NetcdfGuess() {}
 
-    void callback(const string& name, const json_spirit::Value& value);
+    void callback(const string& name, const Value& value);
     void init();
 
     string name_;
@@ -237,7 +240,7 @@ public:
 
     ~DimensionGuess() {}
 
-    void callback(const string& name, const json_spirit::Value& value) {}
+    void callback(const string& name, const Value& value) {}
     void init();
 
     string definitions_;
@@ -248,16 +251,16 @@ public:
 
 
 struct UnitConvert {
-    typedef void (UnitConvert::*SetMethod)(const json_spirit::Value&);
+    typedef void (UnitConvert::*SetMethod)(const Value&);
 
     map<string, SetMethod> methods_;
 
-    void from(const json_spirit::Value&);
-    void to(const json_spirit::Value&);
-    void scaling(const json_spirit::Value&);
-    void offset(const json_spirit::Value&);
+    void from(const Value&);
+    void to(const Value&);
+    void scaling(const Value&);
+    void offset(const Value&);
 
-    void set(const json_spirit::Object&);
+    void set(const ValueMap&);
 
     double scaling();
     double offset();
@@ -275,7 +278,7 @@ public:
     UnitsLibrary(const string& family) { init(); }
     ~UnitsLibrary() {}
 
-    void callback(const string& name, const json_spirit::Value& value);
+    void callback(const string& name, const Value& value);
 
     void init();
 
