@@ -10,7 +10,7 @@
 
 // File Exception
 // Sylvie Lamy-Thepaut - ECMWF Mar 02
-
+#include <string.h>
 #include <MagException.h>
 
 using namespace magics;
@@ -26,7 +26,7 @@ AssertionFailed::AssertionFailed(const char* msg, int line, const char* file, co
 
 CannotOpenFile::CannotOpenFile(const std::string& path) {
 #ifdef MAGICS_ON_WINDOWS
-    const char* estr = "TODO: error message on windows";
+    const char* estr = _strerror(NULL);
 #else
     int e = errno;
     char estr[256];
