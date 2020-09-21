@@ -24,12 +24,14 @@ AssertionFailed::AssertionFailed(const char* msg, int line, const char* file, co
     what_ = s.str();
 }
 
-CannotOpenFile::CannotOpenFile(const std::string& path)
-{
+CannotOpenFile::CannotOpenFile(const std::string& path) {
+#ifdef MAGICS_ON_WINDOWS
+    const char* estr = "TODO: error message on windows";
+#else
     int e = errno;
     char estr[256];
     strerror_r(errno, estr, sizeof(estr));
-
+#endif
     reason("Cannot open file " + path + ": " + string(estr));
 
 }
