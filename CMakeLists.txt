@@ -131,18 +131,16 @@ ecbuild_declare_project()
 ###############################################################################
 # find extra packages
 
-set(CMAKE_USE_WIN32_THREADS_INIT 1)
-
+set( CMAKE_THREAD_PREFER_PTHREAD 1 )
 
 if( EC_OS_NAME MATCHES "windows" )
     message("IN WINDOWS")
-    find_library( PTHREAD_LIB pthread REQUIRED) #PATHS ENV PATH )
+    find_package( Pthread REQUIRED )
     message("IN WINDOWS ${PTHREAD_LIB}")
     list( APPEND MAGICS_EXTRA_LIBRARIES ${PTHREAD_LIB} )
+else()
+  find_package( Threads )
 endif()
-
-set( CMAKE_THREAD_PREFER_PTHREAD 1 )
-find_package( Threads )
 
 # adding NO_MODULE means that if we don't find it, CMake will not generate
 # strange error messages about not being able to find the FindProj4.cmake file.
