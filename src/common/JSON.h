@@ -26,10 +26,6 @@
 
 namespace magics {
 
-class Time;
-class Date;
-class DateTime;
-
 //----------------------------------------------------------------------------------------------------------------------
 
 class JSON {
@@ -51,11 +47,6 @@ public:  // methods
     JSON& operator<<(unsigned long long);
     JSON& operator<<(float);
     JSON& operator<<(double);
-
-    JSON& operator<<(const Date&);
-    JSON& operator<<(const Time&);
-    JSON& operator<<(const DateTime&);
-    JSON& operator<<(const ::timeval&);
 
     JSON& operator<<(const std::string&);
     JSON& operator<<(const char*);

@@ -211,37 +211,6 @@ JSON& JSON::operator<<(const char* s) {
     return *this;
 }
 
-#if 0
-JSON& JSON::operator<<(const Date& date) {
-    *this << std::string(date);
-    return *this;
-}
-
-JSON& JSON::operator<<(const Time& time) {
-    *this << std::string(time);
-    return *this;
-}
-
-JSON& JSON::operator<<(const DateTime& datetime) {
-    *this << datetime.iso(false);
-    return *this;
-}
-
-JSON& JSON::operator<<(const ::timeval& t) {
-    *this << double(t.tv_sec + t.tv_usec / 1000000.0);
-    return *this;
-}
-
-JSON& JSON::precision(int n) {
-    out_ << std::setprecision(n);
-    return *this;
-}
-
-void JSON::raw(const char* buffer, long len) {
-    out_ << std::string(buffer, len);
-}
-#endif
-
 //----------------------------------------------------------------------------------------------------------------------
 
 }  // namespace magics
