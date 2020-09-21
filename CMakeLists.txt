@@ -135,7 +135,9 @@ set( CMAKE_THREAD_PREFER_PTHREAD 1 )
 find_package( Threads )
 
 if( EC_OS_NAME MATCHES "windows" )
-    find_library( PTHREAD_LIB pthread PATHS ENV PATH )
+    message("IN WINDOWS")
+    find_library( PTHREAD_LIB pthread REQUIRED)#PATHS ENV PATH )
+    message("IN WINDOWS ${PTHREAD_LIB}")
     list( APPEND MAGICS_EXTRA_LIBRARIES ${PTHREAD_LIB} )
 endif()
 
