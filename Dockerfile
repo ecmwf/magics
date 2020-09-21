@@ -43,7 +43,6 @@ RUN set -ex \
     && apt-get install --yes --no-install-suggests --no-install-recommends \
       libarmadillo-dev \
       libatlas-base-dev \
-      libboost-dev \
       libbz2-dev \
       libc6-dev \
       libcairo2-dev \

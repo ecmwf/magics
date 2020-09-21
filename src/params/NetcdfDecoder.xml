@@ -1,40 +1,42 @@
-<magics>
-<class action="pnetcdf" directory="decoders" prefix="netcdf" xmltag="netcdf" name="NetcdfDecoder">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
+<magics>
+	<class action="pnetcdf"
+		directory="decoders"
+		prefix="netcdf"
+		xmltag="netcdf"
+		name="NetcdfDecoder">
 		<documentation>
        This handles the decoding of NetCDF Files.
 		</documentation>
-
-    
-
-     	<parameter member="interpretor" to="NetcdfInterpretor" default="guess" from="string" name="netcdf_type">
-            <option xml="guess" fortran="guess" include="NetcdfInterpretor.h" name="NetcdfGuessInterpretor">    </option>
-        		<option xml="matrix" fortran="matrix" include="NetcdfMatrixInterpretor.h" name="NetcdfMatrixInterpretor">		</option>
-                
-           	<option xml="geomatrix" fortran="geomatrix" include="NetcdfGeoMatrixInterpretor.h" name="NetcdfGeoMatrixInterpretor">		</option>
-          
-          		<option xml="vector" fortran="vector" include="NetcdfVectorInterpretor.h" name="NetcdfVectorInterpretor">		</option>
-           		<option xml="geovector" fortran="geovector" include="NetcdfVectorInterpretor.h" name="NetcdfGeoVectorInterpretor">		</option>
-           		<option xml="geopolarmatrix" fortran="geopolarmatrix" include="NetcdfVectorInterpretor.h" name="NetcdfGeoPolarMatrixInterpretor">		</option>
-        
-        		<option xml="geopoint" fortran="geopoint" include="NetcdfGeopointsInterpretor.h" name="NetcdfGeopointsInterpretor">		</option>  
-          		<option fortran="xypoint" include="NetcdfGeopointsInterpretor.h" name="NetcdfXYpointsInterpretor">		</option>  
-         		<option xml="complex_matrix" fortran="complex_matrix" include="NetcdfOrcaInterpretor.h" name="NetcdfOrcaInterpretor">		</option>
-
-
-        		
-        		<documentation>Type of data arrangement in the file (possible values: matrix) 		</documentation>
-    	</parameter>
-      <parameter member="metadata" to="string" default="{}" from="string" name="netcdf_metadata">
-        <documentation>Json string containing metadata information: useful to choose a style     </documentation>
-      </parameter>
-</class></magics>
+		<parameter member="interpretor"
+			to="NetcdfInterpretor"
+			default="guess"
+			from="string"
+			name="netcdf_type">
+			<option xml="guess" fortran="guess" include="NetcdfInterpretor.h" name="NetcdfGuessInterpretor"></option>
+			<option xml="matrix" fortran="matrix" include="NetcdfMatrixInterpretor.h" name="NetcdfMatrixInterpretor"></option>
+			<option xml="geomatrix" fortran="geomatrix" include="NetcdfGeoMatrixInterpretor.h" name="NetcdfGeoMatrixInterpretor"></option>
+			<option xml="vector" fortran="vector" include="NetcdfVectorInterpretor.h" name="NetcdfVectorInterpretor"></option>
+			<option xml="geovector" fortran="geovector" include="NetcdfVectorInterpretor.h" name="NetcdfGeoVectorInterpretor"></option>
+			<option xml="geopolarmatrix" fortran="geopolarmatrix" include="NetcdfVectorInterpretor.h" name="NetcdfGeoPolarMatrixInterpretor"></option>
+			<option xml="geopoint" fortran="geopoint" include="NetcdfGeopointsInterpretor.h" name="NetcdfGeopointsInterpretor"></option>
+			<option fortran="xypoint" include="NetcdfGeopointsInterpretor.h" name="NetcdfXYpointsInterpretor"></option>
+			<option xml="complex_matrix" fortran="complex_matrix" include="NetcdfOrcaInterpretor.h" name="NetcdfOrcaInterpretor"></option>
+			<documentation>Type of data arrangement in the file (possible values: matrix)</documentation>
+		</parameter>
+		<parameter member="metadata"
+			to="string"
+			default="{}"
+			from="string"
+			name="netcdf_metadata">
+			<documentation>Json string containing metadata information: useful to choose a style</documentation>
+		</parameter>
+	</class>
+</magics>

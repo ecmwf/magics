@@ -1,26 +1,36 @@
-<magics>
-<class directory="visualisers" prefix="boxplot/boxplot_whisker/boxplot_whisker_box" xmltag="whisker_box" name="BoxPlotWhiskerBox">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
-   	<parameter member="colour" to="Colour" default="sky" from="string" name="boxplot_whisker_box_colour">
-         		<documentation>Colour of the whisker box		</documentation>
-  	</parameter>
-  
-  	<parameter member="width" to="float" default="0.25" from="float" name="boxplot_whisker_box_width">
-         		<documentation>Width of the whisker box in centimeters		</documentation>
-  	</parameter>
-  
-    	<parameter from="string" name="boxplot_whisker_box_border" default="on" member="border" to="NoBoxPlotWhiskerBorder" include="BoxPlotBasicItem.h">
-	         		<documentation>Determines whether the whisker box border is drawn or not		</documentation>
-	         		<option xml="border" fortran="on" include="BoxPlotItem.h" name="BoxPlotWhiskerBorder">		</option>
-             		<option xml="noborder" fortran="off" include="BoxPlotBasicItem.h" name="NoBoxPlotWhiskerBorder">		</option>
-	  	</parameter>
-</class></magics>
+<magics>
+	<class directory="visualisers" prefix="boxplot/boxplot_whisker/boxplot_whisker_box" xmltag="whisker_box" name="BoxPlotWhiskerBox">
+		<parameter member="colour"
+			to="Colour"
+			default="sky"
+			from="string"
+			name="boxplot_whisker_box_colour">
+			<documentation>Colour of the whisker box</documentation>
+		</parameter>
+		<parameter member="width"
+			to="float"
+			default="0.25"
+			from="float"
+			name="boxplot_whisker_box_width">
+			<documentation>Width of the whisker box in centimeters</documentation>
+		</parameter>
+		<parameter from="string"
+			name="boxplot_whisker_box_border"
+			default="on"
+			member="border"
+			to="NoBoxPlotWhiskerBorder"
+			include="BoxPlotBasicItem.h">
+			<documentation>Determines whether the whisker box border is drawn or not</documentation>
+			<option xml="border" fortran="on" include="BoxPlotItem.h" name="BoxPlotWhiskerBorder"></option>
+			<option xml="noborder" fortran="off" include="BoxPlotBasicItem.h" name="NoBoxPlotWhiskerBorder"></option>
+		</parameter>
+	</class>
+</magics>

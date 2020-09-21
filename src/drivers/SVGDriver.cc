@@ -104,7 +104,7 @@ MAGICS_NO_EXPORT void SVGDriver::startPage() const {
     if (!pFile_) {
         MagLog::error() << " SVGDriver --> Cannot write output file to what was specified: " << fileName_ << endl;
         MagLog::error() << "";
-        throw NoSuchFileException("Error opening SVG output file!");
+        throw CannotOpenFile(filename);
     }
 
     svg_output_resource_list_.push_back(filename);

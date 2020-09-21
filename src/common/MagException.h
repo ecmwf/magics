@@ -30,6 +30,8 @@ public:
         }
     }
 
+    void reason(const std::string& what) { what_= what;}
+
     virtual const char* what() const throw() { return what_.c_str(); }
     virtual ~MagicsException() throw() {}
 
@@ -44,15 +46,11 @@ protected:
 };
 
 
-class NoSuchFileException : public MagicsException {
+class CannotOpenFile : public MagicsException {
 public:
-    NoSuchFileException(const string& file) : MagicsException("No Such File: " + file) {}
+    CannotOpenFile(const string& file);
 };
 
-class NoWritePermissionException : public MagicsException {
-public:
-    NoWritePermissionException(const string& file) : MagicsException("No write permission to write file: " + file) {}
-};
 
 class NotYetImplemented : public MagicsException {
 public:

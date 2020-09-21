@@ -1248,7 +1248,7 @@ MAGICS_EXPORT void pinfo_() {
         try {                            \
             magics();                    \
         }                                \
-        catch (exception e) {            \
+        catch (exception& e) {            \
             return e.what();             \
         }                                \
         return NULL;                     \
@@ -1258,7 +1258,7 @@ MAGICS_EXPORT void pinfo_() {
         try {                            \
             return magics();             \
         }                                \
-        catch (exception e) {            \
+        catch (exception& e) {            \
             return e.what();             \
         }                                \
         return NULL;                     \
@@ -1461,7 +1461,7 @@ MAGICS_EXPORT const char* py_new(const char* page) {
     try {
         mag_new(page);
     }
-    catch (exception e) {
+    catch (exception& e) {
         return e.what();
     }
     return NULL;
@@ -1475,7 +1475,7 @@ MAGICS_EXPORT const char* py_reset(const char* name) {
     try {
         mag_reset(name);
     }
-    catch (exception e) {
+    catch (exception& e) {
         return e.what();
     }
     return NULL;
@@ -1489,7 +1489,7 @@ MAGICS_EXPORT const char* py_setc(const char* name, const char* value) {
     try {
         mag_setc(name, value);
     }
-    catch (exception e) {
+    catch (exception& e) {
         return e.what();
     }
     return NULL;
@@ -1506,7 +1506,7 @@ MAGICS_EXPORT const char* py_setr(const char* name, const double value) {
     try {
         mag_setr(name, value);
     }
-    catch (exception e) {
+    catch (exception& e) {
         return e.what();
     }
     return NULL;
@@ -1524,7 +1524,7 @@ MAGICS_EXPORT const char* py_seti(const char* name, const int value) {
     try {
         mag_seti(name, value);
     }
-    catch (exception e) {
+    catch (exception& e) {
         return e.what();
     }
     return NULL;
@@ -1547,7 +1547,7 @@ MAGICS_EXPORT const char* py_set1r(const char* name, const double* data, const i
     try {
         mag_set1r(name, data, dim1);
     }
-    catch (exception e) {
+    catch (exception& e) {
         return e.what();
     }
     return NULL;
@@ -1573,7 +1573,7 @@ MAGICS_EXPORT const char* py_set2r(const char* name, const double* data, const i
     try {
         mag_set2r(name, data, dim1, dim2);
     }
-    catch (exception e) {
+    catch (exception& e) {
         return e.what();
     }
     return NULL;
@@ -1607,7 +1607,7 @@ MAGICS_EXPORT const char* py_set1i(const char* name, const int* data, const int 
     try {
         mag_set1i(name, data, dim1);
     }
-    catch (exception e) {
+    catch (exception& e) {
         return e.what();
     }
     return NULL;
@@ -1633,7 +1633,7 @@ MAGICS_EXPORT const char* py_set2i(const char* name, const int* data, const int 
     try {
         mag_set2i(name, data, dim1, dim2);
     }
-    catch (exception e) {
+    catch (exception& e) {
         return e.what();
     }
     return NULL;
@@ -1665,7 +1665,7 @@ MAGICS_EXPORT const char* py_set1c(const char* name, const char** data, const in
     try {
         mag_set1c(name, data, dim1);
     }
-    catch (exception e) {
+    catch (exception& e) {
         return e.what();
     }
     return NULL;

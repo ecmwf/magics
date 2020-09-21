@@ -1,63 +1,92 @@
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
 <magics>
-<class directory="basic" inherits="NoMagnifierVisitor" name="MagnifierVisitor">
-	<parameter member="symbol_name" to="string" default="magics_3" from="string" name="magnifier_symbol_name">
-         		<documentation for_docs="no"> Mv4: Symbol used in the magnifier 		</documentation>
-         		<release>Magics++2.8		</release>
-	</parameter> 
-
-	<parameter member="hidden_symbol_name" to="string" default="magics_3" from="string" name="magnifier_hidden_symbol_name">
-         		<documentation for_docs="no"> Mv4: Symbol used in the magnifier 		</documentation>
-         		<release>Magics++2.8		</release>
-	</parameter>
-    
-	<parameter member="symbol_colour" to="Colour" default="red" from="string" name="magnifier_symbol_colour">
-         		<documentation for_docs="no"> Mv4: Colour of the symbol in the magnifier 		</documentation>
-         		<release>Magics++2.8		</release>
-	</parameter> 
-
-	<parameter member="hidden_symbol_colour" to="Colour" default="navy" from="string" name="magnifier_hidden_symbol_colour">
-         		<documentation for_docs="no"> Mv4: Colour of the symbol in the magnifier 		</documentation>
-         		<release>Magics++2.8		</release>
-	</parameter>
-
-	<parameter member="symbol_height" to="float" default="0.2" from="float" name="magnifier_symbol_height">
-         		<documentation for_docs="no"> Mv4: Colour of the symbol in the magnifier 		</documentation>
-         		<release>Magics++2.8		</release>
-	</parameter>
-
-	<parameter member="hidden_symbol_height" to="float" default="0.1" from="float" name="magnifier_hidden_symbol_height">
-         		<documentation for_docs="no"> Mv4: Colour of the symbol in the magnifier 		</documentation>
-         		<release>Magics++2.8		</release>
-	</parameter>
-
-	<parameter member="text_font_name" to="string" default="sanserif" from="string" name="magnifier_text_font">
-         		<documentation for_docs="no"> Mv4: Colour of the symbol in the magnifier 		</documentation>
-         		<release>Magics++2.8		</release>
-	</parameter>
-
-	<parameter member="text_font_size" to="float" default="0.2" from="float" name="magnifier_text_font_size">
-         		<documentation for_docs="no"> Mv4: Colour of the symbol in the magnifier 		</documentation>
-         		<release>Magics++2.8		</release>
-	</parameter>
-
-	<parameter member="text_font_colour" to="Colour" default="navy" from="string" name="magnifier_text_font_colour">
-         		<documentation for_docs="no"> Mv4: Colour of the symbol in the magnifier 		</documentation>
-         		<release>Magics++2.8		</release>
-	</parameter>  
-
-	<parameter member="text_format" to="string" default="(automatic)" from="string" name="magnifier_text_format">
-         		<documentation for_docs="no"> Mv4: Colour of the symbol in the magnifier 		</documentation>
-         		<release>Magics++2.8		</release>
-	</parameter>
-
-</class></magics>
+	<class directory="basic" inherits="NoMagnifierVisitor" name="MagnifierVisitor">
+		<parameter member="symbol_name"
+			to="string"
+			default="magics_3"
+			from="string"
+			name="magnifier_symbol_name">
+			<documentation for_docs="no">Mv4: Symbol used in the magnifier</documentation>
+			<release>Magics++2.8</release>
+		</parameter>
+		<parameter member="hidden_symbol_name"
+			to="string"
+			default="magics_3"
+			from="string"
+			name="magnifier_hidden_symbol_name">
+			<documentation for_docs="no">Mv4: Symbol used in the magnifier</documentation>
+			<release>Magics++2.8</release>
+		</parameter>
+		<parameter member="symbol_colour"
+			to="Colour"
+			default="red"
+			from="string"
+			name="magnifier_symbol_colour">
+			<documentation for_docs="no">Mv4: Colour of the symbol in the magnifier</documentation>
+			<release>Magics++2.8</release>
+		</parameter>
+		<parameter member="hidden_symbol_colour"
+			to="Colour"
+			default="navy"
+			from="string"
+			name="magnifier_hidden_symbol_colour">
+			<documentation for_docs="no">Mv4: Colour of the symbol in the magnifier</documentation>
+			<release>Magics++2.8</release>
+		</parameter>
+		<parameter member="symbol_height"
+			to="float"
+			default="0.2"
+			from="float"
+			name="magnifier_symbol_height">
+			<documentation for_docs="no">Mv4: Colour of the symbol in the magnifier</documentation>
+			<release>Magics++2.8</release>
+		</parameter>
+		<parameter member="hidden_symbol_height"
+			to="float"
+			default="0.1"
+			from="float"
+			name="magnifier_hidden_symbol_height">
+			<documentation for_docs="no">Mv4: Colour of the symbol in the magnifier</documentation>
+			<release>Magics++2.8</release>
+		</parameter>
+		<parameter member="text_font_name"
+			to="string"
+			default="sanserif"
+			from="string"
+			name="magnifier_text_font">
+			<documentation for_docs="no">Mv4: Colour of the symbol in the magnifier</documentation>
+			<release>Magics++2.8</release>
+		</parameter>
+		<parameter member="text_font_size"
+			to="float"
+			default="0.2"
+			from="float"
+			name="magnifier_text_font_size">
+			<documentation for_docs="no">Mv4: Colour of the symbol in the magnifier</documentation>
+			<release>Magics++2.8</release>
+		</parameter>
+		<parameter member="text_font_colour"
+			to="Colour"
+			default="navy"
+			from="string"
+			name="magnifier_text_font_colour">
+			<documentation for_docs="no">Mv4: Colour of the symbol in the magnifier</documentation>
+			<release>Magics++2.8</release>
+		</parameter>
+		<parameter member="text_format"
+			to="string"
+			default="(automatic)"
+			from="string"
+			name="magnifier_text_format">
+			<documentation for_docs="no">Mv4: Colour of the symbol in the magnifier</documentation>
+			<release>Magics++2.8</release>
+		</parameter>
+	</class>
+</magics>

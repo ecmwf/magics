@@ -148,7 +148,7 @@ void OdaGeoDecoder::decode(const Transformation& transformation) {
 
             computeStats();
         }
-        catch (exception e) {
+        catch (exception& e) {
             MagLog::error() << "Failed to read ODB data: " << e.what();
             return;
         }
@@ -239,7 +239,7 @@ void OdaGeoDecoder::decode() {
 
         MagLog::info() << "Number of rows: " << row << endl;
     }
-    catch (exception e) {
+    catch (exception& e) {
         MagLog::error() << "Failed to read ODB data: " << e.what();
         return;
     }
@@ -356,7 +356,7 @@ void OdaGeoDecoder::customisedPoints(const std::set<string>&, CustomisedPointsLi
 
         MagLog::info() << "Number of rows: " << row << endl;
     }
-    catch (exception e) {
+    catch (exception& e) {
         MagLog::error() << "Failed to read ODB data: " << e.what();
         return;
     }
@@ -455,7 +455,7 @@ void OdaGeoDecoder::customisedPoints(const Transformation& transformation, const
 
         MagLog::info() << "Number of rows: " << row << endl;
     }
-    catch (exception e) {
+    catch (exception& e) {
         MagLog::error() << "Failed to read ODB data: " << e.what();
         return;
     }
@@ -749,7 +749,7 @@ void OdaXYDecoder::customisedPoints(const Transformation& transformation, const 
 
         MagLog::info() << "Number of rows: " << row << endl;
     }
-    catch (exception e) {
+    catch (exception& e) {
         MagLog::error() << "Failed to read ODB data: " << e.what();
         return;
     }
@@ -823,7 +823,7 @@ void OdaXYDecoder::customisedPoints(const std::set<string>&, CustomisedPointsLis
 
         MagLog::info() << "Number of rows: " << row << endl;
     }
-    catch (exception e) {
+    catch (exception& e) {
         MagLog::error() << "Failed to read ODB data: " << e.what();
         return;
     }
@@ -903,7 +903,7 @@ void OdaXYDecoder::decode(const Transformation& transformation) {
 
         MagLog::info() << "Number of rows: " << row << endl;
     }
-    catch (exception e) {
+    catch (exception& e) {
         MagLog::error() << "Failed to read ODB data: " << e.what();
         return;
     }
@@ -962,7 +962,7 @@ void OdaXYDecoder::decode() {
 
         MagLog::info() << "Number of rows: " << row << endl;
     }
-    catch (exception e) {
+    catch (exception& e) {
         MagLog::error() << "Failed to read ODB data: " << e.what();
         return;
     }

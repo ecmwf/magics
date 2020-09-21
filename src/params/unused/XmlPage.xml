@@ -1,0 +1,43 @@
+<!--
+(C) Copyright 1996-2016 ECMWF.
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+<magics>
+	<class directory="common" name="XmlPage" embedded_objects="Frame">
+		<parameter xml="format"
+			from="string"
+			name="format"
+			default="a4"
+			member="format"
+			to="string">
+			<documentation>format of the page</documentation>
+			<migration>Only used in the MagML Interface</migration>
+			<release>Magics++0.7</release>
+		</parameter>
+		<parameter xml="orientation"
+			from="string"
+			name="orientation"
+			default="landscape"
+			member="orientation"
+			to="string">
+			<documentation>orientation of the page</documentation>
+			<migration>Only used in the MagML Interface</migration>
+			<release>Magics++0.7</release>
+		</parameter>
+		<parameter member="meta"
+			to="MetaData"
+			default="nometadata"
+			from="string"
+			name="meta">
+			<release>Magics++0.7</release>
+			<documentation>Write metadata in xml format</documentation>
+			<option xml="metadata" include="MetaData.h" name="MetaData"></option>
+			<option xml="nometadata" include="MetaData.h" name="NoMetaData"></option>
+			<migration>Only used in the MagML Interface</migration>
+		</parameter>
+	</class>
+</magics>

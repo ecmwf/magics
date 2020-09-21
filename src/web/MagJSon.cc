@@ -12,11 +12,13 @@
 
 
 using namespace magics;
-using namespace json_spirit;
 #include "XmlMagics.h"
 #include "XmlTree.h"
 
 #include "Timer.h"
+#include "Value.h"
+#include "JSONParser.h"
+
 MagJSon::MagJSon() {
     patchs_["drivers"]    = &MagJSon::drivers;
     patchs_["definition"] = &MagJSon::definitions;
@@ -32,65 +34,45 @@ void MagJSon::execute(const string& magml, const map<string, string>& params) {
 void MagJSon::parse(const string& file) {
     MagLog::dev() << "parse-->" << file.c_str() << endl;
 
-    ifstream is(file.c_str());
-    json_spirit::Value value;
-    json_spirit::read_or_throw(is, value);
+    Value value = JSONParser::decodeFile(file);
     magics(value);
 }
 
 void MagJSon::interpret(const string& def) {
     MagLog::dev() << "interpret-->" << def << endl;
-    istringstream is(def);
+    Value value = JSONParser::decodeString(def);
 
-    json_spirit::Value value;
-    json_spirit::read_or_throw(is, value);
-    ASSERT(value.type() == obj_type);
-    Object object = value.get_value<Object>();
+    ValueMap object = value.get_value<ValueMap>();
     // buils the Magics XmlNode!
     build(*tree_.root(), "magics", object);
 }
 
-void ParamJSon::magics(const json_spirit::Value& value) {
-    ASSERT(value.type() == obj_type);
-    Object object = value.get_value<Object>();
-    for (vector<Pair>::const_iterator entry = object.begin(); entry != object.end(); ++entry) {
-        if (entry->value_.type() == str_type) {
-            this->insert(make_pair(entry->name_, entry->value_.get_value<string>()));
-        }
-        if (entry->value_.type() == int_type) {
-            string value = tostring(entry->value_.get_value<int>());
-            this->insert(make_pair(entry->name_, value));
-        }
-        if (entry->value_.type() == real_type) {
-            string value = tostring(entry->value_.get_value<double>());
-            this->insert(make_pair(entry->name_, value));
-        }
+void ParamJSon::magics(const Value& value) {
+    ValueMap object = value.get_value<ValueMap>();
+    for (auto entry = object.begin(); entry != object.end(); ++entry) {
+        this->insert(make_pair(entry->first, string(entry->second)));
     }
 }
 
 ParamJSon::ParamJSon(const string& param) {
     if (param.empty())
         return;
-    istringstream is(param);
-    json_spirit::Value value;
-    json_spirit::read_or_throw(is, value);
+    Value value = JSONParser::decodeString(param);
     magics(value);
 }
 
 
-void MagJSon::drivers(XmlNode& parent, const json_spirit::Value& value) {
-    ASSERT(value.type() == array_type);
+void MagJSon::drivers(XmlNode& parent, const Value& value) {
     XmlNode* drivers = new XmlNode("drivers");
     parent.push_back(drivers);
-    Array all = value.get_value<Array>();
+    ValueList all = value.get_value<ValueList>();
 
-    for (Array::iterator entry = all.begin(); entry != all.end(); ++entry) {
-        ASSERT(entry->type() == obj_type);
-        Object driver = entry->get_value<Object>();
+    for (auto entry = all.begin(); entry != all.end(); ++entry) {
+        ASSERT(entry->isMap());
+        ValueMap driver = entry->get_value<ValueMap>();
         map<string, string> attributes;
-        for (vector<Pair>::const_iterator elt = driver.begin(); elt != driver.end(); ++elt) {
-            ASSERT(elt->value_.type() == str_type);
-            attributes.insert(make_pair(elt->name_, elt->value_.get_value<string>()));
+        for (auto elt = driver.begin(); elt != driver.end(); ++elt) {
+            attributes.insert(make_pair(elt->first, elt->second.get_value<string>()));
         }
         map<string, string>::iterator format = attributes.find("format");
         ASSERT(format != attributes.end());
@@ -99,20 +81,18 @@ void MagJSon::drivers(XmlNode& parent, const json_spirit::Value& value) {
 }
 
 
-void MagJSon::definitions(XmlNode& parent, const json_spirit::Value& value) {
-    ASSERT(value.type() == array_type);
+void MagJSon::definitions(XmlNode& parent, const Value& value) {
 
     XmlNode* definitions = new XmlNode("definition");
     tree_.definition(definitions);
 
-    Array all = value.get_value<Array>();
-    for (Array::iterator entry = all.begin(); entry != all.end(); ++entry) {
-        ASSERT(entry->type() == obj_type);
-        Object def = entry->get_value<Object>();
+    ValueList all = value.get_value<ValueList>();
+    for (auto entry = all.begin(); entry != all.end(); ++entry) {
+        ValueMap def = entry->get_value<ValueMap>();
         map<string, string> attributes;
-        for (vector<Pair>::const_iterator elt = def.begin(); elt != def.end(); ++elt) {
-            ASSERT(elt->value_.type() == str_type);
-            attributes.insert(make_pair(elt->name_, elt->value_.get_value<string>()));
+        for (auto elt = def.begin(); elt != def.end(); ++elt) {
+            ASSERT(elt->second.isString());
+            attributes.insert(make_pair(elt->first, elt->second.get_value<string>()));
         }
         map<string, string>::iterator type = attributes.find("class");
         ASSERT(type != attributes.end());
@@ -121,46 +101,39 @@ void MagJSon::definitions(XmlNode& parent, const json_spirit::Value& value) {
 }
 
 
-void MagJSon::build(XmlNode& parent, const string& name, Object& object) {
+void MagJSon::build(XmlNode& parent, const string& name, ValueMap& object) {
     map<string, string> attributes;
 
-    for (vector<Pair>::const_iterator entry = object.begin(); entry != object.end(); ++entry) {
-        if (entry->value_.type() == str_type) {
-            attributes.insert(make_pair(entry->name_, entry->value_.get_value<string>()));
+    for (auto entry = object.begin(); entry != object.end(); ++entry) {
+
+        if (entry->second.isBool()) {
+            string value = entry->second.get_value<bool>() ? "on" : "off";
+            attributes.insert(make_pair(entry->first, value));
         }
-        if (entry->value_.type() == bool_type) {
-            string value = entry->value_.get_value<bool>() ? "on" : "off";
-            attributes.insert(make_pair(entry->name_, value));
-        }
-        if (entry->value_.type() == int_type) {
-            string value = tostring(entry->value_.get_value<int>());
-            attributes.insert(make_pair(entry->name_, value));
-        }
-        if (entry->value_.type() == real_type) {
-            string value = tostring(entry->value_.get_value<double>());
-            attributes.insert(make_pair(entry->name_, value));
+        else {
+            attributes.insert(make_pair(entry->first, string(entry->second)));
         }
     }
     XmlNode* node = tree_.newNode(name, attributes);
     parent.push_back(node);
-    for (vector<Pair>::const_iterator entry = object.begin(); entry != object.end(); ++entry) {
+    for (auto entry = object.begin(); entry != object.end(); ++entry) {
         // We can apply a patch ..
-        map<string, Patch>::iterator patch = patchs_.find(entry->name_);
+        map<string, Patch>::iterator patch = patchs_.find(entry->first);
         if (patch != patchs_.end()) {
-            ((this->*patch->second)(*node, entry->value_));
+            ((this->*patch->second)(*node, entry->second));
             continue;
         }
 
-        if (entry->value_.type() == obj_type) {
-            Object object = entry->value_.get_value<Object>();
-            build(*node, entry->name_, object);
+        if (entry->second.isMap()) {
+            ValueMap object = entry->second.get_value<ValueMap>();
+            build(*node, entry->first, object);
         }
-        if (entry->value_.type() == array_type) {
-            Array object = entry->value_.get_value<Array>();
-            for (Array::iterator val = object.begin(); val != object.end(); ++val) {
-                if (val->type() == obj_type) {
-                    Object object = val->get_value<Object>();
-                    build(*node, entry->name_, object);
+        if (entry->second.isList()) {
+            ValueList object = entry->second.get_value<ValueList>();
+            for (auto val = object.begin(); val != object.end(); ++val) {
+                if (val->isMap()) {
+                    ValueMap object = val->get_value<ValueMap>();
+                    build(*node, entry->first, object);
                 }
             }
         }
@@ -168,9 +141,8 @@ void MagJSon::build(XmlNode& parent, const string& name, Object& object) {
 }
 
 
-void MagJSon::magics(const json_spirit::Value& value) {
-    ASSERT(value.type() == obj_type);
-    Object object = value.get_value<Object>();
+void MagJSon::magics(const Value& value) {
+    ValueMap object = value.get_value<ValueMap>();
 
     XmlMagics magics;
     // buils the Magics XmlNode!

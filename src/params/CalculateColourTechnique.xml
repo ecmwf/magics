@@ -1,29 +1,43 @@
-<magics>
-<class inherits="ColourTechnique" implements="ColourTableDefinitionComputeInterface" xmltag="calculate" name="CalculateColourTechnique" directory="visualisers" prefix="contour/contour/contour_shade/contour_shade/contour_shade" action="pcont">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
-	
-  	<parameter member="max" to="Colour" default="blue" from="string" name="contour_shade_max_level_colour">
-         		<documentation> Highest shading band colour 		</documentation>
-         		<release>0.2		</release>
-  	</parameter>
-
-  	<parameter member="min" to="Colour" default="red" from="string" name="contour_shade_min_level_colour">
-         		<documentation> Lowest shading band colour 		</documentation>
-         		<release>0.2		</release>
-  	</parameter>
-  
-  	<parameter from="string" name="contour_shade_colour_direction" default="anti_clockwise" member="direction" to="string" values="clockwise/anti_clockwise">
-         		<documentation> Direction of colour sequencing for shading (CLOCKWISE/ ANTI_CLOCKWISE) 		</documentation>
-         		<release>0.2		</release>
-  	</parameter>
-
-</class></magics>
+<magics>
+	<class inherits="ColourTechnique"
+		implements="ColourTableDefinitionComputeInterface"
+		xmltag="calculate"
+		name="CalculateColourTechnique"
+		directory="visualisers"
+		python = "mcont"
+		prefix="contour/contour/contour_shade/contour_shade/contour_shade"
+		action="pcont">
+		<parameter member="max"
+			to="Colour"
+			default="blue"
+			from="string"
+			name="contour_shade_max_level_colour">
+			<documentation>Highest shading band colour</documentation>
+		</parameter>
+		<parameter member="min"
+			to="Colour"
+			default="red"
+			from="string"
+			name="contour_shade_min_level_colour">
+			<documentation>Lowest shading band colour</documentation>
+			<release>0.2</release>
+		</parameter>
+		<parameter from="string"
+			name="contour_shade_colour_direction"
+			default="anti_clockwise"
+			member="direction"
+			to="string"
+			values="clockwise/anti_clockwise">
+			<documentation>Direction of colour sequencing for shading</documentation>
+			<release>0.2</release>
+		</parameter>
+	</class>
+</magics>

@@ -30,6 +30,7 @@
 
 #include "MagConfig.h"
 #include "MetaData.h"
+#include "Value.h"
 
 namespace magics {
 
@@ -52,16 +53,16 @@ public:
     string definition_;
 
     typedef void (Epsg::*InitMethod)(const Proj4Projection&);
-    typedef void (Epsg::*Method)(const json_spirit::Value&);
+    typedef void (Epsg::*Method)(const Value&);
     map<string, Method> methods_;
     map<string, InitMethod> initMethods_;
 
-    void definition(const json_spirit::Value& value) { definition_ = value.get_value<string>(); }
-    void minlon(const json_spirit::Value& value) { minlon_ = value.get_value<double>(); }
-    void minlat(const json_spirit::Value& value) { minlat_ = value.get_value<double>(); }
-    void maxlon(const json_spirit::Value& value) { maxlon_ = value.get_value<double>(); }
-    void maxlat(const json_spirit::Value& value) { maxlat_ = value.get_value<double>(); }
-    void method(const json_spirit::Value& value) { method_ = value.get_value<string>(); }
+    void definition(const Value& value) { definition_ = value.get_value<string>(); }
+    void minlon(const Value& value) { minlon_ = value.get_value<double>(); }
+    void minlat(const Value& value) { minlat_ = value.get_value<double>(); }
+    void maxlon(const Value& value) { maxlon_ = value.get_value<double>(); }
+    void maxlat(const Value& value) { maxlat_ = value.get_value<double>(); }
+    void method(const Value& value) { method_ = value.get_value<string>(); }
 
     void init(const Proj4Projection& from) {
         map<string, InitMethod>::iterator initmethod = initMethods_.find(name_);
@@ -127,7 +128,7 @@ public:
 
     static map<string, Epsg*> epsgs_;
 
-    void set(const json_spirit::Value&);
+    void set(const Value&);
 
     static Epsg* find(const Proj4Projection& from) {
         string name                       = lowerCase(from.name());
@@ -149,7 +150,7 @@ public:
     EpsgConfig() {}
     ~EpsgConfig() {}
 
-    void callback(const string&, const json_spirit::Value&);
+    void callback(const string&, const Value&);
     void init();
     Epsg* epsg_;
 };
@@ -162,26 +163,24 @@ void EpsgConfig::init() {
     // methods_["epsg"] =  &EpsgConfig::epsg;
     MagConfigHandler(buildConfigPath("epsg.json"), *this);
 }
-void Epsg::set(const json_spirit::Value& value) {
-    ASSERT(value.type() == json_spirit::obj_type);
-    json_spirit::Object object = value.get_value<json_spirit::Object>();
-    for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry != object.end(); ++entry) {
-        map<string, Method>::iterator method = methods_.find(entry->name_);
+void Epsg::set(const Value& value) {
+    ValueMap object = value.get_value<ValueMap>();
+    for (auto entry = object.begin(); entry != object.end(); ++entry) {
+        map<string, Method>::iterator method = methods_.find(entry->first);
         if (method != methods_.end()) {
-            ((this->*method->second)(entry->value_));
+            ((this->*method->second)(entry->second));
         }
     }
 }
-void EpsgConfig::callback(const string& name, const json_spirit::Value& value) {
+void EpsgConfig::callback(const string& name, const Value& value) {
     // here we get an Array of epsg!
 
-    ASSERT(value.type() == json_spirit::array_type);
-    json_spirit::Array values = value.get_value<json_spirit::Array>();
+    ValueList values = value.get_value<ValueList>();
     for (unsigned int i = 0; i < values.size(); i++) {
-        json_spirit::Object object = values[i].get_value<json_spirit::Object>();
-        for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry != object.end(); ++entry) {
-            Epsg* epsg = new Epsg(entry->name_);
-            epsg->set(entry->value_);
+        ValueMap object = values[i].get_value<ValueMap>();
+        for (auto entry = object.begin(); entry != object.end(); ++entry) {
+            Epsg* epsg = new Epsg(entry->first);
+            epsg->set(entry->second);
         }
     }
 }
@@ -1166,10 +1165,10 @@ void Proj4Projection::coastSetting(map<string, string>& setting, double abswidth
 void Proj4Projection::visit(MetaDataVisitor& visitor, double left, double top, double width, double height,
                             double iwidth, double iheight) {
     ostringstream java;
-    double w = getMaxPCX() - getMinPCX();
-    double h = getMaxPCY() - getMinPCY();
+    double w = max_pcx_ - min_pcx_;
+    double h = max_pcy_ - min_pcy_;
     java << "{";
-    java << "\"name\" : \"proj4\",";
+    java << "\"name\" : \"" << definition_ << "\",";
     java << "\"definition\" : \"" << definition_ << "\",";
     java << "\"proj4_definition\" : \"" << projection_->definition_ << "\",";
     java << "\"top\" : \"" << top << "\",";
@@ -1178,8 +1177,8 @@ void Proj4Projection::visit(MetaDataVisitor& visitor, double left, double top, d
     java << "\"height\" : \"" << height << "\",";
     java << "\"img_width\" : \"" << iwidth << "\",";
     java << "\"img_height\" : \"" << iheight << "\",";
-    java << "\"pcxmin\" : \"" << getMinPCX() << "\",";
-    java << "\"pcymin\" : \"" << getMinPCY() << "\",";
+    java << "\"pcxmin\" : \"" << min_pcx_ << "\",";
+    java << "\"pcymin\" : \"" << min_pcy_ << "\",";
     java << "\"pcwidth\" : \"" << w << "\",";
     java << "\"pcheight\" : \"" << h << "\"";
     java << "}";

@@ -23,3 +23,13 @@ AssertionFailed::AssertionFailed(const char* msg, int line, const char* file, co
 
     what_ = s.str();
 }
+
+CannotOpenFile::CannotOpenFile(const std::string& path)
+{
+    int e = errno;
+    char estr[256];
+    strerror_r(errno, estr, sizeof(estr));
+
+    reason("Cannot open file " + path + ": " + string(estr));
+
+}

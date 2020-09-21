@@ -1,82 +1,144 @@
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
 <magics>
-<class inherits="Transformation" action="projection" prefix="subpage" directory="common" name="Proj4Projection">
+	<class inherits="Transformation"
+		action="projection"
+		prefix="subpage"
+		directory="common"
+		name="Proj4Projection">
 		<documentation>
-		These are the attributes of the Proj4 projection. 
+		These are the attributes of the Proj4 projection.
 		</documentation>
-	
-     	<parameter from="string" name="subpage_map_area_definition" default="full" member="setting" to="string" values="corners/full">
-            		<documentation>method used to define the geographical area.		</documentation>
-            		<set name="subpage_lower_left_latitude" value="corners">		</set>
-            		<set name="subpage_lower_left_longitude" value="corners">		</set>
-            		<set name="subpage_upper_right_latitude" value="corners">		</set>
-            		<set name="subpage_upper_right_longitude" value="corners">		</set>
-        	</parameter>   
- 	<parameter member="min_latitude" to="float" default="-90.0" from="float" name="subpage_lower_left_latitude">
-         		<release>Magics++0.1		</release>
-         		<documentation> Latitude of lower left corner of map. 		</documentation>
-  	</parameter>
-
-  	<parameter member="min_longitude" to="float" default="-180.0" from="float" name="subpage_lower_left_longitude">
-         		<release>Magics++0.1		</release>
-         		<documentation> Longitude of lower left corner of map. 		</documentation>
-  	</parameter>
-
-  	<parameter member="max_latitude" to="float" default="90.0" from="float" name="subpage_upper_right_latitude">
-         		<release>Magics++0.1		</release>
-         		<documentation> Latitude of upper right corner of map. 		</documentation>
-  	</parameter>
-
-  	<parameter member="max_longitude" to="float" default="180.0" from="float" name="subpage_upper_right_longitude">
-         		<release>Magics++0.1		</release>
-         		<documentation> Longitude of upper right corner of map. 		</documentation>
-  	</parameter> 
-  	<parameter member="vertical_longitude" to="float" default="0" from="float" name="subpage_map_vertical_longitude">  
-         		<documentation> Developement in progress 		</documentation>
-  	</parameter>
-
-    <!-- Polar north and south -->
-    <parameter member="true_scale_north" to="float" default="06" from="float" name="subpage_map_true_scale_north">  
-        <documentation> Developement in progress 		</documentation>
-  	</parameter>
-    
-    <parameter member="true_scale_south" to="float" default="-60" from="float" name="subpage_map_true_scale_south">  
-        <documentation> Developement in progress </documentation>
-  	</parameter>
-
-    <!-- Tilted projection -->
-    <parameter member="projection_height" to="float" default="42164000" from="float" name="subpage_map_projection_height">  
-            <documentation>  height (in meters) above the surface   </documentation>
-    </parameter>
-    <parameter member="projection_tilt" to="float" default="0" from="float" name="subpage_map_projection_tilt">  
-            <documentation>  angle (in degrees) away from nadir   </documentation>
-    </parameter>
-    <parameter member="projection_azimuth" to="float" default="20" from="float" name="subpage_map_projection_azimuth">  
-            <documentation>   bearing (in degrees) from due north   </documentation>
-    </parameter>
-    <parameter member="projection_view_latitude" to="float" default="20" from="float" name="subpage_map_projection_view_latitude">  
-            <documentation>   latitude (in degrees) of the view position   </documentation>
-    </parameter>
-    <parameter member="projection_view_longitude" to="float" default="-60" from="float" name="subpage_map_projection_view_longitude">  
-            <documentation>   longitude (in degrees) of the view position   </documentation>
-    </parameter>
-  
-  	<parameter member="sweep" to="float" default="0" from="float" name="subpage_map_geos_sweep">  
-         		<documentation> the sweep angle axis of the viewing instrument		</documentation>
-  	</parameter>
-  	<parameter from="string" name="subpage_map_proj4_definition" visible="no" default="" member="proj4_definition" to="string">
-         		<documentation> Proj4 defintion string : to be used very carefully --&gt; possible side effect  		</documentation>
-  	</parameter>
-    <parameter from="string" name="subpage_coordinates_system" visible="no" default="latlon" member="coordinates_system" to="string">
-            <documentation> Proj4 defintion string : to be used very carefully --&gt; possible side effect      </documentation>
-    </parameter>
-  </class></magics>
+		<parameter from="string"
+			name="subpage_map_area_definition"
+			default="full"
+			member="setting"
+			to="string"
+			values="corners/full">
+			<documentation>method used to define the geographical area.</documentation>
+			<set name="subpage_lower_left_latitude" value="corners"></set>
+			<set name="subpage_lower_left_longitude" value="corners"></set>
+			<set name="subpage_upper_right_latitude" value="corners"></set>
+			<set name="subpage_upper_right_longitude" value="corners"></set>
+		</parameter>
+		<parameter member="min_latitude"
+			to="float"
+			default="-90.0"
+			from="float"
+			name="subpage_lower_left_latitude">
+			<release>Magics++0.1</release>
+			<documentation>Latitude of lower left corner of map.</documentation>
+		</parameter>
+		<parameter member="min_longitude"
+			to="float"
+			default="-180.0"
+			from="float"
+			name="subpage_lower_left_longitude">
+			<release>Magics++0.1</release>
+			<documentation>Longitude of lower left corner of map.</documentation>
+		</parameter>
+		<parameter member="max_latitude"
+			to="float"
+			default="90.0"
+			from="float"
+			name="subpage_upper_right_latitude">
+			<release>Magics++0.1</release>
+			<documentation>Latitude of upper right corner of map.</documentation>
+		</parameter>
+		<parameter member="max_longitude"
+			to="float"
+			default="180.0"
+			from="float"
+			name="subpage_upper_right_longitude">
+			<release>Magics++0.1</release>
+			<documentation>Longitude of upper right corner of map.</documentation>
+		</parameter>
+		<parameter member="vertical_longitude"
+			to="float"
+			default="0"
+			from="float"
+			name="subpage_map_vertical_longitude">
+			<documentation>Developement in progress</documentation>
+		</parameter>
+		<!-- Polar north and south -->
+		<parameter member="true_scale_north"
+			to="float"
+			default="06"
+			from="float"
+			name="subpage_map_true_scale_north">
+			<documentation>Developement in progress</documentation>
+		</parameter>
+		<parameter member="true_scale_south"
+			to="float"
+			default="-60"
+			from="float"
+			name="subpage_map_true_scale_south">
+			<documentation>Developement in progress</documentation>
+		</parameter>
+		<!-- Tilted projection -->
+		<parameter member="projection_height"
+			to="float"
+			default="42164000"
+			from="float"
+			name="subpage_map_projection_height">
+			<documentation>height (in meters) above the surface</documentation>
+		</parameter>
+		<parameter member="projection_tilt"
+			to="float"
+			default="0"
+			from="float"
+			name="subpage_map_projection_tilt">
+			<documentation>angle (in degrees) away from nadir</documentation>
+		</parameter>
+		<parameter member="projection_azimuth"
+			to="float"
+			default="20"
+			from="float"
+			name="subpage_map_projection_azimuth">
+			<documentation>bearing (in degrees) from due north</documentation>
+		</parameter>
+		<parameter member="projection_view_latitude"
+			to="float"
+			default="20"
+			from="float"
+			name="subpage_map_projection_view_latitude">
+			<documentation>latitude (in degrees) of the view position</documentation>
+		</parameter>
+		<parameter member="projection_view_longitude"
+			to="float"
+			default="-60"
+			from="float"
+			name="subpage_map_projection_view_longitude">
+			<documentation>longitude (in degrees) of the view position</documentation>
+		</parameter>
+		<parameter member="sweep"
+			to="float"
+			default="0"
+			from="float"
+			name="subpage_map_geos_sweep">
+			<documentation>the sweep angle axis of the viewing instrument</documentation>
+		</parameter>
+		<parameter from="string"
+			name="subpage_map_proj4_definition"
+			visible="no"
+			default=""
+			member="proj4_definition"
+			to="string">
+			<documentation>Proj4 defintion string : to be used very carefully --&gt; possible side effect</documentation>
+		</parameter>
+		<parameter from="string"
+			name="subpage_coordinates_system"
+			visible="no"
+			default="latlon"
+			member="coordinates_system"
+			to="string">
+			<documentation>Proj4 defintion string : to be used very carefully --&gt; possible side effect</documentation>
+		</parameter>
+	</class>
+</magics>

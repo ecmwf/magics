@@ -31,24 +31,16 @@ set (CMAKE_C_STANDARD 99)
 ###############################################################################
 # some variables of this project
 
-ecbuild_use_package( PROJECT eccodes VERSION 2.9.2 REQUIRED
-                     FAILURE_MSG "ecCodes is required in order to build Magics. Note that GRIB_API is no longer supported in Magics" )
+ecbuild_find_package( NAME eccodes VERSION 2.9.2 REQUIRED
+                      FAILURE_MSG "ecCodes is required in order to build Magics" )
 
-set( grib_handling_pkg eccodes )
-set( HAVE_GRIB 1 )
+set( HAVE_GRIB 1 )     ##### remove both
 set( HAVE_BUFR 1 )
-
-
-ecbuild_add_option( FEATURE PYTHON
-                    DEFAULT ON
-                    DESCRIPTION "enable python interface"
-                    REQUIRED_PACKAGES "Python NO_LIBS" NumPy )
 
 ecbuild_add_option( FEATURE ODB
                     DEFAULT OFF
-                    DESCRIPTION "ODB support"
+                    DESCRIPTION "ODB support - to be deprecated"
                     REQUIRED_PACKAGES "PROJECT odb_api VERSION 0.10.2")
-					#	"PROJECT eckit   VERSION 0.9.0" )
 
 #ecbuild_add_option( FEATURE CAIRO
 #                    DEFAULT ON
@@ -69,7 +61,7 @@ endif()
 
 ecbuild_add_option( FEATURE GEOTIFF
                     DEFAULT OFF
-                    DESCRIPTION "geotiff support [implies cairo]"
+                    DESCRIPTION "geotiff support [implies cairo] -  work on progress"
                     CONDITION HAVE_CAIRO
                     REQUIRED_PACKAGES GeoTIFF )
 
@@ -78,54 +70,29 @@ ecbuild_add_option( FEATURE NETCDF
                     DESCRIPTION "enable netcdf support"
                     REQUIRED_PACKAGES "NetCDF 4 COMPONENTS C" )
 
-ecbuild_add_option( FEATURE SPOT
-                    DEFAULT OFF
-                    DESCRIPTION "enable spot support"
-                    REQUIRED_PACKAGES "PROJECT spot" )
-
 find_package(PythonInterp REQUIRED)
-#find_package(Jinja2 REQUIRED)
+# find_package(Jinja2 REQUIRED)
 
-
-
-ecbuild_add_option( FEATURE FORTRAN
-                    DEFAULT ON
-                    DESCRIPTION "enable Fortran interface" )
-
-if( HAVE_FORTRAN )
-	ecbuild_enable_fortran( REQUIRED )
-endif()
 
 ecbuild_add_option( FEATURE METVIEW
                     DEFAULT OFF
                     DESCRIPTION "enable Metview interface" )
 
-ecbuild_add_option( FEATURE EFAS
-                    DEFAULT OFF
-                    DESCRIPTION "enable Efas coastlines" )
-
 ecbuild_add_option( FEATURE METVIEW_NO_QT
                     DEFAULT OFF
                     DESCRIPTION "enable Metview interface without Qt" )
 
-option( BUILD_SHARED_LIBS  "Set to BOTH to build static library in addition to shared"  ON )
-option( ENABLE_REGRESSION        "Internal use only: enable regression test"  OFF  )
-option( ENABLE_REGRESSION_UPLOAD "Internal use only : enable upload of reference image"  OFF  )
+ecbuild_add_option( FEATURE EFAS
+                    DEFAULT OFF
+                    DESCRIPTION "enable EFAS coastlines and catchments" )
+
 
 set( MAGICS_NAME          "Magics" )
-set( MAGICS_EXCEPTION     "ON" )
-set( MAGICS_SITE          "ecmwf" )
-set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
-
-set( MAGICS_REFERENCE_VERSIONS            "4.1.0" )
-set( MAGICS_HTML_ROOT        "${CMAKE_BINARY_DIR}/regression/html")
-file(MAKE_DIRECTORY ${MAGICS_HTML_ROOT} )
-
+set( MAGICS_EXCEPTION     "ON" )    ##################### REMOVE
+set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )    ##### Stephan will check
 
 
 ###############################################################################
-# projects
-
 ### Metview and Qt
 ecbuild_info("TESTING for Metview and Qt ...")
 
@@ -136,13 +103,10 @@ endif()
 set( qt no )
 set( metview no )
 
-
 if( HAVE_METVIEW_NO_QT )
 	set( metview yes )
 	unset(MAGICS_ONLY)
 endif()
-
-
 
 if( HAVE_METVIEW )
     set ( metview yes)
@@ -175,62 +139,50 @@ if( EC_OS_NAME MATCHES "windows" )
     list( APPEND MAGICS_EXTRA_LIBRARIES ${PTHREAD_LIB} )
 endif()
 
-find_package( Boost 1.53.0 REQUIRED)
-
 # adding NO_MODULE means that if we don't find it, CMake will not generate
 # strange error messages about not being able to find the FindProj4.cmake file.
 # this should find proj if it has been installed via CMake, but if it has been
 # installed via autotools, then we will need to try another method
 find_package( PROJ4 6.1.0 NO_MODULE )
 if (NOT PROJ4_FOUND)
-find_package(Proj 6.1.0 REQUIRED)
-if (NOT PROJ_FOUND)
-    message(FATAL_ERROR "Package 'proj' was not found - at least version 6.1.0 required.")
-endif()
+    find_package(Proj 6.1.0 REQUIRED)
+    if (NOT PROJ_FOUND)
+        message(FATAL_ERROR "Package 'proj' was not found - at least version 6.1.0 required.")
+    endif()
 endif()
 
-find_package( EXPAT REQUIRED )
+find_package( EXPAT REQUIRED )   # for MagML
+
 if(APPLE)
   find_package( zlib REQUIRED )       # dependency of minizip - KMZ support
 endif(APPLE)
 
 ###############################################################################
-# compiler options
+# Windows compiler options
 
 if( EC_OS_NAME MATCHES "windows" )
+    # Suppress compliler warnings
+    # Suppress warnings about using 'insecure' functions. Fixing this would require changes all over
+    # the codebase which would damage portability.
+    ecbuild_add_c_flags("/D_CRT_SECURE_NO_WARNINGS")
+    ecbuild_add_cxx_flags("/D_CRT_SECURE_NO_WARNINGS")
+    # Suppress warnings about using well-known C functions.
+    ecbuild_add_c_flags("/D_CRT_NONSTDC_NO_DEPRECATE")
+    ecbuild_add_cxx_flags("/D_CRT_NONSTDC_NO_DEPRECATE")
+    # Suppress C4267: warns about possible loss of data when converting 'size_t' to 'int'.
+    ecbuild_add_c_flags("/wd4267")
+    ecbuild_add_cxx_flags("/wd4267")
+    # Suppress C4800: forcing value to bool 'true' or 'false'
+    ecbuild_add_cxx_flags("/wd4800")
 
-    ecbuild_add_c_flags("-DMAGICS_ON_WINDOWS")
-    ecbuild_add_cxx_flags("-DMAGICS_ON_WINDOWS")
-
-
-    if(CMAKE_C_COMPILER_ID MATCHES "MSVC")
-      # Suppress compliler warnings
-      # Suppress warnings about using 'insecure' functions. Fixing this would require changes all over
-      # the codebase which would damage portability.
-      ecbuild_add_c_flags("/D_CRT_SECURE_NO_WARNINGS")
-      ecbuild_add_cxx_flags("/D_CRT_SECURE_NO_WARNINGS")
-      # Suppress warnings about using well-known C functions.
-      ecbuild_add_c_flags("/D_CRT_NONSTDC_NO_DEPRECATE")
-      ecbuild_add_cxx_flags("/D_CRT_NONSTDC_NO_DEPRECATE")
-      # Suppress C4267: warns about possible loss of data when converting 'size_t' to 'int'.
-      ecbuild_add_c_flags("/wd4267")
-      ecbuild_add_cxx_flags("/wd4267")
-      # Suppress C4800: forcing value to bool 'true' or 'false'
-      ecbuild_add_cxx_flags("/wd4800")
-
-      # Prevent fatal error C1128
-      ecbuild_add_cxx_flags("/bigobj")
-
-    else()
-      find_library( Z_LIB z PATHS ENV PATH )
-      list( APPEND MAGICS_EXTRA_LIBRARIES ${Z_LIB} )
-    endif()
+    # Prevent fatal error C1128
+    ecbuild_add_cxx_flags("/bigobj")
 endif()
 
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS eccodes spot EXPAT NetCDF PROJ4 Proj zlib )
+set( MAGICS_TPLS eccodes EXPAT NetCDF PROJ4 Proj zlib )
 
 set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_BINARY_DIR}/src
@@ -246,15 +198,14 @@ set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_SOURCE_DIR}/src/eckit_readers
      ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders
      ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/kernel
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/libMagWrapper
-     ${Boost_INCLUDE_DIRS} )
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/libMagWrapper)
 
 if( HAVE_CAIRO )
   list( APPEND MAGICS_TPLS PangoCairo)
   list( APPEND MAGICS_INCLUDE_DIRS ${PANGOCAIRO_INCLUDE_DIRS})
 endif()
 
-if( HAVE_ODB )
+if( HAVE_ODB )    ### deprecated!!!
   list( APPEND MAGICS_TPLS odb_api )
   list( APPEND MAGICS_INCLUDE_DIRS
         ${CMAKE_CURRENT_SOURCE_DIR}/src/oda
@@ -334,18 +285,11 @@ get_directory_property( MAGICS_DEFINITIONS COMPILE_DEFINITIONS )
 include_directories( ${MAGICS_INCLUDE_DIRS} ${MAGICS_EXTRA_INCLUDE_DIRS} )
 
 
+add_subdirectory( tools )
 add_subdirectory( src )
 add_subdirectory( share )
-
-if (ENABLE_BUILD_TOOLS)
-    add_subdirectory( tools )
-    add_subdirectory( apps )
-    add_subdirectory( test )
-endif()
-
-if( ENABLE_REGRESSION )
-    add_subdirectory( regression )
-endif()
+add_subdirectory( apps )
+add_subdirectory( test )
 
 if( HAVE_EFAS )
 else()
@@ -353,29 +297,13 @@ ecbuild_add_resources( TARGET noefas DONT_PACK_DIRS share/magics/efas)
 endif()
 
 # Directories not need in the distribution tar ball!
-ecbuild_add_resources( TARGET old_src DONT_PACK_DIRS src/MvObs src/libTable src/xml src/terralib/functions)
 ecbuild_add_resources( TARGET bamboo DONT_PACK_DIRS bamboo)
 ecbuild_add_resources( TARGET old_resources
-		DONT_PACK_DIRS tools/versioncmp
-		tools/regression
-		regression
+		DONT_PACK_DIRS
 		docs
 		toolsjs
-		notebook
-		test/old
-		tools/xml
-		tools/use_scripts
-		tools/versioncmp_folders)
+		notebook)
 
-ecbuild_add_resources( TARGET notebook
-    DONT_PACK_DIRS notebook )
-
-ecbuild_add_resources( TARGET internal
-		DONT_PACK configure.lxab
-		configure.local
-		configure.ecgb
-		configure.ecmwf
-)
 
 ############################################################################################
 # finalize

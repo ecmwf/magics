@@ -78,7 +78,7 @@ void GeoJsonDriver::open() {
     if (!pFile_) {
         MagLog::error() << " GeoJsonDriver --> Cannot write output file to what was specified: " << fileName_ << endl;
         MagLog::error() << "";
-        throw NoSuchFileException("Error opening GeoJson output file!");
+        throw CannotOpenFile(fileName_);
     }
     /*	pFile_	<< "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
             << "<GeoJson xmlns=\"http://www.opengis.net/GeoJson/2.2\" \n"
