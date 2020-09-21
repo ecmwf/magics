@@ -1,64 +1,100 @@
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
 <magics>
-<class action="pcont" directory="visualisers" prefix="contour/contour_grid_value/contour_grid_value" name="ValuePlotMethod">
-
-	<parameter from="float" name="contour_grid_value_min" default="-1.0e+21" doc_class="ValuePlot" member="min" to="float">
-         		<documentation> The minimum value for which grid point values are to be plotted 		</documentation>
-         		<release>0.2		</release>
-	</parameter>
-
-	<parameter from="float" name="contour_grid_value_max" default="1.0e+21" doc_class="ValuePlot" member="max" to="float">
-         		<documentation> The maximum value for which grid point values are to be plotted 		</documentation>
-         		<release>0.2		</release>
-	</parameter>
-
-	<parameter from="int" name="contour_grid_value_lat_frequency" default="1" doc_class="ValuePlot" member="lat_frequency" to="int">
-         		<documentation> The grid point values in every Nth latitude row are plotted 		</documentation>
-         		<release>0.2		</release>
-	</parameter>
-
-	<parameter from="int" name="contour_grid_value_lon_frequency" default="1" doc_class="ValuePlot" member="lon_frequency" to="int">
-         		<documentation> The grid point values in every Nth longitude column are plotted 		</documentation>
-         		<release>0.2		</release>
-	</parameter>
-  
-	<parameter member="height" to="float" default="0.25" from="float" name="contour_grid_value_height">
-         		<documentation> Height of grid point values  		</documentation>
-         		<release>0.2		</release>
-	</parameter>
-
-	<parameter member="colour" to="Colour" default="blue" from="string" name="contour_grid_value_colour">
-         		<documentation> Colour of grid point values (Full choice of colours) 		</documentation>
-         		<release>0.2		</release>
-	</parameter>
-
-	<parameter member="format" to="string" default="(automatic)" from="string" name="contour_grid_value_format">
-         		<documentation> Format of grid point values (MAGICS Format/(AUTOMATIC)) 		</documentation>
-         		<release>0.2		</release>
-         		<release>Format is not yet implemented. Expected Magics++0.3		</release>
-	</parameter>
-
-	<parameter member="quality" to="string" default="low" from="string" name="contour_grid_value_quality">
-         		<documentation> (LOW/MEDIUM/HIGH) 		</documentation>
-         		<release>0.2		</release>
-         		<release>Quality is not yet implemented. Expected Magics++0.3		</release>
-  	</parameter>
-
-	<parameter member="justification" to="Justification" default="centre" from="string" name="contour_grid_value_justification">
-         		<documentation>  (LEFT/CENTRE/RIGHT) </documentation>
-	</parameter>
-
-	<parameter member="vertical_align" to="string" default="base" from="string" name="contour_grid_value_vertical_align"
-         			values="normal/top/cap/half/base/bottom">
-         		<documentation> (NORMAL/TOP/CAP/HALF/BASE/BOTTOM) </documentation>
-	</parameter>
-</class></magics>
+	<class action="pcont" directory="visualisers" 
+		prefix="contour/contour_grid_value/contour_grid_value" 
+		python="mcont"
+		name="ValuePlotMethod">
+		<parameter from="float"
+			name="contour_grid_value_min"
+			default="-1.0e+21"
+			doc_class="ValuePlot"
+			member="min"
+			to="float">
+			<documentation>The minimum value for which grid point values are to be plotted</documentation>
+			<release>0.2</release>
+		</parameter>
+		<parameter from="float"
+			name="contour_grid_value_max"
+			default="1.0e+21"
+			doc_class="ValuePlot"
+			member="max"
+			to="float">
+			<documentation>The maximum value for which grid point values are to be plotted</documentation>
+			<release>0.2</release>
+		</parameter>
+		<parameter from="int"
+			name="contour_grid_value_lat_frequency"
+			default="1"
+			doc_class="ValuePlot"
+			member="lat_frequency"
+			to="int">
+			<documentation>The grid point values in every Nth latitude row are plotted</documentation>
+			<release>0.2</release>
+		</parameter>
+		<parameter from="int"
+			name="contour_grid_value_lon_frequency"
+			default="1"
+			doc_class="ValuePlot"
+			member="lon_frequency"
+			to="int">
+			<documentation>The grid point values in every Nth longitude column are plotted</documentation>
+			<release>0.2</release>
+		</parameter>
+		<parameter member="height"
+			to="float"
+			default="0.25"
+			from="float"
+			name="contour_grid_value_height">
+			<documentation>Height of grid point values</documentation>
+		</parameter>
+		<parameter member="colour"
+			to="Colour"
+			default="blue"
+			from="string"
+			name="contour_grid_value_colour">
+			<documentation>Colour of grid point values </documentation>
+		</parameter>
+		<parameter member="format"
+			to="string"
+			default="(automatic)"
+			from="string"
+			name="contour_grid_value_format">
+			<documentation>Format of grid point values</documentation>
+		</parameter>
+		<parameter member="quality"
+			to="string"
+			default="low"
+			from="string"
+			implemented="off"
+			python="off"
+			name="contour_grid_value_quality">
+			<documentation>(LOW/MEDIUM/HIGH)</documentation>
+		</parameter>
+		<parameter member="justification"
+			to="Justification"
+			default="centre"
+			from="string"
+			implemented="off"
+			python="off"
+			name="contour_grid_value_justification">
+			<documentation></documentation>
+		</parameter>
+		<parameter member="vertical_align"
+			to="string"
+			default="base"
+			from="string"
+			name="contour_grid_value_vertical_align"
+			implemented="off"
+			python="off"
+			values="normal/top/cap/half/base/bottom">
+			<documentation>(NORMAL/TOP/CAP/HALF/BASE/BOTTOM)</documentation>
+		</parameter>
+	</class>
+</magics>

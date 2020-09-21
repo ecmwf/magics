@@ -1,33 +1,43 @@
-<magics>
-<class directory="basic" prefix="wrep_node" xmltag="magics" name="WrepRootNode">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
- 	<documentation>
+<magics>
+	<class directory="basic" prefix="wrep_node" xmltag="magics" name="WrepRootNode">
+		<documentation>
  	In the wrep mode, magics will always try to fill the space: ie  the geographical area can be extended!
- 	Different methods cab be used to control this extension.. 
+ 	Different methods cab be used to control this extension..
  	centre : the middle point of the geographical will be put in the middle of the output ..
  	 top_left : the top_left point of the geographical will be put in the top_left of the output ..
  	 The other possibilities could be implemented but do not seem to be so important!
- 	</documentation>
-  	<parameter member="pixel_width" to="float" default="800" from="float" name="wrep_node_width">
-           		<release>Magics++2.9		</release>
-         		<documentation> dimension in pixel of the output width 		</documentation>
-  	</parameter>
-  	<parameter member="pixel_height" to="float" default="400" from="float" name="wrep_node_height">
-           		<release>Magics++2.9		</release>
-         		<documentation> dimension in pixel of the output height		</documentation>
-  	</parameter>
-
-  	<parameter member="anchor" to="string" default="centre" from="string" name="wrep_node_mapping_anchor">
-           		<release>Magics++2.9		</release>
-         		<documentation> method name used for the extension 		</documentation>
-  	</parameter>
-</class></magics>
+		</documentation>
+		<parameter member="pixel_width"
+			to="float"
+			default="800"
+			from="float"
+			name="wrep_node_width">
+			<release>Magics++2.9</release>
+			<documentation>dimension in pixel of the output width</documentation>
+		</parameter>
+		<parameter member="pixel_height"
+			to="float"
+			default="400"
+			from="float"
+			name="wrep_node_height">
+			<release>Magics++2.9</release>
+			<documentation>dimension in pixel of the output height</documentation>
+		</parameter>
+		<parameter member="anchor"
+			to="string"
+			default="centre"
+			from="string"
+			name="wrep_node_mapping_anchor">
+			<release>Magics++2.9</release>
+			<documentation>method name used for the extension</documentation>
+		</parameter>
+	</class>
+</magics>

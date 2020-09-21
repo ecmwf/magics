@@ -1,145 +1,256 @@
-<magics>
-<class xmltag="coast" name="NoCoastPlotting" used_by="Coastlines" directory="visualisers" prefix="map/map_coastline" action="pcoast" include="CoastPlotting.h" python="mcoast">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
+<magics>
+	<class xmltag="coast"
+		name="NoCoastPlotting"
+		used_by="Coastlines"
+		directory="visualisers"
+		prefix="map/map_coastline"
+		action="pcoast"
+		include="CoastPlotting.h"
+		python="mcoast">
 		<documentation>
-		Coastlines may be turned off by setting the parameter MAP_COASTLINE  to 'OFF' , 
-        the default being 'ON' . 
+		Coastlines may be turned off by setting the parameter MAP_COASTLINE  to 'OFF' ,
+        the default being 'ON' .
         The parameters MAP_COASTLINE_STYLE  and MAP_COASTLINE_COLOUR control line style and colour respectively.
         The default value for the coastlines have been changed from YELLOW to BLACK.
 		</documentation>
-
-
-
-
-	<parameter from="string" name="map_coastline_resolution" default="automatic" doc_class="CoastPlotting" member="resolution" to="string" values="automatic/low/medium/high">
- 		<documentation>Select one of the pre-defined resolutions: automatic, low, medium, and high.
-  When set to AUTOMATIC, a resolution appropriate to the scale of the map is chosen in order to balance quality with speed.
- 		</documentation>
- 
- 
- 		<release>1.1		</release>
-	</parameter>
-
-
-       
-	<parameter from="string" name="map_coastline_land_shade" default="off" doc_class="CoastPlotting" member="land" to="bool">
- 		<documentation>Sets if land areas are shaded		</documentation>
-   		<set name="map_coastline_land_shade_colour" value="on">		</set>
-	</parameter>
-
-	<parameter xml="colour" priority="0.2" from="string" name="map_coastline_land_shade_colour" default="green" doc_class="CoastPlotting" member="land_colour" to="Colour">
- 		<documentation>Colour of Shading of land areas		</documentation>
-	</parameter>
-
-	<parameter from="string" name="map_coastline_sea_shade" default="off" doc_class="CoastPlotting" member="sea" to="bool">
- 		<documentation>Shade the sea areas		</documentation>
-   		<set name="map_coastline_sea_shade_colour" value="on">		</set>
-  	</parameter>    
-
-	<parameter xml="colour" priority="0.2" from="string" name="map_coastline_sea_shade_colour" default="blue" doc_class="CoastPlotting" member="sea_colour" to="Colour">
- 		<documentation>Colour of Shading of sea areas		</documentation>
-	</parameter>
-
-	<parameter from="string" name="map_boundaries" default="off" member="boundaries" to="NoBoundaries" include="Boundaries.h" inherit_parent_reqs="no">
-  		<documentation>Add the political boundaries		</documentation>
-    		<option xml="boundaries" fortran="on" include="Boundaries.h" name="Boundaries">		</option>
-    		<option xml="noboundaries" fortran="off" include="Boundaries.h" name="NoBoundaries">		</option>
-	</parameter>
-
-	<parameter from="string" name="map_cities" default="off" member="cities" to="NoCities" include="Cities.h" inherit_parent_reqs="no">
-  		<documentation>Add the cities (capitals)		</documentation>
-    		<option xml="cities" fortran="on" include="Boundaries.h" name="Cities">		</option>
-    		<option xml="nocities" fortran="off" include="Boundaries.h" name="NoCities">		</option>
-  		<release>Work in progress		</release>
-	</parameter>
-
-	<parameter from="string" name="map_preview" visible="no" default="off" member="preview" to="bool">
- 		<documentation for_docs="no">Add a preview : only for metview		</documentation>
-	</parameter>
-
-	<parameter from="string" name="map_rivers" default="off" member="rivers" to="string" values="on/off" inherit_parent_reqs="no">
- 		<documentation>Display rivers (on/off)		</documentation>
-  		<set name="map_rivers_style" value="on">		</set>
-  		<set name="map_rivers_colour" value="on">		</set>
-  		<set name="map_rivers_thickness" value="on">		</set>           
- 		<release>2.11		</release>
-	</parameter>
-        
-	<parameter from="string" name="map_rivers_style" default="solid" member="rivers_style" to="LineStyle" inherit_parent_reqs="no">
-  		<documentation>Line style for rivers		</documentation>
-  		<release>2.11		</release>
-	</parameter>       
-
-	<parameter from="string" name="map_rivers_colour" default="blue" member="rivers_colour" to="Colour" inherit_parent_reqs="no">
- 		<documentation>Colour of the rivers		</documentation>
- 		<release>2.12		</release>
-	</parameter>
-
-	<parameter xml="thickness" from="int" name="map_rivers_thickness" default="1" member="rivers_thickness" to="int" inherit_parent_reqs="no">
-  		<documentation>Line thickness of rivers		</documentation>
-  		<release>2.12		</release>
-	</parameter>
-
-	<parameter from="string" name="map_efas" default="off" member="efas" to="string" values="on/off" inherit_parent_reqs="no" python="off">
- 		<documentation>Display rivers (on/off)		</documentation>
-  		<set name="map_efas_style" value="on">		</set>
-  		<set name="map_efas_colour" value="on">		</set>
-  		<set name="map_efas_thickness" value="on">		</set>  
-  		<set name="map_efas_domain" value="on">		</set>         
- 		
-	</parameter>
-	<parameter from="string" name="map_efas_domain" default="current" member="efas_domain" to="string" values="current/extended" python="off" inherit_parent_reqs="no">
- 		<documentation>Display EFAS Domain (on/off)		</documentation> 		
-	</parameter>
-	<parameter from="string" name="map_efas_style" default="solid" member="efas_style" to="LineStyle"  python="off" inherit_parent_reqs="no">
-  		<documentation>Line style for EFAS	</documentation>
-  		<release>2.11		</release>
-	</parameter>       
-
-	<parameter from="string" name="map_efas_colour" default="blue" member="efas_colour" to="Colour"  python="off" inherit_parent_reqs="no">
- 		<documentation>Colour of the EFAS		</documentation>
- 		<release>2.12		</release>
-	</parameter>
-
-	<parameter xml="thickness" from="int" name="map_efas_thickness" default="1" member="efas_thickness" to="int" python="off" inherit_parent_reqs="no">
-  		<documentation>Line thickness of EFAS		</documentation>
-  		
-	</parameter>
-	<parameter from="string" name="map_user_layer" default="off" member="user_layer" to="string" values="on/off" inherit_parent_reqs="no">
- 		<documentation>Display user shape file layer		</documentation>
-  		<set name="map_user_layer_style" value="on">		</set>
-  		<set name="map_user_layer_colour" value="on">		</set>
-  		<set name="map_user_layer_thickness" value="on">		</set>  
-  		<set name="map_user_layer_name" value="on">		</set>         
- 		
-	</parameter>
-	<parameter from="string" name="map_user_layer_name" default="" member="user_layer_name" to="string"  inherit_parent_reqs="no">
- 		<documentation>Path + name of the shape file to use		</documentation> 		
-	</parameter>
-	<parameter from="string" name="map_user_layer_projection" default="" member="user_layer_projection" to="string"  inherit_parent_reqs="no">
- 		<documentation>Projection used in the shape file		</documentation> 		
-	</parameter>
-	<parameter from="string" name="map_user_layer_style" default="solid" member="user_layer_style" to="LineStyle" inherit_parent_reqs="no">
-  		<documentation>Line style for User Layer	</documentation>
-  		<release>2.11		</release>
-	</parameter>       
-
-	<parameter from="string" name="map_user_layer_colour" default="blue" member="user_layer_colour" to="Colour" inherit_parent_reqs="no">
- 		<documentation>Colour of the User Layer		</documentation>
- 		<release>2.12		</release>
-	</parameter>
-
-	<parameter xml="thickness" from="int" name="map_user_layer_thickness" default="1" member="user_layer_thickness" to="int" inherit_parent_reqs="no">
-  		<documentation>Line thickness of User Layer		</documentation>
-  		
-	</parameter>
-</class></magics>
+		<parameter from="string"
+			name="map_coastline_resolution"
+			default="automatic"
+			doc_class="CoastPlotting"
+			member="resolution"
+			to="string"
+			values="automatic/low/medium/high">
+			<documentation>Select one of the pre-defined resolutions: automatic, low, medium, and high.
+  When set to AUTOMATIC, a resolution appropriate to the scale of the map is chosen in order to balance quality with speed.</documentation>
+			<release>1.1</release>
+		</parameter>
+		<parameter from="string"
+			name="map_coastline_land_shade"
+			default="off"
+			doc_class="CoastPlotting"
+			member="land"
+			to="bool">
+			<documentation>Sets if land areas are shaded</documentation>
+			<set name="map_coastline_land_shade_colour" value="on"></set>
+		</parameter>
+		<parameter xml="colour"
+			priority="0.2"
+			from="string"
+			name="map_coastline_land_shade_colour"
+			default="green"
+			doc_class="CoastPlotting"
+			member="land_colour"
+			to="Colour">
+			<documentation>Colour of Shading of land areas</documentation>
+		</parameter>
+		<parameter from="string"
+			name="map_coastline_sea_shade"
+			default="off"
+			doc_class="CoastPlotting"
+			member="sea"
+			to="bool">
+			<documentation>Shade the sea areas</documentation>
+			<set name="map_coastline_sea_shade_colour" value="on"></set>
+		</parameter>
+		<parameter xml="colour"
+			priority="0.2"
+			from="string"
+			name="map_coastline_sea_shade_colour"
+			default="blue"
+			doc_class="CoastPlotting"
+			member="sea_colour"
+			to="Colour">
+			<documentation>Colour of Shading of sea areas</documentation>
+		</parameter>
+		<parameter from="string"
+			name="map_boundaries"
+			default="off"
+			member="boundaries"
+			to="NoBoundaries"
+			include="Boundaries.h"
+			inherit_parent_reqs="no">
+			<documentation>Add the political boundaries</documentation>
+			<option xml="boundaries" fortran="on" include="Boundaries.h" name="Boundaries"></option>
+			<option xml="noboundaries" fortran="off" include="Boundaries.h" name="NoBoundaries"></option>
+		</parameter>
+		<parameter from="string"
+			name="map_cities"
+			default="off"
+			member="cities"
+			to="NoCities"
+			include="Cities.h"
+			inherit_parent_reqs="no">
+			<documentation>Add the cities (capitals)</documentation>
+			<option xml="cities" fortran="on" include="Boundaries.h" name="Cities"></option>
+			<option xml="nocities" fortran="off" include="Boundaries.h" name="NoCities"></option>
+			<release>Work in progress</release>
+		</parameter>
+		<parameter from="string"
+			name="map_preview"
+			visible="no"
+			default="off"
+			member="preview"
+			to="bool">
+			<documentation for_docs="no">Add a preview : only for metview</documentation>
+		</parameter>
+		<parameter from="string"
+			name="map_rivers"
+			default="off"
+			member="rivers"
+			to="string"
+			values="on/off"
+			inherit_parent_reqs="no">
+			<documentation>Display rivers (on/off)</documentation>
+			<set name="map_rivers_style" value="on"></set>
+			<set name="map_rivers_colour" value="on"></set>
+			<set name="map_rivers_thickness" value="on"></set>
+			<release>2.11</release>
+		</parameter>
+		<parameter from="string"
+			name="map_rivers_style"
+			default="solid"
+			member="rivers_style"
+			to="LineStyle"
+			inherit_parent_reqs="no">
+			<documentation>Line style for rivers</documentation>
+			<release>2.11</release>
+		</parameter>
+		<parameter from="string"
+			name="map_rivers_colour"
+			default="blue"
+			member="rivers_colour"
+			to="Colour"
+			inherit_parent_reqs="no">
+			<documentation>Colour of the rivers</documentation>
+			<release>2.12</release>
+		</parameter>
+		<parameter xml="thickness"
+			from="int"
+			name="map_rivers_thickness"
+			default="1"
+			member="rivers_thickness"
+			to="int"
+			inherit_parent_reqs="no">
+			<documentation>Line thickness of rivers</documentation>
+			<release>2.12</release>
+		</parameter>
+		<parameter from="string"
+			name="map_efas"
+			default="off"
+			member="efas"
+			to="string"
+			values="on/off"
+			inherit_parent_reqs="no"
+			python="off">
+			<documentation>Display rivers (on/off)</documentation>
+			<set name="map_efas_style" value="on"></set>
+			<set name="map_efas_colour" value="on"></set>
+			<set name="map_efas_thickness" value="on"></set>
+			<set name="map_efas_domain" value="on"></set>
+		</parameter>
+		<parameter from="string"
+			name="map_efas_domain"
+			default="current"
+			member="efas_domain"
+			to="string"
+			values="current/extended"
+			python="off"
+			inherit_parent_reqs="no">
+			<documentation>Display EFAS Domain (on/off)</documentation>
+		</parameter>
+		<parameter from="string"
+			name="map_efas_style"
+			default="solid"
+			member="efas_style"
+			to="LineStyle"
+			python="off"
+			inherit_parent_reqs="no">
+			<documentation>Line style for EFAS</documentation>
+			<release>2.11</release>
+		</parameter>
+		<parameter from="string"
+			name="map_efas_colour"
+			default="blue"
+			member="efas_colour"
+			to="Colour"
+			python="off"
+			inherit_parent_reqs="no">
+			<documentation>Colour of the EFAS</documentation>
+			<release>2.12</release>
+		</parameter>
+		<parameter xml="thickness"
+			from="int"
+			name="map_efas_thickness"
+			default="1"
+			member="efas_thickness"
+			to="int"
+			python="off"
+			inherit_parent_reqs="no">
+			<documentation>Line thickness of EFAS</documentation>
+		</parameter>
+		<parameter from="string"
+			name="map_user_layer"
+			default="off"
+			member="user_layer"
+			to="string"
+			values="on/off"
+			inherit_parent_reqs="no">
+			<documentation>Display user shape file layer</documentation>
+			<set name="map_user_layer_style" value="on"></set>
+			<set name="map_user_layer_colour" value="on"></set>
+			<set name="map_user_layer_thickness" value="on"></set>
+			<set name="map_user_layer_name" value="on"></set>
+		</parameter>
+		<parameter from="string"
+			name="map_user_layer_name"
+			default=""
+			member="user_layer_name"
+			to="string"
+			inherit_parent_reqs="no">
+			<documentation>Path + name of the shape file to use</documentation>
+		</parameter>
+		<parameter from="string"
+			name="map_user_layer_projection"
+			default=""
+			member="user_layer_projection"
+			to="string"
+			inherit_parent_reqs="no">
+			<documentation>Projection used in the shape file</documentation>
+		</parameter>
+		<parameter from="string"
+			name="map_user_layer_style"
+			default="solid"
+			member="user_layer_style"
+			to="LineStyle"
+			inherit_parent_reqs="no">
+			<documentation>Line style for User Layer</documentation>
+			<release>2.11</release>
+		</parameter>
+		<parameter from="string"
+			name="map_user_layer_colour"
+			default="blue"
+			member="user_layer_colour"
+			to="Colour"
+			inherit_parent_reqs="no">
+			<documentation>Colour of the User Layer</documentation>
+			<release>2.12</release>
+		</parameter>
+		<parameter xml="thickness"
+			from="int"
+			name="map_user_layer_thickness"
+			default="1"
+			member="user_layer_thickness"
+			to="int"
+			inherit_parent_reqs="no">
+			<documentation>Line thickness of User Layer</documentation>
+		</parameter>
+	</class>
+</magics>

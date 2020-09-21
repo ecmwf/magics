@@ -1,47 +1,92 @@
-<magics>
-<class action="pcdfgram" directory="visualisers" prefix="efi" xmltag="efigraph" name="EfiGraph">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
+<magics>
+	<class action="pcdfgram"
+		directory="visualisers"
+		prefix="efi"
+		xmltag="efigraph"
+		name="EfiGraph">
 		<documentation>
 		The Epsgram is responsible for accessing the espgram database its data to MAGICS.
 		</documentation>
-        	<parameter member="box_colour" to="stringarray" default="stringarray()" from="stringarray" name="efi_box_colour_array">           
-            		<documentation> Colour of the curve  		</documentation>
-        	</parameter>
-        
-        	<parameter member="border_colour" to="Colour" default="black" from="string" name="efi_box_border_colour">           
-            		<documentation> Style of the curve  		</documentation>
-        	</parameter>
-          	<parameter member="border_thickness" to="int" default="1" from="int" name="efi_box_border_thickness">           
-            		<documentation> Style of the curve  		</documentation>
-        	</parameter>
-          	<parameter member="border_style" to="LineStyle" default="solid" from="string" name="efi_box_border_line_style">           
-            		<documentation> Style of the curve  		</documentation>
-        	</parameter>
-            	<parameter member="normal_colour" to="Colour" default="black" from="string" name="efi_normal_colour">           
-            		<documentation> Style of the curve  		</documentation>
-        	</parameter>
-         	<parameter member="normal_thickness" to="int" default="4" from="int" name="efi_normal_thickness">           
-            		<documentation> Style of the curve  		</documentation>
-        	</parameter>
-          	<parameter member="normal_style" to="LineStyle" default="solid" from="string" name="efi_normal_line_style">           
-            		<documentation> Style of the curve  		</documentation>
-        	</parameter>
-         	<parameter xml="font" from="string" name="efi_font" default="sansserif" member="font" to="string">           
-        	</parameter>
-         	<parameter xml="font_size" from="float" name="efi_font_size" default="0.25" member="font_size" to="float">           
-        	</parameter>
-        	<parameter xml="font_style" from="string" name="efi_font_style" default="" member="font_style" to="string">           
-        	</parameter>
-        	<parameter xml="font_colour" from="string" name="efi_font_colour" default="black" member="font_colour" to="Colour">           
-        	</parameter>
-        
-</class></magics>
+		<parameter member="box_colour"
+			to="stringarray"
+			default="stringarray()"
+			from="stringarray"
+			name="efi_box_colour_array">
+			<documentation>Colour of the curve</documentation>
+		</parameter>
+		<parameter member="border_colour"
+			to="Colour"
+			default="black"
+			from="string"
+			name="efi_box_border_colour">
+			<documentation>Style of the curve</documentation>
+		</parameter>
+		<parameter member="border_thickness"
+			to="int"
+			default="1"
+			from="int"
+			name="efi_box_border_thickness">
+			<documentation>Style of the curve</documentation>
+		</parameter>
+		<parameter member="border_style"
+			to="LineStyle"
+			default="solid"
+			from="string"
+			name="efi_box_border_line_style">
+			<documentation>Style of the curve</documentation>
+		</parameter>
+		<parameter member="normal_colour"
+			to="Colour"
+			default="black"
+			from="string"
+			name="efi_normal_colour">
+			<documentation>Style of the curve</documentation>
+		</parameter>
+		<parameter member="normal_thickness"
+			to="int"
+			default="4"
+			from="int"
+			name="efi_normal_thickness">
+			<documentation>Style of the curve</documentation>
+		</parameter>
+		<parameter member="normal_style"
+			to="LineStyle"
+			default="solid"
+			from="string"
+			name="efi_normal_line_style">
+			<documentation>Style of the curve</documentation>
+		</parameter>
+		<parameter xml="font"
+			from="string"
+			name="efi_font"
+			default="sansserif"
+			member="font"
+			to="string"></parameter>
+		<parameter xml="font_size"
+			from="float"
+			name="efi_font_size"
+			default="0.25"
+			member="font_size"
+			to="float"></parameter>
+		<parameter xml="font_style"
+			from="string"
+			name="efi_font_style"
+			default=""
+			member="font_style"
+			to="string"></parameter>
+		<parameter xml="font_colour"
+			from="string"
+			name="efi_font_colour"
+			default="black"
+			member="font_colour"
+			to="Colour"></parameter>
+	</class>
+</magics>

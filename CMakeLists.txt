@@ -40,7 +40,7 @@ set( HAVE_BUFR 1 )
 ecbuild_add_option( FEATURE ODB
                     DEFAULT OFF
                     DESCRIPTION "ODB support - to be deprecated"
-                    REQUIRED_PACKAGES "NAME odb_api VERSION 0.10.2")
+                    REQUIRED_PACKAGES "PROJECT odb_api VERSION 0.10.2")
 
 #ecbuild_add_option( FEATURE CAIRO
 #                    DEFAULT ON
@@ -308,12 +308,10 @@ ecbuild_add_resources( TARGET old_resources
 ############################################################################################
 # finalize
 
-ecbuild_pkgconfig(
-    NAME         magics
-    DESCRIPTION  "Multi-platform meteorological graphics library"
-    URL          "https://software.ecmwf.int/magics"
-    LIBRARIES    ${MAGICS_LIBRARIES}
-)
+set( MAGICS_DESCRIPTION "Multi-platform meteorological graphics library" )
+set( MAGICS_URL "https://software.ecmwf.int/magics" )
+
+ecbuild_pkgconfig()
 
 ecbuild_install_project( NAME Magics )
 

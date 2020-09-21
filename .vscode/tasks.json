@@ -14,7 +14,7 @@
             "presentation": {
                 "echo": true,
                 "reveal": "always",
-                "panel": "shared",
+                "panel": "shared"
             }
         },
         {
@@ -24,7 +24,7 @@
             "presentation": {
                 "echo": true,
                 "reveal": "always",
-                "panel": "shared",
+                "panel": "shared"
             },
             "isBuildCommand": true
         },
