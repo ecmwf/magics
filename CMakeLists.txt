@@ -132,11 +132,14 @@ ecbuild_declare_project()
 # find extra packages
 
 set( CMAKE_THREAD_PREFER_PTHREAD 1 )
-find_package( Threads )
 
 if( EC_OS_NAME MATCHES "windows" )
-    find_library( PTHREAD_LIB pthread PATHS ENV PATH )
-    list( APPEND MAGICS_EXTRA_LIBRARIES ${PTHREAD_LIB} )
+    message("====================== IN WINDOWS")
+    find_package( Pthread REQUIRED )
+    message("====================== IN WINDOWS ${PTHREAD_INCLUDE_DIR} ${PTHREAD_LIBRARIES}")
+    list( APPEND MAGICS_EXTRA_LIBRARIES ${PTHREAD_LIBRARIES} )
+else()
+  find_package( Threads )
 endif()
 
 # adding NO_MODULE means that if we don't find it, CMake will not generate
