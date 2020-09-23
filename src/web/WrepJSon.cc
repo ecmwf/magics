@@ -1064,11 +1064,11 @@ void WrepJSon::station_name(const Value& value) {
 
 
     for (string::iterator c = station.begin(); c != station.end(); ++c) {
-        map<char, string>::iterator s = specials.find(*c);
-        if (s != specials.end()) {
-            station_name_ += s->second;
-        }
-        else
+        // map<char, string>::iterator s = specials.find(*c);
+        // if (s != specials.end()) {
+        //     station_name_ += s->second;
+        // }
+        // else
             station_name_ += *c;
     }
 }

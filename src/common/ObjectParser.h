@@ -50,6 +50,9 @@ protected: // methods
 
     virtual std::string parserName() const = 0;
 
+private:
+    std::string unicode();
+
 };
 
 
