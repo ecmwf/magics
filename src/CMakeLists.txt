@@ -82,7 +82,7 @@ foreach( file ${metview_xmls} )
 
 
 
-add_custom_target( magics_params DEPENDS ${magics_params_srcs} ${metview_wrappers_srcs} )
+#add_custom_command( magics_params DEPENDS ${magics_params_srcs} ${metview_wrappers_srcs} )
 
 ###############################################################################
 
