@@ -71,7 +71,7 @@ ecbuild_add_option( FEATURE NETCDF
                     REQUIRED_PACKAGES "NetCDF 4 COMPONENTS C" )
 
 find_package(PythonInterp REQUIRED)
-# find_package(Jinja2 REQUIRED)
+
 
 
 ecbuild_add_option( FEATURE METVIEW
@@ -189,7 +189,7 @@ set( MAGICS_TPLS eccodes EXPAT NetCDF PROJ4 Proj zlib )
 
 set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_BINARY_DIR}/src
-     ${CMAKE_CURRENT_BINARY_DIR}/src/params
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/attributes
      ${CMAKE_CURRENT_SOURCE_DIR}/src
      ${CMAKE_CURRENT_SOURCE_DIR}/src/common
      ${CMAKE_CURRENT_SOURCE_DIR}/src/basic
