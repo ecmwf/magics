@@ -37,14 +37,14 @@ foreach( file ${magics_xmls} )
       set( ouputfiles ${CMAKE_CURRENT_SOURCE_DIR}/attributes/${basefile}Attributes.h ${CMAKE_CURRENT_SOURCE_DIR}/attributes/${basefile}Attributes.cc )
 
       # generate the code
-      add_custom_command(
-            OUTPUT  ${ouputfiles}
-            COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/../tools/xml2cc.py ${CMAKE_CURRENT_SOURCE_DIR}/../tools/ ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${CMAKE_CURRENT_SOURCE_DIR}/attributes/ nosubdir
-            DEPENDS ${file}
-      )
+#      add_custom_command(
+#            OUTPUT  ${ouputfiles}
+#            DEPENDS ${file}
+#            COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/../tools/xml2cc.py ${CMAKE_CURRENT_SOURCE_DIR}/../tools/ ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${CMAKE_CURRENT_SOURCE_DIR}/attributes/ nosubdir
+#     )
 
-      set_source_files_properties( ${basefile}Attributes.h  GENERATED )
-      set_source_files_properties( ${basefile}Attributes.cc GENERATED )
+#      set_source_files_properties( ${basefile}Attributes.h  GENERATED )
+#      set_source_files_properties( ${basefile}Attributes.cc GENERATED )
 
       list( APPEND magics_params_srcs ${ouputfiles} )
 
@@ -59,14 +59,15 @@ foreach( file ${metview_xmls} )
 
 
    # generate the code
-      add_custom_command(
-         OUTPUT  ${metviewfiles}
-               COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/../tools/xml2cc_mv.py ${CMAKE_CURRENT_SOURCE_DIR}/../tools/ ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${CMAKE_CURRENT_BINARY_DIR}/params nosubdir
-         DEPENDS ${file}
-      )
+#      add_custom_command(
+#         OUTPUT  ${metviewfiles}
+#               COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/../tools/xml2cc_mv.py ${CMAKE_CURRENT_SOURCE_DIR}/../tools/ ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${CMAKE_CURRENT_BINARY_DIR}/params nosubdir
+#         DEPENDS ${file}
+#      )
 
-      set_source_files_properties( ${basefile}Wrapper.h  GENERATED )
-         set_source_files_properties( ${basefile}Wrapper.cc GENERATED )
+#      set_source_files_properties( ${basefile}Wrapper.h  GENERATED )
+#         set_source_files_properties( ${basefile}Wrapper.cc GENERATED )
+
          list( APPEND metview_wrappers_srcs ${metviewfiles} )
    endforeach()
 
