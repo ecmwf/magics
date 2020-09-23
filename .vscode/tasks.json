@@ -11,6 +11,7 @@
             "label": "cmake",
             "type": "shell",
             "command": "cmake -DCMAKE_MODULE_PATH=${workspaceRoot}/../ecbuild/cmake/ ${workspaceRoot}",
+            "isBuildCommand": true,
             "presentation": {
                 "echo": true,
                 "reveal": "always",
@@ -18,9 +19,24 @@
             }
         },
         {
-            "label": "make",
+            "label": "make install",
             "type": "shell",
             "command": "make -j 4 install",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "isBuildCommand": true,
+            "problemMatcher": [
+                "$gcc"
+            ]
+        }
+        ,
+        {
+            "label": "make",
+            "type": "shell",
+            "command": "make -j 4",
             "presentation": {
                 "echo": true,
                 "reveal": "always",
