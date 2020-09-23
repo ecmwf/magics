@@ -1,6 +1,6 @@
 set( eccodes_environment
-  ECCODES_DEFINITION_PATH=${eccodes_BASE_DIR}/share/${grib_handling_pkg}/definitions
-  ECCODES_SAMPLES_PATH=${eccodes_BASE_DIR}/share/${grib_handling_pkg}/samples
+  ECCODES_DEFINITION_PATH=${ECCODES_DEFINITION_PATH}
+  ECCODES_SAMPLES_PATH=${ECCODES_SAMPLES_PATH}
   )
 
 # Basic test
