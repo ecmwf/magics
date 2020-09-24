@@ -134,6 +134,7 @@ if( EC_OS_NAME MATCHES "windows" )
 endif()
 
 find_package( Boost 1.53.0 REQUIRED)
+list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS ${Boost_INCLUDE_DIRS})
 
 # adding NO_MODULE means that if we don't find it, CMake will not generate
 # strange error messages about not being able to find the FindProj4.cmake file.
