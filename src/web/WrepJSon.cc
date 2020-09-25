@@ -1021,7 +1021,7 @@ void WrepJSon::basic() {
             }
         }
     }
-    catch (std::exception e) {
+    catch (std::exception& e) {
         MagLog::error() << "Could not processed the file: " << file_ << ": " << e.what() << endl;
         // abort();
     }

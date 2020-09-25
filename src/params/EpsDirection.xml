@@ -1,29 +1,47 @@
-<magics>
-<class action="pmetgram" directory="visualisers" prefix="eps/eps_direction" xmltag="epsdirection" name="EpsDirection">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
+<magics>
+	<class action="pmetgram"
+		directory="visualisers"
+		prefix="eps/eps_direction"
+		xmltag="epsdirection"
+		name="EpsDirection">
 		<documentation>
 		The EpsPlumeis responsible for plotting epsplume graph
 		</documentation>
-    	<parameter member="keyword" to="string" default="forecast" from="string" name="eps_direction_keyword">           
-            		<documentation> keyword to plot : forecast/control! 		</documentation>
-        	</parameter>
-        	<parameter member="line_colour" to="Colour" default="red" from="string" name="eps_direction_line_colour">           
-            		<documentation> Colour of lines ...  		</documentation>
-        	</parameter>
-        
-         	<parameter member="line_style" to="LineStyle" default="solid" from="string" name="eps_direction_line_style">           
-            		<documentation> Line Style 		</documentation>
-        	</parameter>
-           	<parameter member="line_thickness" to="int" default="1" from="int" name="eps_direction_line_thickness">           
-            		<documentation> Thickness of the line ...  		</documentation>
-        	</parameter>
-</class></magics>
+		<parameter member="keyword"
+			to="string"
+			default="forecast"
+			from="string"
+			name="eps_direction_keyword">
+			<documentation>keyword to plot : forecast/control!</documentation>
+		</parameter>
+		<parameter member="line_colour"
+			to="Colour"
+			default="red"
+			from="string"
+			name="eps_direction_line_colour">
+			<documentation>Colour of lines ...</documentation>
+		</parameter>
+		<parameter member="line_style"
+			to="LineStyle"
+			default="solid"
+			from="string"
+			name="eps_direction_line_style">
+			<documentation>Line Style</documentation>
+		</parameter>
+		<parameter member="line_thickness"
+			to="int"
+			default="1"
+			from="int"
+			name="eps_direction_line_thickness">
+			<documentation>Thickness of the line ...</documentation>
+		</parameter>
+	</class>
+</magics>

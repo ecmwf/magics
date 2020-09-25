@@ -163,7 +163,7 @@ int FortranMagics::pclose() {
             }
         }
     }
-    catch (MagicsException e) {
+    catch (MagicsException& e) {
         MagLog::error() << "Errors reported:" << e.what() << " - No plot produced  " << endl;
         MagLog::error().flush();
         return -1;

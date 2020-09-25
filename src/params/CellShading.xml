@@ -1,29 +1,41 @@
-<magics>
-<class inherits="ShadingTechnique" xmltag="cell_shading" name="CellShading" directory="visualisers" prefix="contour/contour/contour_shade/contour_shade_cell" action="pcont">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
-	
-  	<parameter member="resolution" to="float" default="10" from="float" name="contour_shade_cell_resolution">
-         		<documentation> Number of cells per cm for CELL shading 		</documentation> 
-         		
-  	</parameter>
-  
-  	<parameter from="string" name="contour_shade_cell_method" default="nearest" member="method" to="string" values="nearest/interpolate">
-         		<documentation> NMethod of determining the colour of a cell (INTERPOLATE/ NEAREST) 		</documentation>
-         		
-  	</parameter>
-  	<parameter from="string" name="contour_shade_cell_resolution_method" default="classic" member="resolution_method" to="string" values="classic/adaptive">
-         		<documentation> if adaptive, magics will switch to grid_shading when the data resolution is greater that the requested resolution </documentation>
-         		
-  	</parameter>
-</class>
-
+<magics>
+	<class inherits="ShadingTechnique"
+		xmltag="cell_shading"
+		name="CellShading"
+		directory="visualisers"
+		python = "mcont"
+		prefix="contour/contour/contour_shade/contour_shade_cell"
+		action="pcont">
+		<parameter member="resolution"
+			to="float"
+			default="10"
+			from="float"
+			name="contour_shade_cell_resolution">
+			<documentation>Number of cells per cm for CELL shading</documentation>
+		</parameter>
+		<parameter from="string"
+			name="contour_shade_cell_method"
+			default="nearest"
+			member="method"
+			to="string"
+			values="nearest/interpolate">
+			<documentation>NMethod of determining the colour of a cell</documentation>
+		</parameter>
+		<parameter from="string"
+			name="contour_shade_cell_resolution_method"
+			default="classic"
+			member="resolution_method"
+			to="string"
+			values="classic/adaptive">
+			<documentation>if adaptive, magics will switch to grid_shading when the data resolution is greater that the requested resolution</documentation>
+		</parameter>
+	</class>
 </magics>

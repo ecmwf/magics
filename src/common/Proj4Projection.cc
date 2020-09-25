@@ -1166,10 +1166,10 @@ void Proj4Projection::coastSetting(map<string, string>& setting, double abswidth
 void Proj4Projection::visit(MetaDataVisitor& visitor, double left, double top, double width, double height,
                             double iwidth, double iheight) {
     ostringstream java;
-    double w = getMaxPCX() - getMinPCX();
-    double h = getMaxPCY() - getMinPCY();
+    double w = max_pcx_ - min_pcx_;
+    double h = max_pcy_ - min_pcy_;
     java << "{";
-    java << "\"name\" : \"proj4\",";
+    java << "\"name\" : \"" << definition_ << "\",";
     java << "\"definition\" : \"" << definition_ << "\",";
     java << "\"proj4_definition\" : \"" << projection_->definition_ << "\",";
     java << "\"top\" : \"" << top << "\",";
@@ -1178,8 +1178,8 @@ void Proj4Projection::visit(MetaDataVisitor& visitor, double left, double top, d
     java << "\"height\" : \"" << height << "\",";
     java << "\"img_width\" : \"" << iwidth << "\",";
     java << "\"img_height\" : \"" << iheight << "\",";
-    java << "\"pcxmin\" : \"" << getMinPCX() << "\",";
-    java << "\"pcymin\" : \"" << getMinPCY() << "\",";
+    java << "\"pcxmin\" : \"" << min_pcx_ << "\",";
+    java << "\"pcymin\" : \"" << min_pcy_ << "\",";
     java << "\"pcwidth\" : \"" << w << "\",";
     java << "\"pcheight\" : \"" << h << "\"";
     java << "}";

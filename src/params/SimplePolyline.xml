@@ -1,192 +1,341 @@
-<magics>
-<class inherits="SimplePolylineInput" xmltag="polyline" name="SimplePolyline" directory="visualisers" prefix="polyline/polyline_line" action="pline" interface="ColourTechniqueInterface/LevelSelectionInterface">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
- 	<parameter member="legend" to="bool" default="off" from="string" name="legend">
-         		<release>Magics++2.80		</release>
-         		<documentation> Turn the legend on 		</documentation>f
-  	</parameter>
-  	<parameter member="colour" to="Colour" default="blue" from="string" name="polyline_line_colour">
-         		<release>Magics++2.1		</release>
-         		<documentation> Colour of the polylines 		</documentation>
-  	</parameter>
-  	<parameter member="style" to="LineStyle" default="solid" from="string" name="polyline_line_style">
-         		<release>Magics++2.1		</release>
-         		<documentation> Style of the polylines (SOLID/ DASH/ DOT/ CHAIN_DASH/ CHAIN_DOT) 		</documentation>
-  	</parameter>
-  	<parameter member="thickness" to="int" default="1" from="int" name="polyline_line_thickness">
-         		<release>Magics++2.1		</release>
-         		<documentation> Thickness of the polylines 		</documentation>
-  	</parameter>
-
-    <parameter member="method" to="string" default="classic" from="string" name="polyline_effect_method" values="classic/trajectory">
-            
-            <documentation> Method applied to draw the line   </documentation>
-    </parameter>
-
-    <parameter member="pivot" to="int" default="-1" from="int" name="polyline_trajectory_pivot_index" >
-            <documentation> Method applied to draw the line   </documentation>
-    </parameter>
-   
-    
-    <parameter member="factor" to="int" default="-1" from="int" name="polyline_trajectory_factor" >
-            
-            <documentation> Method applied to draw the line   </documentation>
-    </parameter>
-  
-  	<parameter member="count" to="int" default="10" from="int" name="polyline_level_count">
-         		<documentation> Count or number of levels to be plotted. Magics will try to find "nice levels", 
-         this means that the number of levels could be slightly different from the requested number of levels		</documentation>
-         		<release>Magics++2.1		</release>
-  	</parameter>
-  	<parameter member="tolerance" to="int" default="2" from="int" name="polyline_level_tolerance">
-         		<documentation> Tolerance: Do not use "nice levels" if the number of levels is really to different [count +/- tolerance] 		</documentation>
-         		<release>Magics++2.1		</release>
-  	</parameter>
-  	<parameter member="reference" to="float" default="0.0" from="float" name="polyline_reference_level">
-         		<documentation> Level from which the level interval is calculated 		</documentation>
-         		<release>Magics++2.1		</release>
-  	</parameter>
-
-
-  	<parameter member="interval" to="float" default="8.0" from="float" name="polyline_interval">
-         		<documentation> Interval in data units between different bands of shading 		</documentation>
-         		<release>Magics++2.1		</release>
-  	</parameter>
-
- 	<parameter member="list" to="floatarray" default="floatarray()" from="floatarray" name="polyline_level_list">
-         		<documentation> List of shading band levels to be plotted 		</documentation>
-         		<release>Magics++2.1		</release>
-  	</parameter>
-
-  
-  	<parameter member="shade" to="bool" default="none" from="string" name="polyline_shade">
-         		<release>Magics++2.1		</release>
-         		<documentation> Whether to shade polygons or not (ON/OFF) 		</documentation>
-  	</parameter>
-  
-   	<parameter member="max" to="float" default="1.0e+21" from="float" name="polyline_shade_max_level">
-         		<documentation> Maximum level for which shading is required 		</documentation>
-         		<release>Magics++2.1		</release>
-  	</parameter>
-
-  	<parameter member="min" to="float" default="-1.0e+21" from="float" name="polyline_shade_min_level">
-         		<documentation> Minimum level for which shading is required 		</documentation>
-         		<release>Magics++2.1		</release>
-       
-  	</parameter>
-  
-  	<parameter member="levelSelection" to="LevelSelection" default="count" from="string" name="polyline_shade_level_selection_type">
-         		<documentation> Can be set to one of: (COUNT/ INTERVAL/ LEVEL_LIST) 		</documentation>
-         		<release>Magics++2.1		</release>
-         		<option xml="count" fortran="count"  include="CountSelectionType.h" name="CountSelectionType">		</option>
-         		<option xml="interval" fortran="interval"  include="IntervalSelectionType.h" name="IntervalSelectionType">		</option>
-         		<option xml="list" fortran="list"  include="LevelListSelectionType.h" name="LevelListSelectionType">		</option>
-  	</parameter>
-
-  	<parameter member="colourMethod" to="ColourTechnique" default="calculate" from="string" name="polyline_shade_colour_method">
-         		<documentation> Method of generating the colours of the bands in polygon shading (LIST/CALCULATE) 		</documentation>
-         		<option xml="calculate" fortran="calculate"  include="CalculateColourTechnique.h" name="CalculateColourTechnique">		</option>
-         		<option xml="list" fortran="list"  include="ListColourTechnique.h" name="ListColourTechnique">		</option>
-         		<available>list		</available>
-         		<release>Magics++2.1		</release>
-  	</parameter>
-
-  	<parameter member="maxColour" to="Colour" default="blue" from="string" name="polyline_shade_max_level_colour">
-         		<documentation> Highest shading band colour 		</documentation>
-         		<release>Magics++2.1		</release>
-  	</parameter>
-
-  	<parameter member="minColour" to="Colour" default="red" from="string" name="polyline_shade_min_level_colour">
-         		<documentation> Lowest shading band colour 		</documentation>
-         		<release>Magics++2.1		</release>
-  	</parameter>
-
-  	<parameter member="direction" to="string" default="anti_clockwise" from="string" name="polyline_shade_colour_direction">
-         		<documentation> Direction of colour sequencing for shading (CLOCKWISE/ ANTI_CLOCKWISE) 		</documentation>
-         		<release>Magics++2.1		</release>
-  	</parameter>
-
-  	<parameter from="stringarray" name="polyline_shade_colour_list" default="stringarray()" member="colours" to="stringarray" colourlist="on">
-         		<documentation> List of colours to be used in polygon shading. 		</documentation>
-         		<release>Magics++2.1		</release>
-  	</parameter>
-  	<parameter from="string" name="polyline_priority_variable_name" default="" member="priority_key" to="string">
-         		<documentation> Variable used for setting the priority of the segments 		</documentation>
-
-  	</parameter>
-  	
-  	<parameter from="string" name="polyline_colour_variable_name" default="" member="colour_key" to="string">
-         		<documentation> Data Variable used for setting the colour of the segments 		</documentation>
-
-  	</parameter>
-  	<parameter from="stringarray" name="polyline_colour_list" default="stringarray()" member="colour_list" to="stringarray">
-         		<documentation> list of colours to use 		</documentation>
-  	</parameter>
-  	<parameter from="floatarray" name="polyline_colour_level_list" default="floatarray()" member="colour_level_list" to="floatarray">
-         		<documentation> level list to use for setting the colours		</documentation>
-  	</parameter>
-  		<parameter from="string" name="polyline_colour_list_policy" default="lastone" member="colour_policy" to="ListPolicy">
-         		<documentation> What to do if the list of colours is smaller that the list of levels: lastone/cycle  	</documentation>
-  	</parameter>
-  	
-  	<parameter from="string" name="polyline_line_style_variable_name" default="" member="style_key" to="string">
-         		<documentation> Data Variable used for setting the line style of the segments 		</documentation>
-  	</parameter>
-  	<parameter from="stringarray" name="polyline_line_style_list" default="stringarray()" member="style_list" to="stringarray">
-         		<documentation> list of line styles to use 		</documentation>
-  	</parameter>
-  	<parameter from="floatarray" name="polyline_line_style_level_list" default="floatarray()" member="style_level_list" to="floatarray">
-         		<documentation> level list to use for setting the colours </documentation>
-  	</parameter>
-  		<parameter from="string" name="polyline_line_style_list_policy" default="lastone" member="style_policy" to="ListPolicy">
-         		<documentation> What to do if the list of line styles is smaller that the list of levels: lastone/cycle  	</documentation>
-  	</parameter>
-  	<parameter from="string" name="polyline_thickness_variable_name" default="" member="thickness_key" to="string">
-         		<documentation> Data Variable used for setting the thickness of the segments 		</documentation>
-
-  	</parameter>
-  	<parameter from="floatarray" name="polyline_thickness_list" default="floatarray()" member="thickness_list" to="floatarray">
-         		<documentation> list of thicknesses to use 		</documentation>
-  	</parameter>
-  	<parameter from="floatarray" name="polyline_thickness_level_list" default="floatarray()" member="thickness_level_list" to="floatarray">
-         		<documentation> level list to use for setting the Thickness </documentation>
-  	</parameter>
-  	<parameter from="string" name="polyline_thickness_list_policy" default="lastone" member="thickness_policy" to="ListPolicy">
-         		<documentation> What to do if the list of line styles is smaller that the list of levels: lastone/cycle  	</documentation>
-  	</parameter>
-  	<parameter from="string" name="polyline_transparency_variable_name" default="" member="transparency_key" to="string">
-     <documentation> Data Variable used for setting the transparency of the segments 		</documentation>
-  	</parameter>
-  	<parameter from="string" name="polyline_transparency_pivot_variable_name" default="" member="pivot_key" to="string">
-      <documentation> Data Variable used for setting the pivot used to compute the transparency of the segments 		</documentation>
-  	</parameter>
-  	<parameter from="string" name="polyline_pivot_marker" default="none" member="pivot_marker" to="string" values='all/none/lastone'>
-      <documentation> Add a marker to the the last trajectory plotted to materialse the pivot 		</documentation>
-  	</parameter>
-  	<parameter from="string" name="polyline_pivot_marker_name" default="cyclone" member="pivot_marker_name" to="string">
-      <documentation> name of the marker to use		</documentation>
-  	</parameter>
-  	<parameter from="float" name="polyline_pivot_marker_height" default="0.4" member="pivot_marker_height" to="float">
-      <documentation> height of the marker to use		</documentation>
-  	</parameter>
-  	<parameter from="string" name="polyline_pivot_marker_colour" default="black" member="pivot_marker_colour" to="Colour">
-      <documentation> Colour of the marker to use		</documentation>
-  	</parameter>
-  	<parameter from="floatarray" name="polyline_transparency_level_list" default="floatarray()" member="transparency_level_list" to="floatarray">
-         		<documentation> level list to use for setting the Transparency </documentation>
-  	</parameter>
-  	<parameter from="string" name="polyline_legend_only" visible="off" default="off" member="legend_only" to="bool" >
-	
-			<documentation for_docs="no"> Wrep only : to build only the legend... 		</documentation>
-	</parameter>
-
-</class></magics>
+<magics>
+	<class inherits="SimplePolylineInput"
+		xmltag="polyline"
+		name="SimplePolyline"
+		directory="visualisers"
+		prefix="polyline/polyline_line"
+		action="pline"
+		interface="ColourTechniqueInterface/LevelSelectionInterface">
+		<parameter member="legend"
+			to="bool"
+			default="off"
+			from="string"
+			name="legend">
+			<release>Magics++2.80</release>
+			<documentation>Turn the legend on</documentation>f
+		</parameter>
+		<parameter member="colour"
+			to="Colour"
+			default="blue"
+			from="string"
+			name="polyline_line_colour">
+			<release>Magics++2.1</release>
+			<documentation>Colour of the polylines</documentation>
+		</parameter>
+		<parameter member="style"
+			to="LineStyle"
+			default="solid"
+			from="string"
+			name="polyline_line_style">
+			<release>Magics++2.1</release>
+			<documentation>Style of the polylines (SOLID/ DASH/ DOT/ CHAIN_DASH/ CHAIN_DOT)</documentation>
+		</parameter>
+		<parameter member="thickness"
+			to="int"
+			default="1"
+			from="int"
+			name="polyline_line_thickness">
+			<release>Magics++2.1</release>
+			<documentation>Thickness of the polylines</documentation>
+		</parameter>
+		<parameter member="method"
+			to="string"
+			default="classic"
+			from="string"
+			name="polyline_effect_method"
+			values="classic/trajectory">
+			<documentation>Method applied to draw the line</documentation>
+		</parameter>
+		<parameter member="pivot"
+			to="int"
+			default="-1"
+			from="int"
+			name="polyline_trajectory_pivot_index">
+			<documentation>Method applied to draw the line</documentation>
+		</parameter>
+		<parameter member="factor"
+			to="int"
+			default="-1"
+			from="int"
+			name="polyline_trajectory_factor">
+			<documentation>Method applied to draw the line</documentation>
+		</parameter>
+		<parameter member="count"
+			to="int"
+			default="10"
+			from="int"
+			name="polyline_level_count">
+			<documentation>Count or number of levels to be plotted. Magics will try to find "nice levels",
+         this means that the number of levels could be slightly different from the requested number of levels</documentation>
+			<release>Magics++2.1</release>
+		</parameter>
+		<parameter member="tolerance"
+			to="int"
+			default="2"
+			from="int"
+			name="polyline_level_tolerance">
+			<documentation>Tolerance: Do not use "nice levels" if the number of levels is really to different [count +/- tolerance]</documentation>
+			<release>Magics++2.1</release>
+		</parameter>
+		<parameter member="reference"
+			to="float"
+			default="0.0"
+			from="float"
+			name="polyline_reference_level">
+			<documentation>Level from which the level interval is calculated</documentation>
+			<release>Magics++2.1</release>
+		</parameter>
+		<parameter member="interval"
+			to="float"
+			default="8.0"
+			from="float"
+			name="polyline_interval">
+			<documentation>Interval in data units between different bands of shading</documentation>
+			<release>Magics++2.1</release>
+		</parameter>
+		<parameter member="list"
+			to="floatarray"
+			default="floatarray()"
+			from="floatarray"
+			name="polyline_level_list">
+			<documentation>List of shading band levels to be plotted</documentation>
+			<release>Magics++2.1</release>
+		</parameter>
+		<parameter member="shade"
+			to="bool"
+			default="none"
+			from="string"
+			name="polyline_shade">
+			<release>Magics++2.1</release>
+			<documentation>Whether to shade polygons or not (ON/OFF)</documentation>
+		</parameter>
+		<parameter member="max"
+			to="float"
+			default="1.0e+21"
+			from="float"
+			name="polyline_shade_max_level">
+			<documentation>Maximum level for which shading is required</documentation>
+			<release>Magics++2.1</release>
+		</parameter>
+		<parameter member="min"
+			to="float"
+			default="-1.0e+21"
+			from="float"
+			name="polyline_shade_min_level">
+			<documentation>Minimum level for which shading is required</documentation>
+			<release>Magics++2.1</release>
+		</parameter>
+		<parameter member="levelSelection"
+			to="LevelSelection"
+			default="count"
+			from="string"
+			name="polyline_shade_level_selection_type">
+			<documentation>Can be set to one of: (COUNT/ INTERVAL/ LEVEL_LIST)</documentation>
+			<release>Magics++2.1</release>
+			<option xml="count" fortran="count" include="CountSelectionType.h" name="CountSelectionType"></option>
+			<option xml="interval" fortran="interval" include="IntervalSelectionType.h" name="IntervalSelectionType"></option>
+			<option xml="list" fortran="list" include="LevelListSelectionType.h" name="LevelListSelectionType"></option>
+		</parameter>
+		<parameter member="colourMethod"
+			to="ColourTechnique"
+			default="calculate"
+			from="string"
+			name="polyline_shade_colour_method">
+			<documentation>Method of generating the colours of the bands in polygon shading (LIST/CALCULATE)</documentation>
+			<option xml="calculate" fortran="calculate" include="CalculateColourTechnique.h" name="CalculateColourTechnique"></option>
+			<option xml="list" fortran="list" include="ListColourTechnique.h" name="ListColourTechnique"></option>
+			<available>list</available>
+			<release>Magics++2.1</release>
+		</parameter>
+		<parameter member="maxColour"
+			to="Colour"
+			default="blue"
+			from="string"
+			name="polyline_shade_max_level_colour">
+			<documentation>Highest shading band colour</documentation>
+			<release>Magics++2.1</release>
+		</parameter>
+		<parameter member="minColour"
+			to="Colour"
+			default="red"
+			from="string"
+			name="polyline_shade_min_level_colour">
+			<documentation>Lowest shading band colour</documentation>
+			<release>Magics++2.1</release>
+		</parameter>
+		<parameter member="direction"
+			to="string"
+			default="anti_clockwise"
+			from="string"
+			name="polyline_shade_colour_direction">
+			<documentation>Direction of colour sequencing for shading (CLOCKWISE/ ANTI_CLOCKWISE)</documentation>
+			<release>Magics++2.1</release>
+		</parameter>
+		<parameter from="stringarray"
+			name="polyline_shade_colour_list"
+			default="stringarray()"
+			member="colours"
+			to="stringarray"
+			colourlist="on">
+			<documentation>List of colours to be used in polygon shading.</documentation>
+			<release>Magics++2.1</release>
+		</parameter>
+		<parameter from="string"
+			name="polyline_priority_variable_name"
+			default=""
+			member="priority_key"
+			to="string">
+			<documentation>Variable used for setting the priority of the segments</documentation>
+		</parameter>
+		<parameter from="string"
+			name="polyline_colour_variable_name"
+			default=""
+			member="colour_key"
+			to="string">
+			<documentation>Data Variable used for setting the colour of the segments</documentation>
+		</parameter>
+		<parameter from="stringarray"
+			name="polyline_colour_list"
+			default="stringarray()"
+			member="colour_list"
+			to="stringarray">
+			<documentation>list of colours to use</documentation>
+		</parameter>
+		<parameter from="floatarray"
+			name="polyline_colour_level_list"
+			default="floatarray()"
+			member="colour_level_list"
+			to="floatarray">
+			<documentation>level list to use for setting the colours</documentation>
+		</parameter>
+		<parameter from="string"
+			name="polyline_colour_list_policy"
+			default="lastone"
+			member="colour_policy"
+			to="ListPolicy">
+			<documentation>What to do if the list of colours is smaller that the list of levels: lastone/cycle</documentation>
+		</parameter>
+		<parameter from="string"
+			name="polyline_line_style_variable_name"
+			default=""
+			member="style_key"
+			to="string">
+			<documentation>Data Variable used for setting the line style of the segments</documentation>
+		</parameter>
+		<parameter from="stringarray"
+			name="polyline_line_style_list"
+			default="stringarray()"
+			member="style_list"
+			to="stringarray">
+			<documentation>list of line styles to use</documentation>
+		</parameter>
+		<parameter from="floatarray"
+			name="polyline_line_style_level_list"
+			default="floatarray()"
+			member="style_level_list"
+			to="floatarray">
+			<documentation>level list to use for setting the colours</documentation>
+		</parameter>
+		<parameter from="string"
+			name="polyline_line_style_list_policy"
+			default="lastone"
+			member="style_policy"
+			to="ListPolicy">
+			<documentation>What to do if the list of line styles is smaller that the list of levels: lastone/cycle</documentation>
+		</parameter>
+		<parameter from="string"
+			name="polyline_thickness_variable_name"
+			default=""
+			member="thickness_key"
+			to="string">
+			<documentation>Data Variable used for setting the thickness of the segments</documentation>
+		</parameter>
+		<parameter from="floatarray"
+			name="polyline_thickness_list"
+			default="floatarray()"
+			member="thickness_list"
+			to="floatarray">
+			<documentation>list of thicknesses to use</documentation>
+		</parameter>
+		<parameter from="floatarray"
+			name="polyline_thickness_level_list"
+			default="floatarray()"
+			member="thickness_level_list"
+			to="floatarray">
+			<documentation>level list to use for setting the Thickness</documentation>
+		</parameter>
+		<parameter from="string"
+			name="polyline_thickness_list_policy"
+			default="lastone"
+			member="thickness_policy"
+			to="ListPolicy">
+			<documentation>What to do if the list of line styles is smaller that the list of levels: lastone/cycle</documentation>
+		</parameter>
+		<parameter from="string"
+			name="polyline_transparency_variable_name"
+			default=""
+			member="transparency_key"
+			to="string">
+			<documentation>Data Variable used for setting the transparency of the segments</documentation>
+		</parameter>
+		<parameter from="string"
+			name="polyline_transparency_pivot_variable_name"
+			default=""
+			member="pivot_key"
+			to="string">
+			<documentation>Data Variable used for setting the pivot used to compute the transparency of the segments</documentation>
+		</parameter>
+		<parameter from="string"
+			name="polyline_pivot_marker"
+			default="none"
+			member="pivot_marker"
+			to="string"
+			values='all/none/lastone'>
+			<documentation>Add a marker to the the last trajectory plotted to materialse the pivot</documentation>
+		</parameter>
+		<parameter from="string"
+			name="polyline_pivot_marker_name"
+			default="cyclone"
+			member="pivot_marker_name"
+			to="string">
+			<documentation>name of the marker to use</documentation>
+		</parameter>
+		<parameter from="float"
+			name="polyline_pivot_marker_height"
+			default="0.4"
+			member="pivot_marker_height"
+			to="float">
+			<documentation>height of the marker to use</documentation>
+		</parameter>
+		<parameter from="string"
+			name="polyline_pivot_marker_colour"
+			default="black"
+			member="pivot_marker_colour"
+			to="Colour">
+			<documentation>Colour of the marker to use</documentation>
+		</parameter>
+		<parameter from="floatarray"
+			name="polyline_transparency_level_list"
+			default="floatarray()"
+			member="transparency_level_list"
+			to="floatarray">
+			<documentation>level list to use for setting the Transparency</documentation>
+		</parameter>
+		<parameter from="string"
+			name="polyline_legend_only"
+			visible="off"
+			default="off"
+			member="legend_only"
+			to="bool">
+			<documentation for_docs="no">Wrep only : to build only the legend...</documentation>
+		</parameter>
+	</class>
+</magics>

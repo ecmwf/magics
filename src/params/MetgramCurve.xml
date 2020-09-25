@@ -1,42 +1,75 @@
-<magics>
-<class action="pmetgram" directory="visualisers" prefix="metgram" xmltag="metgraph" name="MetgramCurve">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
-    	<documentation>
-        The metgram curve will plot the metgram a s a curve! 
-    	</documentation>
-        	<parameter member="style" to="LineStyle" default="solid" from="string" name="metgram_curve_line_style">           
-            		<documentation> LineStyle of the curve  		</documentation>
-        	</parameter>
-        	<parameter member="style2" to="LineStyle" default="solid" from="string" name="metgram_curve2_line_style">           
-            		<documentation> LineStyle of the second curve  		</documentation>
-        	</parameter>
-        	<parameter member="keyword1" to="string" default="curve1" from="string" name="metgram_curve_keyword">           
-            		<documentation> keyword used for fefine the first curve		</documentation>
-        	</parameter>
-        	<parameter member="keyword2" to="string" default="curve2" from="string" name="metgram_curve_keyword2">           
-            		<documentation> keyword used for fefine the second curve		</documentation>
-        	</parameter>
-  
-        	<parameter member="colour" to="Colour" default="red" from="string" name="metgram_curve_colour">           
-            		<documentation> Colour of the curve  		</documentation>
-        	</parameter>
-        	
-         	<parameter member="colour2" to="Colour" default="blue" from="string" name="metgram_curve2_colour">           
-            		<documentation> Colour of the second curve  		</documentation>
-        	</parameter>
-        	<parameter member="thickness" to="int" default="2" from="int" name="metgram_curve_thickness">           
-            		<documentation> Thickness of the curve  		</documentation>
-        	</parameter>
-        	<parameter member="thickness2" to="int" default="2" from="int" name="metgram_curve2_thickness">           
-            		<documentation> Thickness of the second curve  		</documentation>
-        	</parameter>
-</class></magics>
+<magics>
+	<class action="pmetgram"
+		directory="visualisers"
+		prefix="metgram"
+		xmltag="metgraph"
+		name="MetgramCurve">
+		<documentation>
+        The metgram curve will plot the metgram a s a curve!
+		</documentation>
+		<parameter member="style"
+			to="LineStyle"
+			default="solid"
+			from="string"
+			name="metgram_curve_line_style">
+			<documentation>LineStyle of the curve</documentation>
+		</parameter>
+		<parameter member="style2"
+			to="LineStyle"
+			default="solid"
+			from="string"
+			name="metgram_curve2_line_style">
+			<documentation>LineStyle of the second curve</documentation>
+		</parameter>
+		<parameter member="keyword1"
+			to="string"
+			default="curve1"
+			from="string"
+			name="metgram_curve_keyword">
+			<documentation>keyword used for fefine the first curve</documentation>
+		</parameter>
+		<parameter member="keyword2"
+			to="string"
+			default="curve2"
+			from="string"
+			name="metgram_curve_keyword2">
+			<documentation>keyword used for fefine the second curve</documentation>
+		</parameter>
+		<parameter member="colour"
+			to="Colour"
+			default="red"
+			from="string"
+			name="metgram_curve_colour">
+			<documentation>Colour of the curve</documentation>
+		</parameter>
+		<parameter member="colour2"
+			to="Colour"
+			default="blue"
+			from="string"
+			name="metgram_curve2_colour">
+			<documentation>Colour of the second curve</documentation>
+		</parameter>
+		<parameter member="thickness"
+			to="int"
+			default="2"
+			from="int"
+			name="metgram_curve_thickness">
+			<documentation>Thickness of the curve</documentation>
+		</parameter>
+		<parameter member="thickness2"
+			to="int"
+			default="2"
+			from="int"
+			name="metgram_curve2_thickness">
+			<documentation>Thickness of the second curve</documentation>
+		</parameter>
+	</class>
+</magics>

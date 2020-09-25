@@ -128,6 +128,8 @@ find_package(Jinja2 REQUIRED)
 set( CMAKE_THREAD_PREFER_PTHREAD 1 )
 find_package( Threads )
 
+find_package( Boost 1.53.0 REQUIRED)
+
 if( EC_OS_NAME MATCHES "windows" )
     find_library( PTHREAD_LIB pthread PATHS ENV PATH )
     list( APPEND MAGICS_EXTRA_LIBRARIES ${PTHREAD_LIB} )
@@ -184,6 +186,9 @@ if ( HAVE_ODB )
   ecbuild_info("Adding support for ODB")
   list( APPEND MAGICS_EXTRA_LIBRARIES odccore)
 endif()
+
+list( APPEND MAGICS_INCLUDE_DIRS ${Boost_INCLUDE_DIRS})
+
 
 if( HAVE_CAIRO )
   list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS ${PANGOCAIRO_INCLUDE_DIRS})
@@ -246,12 +251,8 @@ ecbuild_add_resources( TARGET old_resources
 ############################################################################################
 # finalize
 
-ecbuild_pkgconfig(
-    NAME         magics
-    DESCRIPTION  "Multi-platform meteorological graphics library"
-    URL          "https://software.ecmwf.int/magics"
-    LIBRARIES    ${MAGICS_LIBRARIES}
-)
+set( MAGICS_DESCRIPTION "Multi-platform meteorological graphics library" )
+set( MAGICS_URL "https://software.ecmwf.int/magics" )
 
 ### print all variables
 #get_cmake_property(_variableNames VARIABLES)

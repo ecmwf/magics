@@ -1,33 +1,56 @@
-<magics>
-<class inherits="BaseDriver" xmltag="cairo" name="CairoDriver" directory="drivers" prefix="output/output_cairo" action="Cairo" include="CairoDriver.h">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
-  	<documentation for_docs="no">
+<magics>
+	<class inherits="BaseDriver"
+		xmltag="cairo"
+		name="CairoDriver"
+		directory="drivers"
+		prefix="output/output_cairo"
+		action="Cairo"
+		include="CairoDriver.h">
+		<documentation for_docs="no">
    Output driver using the Cairo graphics library.
-  	</documentation>
-
- 	<parameter xml="transparent" from="string" name="output_cairo_transparent_background" default="off" member="transparent" to="string" values="on/off">
-   		<documentation>Defines the background to be transparent (only for PNG).</documentation>
- 	</parameter>
-
- 	<parameter xml="antialias" from="string" name="output_cairo_antialias" default="on" member="antialias" to="string" values="on/off">
-   		<documentation>Defines if lines are antialiased (only for PNG).</documentation>
- 	</parameter>
-
-	<parameter xml="palette" from="string" name="output_cairo_palette" default="off" member="palette" to="string" values="on/off">
-   		<documentation>Defines if PNG uses palettes to reduce file size.</documentation>
- 	</parameter>
-
-	 <parameter xml="quality" name='output_geotiff_quality' from='int' to='int' member='quality' default='1'>
-	 	 <documentation for_docs='no'>Defines the quality of GeoTiff output. The default of 1. Should be a value in the range 0-10.</documentation>
-	 </parameter>
-
- </class></magics>
+		</documentation>
+		<parameter xml="transparent"
+			from="string"
+			name="output_cairo_transparent_background"
+			default="off"
+			member="transparent"
+			to="string"
+			values="on/off">
+			<documentation>Defines the background to be transparent (only for PNG).</documentation>
+		</parameter>
+		<parameter xml="antialias"
+			from="string"
+			name="output_cairo_antialias"
+			default="on"
+			member="antialias"
+			to="string"
+			values="on/off">
+			<documentation>Defines if lines are antialiased (only for PNG).</documentation>
+		</parameter>
+		<parameter xml="palette"
+			from="string"
+			name="output_cairo_palette"
+			default="off"
+			member="palette"
+			to="string"
+			values="on/off">
+			<documentation>Defines if PNG uses palettes to reduce file size.</documentation>
+		</parameter>
+		<parameter xml="quality"
+			name='output_geotiff_quality'
+			from='int'
+			to='int'
+			member='quality'
+			default='1'>
+			<documentation for_docs='no'>Defines the quality of GeoTiff output. The default of 1. Should be a value in the range 0-10.</documentation>
+		</parameter>
+	</class>
+</magics>

@@ -2,6 +2,15 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "../magics-python"
 		}
-	]
+	],
+	"settings": {
+		"files.associations": {
+			"typeindex": "cpp",
+			"typeinfo": "cpp"
+		}
+	}
 }

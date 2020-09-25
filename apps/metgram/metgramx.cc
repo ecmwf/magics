@@ -190,7 +190,7 @@ public:
 
                 magics_.execute(file.name());
             }
-            catch (exception e) {
+            catch (exception& e) {
             }
         }
     }
