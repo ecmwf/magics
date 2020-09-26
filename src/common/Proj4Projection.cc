@@ -1190,8 +1190,8 @@ void Proj4Projection::visit(MetaDataVisitor& visitor, double left, double top, d
     double w = max_pcx_ - min_pcx_;
     double h = max_pcy_ - min_pcy_;
     java << "{";
-    java << "\"name\" : \"" << projection_->definition_ << "\",";
-    java << "\"definition\" : \"" << projection_->definition_ << "\",";
+    java << "\"name\" : \"" << definition_ << "\",";
+    java << "\"definition\" : \"" << definition_ << "\",";
     java << "\"proj4_definition\" : \"" << projection_->definition_ << "\",";
     java << "\"top\" : \"" << top << "\",";
     java << "\"left\" : \"" << left << "\",";
