@@ -134,7 +134,7 @@ public:
 
     void epsg32761(const Proj4Projection& from) {
         ostringstream def;
-        def << "+proj=stere +lat_0=-90 +lat_ts=90 ";
+        def << "+proj=stere +lat_0=-90 +lat_ts=-90 ";
         def << " +lon_0=" << from.vertical_longitude_;
         def << " +k=0.994 +x_0=2000000 +y_0=2000000  "
                " +datum=WGS84 +units=m";
