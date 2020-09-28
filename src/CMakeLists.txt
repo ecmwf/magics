@@ -149,7 +149,6 @@ ecbuild_add_library( TARGET         MagPlusDouble
 if( metview )
 
    ecbuild_add_library(	TARGET			MagWrapper
-                     	DEPENDS			mv_params magics_params
                      	SOURCES			magics.h
                         			${metview_srcs}
                         			${metview_wrappers_srcs}
