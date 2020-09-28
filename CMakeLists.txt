@@ -133,6 +133,8 @@ ecbuild_declare_project()
 
 set( CMAKE_THREAD_PREFER_PTHREAD 1 )
 
+find_package( Boost 1.53.0 REQUIRED)
+
 if( EC_OS_NAME MATCHES "windows" )
     message("====================== IN WINDOWS")
     find_package( Pthread REQUIRED )
@@ -202,6 +204,9 @@ set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders
      ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/kernel
      ${CMAKE_CURRENT_SOURCE_DIR}/src/libMagWrapper)
+
+list( APPEND MAGICS_INCLUDE_DIRS ${Boost_INCLUDE_DIRS})
+
 
 if( HAVE_CAIRO )
   list( APPEND MAGICS_TPLS PangoCairo)

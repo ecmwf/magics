@@ -349,6 +349,7 @@ void MagLog::broadcast() {
     log_.errorstream_.str("");
     log_.infostream_.str("");
     log_.progressstream_.str("");
+    log_.debugstream_.str("");
 }
 
 ostream& MagLog::fatal() {
