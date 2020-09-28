@@ -10,9 +10,12 @@
 #       -DCMAKE_PREFIX_PATH=/path/to/jasper:/path/to/any/package/out/of/place
 #
 
-cmake_minimum_required( VERSION 3.6.0 FATAL_ERROR )
+cmake_minimum_required( VERSION 3.12 FATAL_ERROR )
 
-project( magics VERSION 4.4.5 LANGUAGES CXX )
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../ecbuild/cmake")
+find_package( ecbuild 3.4 REQUIRED )
+
+project( magics VERSION 4.5.0 LANGUAGES CXX )
 
 # make sure that the header files are installed into include/magics
 # note that this needs to be done before ecbuild_declare_project()
@@ -20,43 +23,26 @@ project( magics VERSION 4.4.5 LANGUAGES CXX )
 # note also that we need to CACHE this so that ecbuild_declare_project() does not overwrite it
 set(INSTALL_INCLUDE_DIR include/magics CACHE PATH "Magics installation directory for header files")
 
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../ecbuild/cmake")
-
 include(ecbuild_system NO_POLICY_SCOPE)
 
-
-set (CMAKE_CXX_STANDARD 14)
-set (CMAKE_C_STANDARD 99)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD 99)
 
 ###############################################################################
-# some variables of this project
+# some build options for this project
+                    
 
-ecbuild_find_package( NAME eccodes VERSION 2.9.2 REQUIRED
-                      FAILURE_MSG "ecCodes is required in order to build Magics" )
+ecbuild_add_option( FEATURE CAIRO
+                    DEFAULT ON
+                    DESCRIPTION "cairo support[png/jpeg]"
+                    REQUIRED_PACKAGES PangoCairo)
 
-set( HAVE_GRIB 1 )     ##### remove both
-set( HAVE_BUFR 1 )
 
-ecbuild_add_option( FEATURE ODB
-                    DEFAULT OFF
-                    DESCRIPTION "ODB support - to be deprecated"
-                    REQUIRED_PACKAGES "PROJECT odb_api VERSION 0.10.2")
-
-#ecbuild_add_option( FEATURE CAIRO
-#                    DEFAULT ON
-#                    DESCRIPTION "cairo support[png/jpeg]"
-#                    REQUIRED_PACKAGES PangoCairo)
-
-option( ENABLE_CAIRO "cairo support[png/jpeg]" ON )
-if( ENABLE_CAIRO )
-  find_package(PangoCairo REQUIRED)
-  if( NOT PANGOCAIRO_FOUND)
-    message(FATAL_ERROR "Cairo support (PNG & PDF output) requested, but requirements were not found - can be disabled with -DENABLE_CAIRO=OFF")
-  endif()
-  set(HAVE_CAIRO ON)
+string(STRIP ${PANGOCAIRO_LIBRARIES} PANGOCAIRO_LIBRARIES)
+if(PANGOCAIRO_FOUND)
+ set(HAVE_CAIRO ON)
   ecbuild_enable_feature( CAIRO )
-else()
-  ecbuild_disable_feature( CAIRO )
 endif()
 
 ecbuild_add_option( FEATURE GEOTIFF
@@ -70,9 +56,11 @@ ecbuild_add_option( FEATURE NETCDF
                     DESCRIPTION "enable netcdf support"
                     REQUIRED_PACKAGES "NetCDF 4 COMPONENTS C" )
 
-find_package(PythonInterp REQUIRED)
 
-
+ecbuild_add_option( FEATURE ODB
+                    DEFAULT OFF
+                    DESCRIPTION "ODB support - to be deprecated"
+                    REQUIRED_PACKAGES "odc" )
 
 ecbuild_add_option( FEATURE METVIEW
                     DEFAULT OFF
@@ -88,8 +76,7 @@ ecbuild_add_option( FEATURE EFAS
 
 
 set( MAGICS_NAME          "Magics" )
-set( MAGICS_EXCEPTION     "ON" )    ##################### REMOVE
-set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )    ##### Stephan will check
+set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 
 
 ###############################################################################
@@ -131,9 +118,13 @@ ecbuild_declare_project()
 ###############################################################################
 # find extra packages
 
+ecbuild_find_package( NAME eccodes VERSION 2.19.0 REQUIRED
+                      FAILURE_MSG "ecCodes is required in order to build Magics" )
+set( HAVE_GRIB 1 )
+set( HAVE_BUFR 1 )
+
 set( CMAKE_THREAD_PREFER_PTHREAD 1 )
 
-find_package( Boost 1.53.0 REQUIRED)
 
 if( EC_OS_NAME MATCHES "windows" )
     message("====================== IN WINDOWS")
@@ -144,12 +135,14 @@ else()
   find_package( Threads )
 endif()
 
+
 # adding NO_MODULE means that if we don't find it, CMake will not generate
 # strange error messages about not being able to find the FindProj4.cmake file.
 # this should find proj if it has been installed via CMake, but if it has been
 # installed via autotools, then we will need to try another method
+#ecbuild_find_package(NAME PROJ4 VERSION 6.1.0 QUIET )
 find_package( PROJ4 6.1.0 NO_MODULE )
-if (NOT PROJ4_FOUND)
+if(NOT PROJ4_FOUND)
     find_package(Proj 6.1.0 REQUIRED)
     if (NOT PROJ_FOUND)
         message(FATAL_ERROR "Package 'proj' was not found - at least version 6.1.0 required.")
@@ -159,7 +152,7 @@ endif()
 find_package( EXPAT REQUIRED )   # for MagML
 
 if(APPLE)
-  find_package( zlib REQUIRED )       # dependency of minizip - KMZ support
+  find_package( zlib REQUIRED )  # dependency of minizip - KMZ support
 endif(APPLE)
 
 ###############################################################################
@@ -187,75 +180,18 @@ endif()
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS eccodes EXPAT NetCDF PROJ4 Proj zlib )
+if ( HAVE_ODB )
+  ecbuild_info("Adding support for ODB")
+  list( APPEND MAGICS_EXTRA_LIBRARIES odccore)
+endif()
 
-set( MAGICS_INCLUDE_DIRS
-     ${CMAKE_CURRENT_BINARY_DIR}/src
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/attributes
-     ${CMAKE_CURRENT_SOURCE_DIR}/src
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/common
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/basic
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/clipper
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/web
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/visualisers
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/drivers
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/drivers/MgQ
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/eckit_readers
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/kernel
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/libMagWrapper)
-
-list( APPEND MAGICS_INCLUDE_DIRS ${Boost_INCLUDE_DIRS})
 
 
 if( HAVE_CAIRO )
-  list( APPEND MAGICS_TPLS PangoCairo)
-  list( APPEND MAGICS_INCLUDE_DIRS ${PANGOCAIRO_INCLUDE_DIRS})
-endif()
-
-if( HAVE_ODB )    ### deprecated!!!
-  list( APPEND MAGICS_TPLS odb_api )
-  list( APPEND MAGICS_INCLUDE_DIRS
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/oda
-        ${ODB_API_INCLUDE_DIRS}
-		${ECKIT_INCLUDE_DIRS} )
+  list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS ${PANGOCAIRO_INCLUDE_DIRS})
 endif()
 
 set( MAGICS_LIBRARIES MagPlus )
-
-foreach( _tpl ${MAGICS_TPLS} )
-    string( TOUPPER ${_tpl} TPL )
-
-    if( REPLACE_TPL_ABSOLUTE_PATHS )
-        # replace TPL absolute paths with their library names
-        # this helps make Magics relocatable
-        set( _TMP "" )
-
-        string(REPLACE " " ";" LIB_LIST "${${TPL}_LIBRARIES}") # lists of libs can have spaces; replace with semicolon
-        foreach( _lib ${LIB_LIST} )
-            get_filename_component( _lib_name ${_lib} NAME_WE )
-            string( REGEX REPLACE "^lib" "" _name ${_lib_name} )
-            if( NOT ${_name} STREQUAL ${_lib_name} )
-              list( APPEND _TMP "-l${_name}" )
-            else()
-              list( APPEND _TMP "${_lib}" )
-          endif()
-        endforeach()
-        list(REMOVE_DUPLICATES  _TMP)
-        list(REMOVE_ITEM _TMP debug)
-        list(REMOVE_ITEM _TMP optimized)
-
-        set( ${TPL}_LIBRARIES ${_TMP} )
-        set( _TMP "" )
-    endif()
-
-    list( APPEND MAGICS_EXTRA_DEFINITIONS ${${TPL}_DEFINITIONS}  )
-    list( APPEND MAGICS_EXTRA_INCLUDE_DIRS ${${TPL}_INCLUDE_DIRS} )
-    string(REGEX REPLACE "[ ]+$" "" ${TPL}_LIBRARIES "${${TPL}_LIBRARIES}") # strips leading whitespaces
-    string(REGEX REPLACE "^[ ]+" "" ${TPL}_LIBRARIES "${${TPL}_LIBRARIES}") # strips trailing whitespaces
-    list( APPEND MAGICS_EXTRA_LIBRARIES ${${TPL}_LIBRARIES} )
-    ecbuild_info("${TPL}_LIBRARIES [${${TPL}_LIBRARIES}]") # add this to confirm that indeed it was cleaned up
-endforeach()
 
 if( MAGICS_QT )
   list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${Qt5Widgets_INCLUDE_DIR} )
@@ -267,9 +203,9 @@ if( MAGICS_QT )
 endif()
 
 if( HAVE_GEOTIFF )
-	list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${GEOTIFF_INCLUDE_DIR} )
-	list( APPEND MAGICS_EXTRA_LIBRARIES  ${GEOTIFF_LIBRARY} )
-  list( APPEND MAGICS_EXTRA_DEFINITIONS HAVE_GEOTIFF )
+	list( APPEND MAGICS_EXTRA_INCLUDE_DIRS	${GEOTIFF_INCLUDE_DIR} )
+	list( APPEND MAGICS_EXTRA_LIBRARIES	${GEOTIFF_LIBRARY} )
+	list( APPEND MAGICS_EXTRA_DEFINITIONS	HAVE_GEOTIFF )
 endif()
 
 list( APPEND MAGICS_EXTRA_LIBRARIES     ${CMAKE_THREAD_LIBS_INIT} )
@@ -287,11 +223,7 @@ ecbuild_debug("MAGICS_EXTRA_DEFINITIONS  => ${MAGICS_EXTRA_DEFINITIONS}")
 ecbuild_debug("MAGICS_EXTRA_INCLUDE_DIRS => ${MAGICS_EXTRA_INCLUDE_DIRS}")
 ecbuild_debug("MAGICS_EXTRA_LIBRARIES    => ${MAGICS_EXTRA_LIBRARIES}")
 
-# set_directory_properties( PROPERTIES COMPILE_DEFINITIONS "${ECKIT_DEFINITIONS}" )
 get_directory_property( MAGICS_DEFINITIONS COMPILE_DEFINITIONS )
-
-include_directories( ${MAGICS_INCLUDE_DIRS} ${MAGICS_EXTRA_INCLUDE_DIRS} )
-
 
 add_subdirectory( tools )
 add_subdirectory( src )
@@ -299,9 +231,9 @@ add_subdirectory( share )
 add_subdirectory( apps )
 add_subdirectory( test )
 
-if( HAVE_EFAS )
-else()
-ecbuild_add_resources( TARGET noefas DONT_PACK_DIRS share/magics/efas)
+
+if(NOT HAVE_EFAS)
+  ecbuild_add_resources( TARGET noefas DONT_PACK_DIRS share/magics/efas)
 endif()
 
 # Directories not need in the distribution tar ball!
@@ -319,7 +251,11 @@ ecbuild_add_resources( TARGET old_resources
 set( MAGICS_DESCRIPTION "Multi-platform meteorological graphics library" )
 set( MAGICS_URL "https://software.ecmwf.int/magics" )
 
-ecbuild_pkgconfig()
+### print all variables
+#get_cmake_property(_variableNames VARIABLES)
+#foreach (_variableName ${_variableNames})
+#    ecbuild_info("${_variableName}=${${_variableName}}")
+#endforeach()
 
 ecbuild_install_project( NAME Magics )
 

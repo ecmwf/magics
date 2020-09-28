@@ -45,20 +45,15 @@ int main() {
     formats[1] = "png";
     formats[2] = "pdf";
 
-    // mag_setc("output_format", "png");
     mag_set1c("output_formats", formats, NUM_FORMATS);
 
-
-    // mag_add_info_listener(&data, myprint_info);
-    // mag_add_debug_listener(&data, myprint_debug);
-
-
-    mag_setc("output_name", "contour");  // which is different each time
+    mag_setc("output_name", "contour_netcdf");  // which is different each time
 
     /* load the data */
-    mag_setc("grib_input_type", "file");
-    mag_setc("grib_input_file_name", "data.grib");
-    mag_grib();
+    mag_setc("netcdf_type",           "geomatrix");
+    mag_setc("netcdf_filename",       "era5_2mt.nc");
+    mag_setc("netcdf_value_variable", "t2m");
+    mag_netcdf();
 
     /* define the contouring parameters */
     mag_setc("contour", "on");

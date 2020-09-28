@@ -19,15 +19,15 @@ output = output(output_formats = ['png'],
 #Coastlines setting
 coast = mcoast( map_grid =  "on",
                 map_grid_colour  =  "tan",
-				map_coastline_land_shade  =  'on',
-				map_coastline_land_shade_colour  =  'cream',
-				map_coastline_colour =  "tan")
+		map_coastline_land_shade  =  'on',
+		map_coastline_land_shade_colour  =  'cream',
+		map_coastline_colour =  "tan")
 
 #Import data
 t2m = mnetcdf(
-  netcdf_type = "geomatrix",
-  netcdf_filename = "era5_2mt.nc",
-  netcdf_value_variable = "t2m "
+		netcdf_type = "geomatrix",
+		netcdf_filename = "era5_2mt.nc",
+		netcdf_value_variable = "t2m"
 )
 
 #Define the simple contouring
