@@ -11,6 +11,7 @@
             "label": "cmake",
             "type": "shell",
             "command": "cmake -DCMAKE_MODULE_PATH=${workspaceRoot}/../ecbuild/cmake/ ${workspaceRoot}",
+            "isBuildCommand": true,
             "presentation": {
                 "echo": true,
                 "reveal": "always",
@@ -18,7 +19,7 @@
             }
         },
         {
-            "label": "make",
+            "label": "make install",
             "type": "shell",
             "command": "make -j 4 install",
             "presentation": {
@@ -26,18 +27,25 @@
                 "reveal": "always",
                 "panel": "shared"
             },
-            "isBuildCommand": true
-        },
+            "isBuildCommand": true,
+            "problemMatcher": [
+                "$gcc"
+            ]
+        }
+        ,
         {
-            "label": "debug",
+            "label": "make",
             "type": "shell",
-            "command": "python3 ",
+            "command": "make -j 4",
             "presentation": {
                 "echo": true,
                 "reveal": "always",
-                "panel": "shared",
+                "panel": "shared"
             },
-        },
-
+            "isBuildCommand": true,
+            "problemMatcher": [
+                "$gcc"
+            ]
+        }
     ]
 }

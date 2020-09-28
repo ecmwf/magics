@@ -38,9 +38,10 @@ ecbuild_add_option( FEATURE CAIRO
                     DESCRIPTION "cairo support[png/jpeg]"
                     REQUIRED_PACKAGES PangoCairo)
 
+
 string(STRIP ${PANGOCAIRO_LIBRARIES} PANGOCAIRO_LIBRARIES)
 if(PANGOCAIRO_FOUND)
-  set(HAVE_CAIRO ON)
+ set(HAVE_CAIRO ON)
   ecbuild_enable_feature( CAIRO )
 endif()
 
@@ -54,6 +55,7 @@ ecbuild_add_option( FEATURE NETCDF
                     DEFAULT ON
                     DESCRIPTION "enable netcdf support"
                     REQUIRED_PACKAGES "NetCDF 4 COMPONENTS C" )
+
 
 ecbuild_add_option( FEATURE ODB
                     DEFAULT OFF
@@ -75,7 +77,6 @@ ecbuild_add_option( FEATURE EFAS
 
 set( MAGICS_NAME          "Magics" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
-
 
 
 ###############################################################################
@@ -122,21 +123,18 @@ ecbuild_find_package( NAME eccodes VERSION 2.19.0 REQUIRED
 set( HAVE_GRIB 1 )
 set( HAVE_BUFR 1 )
 
-find_package(PythonInterp REQUIRED)
-find_package(Jinja2 REQUIRED)
-
 set( CMAKE_THREAD_PREFER_PTHREAD 1 )
-find_package( Threads )
 
-find_package( Boost 1.53.0 REQUIRED)
 
 if( EC_OS_NAME MATCHES "windows" )
-    find_library( PTHREAD_LIB pthread PATHS ENV PATH )
-    list( APPEND MAGICS_EXTRA_LIBRARIES ${PTHREAD_LIB} )
+    message("====================== IN WINDOWS")
+    find_package( Pthread REQUIRED )
+    message("====================== IN WINDOWS ${PTHREAD_INCLUDE_DIR} ${PTHREAD_LIBRARIES}")
+    list( APPEND MAGICS_EXTRA_LIBRARIES ${PTHREAD_LIBRARIES} )
+else()
+  find_package( Threads )
 endif()
 
-find_package( Boost 1.53.0 REQUIRED)
-list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS ${Boost_INCLUDE_DIRS})
 
 # adding NO_MODULE means that if we don't find it, CMake will not generate
 # strange error messages about not being able to find the FindProj4.cmake file.
@@ -187,7 +185,6 @@ if ( HAVE_ODB )
   list( APPEND MAGICS_EXTRA_LIBRARIES odccore)
 endif()
 
-list( APPEND MAGICS_INCLUDE_DIRS ${Boost_INCLUDE_DIRS})
 
 
 if( HAVE_CAIRO )
@@ -242,7 +239,7 @@ endif()
 # Directories not need in the distribution tar ball!
 ecbuild_add_resources( TARGET bamboo DONT_PACK_DIRS bamboo)
 ecbuild_add_resources( TARGET old_resources
-		DONT_PACK_DIRS 
+		DONT_PACK_DIRS
 		docs
 		toolsjs
 		notebook)

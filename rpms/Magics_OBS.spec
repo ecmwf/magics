@@ -25,8 +25,7 @@ BuildRequires: cairo-devel
 BuildRequires: pango-devel
 BuildRequires: grib_api-devel
 BuildRequires: libqt4-devel
-BuildRequires: emos 
-BuildRequires: boost-devel 
+BuildRequires: emos
 
 
 %if 0%{?suse_version} > 1120
@@ -84,7 +83,7 @@ Authors:
   Stephan Siemen
   Fernando Ii
   Iain Russell
-  Sandor Kertesz 
+  Sandor Kertesz
 
 ##############################################
 
@@ -95,7 +94,7 @@ Authors:
   ./configure --prefix=/usr --libdir=%_libdir --disable-netcdf --enable-bufr --enable-json --disable-jasper --disable-raster
 %else
 %if 0%{?suse_version} > 1120
-  ./configure --prefix=/usr --libdir=%_libdir --enable-netcdf --enable-bufr --enable-json --enable-metview --enable-python CXXFLAGS="-O2 -mtune=generic" 
+  ./configure --prefix=/usr --libdir=%_libdir --enable-netcdf --enable-bufr --enable-json --enable-metview --enable-python CXXFLAGS="-O2 -mtune=generic"
 %else
   ./configure --prefix=/usr --libdir=%_libdir --disable-netcdf --enable-bufr --enable-json
 %endif
@@ -111,8 +110,8 @@ make DESTDIR=$RPM_BUILD_ROOT install
 rm -rf $RPM_BUILD_ROOT
 
 
-%post -p /sbin/ldconfig 
-%postun -p /sbin/ldconfig 
+%post -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
 
 ###############################################
 
@@ -170,16 +169,16 @@ rm -rf $RPM_BUILD_ROOT
 - update to version 2.14.1 (new coastlines, new python interface)
 
 * Thu Jun 16 2011 - magics@ecmwf.int
-- update to version 2.12.9 (bug fixes in layout and PostScript output)  
+- update to version 2.12.9 (bug fixes in layout and PostScript output)
 
 * Thu Apr 15 2011 - magics@ecmwf.int
-- update to version 2.12.7 (remove unnecessary warning messages)  
+- update to version 2.12.7 (remove unnecessary warning messages)
 
 * Thu Apr 14 2011 - magics@ecmwf.int
-- update to version 2.12.6 (add JSON and Metview 4.0.4 support)  
+- update to version 2.12.6 (add JSON and Metview 4.0.4 support)
 
 * Thu Dec 02 2010 - magics@ecmwf.int
-- update to version 2.12.0  
+- update to version 2.12.0
 
 * Fri Nov 20 2010 - magics@ecmwf.int
 - update to version 2.11.5  (threaded contouring, Metview support)
@@ -192,4 +191,3 @@ rm -rf $RPM_BUILD_ROOT
 
 * Tue Oct 20 2009 - magics@ecmwf.int
 - initial package
-

@@ -60,7 +60,7 @@ ObsTable::ObsTable() {
     FILE* in = fopen(filename.c_str(), "r");
 
     if (!in)
-        throw NoSuchFileException(filename);
+        throw CannotOpenFile(filename);
 
     do {
         size_t len = fread(buf, 1, sizeof(buf), in);

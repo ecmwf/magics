@@ -1390,7 +1390,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::openFile() const {
         MagLog::error() << " PostScriptDriver --> Cannot write output file to what was specified: " << fileName_
                         << endl;
         MagLog::error() << "";
-        throw NoSuchFileException("Error opening PS output file!");
+        throw CannotOpenFile(fileName_);
     }
 
     pFile_.setf(ios_base::fixed);

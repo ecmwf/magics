@@ -1005,7 +1005,7 @@ MAGICS_EXPORT void psymb_() {
 }
 
 MAGICS_EXPORT int pclose_() {
-    int code = magics_->pclose();
+    int code = magics_->pclose(false);
 
     delete magics_;
     magics_ = 0;

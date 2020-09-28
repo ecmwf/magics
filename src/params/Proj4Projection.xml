@@ -9,7 +9,7 @@ does it submit to any jurisdiction.
 <magics>
 	<class inherits="Transformation"
 		action="projection"
-		prefix="subpage"
+		prefix="subpage/subpage_map/subpage_map_area"
 		directory="common"
 		name="Proj4Projection">
 		<documentation>
