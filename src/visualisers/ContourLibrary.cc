@@ -24,6 +24,7 @@
 #include "Layer.h"
 #include "MetaData.h"
 #include "VisDefInfo.h"
+#include "Value.h"
 
 using namespace magics;
 
@@ -105,12 +106,12 @@ bool ContourLibrary::setInfoObject(string type) {
 
 #include "MagConfig.h"
 
-void EcChartData::callback(const string& name, const json_spirit::Value& value) {
+void EcChartData::callback(const string& name, const Value& value) {
     int iname                  = atoi(name.c_str());
-    json_spirit::Object object = value.get_value<json_spirit::Object>();
+    ValueMap object = value.get_value<ValueMap>();
     data_.insert(make_pair(iname, map<string, string>()));
-    for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry != object.end(); ++entry) {
-        data_[iname].insert(make_pair(entry->name_, convert(entry->value_)));
+    for (auto entry = object.begin(); entry != object.end(); ++entry) {
+        data_[iname].insert(make_pair(entry->first, convert(entry->second)));
     }
 }
 
@@ -118,12 +119,12 @@ map<string, string> EcChartData::getMap(const int key) {
     return data_[key];
 }
 
-void EcChartSetData::callback(const string& name, const json_spirit::Value& value) {
-    json_spirit::Array values = value.get_value<json_spirit::Array>();
+void EcChartSetData::callback(const string& name, const Value& value) {
+    ValueList values = value.get_value<ValueList>();
     data_.insert(make_pair(name, vector<int>()));
 
     for (unsigned int i = 0; i < values.size(); i++) {
-        data_[name].push_back(values[i].get_value<int>());
+        data_[name].push_back(int(values[i]));
     }
 }
 

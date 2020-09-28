@@ -36,7 +36,7 @@ ecbuild_find_package( NAME eccodes VERSION 2.9.2 REQUIRED
 
 set( HAVE_GRIB 1 )     ##### remove both
 set( HAVE_BUFR 1 )
-                    
+
 ecbuild_add_option( FEATURE ODB
                     DEFAULT OFF
                     DESCRIPTION "ODB support - to be deprecated"
@@ -71,7 +71,7 @@ ecbuild_add_option( FEATURE NETCDF
                     REQUIRED_PACKAGES "NetCDF 4 COMPONENTS C" )
 
 find_package(PythonInterp REQUIRED)
-find_package(Jinja2 REQUIRED)
+
 
 
 ecbuild_add_option( FEATURE METVIEW
@@ -88,7 +88,7 @@ ecbuild_add_option( FEATURE EFAS
 
 
 set( MAGICS_NAME          "Magics" )
-set( MAGICS_EXCEPTION     "ON" )    ##################### REMOVE 
+set( MAGICS_EXCEPTION     "ON" )    ##################### REMOVE
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )    ##### Stephan will check
 
 
@@ -132,13 +132,16 @@ ecbuild_declare_project()
 # find extra packages
 
 set( CMAKE_THREAD_PREFER_PTHREAD 1 )
-find_package( Threads )
 
 find_package( Boost 1.53.0 REQUIRED)
 
 if( EC_OS_NAME MATCHES "windows" )
-    find_library( PTHREAD_LIB pthread PATHS ENV PATH )
-    list( APPEND MAGICS_EXTRA_LIBRARIES ${PTHREAD_LIB} )
+    message("====================== IN WINDOWS")
+    find_package( Pthread REQUIRED )
+    message("====================== IN WINDOWS ${PTHREAD_INCLUDE_DIR} ${PTHREAD_LIBRARIES}")
+    list( APPEND MAGICS_EXTRA_LIBRARIES ${PTHREAD_LIBRARIES} )
+else()
+  find_package( Threads )
 endif()
 
 # adding NO_MODULE means that if we don't find it, CMake will not generate
@@ -188,7 +191,7 @@ set( MAGICS_TPLS eccodes EXPAT NetCDF PROJ4 Proj zlib )
 
 set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_BINARY_DIR}/src
-     ${CMAKE_CURRENT_BINARY_DIR}/src/params
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/attributes
      ${CMAKE_CURRENT_SOURCE_DIR}/src
      ${CMAKE_CURRENT_SOURCE_DIR}/src/common
      ${CMAKE_CURRENT_SOURCE_DIR}/src/basic
@@ -304,7 +307,7 @@ endif()
 # Directories not need in the distribution tar ball!
 ecbuild_add_resources( TARGET bamboo DONT_PACK_DIRS bamboo)
 ecbuild_add_resources( TARGET old_resources
-		DONT_PACK_DIRS 
+		DONT_PACK_DIRS
 		docs
 		toolsjs
 		notebook)

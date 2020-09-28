@@ -25,10 +25,11 @@
 
 #include "WebFormat.h"
 #include "XmlTree.h"
-#include "json_spirit.h"
 
 namespace magics {
 
+class Value;
+class ValueMap;
 
 class MagJSon : public WebFormat {
 public:
@@ -38,15 +39,15 @@ public:
     void execute(const string&, const map<string, string>&);
 
 
-    void magics(const json_spirit::Value&);
-    void build(XmlNode& parent, const string&, json_spirit::Object& object);
-    typedef void (MagJSon::*Patch)(XmlNode&, const json_spirit::Value&);
+    void magics(const Value&);
+    void build(XmlNode& parent, const string&, ValueMap& object);
+    typedef void (MagJSon::*Patch)(XmlNode&, const Value&);
 
     map<string, Patch> patchs_;
     XmlTree tree_;
 
-    void drivers(XmlNode& parent, const json_spirit::Value&);
-    void definitions(XmlNode& parent, const json_spirit::Value& value);
+    void drivers(XmlNode& parent, const Value&);
+    void definitions(XmlNode& parent, const Value& value);
     void interpret(const string&);
 
 protected:
@@ -62,7 +63,7 @@ public:
     bool hasKey(const string&);
 
 protected:
-    void magics(const json_spirit::Value&);
+    void magics(const Value&);
 };
 
 

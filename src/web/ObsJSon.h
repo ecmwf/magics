@@ -29,10 +29,11 @@
 #include "MagicsDecoder.h"
 #include "ObsJSonAttributes.h"
 #include "UserPoint.h"
-#include "json_spirit.h"
 
 namespace magics {
 
+class Value;
+class ValueMap;
 
 class ObsJSon : public ObsJSonAttributes, public Decoder, public Data, public PointsList {
 public:
@@ -51,20 +52,20 @@ public:
     void decode();
     void getInfo(const std::set<string>&, multimap<string, string>&);
     void visit(MetaDataVisitor&);
-    CustomisedPoint* decode(json_spirit::Object&);
+    CustomisedPoint* decode(ValueMap&);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
     virtual void print(ostream&) const;
     vector<CustomisedPoint*> points_;
     std::set<string> types_;
-    typedef void (ObsJSon::*Method)(const json_spirit::Value&, CustomisedPoint&);
+    typedef void (ObsJSon::*Method)(const Value&, CustomisedPoint&);
     map<string, Method> methods_;
 
-    void latitude(const json_spirit::Value&, CustomisedPoint&);
-    void longitude(const json_spirit::Value&, CustomisedPoint&);
-    void type(const json_spirit::Value&, CustomisedPoint&);
-    void identifier(const json_spirit::Value&, CustomisedPoint&);
+    void latitude(const Value&, CustomisedPoint&);
+    void longitude(const Value&, CustomisedPoint&);
+    void type(const Value&, CustomisedPoint&);
+    void identifier(const Value&, CustomisedPoint&);
 
 private:
     //! Copy constructor - No copy allowed

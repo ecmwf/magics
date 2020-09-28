@@ -85,8 +85,8 @@ int normal_main(int argc, char** argv) {
                 alarm(0);
 #endif
             }
-            catch (...) {
-                std::cout << argv[0] << " FAILED to dispatch JSON file!" << endl;
+            catch ( MagicsException& e ) {
+                std::cout << argv[0] << " FAILED to dispatch JSON file!" << e << endl;
                 exit(1);
             }
         }
