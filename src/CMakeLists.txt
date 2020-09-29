@@ -102,11 +102,12 @@ ecbuild_add_library( TARGET    MagPlus
                      PUBLIC_DEFINITIONS
                         ${MAGICS_EXTRA_DEFINITIONS}
                      PUBLIC_LIBS
-                        ${MAGICS_EXTRA_LIBRARIES} eccodes   expat ${PROJ4_LIBRARIES}
+                        ${MAGICS_EXTRA_LIBRARIES} eccodes   expat proj
                      PRIVATE_INCLUDES $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/clipper>
                                       ${MAGICS_PRIVATE_INCLUDE_DIRS}
                                      
-                     PUBLIC_INCLUDES $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DIR}>
+                     PUBLIC_INCLUDES $<INSTALL_INTERFACE:${PROJ4_INCLUDE_DIRS}>
+                                     $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DIR}>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/attributes>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/basic>
