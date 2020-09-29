@@ -49,7 +49,7 @@ if ( metview )
    list (APPEND metview_include
 	drivers/DriverManager.h
 	drivers/BaseDriver.h
-	${CMAKE_CURRENT_BINARY_DIR}/../params/BaseDriverAttributes.h
+	${CMAKE_CURRENT_SOURCE_DIR}/../attributes/BaseDriverAttributes.h
 	)
    set( metview_include ${metview_include} PARENT_SCOPE )
 endif()
