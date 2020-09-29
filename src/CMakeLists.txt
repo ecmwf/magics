@@ -63,6 +63,7 @@ foreach( file ${metview_xmls} )
 ###############################################################################
 
 add_subdirectory( common )
+add_subdirectory( attributes )
 add_subdirectory( basic )
 add_subdirectory( web )
 add_subdirectory( visualisers )
