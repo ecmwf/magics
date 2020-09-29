@@ -13,6 +13,7 @@ does it submit to any jurisdiction.
 		directory="visualisers"
 		prefix="contour/contour/contour_highlight"
 		action="pcont"
+		python="mcont"
 		doc_inherits="no">
 		<documentation>This object is responsible of plotting the hightlight isolines</documentation>
 		<parameter xml="style"
@@ -47,7 +48,7 @@ does it submit to any jurisdiction.
 			member="thickness"
 			to="int">
 			<documentation>Thickness of highlight line</documentation>
-			
+
 		</parameter>
 		<parameter priority="0.2"
 			from="int"

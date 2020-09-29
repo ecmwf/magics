@@ -7,7 +7,7 @@ granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
 <magics>
-	<class directory="decoders" xmltag="table" name="TableDecoder">
+	<class directory="decoders" xmltag="table" name="TableDecoder" python="mtable">
 		<documentation>table data for curve</documentation>
 		<parameter member="path"
 			to="string"

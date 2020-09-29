@@ -12,6 +12,7 @@ does it submit to any jurisdiction.
 		directory="common"
 		prefix="subpage/subpage/subpage"
 		action="pnew"
+		python="mmap"
 		include="ViewNode.h">
 		<parameter member="left"
 			to="float"
