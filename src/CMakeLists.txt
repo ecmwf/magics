@@ -24,66 +24,42 @@ function( add_metview_definition_file )
 
 endfunction(add_metview_definition_file)
 
+
+
 add_subdirectory( params )
 
 
-
 foreach( file ${magics_xmls} )
-
       get_filename_component( path     ${file} PATH   )
       get_filename_component( basefile ${file} NAME_WE )
 
-      set( ouputfiles ${path}/${basefile}Attributes.h ${path}/${basefile}Attributes.cc )
-
-      # generate the code
-      add_custom_command(
-            OUTPUT  ${ouputfiles}
-            COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/../tools/xml2cc.py ${CMAKE_CURRENT_SOURCE_DIR}/../tools/ ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${CMAKE_CURRENT_BINARY_DIR}/params nosubdir
-            DEPENDS ${file}
-      )
-
-      set_source_files_properties( ${basefile}Attributes.h  GENERATED )
-      set_source_files_properties( ${basefile}Attributes.cc GENERATED )
-
+      set( ouputfiles ${CMAKE_CURRENT_SOURCE_DIR}/attributes/${basefile}Attributes.h ${CMAKE_CURRENT_SOURCE_DIR}/attributes/${basefile}Attributes.cc )
       list( APPEND magics_params_srcs ${ouputfiles} )
-
 endforeach()
 
-if ( metview )
 
-	foreach( file ${metview_xmls} )
-	      get_filename_component( path     ${file} PATH   )
-          get_filename_component( basefile ${file} NAME_WE )
+foreach( file ${metview_xmls} )
+      get_filename_component( path     ${file} PATH   )
+         get_filename_component( basefile ${file} NAME_WE )
 
-		  set( metviewfiles ${path}/${basefile}Wrapper.h ${path}/${basefile}Wrapper.cc )
+      set( metviewfiles ${CMAKE_CURRENT_SOURCE_DIR}/attributes/${basefile}Wrapper.h ${CMAKE_CURRENT_SOURCE_DIR}/attributes/${basefile}Wrapper.cc )
+      list( APPEND metview_wrappers_srcs ${metviewfiles} )
+   endforeach()
 
-
-		# generate the code
-		  add_custom_command(
-				OUTPUT  ${metviewfiles}
-                COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/../tools/xml2cc_mv.py ${CMAKE_CURRENT_SOURCE_DIR}/../tools/ ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${CMAKE_CURRENT_BINARY_DIR}/params nosubdir
-				DEPENDS ${file}
-			)
-
-		  set_source_files_properties( ${basefile}Wrapper.h  GENERATED )
-          set_source_files_properties( ${basefile}Wrapper.cc GENERATED )
-          list( APPEND metview_wrappers_srcs ${metviewfiles} )
-      endforeach()
-
-     if(qt)
-        SET(qt_drivers_HEADERS drivers/MgQ/MgQPlotScene.h)
-        if( MAGICS_QT5 )
-          QT5_WRAP_CPP(qt_drivers_HEADERS_MOC ${qt_drivers_HEADERS})
-        else()
-          QT4_WRAP_CPP(qt_drivers_HEADERS_MOC ${qt_drivers_HEADERS})
-        endif()
-        list( APPEND drivers_srcs  drivers/MgQ/MgQPlotScene.cc  ${qt_drivers_HEADERS_MOC})
-     endif()
-endif()
+   if(qt)
+      SET(qt_drivers_HEADERS drivers/MgQ/MgQPlotScene.h)
+      if( MAGICS_QT5 )
+         QT5_WRAP_CPP(qt_drivers_HEADERS_MOC ${qt_drivers_HEADERS})
+      else()
+         QT4_WRAP_CPP(qt_drivers_HEADERS_MOC ${qt_drivers_HEADERS})
+      endif()
+      list( APPEND drivers_srcs  drivers/MgQ/MgQPlotScene.cc  ${qt_drivers_HEADERS_MOC})
+   endif()
 
 
-add_custom_target( magics_params DEPENDS ${magics_params_srcs} )
-add_custom_target( mv_params DEPENDS ${metview_wrappers_srcs} )
+
+#add_custom_command( magics_params DEPENDS ${magics_params_srcs} ${metview_wrappers_srcs} )
+
 ###############################################################################
 
 add_subdirectory( common )
@@ -102,12 +78,11 @@ endif()
 
 if( HAVE_ODB )
 	add_subdirectory( oda )
+  # Adding path to the Oda directory 
+  list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/oda> )
 endif()
-
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/common )
 
 ecbuild_add_library( TARGET    MagPlus
-                     DEPENDS   magics_params
                      SOURCES
                         magics.h
                         ${magics_params_srcs}
@@ -124,132 +99,114 @@ ecbuild_add_library( TARGET    MagPlus
                         ${odb_srcs}
                      TEMPLATES
                         ${common_templates}
-                     DEFINITIONS
-                        ${MAGICS_EXTRA_DEFINITIONS} MAGICS_EXCEPTION=on
-                     LIBS
-                        ${MAGICS_EXTRA_LIBRARIES}
+                     PUBLIC_DEFINITIONS
+                        ${MAGICS_EXTRA_DEFINITIONS}
+                     PUBLIC_LIBS
+                        ${MAGICS_EXTRA_LIBRARIES} eccodes   expat ${PROJ4_LIBRARIES}
+                     PRIVATE_INCLUDES $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/clipper>
+                                      ${MAGICS_PRIVATE_INCLUDE_DIRS}
+                                     
+                     PUBLIC_INCLUDES $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DIR}>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/attributes>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/basic>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/common>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/drivers>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/decoders>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/visualisers>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/terralib/kernel>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/eckit_readers>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/web>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/drivers/MgQ>
+                                     $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/src>
                      TYPE SHARED )
 
-ecbuild_add_library( TARGET      MagPlusSingle
-                     SOURCES     MagicsSingle.cc
-                     LIBS        MagPlus
-                     TYPE        SHARED )
+target_link_libraries(MagPlus PRIVATE ${PROJ4_LIBRARIES} ${PROJ_LIBRARIES})
 
-ecbuild_add_library( TARGET      MagPlusDouble
-                     SOURCES     MagicsDouble.cc
-                     LIBS        MagPlus
-                     TYPE        SHARED )
+if(APPLE)
+  target_link_libraries(MagPlus PRIVATE ${ZLIB_LIBRARIES})
+endif(APPLE)
 
-if ( BUILD_SHARED_LIBS STREQUAL "BOTH" )
-ecbuild_add_library( TARGET    MagPlusStatic
-                     DEPENDS   magics_params
-                     SOURCES
-                        magics.h
-                        ${magics_params_srcs}
-                        ${common_srcs}
-                        ${basic_srcs}
-                        ${web_srcs}
-                        ${visualisers_srcs}
-                        ${eckit_srcs}
-                        ${drivers_srcs}
-                        ${qt_srcs}
-                        ${decoders_srcs}
-                        ${clipper_srcs}
-                        ${terralib_srcs}
-                        ${odb_srcs}
-                     TEMPLATES
-                        ${common_templates}
-                     DEFINITIONS
-                        ${MAGICS_EXTRA_DEFINITIONS}
-                     LIBS
-                        ${MAGICS_EXTRA_LIBRARIES}
-                     TYPE STATIC
-                     OUTPUT_NAME MagPlus )
-
-ecbuild_add_library( TARGET      MagPlusSingleStatic
-                     SOURCES     MagicsSingle.cc
-                     LIBS        MagPlusStatic
-                     TYPE        STATIC
-                     OUTPUT_NAME MagPlusSingle )
-
-ecbuild_add_library( TARGET      MagPlusDoubleStatic
-                     SOURCES     MagicsDouble.cc
-                     LIBS        MagPlusStatic
-                     TYPE        STATIC
-                     OUTPUT_NAME MagPlusDouble )
-
+if(HAVE_CAIRO)
+    target_link_libraries(MagPlus PRIVATE ${PANGOCAIRO_LIBRARIES})
 endif()
 
+if(HAVE_NETCDF)
+    target_link_libraries(MagPlus PRIVATE NetCDF::NetCDF_C)
+endif()
+
+ecbuild_add_library( TARGET         MagPlusSingle
+                     SOURCES        MagicsSingle.cc
+                     PRIVATE_LIBS   MagPlus
+                     TYPE           SHARED )
+
+ecbuild_add_library( TARGET         MagPlusDouble
+                     SOURCES        MagicsDouble.cc
+                     PRIVATE_LIBS   MagPlus
+                     TYPE           SHARED )
+
 if( metview )
- include_directories(  ${CMAKE_CURRENT_SOURCE_DIR}
-                        ${CMAKE_CURRENT_BINARY_DIR}
-                        ${CMAKE_CURRENT_BINARY_DIR}/params
-                        ${CMAKE_CURRENT_SOURCE_DIR}/common
-                        ${CMAKE_CURRENT_SOURCE_DIR}/basic
-                        ${CMAKE_CURRENT_SOURCE_DIR}/web
-                        ${CMAKE_CURRENT_SOURCE_DIR}/visualisers
-                        ${CMAKE_CURRENT_SOURCE_DIR}/drivers
-                        ${CMAKE_CURRENT_SOURCE_DIR}/decoders
-                        ${CMAKE_CURRENT_SOURCE_DIR}/clipper
-                        ${CMAKE_CURRENT_SOURCE_DIR}/terralib/kernel
-                        ${CMAKE_CURRENT_SOURCE_DIR}/libMagWrapper )
 
-
-
-  ecbuild_add_library( TARGET    MagWrapper
-                     DEPENDS   mv_params magics_params
-                     SOURCES
-                        magics.h
-                        ${metview_srcs}
-                        ${metview_wrappers_srcs}
-                     DEFINITIONS
-                        ${MAGICS_EXTRA_DEFINITIONS}
-                    LIBS
-                        ${MAGICS_EXTRA_LIBRARIES}
-                    TYPE STATIC
+   ecbuild_add_library(	TARGET			MagWrapper
+                     	SOURCES			magics.h
+                        			${metview_srcs}
+                        			${metview_wrappers_srcs}
+                     	PUBLIC_DEFINITIONS	${MAGICS_EXTRA_DEFINITIONS}
+                     	PUBLIC_LIBS		MagPlus
+                        PRIVATE_INCLUDES ${MAGICS_PRIVATE_INCLUDE_DIRS}
+                        PUBLIC_INCLUDES $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/libMagWrapper>
+                     	TYPE			STATIC
                     )
+   if(HAVE_CAIRO)
+    target_link_libraries(MagWrapper PRIVATE ${PANGOCAIRO_LIBRARIES})
+   endif()
+
+   if(HAVE_NETCDF)
+    target_link_libraries(MagWrapper PRIVATE NetCDF::NetCDF_C)
+   endif()
+
    list( APPEND attributes_include
-				OutputHandlerAttributes.h
-				FortranRootSceneNodeAttributes.h
-                BinningObjectAttributes.h
-                GribDecoderAttributes.h
-                DateGribLoopStepAttributes.h
-                GribLoopAttributes.h
-                GeoRectangularProjectionAttributes.h
-                LegendVisitorAttributes.h
-				XmlRootNodeAttributes.h
-				WrepRootNodeAttributes.h
-                ContinuousLegendMethodAttributes.h
-                HistogramLegendMethodAttributes.h
-                XmlBasicNodeAttributes.h
-                #ImagePlottingAttributes.h
-                LookupTableModeAttributes.h
-                FixedTableModeAttributes.h
-				)
+            OutputHandlerAttributes.h
+            FortranRootSceneNodeAttributes.h
+            BinningObjectAttributes.h
+            GribDecoderAttributes.h
+            DateGribLoopStepAttributes.h
+            GribLoopAttributes.h
+            GeoRectangularProjectionAttributes.h
+            LegendVisitorAttributes.h
+            XmlRootNodeAttributes.h
+            WrepRootNodeAttributes.h
+            ContinuousLegendMethodAttributes.h
+            HistogramLegendMethodAttributes.h
+            XmlBasicNodeAttributes.h
+            LookupTableModeAttributes.h
+            FixedTableModeAttributes.h
+   )
    if(qt)
-     list(APPEND attributes_include
-                 QtDriverAttributes.h)
+     list(APPEND attributes_include QtDriverAttributes.h)
    endif()
 
    install( FILES terralib/kernel/TeProjection.h
-				   terralib/kernel/TeCoord2D.h
-				   terralib/kernel/TeDefines.h
-				   terralib/kernel/TePrecision.h
-				   terralib/kernel/TeSingleton.h
-				   terralib/kernel/TeDatum.h
-				   terralib/kernel/TeUtils.h
+		  terralib/kernel/TeCoord2D.h
+		  terralib/kernel/TeDefines.h
+		  terralib/kernel/TePrecision.h
+		  terralib/kernel/TeSingleton.h
+		  terralib/kernel/TeDatum.h
+		  terralib/kernel/TeUtils.h
+		  DESTINATION ${INSTALL_INCLUDE_DIR})
 
-
-				   DESTINATION ${INSTALL_INCLUDE_DIR})
-   install( FILES AutoVector.h  DESTINATION ${INSTALL_INCLUDE_DIR})
-   install( FILES Iterable.h  DESTINATION ${INSTALL_INCLUDE_DIR})
+   install( FILES AutoVector.h       DESTINATION ${INSTALL_INCLUDE_DIR})
+   install( FILES Iterable.h         DESTINATION ${INSTALL_INCLUDE_DIR})
    install( FILES ReverseIterable.h  DESTINATION ${INSTALL_INCLUDE_DIR})
+
    foreach( file ${attributes_include} )
-     install( FILES ${CMAKE_CURRENT_BINARY_DIR}/params/${file}  DESTINATION ${INSTALL_INCLUDE_DIR})
+     install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/attributes/${file}  DESTINATION ${INSTALL_INCLUDE_DIR})
    endforeach()
    install( FILES ${metview_include} DESTINATION ${INSTALL_INCLUDE_DIR})
 endif()
-install( FILES magics.h  DESTINATION ${INSTALL_INCLUDE_DIR})
+
+
+install( FILES magics.h                DESTINATION ${INSTALL_INCLUDE_DIR})
 install( FILES common/magics_export.h  DESTINATION ${INSTALL_INCLUDE_DIR})
 install( FILES common/magics_windef.h  DESTINATION ${INSTALL_INCLUDE_DIR})
 
@@ -261,7 +218,8 @@ foreach( target     MagPlus
                     MagPlusDouble
                     MagPlusDoubleStatic
                     MagWrapper )
-    if( TARGET ${target} AND DEFINED ecbuild_VERSION AND NOT ${ecbuild_VERSION} VERSION_LESS 3.1 )
+    if( TARGET ${target} AND DEFINED ecbuild_VERSION)
         target_include_directories( ${target} INTERFACE $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DIR}> )
     endif()
 endforeach()
+

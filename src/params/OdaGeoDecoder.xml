@@ -11,7 +11,8 @@ does it submit to any jurisdiction.
 		name="OdaGeoDecoder"
 		directory="oda"
 		prefix="odb"
-		action="podb">
+		action="podb"
+		include="OdaDecoder.h">
 		<documentation>
 		New odb Access (Prototype Status)
 		</documentation>

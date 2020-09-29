@@ -32,8 +32,6 @@ void MagJSon::execute(const string& magml, const map<string, string>& params) {
 }
 
 void MagJSon::parse(const string& file) {
-    MagLog::dev() << "parse-->" << file.c_str() << endl;
-
     Value value = JSONParser::decodeFile(file);
     magics(value);
 }
@@ -48,6 +46,7 @@ void MagJSon::interpret(const string& def) {
 }
 
 void ParamJSon::magics(const Value& value) {
+
     ValueMap object = value.get_value<ValueMap>();
     for (auto entry = object.begin(); entry != object.end(); ++entry) {
         this->insert(make_pair(entry->first, string(entry->second)));
@@ -63,6 +62,7 @@ ParamJSon::ParamJSon(const string& param) {
 
 
 void MagJSon::drivers(XmlNode& parent, const Value& value) {
+
     XmlNode* drivers = new XmlNode("drivers");
     parent.push_back(drivers);
     ValueList all = value.get_value<ValueList>();
@@ -110,12 +110,15 @@ void MagJSon::build(XmlNode& parent, const string& name, ValueMap& object) {
             string value = entry->second.get_value<bool>() ? "on" : "off";
             attributes.insert(make_pair(entry->first, value));
         }
-        else {
+        else if ( !entry->second.isList() && !entry->second.isMap() && !entry->second.isOrderedMap() ) {
             attributes.insert(make_pair(entry->first, string(entry->second)));
         }
     }
+    
+    
     XmlNode* node = tree_.newNode(name, attributes);
     parent.push_back(node);
+    
     for (auto entry = object.begin(); entry != object.end(); ++entry) {
         // We can apply a patch ..
         map<string, Patch>::iterator patch = patchs_.find(entry->first);
@@ -124,7 +127,7 @@ void MagJSon::build(XmlNode& parent, const string& name, ValueMap& object) {
             continue;
         }
 
-        if (entry->second.isMap()) {
+        if (entry->second.isMap() ) {
             ValueMap object = entry->second.get_value<ValueMap>();
             build(*node, entry->first, object);
         }
@@ -143,7 +146,6 @@ void MagJSon::build(XmlNode& parent, const string& name, ValueMap& object) {
 
 void MagJSon::magics(const Value& value) {
     ValueMap object = value.get_value<ValueMap>();
-
     XmlMagics magics;
     // buils the Magics XmlNode!
     build(*tree_.root(), "magics", object);

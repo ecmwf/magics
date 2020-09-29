@@ -137,7 +137,7 @@ void FortranMagics::popen() {
   Here is where the real magics is happen. Everything is dispatched, followed
   by a comprehensive clean-up.
 */
-int FortranMagics::pclose() {
+int FortranMagics::pclose(bool catch_exceptions) {
     MagLog::info() << "pclose()" << endl;
     singleton_ = 0;
     try {
@@ -166,6 +166,11 @@ int FortranMagics::pclose() {
     catch (MagicsException& e) {
         MagLog::error() << "Errors reported:" << e.what() << " - No plot produced  " << endl;
         MagLog::error().flush();
+
+        if(!catch_exceptions) {
+            throw;
+        }
+
         return -1;
     }
 
@@ -396,7 +401,7 @@ void FortranMagics::pobs() {
         top()->push_back(action_);
         action_->visdef(new ObsPlotting());
         return;
-    }   
+    }
 }
 
 #include "MatrixTestDecoder.h"

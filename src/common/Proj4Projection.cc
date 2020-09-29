@@ -48,6 +48,9 @@ public:
         initMethods_["tpers"]       = &Epsg::tpersinit;
         initMethods_["polar_north"] = &Epsg::polarinit;
         initMethods_["polar_south"] = &Epsg::polarsouthinit;
+        initMethods_["EPSG:32661"]  = &Epsg::epsg32661;
+        initMethods_["EPSG:32761"]  = &Epsg::epsg32761;
+        
     }
     string name_;
     string definition_;
@@ -116,6 +119,25 @@ public:
         def << " +lon_0=" << from.vertical_longitude_;
         def << "  +x_0=2000000 +y_0=2000000 +ellps=WGS84 +datum=WGS84 "
                "+units=m ";
+        definition_ = def.str();
+    }
+
+      void epsg32661(const Proj4Projection& from) {
+        ostringstream def;
+
+        def << "+proj=stere +lat_0=90 +lat_ts=90 ";
+        def << " +lon_0=" << from.vertical_longitude_;
+        def << " +k=0.994 +x_0=2000000 +y_0=2000000  "
+               " +datum=WGS84 +units=m";
+        definition_ = def.str();
+    }
+
+    void epsg32761(const Proj4Projection& from) {
+        ostringstream def;
+        def << "+proj=stere +lat_0=-90 +lat_ts=-90 ";
+        def << " +lon_0=" << from.vertical_longitude_;
+        def << " +k=0.994 +x_0=2000000 +y_0=2000000  "
+               " +datum=WGS84 +units=m";
         definition_ = def.str();
     }
 

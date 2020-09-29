@@ -81,7 +81,7 @@ install:
   - git clone -b master --depth 1 https://github.com/ecmwf/magics-test.git ${MAGICS_TEST_SRC}
 
   # install conda deps
-  - conda install libnetcdf expat jinja2 xarray scipy cftime
+  - conda install libnetcdf expat xarray scipy cftime
   - conda install -c conda-forge proj4=6 eccodes pytest cairo pango pip
   # search for conda-installed libraries
   - export LDFLAGS="$LDFLAGS -L${CONDA_PREFIX}/lib -Wl,-rpath,${CONDA_PREFIX}/lib"

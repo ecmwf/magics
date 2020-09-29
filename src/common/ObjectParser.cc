@@ -13,6 +13,9 @@
 /// @author Tiago Quintino
 /// @date   Jun 2012
 
+#include <locale>
+#include <codecvt>
+
 #include "ObjectParser.h"
 #include "Translator.h"
 #include "Value.h"
@@ -118,11 +121,46 @@ Value ObjectParser::parseNumber() {
     }
 }
 
+static std::string utf8(uint32_t code) {
+    std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> conv;
+    return conv.to_bytes( char32_t(code));
+}
+
+std::string ObjectParser::unicode() {
+
+    std::string tmp;
+
+    while(true) {
+        char c = peek();
+
+        if ( (c >= '0' && c <= '9') ||
+             (c >= 'a' && c <= 'f') ||
+             (c >= 'A' && c <= 'F')
+            ) {
+            consume(c);
+            tmp += c;
+        }
+        else {
+            break;
+        }
+    }
+
+
+    std::istringstream iss(tmp);
+    uint32_t code;
+    iss >> std::hex >> code;
+
+    // std::cout << " [" << code << ", " << utf8(code) << "]" << std::endl;
+
+    return utf8(code);
+}
+
 Value ObjectParser::parseString(char quote) {
     consume(quote);
     std::string s;
     for (;;) {
         char c = next(true);
+
         if (c == '\\') {
             c = next(true);
             switch (c) {
@@ -156,7 +194,8 @@ Value ObjectParser::parseString(char quote) {
                 break;
 
             case 'u':
-                throw StreamParser::Error(std::string("ObjectParser::parseString \\uXXXX format not supported"));
+                s += unicode();
+                break;
 
             default:
                 if (c == quote) {

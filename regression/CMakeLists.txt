@@ -8,8 +8,7 @@ set( REGRESSION_SCRIPT_DIRECTORY  ${CMAKE_CURRENT_SOURCE_DIR} )
 #set tests timestamp
 execute_process(COMMAND date +\"%Y%m%d_%H%M%S\" OUTPUT_VARIABLE TIMESTAMP)
 STRING(REGEX REPLACE "\"" "" TIMESTAMP ${TIMESTAMP})
-
-STRING(REGEX REPLACE "\n" ""  TIMESTAMP ${TIMESTAMP})
+STRING(REGEX REPLACE "\n" "" TIMESTAMP ${TIMESTAMP})
 
 #set( summary_depend "")
 
@@ -158,27 +157,24 @@ function( add_magics_test )
 		if ( ENABLE_REGRESSION_UPLOAD ) 
            
 			ecbuild_add_test(  TARGET   ${target_load}
-                   TYPE     SCRIPT
-                   SOURCES  ${_p_SOURCES}                    
-                   LIBS MagPlus MagPlusSingle ${MAGICS_EXTRA_LIBRARIES} 
-                   DEPENDS ${targets}
-                   RESOURCES  ${_p_RESOURCES} 
-                   COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/upload.py  
-                   ARGS  ${MAGICS_VERSION} ./${target} ${_p_IMAGE} magics/reference/${MAGICS_VERSION}/${where} ) 
+                   TYPE          SCRIPT
+                   SOURCES       ${_p_SOURCES}                    
+                   PRIVATE_LIBS  MagPlus MagPlusSingle ${MAGICS_EXTRA_LIBRARIES} 
+                   DEPENDS       ${targets}
+                   RESOURCES     ${_p_RESOURCES} 
+                   COMMAND       ${REGRESSION_SCRIPT_DIRECTORY}/upload.py  
+                   ARGS          ${MAGICS_VERSION} ./${target} ${_p_IMAGE} magics/reference/${MAGICS_VERSION}/${where} ) 
 		endif()
-	    ecbuild_add_test(  TARGET   ${target}
-                   TYPE     SCRIPT
-                   SOURCES  ${_p_SOURCES}                    
-                   LIBS MagPlus MagPlusSingle ${MAGICS_EXTRA_LIBRARIES} 
-                   DEPENDS ${targets}
-                   RESOURCES  ${_p_RESOURCES} 
-                   COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py  
-                   ARGS  ${TIMESTAMP} ./${target} ${_p_IMAGE}  -n ${BRANCH_NAME}  -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} -f )
-
+	    ecbuild_add_test(  TARGET  ${target}
+                   TYPE          SCRIPT
+                   SOURCES       ${_p_SOURCES}                    
+                   PRIVATE_LIBS  MagPlus MagPlusSingle ${MAGICS_EXTRA_LIBRARIES} 
+                   DEPENDS       ${targets}
+                   RESOURCES     ${_p_RESOURCES} 
+                   COMMAND       ${REGRESSION_SCRIPT_DIRECTORY}/compare.py  
+                   ARGS          ${TIMESTAMP} ./${target} ${_p_IMAGE}  -n ${BRANCH_NAME}  -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} -f )
 
 endfunction(add_magics_test)
-
-
 
 
 add_subdirectory( basic )
@@ -196,16 +192,14 @@ add_subdirectory( layout )
 add_subdirectory( rotated )
 add_subdirectory( proj4 )
 add_subdirectory( venice )
-
 add_subdirectory( era )
 add_subdirectory( symbol )
 
-
 #final test 
-ecbuild_add_test(  TARGET   magics_summary
-                   TYPE PYTHON
-                   DEPENDS ${summary_depend}
+ecbuild_add_test(  TARGET    magics_summary
+                   TYPE      PYTHON
+                   DEPENDS   ${summary_depend}
                    RESOURCES summary_template.html
                    COMMAND   ${CMAKE_CURRENT_SOURCE_DIR}/summary.py
-                   ARGS ${MAGICS_HTML_ROOT} 
-                   )                   
+                   ARGS      ${MAGICS_HTML_ROOT} 
+                   )
