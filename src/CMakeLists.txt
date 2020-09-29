@@ -118,6 +118,7 @@ ecbuild_add_library( TARGET    MagPlus
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/eckit_readers>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/web>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/drivers/MgQ>
+                                     $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/src>
                      TYPE SHARED )
 
 target_link_libraries(MagPlus PRIVATE ${PROJ4_LIBRARIES} ${PROJ_LIBRARIES})
