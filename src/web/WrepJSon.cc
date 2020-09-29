@@ -1077,8 +1077,12 @@ void WrepJSon::epsz(const Value& value) {
     MagLog::dev() << "found -> epsz= " << epsz_ << endl;
 }
 void WrepJSon::height(const Value& value) {
-    height_ = double(value);
-    MagLog::dev() << "found -> height= " << height_ << endl;
+    try{
+        height_ = value.get_value<double>();
+    }
+    catch (...) {
+        MagLog::dev() << "ognore" << height_ << endl;
+    }
 }
 
 void WrepJSon::detz(const Value& value) {
@@ -1120,6 +1124,7 @@ void WrepJSon::clim_step(const Value& value) {
 }
 
 void WrepJSon::time(const Value& value) {
+    
     MagLog::dev() << "found -> time= " << value.get_value<string>() << endl;
     time_ = value.get_value<string>();
 }
@@ -1127,7 +1132,10 @@ void WrepJSon::valid_time(const Value& value) {
 
     // intrepret datetime ...
 
+    if ( value.isNil() )
+        return;
     string info = value.get_value<string>();
+
     DateTime to(info.substr(0, 8), info.substr(8, 4));
     DateTime from = to + (-24 * 3600L);
     ostringstream vt;
@@ -1234,7 +1242,7 @@ void WrepJSon::hodo_v(const Value& value) {
 }
 
 void WrepJSon::levels(const Value& value) {
-    ValueMap values = value.get_value<ValueMap>();
+    ValueList values = value.get_value<ValueList>();
 
     for (unsigned int i = 0; i < values.size(); i++) {
         current_->levels_.push_back(values[i].get_value<double>());
