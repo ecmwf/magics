@@ -201,7 +201,7 @@ if( metview )
    install( FILES ReverseIterable.h  DESTINATION ${INSTALL_INCLUDE_DIR})
 
    foreach( file ${attributes_include} )
-     install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/attributes/params/${file}  DESTINATION ${INSTALL_INCLUDE_DIR})
+     install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/attributes/${file}  DESTINATION ${INSTALL_INCLUDE_DIR})
    endforeach()
    install( FILES ${metview_include} DESTINATION ${INSTALL_INCLUDE_DIR})
 endif()
