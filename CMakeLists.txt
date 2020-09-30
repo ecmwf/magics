@@ -142,15 +142,15 @@ endif()
 # installed via autotools, then we will need to try another method
 #ecbuild_find_package(NAME PROJ4 VERSION 6.1.0 QUIET )
 # find_package( PROJ4 6.1.0 NO_MODULE )
-# if(NOT PROJ4_FOUND)
-find_package(PROJ 6.1.0 REQUIRED)
-if (NOT PROJ_FOUND)
-    message(FATAL_ERROR "Package 'proj' was not found - at least version 6.1.0 required.")
-endif()
+if(NOT PROJ4_FOUND)
+  find_package(PROJ 6.1.0 REQUIRED)
+  if (NOT PROJ_FOUND)
+      message(FATAL_ERROR "Package 'proj' was not found - at least version 6.1.0 required.")
+  endif()
 
-message("PROJ include: ${PROJ_INCLUDE_DIR}")
-message("PROJ library: ${PROJ_LIBRARIES}")
-# endif()
+  message("PROJ include: ${PROJ_INCLUDE_DIR}")
+  message("PROJ library: ${PROJ_LIBRARIES}")
+endif()
 
 
 find_package( EXPAT REQUIRED )   # for MagML
