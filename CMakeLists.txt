@@ -141,18 +141,18 @@ endif()
 # this should find proj if it has been installed via CMake, but if it has been
 # installed via autotools, then we will need to try another method
 #ecbuild_find_package(NAME PROJ4 VERSION 6.1.0 QUIET )
-find_package( PROJ4 6.1.0 NO_MODULE )
-if(NOT PROJ4_FOUND)
-    find_package(Proj 6.1.0 REQUIRED)
-    if (NOT PROJ_FOUND)
-        message(FATAL_ERROR "Package 'proj' was not found - at least version 6.1.0 required.")
-    endif()
-    list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${Proj_INCLUDE_DIR} )
-    list( APPEND MAGICS_EXTRA_LIBRARIES     ${Proj_LIBRARIES} )
+# find_package( PROJ4 6.1.0 NO_MODULE )
+# if(NOT PROJ4_FOUND)
+  find_package(PROJ 6.1.0 REQUIRED)
+  if (NOT PROJ_FOUND)
+      message(FATAL_ERROR "Package 'proj' was not found - at least version 6.1.0 required.")
+  endif()
+  list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${PROJ_INCLUDE_DIR} )
+  list( APPEND MAGICS_EXTRA_LIBRARIES     ${PROJ_LIBRARIES} )
 
-    message("PROJ include: ${Proj_INCLUDE_DIR}")
-    message("PROJ library: ${Proj_LIBRARIES}")
-endif()
+  message("PROJ include: ${PROJ_INCLUDE_DIR}")
+  message("PROJ library: ${PROJ_LIBRARIES}")
+# endif()
 
 find_package( EXPAT REQUIRED )   # for MagML
 
