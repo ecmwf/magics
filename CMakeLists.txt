@@ -31,7 +31,7 @@ set(CMAKE_C_STANDARD 99)
 
 ###############################################################################
 # some build options for this project
-                    
+
 
 ecbuild_add_option( FEATURE CAIRO
                     DEFAULT ON
@@ -39,7 +39,7 @@ ecbuild_add_option( FEATURE CAIRO
                     REQUIRED_PACKAGES PangoCairo)
 
 
-string(STRIP ${PANGOCAIRO_LIBRARIES} PANGOCAIRO_LIBRARIES)
+string(STRIP "${PANGOCAIRO_LIBRARIES}" PANGOCAIRO_LIBRARIES)
 if(PANGOCAIRO_FOUND)
  set(HAVE_CAIRO ON)
   ecbuild_enable_feature( CAIRO )
