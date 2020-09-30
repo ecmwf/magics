@@ -78,7 +78,7 @@ endif()
 
 if( HAVE_ODB )
 	add_subdirectory( oda )
-  # Adding path to the Oda directory 
+  # Adding path to the Oda directory
   list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/oda> )
 endif()
 
@@ -102,11 +102,14 @@ ecbuild_add_library( TARGET    MagPlus
                      PUBLIC_DEFINITIONS
                         ${MAGICS_EXTRA_DEFINITIONS}
                      PUBLIC_LIBS
-                        ${MAGICS_EXTRA_LIBRARIES} eccodes   expat proj
+                        ${MAGICS_EXTRA_LIBRARIES}
+                        eccodes
+                        expat
+                        ${PROJ_EXTRA_LIBRARIES}
                      PRIVATE_INCLUDES $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/clipper>
                                       ${MAGICS_PRIVATE_INCLUDE_DIRS}
-                                     
-                     PUBLIC_INCLUDES $<INSTALL_INTERFACE:${PROJ4_INCLUDE_DIRS}>
+
+                     PUBLIC_INCLUDES $<INSTALL_INTERFACE:${PROJ_INCLUDE_DIRS}>
                                      $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DIR}>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/attributes>
@@ -223,4 +226,3 @@ foreach( target     MagPlus
         target_include_directories( ${target} INTERFACE $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DIR}> )
     endif()
 endforeach()
-

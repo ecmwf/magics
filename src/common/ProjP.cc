@@ -17,6 +17,7 @@
    Apr 06: update for GCC 4.0 (Stephan)
 */
 #include <ProjP.h>
+#include <proj.h>
 
 using namespace magics;
 
@@ -48,6 +49,12 @@ ProjP::~ProjP() {
 
     converter_ = 0;
 }
+
+
+string ProjP::error(int error) {
+    return proj_errno_string(error);
+}
+
 
 int LatLonProjP::convert(double& x, double& y) const {
     PJ_COORD in, out;
