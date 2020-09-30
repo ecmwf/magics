@@ -108,7 +108,6 @@ ecbuild_add_library( TARGET    MagPlus
                                       ${MAGICS_PRIVATE_INCLUDE_DIRS}
 
                      PUBLIC_INCLUDES $<INSTALL_INTERFACE:${PROJ_INCLUDE_DIRS}>
-                                     $<INSTALL_INTERFACE:${PROJ4_INCLUDE_DIRS}>
                                      $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DIR}>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/attributes>
@@ -124,7 +123,7 @@ ecbuild_add_library( TARGET    MagPlus
                                      $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/src>
                      TYPE SHARED )
 
-target_link_libraries(MagPlus PRIVATE ${EXPAT_LIBRARIES} ${PROJ_LIBRARIES} ${PROJ4_LIBRARIES})
+target_link_libraries(MagPlus PRIVATE ${EXPAT_LIBRARIES} ${PROJ_LIBRARIES})
 
 if(APPLE)
   target_link_libraries(MagPlus PRIVATE ${ZLIB_LIBRARIES})
