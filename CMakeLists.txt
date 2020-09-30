@@ -39,7 +39,7 @@ ecbuild_add_option( FEATURE CAIRO
                     REQUIRED_PACKAGES PangoCairo)
 
 
-string(STRIP ${PANGOCAIRO_LIBRARIES} PANGOCAIRO_LIBRARIES)
+string(STRIP "${PANGOCAIRO_LIBRARIES}" PANGOCAIRO_LIBRARIES)
 if(PANGOCAIRO_FOUND)
  set(HAVE_CAIRO ON)
   ecbuild_enable_feature( CAIRO )
