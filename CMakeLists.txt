@@ -147,6 +147,8 @@ if(NOT PROJ4_FOUND)
     if (NOT PROJ_FOUND)
         message(FATAL_ERROR "Package 'proj' was not found - at least version 6.1.0 required.")
     endif()
+    list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${Proj_INCLUDE_DIR} )
+    list( APPEND MAGICS_EXTRA_LIBRARIES     ${Proj_LIBRARIES} )
 endif()
 
 find_package( EXPAT REQUIRED )   # for MagML
