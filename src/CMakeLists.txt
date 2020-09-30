@@ -104,8 +104,6 @@ ecbuild_add_library( TARGET    MagPlus
                      PUBLIC_LIBS
                         ${MAGICS_EXTRA_LIBRARIES}
                         eccodes
-                        expat
-                        ${PROJ_EXTRA_LIBRARIES}
                      PRIVATE_INCLUDES $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/clipper>
                                       ${MAGICS_PRIVATE_INCLUDE_DIRS}
 
@@ -125,7 +123,7 @@ ecbuild_add_library( TARGET    MagPlus
                                      $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/src>
                      TYPE SHARED )
 
-target_link_libraries(MagPlus PRIVATE ${PROJ4_LIBRARIES} ${PROJ_LIBRARIES})
+target_link_libraries(MagPlus PRIVATE ${EXPAT_LIBRARIES} ${PROJ_LIBRARIES})
 
 if(APPLE)
   target_link_libraries(MagPlus PRIVATE ${ZLIB_LIBRARIES})
