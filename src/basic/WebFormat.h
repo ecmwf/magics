@@ -29,15 +29,9 @@ namespace magics {
 
 class TempFile {
 public:
-    TempFile() : filename(tmpnam(0)), ofs(filename) {
-        if (!ofs)
-            return;
-    }
+    TempFile();
 
-    ~TempFile() {
-        ofs.close();
-        remove(filename);
-    }
+    ~TempFile();
 
     ofstream& operator()() { return ofs; }
     string name() { return filename; }

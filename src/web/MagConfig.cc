@@ -214,7 +214,7 @@ void StyleLibrary::init() {
                 if (fileinfo.name[0] != '.') {
                     current_ = fileinfo.name;
                     if (current_ == "styles.json")
-                        allStyles_.init(path + "/" + current_, "styles.json");
+                        allStyles_.init(path, "styles.json");
                     else
                         MagConfigHandler(path + "/" + current_, *this);
                 }
