@@ -223,10 +223,12 @@ void LegendVisitor::build() {
         if (use_min_) {
             front()->userText(use_min_text_, "user");
             front()->minText(use_min_text_);
+            legendInfo_.insert(make_pair("legend_min_text", use_min_text_));
         }
         if (use_max_) {
             back()->userText(use_max_text_, "user");
             back()->maxText(use_max_text_);
+            legendInfo_.insert(make_pair("legend_max_text", use_max_text_));
         }
 
         back()->units(units_text_);
@@ -1510,6 +1512,8 @@ void LegendVisitor::visit(MetaDataVisitor& visitor) {
         out << c1 << "\"" << entry.first << "\":\"" << entry.second << "\"";
         c1 = ",";
     }
+
+
 
     out << c1 << "\"legend_entries\" : [";
     c1 = "";
