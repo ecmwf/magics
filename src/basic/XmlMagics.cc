@@ -29,9 +29,7 @@
 #include "TaylorGrid.h"
 #include "TephiGrid.h"
 #include "ViewNode.h"
-#ifdef HAVE_GRIB
 #include "GribDecoder.h"
-#endif
 #include "Contour.h"
 #include "EpsXmlInput.h"
 #include "GeoJSon.h"
@@ -431,7 +429,7 @@ void XmlMagics::layer(const XmlNode& node) {
     pop();
 }
 
-#ifdef HAVE_GRIB
+
 GribDecoder* grib_handler;
 
 void XmlMagics::gribloop(const XmlNode& node) {
@@ -487,19 +485,7 @@ void XmlMagics::grib(const XmlNode& node) {
     grib->set(node);
     top()->data(grib);
 }
-#else
-void XmlMagics::gribloop(const XmlNode&) {
-    MagLog::warning() << " Attempt to call GribLoop but GRIB support is disabled!" << endl;
-}
 
-void XmlMagics::gribinloop(const XmlNode&) {
-    MagLog::warning() << " Attempt to call GribInLoop but GRIB support is disabled!" << endl;
-}
-
-void XmlMagics::grib(const XmlNode&) {
-    MagLog::warning() << " Attempt to call Grib decoding but GRIB support is disabled!" << endl;
-}
-#endif
 
 
 #include "GeoPointsDecoder.h"
@@ -654,15 +640,13 @@ void XmlMagics::geojson(const XmlNode& node) {
     top()->data(geo);
 }
 
-#ifdef HAVE_BUFR
 #include "EpsBufr.h"
-#endif
+
 void XmlMagics::epsbufr(const XmlNode& node) {
-#ifdef HAVE_BUFR
     EpsBufr* eps = new EpsBufr();
     eps->set(node);
     top()->data(eps);
-#endif
+
 }
 
 void XmlMagics::epsgraph(const XmlNode& node) {
@@ -805,8 +789,8 @@ void XmlMagics::wind(const XmlNode& node) {
     else {
         MagLog::warning() << " wind not yet implemented for cartesian system" << endl;
     }
-#ifdef HAVE_GRIB
+
     if (gribloop_)
         gribloop_->next();
-#endif
+
 }

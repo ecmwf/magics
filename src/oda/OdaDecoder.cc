@@ -23,26 +23,22 @@
 #include <set>
 #include <vector>
 
-#include <odb_api/ColumnType.h>
-#include <odb_api/Reader.h>
 
-extern "C" {
-#include <odb_api/odbcapi.h>
-}
+#include <odc/Reader.h>
 
 
-#include "../common/Timer.h"
+#include "Timer.h"
 #include "OdaDecoder.h"
 
 #include "SciMethods.h"
 #include "TextVisitor.h"
 
 
-static int getOdbColumnIndex(odb::Reader::iterator&, const string&);
+static int getOdbColumnIndex(odc::Reader::iterator&, const string&);
 
-int getOdbColumnIndex(odb::Reader::iterator& firstRowIt, const string& colName) {
+int getOdbColumnIndex(odc::Reader::iterator& firstRowIt, const string& colName) {
     int index = 0;
-    for (odb::MetaData::const_iterator it = firstRowIt->columns().begin(); it != firstRowIt->columns().end(); ++it) {
+    for (auto it = firstRowIt->columns().begin(); it != firstRowIt->columns().end(); ++it) {
         string s = (*it)->name();
         if (s == colName)
             return index;
@@ -95,9 +91,8 @@ void OdaGeoDecoder::decode(const Transformation& transformation) {
     }
     else {
         try {
-            odb_start();
-            odb::Reader oda(path_);
-            odb::Reader::iterator it = oda.begin();
+            odc::Reader oda(path_);
+            odc::Reader::iterator it = oda.begin();
 
             int latIndex, lonIndex, valueIndex = -1;
 
@@ -148,7 +143,7 @@ void OdaGeoDecoder::decode(const Transformation& transformation) {
 
             computeStats();
         }
-        catch (exception e) {
+        catch (exception& e) {
             MagLog::error() << "Failed to read ODB data: " << e.what();
             return;
         }
@@ -187,10 +182,9 @@ void OdaGeoDecoder::decode() {
         return;
 
     try {
-        odb_start();
-        odb::Reader oda(path_);
+        odc::Reader oda(path_);
 
-        odb::Reader::iterator it = oda.begin();
+        odc::Reader::iterator it = oda.begin();
 
         int latIndex, lonIndex, valueIndex = -1;
 
@@ -239,7 +233,7 @@ void OdaGeoDecoder::decode() {
 
         MagLog::info() << "Number of rows: " << row << endl;
     }
-    catch (exception e) {
+    catch (exception& e) {
         MagLog::error() << "Failed to read ODB data: " << e.what();
         return;
     }
@@ -300,10 +294,10 @@ void OdaGeoDecoder::customisedPoints(const std::set<string>&, CustomisedPointsLi
     }
 
     try {
-        odb_start();
-        odb::Reader oda(path_);
+        
+        odc::Reader oda(path_);
 
-        odb::Reader::iterator it = oda.begin();
+        odc::Reader::iterator it = oda.begin();
 
         int latIndex, lonIndex, valueIndex = -1, xIndex, yIndex;
 
@@ -356,7 +350,7 @@ void OdaGeoDecoder::customisedPoints(const std::set<string>&, CustomisedPointsLi
 
         MagLog::info() << "Number of rows: " << row << endl;
     }
-    catch (exception e) {
+    catch (exception& e) {
         MagLog::error() << "Failed to read ODB data: " << e.what();
         return;
     }
@@ -396,10 +390,9 @@ void OdaGeoDecoder::customisedPoints(const Transformation& transformation, const
     }
 
     try {
-        odb_start();
-        odb::Reader oda(path_);
+        odc::Reader oda(path_);
 
-        odb::Reader::iterator it = oda.begin();
+        odc::Reader::iterator it = oda.begin();
 
         int latIndex, lonIndex, valueIndex = -1, xIndex, yIndex;
 
@@ -455,7 +448,7 @@ void OdaGeoDecoder::customisedPoints(const Transformation& transformation, const
 
         MagLog::info() << "Number of rows: " << row << endl;
     }
-    catch (exception e) {
+    catch (exception& e) {
         MagLog::error() << "Failed to read ODB data: " << e.what();
         return;
     }
@@ -682,10 +675,10 @@ void OdaXYDecoder::print(ostream& out) const {
 void OdaXYDecoder::customisedPoints(const Transformation& transformation, const std::set<string>&,
                                     CustomisedPointsList& list) {
     try {
-        odb_start();
-        odb::Reader oda(path_);
+        
+        odc::Reader oda(path_);
 
-        odb::Reader::iterator it = oda.begin();
+        odc::Reader::iterator it = oda.begin();
 
         int xIndex = -1, yIndex = -1, valueIndex = -1, xcIndex = -1, ycIndex = -1;
 
@@ -749,7 +742,7 @@ void OdaXYDecoder::customisedPoints(const Transformation& transformation, const 
 
         MagLog::info() << "Number of rows: " << row << endl;
     }
-    catch (exception e) {
+    catch (exception& e) {
         MagLog::error() << "Failed to read ODB data: " << e.what();
         return;
     }
@@ -757,10 +750,10 @@ void OdaXYDecoder::customisedPoints(const Transformation& transformation, const 
 
 void OdaXYDecoder::customisedPoints(const std::set<string>&, CustomisedPointsList& list) {
     try {
-        odb_start();
-        odb::Reader oda(path_);
+        
+        odc::Reader oda(path_);
 
-        odb::Reader::iterator it = oda.begin();
+        odc::Reader::iterator it = oda.begin();
 
         int xIndex = -1, yIndex = -1, valueIndex = -1, xcIndex = -1, ycIndex = -1;
 
@@ -823,7 +816,7 @@ void OdaXYDecoder::customisedPoints(const std::set<string>&, CustomisedPointsLis
 
         MagLog::info() << "Number of rows: " << row << endl;
     }
-    catch (exception e) {
+    catch (exception& e) {
         MagLog::error() << "Failed to read ODB data: " << e.what();
         return;
     }
@@ -853,10 +846,9 @@ void OdaXYDecoder::decode(const Transformation& transformation) {
         return;
 
     try {
-        odb_start();
-        odb::Reader oda(path_);
+        odc::Reader oda(path_);
 
-        odb::Reader::iterator it = oda.begin();
+        odc::Reader::iterator it = oda.begin();
 
         int xIndex = -1, yIndex = -1, valueIndex = -1;
 
@@ -903,7 +895,7 @@ void OdaXYDecoder::decode(const Transformation& transformation) {
 
         MagLog::info() << "Number of rows: " << row << endl;
     }
-    catch (exception e) {
+    catch (exception& e) {
         MagLog::error() << "Failed to read ODB data: " << e.what();
         return;
     }
@@ -914,10 +906,10 @@ void OdaXYDecoder::decode() {
         return;
 
     try {
-        odb_start();
-        odb::Reader oda(path_);
+        
+        odc::Reader oda(path_);
 
-        odb::Reader::iterator it = oda.begin();
+        odc::Reader::iterator it = oda.begin();
 
         int xIndex = -1, yIndex = -1, valueIndex = -1;
 
@@ -962,7 +954,7 @@ void OdaXYDecoder::decode() {
 
         MagLog::info() << "Number of rows: " << row << endl;
     }
-    catch (exception e) {
+    catch (exception& e) {
         MagLog::error() << "Failed to read ODB data: " << e.what();
         return;
     }

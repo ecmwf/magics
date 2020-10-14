@@ -50,7 +50,7 @@ clone_depth: 1
 # scripts that run after cloning repository
 install:
   # install ecbuild
-  - cmd: git clone --depth 1 https://github.com/ecmwf/ecbuild.git %ECBUILD_SRC%
+  - cmd: git clone --depth 1 https://github.com/ecmwf/ecbuild.git %ECBUILD_SRC% -b %APPVEYOR_REPO_BRANCH%
 
   # install magics-python src
   - cmd: git clone -b master --depth 1 https://github.com/ecmwf/magics-python.git %MAGICS_PYTHON_SRC%
@@ -68,7 +68,7 @@ install:
                                 m2-unzip
 
   # install conda deps
-  - cmd: conda install boost libnetcdf expat jinja2 xarray scipy cftime
+  - cmd: conda install libnetcdf expat xarray scipy cftime
   - cmd: conda install -c conda-forge cmake jom proj4=6 pthreads-win32 libiconv eccodes pytest
 
   # gtk+ - needed for pango
@@ -114,8 +114,7 @@ build_script:
   - cmd: cmake -G "NMake Makefiles JOM" ^
                -D CMAKE_INSTALL_PREFIX=%INSTALL_DIR% ^
                -D CMAKE_BUILD_TYPE=Release ^
-               -D GTK_PATH=%GTK% ^
-               -D ENABLE_FORTRAN=0
+               -D GTK_PATH=%GTK%
                ..
   - cmd: jom -j2
   - cmd: ctest --output-on-failure

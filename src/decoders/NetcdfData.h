@@ -456,7 +456,7 @@ void Accessor<T>::access(vector<T>& data, vector<size_t>& start, vector<size_t>&
         MagLog::error() << "NetcdfDecoder : No accessor available for " << var.type() << endl;
         MagLog::error() << "Throwing excpetion for  " << var.type() << endl;
 
-        throw new MagicsException("No accessor available");
+        throw MagicsException("No accessor available");
     }
 
     (*(*accessor).second)(data, start, edges, var);

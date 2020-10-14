@@ -627,6 +627,11 @@ void PolarStereographicProjection::visit(MetaDataVisitor& visitor, double left, 
     java << "\"img_width\" : " << img_width << ",";
     java << "\"height\" : " << height << ",";
     java << "\"img_height\" : " << img_height << ",";
+    java << "\"xmin\" : " << xmin_ << ",";
+    java << "\"ymin\" : " << ymin_ << ",";
+    java << "\"xmax\" : " << xmax_ << ",";
+    java << "\"ymax\" : " << ymax_ << ",";
+
 
     java << "\"pcxmin\" : " << getMinPCX() << ",";
     java << "\"pcymin\" : " << getMinPCY() << ",";

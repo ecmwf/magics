@@ -1,78 +1,124 @@
-<magics>
-<class inherits="NoLabelPlotting" xmltag="label" name="LabelPlotting" directory="visualisers" prefix="map/map_label" action="pcoast" doc_inherits="no">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
+<magics>
+	<class inherits="NoLabelPlotting"
+		xmltag="label"
+		name="LabelPlotting"
+		directory="visualisers"
+		prefix="map/map_label"
+		action="pcoast"
+		doc_inherits="no">
 		<documentation>
 		This object will control the settings of the Map Labels.
 		</documentation>
-      
-       	<parameter member="font" to="string" default="sansserif" from="string" name="map_label_font">
-       		<documentation> Font of grid labels </documentation>
-       	</parameter>	
-       	<parameter member="font_style" to="string" default="normal" from="string" name="map_label_font_style">
-            <documentation> Font of grid labels </documentation>          	
-       	</parameter>
-       	<parameter member="colour" to="Colour" default="black" from="string" name="map_label_colour">
-            		<documentation>
+		<parameter member="font"
+			to="string"
+			default="sansserif"
+			from="string"
+			name="map_label_font">
+			<documentation>Font of grid labels</documentation>
+		</parameter>
+		<parameter member="font_style"
+			to="string"
+			default="normal"
+			from="string"
+			name="map_label_font_style">
+			<documentation>Font of grid labels</documentation>
+		</parameter>
+		<parameter member="colour"
+			to="Colour"
+			default="black"
+			from="string"
+			name="map_label_colour">
+			<documentation>
             Colour of map labels
-           		</documentation>
-            		<release>Magics++0.1		</release>
-       	</parameter>
-       	<parameter member="height" to="float" default="0.25" from="float" name="map_label_height">
-            		<documentation>
+			</documentation>
+			<release>Magics++0.1</release>
+		</parameter>
+		<parameter member="height"
+			to="float"
+			default="0.25"
+			from="float"
+			name="map_label_height">
+			<documentation>
             Height og grid labels
-           		</documentation> 
-            		<release>Magics++0.1		</release>
-       	</parameter>
-       		<parameter member="blanking" to="bool" default="on" from="string" name="map_label_blanking">
-            		<documentation>
+			</documentation>
+			<release>Magics++0.1</release>
+		</parameter>
+		<parameter member="blanking"
+			to="bool"
+			default="on"
+			from="string"
+			name="map_label_blanking">
+			<documentation>
             Blanking of the grid labels
-           		</documentation> 
-            	
-       	</parameter>
-       
-        	<parameter member="latFrequency" to="int" default="1" from="int" name="map_label_latitude_frequency">
-            		<documentation>
+			</documentation>
+		</parameter>
+		<parameter member="latFrequency"
+			to="int"
+			default="1"
+			from="int"
+			name="map_label_latitude_frequency">
+			<documentation>
             Evry Nth latitue grid is labelled
-           		</documentation>
-            		<release>Magics++0.1		</release>
-       	</parameter>
-        	<parameter member="lonFrequency" to="int" default="1" from="int" name="map_label_longitude_frequency">
-            		<documentation>
+			</documentation>
+			<release>Magics++0.1</release>
+		</parameter>
+		<parameter member="lonFrequency"
+			to="int"
+			default="1"
+			from="int"
+			name="map_label_longitude_frequency">
+			<documentation>
             Evry Nth longitude grid is labelled
-           		</documentation>
-           		<release>Magics++0.1		</release>
-       	</parameter>
-        	<parameter member="left" to="bool" default="on" from="string" name="map_label_left">
-            		<documentation>
+			</documentation>
+			<release>Magics++0.1</release>
+		</parameter>
+		<parameter member="left"
+			to="bool"
+			default="on"
+			from="string"
+			name="map_label_left">
+			<documentation>
            Enable the labels on the left of the map
-           		</documentation>
-           		<release>Magics++0.1		</release>
-       	</parameter>
-       	<parameter member="right" to="bool" default="on" from="string" name="map_label_right">
-            		<documentation>
+			</documentation>
+			<release>Magics++0.1</release>
+		</parameter>
+		<parameter member="right"
+			to="bool"
+			default="on"
+			from="string"
+			name="map_label_right">
+			<documentation>
            Enable the labels on the right of the map
-           		</documentation>
-           		<release>Magics++0.1		</release>
-       	</parameter>
-       	<parameter member="top" to="bool" default="on" from="string" name="map_label_top">
-            		<documentation>
+			</documentation>
+			<release>Magics++0.1</release>
+		</parameter>
+		<parameter member="top"
+			to="bool"
+			default="on"
+			from="string"
+			name="map_label_top">
+			<documentation>
            Enable the labels on the top of the map
-           		</documentation>
-           		<release>Magics++0.1		</release>
-       	</parameter>
-       	<parameter member="bottom" to="bool" default="on" from="string" name="map_label_bottom">
-            		<documentation>
+			</documentation>
+			<release>Magics++0.1</release>
+		</parameter>
+		<parameter member="bottom"
+			to="bool"
+			default="on"
+			from="string"
+			name="map_label_bottom">
+			<documentation>
            Enable the labels on the bottom of the map
-           		</documentation>
-           		<release>Magics++0.1		</release>
-       	</parameter>
-</class></magics>
+			</documentation>
+			<release>Magics++0.1</release>
+		</parameter>
+	</class>
+</magics>

@@ -1,22 +1,31 @@
-<magics>
-<class action="xml" directory="decoders" name="EfiDataDecoder">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
+<magics>
+	<class action="xml" directory="decoders" name="EfiDataDecoder">
 		<documentation>
 		The Efi decoder is responsible for decoding EFi Ascii file.(Metops)
 		</documentation>
-        	<parameter xml="path" from="string" name="efi_filename" default="" member="path" to="string">           
-            		<documentation> Efi file name Path 		</documentation>
-        	</parameter>        
-         	<parameter xml="record" from="int" name="efi_record" default="0" member="record" to="int">
-            		<documentation> Efi record ( starting at 0) 		</documentation>
-        	</parameter>
-</class></magics>
+		<parameter xml="path"
+			from="string"
+			name="efi_filename"
+			default=""
+			member="path"
+			to="string">
+			<documentation>Efi file name Path</documentation>
+		</parameter>
+		<parameter xml="record"
+			from="int"
+			name="efi_record"
+			default="0"
+			member="record"
+			to="int">
+			<documentation>Efi record ( starting at 0)</documentation>
+		</parameter>
+	</class>
+</magics>

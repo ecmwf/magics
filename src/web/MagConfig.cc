@@ -13,6 +13,8 @@
 #include "MagLog.h"
 #include "MetaData.h"
 #include "magics_windef.h"
+#include "Value.h"
+#include "JSONParser.h"
 
 #ifndef MAGICS_ON_WINDOWS
 #include <dirent.h>
@@ -25,40 +27,34 @@
 #include <cstring>
 
 using namespace magics;
-using namespace json_spirit;
 
 
 MagConfigHandler::MagConfigHandler(const string& config, MagConfig& magics) {
-    ifstream is(config.c_str());
 
-    if (!is.good()) {
-        MagLog::error() << "Could not processed find the file: " << config << endl;
-        return;
-    }
 
-    json_spirit::Value value;
+
     try {
-        json_spirit::read_or_throw(is, value);
-        if (value.type() == array_type) {
-            Array values = value.get_value<Array>();
+        Value value = JSONParser::decodeFile(config);
+
+        if (value.isList()) {
+            ValueList values = value.get_value<ValueList>();
             magics.callback(values);
             return;
         }
-        Object object = value.get_value<Object>();
+        ValueMap object = value.get_value<ValueMap>();
 
-        for (vector<Pair>::const_iterator entry = object.begin(); entry != object.end(); ++entry) {
-            magics.callback(entry->name_, entry->value_);
+        for (auto entry = object.begin(); entry != object.end(); ++entry) {
+            magics.callback(entry->first, entry->second);
         }
     }
-    catch (json_spirit::Error_position e) {
-        MagLog::error() << "JSON error in file: " << config << ": " << e.reason_ << "[line: " << e.line_
-                        << ", column: " << e.column_ << "]" << endl;
+    catch (std::exception& e) {
+        MagLog::error() << "JSON error in file: " << config << ": " << e.what() << endl;
     }
 }
 
 MagConfigHandler::~MagConfigHandler() {}
 
-void MagConfigHandler::dig(const json_spirit::Value&) {}
+void MagConfigHandler::dig(const Value&) {}
 
 void MagConfigHandler::print(ostream& out) const {
     out << "MagConfigHandler[";
@@ -70,85 +66,77 @@ MagConfig::MagConfig() {}
 
 MagConfig::~MagConfig() {}
 
-string MagConfig::convert(const json_spirit::Value& value) {
-    if (value.type() == str_type) {
-        return value.get_str();
-    }
-    if (value.type() == int_type) {
-        return tostring(value.get_int());
-    }
-    if (value.type() == real_type) {
-        return tostring(value.get_real());
-    }
-    return "";
+string MagConfig::convert(const Value& value) {
+    std::string s(value);
+    return s;
 }
 
-void StyleLibrary::callback(const json_spirit::Array& values) {
+void StyleLibrary::callback(const ValueList& values) {
     for (unsigned int i = 0; i < values.size(); i++) {
         library_.push_back(Style());
-        json_spirit::Object object = values[i].get_value<json_spirit::Object>();
+        ValueMap object = values[i].get_value<ValueMap>();
         library_.back().set(object);
     }
 }
 
-void Style::set(json_spirit::Object& object, Style::Match& match) {
-    for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry != object.end(); ++entry) {
-        match.insert(make_pair(entry->name_, vector<string>()));
-        if (entry->value_.type() == array_type) {
-            Array values = entry->value_.get_value<Array>();
+void Style::set(ValueMap& object, Style::Match& match) {
+    for (auto entry = object.begin(); entry != object.end(); ++entry) {
+        match.insert(make_pair(entry->first, vector<string>()));
+        if (entry->second.isList()) {
+            ValueList values = entry->second.get_value<ValueList>();
             for (unsigned int i = 0; i < values.size(); i++) {
-                match[entry->name_].push_back(MagConfig::convert(values[i]));
+                match[entry->first].push_back(MagConfig::convert(values[i]));
             }
         }
         else {
-            match[entry->name_].push_back(MagConfig::convert(entry->value_));
+            match[entry->first].push_back(MagConfig::convert(entry->second));
         }
     }
 }
 
-void Style::criteria(const json_spirit::Value& value) {
+void Style::criteria(const Value& value) {
     // List of criteria
-    Array values = value.get_value<Array>();
+    ValueList values = value.get_value<ValueList>();
 
     for (unsigned int i = 0; i < values.size(); i++) {
-        json_spirit::Object object = values[i].get_value<json_spirit::Object>();
+        ValueMap object = values[i].get_value<ValueMap>();
         criteria_.push_back(Style::Match());
         set(object, criteria_.back());
     }
 }
-void Style::style(const json_spirit::Value& value) {}
-void Style::name(const json_spirit::Value& value) {}
-void Style::styles(const json_spirit::Value& value) {
-    Array values = value.get_value<Array>();
+void Style::style(const Value& value) {}
+void Style::name(const Value& value) {}
+void Style::styles(const Value& value) {
+    ValueList values = value.get_value<ValueList>();
 
     for (unsigned int i = 0; i < values.size(); i++) {
         // If we find a name get it from the library
-        if (values[i].type() == obj_type) {
+        if (values[i].isMap()) {
             MagDef def;
-            def.set(values[i].get_value<Object>());
+            def.set(values[i].get_value<ValueMap>());
             // push to the library !
         }
         else
-            styles_.push_back(values[i].get_str());
+            styles_.push_back(string(values[i]));
     }
 }
-void Style::units(const json_spirit::Value& value) {
-    preferedUnits_ = value.get_str();
+void Style::units(const Value& value) {
+    preferedUnits_ = string(value);
 }
 
-void Style::match(const json_spirit::Value& value) {
-    json_spirit::Object object = value.get_value<json_spirit::Object>();
+void Style::match(const Value& value) {
+    ValueMap object = value.get_value<ValueMap>();
 
-    for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry != object.end(); ++entry) {
-        map<string, SetMethod>::iterator method = methods_.find(entry->name_);
+    for (auto entry = object.begin(); entry != object.end(); ++entry) {
+        map<string, SetMethod>::iterator method = methods_.find(entry->first);
         if (method != methods_.end())
-            (this->*method->second)(entry->value_);
+            (this->*method->second)(entry->second);
         else
-            MagLog::warning() << entry->name_ << " is not a known keyword" << endl;
+            MagLog::warning() << entry->first << " is not a known keyword" << endl;
     }
 }
 
-void Style::set(const json_spirit::Object& object) {
+void Style::set(const ValueMap& object) {
     if (methods_.empty()) {
         methods_["match"]          = &Style::criteria;
         methods_["prefered_units"] = &Style::units;
@@ -158,19 +146,19 @@ void Style::set(const json_spirit::Object& object) {
         methods_["scaling"]        = &Style::ignore;
     }
 
-    for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry != object.end(); ++entry) {
-        map<string, SetMethod>::iterator method = methods_.find(entry->name_);
+    for (auto entry = object.begin(); entry != object.end(); ++entry) {
+        map<string, SetMethod>::iterator method = methods_.find(entry->first);
         if (method != methods_.end())
-            (this->*method->second)(entry->value_);
+            (this->*method->second)(entry->second);
         else
-            MagLog::warning() << entry->name_ << " is not a known keyword" << endl;
+            MagLog::warning() << entry->first << " is not a known keyword" << endl;
     }
 }
 
-void StyleLibrary::callback(const string& name, const json_spirit::Value& value) {
+void StyleLibrary::callback(const string& name, const Value& value) {
     if (name == "match") {
         library_.push_back(Style());
-        json_spirit::Object object = value.get_value<json_spirit::Object>();
+        ValueMap object = value.get_value<ValueMap>();
         library_.back().set(object);
     }
 }
@@ -226,7 +214,7 @@ void StyleLibrary::init() {
                 if (fileinfo.name[0] != '.') {
                     current_ = fileinfo.name;
                     if (current_ == "styles.json")
-                        allStyles_.init(path + "/" + current_, "styles.json");
+                        allStyles_.init(path, "styles.json");
                     else
                         MagConfigHandler(path + "/" + current_, *this);
                 }
@@ -244,33 +232,33 @@ void PaletteLibrary::init() {
 }
 
 
-void Palette::values(const json_spirit::Value& value) {
-    Array values = value.get_value<Array>();
+void Palette::values(const Value& value) {
+    ValueList values = value.get_value<ValueList>();
 
     for (unsigned int i = 0; i < values.size(); i++) {
         colours_.push_back(MagConfig::convert(values[i]));
     }
 }
 
-void Palette::tags(const json_spirit::Value& value) {}
+void Palette::tags(const Value& value) {}
 
-void Palette::set(const json_spirit::Object& object) {
+void Palette::set(const ValueMap& object) {
     if (methods_.empty()) {
         methods_["contour_shade_colour_list"] = &Palette::values;
         methods_["tags"]                      = &Palette::tags;
     }
-    for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry != object.end(); ++entry) {
-        map<string, SetMethod>::iterator method = methods_.find(entry->name_);
+    for (auto entry = object.begin(); entry != object.end(); ++entry) {
+        map<string, SetMethod>::iterator method = methods_.find(entry->first);
         if (method != methods_.end())
-            (this->*method->second)(entry->value_);
+            (this->*method->second)(entry->second);
         else
-            MagLog::warning() << entry->name_ << " is not a known keyword" << endl;
+            MagLog::warning() << entry->first << " is not a known keyword" << endl;
     }
 }
-void PaletteLibrary::callback(const string& name, const json_spirit::Value& value) {
+void PaletteLibrary::callback(const string& name, const Value& value) {
     Palette palette;
     palette.name_              = name;
-    json_spirit::Object object = value.get_value<json_spirit::Object>();
+    ValueMap object = value.get_value<ValueMap>();
     palette.set(object);
     library_.insert(make_pair(name, palette));
 }
@@ -281,23 +269,23 @@ void UnitsLibrary::init() {
 }
 
 
-void UnitConvert::from(const json_spirit::Value& value) {
-    from_ = value.get_str();
+void UnitConvert::from(const Value& value) {
+    from_ = string(value);
 }
 
-void UnitConvert::to(const json_spirit::Value& value) {
-    to_ = value.get_str();
+void UnitConvert::to(const Value& value) {
+    to_ = string(value);
 }
-void UnitConvert::scaling(const json_spirit::Value& value) {
-    scaling_ = value.get_real();
-}
-
-void UnitConvert::offset(const json_spirit::Value& value) {
-    offset_ = value.get_real();
+void UnitConvert::scaling(const Value& value) {
+    scaling_ = double(value);
 }
 
+void UnitConvert::offset(const Value& value) {
+    offset_ = double(value);
+}
 
-void UnitConvert::set(const json_spirit::Object& object) {
+
+void UnitConvert::set(const ValueMap& object) {
     if (methods_.empty()) {
         methods_["from"]    = &UnitConvert::from;
         methods_["to"]      = &UnitConvert::to;
@@ -306,20 +294,20 @@ void UnitConvert::set(const json_spirit::Object& object) {
     }
     scaling_ = 1;
     offset_  = 0;
-    for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry != object.end(); ++entry) {
-        map<string, SetMethod>::iterator method = methods_.find(entry->name_);
+    for (auto entry = object.begin(); entry != object.end(); ++entry) {
+        map<string, SetMethod>::iterator method = methods_.find(entry->first);
         if (method != methods_.end())
-            (this->*method->second)(entry->value_);
+            (this->*method->second)(entry->second);
         else
-            MagLog::warning() << entry->name_ << " is not a known keyword" << endl;
+            MagLog::warning() << entry->first << " is not a known keyword" << endl;
     }
 }
-void UnitsLibrary::callback(const string& name, const json_spirit::Value& value) {
+void UnitsLibrary::callback(const string& name, const Value& value) {
     library_.insert(make_pair(name, vector<UnitConvert>()));
-    json_spirit::Array objects = value.get_value<json_spirit::Array>();
+    ValueList objects = value.get_value<ValueList>();
     for (unsigned int i = 0; i < objects.size(); i++) {
         UnitConvert convert;
-        convert.set(objects[i].get_value<Object>());
+        convert.set(objects[i].get_value<ValueMap>());
         library_[name].push_back(convert);
     }
 }
@@ -449,41 +437,40 @@ void NetcdfGuess::init() {
     MagConfigHandler(library, *this);
 }
 
-void NetcdfGuess::callback(const string& name, const json_spirit::Value& value) {
+void NetcdfGuess::callback(const string& name, const Value& value) {
     guess_.insert(make_pair(name, map<string, vector<string> >()));
-    if (value.type() == json_spirit::obj_type) {
-        json_spirit::Object object = value.get_value<json_spirit::Object>();
-        for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry != object.end(); ++entry) {
-            guess_[name].insert(make_pair(entry->name_, vector<string>()));
-            json_spirit::Array values = (entry->value_).get_value<json_spirit::Array>();
+    if (value.isMap()) {
+        ValueMap object = value.get_value<ValueMap>();
+        for (auto entry = object.begin(); entry != object.end(); ++entry) {
+            guess_[name].insert(make_pair(entry->first, vector<string>()));
+            ValueList values = (entry->second).get_value<ValueList>();
             for (unsigned int i = 0; i < values.size(); i++) {
-                guess_[name][entry->name_].push_back(convert(values[i]));
+                guess_[name][entry->first].push_back(convert(values[i]));
             }
         }
     }
 }
 
 void DimensionGuess::init() {
-    json_spirit::Value value;
+
     try {
-        json_spirit::read_or_throw(definitions_, value);
+        Value value = JSONParser::decodeFile(definitions_);
 
-        Object object = value.get_value<Object>();
+        ValueMap object = value.get_value<ValueMap>();
 
-        for (vector<Pair>::const_iterator entry = object.begin(); entry != object.end(); ++entry) {
-            // cout << entry->name_ << endl;
-            Object o = entry->value_.get_value<Object>();
+        for (auto entry = object.begin(); entry != object.end(); ++entry) {
+            // cout << entry->first << endl;
+            ValueMap o = entry->second.get_value<ValueMap>();
             map<string, string> def;
-            for (vector<Pair>::const_iterator e = o.begin(); e != o.end(); ++e) {
+            for (auto e = o.begin(); e != o.end(); ++e) {
                 // cout << e->name_ << "-->" << MagConfig::convert(e->value_) << endl;
-                def.insert(make_pair(e->name_, MagConfig::convert(e->value_)));
+                def.insert(make_pair(e->first, MagConfig::convert(e->second)));
             }
-            data_.insert(make_pair(entry->name_, def));
+            data_.insert(make_pair(entry->first, def));
         }
     }
-    catch (json_spirit::Error_position e) {
-        MagLog::error() << "JSON error in" << definitions_ << ": " << e.reason_ << "[line: " << e.line_
-                        << ", column: " << e.column_ << "]" << endl;
+    catch (std::exception& e) {
+        MagLog::error() << "JSON error in" << definitions_ << ": " << e.what() << endl;
     }
 }
 
@@ -500,20 +487,20 @@ void MagDefLibrary::init(const string& path, const string& name) {
     MagConfigHandler(library, *this);
 }
 
-void MagDef::values(const json_spirit::Value& value) {
-    json_spirit::Object object = value.get_value<json_spirit::Object>();
+void MagDef::values(const Value& value) {
+    ValueMap object = value.get_value<ValueMap>();
 }
 
-void MagDef::set(const json_spirit::Object& object) {
-    for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry != object.end(); ++entry) {
-        insert(make_pair(entry->name_, MagConfig::convert(entry->value_)));
+void MagDef::set(const ValueMap& object) {
+    for (auto entry = object.begin(); entry != object.end(); ++entry) {
+        insert(make_pair(entry->first, MagConfig::convert(entry->second)));
     }
 }
 
-void MagDefLibrary::callback(const string& name, const json_spirit::Value& value) {
+void MagDefLibrary::callback(const string& name, const Value& value) {
     MagDef def;
     def.name_                  = name;
-    json_spirit::Object object = value.get_value<json_spirit::Object>();
+    ValueMap object = value.get_value<ValueMap>();
     def.set(object);
 
     library_.insert(make_pair(name, def));

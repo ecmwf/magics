@@ -1,0 +1,367 @@
+{
+    "mcont": {
+        "legend": {
+            "name": "legend",
+            "member": "legend",
+            "default": "off",
+            "from": "string",
+            "to": "bool",
+            "documentation": "Turn legend on or off \t\t",
+            "object": "Contour.xml",
+            "values": {
+                "on": {},
+                "off": {}
+            }
+        },
+        "contour": {
+            "name": "contour",
+            "member": "contour",
+            "default": "on",
+            "from": "string",
+            "to": "IsoPlot",
+            "documentation": "Turn contouring on or off  \t\t",
+            "object": "Contour.xml",
+            "values": {
+                "on": null,
+                "off": {}
+            }
+        },
+        "contour_method": {
+            "name": "contour_method",
+            "member": "method",
+            "default": "automatic",
+            "from": "string",
+            "to": "ContourMethod",
+            "documentation": "Contouring method  \t\t",
+            "object": "Contour.xml",
+            "values": {
+                "automatic": {},
+                "linear": {},
+                "akima760": null,
+                "akima474": null
+            }
+        },
+        "contour_interpolation_floor": {
+            "name": "contour_interpolation_floor",
+            "member": "floor",
+            "default": "-INT_MAX",
+            "from": "float",
+            "to": "float",
+            "documentation": "Any value below this floor will be forced  to the floor value.avoid the bubbles artificially created by the interpolation method\t\t",
+            "object": "Contour.xml",
+            "values": {}
+        },
+        "contour_interpolation_ceiling": {
+            "name": "contour_interpolation_ceiling",
+            "member": "ceiling",
+            "default": "INT_MAX",
+            "from": "float",
+            "to": "float",
+            "documentation": "any value above this ceiling will be forced  to the ceiling value.avoid the bubbles artificially created by the interpolation method \t\t",
+            "object": "Contour.xml",
+            "values": {}
+        },
+        "contour_automatic_setting": {
+            "name": "contour_automatic_setting",
+            "member": "setting",
+            "default": "off",
+            "from": "string",
+            "to": "string",
+            "documentation": "Turn the automatic setting of contouring attributes  \t\t",
+            "object": "Contour.xml",
+            "values": {
+                "off": {},
+                "style_name": {
+                    "contour_style_name": {
+                        "name": "contour_style_name",
+                        "member": "predefined",
+                        "default": "",
+                        "from": "string",
+                        "to": "string",
+                        "documentation": "Use of a predeined setting         ",
+                        "object": "Contour.xml",
+                        "values": {}
+                    }
+                },
+                "ecmwf": {}
+            }
+        },
+        "contour_metadata_only": {
+            "name": "contour_metadata_only",
+            "member": "metadata_only",
+            "default": "off",
+            "from": "string",
+            "to": "bool",
+            "documentation": "Only get the metadata         ",
+            "object": "Contour.xml",
+            "values": {
+                "on": {},
+                "off": {}
+            }
+        },
+        "contour_hilo": {
+            "name": "contour_hilo",
+            "member": "hilo",
+            "default": "off",
+            "from": "string",
+            "to": "HiLoBase",
+            "documentation": "Plot local maxima/minima  \t\t",
+            "object": "Contour.xml",
+            "values": {
+                "on": null,
+                "off": {},
+                "hi": {},
+                "lo": {},
+                "on/hi/lo": {
+                    "contour_hilo_type": {
+                        "name": "contour_hilo_type",
+                        "member": "type",
+                        "default": "text",
+                        "from": "string",
+                        "to": "HiLoTechnique",
+                        "documentation": "Type of high/low (TEXT/NUMBER/BOTH) \t\t",
+                        "object": "HiLo.xml",
+                        "values": {
+                            "text": null,
+                            "number": {},
+                            "both": {}
+                        }
+                    },
+                    "contour_hilo_blanking": {
+                        "name": "contour_hilo_blanking",
+                        "member": "blanking",
+                        "default": "off",
+                        "from": "string",
+                        "to": "bool",
+                        "documentation": "Blank around highs and lows (ON/OFF)\t\t",
+                        "object": "HiLoText.xml",
+                        "values": {
+                            "on": {},
+                            "off": {}
+                        }
+                    },
+                    "contour_hilo_format": {
+                        "name": "contour_hilo_format",
+                        "member": "format",
+                        "default": "(automatic)",
+                        "from": "string",
+                        "to": "string",
+                        "documentation": "Format of HILO numbers (MAGICS Format/(AUTOMATIC))      ",
+                        "object": "HiLoTechnique.xml",
+                        "values": {}
+                    },
+                    "contour_hilo_window_size": {
+                        "name": "contour_hilo_window_size",
+                        "member": "window_size",
+                        "default": "3",
+                        "from": "int",
+                        "to": "int",
+                        "documentation": "Size of the window used to calculate the Hi/Lo \t\t",
+                        "object": "HiLo.xml",
+                        "values": {}
+                    },
+                    "contour_hilo_reduction_radius": {
+                        "name": "contour_hilo_reduction_radius",
+                        "member": "reduction_radius",
+                        "default": "0.0",
+                        "from": "float",
+                        "to": "float",
+                        "documentation": "Search radius (in grid points) for reducing the number of minima \t\t",
+                        "object": "HiLo.xml",
+                        "values": {}
+                    },
+                    "contour_hilo_suppress_radius": {
+                        "name": "contour_hilo_suppress_radius",
+                        "member": "suppress_radius",
+                        "default": "15.0",
+                        "from": "float",
+                        "to": "float",
+                        "documentation": "Radius of HiLo search in grid points (default value is for global cylindrical map) \t\t",
+                        "object": "HiLo.xml",
+                        "values": {}
+                    },
+                    "contour_hilo_max_value": {
+                        "name": "contour_hilo_max_value",
+                        "member": "hilo_max_value",
+                        "default": "1.0e+21",
+                        "from": "float",
+                        "to": "float",
+                        "documentation": "Local HiLo above specified value are not drawn \t\t",
+                        "object": "HiLo.xml",
+                        "values": {}
+                    },
+                    "contour_hilo_min_value": {
+                        "name": "contour_hilo_min_value",
+                        "member": "hilo_min_value",
+                        "default": "-1.0e+21",
+                        "from": "float",
+                        "to": "float",
+                        "documentation": "Local HiLo below specified value are not drawn \t\t",
+                        "object": "HiLo.xml",
+                        "values": {}
+                    },
+                    "contour_hilo_marker": {
+                        "name": "contour_hilo_marker",
+                        "member": "marker",
+                        "default": "off",
+                        "from": "string",
+                        "to": "HiLoMarkerBase",
+                        "documentation": "Plot hilo marker (ON/OFF) \t\t",
+                        "object": "HiLo.xml",
+                        "values": {
+                            "on": null,
+                            "off": {}
+                        }
+                    },
+                    "contour_hilo_marker_height": {
+                        "name": "contour_hilo_marker_height",
+                        "member": "height",
+                        "default": "0.1",
+                        "from": "float",
+                        "to": "float",
+                        "documentation": "Height of HILO marker symbol \t\t",
+                        "object": "HiLoMarker.xml",
+                        "values": {}
+                    },
+                    "contour_hilo_marker_index": {
+                        "name": "contour_hilo_marker_index",
+                        "member": "index",
+                        "default": "3",
+                        "from": "int",
+                        "to": "int",
+                        "documentation": "Table number of marker symbol. See chapter on Plotting Attributes \t\t",
+                        "object": "HiLoMarker.xml",
+                        "values": {}
+                    },
+                    "contour_hilo_marker_colour": {
+                        "name": "contour_hilo_marker_colour",
+                        "member": "colour",
+                        "default": "red",
+                        "from": "string",
+                        "to": "Colour",
+                        "documentation": "Colour of grid point markers(Full choice of colours) \t\t",
+                        "object": "HiLoMarker.xml",
+                        "values": {}
+                    },
+                    "contour_hilo_height": {
+                        "name": "contour_hilo_height",
+                        "member": "contour_hilo_height",
+                        "default": "0.4",
+                        "from": "float",
+                        "to": "float",
+                        "documentation": "Added for backwards compatibility with existing Metview Contour icons/macros \t\tHeight of local maxima/minima text or numbers \t\t",
+                        "object": "HiLoTechnique.xml",
+                        "values": {}
+                    },
+                    "contour_hilo_quality": {
+                        "name": "contour_hilo_quality",
+                        "member": "contour_hilo_quality",
+                        "default": "low",
+                        "from": "string",
+                        "to": "string",
+                        "documentation": "(LOW/MEDIUM/HIGH) \t\t",
+                        "object": "HiLoTechnique.xml",
+                        "values": {}
+                    }
+                },
+                "on/hi": {
+                    "contour_hi_text": {
+                        "name": "contour_hi_text",
+                        "member": "hi_text",
+                        "default": "H",
+                        "from": "string",
+                        "to": "string",
+                        "documentation": "Text to represent local maxima \t\t",
+                        "object": "HiLoText.xml",
+                        "values": {}
+                    },
+                    "contour_hi_max_value": {
+                        "name": "contour_hi_max_value",
+                        "member": "hi_max_value",
+                        "default": "1.0e+21",
+                        "from": "float",
+                        "to": "float",
+                        "documentation": "Local HI above specified value are not drawn \t\t",
+                        "object": "HiLo.xml",
+                        "values": {}
+                    },
+                    "contour_hi_min_value": {
+                        "name": "contour_hi_min_value",
+                        "member": "hi_min_value",
+                        "default": "-1.0e+21",
+                        "from": "float",
+                        "to": "float",
+                        "documentation": "Local HI below specified value are not drawn \t\t",
+                        "object": "HiLo.xml",
+                        "values": {}
+                    },
+                    "contour_hi_colour": {
+                        "name": "contour_hi_colour",
+                        "member": "hi_colour",
+                        "default": "blue",
+                        "from": "string",
+                        "to": "Colour",
+                        "documentation": "Colour of local maxima text or number \t\t",
+                        "object": "HiLoTechnique.xml",
+                        "values": {}
+                    }
+                },
+                "on/lo": {
+                    "contour_lo_text": {
+                        "name": "contour_lo_text",
+                        "member": "lo_text",
+                        "default": "L",
+                        "from": "string",
+                        "to": "string",
+                        "documentation": "Text to represent local minima \t\t",
+                        "object": "HiLoText.xml",
+                        "values": {}
+                    },
+                    "contour_lo_max_value": {
+                        "name": "contour_lo_max_value",
+                        "member": "lo_max_value",
+                        "default": "1.0e+21",
+                        "from": "float",
+                        "to": "float",
+                        "documentation": "Local Lo above specified value are not drawn \t\t",
+                        "object": "HiLo.xml",
+                        "values": {}
+                    },
+                    "contour_lo_min_value": {
+                        "name": "contour_lo_min_value",
+                        "member": "lo_min_value",
+                        "default": "-1.0e+21",
+                        "from": "float",
+                        "to": "float",
+                        "documentation": "Local Lo below specified value are not drawn \t\t",
+                        "object": "HiLo.xml",
+                        "values": {}
+                    },
+                    "contour_lo_colour": {
+                        "name": "contour_lo_colour",
+                        "member": "lo_colour",
+                        "default": "blue",
+                        "from": "string",
+                        "to": "Colour",
+                        "documentation": "Colour of local minima text or number \t\t",
+                        "object": "HiLoTechnique.xml",
+                        "values": {}
+                    }
+                }
+            }
+        },
+        "contour_grid_value_plot": {
+            "name": "contour_grid_value_plot",
+            "member": "grid",
+            "default": "off",
+            "from": "string",
+            "to": "ValuePlotBase",
+            "documentation": "Plot Grid point values \t\t",
+            "object": "Contour.xml",
+            "values": {
+                "on": null,
+                "off": {}
+            }
+        }
+    }
+}

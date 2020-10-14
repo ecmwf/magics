@@ -340,7 +340,7 @@ void TableDecoder::customisedPoints(const Transformation& transformation, const 
         bool todelete          = true;
         if (transformation.in(valx, valy)) {
             point->longitude(valx);
-            point->latitude(valx);
+            point->latitude(valy);
             out.push_back(point);
             todelete = false;
         }

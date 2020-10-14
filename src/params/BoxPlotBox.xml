@@ -1,34 +1,51 @@
-<magics>
-<class directory="visualisers" prefix="boxplot/boxplot_box" xmltag="box" name="BoxPlotBox" include='BoxPlotItem.h'>
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
-	   	<parameter member="colour" to="Colour" default="sky" from="string" name="boxplot_box_colour">
-	         		<documentation>Colour of the box		</documentation>
-	  	</parameter>
-	  
-	  	<parameter member="width" to="float" default="1.0" from="float" name="boxplot_box_width">
-	         		<documentation>Width of the box in centimeters		</documentation>
-	  	</parameter>
-	  
-	  	<parameter from="string" name="boxplot_box_border" default="on" member="border" to="NoBoxPlotBoxBorder" include="BoxPlotBasicItem.h">
-	         		<documentation>Determines whether the box border is drawn or not		</documentation>
-	         		<option xml="border" fortran="on" include="BoxPlotItem.h" name="BoxPlotBoxBorder">		</option>
-             		<option xml="noborder" fortran="off" include="BoxPlotBasicItem.h" name="NoBoxPlotBoxBorder">		</option>
-	  	</parameter>
-	  
-	   	<parameter from="string" name="boxplot_median" default="on" member="median" to="NoBoxPlotMedian" include="BoxPlotBasicItem.h">
-         		<documentation>Determines whether the median line is drawn or not		</documentation>
-          		<option xml="median" fortran="on" include="BoxPlotItem.h" name="BoxPlotMedian">		</option>
-          		<option xml="nomedian" fortran="off" include="BoxPlotBasicItem.h" name="NoBoxPlotMedian">		</option>
-          		<release>Magics++1.3		</release>
-       	</parameter>
-  
-  </class></magics>
+<magics>
+	<class directory="visualisers"
+		prefix="boxplot/boxplot_box"
+		xmltag="box"
+		name="BoxPlotBox"
+		include='BoxPlotItem.h'>
+		<parameter member="colour"
+			to="Colour"
+			default="sky"
+			from="string"
+			name="boxplot_box_colour">
+			<documentation>Colour of the box</documentation>
+		</parameter>
+		<parameter member="width"
+			to="float"
+			default="1.0"
+			from="float"
+			name="boxplot_box_width">
+			<documentation>Width of the box in centimeters</documentation>
+		</parameter>
+		<parameter from="string"
+			name="boxplot_box_border"
+			default="on"
+			member="border"
+			to="NoBoxPlotBoxBorder"
+			include="BoxPlotBasicItem.h">
+			<documentation>Determines whether the box border is drawn or not</documentation>
+			<option xml="border" fortran="on" include="BoxPlotItem.h" name="BoxPlotBoxBorder"></option>
+			<option xml="noborder" fortran="off" include="BoxPlotBasicItem.h" name="NoBoxPlotBoxBorder"></option>
+		</parameter>
+		<parameter from="string"
+			name="boxplot_median"
+			default="on"
+			member="median"
+			to="NoBoxPlotMedian"
+			include="BoxPlotBasicItem.h">
+			<documentation>Determines whether the median line is drawn or not</documentation>
+			<option xml="median" fortran="on" include="BoxPlotItem.h" name="BoxPlotMedian"></option>
+			<option xml="nomedian" fortran="off" include="BoxPlotBasicItem.h" name="NoBoxPlotMedian"></option>
+			<release>Magics++1.3</release>
+		</parameter>
+	</class>
+</magics>

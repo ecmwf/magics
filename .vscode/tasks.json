@@ -1,0 +1,51 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "isShellCommand":true,
+    "options": {
+        "cwd": "${workspaceRoot}/../../build/magics/"
+    },
+    "tasks": [
+        {
+            "label": "cmake",
+            "type": "shell",
+            "command": "cmake -DCMAKE_MODULE_PATH=${workspaceRoot}/../ecbuild/cmake/ ${workspaceRoot}",
+            "isBuildCommand": true,
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "make install",
+            "type": "shell",
+            "command": "make -j 4 install",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "isBuildCommand": true,
+            "problemMatcher": [
+                "$gcc"
+            ]
+        }
+        ,
+        {
+            "label": "make",
+            "type": "shell",
+            "command": "make -j 4",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "isBuildCommand": true,
+            "problemMatcher": [
+                "$gcc"
+            ]
+        }
+    ]
+}

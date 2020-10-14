@@ -1,36 +1,54 @@
-<magics>
-<class inherits="ShadingTechnique" xmltag="marker" name="MarkerShadingTechnique" directory="visualisers" prefix="contour/contour/contour_shade/contour_shade/contour_shade" action="pcont">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
-	
-  	<parameter member="colour" to="stringarray" default="stringarray()" from="stringarray" name="contour_shade_colour_table">
-         		<documentation> Colour table to be used with MARKER shading technique 		</documentation>
-  	</parameter>
-
-  	<parameter member="height" to="floatarray" default="floatarray()" from="floatarray" name="contour_shade_height_table">
-         		<documentation> Height table to be used with MARKER shading technique 		</documentation>
-         		
-  	</parameter>
-  	<parameter member="type" to="string" default="index" from="string" name="contour_shade_marker_table_type" values="index/marker">
-         		<documentation> index: using contour_shade_marker_table and  definiing  the markers by index, name: using contour_shade_marker_name_table and defining the symbols by their names </documentation>
-         	
-  	</parameter>
-  
-
-  	<parameter member="marker" to="intarray" default="intarray()" from="intarray" name="contour_shade_marker_table">
-         		<documentation> Marker table to be used with MARKER shading technique 		</documentation>
-         		
-  	</parameter>
-  	<parameter member="symbol" to="stringarray" default="stringarray()" from="stringarray" name="contour_shade_marker_name_table">
-         		<documentation> Marker name table to be used with MARKER shading technique 		</documentation>
-         	
-  	</parameter>
-</class></magics>
+<magics>
+	<class inherits="ShadingTechnique"
+		xmltag="marker"
+		name="MarkerShadingTechnique"
+		directory="visualisers"
+		python = "mcont"
+		prefix="contour/contour/contour_shade/contour_shade/contour_shade"
+		action="pcont">
+		<parameter member="colour"
+			to="stringarray"
+			default="stringarray()"
+			from="stringarray"
+			name="contour_shade_colour_table">
+			<documentation>Colour table to be used with marker shading technique</documentation>
+		</parameter>
+		<parameter member="height"
+			to="floatarray"
+			default="floatarray()"
+			from="floatarray"
+			name="contour_shade_height_table">
+			<documentation>Height table to be used with marker shading technique</documentation>
+		</parameter>
+		<parameter member="type"
+			to="string"
+			default="index"
+			from="string"
+			name="contour_shade_marker_table_type"
+			values="index/name">
+			<documentation>index: using contour_shade_marker_table and  defining  the markers by index, name: using contour_shade_marker_name_table and defining the symbols by their names</documentation>
+		</parameter>
+		<parameter member="marker"
+			to="intarray"
+			default="intarray()"
+			from="intarray"
+			name="contour_shade_marker_table">
+			<documentation>Marker table to be used with marker shading technique</documentation>
+		</parameter>
+		<parameter member="symbol"
+			to="stringarray"
+			default="stringarray()"
+			from="stringarray"
+			name="contour_shade_marker_name_table">
+			<documentation>Marker name table to be used with mareker shading technique</documentation>
+		</parameter>
+	</class>
+</magics>

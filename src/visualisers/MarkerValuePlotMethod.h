@@ -65,9 +65,9 @@ protected:
     virtual void add(const PaperPoint& xy) {
         if (!marker_) {
             marker_ = new Symbol();
-            marker_->setMarker(markerIndex_);
-            marker_->setColour(*markerColour_);
-            marker_->setHeight(markerHeight_);
+            marker_->setMarker(marker_index_);
+            marker_->setColour(*marker_colour_);
+            marker_->setHeight(marker_height_);
             this->push_back(marker_);
         }
         marker_->push_back(xy);
