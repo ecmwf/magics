@@ -493,17 +493,11 @@ EOF
          	    print "\t\tstring $member\_s = request.countValues(\"$name\") ?  (string) request(\"$name\") : \"$mv_default\";\n";
          	    print "\t\tMagLog::debug() << \" $name set to \" << $member\_s << endl;\n";
          	   	print "\t\t$wrapper_t* $member\_w = 0;\n";
-                print "#ifdef MAGICS_EXCEPTION\n";
                 print "\t\ttry\n";
-                print "#endif\n";
                 print "\t\t{\n";
                 print "\t\t\t$member\_w = SimpleFactory<$wrapper_t>::create($member\_s);\n";
                 print "\t\t}\n";
-                print "#ifdef MAGICS_EXCEPTION\n";
                 print "\t\t catch (NoFactoryException) {\n"; 
-                print "#else\n";
-                print "\t\t if (!$member\_w) {\n"; 
-                print "#endif\n";
                 print "\t\t\tMagLog::warning() << \"[\" << $member\_s << \"] is not a valid value for $name: reset to default -> [$mv_default]\" << endl;\n";
                 print "\t\t\t$member\_w = SimpleFactory<$wrapper_t>::create(\"$mv_default\");\n";
 			    print "\t\t}\n";
