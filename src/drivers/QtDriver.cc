@@ -1555,11 +1555,20 @@ MAGICS_NO_EXPORT void QtDriver::renderImage(const ImportObject& obj) const {
 
     MgQPixmapItem* item = new MgQPixmapItem(QPixmap::fromImage(img.mirrored(false, true)));
 
-    MFloat x0 = projectX(obj.getOrigin().x());
-    MFloat y0 = projectY(obj.getOrigin().y());
-    MFloat x1 = projectX(obj.getOrigin().x() + width);
-    MFloat y1 = projectY(obj.getOrigin().y() + height);
+    MFloat x0 = 0., y0 = 0., x1 =0.,  y1=0.;
 
+    if (obj.getOriginReference() == ImageProperties::centre) {
+        x0 = projectX(obj.getOrigin().x() - width/2.);
+        y0 = projectY(obj.getOrigin().y() - height/2.);
+        x1 = projectX(obj.getOrigin().x() + width/2.);
+        y1 = projectY(obj.getOrigin().y() + height/2.);
+    } else {
+        x0 = projectX(obj.getOrigin().x());
+        y0 = projectY(obj.getOrigin().y());
+        x1 = projectX(obj.getOrigin().x() + width);
+        y1 = projectY(obj.getOrigin().y() + height);
+    }
+    
     item->setParentItem(currentItem_);
     item->setTargetRect(QRectF(x0, y0, x1 - x0, y1 - y0));
     item->setPos(x0, y0);
