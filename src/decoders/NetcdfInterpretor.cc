@@ -44,22 +44,26 @@ NetcdfInterpretor* NetcdfGuessInterpretor::guess() const {
         return delegate_;
     // guess!!
     Netcdf netcdf(path_, dimension_method_);
-    string convention = netcdf.getAttribute("Conventions", string(""));
-    delegate_         = NetcdfGeoMatrixInterpretor::guess(*this);
+    try {
+        string convention = netcdf.getAttribute("Conventions", string(""));
+        delegate_         = NetcdfGeoMatrixInterpretor::guess(*this);
 
-    if (delegate_)
-        return delegate_;
+        if (delegate_)
+            return delegate_;
 
-    delegate_ = NetcdfGeoVectorInterpretor::guess(*this);
+        delegate_ = NetcdfGeoVectorInterpretor::guess(*this);
 
-    if (delegate_)
-        return delegate_;
-    delegate_ = NetcdfOrcaInterpretor::guess(*this);
+        if (delegate_)
+            return delegate_;
+        delegate_ = NetcdfOrcaInterpretor::guess(*this);
 
-    if (delegate_)
-        return delegate_;
-
-    MagLog::warning() << "Could not guess the type of netcdf: Use default -->matrix" << endl;
+        if (delegate_)
+            return delegate_;
+        MagLog::warning() << "Could not guess the type of netcdf: Use default -->matrix" << endl;
+    }
+    catch (...) {
+        MagLog::warning() << "Could not guess the type of netcdf: Use default -->matrix" << endl;
+    }
 
     delegate_ = new NetcdfMatrixInterpretor();
     delegate_->NetcdfInterpretor::copy(*this);

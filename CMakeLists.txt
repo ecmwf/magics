@@ -246,6 +246,7 @@ ecbuild_add_resources( TARGET bamboo DONT_PACK_DIRS bamboo)
 ecbuild_add_resources( TARGET old_resources
 		DONT_PACK_DIRS
 		docs
+		regression
 		toolsjs
 		notebook)
 
