@@ -37,10 +37,13 @@ NetcdfGeopointsInterpretor::~NetcdfGeopointsInterpretor() {}
 
 static void setDim(Netcdf& netcdf, const string& name, vector<double>& values, map<string, string>& first,
                    map<string, string>& last) {
+       
     try {
+       
         netcdf.get(name, values, first, last);
+       
     }
-    catch (...) {
+    catch (exception& e) {    
         int dim = netcdf.getDimension(name);
         for (int i = 0; i < dim; ++i)
             values.push_back(i);
@@ -289,6 +292,7 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const std::s
         vector<double> values;
         map<string, string> first, last;
         setDimensions(dimension_, first, last);
+        
         if (field_.empty() == false) {
             netcdf.get(field_, values, first, last);
         }
@@ -307,6 +311,7 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const std::s
         vector<double>::const_iterator val = values.begin();
 
         while (x != xs.end() && y != ys.end()) {
+            
             double value = 0;
             if (val != values.end()) {
                 value = *val;

@@ -144,6 +144,7 @@ bool NetcdfInterpretor::reference_date(Netcdf& netcdf, const string& var, const 
 
     double missing_value = netcdf.getMissing(var, missing_attribute_);
     string date          = netcdf.getVariableAttribute(var, "reference_date", string(""));
+    
     if (date.empty())
         return false;
     originals.reserve(coords.size());
@@ -164,6 +165,8 @@ bool NetcdfInterpretor::cf_date(Netcdf& netcdf, const string& var, const string&
                                 vector<double>& coords, vector<double>& originals) {
     // Step 1 : try to find a attribute long_name = time
     // Step 2 : Parse the attribute  units : days since date
+
+    
     static map<string, double> factors;
     if (factors.empty()) {
         factors["hours"] = 3600;
@@ -171,26 +174,46 @@ bool NetcdfInterpretor::cf_date(Netcdf& netcdf, const string& var, const string&
     }
     double missing_value = netcdf.getMissing(var, missing_attribute_);
 
-    string date = netcdf.getVariableAttribute(var, "long_name", string(""));
+    vector<string> times = {"standard_name", "long_name"};
 
+    string date;
+    for ( auto t = times.begin(); t != times.end(); ++t) {
+        
+        date = netcdf.getVariableAttribute(var, *t , string(""));
+        
+        if ( date.size() ) 
+            break;
+    }
+        
+
+    
+    
     if (date.empty())
         return false;
     if (date != "time" && date != "date and time")
         return false;
 
+   
+
     string units = netcdf.getVariableAttribute(var, "units", string(""));
     if (units.empty())
-        return false;
+        return false;   
     originals.reserve(coords.size());
     for (vector<double>::iterator c = coords.begin(); c != coords.end(); ++c)
         originals.push_back(*c);
 
+    
     // Now we parse the string !
     vector<string> tokens;
     Tokenizer tokenizer(" ");
     tokenizer(units, tokens);
 
+
+
+    
+
     basedate = tokens[2];
+    
     double diff;
     map<string, double>::const_iterator factor = factors.find(tokens[0]);
     if (refdate.empty()) {
