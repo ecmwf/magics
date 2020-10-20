@@ -70,7 +70,7 @@ bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
 
         
        
-        
+        netcdf.setDefault2D(field_);
         map<string, string> first, last;
         setDimensions(dimension_, first, last);
         vector<double> rows    = dateRows_.empty() ? rows_ : dateRows_;
@@ -160,6 +160,7 @@ bool NetcdfMatrixInterpretor::x() {
         return false;
 
     Netcdf netcdf(path_, dimension_method_);
+    netcdf.setDefault1D(x_);
     map<string, string> first, last;
     setDimensions(dimension_, first, last);
 
@@ -218,6 +219,7 @@ bool NetcdfMatrixInterpretor::y() {
         return false;
 
     Netcdf netcdf(path_, dimension_method_);
+    netcdf.setDefault1D(x_);
     map<string, string> first, last;
     setDimensions(dimension_, first, last);
     try {

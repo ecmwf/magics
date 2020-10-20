@@ -338,26 +338,25 @@ struct NetVariable {
     }
 
     void default2D() {
-
         int nb = dimensions_.size();
+        for (map<string, NetDimension>::iterator dim = dimensions_.begin(); dim != dimensions_.end(); ++dim)
+            if ( dim->second.index_ < nb-2)
+                dim->second.dim_ = 1;
+
+        
         auto dim = dimensions_.begin();
         for (int i = 0; i < nb-2; ++i) {
             dim->second.dim_ = 1;
-            
-            cout << dim->first << "->" << dim->second.dim_ << endl;
             dim++;
         }
          
     }
     void default1D() {
-        int nb = dimensions_.size();
-        auto dim = dimensions_.begin();
-        for (int i = 0; i < nb-1; ++i) {
-            dim->second.dim_ = 1;
-            
-            cout << dim->first << "->" << dim->second.dim_ << endl;
-            dim++;
-        }
+         int nb = dimensions_.size();
+        for (map<string, NetDimension>::iterator dim = dimensions_.begin(); dim != dimensions_.end(); ++dim)
+            if ( dim->second.index_ < nb-1)
+                dim->second.dim_ = 1;
+
     }
 
 
