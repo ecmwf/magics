@@ -51,8 +51,8 @@ void TypedAccessor<F, T>::operator()(vector<T>& to, vector<size_t>& start, vecto
 
     // Convert the data....
     std::transform(from.begin(), from.begin() + to.size(), to.begin(), Convertor<F, T>(var));
-    for (auto x = start.begin(); x != start.end(); ++x) {   cout << "start " << *x << endl; }
-    for (auto x = edges.begin(); x != edges.end(); ++x) {   cout << "edges " << *x << endl; }
+    // for (auto x = start.begin(); x != start.end(); ++x) {   cout << "start " << *x << endl; }
+    // for (auto x = edges.begin(); x != edges.end(); ++x) {   cout << "edges " << *x << endl; }
     
 }
 
