@@ -1477,8 +1477,7 @@ void GribRotatedInterpretor::interpretAsMatrix(GribDecoder& grib) const {
 
     longitudesSanityCheck(west, east);
 
-    cout  << "NewAPI---> area[" << west << ", " << north << ", " << east << ", " << south << "]"
-                  << "\n";
+    
     double loni = longitudeIncrement(grib);
 
     double lon = (east - west) / (nblon - 1);

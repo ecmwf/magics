@@ -66,11 +66,8 @@ bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
         x();
         y();
         // get the data ...
-
-
-        
        
-        netcdf.setDefault2D(field_);
+        //netcdf.setDefault2D(field_);
         map<string, string> first, last;
         setDimensions(dimension_, first, last);
         vector<double> rows    = dateRows_.empty() ? rows_ : dateRows_;
@@ -94,24 +91,26 @@ bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
             std::copy(dimension_.begin(), dimension_.end(), std::back_inserter(dims));
             dims.push_back(y.str());
             dims.push_back(x.str());
+
             index++;
-            for (auto d = dims.begin(); d != dims.end(); ++d)
-                cout << *d << " " ;
-            cout << endl;
-            cout << "ROWS" << endl;
-            for (auto d = rows.begin(); d != rows.end(); ++d)
-                cout << *d << " " ;
-            cout << endl;
+            // for (auto d = dims.begin(); d != dims.end(); ++d)
+            //     cout << *d << " " ;
+            // cout << endl;
+            //cout << "ROWS" << endl;
+            // for (auto d = rows.begin(); d != rows.end(); ++d)
+            //     cout << *d << " " ;
+            // cout << endl;
             
             setDimensions(dims, first, last);
             vector<double> data;
-            cout << "GET DATA " << field_ << endl;
+            //cout << "GET DATA " << field_ << endl;
 
             netcdf.get(field_, data, first, last);
-            cout << "GET DATA " << data.size() << "??" << rows.size() << "*" << columns.size() << "="  << rows.size() * columns.size() << endl;
+            // cout  << "GET DATA " << data.size() << "??" << rows.size() << "*" << columns.size() << "="  << rows.size() * columns.size() << endl;
             for (vector<double>::iterator d = data.begin(); d != data.end(); d++) {
                 matrix_->push_back(*d);
             }
+            
         }
 
 
@@ -160,7 +159,7 @@ bool NetcdfMatrixInterpretor::x() {
         return false;
 
     Netcdf netcdf(path_, dimension_method_);
-    netcdf.setDefault1D(x_);
+    //netcdf.setDefault1D(x_);
     map<string, string> first, last;
     setDimensions(dimension_, first, last);
 
@@ -219,7 +218,7 @@ bool NetcdfMatrixInterpretor::y() {
         return false;
 
     Netcdf netcdf(path_, dimension_method_);
-    netcdf.setDefault1D(x_);
+    //netcdf.setDefault1D(y_);
     map<string, string> first, last;
     setDimensions(dimension_, first, last);
     try {

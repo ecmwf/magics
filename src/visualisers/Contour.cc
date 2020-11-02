@@ -64,6 +64,7 @@ public:
             return max_;
         return val;
     }
+    double interpolate(double row, double column) const { return matrix_.interpolate(row, column); }
     double min_;
     double max_;
 };
@@ -145,8 +146,10 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
             return;
         }
 
-        matrix_ = (*this->method_).handler(*box, parent);
-        // matrix_ = box;
+        matrix_ = method_->handler(*box, parent);
+
+    
+
 
         if (this->floor_ != -INT_MAX || this->ceiling_ != INT_MAX)
             matrix_ = new MatrixTreshold(*matrix_, this->floor_, this->ceiling_);
