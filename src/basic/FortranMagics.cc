@@ -402,6 +402,10 @@ void FortranMagics::pobs() {
         action_->visdef(new ObsPlotting());
         return;
     }
+    action_ = new VisualAction();
+    action_->data(new ObsJSon());
+    top()->push_back(action_);
+    action_->visdef(new ObsPlotting());
 }
 
 #include "MatrixTestDecoder.h"
