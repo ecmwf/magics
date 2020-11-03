@@ -704,9 +704,6 @@ pair<double, double> RotatedMatrixHandler::unrotate(double lat_y, double lon_x) 
 
 
 double MatrixHandler::nearest(double row, double column) const {
-        cout << "HERE:" << row << " " << column << endl;
-
-        cout << bottom() << "===> " << top() << endl;
         if (columns() == 0 || rows() == 0)
             return matrix_.missing();
 
