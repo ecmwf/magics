@@ -765,8 +765,6 @@ double MatrixHandler::nearest(double row, double column) const {
              coord != coordinates.end(); ++coord) {
             double distance = (row - coord->first.first) * (row - coord->first.first) +
                               (column - coord->first.second) * (column - coord->first.second);
-            cout << distance << " [ " << coord->first.first << ", " <<
-                coord->first.second << "]" << endl;
             distances.push_back(distance);
             helper.insert(make_pair(distance, *coord));
         }
