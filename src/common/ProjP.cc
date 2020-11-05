@@ -25,11 +25,6 @@ PJ_CONTEXT* ProjP::context_ = 0;
 
 ProjP::ProjP() : converter_(0) {}
 ProjP::ProjP(const string& from, const string& to) : from_(from), to_(to), converter_(0) {
-    from_ = "EPSG:4326";
-    // to_ = "EPSG:102014";
-    // to_ =
-    //     "+proj=lcc +lat_1=43 +lat_2=62 +lat_0=30 +lon_0=10 +x_0=0 +y_0=0 "
-    //     "+ellps=intl +units=m +no_defs";
     if (!context_)
         context_ = proj_context_create();
     PJ* p = proj_create_crs_to_crs(context_, from_.c_str(), to_.c_str(), NULL);
@@ -37,10 +32,7 @@ ProjP::ProjP(const string& from, const string& to) : from_(from), to_(to), conve
     converter_ = proj_normalize_for_visualization(context_, p);
 
     assert(converter_);
-    // double x = -180;
-    // double y = 90;
-    // convert(x, y);
-    // revert(x, y);
+    
 }
 
 ProjP::~ProjP() {
@@ -85,7 +77,6 @@ int LatLonProjP::revert(double& x, double& y) const {
 
     x = out.lpzt.lam;
     y = out.lpzt.phi;
-
     return 0;
 }
 
@@ -116,6 +107,8 @@ int ProjP::revert(double& x, double& y) const {
     }
     x = out.xy.x;
     y = out.xy.y;
+
+    
 
     return 0;
 }

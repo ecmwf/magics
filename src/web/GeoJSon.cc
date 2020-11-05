@@ -507,7 +507,7 @@ void GeoJSon::decode() {
         else {
             try {
                 ifstream is(path_.c_str());
-                value = JSONParser::decodeString(path_);
+                value = JSONParser::decodeFile(path_);
             }
             catch (std::exception& e) {
                 MagLog::error() << "JSON error in file: " << path_ << ": " << e.what() << endl;

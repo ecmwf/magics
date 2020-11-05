@@ -155,10 +155,10 @@
 #cmakedefine MAGICS_TTF_PATH
 
 /* Version of Magics. */
-#define MAGICS_VERSION "@MAGICS_VERSION@"
+#define MAGICS_VERSION "@magics_VERSION@"
 
 /* Full Version Name of Magics. */
-#define MAGICS_VERSION_STR "@MAGICS_VERSION_STR@"
+#define MAGICS_VERSION_STR "@magics_VERSION_STR@"
 
 /* Sets visibility flags. */
 #cmakedefine MAGICS_VISIBILITY

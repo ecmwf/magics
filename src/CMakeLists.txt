@@ -7,25 +7,6 @@ install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics_config.h  DESTINATION ${INSTA
 ###############################################################################
 
 
-function( add_metview_definition_file )
-
-    set( single_value_args ACTION BASENAME FILE )
-    cmake_parse_arguments( _p "${options}" "${single_value_args}" "${multi_value_args}"  ${_FIRST_ARG} ${ARGN} )
-
-    add_custom_command(
-            OUTPUT ${_p_BASENAME}Def ${_p_BASENAME}Rules
-            COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/../../tools/xml2mv.py ${CMAKE_CURRENT_SOURCE_DIR} ${_p_FILE}  ${_p_BASENAME}Def ${_p_ACTION} ${_p_BASENAME}Rules
-            DEPENDS ${_p_FILE}
-      )
-
-
-    add_custom_target( ${_p_BASENAME} ALL DEPENDS ${_p_BASENAME}Def)
-    install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/${_p_BASENAME}Def ${CMAKE_CURRENT_BINARY_DIR}/${_p_BASENAME}Rules DESTINATION ${INSTALL_DATA_DIR}/../magics/metview)
-
-endfunction(add_metview_definition_file)
-
-
-
 add_subdirectory( params )
 
 
