@@ -1,0 +1,10 @@
+match:
+- levelist:
+  - '500'
+  paramId: '129'
+  shortName: z
+  type: es
+styles:
+- sh_blu_f02t50
+- sh_range_f02t50
+

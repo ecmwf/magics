@@ -1,0 +1,48 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade Level list : (-1.6/-1.4/-1.2/-1.0/-0.8/-0.6/-0.4/-0.2/0.0/0.2/0.4/0.6/0.8/1.0/1.2/1.4/1.6)
+      Colour : All colours Used for Angle of sub-gridscale orography'
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: -1.6 / 1.6)'
+    contour_level_list:
+    - -1.6
+    - -1.4
+    - -1.2
+    - -1
+    - -0.8
+    - -0.6
+    - -0.4
+    - -0.2
+    - 0
+    - 0.2
+    - 0.4
+    - 0.6
+    - 0.8
+    - 1
+    - 1.2
+    - 1.4
+    - 1.6
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0.498,0.2314,0.03137)
+    - rgb(0.6471,0.3373,0.05098)
+    - rgb(0.8,0.451,0.07059)
+    - rgb(0.9137,0.5843,0.2353)
+    - rgb(0.9647,0.7294,0.4745)
+    - rgb(0.9961,0.8784,0.7137)
+    - rgb(0.9882,0.9137,0.8157)
+    - rgb(0.9765,0.949,0.9176)
+    - rgb(0.9451,0.9451,0.9608)
+    - rgb(0.8941,0.902,0.9412)
+    - rgb(0.8471,0.8549,0.9216)
+    - rgb(0.7098,0.6902,0.8235)
+    - rgb(0.5725,0.5294,0.7216)
+    - rgb(0.4353,0.3608,0.5961)
+    - rgb(0.3059,0.1843,0.4392)
+    - rgb(0.1765,0,0.2941)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: 'Contour shade (Range: -1.6 / 1.6)'
+

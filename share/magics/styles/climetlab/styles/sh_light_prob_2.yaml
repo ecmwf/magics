@@ -1,0 +1,31 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: Lightning density probability
+    contour_label: false
+    contour_legend_text: Contour shade (More levels)
+    contour_level_list:
+    - 5
+    - 10
+    - 20
+    - 30
+    - 40
+    - 50
+    - 60
+    - 70
+    - 80
+    - 90
+    - 100
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0.9465,0.7536,0.7398)
+    - rgb(0.9663,0.4948,0.4611)
+    - rgb(0.9793,0.3152,0.2677)
+    - rgb(1,0.0703,0.0039)
+    - rgb(0.772,0.0578,0.0202)
+    - rgb(0.5463,0.0597,0.0341)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: Shade (More levels)
+

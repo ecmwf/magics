@@ -1,0 +1,23 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour dot shade Level list : (0.3125/0.6875/1.0)
+      % Colour : Green Used for clouds'
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: Contour dot shade (0.3125-1, sct & bkn clouds)
+    contour_level_list:
+    - 0.3125
+    - 0.6875
+    - 1
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0,0.9,0)
+    - rgb(0,0.5,0)
+    contour_shade_colour_method: list
+    contour_shade_max_level: 1
+    contour_shade_method: dot
+    contour_shade_min_level: 0.3125
+    contour_title: Contour dot shade (0.3125-1, sct & bkn clouds)
+

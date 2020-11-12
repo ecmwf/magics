@@ -61,13 +61,13 @@ private:
 class Arrow : public BasicGraphicsObject, public ArrowProperties, public vector<ArrowPoint> {
 public:
     Arrow() {}
-    virtual ~Arrow() {}
+    virtual ~Arrow() override {}
 
-    virtual void redisplay(const BaseDriver& driver) const { driver.redisplay(*this); }
+    virtual void redisplay(const BaseDriver& driver) const override { driver.redisplay(*this); }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const {}
+    virtual void print(ostream& s) const override { s << "Arrow[]"; }
 
 private:
     //! Copy constructor - No copy allowed

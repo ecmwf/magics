@@ -1,0 +1,62 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method: contour shade Level range : 302.0 to 406.0 Colour:
+      RdGy_r colours'
+    contour_hi_min_value: 0
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 302.0 / 406.0, RdGy_r colours)'
+    contour_level_list:
+    - 302
+    - 397
+    - 397.5
+    - 398
+    - 398.5
+    - 399
+    - 399.5
+    - 400
+    - 400.5
+    - 401
+    - 401.5
+    - 402
+    - 402.5
+    - 403
+    - 403.5
+    - 404
+    - 404.5
+    - 405
+    - 405.5
+    - 406
+    - 439
+    contour_level_selection_type: level_list
+    contour_line_thickness: 0
+    contour_reference_level: 0
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0.102,0.102,0.102)
+    - rgb(0.2039,0.2039,0.2039)
+    - rgb(0.3064,0.3064,0.3064)
+    - rgb(0.4313,0.4313,0.4313)
+    - rgb(0.5451,0.5451,0.5451)
+    - rgb(0.6549,0.6549,0.6549)
+    - rgb(0.7499,0.7499,0.7499)
+    - rgb(0.8317,0.8317,0.8317)
+    - rgb(0.9023,0.9023,0.9023)
+    - rgb(0.969,0.969,0.969)
+    - rgb(0.998,0.964,0.944)
+    - rgb(0.9937,0.8865,0.8235)
+    - rgb(0.9811,0.7924,0.6955)
+    - rgb(0.9617,0.6761,0.5469)
+    - rgb(0.913,0.5463,0.4324)
+    - rgb(0.8484,0.3977,0.3183)
+    - rgb(0.7783,0.2547,0.2444)
+    - rgb(0.7008,0.0997,0.1712)
+    - rgb(0.5539,0.048,0.1456)
+    - rgb(0.4039,0,0.1216)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_shade_min_level: 0
+    contour_title: 'Contour shade (Range: 302.0 / 406.0, RdGy_r colours)'
+

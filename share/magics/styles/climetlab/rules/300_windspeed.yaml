@@ -1,0 +1,12 @@
+match:
+- levelist:
+  - '300'
+  paramId: '10'
+  shortName: ws
+- long_name: Wind speed
+styles:
+- sh_grn_f30t100i10
+- sh_all_f30t100i10
+- ct_grn_f30_i10
+- ct_ylw_f30_i10
+

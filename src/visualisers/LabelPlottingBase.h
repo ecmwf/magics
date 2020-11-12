@@ -36,32 +36,32 @@ class GridPlottingBase;
 class LabelPlottingBase {
 public:
     LabelPlottingBase() {}
-    virtual ~LabelPlottingBase() {}
+    virtual ~LabelPlottingBase() override {}
 
-    virtual void set(const XmlNode&) {
+    virtual void set(const XmlNode&) override {
         MagLog::dev() << "LabelPlottingBase::set(const XmlNode&)---> to be checked!...\n";
     }
-    virtual void set(const map<string, string>&) {
+    virtual void set(const map<string, string>&) override {
         MagLog::dev() << "LabelPlottingBase::set(const map<string, string&)---> to be checked!...\n";
     }
-    virtual void toxml(ostream&, int = 0) const {
+    virtual void toxml(ostream&, int = 0) const override {
         MagLog::dev() << "LabelPlottingBase::virtual void toxml(ostream&, int = 0) const ---> to be checked!...\n";
     }
-    virtual LabelPlottingBase* clone() const {
+    virtual LabelPlottingBase* clone() const override {
         MagLog::dev() << "LabelPlottingBase::set(const map<string, string&)---> to be checked!...\n";
         return new LabelPlottingBase();
     }
-    virtual void operator()(const BasicSceneObject&, GraphicsList&) {
+    virtual void operator()(const BasicSceneObject&, GraphicsList&) override {
         MagLog::dev() << "LabelPlottingBase::preparePlot(Task&)---> to be checked!...\n";
     }
 
-    virtual void prepare(GridPlottingBase&) {
+    virtual void prepare(GridPlottingBase&) override {
         MagLog::dev() << "LabelPlottingBase::prepare(GridPlotting&)---> to be checked!...\n";
     }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const { out << "LabelPlottingBase\n"; }
+    virtual void print(ostream& out) const override { out << "LabelPlottingBase\n"; }
 
 private:
     //! Copy constructor - No copy allowed

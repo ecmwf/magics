@@ -1,0 +1,86 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : Area fill Level range : -80 to 56 Interval : 4
+      Thickness : 3 Colour : All colours Used for temperature'
+    contour_hilo: false
+    contour_label: true
+    contour_label_frequency: 2
+    contour_legend_text: 'Additional 1 (Range: -80 / 56)'
+    contour_level_list:
+    - -80
+    - -76
+    - -72
+    - -68
+    - -64
+    - -60
+    - -56
+    - -52
+    - -48
+    - -44
+    - -40
+    - -36
+    - -32
+    - -28
+    - -24
+    - -20
+    - -16
+    - -12
+    - -8
+    - -4
+    - 0
+    - 4
+    - 8
+    - 12
+    - 16
+    - 20
+    - 24
+    - 28
+    - 32
+    - 36
+    - 40
+    - 44
+    - 48
+    - 52
+    - 56
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(204,158,134)
+    - rgb(192,137,107)
+    - rgb(182,117,82)
+    - rgb(151,95,64)
+    - rgb(124,78,52)
+    - rgb(128,0,230)
+    - rgb(153,51,255)
+    - rgb(192,102,255)
+    - rgb(215,121,255)
+    - rgb(255,151,255)
+    - rgb(225,51,225)
+    - rgb(174,51,174)
+    - rgb(142,60,142)
+    - rgb(128,0,255)
+    - rgb(0,128,255)
+    - rgb(0,204,255)
+    - rgb(0,255,255)
+    - rgb(0,234,170)
+    - rgb(128,255,0)
+    - rgb(218,255,0)
+    - rgb(255,255,128)
+    - rgb(255,255,0)
+    - rgb(255,218,0)
+    - rgb(255,176,0)
+    - rgb(255,115,0)
+    - rgb(255,0,0)
+    - rgb(193,0,0)
+    - rgb(204,61,110)
+    - rgb(255,0,255)
+    - rgb(255,151,255)
+    - rgb(255,192,255)
+    - rgb(215,121,255)
+    - rgb(174,0,249)
+    - rgb(125,0,179)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: 'Additional 1 (Range: -80 / 56)'
+

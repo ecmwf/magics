@@ -37,12 +37,12 @@ class XmlNode;
 class MapGenDecoder : public MapGenDecoderAttributes, public Data, public Decoder, public vector<PointsList*> {
 public:
     MapGenDecoder();
-    virtual ~MapGenDecoder();
+    virtual ~MapGenDecoder() override;
     //! Method to access the data as a list of points : Used by psymb.
 
-    virtual void decode();
-    void set(const map<string, string>& map) { MapGenDecoderAttributes::set(map); }
-    void set(const XmlNode& node) { MapGenDecoderAttributes::set(node); }
+    virtual void decode() override;
+    void set(const map<string, string>& map) override { MapGenDecoderAttributes::set(map); }
+    void set(const XmlNode& node) override { MapGenDecoderAttributes::set(node); }
 
     PointsHandler& points() {
         decode();
@@ -56,14 +56,15 @@ public:
     PointsHandler& points(const Transformation&) { return points(); }
 
     void customisedPoints(const std::set<string>&, CustomisedPointsList&);
-    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all) {
+    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out,
+                          bool all) override {
         customisedPoints(n, out);
     }
-    PointsHandler& points(const Transformation& t, bool) { return points(t); }
+    PointsHandler& points(const Transformation& t, bool) override { return points(t); }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed

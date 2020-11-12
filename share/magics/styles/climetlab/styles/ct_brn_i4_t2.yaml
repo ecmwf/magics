@@ -1,0 +1,17 @@
+magics:
+  mcont:
+    contour_description: 'Method : contour Interval : 5 Thickness : 2 Colour : Black
+      Used for msl,geopotential'
+    contour_highlight_colour: brown
+    contour_highlight_thickness: 2
+    contour_hilo: false
+    contour_interval: 4
+    contour_label: true
+    contour_label_frequency: 1
+    contour_label_height: 0
+    contour_legend_text: Interval 4, thickness 2
+    contour_level_selection_type: interval
+    contour_line_colour: brown
+    contour_line_thickness: 2
+    contour_title: Contour (interval 4, thickness 2, brown)
+

@@ -19,13 +19,11 @@
 #ifndef _CairoDriver_H
 #define _CairoDriver_H
 
-#include <BaseDriver.h>
-#include <CairoDriverAttributes.h>
-#include <XmlNode.h>
+#include "BaseDriver.h"
+#include "CairoDriverAttributes.h"
+#include "XmlNode.h"
 
-#ifdef _AIX
-#undef HAVE_STDLIB_H
-#endif
+
 #include <cairo.h>
 
 namespace magics {
@@ -39,14 +37,14 @@ namespace magics {
 class CairoDriver : public BaseDriver, public CairoDriverAttributes {
 public:
     CairoDriver();
-    ~CairoDriver();
-    void open();
-    void close();
+    ~CairoDriver() override;
+    void open() override;
+    void close() override;
 
     /*!
       \brief sets a new XML node
     */
-    void set(const XmlNode& node) {
+    void set(const XmlNode& node) override {
         if (magCompare(node.name(), "png") || magCompare(node.name(), "pdf") || magCompare(node.name(), "cairo_ps") ||
             magCompare(node.name(), "cairo_svg") ||
             //     magCompare(node.name(), "x") ||
@@ -62,7 +60,7 @@ public:
     /*!
       \brief sets a new map
     */
-    void set(const map<string, string>& map) {
+    void set(const map<string, string>& map) override {
         BaseDriver::set(map);
         CairoDriverAttributes::set(map);
     }
@@ -77,35 +75,37 @@ public:
     void setCairo() const { backend_ = "cairo"; }
 
 private:
-    MAGICS_NO_EXPORT void startPage() const;
-    MAGICS_NO_EXPORT void endPage() const;
-    MAGICS_NO_EXPORT void project(const Layout& lay) const;
-    MAGICS_NO_EXPORT void unproject() const;
-    void newLayer(Layer&) const;
-    void closeLayer(Layer&) const;
+    MAGICS_NO_EXPORT void startPage() const override;
+    MAGICS_NO_EXPORT void endPage() const override;
+    MAGICS_NO_EXPORT void project(const Layout& lay) const override;
+    MAGICS_NO_EXPORT void unproject() const override;
+    void newLayer(Layer&) const override;
+    void closeLayer(Layer&) const override;
     MAGICS_NO_EXPORT void setupNewSurface() const;
 
-    MAGICS_NO_EXPORT void setNewLineWidth(const MFloat) const;
-    MAGICS_NO_EXPORT void setNewColour(const Colour& col) const;
+    MAGICS_NO_EXPORT void setNewLineWidth(const MFloat) const override;
+    MAGICS_NO_EXPORT void setNewColour(const Colour& col) const override;
     MAGICS_NO_EXPORT void setColour(cairo_t* ct, const Colour& col) const;
-    MAGICS_NO_EXPORT int setLineParameters(const LineStyle style, const MFloat w) const;
+    MAGICS_NO_EXPORT int setLineParameters(const LineStyle style, const MFloat w) const override;
 
-    MAGICS_NO_EXPORT void renderPolyline(const int, MFloat*, MFloat*) const;
-    MAGICS_NO_EXPORT void renderPolyline2(const int n, MFloat* x, MFloat* y) const;
-    MAGICS_NO_EXPORT void renderSimplePolygon(const int, MFloat*, MFloat*) const;
-    MAGICS_NO_EXPORT void renderSimplePolygon(const Polyline& line) const;
+    MAGICS_NO_EXPORT void renderPolyline(const int, MFloat*, MFloat*) const override;
+    MAGICS_NO_EXPORT void renderPolyline2(const int n, MFloat* x, MFloat* y) const override;
+    MAGICS_NO_EXPORT void renderSimplePolygon(const int, MFloat*, MFloat*) const override;
+    MAGICS_NO_EXPORT void renderSimplePolygon(const Polyline& line) const override;
     MAGICS_NO_EXPORT void renderSimplePolygon() const;
-    MAGICS_NO_EXPORT void renderText(const Text& text) const;
-    MAGICS_NO_EXPORT void circle(const MFloat x, const MFloat y, const MFloat r, const int) const;
-    MAGICS_NO_EXPORT bool renderPixmap(MFloat, MFloat, MFloat, MFloat, int, int, unsigned char*, int, bool) const;
-    MAGICS_NO_EXPORT bool renderCellArray(const Image& obj) const;
-    MAGICS_NO_EXPORT void renderImage(const ImportObject& obj) const;
-    MAGICS_NO_EXPORT void renderSymbols(const Symbol& symbol) const;
+    MAGICS_NO_EXPORT void renderText(const Text& text) const override;
+    MAGICS_NO_EXPORT void circle(const MFloat x, const MFloat y, const MFloat r, const int) const override;
+    MAGICS_NO_EXPORT bool renderPixmap(MFloat, MFloat, MFloat, MFloat, int, int, unsigned char*, int,
+                                       bool) const override;
+    MAGICS_NO_EXPORT bool renderCellArray(const Image& obj) const override;
+    MAGICS_NO_EXPORT void renderImage(const ImportObject& obj) const override;
+    MAGICS_NO_EXPORT void renderSymbols(const Symbol& symbol) const override;
     MAGICS_NO_EXPORT bool convertToPixmap(const string& fname, const GraphicsFormat format, const int reso,
-                                          const MFloat wx0, const MFloat wy0, const MFloat wx1, const MFloat wy1) const;
+                                          const MFloat wx0, const MFloat wy0, const MFloat wx1,
+                                          const MFloat wy1) const override;
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    void print(ostream&) const;
-    MAGICS_NO_EXPORT void debugOutput(const string& s) const;
+    void print(ostream&) const override;
+    MAGICS_NO_EXPORT void debugOutput(const string& s) const override;
 
     mutable cairo_t* cr_;
     mutable cairo_t* tmp_cr_;
@@ -113,12 +113,12 @@ private:
     // mutable cairo_surface_t* surfaceBackground_;
     mutable cairo_surface_t* tmp_surface_;
 
-    MAGICS_NO_EXPORT MFloat projectX(const MFloat x) const { return offsetX_ + (x * coordRatioX_); }
-    MAGICS_NO_EXPORT MFloat projectY(const MFloat y) const { return offsetY_ + (y * coordRatioY_); }
-    MAGICS_NO_EXPORT MFloat setAngleY(const MFloat y) const { return -y; }
-    MAGICS_NO_EXPORT MFloat setSymbolY(const MFloat y) const { return -y; }
-    MAGICS_NO_EXPORT MFloat setFlagY(const MFloat y) const { return -y; }
-    MAGICS_NO_EXPORT MFloat setY(const MFloat y) const { return y; }
+    MAGICS_NO_EXPORT MFloat projectX(const MFloat x) const override { return offsetX_ + (x * coordRatioX_); }
+    MAGICS_NO_EXPORT MFloat projectY(const MFloat y) const override { return offsetY_ + (y * coordRatioY_); }
+    MAGICS_NO_EXPORT MFloat setAngleY(const MFloat y) const override { return -y; }
+    MAGICS_NO_EXPORT MFloat setSymbolY(const MFloat y) const override { return -y; }
+    MAGICS_NO_EXPORT MFloat setFlagY(const MFloat y) const override { return -y; }
+    MAGICS_NO_EXPORT MFloat setY(const MFloat y) const override { return y; }
 #ifdef HAVE_GEOTIFF
     MAGICS_NO_EXPORT void write_tiff() const;
 #endif

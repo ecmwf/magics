@@ -16,10 +16,10 @@
 
 */
 
-#include <BinaryDriver.h>
-#include <Image.h>
-#include <Polyline.h>
-#include <Text.h>
+#include "BinaryDriver.h"
+#include "Image.h"
+#include "Polyline.h"
+#include "Text.h"
 
 
 using namespace magics;
@@ -241,8 +241,8 @@ MAGICS_NO_EXPORT int BinaryDriver::setLineParameters(const LineStyle linestyle, 
     return 0;
 }
 
-#include <Arrow.h>
-#include <Flag.h>
+#include "Arrow.h"
+#include "Flag.h"
 
 void BinaryDriver::renderWindArrow(const Arrow& arrow) const {
     char c = 'A';

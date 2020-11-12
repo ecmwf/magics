@@ -1,0 +1,28 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade Level range : 65 to 100 Interval
+      : 15 Colour : from light green to light blue Used for relative humidity'
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 65 / 100)'
+    contour_level_list:
+    - 65
+    - 80
+    - 95
+    - 200
+    contour_level_selection_type: level_list
+    contour_line_thickness: 1
+    contour_min_level: 65
+    contour_reference_level: 65
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0.8,1,0.8)
+    - rgb(0.7,0.95,0.9)
+    - rgb(0.6,0.75,1)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_shade_min_level: 65
+    contour_title: 'Contour shade (Range: 65 / 100)'
+

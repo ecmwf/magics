@@ -1,13 +1,13 @@
-#!/bin/ksh
+#!/usr/bin/env bash
 
-versions="current++" 
-versions="current++ new++" 
+versions="current++"
+versions="current++ new++"
 src=`ls *json`
 dir=`pwd`
 name=`basename $dir`
 
 
-for sf in $src 
+for sf in $src
 do
   s=`basename $sf .json`
 for v in $versions

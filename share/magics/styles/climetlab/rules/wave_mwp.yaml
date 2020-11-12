@@ -1,0 +1,11 @@
+match:
+- paramId: '140232'
+  shortName: mwp
+- long_name:
+  - Mean wave period
+  - Mean period of combined wind waves and swell
+styles:
+- sh_all_f0t18i1_5
+- sh_grn_f0t18i1_5
+- ct_vio_i1_t1
+

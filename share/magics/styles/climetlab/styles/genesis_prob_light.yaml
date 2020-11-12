@@ -1,0 +1,39 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade Level list : (5/100 in every 10)
+      % Colour : Used for probability'
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: Contour shade (0-100%, every 10%)
+    contour_level_list:
+    - 5
+    - 10
+    - 20
+    - 30
+    - 40
+    - 50
+    - 60
+    - 70
+    - 80
+    - 90
+    - 110
+    contour_level_selection_type: level_list
+    contour_method: linear
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(1,0.75,1)
+    - rgb(1,0.7,0.6)
+    - rgb(1,0.85,0.55)
+    - rgb(1,1,0.75)
+    - rgb(0.8,1,0.7)
+    - rgb(0.65,0.85,0.65)
+    - rgb(0.85,1,1)
+    - rgb(0.7,0.9,1)
+    - rgb(0.6,0.75,1)
+    - rgb(0.75,0.6,0.95)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: Contour shade (0-100%, every 10%)
+

@@ -1,0 +1,54 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade'
+    contour_highlight: false
+    contour_hilo: false
+    contour_label_format: (I3)
+    contour_legend_text: 'Contour shade (Range: 0.0 / 1000)'
+    contour_level_list:
+    - 0
+    - 40
+    - 80
+    - 120
+    - 160
+    - 200
+    - 240
+    - 280
+    - 320
+    - 360
+    - 400
+    - 440
+    - 480
+    - 520
+    - 560
+    - 600
+    - 640
+    - 800
+    - 1000
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0,0,50)
+    - rgb(0,0,102)
+    - rgb(0,33,112)
+    - rgb(0,69,122)
+    - rgb(0,112,133)
+    - rgb(0,143,122)
+    - rgb(0,153,89)
+    - rgb(0,163,48)
+    - rgb(0,173,0)
+    - rgb(51,184,0)
+    - rgb(110,194,0)
+    - rgb(173,204,0)
+    - rgb(214,186,0)
+    - rgb(224,130,0)
+    - rgb(235,69,0)
+    - rgb(245,3,0)
+    - rgb(255,0,69)
+    - rgb(255,0,128)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_shade_min_level: 0
+    contour_title: 'Contour shade (Range: 0 / 1000)'
+

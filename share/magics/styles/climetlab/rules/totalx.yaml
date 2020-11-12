@@ -1,0 +1,8 @@
+match:
+- paramId: '260123'
+  shortName: totalx
+- long_name: Total totals index
+styles:
+- sh_red_f44t70
+- sh_green_f44t70
+

@@ -1,0 +1,7 @@
+match:
+- paramId: '37'
+  shortName: istl3
+- long_name: Ice temperature layer 3
+styles:
+- sh_blu_fM24tM16
+

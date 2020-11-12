@@ -39,10 +39,10 @@ class UserPoint;
 class GraphShade : public GraphShadeAttributes {
 public:
     GraphShade();
-    virtual ~GraphShade();
+    virtual ~GraphShade() override;
 
-    virtual void set(const XmlNode& node) { GraphShadeAttributes::set(node); }
-    virtual void set(const map<string, string>& map) { GraphShadeAttributes::set(map); }
+    virtual void set(const XmlNode& node) override { GraphShadeAttributes::set(node); }
+    virtual void set(const map<string, string>& map) override { GraphShadeAttributes::set(map); }
     virtual GraphShade* clone() const {
         MagLog::dev() << "(const map<string, string&)---> to be checked!...\n";
         return new GraphShade();
@@ -55,7 +55,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed
@@ -74,20 +74,20 @@ private:
 class NoGraphShade : public GraphShade {
 public:
     NoGraphShade() {}
-    virtual ~NoGraphShade() {}
+    virtual ~NoGraphShade() override {}
 
-    virtual void set(const XmlNode&) {}
-    virtual void set(const map<string, string>&) {}
-    virtual GraphShade* clone() const { return new NoGraphShade(); }
+    virtual void set(const XmlNode&) override {}
+    virtual void set(const map<string, string>&) override {}
+    virtual GraphShade* clone() const override { return new NoGraphShade(); }
 
-    virtual void operator()(Polyline& poly) { poly.setFilled(false); }
-    virtual void legend(Polyline&) {}
-    void operator()(CustomisedPointsList&, vector<UserPoint>&);
-    bool needCustomised() { return false; }
+    virtual void operator()(Polyline& poly) override { poly.setFilled(false); }
+    virtual void legend(Polyline&) override {}
+    void operator()(CustomisedPointsList&, vector<UserPoint>&) override;
+    bool needCustomised() override { return false; }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 };
 
 

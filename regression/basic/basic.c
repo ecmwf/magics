@@ -9,7 +9,7 @@
  */
 
 
-#include <magics_api.h>
+#include "magics_api.h"
 
 int main() {
     /* open magics and set the output device */

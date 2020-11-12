@@ -1,14 +1,14 @@
-#!/bin/ksh
+#!/usr/bin/env bash
 
-versions="current++ new++" 
+versions="current++ new++"
 src=`ls cont_gridshade*F`
-output="ps" 
-suffix="F" 
+output="ps"
+suffix="F"
 dir=`pwd`
 name=`basename $dir`
 
 
-for sf in $src 
+for sf in $src
 do
   s=`basename $sf .F`
   echo $s

@@ -217,42 +217,42 @@ void TextVisitor::finish(BasicGraphicsObjectContainer& parent) {
         // Calculate the position depending on the jsutification.
         double x;
 
-        if (justification_ == MLEFT)
+        if (justification_ == Justification::LEFT)
             x = .1;  // 0.1%
-        else if (justification_ == MRIGHT)
+        else if (justification_ == Justification::RIGHT)
             x = 98.;  // 98 %
         else
             x = 50.;
 
         (*text)->setJustification(justification_);
-        (*text)->setVerticalAlign(MBOTTOM);
+        (*text)->setVerticalAlign(VerticalAlign::BOTTOM);
 
 
         if (orientation_ == "horizontal") {
             angle = 0;
             gap   = (*text)->noText() ? (font_size_ / absheight) * 100 * ratio
-                                    : (((*text)->getFontMax() / absheight) * 100) * ratio;
+                                      : (((*text)->getFontMax() / absheight) * 100) * ratio;
             (*text)->push_back(PaperPoint(x, last));  // approximate position to be improved
         }
         if (magCompare(orientation_, "bottom_top")) {
             angle = 3 * 3.14 / 2;
             ;
-            (*text)->setVerticalAlign(MTOP);
+            (*text)->setVerticalAlign(VerticalAlign::TOP);
             gap = (*text)->noText() ? (font_size_ / abswidth) * 100 * ratio
                                     : (((*text)->getFontMax() / abswidth) * 100) * ratio;
             (*text)->push_back(PaperPoint(last, x));  // approximate position to be improved
         }
 
         if (magCompare(orientation_, "top_bottom")) {
-            if (justification_ == MLEFT)
+            if (justification_ == Justification::LEFT)
                 x = 98.;  // 0.1%
-            else if (justification_ == MRIGHT)
+            else if (justification_ == Justification::RIGHT)
                 x = .1;  // 98 %
             else
                 x = 50.;
             angle = 3.14 / 2;
             gap   = (*text)->noText() ? (font_size_ / abswidth) * ratio
-                                    : (((*text)->getFontMax() / abswidth) * 100) * ratio;
+                                      : (((*text)->getFontMax() / abswidth) * 100) * ratio;
             (*text)->push_back(PaperPoint(last, x));  // approximate position to be improved
         }
 
@@ -357,9 +357,9 @@ void XmlTextVisitor::getReady() {
     Dimension text(font_dimension_, height.absolute(), 10);
     font_size_ = text.absolute();
 
-    layout_->display(M_DT_ABSOLUTE);
+    layout_->display(DisplayType::ABSOLUTE);
     layout_->frame(TextVisitorAttributes::blanking_, TextVisitorAttributes::border_,
-                   *TextVisitorAttributes::border_colour_, M_SOLID, 1, Colour("white"));
+                   *TextVisitorAttributes::border_colour_, LineStyle::SOLID, 1, Colour("white"));
 }
 
 FortranTextVisitor::FortranTextVisitor() {}

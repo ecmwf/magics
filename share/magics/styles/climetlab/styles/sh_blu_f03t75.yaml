@@ -1,0 +1,33 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : Area fill Level range : 2 to 75 Interval : list
+      Thickness : 2 Colour : Used for EPS spread'
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 2 / 75)'
+    contour_level_list:
+    - 2
+    - 6
+    - 12
+    - 18
+    - 30
+    - 40
+    - 75
+    contour_level_selection_type: level_list
+    contour_reference_level: 0
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0.85,0.73,0.86)
+    - rgb(0.76,0.53,0.77)
+    - rgb(0.73,0.34,0.74)
+    - rgb(0.85,0.13,0.88)
+    - rgb(0.96,0,1)
+    - rgb(0.98,0.51,1)
+    contour_shade_colour_method: list
+    contour_shade_max_level: 50
+    contour_shade_method: area_fill
+    contour_shade_min_level: 2
+    contour_title: 'Contour shade (Range: 2 / 75)'
+    contour_units: dam
+

@@ -1,0 +1,50 @@
+magics:
+  mcont:
+    contour_description: 'Method: contour shade Level range : 0.0001 to 20 Interval
+      : varied Colour : Oranges'
+    contour_title: 'Symbol shade (Range: 0.0001 / 20, orange colours)'
+    symbol_advanced_table_colour_list:
+    - rgb(0.2063,0,0)
+    - rgb(0.371,0,0)
+    - rgb(0.5358,0,0)
+    - rgb(0.7005,0,0)
+    - rgb(0.8652,0,0)
+    - rgb(1,0.0299,0)
+    - rgb(1,0.1946,0)
+    - rgb(1,0.3593,0)
+    - rgb(1,0.524,0)
+    - rgb(1,0.6887,0)
+    - rgb(1,0.8534,0)
+    - rgb(1,1,0.0272)
+    - rgb(1,1,0.2743)
+    - rgb(1,1,0.5213)
+    - rgb(1,1,0.7684)
+    - rgb(1,1,1)
+    symbol_advanced_table_colour_method: list
+    symbol_advanced_table_height_list:
+    - 0.15
+    symbol_advanced_table_height_method: list
+    symbol_advanced_table_level_list:
+    - 0.0001
+    - 0.0002
+    - 0.0005
+    - 0.001
+    - 0.002
+    - 0.005
+    - 0.01
+    - 0.02
+    - 0.05
+    - 0.1
+    - 0.2
+    - 0.5
+    - 1
+    - 2
+    - 5
+    - 10
+    - 20
+    symbol_advanced_table_marker_list:
+    - 18
+    symbol_advanced_table_selection_type: list
+    symbol_table_mode: advanced
+    symbol_type: marker
+

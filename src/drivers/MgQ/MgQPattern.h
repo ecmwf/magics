@@ -59,7 +59,7 @@ protected:
 class MgQPatternManager {
 public:
     MgQPatternManager(){};
-    ~MgQPatternManager();
+    ~MgQPatternManager() override;
 
     MgQPattern* addPattern(MgQPatternProperties&);
     MgQPattern* getPattern(MgQPatternProperties&);

@@ -1,4 +1,4 @@
-#!/bin/ksh
+#!/usr/bin/env bash
 
 from=$1
 to=$2
@@ -45,7 +45,7 @@ p4 revert -a ${to}/*OutputDef
 
 ######################################
 #
-#    MSYMB 
+#    MSYMB
 #
 echo ""
 python xml2mv.py xml/SymbolPlotting.xml MSYMBDef MSYMB > MSYMBRules
@@ -53,7 +53,7 @@ p4 edit $to/MSYMBDef
 p4 edit $to/MSYMBRules
 mv MSYMBDef $to
 mv xml/MSYMBRules $to
-echo "Submit if changed" 
+echo "Submit if changed"
 p4 submit -d "Refresh Icon def and rules"  $to/MSYMBDef
 p4 submit -d "Refresh Icon def and rules"  $to/MSYMBRules
 
@@ -88,4 +88,3 @@ p4 submit -d "Refresh Icon def and rules"  $to/MSYMBRules
 ###cp xml/MWINDRules $to
 ###p4 submit -d "Refresh Icon def and rules"  $to/MWINDDef
 ###p4 submit -d "Refresh Icon def and rules"  $to/MWINDRules
-

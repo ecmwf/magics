@@ -1,0 +1,76 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method: contour shade min:-400 max:8000 28 levels'
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: Orography shading with 28 levels (brown)
+    contour_level_list:
+    - -4
+    - -0.002
+    - 0.01
+    - 0.2
+    - 0.5
+    - 1
+    - 1.5
+    - 2
+    - 2.5
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+    - 12.5
+    - 15
+    - 17.5
+    - 20
+    - 22.5
+    - 25
+    - 30
+    - 35
+    - 40
+    - 45
+    - 50
+    - 80
+    contour_level_selection_type: level_list
+    contour_line_thickness: 3
+    contour_method: linear
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0.38,0.14,0)
+    - none
+    - rgb(0.42,0.16,0)
+    - rgb(0.46,0.18,0)
+    - rgb(0.5,0.21,0)
+    - rgb(0.54,0.24,0.01)
+    - rgb(0.58,0.26,0.02)
+    - rgb(0.62,0.28,0.03)
+    - rgb(0.66,0.31,0.04)
+    - rgb(0.7,0.34,0.06)
+    - rgb(0.74,0.37,0.08)
+    - rgb(0.78,0.4,0.1)
+    - rgb(0.82,0.43,0.12)
+    - rgb(0.86,0.46,0.14)
+    - rgb(0.89,0.49,0.17)
+    - rgb(0.92,0.52,0.2)
+    - rgb(0.94,0.55,0.23)
+    - rgb(0.96,0.58,0.26)
+    - rgb(0.98,0.62,0.29)
+    - rgb(1,0.66,0.32)
+    - rgb(1,0.7,0.36)
+    - rgb(1,0.74,0.4)
+    - rgb(1,0.78,0.45)
+    - rgb(1,0.82,0.5)
+    - rgb(1,0.86,0.6)
+    - rgb(1,0.9,0.7)
+    - rgb(1,0.95,0.8)
+    - rgb(1,1,0.6)
+    contour_shade_colour_method: list
+    contour_shade_max_level: 80
+    contour_shade_method: area_fill
+    contour_shade_min_level: -4
+    contour_title: Orography shading with 28 levels (brown)
+    contour_units: dam

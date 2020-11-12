@@ -77,11 +77,12 @@ Matrix* InputMatrixRegularInterpretor::geoInterpret(Matrix* in, const InputMatri
         return in;
 
     // Apply scaling !
-    double scaling;
-    double offset;
-    info.scaling(scaling, offset);
-    for (int i = 0; i < in->size(); ++i)
-        (*in)[i] = ((*in)[i] * scaling) + offset;
+    // FIXME: scaling
+    // double scaling;
+    // double offset;
+    // info.getScaling(scaling, offset);
+    // for (int i = 0; i < in->size(); ++i)
+    //     (*in)[i] = ((*in)[i] * scaling) + offset;
 
     if (longitudes_.size() && latitudes_.size()) {
         for (auto lon = longitudes_.begin(); lon != longitudes_.end(); ++lon) {
@@ -183,14 +184,15 @@ Matrix* InputMatrixIrregularInterpretor::geoInterpret(Matrix* in, const InputMat
     vector<double>& rows    = matrix->rowsArray();
     vector<double>& columns = matrix->columnsArray();
 
-    double scaling;
-    double offset;
-    info.scaling(scaling, offset);
-    for (int i = 0; i < in->size(); ++i)
-        (*in)[i] = ((*in)[i] * scaling) + offset;
-    for (vector<double>::iterator val = in->begin(); val != in->end(); ++val) {
-        values.push_back(((*val) * scaling) + offset);
-    }
+    // FIXME: scaling
+    // double scaling;
+    // double offset;
+    // info.getScaling(scaling, offset);
+    // for (int i = 0; i < in->size(); ++i)
+    //     (*in)[i] = ((*in)[i] * scaling) + offset;
+    // for (vector<double>::iterator val = in->begin(); val != in->end(); ++val) {
+    //     values.push_back(((*val) * scaling) + offset);
+    // }
 
 
     for (vector<double>::iterator y = latitudes_.begin(); y != latitudes_.end(); ++y) {

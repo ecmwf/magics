@@ -1,0 +1,16 @@
+match:
+- levelist:
+  - '300'
+  paramId: '129'
+  shortName: z
+  type: em
+styles:
+- ct_blk_i5_t2
+- ct_red_i5_t2
+- ct_blue_i5_t2
+- ct_green_i5_t2
+- ct_blk_i5_t1
+- ct_brn_i4_t2
+- ct_blk_i2_t4
+- ct_green_i2_t4
+

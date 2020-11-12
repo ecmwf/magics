@@ -41,7 +41,7 @@ template <class P>
 class Akima761 : public MatrixHandler<P> {
 public:
     Akima761(const AbstractPoints<P>&, const Akima761Attributes&);
-    ~Akima761();
+    ~Akima761() override;
 
     // Matrix operators
     double operator()(int i, int j) const;
@@ -237,30 +237,32 @@ template <class P>
 class Akima761Method : public ContourMethod<P>, public Akima761MethodAttributes {
 public:
     Akima761Method() { MagLog::dev() << "Akima761Method::Akima761Method-->" << *this << "\n"; }
-    virtual ~Akima761Method() {}
+    virtual ~Akima761Method() override {}
 
-    ContourMethod<P>* clone() const {
+    ContourMethod<P>* clone() const override {
         Akima761Method<P>* method = new Akima761Method<P>();
         method->copy(*this);
         return method;
     }
 
-    virtual void set(const map<string, string>& map) { Akima761MethodAttributes::set(map); }
+    virtual void set(const map<string, string>& map) override { Akima761MethodAttributes::set(map); }
 
-    virtual void set(const XmlNode& node) { Akima761MethodAttributes::set(node); }
-    virtual bool accept(const string& node) {
-        return Akima761MethodAttributes::accept(node);
+    virtual void set(const XmlNode& node) override { Akima761MethodAttributes::set(node); }
+    virtual bool accept(const string& node) override {
+        return Akima761MethodAttributes::accept(node) override;
         ;
     }
-    virtual bool needPoints() { return true; }
-    virtual MatrixHandler<P>* handlePoints(const AbstractPoints<P>& points, const Layout&) {
-        return new Akima761<P>(points, *this);
+    virtual bool needPoints() override { return true; }
+    virtual MatrixHandler<P>* handlePoints(const AbstractPoints<P>& points, const Layout&) override {
+        return new Akima761<P>(points, *this) override;
     }
-    virtual MatrixHandler<P>* handler(const AbstractMatrix&, const, const BasicGraphicsObjectContainer&) { return 0; }
+    virtual MatrixHandler<P>* handler(const AbstractMatrix&, const, const BasicGraphicsObjectContainer&) override {
+        return 0 override;
+    }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const {
+    virtual void print(ostream& out) const override {
         out << "Akima761Method[";
         Akima761Attributes::print(out);
         out << "]";

@@ -1,14 +1,14 @@
-#!/bin/ksh
+#!/usr/bin/env bash
 
-versions="current++ new++" 
-src="test01 test02 test03 test05 test06 test08" 
-output="ps" 
-suffix="f" 
+versions="current++ new++"
+src="test01 test02 test03 test05 test06 test08"
+output="ps"
+suffix="f"
 dir=`pwd`
 name=`basename $dir`
 
 
-for s in $src 
+for s in $src
 do
 for v in $versions
 do

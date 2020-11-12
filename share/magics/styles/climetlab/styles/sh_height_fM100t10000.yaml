@@ -1,0 +1,46 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'WBT height Range: -100 to 10000'
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: -100/10000)'
+    contour_level_list:
+    - -100
+    - 10
+    - 100
+    - 200
+    - 300
+    - 400
+    - 600
+    - 800
+    - 1000
+    - 1200
+    - 1500
+    - 2000
+    - 3000
+    - 4500
+    - 10000
+    contour_level_selection_type: level_list
+    contour_max_level: 10000
+    contour_min_level: -100
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0.79,0.81,0.94)
+    - rgb(0.45,0.55,0.96)
+    - rgb(0.13,0.42,0.99)
+    - rgb(0.042,0.73,0.94)
+    - rgb(0.19,0.94,0.98)
+    - rgb(0.17,0.79,0.59)
+    - rgb(0.13,0.89,0.086)
+    - rgb(0.6,0.99,0.0059)
+    - rgb(0.92,0.95,0.19)
+    - rgb(1,0.71,0.02)
+    - rgb(0.98,0.53,0.16)
+    - rgb(0.98,0.3,0.07)
+    - rgb(0.89,0.092,0.42)
+    - rgb(0.97,0.43,0.84)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: 'Shade (Range: -100/10000)'
+

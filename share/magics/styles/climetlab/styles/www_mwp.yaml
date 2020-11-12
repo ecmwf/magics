@@ -1,0 +1,46 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade Level range : 0.0 to 18.5 Interval
+      : 1.5 (except for the first interval) Colour : All colours Used for mean wave
+      period'
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_label_colour: black
+    contour_label_format: (F4.1)
+    contour_legend_text: 'Contour shade (Range: 0.0 / 18.5)'
+    contour_level_list:
+    - 0
+    - 3.5
+    - 5
+    - 6.5
+    - 8
+    - 9.5
+    - 11
+    - 12.5
+    - 14
+    - 15.5
+    - 17
+    - 18.5
+    contour_level_selection_type: level_list
+    contour_min_level: 0
+    contour_reference_level: 0
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(242,250,239)
+    - rgb(216,237,232)
+    - rgb(179,223,226)
+    - rgb(130,192,215)
+    - rgb(76,157,210)
+    - rgb(33,128,192)
+    - rgb(39,93,163)
+    - rgb(54,71,127)
+    - rgb(51,50,92)
+    - rgb(35,34,65)
+    - rgb(25,18,36)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_shade_min_level: 0
+    contour_title: Wave period for WWW
+

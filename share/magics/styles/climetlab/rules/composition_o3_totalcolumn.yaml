@@ -1,0 +1,7 @@
+match:
+- paramId: '210206'
+  shortName: gtco3
+- long_name: GEMS Total column ozone
+styles:
+- sh_all_tco3
+

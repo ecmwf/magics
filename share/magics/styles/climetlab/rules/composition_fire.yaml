@@ -1,0 +1,8 @@
+match:
+- paramId: '210099'
+  shortName: frpfire
+- long_name: Wildfire radiative power
+styles:
+- sh_all_fire
+- symb_all_fire
+

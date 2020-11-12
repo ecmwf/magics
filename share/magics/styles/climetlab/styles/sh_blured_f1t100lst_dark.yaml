@@ -1,0 +1,35 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade, no contours Level list : (1/2.5/6/15/40/100/250)
+      Colour : from dark blue to dark red Used for precipitation'
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_label_frequency: 1
+    contour_legend_text: 'Contour shade (Range: 1.0 / 250, no isolines)'
+    contour_level_list:
+    - 1
+    - 2.5
+    - 6
+    - 15
+    - 40
+    - 100
+    - 250
+    contour_level_selection_type: level_list
+    contour_method: linear
+    contour_shade: true
+    contour_shade_cell_resolution: 40
+    contour_shade_colour_list:
+    - rgb(0,0.6,0.6)
+    - rgb(0,0.25,0.55)
+    - rgb(0,0,0.5)
+    - rgb(0.4,0,0.55)
+    - rgb(0.55,0,0.55)
+    - rgb(0.5,0,0)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_shade_min_level: 1
+    contour_title: 'Contour shade (Range: 1.0 / 250, no isolines)'
+    legend: true
+

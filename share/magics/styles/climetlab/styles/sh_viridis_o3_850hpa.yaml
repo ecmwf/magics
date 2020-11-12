@@ -1,0 +1,45 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method: contour shade Level range : 30 to 200 Colour: viridis
+      colours'
+    contour_hi_min_value: 0
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 30 / 200, viridis colours)'
+    contour_level_list:
+    - 30
+    - 40
+    - 50
+    - 60
+    - 70
+    - 80
+    - 90
+    - 100
+    - 110
+    - 120
+    - 150
+    - 200
+    - 999
+    contour_level_selection_type: level_list
+    contour_reference_level: 0
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0.986,0.8921,0.5689)
+    - rgb(0.8222,0.8545,0.4513)
+    - rgb(0.6279,0.8208,0.403)
+    - rgb(0.4216,0.7772,0.4406)
+    - rgb(0.2482,0.7127,0.5038)
+    - rgb(0.1589,0.6402,0.5455)
+    - rgb(0.1477,0.564,0.5646)
+    - rgb(0.1705,0.4833,0.5684)
+    - rgb(0.2012,0.4042,0.5636)
+    - rgb(0.2381,0.3193,0.5499)
+    - rgb(0.2727,0.2211,0.5125)
+    - rgb(0.2848,0.1196,0.4395)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_shade_min_level: 0
+    contour_title: 'Contour shade (Range: 30 / 200, viridis colours)'
+

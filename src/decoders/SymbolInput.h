@@ -36,10 +36,10 @@ namespace magics {
 class SymbolInput : public Data, public SymbolInputAttributes {
 public:
     SymbolInput() {}
-    virtual ~SymbolInput() {}
+    virtual ~SymbolInput() override {}
 
     // Implements the set method ...
-    void set(const map<string, string>& map) { SymbolInputAttributes::set(map); }
+    void set(const map<string, string>& map) override { SymbolInputAttributes::set(map); }
 
 
     virtual void decodePoints() {
@@ -132,14 +132,16 @@ public:
         return (*this->pointsHandlers_.back());
     }
 
-    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all) {
+    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out,
+                          bool all) override {
         customisedPoints(t, n, out);
     }
-    PointsHandler& points(const Transformation& t, bool) { return points(t); }
+    PointsHandler& points(const Transformation& t, bool) override { return points(t); }
+
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const {
+    virtual void print(ostream& out) const override {
         out << "SymbolInput[";
         SymbolInputAttributes::print(out);
         out << "]";

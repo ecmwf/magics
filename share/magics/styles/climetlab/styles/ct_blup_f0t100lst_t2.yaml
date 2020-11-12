@@ -1,0 +1,24 @@
+magics:
+  mcont:
+    contour_description: 'Method : contour Level list : (5/35/65/95) % Thickness :
+      2 Colour : Blue-purple Used for probability'
+    contour_highlight: true
+    contour_highlight_colour: blue_purple
+    contour_highlight_frequency: 4
+    contour_highlight_thickness: 4
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: Range 0-100%
+    contour_level_list:
+    - -5
+    - 5
+    - 35
+    - 65
+    - 95
+    contour_level_selection_type: level_list
+    contour_line_colour: blue_purple
+    contour_line_thickness: 2
+    contour_max_level: 95
+    contour_min_level: -5
+    contour_title: Contours (0-100%, blue-purple)
+

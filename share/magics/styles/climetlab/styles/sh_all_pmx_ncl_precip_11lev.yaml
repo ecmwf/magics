@@ -1,0 +1,45 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade Level range : 10 to 500 Colour :
+      MeteoSwiss precip_11lev'
+    contour_hi_min_value: 0
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 10 / 500, MeteoSwiss precip_11lev)'
+    contour_level_list:
+    - 10
+    - 20
+    - 30
+    - 40
+    - 50
+    - 60
+    - 80
+    - 100
+    - 150
+    - 200
+    - 300
+    - 500
+    - 9999
+    contour_level_selection_type: level_list
+    contour_reference_level: 0
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(1,1,1)
+    - rgb(0.9294,0.9804,0.7608)
+    - rgb(0.8039,1,0.8039)
+    - rgb(0.6,0.9412,0.698)
+    - rgb(0.3255,0.7412,0.6235)
+    - rgb(0.1961,0.651,0.5882)
+    - rgb(0.1961,0.5882,0.7059)
+    - rgb(0.0196,0.4392,0.6902)
+    - rgb(0.0196,0.3137,0.549)
+    - rgb(0.0392,0.1216,0.5882)
+    - rgb(0.1725,0.0078,0.2745)
+    - rgb(0.4157,0.1725,0.3529)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_shade_min_level: 17
+    contour_title: 'Contour shade MeteoSwiss precip_11lev (Range: 10 / 500, precip_11lev)'
+

@@ -1,0 +1,100 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : Area fill Level range : 2 to 30 Level list : (2/3/4/5/6/8/10/12/14/18/25)
+      Thickness : 2 Colour : All colours Used for EPS spread'
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: -40/40)'
+    contour_level_list:
+    - -40
+    - -38
+    - -36
+    - -34
+    - -32
+    - -30
+    - -28
+    - -26
+    - -24
+    - -22
+    - -20
+    - -18
+    - -16
+    - -14
+    - -12
+    - -10
+    - -8
+    - -6
+    - -4
+    - -2
+    - 2
+    - 4
+    - 6
+    - 8
+    - 10
+    - 12
+    - 14
+    - 16
+    - 18
+    - 20
+    - 22
+    - 24
+    - 26
+    - 28
+    - 30
+    - 32
+    - 34
+    - 36
+    - 38
+    - 40
+    contour_level_selection_type: level_list
+    contour_reference_level: 2
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0,12,255)
+    - rgb(0,24,255)
+    - rgb(0,36,255)
+    - rgb(0,48,255)
+    - rgb(0,60,255)
+    - rgb(0,72,255)
+    - rgb(0,84,255)
+    - rgb(0,96,255)
+    - rgb(0,108,255)
+    - rgb(0,120,255)
+    - rgb(0,132,255)
+    - rgb(0,144,255)
+    - rgb(0,156,255)
+    - rgb(0,168,255)
+    - rgb(0,180,255)
+    - rgb(0,192,255)
+    - rgb(0,204,255)
+    - rgb(0,216,255)
+    - rgb(0,228,255)
+    - none
+    - rgb(255,165,0)
+    - rgb(255,157,0)
+    - rgb(255,149,0)
+    - rgb(255,141,0)
+    - rgb(255,133,0)
+    - rgb(255,125,0)
+    - rgb(255,117,0)
+    - rgb(255,109,0)
+    - rgb(255,101,0)
+    - rgb(255,93,0)
+    - rgb(255,85,0)
+    - rgb(255,77,0)
+    - rgb(255,69,0)
+    - rgb(255,61,0)
+    - rgb(255,53,0)
+    - rgb(255,45,0)
+    - rgb(255,37,0)
+    - rgb(255,29,0)
+    - rgb(255,21,0)
+    - rgb(255,13,0)
+    contour_shade_colour_method: list
+    contour_shade_max_level: 40
+    contour_shade_method: area_fill
+    contour_shade_min_level: -40
+    contour_title: 'Contour shade (Range: -40/40)'
+    contour_units: dam
+

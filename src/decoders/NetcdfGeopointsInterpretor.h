@@ -33,14 +33,14 @@ namespace magics {
 class NetcdfGeopointsInterpretor : public NetcdfInterpretor {
 public:
     NetcdfGeopointsInterpretor();
-    virtual ~NetcdfGeopointsInterpretor();
+    virtual ~NetcdfGeopointsInterpretor() override;
 
-    void set(const map<string, string>& params) {
+    void set(const map<string, string>& params) override {
         MagLog::debug() << "NetcdfGeopointsInterpretor::set(params)"
                         << "\n";
         NetcdfInterpretor::set(params);
     }
-    void set(const XmlNode& node) {
+    void set(const XmlNode& node) override {
         MagLog::debug() << "NetcdfGeopointsInterpretor::set(params)"
                         << "\n";
         XmlNode netcdf = node;
@@ -48,22 +48,22 @@ public:
         netcdf.name("netcdf");
         NetcdfInterpretor::set(netcdf);
     }
-    virtual NetcdfInterpretor* clone() const {
+    virtual NetcdfInterpretor* clone() const override {
         NetcdfGeopointsInterpretor* object = new NetcdfGeopointsInterpretor();
         object->clone(*this);
         return object;
     }
     void clone(const NetcdfGeopointsInterpretor& other) { copy(other); }
-    bool interpretAsPoints(PointsList&);
-    bool interpretAsPoints(PointsList&, const Transformation&);
-    bool interpretAsMatrix(Matrix**) { return false; }
-    virtual void visit(MetaDataCollector&);
-    virtual void visit(ValuesCollector&, PointsList&);
+    bool interpretAsPoints(PointsList&) override;
+    bool interpretAsPoints(PointsList&, const Transformation&) override;
+    bool interpretAsMatrix(Matrix**) override { return false; }
+    virtual void visit(MetaDataCollector&) override;
+    virtual void visit(ValuesCollector&, PointsList&) override;
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed
@@ -81,14 +81,14 @@ private:
 class NetcdfXYpointsInterpretor : public NetcdfInterpretor {
 public:
     NetcdfXYpointsInterpretor();
-    virtual ~NetcdfXYpointsInterpretor();
+    virtual ~NetcdfXYpointsInterpretor() override;
 
-    void set(const map<string, string>& params) {
+    void set(const map<string, string>& params) override {
         MagLog::debug() << "NetcdfGeopointsInterpretor::set(params)"
                         << "\n";
         NetcdfInterpretor::set(params);
     }
-    void set(const XmlNode& node) {
+    void set(const XmlNode& node) override {
         MagLog::debug() << "NetcdfGeopointsInterpretor::set(params)"
                         << "\n";
         XmlNode netcdf = node;
@@ -96,26 +96,27 @@ public:
         netcdf.name("netcdf");
         NetcdfInterpretor::set(netcdf);
     }
-    virtual NetcdfInterpretor* clone() const {
+    virtual NetcdfInterpretor* clone() const override {
         NetcdfXYpointsInterpretor* object = new NetcdfXYpointsInterpretor();
         object->clone(*this);
         return object;
     }
     void clone(const NetcdfXYpointsInterpretor& other) { copy(other); }
     bool interpretAsPoints(PointsList&, const std::set<string>&);
-    bool interpretAsPoints(PointsList&);
-    bool interpretAsPoints(PointsList&, const Transformation&);
-    bool interpretAsMatrix(Matrix**) { return false; }
-    virtual void visit(Transformation&);
-    virtual void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, int s);
-    virtual void visit(MetaDataCollector&);
-    virtual void visit(ValuesCollector&, PointsList&);
-    void visit(TextVisitor&);
+    bool interpretAsPoints(PointsList&) override;
+    bool interpretAsPoints(PointsList&, const Transformation&) override;
+    bool interpretAsMatrix(Matrix**) override { return false; }
+    virtual void visit(Transformation&) override;
+    virtual void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&,
+                                  int s) override;
+    virtual void visit(MetaDataCollector&) override;
+    virtual void visit(ValuesCollector&, PointsList&) override;
+    void visit(TextVisitor&) override;
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed

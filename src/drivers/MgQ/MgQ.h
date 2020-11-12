@@ -19,7 +19,7 @@
 #ifndef _MgQ_H
 #define _MgQ_H
 
-#include <magics.h>
+#include "magics.h"
 
 #include <QGraphicsItem>
 

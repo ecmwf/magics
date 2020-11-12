@@ -1,4 +1,4 @@
-#!/bin/ksh
+#!/usr/bin/env bash
 
 # get the command-line arguments
 
@@ -12,7 +12,7 @@ password=$2
 cd html
 
 
-for file in  interfaces/magml/* 
+for file in  interfaces/magml/*
 do
   # fname=`basename $file`
   fname=$file

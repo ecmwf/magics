@@ -4,7 +4,7 @@
       "t850_spread",
       "t500_spread"
     ],
-    "prefered_units": "C",
+    "prefered_units": "degC",
     "styles": [
       "sh_blu_f008t25",
       "sh_range_f008to25"

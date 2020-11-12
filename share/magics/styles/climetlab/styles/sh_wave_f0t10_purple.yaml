@@ -1,0 +1,31 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : Significant wave heights of various periods'
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_label_colour: black
+    contour_label_format: (F4.1)
+    contour_legend_text: 'Contour shade (Range: 0.0 / 10.0)'
+    contour_level_list:
+    - 0.05
+    - 0.5
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_direction: clockwise
+    contour_shade_max_level_colour: purple
+    contour_shade_method: area_fill
+    contour_shade_min_level_colour: rgb(255,227,171)
+    contour_title: 'Contour shade (Range: 0.0 / 10)'
+

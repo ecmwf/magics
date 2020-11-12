@@ -58,7 +58,7 @@ public:
 	double ratio_;
 	double max_speed_;
 	double min_speed_;
-	int thickness_;
+	double thickness_;
 	string unit_system_;
 	double unit_velocity_;
 	string legend_unit_;

@@ -1,0 +1,23 @@
+magics:
+  mcont:
+    contour: true
+    contour_description: 'Method : Contour level range (0 to 13500)'
+    contour_highlight: false
+    contour_label: true
+    contour_legend_text: 'Contour (Range: 0/13500)'
+    contour_level_list:
+    - 0
+    - 1500
+    - 3000
+    - 4500
+    - 6000
+    - 7500
+    - 9000
+    - 10500
+    - 12000
+    - 13500
+    contour_level_selection_type: level_list
+    contour_line_colour: black
+    contour_line_thickness: 2
+    contour_title: 'Contour (Range: 0 / 13500 every 1500 mt)'
+

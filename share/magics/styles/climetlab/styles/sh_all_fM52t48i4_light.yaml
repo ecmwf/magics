@@ -1,0 +1,48 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : Area fill Level range : -52 to 48 Interval : 4
+      Thickness : 3 Colour : All colours Used for temperature (850hPa)'
+    contour_highlight_frequency: 100
+    contour_highlight_style: dash
+    contour_highlight_thickness: 5
+    contour_hilo: false
+    contour_interval: 4
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: -52 / 48)'
+    contour_level_selection_type: interval
+    contour_line_style: dot
+    contour_line_thickness: 3
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0.95,0.65,0.95)
+    - rgb(0.85,0.55,0.85)
+    - rgb(0.75,0.5,0.75)
+    - rgb(0.6,0.5,0.6)
+    - rgb(0.5,0.35,0.7)
+    - rgb(0.65,0.45,0.85)
+    - rgb(0.75,0.65,1)
+    - rgb(0.4,0.85,1)
+    - rgb(0.47,0.93,1)
+    - rgb(0.65,1,1)
+    - rgb(0.6,1,0.75)
+    - rgb(0.75,1,0.65)
+    - rgb(0.95,1,0.6)
+    - rgb(1,1,0.9)
+    - rgb(1,1,0.7)
+    - rgb(1,0.9,0.65)
+    - rgb(1,0.82,0.67)
+    - rgb(1,0.75,0.55)
+    - rgb(1,0.55,0.55)
+    - rgb(0.9,0.4,0.4)
+    - rgb(0.8,0.35,0.4)
+    - rgb(0.9,0.55,0.65)
+    - rgb(1,0.62,1)
+    - rgb(1,0.75,1)
+    - rgb(1,0.85,1)
+    contour_shade_colour_method: list
+    contour_shade_max_level: 48
+    contour_shade_method: area_fill
+    contour_shade_min_level: -52
+    contour_title: 'Contour shade (Range: -52 / 48)'
+

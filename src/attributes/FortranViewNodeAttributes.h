@@ -25,10 +25,10 @@
 #define FortranViewNodeAttributes_H
 
 #include "magics.h"
-#include "PreviewVisitor.h"
-#include "MagnifierVisitor.h"
 #include "Transformation.h"
 #include "Colour.h"
+#include "PreviewVisitor.h"
+#include "MagnifierVisitor.h"
 namespace magics {
 
 class XmlNode;

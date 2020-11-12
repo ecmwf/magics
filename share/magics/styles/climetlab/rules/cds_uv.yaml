@@ -1,0 +1,19 @@
+match:
+- levelist:
+  - '150'
+  - '175'
+  - '200'
+  - '225'
+  - '250'
+  - '300'
+  - '350'
+  levtype: pl
+  paramId:
+  - '131'
+  - '132'
+  shortName:
+  - u
+  - v
+styles:
+- sh_blue_red_100
+

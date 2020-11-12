@@ -1,0 +1,21 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: FF hazard level forecasts, generated every 15 minutes
+    contour_label: false
+    contour_level_list:
+    - 1
+    - 2
+    - 3
+    - 4
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(255,255,0)
+    - rgb(255,150,0)
+    - rgb(255,0,0)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_shade_technique: marker
+    contour_title: FF hazard levels forecasts
+

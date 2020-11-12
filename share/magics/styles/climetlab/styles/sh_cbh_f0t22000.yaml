@@ -1,0 +1,45 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : Contour shade range: (0/22000)'
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 0 / 22000)'
+    contour_level_list:
+    - 0
+    - 50
+    - 100
+    - 200
+    - 300
+    - 600
+    - 1000
+    - 1500
+    - 2000
+    - 2500
+    - 3000
+    - 6000
+    - 10000
+    - 22000
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_cell_resolution: 30
+    contour_shade_colour_list:
+    - magenta
+    - rgb(1,0.035,0)
+    - rgb(1,0.498,0)
+    - rgb(1,0.855,0)
+    - rgb(0.855,1,0)
+    - rgb(0.145,1,0)
+    - rgb(0.424,0.651,0.1922)
+    - rgb(0,0.549,0.1882)
+    - rgb(0,1,1)
+    - rgb(0,0.498,1)
+    - rgb(0.145,0,1)
+    - rgb(0.45,0.45,0.45)
+    - rgb(0.7,0.7,0.7)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_shade_technique: cell_shading
+    contour_title: 'Contour shade (Range: 0/22000)'
+

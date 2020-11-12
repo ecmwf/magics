@@ -1,0 +1,7 @@
+match:
+- channel: 6
+  paramId: '260510'
+  shortName: clbt
+styles:
+- sim_image_wv_500
+

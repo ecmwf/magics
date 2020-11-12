@@ -18,14 +18,17 @@
 
  ******************************** LICENSE ********************************/
 
+#include "magics.h"
+
 #include "WebFormat.h"
 
-#include "magics_windef.h"
+
+#include <signal.h>
+
 #ifndef MAGICS_ON_WINDOWS
 #include <unistd.h>
 #endif
 
-#include <signal.h>
 #include <new>
 #include "Timer.h"
 
@@ -91,12 +94,16 @@ int main(int argc, char** argv) {
         {
             try {
                 map<string, string>::const_iterator out = WebInterpretor::parameters().find("timeout");
+#ifndef MAGICS_ON_WINDOWS
                 int timeout = (out == WebInterpretor::parameters().end()) ? 0 : tonumber(out->second);
                 MagLog::info() << "Time out armed for " << timeout << endl;
                 signal(SIGALRM, catch_alarm);
                 alarm(timeout);
+#endif
                 WebInterpretor::magml(argv[1]);
+#ifndef MAGICS_ON_WINDOWS
                 alarm(0);
+#endif
             }
             catch (...) {
                 abort();

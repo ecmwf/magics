@@ -1,0 +1,34 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : Rain anomaly for monthly forecast'
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: -320 / 320)'
+    contour_level_list:
+    - 0
+    - 10
+    - 20
+    - 30
+    - 40
+    - 60
+    - 70
+    - 80
+    - 90
+    - 110
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - hsl(1,1,0.3)
+    - hsl(1,1,0.5)
+    - hsl(1,1,0.7)
+    - hsl(1,1,0.9)
+    - white
+    - hsl(220,1,0.9)
+    - hsl(220,1,0.7)
+    - hsl(220,1,0.5)
+    - hsl(220,1,0.3)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: Contour shade (-320/320)
+

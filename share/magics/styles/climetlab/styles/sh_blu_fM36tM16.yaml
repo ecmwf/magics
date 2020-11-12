@@ -1,0 +1,57 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : Area fill Level range : -36 to -1.6 Interval :
+      list Colour : Used for Ice temperature layers 1/2'
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: -36 / -1.6)'
+    contour_level_list:
+    - -50
+    - -36
+    - -34
+    - -32
+    - -30
+    - -28
+    - -26
+    - -24
+    - -22
+    - -20
+    - -18
+    - -16
+    - -14
+    - -12
+    - -10
+    - -8
+    - -6
+    - -4
+    - -2
+    - -1.6
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - '#191970'
+    - '#1a277b'
+    - '#183586'
+    - '#144391'
+    - '#09509c'
+    - '#185da5'
+    - '#226bad'
+    - '#2b78b6'
+    - '#3585bf'
+    - '#4992c6'
+    - '#599fcd'
+    - '#68abd5'
+    - '#80b7da'
+    - '#97c2df'
+    - '#aecfe4'
+    - '#c3daea'
+    - '#d8e6f4'
+    - '#ecf2fe'
+    - '#ffffff'
+    contour_shade_colour_method: list
+    contour_shade_max_level: 0
+    contour_shade_method: area_fill
+    contour_title: 'Contour shade (Range: -36 / -1.6)'
+    contour_units: degC
+

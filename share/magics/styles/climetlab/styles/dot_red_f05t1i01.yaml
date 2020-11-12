@@ -1,0 +1,28 @@
+magics:
+  mcont:
+    contour_description: 'Method : contour dot shade Level range : 0.5 to 1.0 Interval
+      : 0.1 Colour : Yellow-orange-red Used for EFI'
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_label_colour: black
+    contour_label_frequency: 1
+    contour_legend_text: 'Contour dot shade (Range: 0.5 / 1.0)'
+    contour_level_list:
+    - 0.5
+    - 0.6
+    - 0.7
+    - 0.8
+    - 0.9
+    - 1.1
+    contour_level_selection_type: level_list
+    contour_line_colour: black
+    contour_shade: true
+    contour_shade_colour_direction: clockwise
+    contour_shade_max_level: 1
+    contour_shade_max_level_colour: red
+    contour_shade_method: dot
+    contour_shade_min_level: 0
+    contour_shade_min_level_colour: yellow
+    contour_title: 'Contour dot shade (Range: 0.5 / 1.0)'
+

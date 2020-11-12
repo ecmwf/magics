@@ -1,0 +1,63 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method: contour shade Level range : 1420.0 to 2020.0 Colour:
+      nipy_spectral colours'
+    contour_hi_min_value: 0
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 1420.0 / 2020.0, nipy_spectral colours)'
+    contour_level_list:
+    - 1420
+    - 1660
+    - 1680
+    - 1700
+    - 1720
+    - 1740
+    - 1760
+    - 1780
+    - 1800
+    - 1820
+    - 1840
+    - 1860
+    - 1880
+    - 1900
+    - 1920
+    - 1940
+    - 1960
+    - 1980
+    - 2000
+    - 2020
+    - 24840
+    contour_level_selection_type: level_list
+    contour_line_thickness: 0
+    contour_reference_level: 0
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0.05,0.05,0.05)
+    - rgb(0.468,0,0.5346)
+    - rgb(0.5124,0,0.6026)
+    - rgb(0,0,0.6942)
+    - rgb(0,0.0732,0.8667)
+    - rgb(0,0.5007,0.8667)
+    - rgb(0,0.6183,0.8118)
+    - rgb(0,0.6667,0.617)
+    - rgb(0,0.6405,0.3242)
+    - rgb(0,0.6653,0)
+    - rgb(0,0.8013,0)
+    - rgb(0,0.9477,0)
+    - rgb(0.4601,1,0)
+    - rgb(0.8784,0.9516,0)
+    - rgb(0.983,0.834,0)
+    - rgb(1,0.6314,0)
+    - rgb(1,0.0824,0)
+    - rgb(0.8719,0,0)
+    - rgb(0.8013,0,0)
+    - rgb(0.4,0,0.12)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_shade_min_level: 0
+    contour_title: 'Contour shade (Range: 1420.0 / 2020.0, nipy_spectral colours)'
+    contour_units: ppbv
+

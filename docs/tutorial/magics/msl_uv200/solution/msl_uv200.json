@@ -71,7 +71,7 @@
           "wind":
           {
             "wind_arrow_colour":"gold",
-            "wind_arrow_legend":"on",
+            "legend":"on",
             "wind_arrow_thickness":"1",
             "wind_field_type":"arrows",
             "wind_thinning_factor":"3.000000"

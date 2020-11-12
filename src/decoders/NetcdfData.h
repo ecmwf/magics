@@ -34,14 +34,14 @@ class NoSuchNetcdfVariable : public MagicsException {
 public:
     NoSuchNetcdfVariable(const string& var) :
         MagicsException("Netcdf MagException:  Can not find variable ---> " + var) {
-        MagLog::warning() << what_ << "\n";
+        MagLog::warning() << what() << "\n";
     }
 };
 class NoSuchNetcdfDimension : public MagicsException {
 public:
     NoSuchNetcdfDimension(const string& dim) :
         MagicsException("Netcdf MagException :  Can not find dimension ---> " + dim) {
-        MagLog::warning() << what_ << "\n";
+        MagLog::warning() << what() << "\n";
     }
 };
 
@@ -49,7 +49,7 @@ class NoSuchNetcdfFile : public MagicsException {
 public:
     NoSuchNetcdfFile(const string& file) :
         MagicsException("Netcdf MagException: The file " + file + " does not exist or is not a valid netcdf file") {
-        MagLog::error() << what_ << "\n";
+        MagLog::error() << what() << "\n";
     }
 };
 class Netcdf;
@@ -67,7 +67,6 @@ struct NetDimension {
 
     Netcdf* parent_;
     int netcdf_;
-
 
 
     NetDimension() {}
@@ -121,7 +120,7 @@ struct NetAttribute {
     }
 };
 
-class NetVariable;
+struct NetVariable;
 
 
 template <class From, class To>
@@ -206,22 +205,17 @@ struct NetVariable {
     }
 
     void setFirstPoint(const string& name, const string& first) {
-        
         map<string, NetDimension>::iterator dim = dimensions_.find(name);
         if (dim == dimensions_.end())
             return;
-         (*dim).second.first(first);
-        
-       
+        (*dim).second.first(first);
     }
 
     void setLastPoint(const string& name, const string& last) {
-        
         map<string, NetDimension>::iterator d = dimensions_.find(name);
         if (d == dimensions_.end())
             return;
         (*d).second.last(last);
-        
     }
 
     size_t getSize(const vector<size_t>& dims) {
@@ -261,7 +255,6 @@ struct NetVariable {
     void get(vector<int>& data) { nc_get_var_int(netcdf_, id_, &data.front()); }
     void get(vector<short>& data) { nc_get_var_short(netcdf_, id_, &data.front()); }
     void get(vector<signed char>& data) { nc_get_var_schar(netcdf_, id_, &data.front()); }
-
 
 
     void print(ostream& s) const {
@@ -340,23 +333,21 @@ struct NetVariable {
     void default2D() {
         int nb = dimensions_.size();
         for (map<string, NetDimension>::iterator dim = dimensions_.begin(); dim != dimensions_.end(); ++dim)
-            if ( dim->second.index_ < nb-2)
+            if (dim->second.index_ < nb - 2)
                 dim->second.dim_ = 1;
 
-        
+
         auto dim = dimensions_.begin();
-        for (int i = 0; i < nb-2; ++i) {
+        for (int i = 0; i < nb - 2; ++i) {
             dim->second.dim_ = 1;
             dim++;
         }
-         
     }
     void default1D() {
-         int nb = dimensions_.size();
+        int nb = dimensions_.size();
         for (map<string, NetDimension>::iterator dim = dimensions_.begin(); dim != dimensions_.end(); ++dim)
-            if ( dim->second.index_ < nb-1)
+            if (dim->second.index_ < nb - 1)
                 dim->second.dim_ = 1;
-
     }
 
 
@@ -406,7 +397,6 @@ public:
     }
 
     int getDimension(const string& name) {
-        
         map<string, NetDimension>::iterator dim = dimensions_.find(name);
         if (dim == dimensions_.end()) {
             MagLog::error() << name << " : do not find such dimension\n" << endl;
@@ -459,7 +449,7 @@ public:
         return (*var).second;
     }
 
-    void setDefault2D(const string& name)  {
+    void setDefault2D(const string& name) {
         map<string, NetVariable>::iterator var = variables_.find(name);
         if (var == variables_.end())
             throw NoSuchNetcdfVariable(name);
@@ -492,6 +482,11 @@ private:
     }
 };
 
+
+#ifdef __clang__
+template <class T>
+map<nc_type, Accessor<T>*>* Accessor<T>::accessors_ = nullptr;
+#endif
 
 template <class T>
 void Accessor<T>::access(vector<T>& data, vector<size_t>& start, vector<size_t>& edges, NetVariable& var) {

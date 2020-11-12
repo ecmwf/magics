@@ -47,20 +47,20 @@ public:
 class LevelSelection : public LevelSelectionAttributes, public doublearray {
 public:
     LevelSelection();
-    virtual ~LevelSelection();
+    virtual ~LevelSelection() override;
 
     virtual LevelSelection* clone() const { return 0; }
-    virtual void set(const XmlNode& node) { LevelSelectionAttributes::set(node); }
-    virtual void set(const map<string, string>& map) { LevelSelectionAttributes::set(map); }
+    virtual void set(const XmlNode& node) override { LevelSelectionAttributes::set(node); }
+    virtual void set(const map<string, string>& map) override { LevelSelectionAttributes::set(map); }
     virtual void set(const LevelSelectionInterface&) {}
 
-    virtual void calculate(double, double, bool){};
+    virtual void calculate(double, double, bool) {}
     virtual double reference(int) const;
     virtual void thinLevels(int frequency, vector<double>&) const;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed

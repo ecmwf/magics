@@ -11,8 +11,8 @@
 
 #include "DoubleContent.h"
 #include "JSON.h"
-#include "Translator.h"
 #include "NumberContent.h"
+#include "Translator.h"
 
 #include <iostream>
 
@@ -46,7 +46,7 @@ int DoubleContent::compare(const Content& other) const {
 
 int DoubleContent::compareDouble(const DoubleContent& other) const {
     double diff = (value_ - other.value_);
-    if(diff == 0) {
+    if (diff == 0) {
         return 0;
     }
 
@@ -56,7 +56,7 @@ int DoubleContent::compareDouble(const DoubleContent& other) const {
 int DoubleContent::compareNumber(const NumberContent& other) const {
     double diff = (value_ - other.value_);
 
-    if(diff == 0) {
+    if (diff == 0) {
         return 0;
     }
 

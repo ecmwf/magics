@@ -1,0 +1,16 @@
+match:
+- paramId:
+  - '132049'
+  - '132165'
+  shortName:
+  - 10fgi
+  - 10wsi
+  type: efi
+- long_name:
+  - 10 metre wind gust index
+  - 10 metre speed index
+styles:
+- sh_red_f05t1i01
+- mrk_efi_wg_f06t1
+- sh_efi_f05t1_nc
+

@@ -1,0 +1,42 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : Level range: -5 to 45 used for SST'
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: -5 / 45)'
+    contour_level_list:
+    - -5
+    - 0
+    - 5
+    - 10
+    - 15
+    - 20
+    - 25
+    - 30
+    - 35
+    - 40
+    - 45
+    contour_level_selection_type: level_list
+    contour_line_colour: black
+    contour_line_thickness: 3
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0.29,0,0.48)
+    - rgb(0.8,0.47,1)
+    - rgb(0,0.35,1)
+    - rgb(0.04,0.75,0)
+    - rgb(0.84,0.81,0)
+    - rgb(0.9,0.6,0)
+    - rgb(1,0.05,0)
+    - rgb(1,0.6,0.6)
+    - rgb(1,0.85,0.85)
+    - white
+    contour_shade_colour_method: list
+    contour_shade_max_level: 45
+    contour_shade_method: area_fill
+    contour_shade_min_level: -5
+    contour_title: 'Contour shade (Range: -5 / 45)'
+    contour_units: degC
+

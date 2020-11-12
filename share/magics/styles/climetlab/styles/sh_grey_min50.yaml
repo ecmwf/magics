@@ -1,0 +1,18 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade Level list from 100 to 1100'
+    contour_label: false
+    contour_legend_text: 'Transparent contour shade (Range: 50 / 1100)'
+    contour_level_list:
+    - 50
+    - 1100
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_direction: anti_clockwise
+    contour_shade_colour_list:
+    - rgba(0.75,0.75,0.75,0.8)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: 'Transparent contour shade (Range: 50/1100)'
+

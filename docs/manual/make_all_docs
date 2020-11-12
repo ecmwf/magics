@@ -1,4 +1,4 @@
-#!/bin/ksh
+#!/usr/bin/env bash
 
 # Builds all the books for the Magics documentation.
 # Calls make_docs for each book, passing parameters as appropriate

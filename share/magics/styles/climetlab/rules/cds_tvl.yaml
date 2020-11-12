@@ -1,0 +1,10 @@
+match:
+- paramId:
+  - '29'
+  shortName:
+  - tvl
+- long_name:
+  - Type of low vegetation
+styles:
+- mrk_grn_f0t20lst
+

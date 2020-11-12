@@ -1,0 +1,38 @@
+- data: 1
+  plot: gr kg-1
+
+- data: K
+  plot: degC
+
+- data: K m**2 kg**-1 s**-1
+  plot: pv units
+
+- data: Pa
+  plot: hPa
+
+- data: gpm
+  plot: dam
+
+- data: kg kg**-1
+  plot: g/kg
+
+- data: kg m**-2
+  plot: Dob
+
+- data: kg m**-2 s**-1
+  plot: kg m**-2 h**-1
+
+- data: m
+  plot: mm
+
+- data: m of water
+  plot: mm
+
+- data: m of water equivalent
+  plot: mm
+
+- data: m**2 s**-2
+  plot: dam
+
+- data: s**-1
+  plot: 10**5/sec

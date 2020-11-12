@@ -1,0 +1,43 @@
+magics:
+  mcont:
+    contour_description: 'Method : Area fill Level range : 0.8 to 25 Interval : list
+      Thickness : 2 Colour : Used for EPS spread'
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 0.8 / 25 in K, more levels)'
+    contour_level_list:
+    - 0.8
+    - 1.2
+    - 1.6
+    - 2
+    - 2.5
+    - 5
+    - 7.5
+    - 10
+    - 12.5
+    - 15
+    - 20
+    - 25
+    contour_level_selection_type: level_list
+    contour_line_colour: red
+    contour_reference_level: 2
+    contour_shade: true
+    contour_shade_colour_list:
+    - blue_green
+    - bluish_green
+    - yellow_green
+    - yellow
+    - orange_yellow
+    - yellowish_orange
+    - orange
+    - tangerine
+    - ochre
+    - mustard
+    - tan
+    contour_shade_colour_method: list
+    contour_shade_max_level: 25
+    contour_shade_method: area_fill
+    contour_shade_min_level: 0
+    contour_title: 'Contour shade (Range: 0.8 / 25 in K, more levels)'
+    contour_units: degC
+

@@ -1,0 +1,22 @@
+magics:
+  mcont:
+    contour_description: 'Method : contour Interval : 10 Colour : Yellow Used for
+      wind'
+    contour_highlight_colour: yellow
+    contour_highlight_frequency: 3
+    contour_highlight_thickness: 3
+    contour_hilo: false
+    contour_interval: 10
+    contour_label: true
+    contour_label_blanking: false
+    contour_label_colour: blue
+    contour_label_frequency: 1
+    contour_label_height: 0
+    contour_legend_text: Interval 10, minimum 30 (in m/s)
+    contour_level_selection_type: interval
+    contour_line_colour: yellow
+    contour_line_thickness: 3
+    contour_min_level: 30
+    contour_reference_level: 50
+    contour_title: Contour (Interval 10, yellow)
+

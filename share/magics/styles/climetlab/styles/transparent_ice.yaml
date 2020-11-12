@@ -1,0 +1,20 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : Tranparent ice cover 0.2/1 one level'
+    contour_interpolation_ceiling: 1
+    contour_label: false
+    contour_legend_text: Transparent contour shade (One level from 0.2 to 1)
+    contour_level_list:
+    - 0.2
+    - 1.01
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_direction: anti_clockwise
+    contour_shade_colour_method: calculate
+    contour_shade_max_level_colour: rgba(0.66,0.66,0.66,0.5)
+    contour_shade_method: area_fill
+    contour_shade_min_level: 0
+    contour_shade_min_level_colour: rgba(0.66,0.66,0.66,0.5)
+    contour_title: Transparent grey (rgbA) 0.2/1 One level
+

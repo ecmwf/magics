@@ -1,0 +1,11 @@
+magics:
+  mcont:
+    contour_description: 'Method: Wave energy arrows Colour: Blackr Used for wave
+      energy'
+    contour_title: Wave energy flux mean direction (black)
+    legend: false
+    wind_arrow_calm_below: 0
+    wind_arrow_colour: black
+    wind_arrow_unit_velocity: 500000
+    wind_legend_text: Black wave energy flux mean direction
+

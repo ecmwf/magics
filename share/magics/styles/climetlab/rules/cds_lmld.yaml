@@ -1,0 +1,7 @@
+match:
+- paramId: '228009'
+  shortName: lmld
+- long_name: Lake mix-layer depth
+styles:
+- sh_purple_f0t50
+

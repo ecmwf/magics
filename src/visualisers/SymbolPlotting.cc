@@ -99,6 +99,9 @@ void SymbolPlotting::operator()(const PaperPoint& point, BasicGraphicsObjectCont
         symbol->push_back(point, value);
     }
     catch (...) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
     }
 }
 
@@ -186,6 +189,9 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
     }
     catch (MagicsException&) {
         // do nothing!
+        if (MagicsSettings::strict()) {
+            throw;
+        }
     }
 }
 

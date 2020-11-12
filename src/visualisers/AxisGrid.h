@@ -42,7 +42,7 @@ class VerticalAxisVisitor;
 class AxisGrid : public AxisGridAttributes {
 public:
     AxisGrid();
-    virtual ~AxisGrid();
+    virtual ~AxisGrid() override;
 
     void set(const map<string, string>& map) { AxisGridAttributes::set(map); }
     void set(const XmlNode& node) { AxisGridAttributes::set(node); }
@@ -53,16 +53,16 @@ public:
         return grid;
     }
 
-    virtual void vertical(const AxisItems&, DrawingVisitor& out) const;
-    virtual void horizontal(const AxisItems&, DrawingVisitor& out) const;
+    virtual void vertical(const AxisItems&, DrawingVisitor& out) const override;
+    virtual void horizontal(const AxisItems&, DrawingVisitor& out) const override;
     virtual void vertical(const AxisItems&, HorizontalAxisVisitor&) const {}
     virtual void vertical(const AxisItems&, VerticalAxisVisitor&) const {}
     virtual void horizontal(const AxisItems&, HorizontalAxisVisitor&) const {}
-    virtual void horizontal(const AxisItems&, VerticalAxisVisitor&) const {}
+    virtual void horizontal(const AxisItems&, VerticalAxisVisitor&) const override {}
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed
@@ -81,13 +81,13 @@ private:
 class NoAxisGrid : public AxisGrid {
 public:
     NoAxisGrid() {}
-    ~NoAxisGrid() {}
+    ~NoAxisGrid() override {}
 
     virtual void vertical(const AxisItems&, DrawingVisitor&) const {}
     virtual void horizontal(const AxisItems&, DrawingVisitor&) const {}
 
-    AxisGrid* clone() {
-        AxisGrid* grid = new NoAxisGrid();
+    AxisGrid* clone() override {
+        AxisGrid* grid = new NoAxisGrid() override;
         return grid;
     }
 };

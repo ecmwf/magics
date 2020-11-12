@@ -1,0 +1,36 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : mean sea level pressure anomaly'
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: -20 / 20)'
+    contour_level_list:
+    - -100
+    - -40
+    - -20
+    - -10
+    - -5
+    - 0
+    - 5
+    - 10
+    - 20
+    - 40
+    - 100
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0,74,74)
+    - rgb(0,128,128)
+    - rgb(18,179,179)
+    - rgb(161,230,230)
+    - rgb(207,255,255)
+    - rgb(255,217,242)
+    - rgb(255,166,225)
+    - rgb(230,69,176)
+    - rgb(179,0,119)
+    - rgb(77,0,51)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: Contour shade for mean sea level pressure anomaly
+

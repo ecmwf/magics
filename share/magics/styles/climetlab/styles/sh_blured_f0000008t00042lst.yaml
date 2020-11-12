@@ -1,0 +1,35 @@
+magics:
+  mcont:
+    contour_description: 'Method : contour shade, with contours Level list : (0.000008/0.00003/0.000067/0.00017/0.00042/0.00083/0.0017/0.0042)
+      Colour : from blue to red Used for precipitation flux'
+    contour_highlight: false
+    contour_hilo: false
+    contour_internal_reduction_factor: 4
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 0.000008/0.0042, with isolines)'
+    contour_level_list:
+    - 8.0e-06
+    - 3.0e-05
+    - 6.7e-05
+    - 0.00017
+    - 0.00042
+    - 0.00083
+    - 0.0017
+    - 0.0042
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - cyan
+    - greenish_blue
+    - blue
+    - bluish_purple
+    - magenta
+    - orange
+    - red
+    - charcoal
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_shade_min_level: 8.0e-06
+    contour_title: 'Contour shade (Range: 0.000008/0.0042, with isolines)'
+    contour_units: mm
+

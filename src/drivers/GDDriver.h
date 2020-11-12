@@ -19,9 +19,9 @@
 #ifndef MPP_GDDriver_H
 #define MPP_GDDriver_H
 
-#include <BaseDriver.h>
-#include <GDDriverAttributes.h>
-#include <XmlNode.h>
+#include "BaseDriver.h"
+#include "GDDriverAttributes.h"
+#include "XmlNode.h"
 
 #include <gd.h>
 
@@ -37,7 +37,7 @@ namespace magics {
 class GDDriver : public BaseDriver, public GDDriverAttributes {
 public:
     GDDriver();
-    ~GDDriver();
+    ~GDDriver() override;
     void open();
     void close();
 
@@ -53,7 +53,7 @@ public:
     /*!
       \brief sets a new XML node
     */
-    void set(const XmlNode& node) {
+    void set(const XmlNode& node) override {
         if (magCompare(node.name(), "gif") || magCompare(node.name(), "gif_animation") ||
             magCompare(node.name(), "gd_png") || magCompare(node.name(), "png") || magCompare(node.name(), "jpeg")) {
             XmlNode basic = node;
@@ -67,7 +67,7 @@ public:
     /*!
       \brief sets a new map
     */
-    void set(const map<string, string>& map) {
+    void set(const map<string, string>& map) override {
         BaseDriver::set(map);
         GDDriverAttributes::set(map);
     }

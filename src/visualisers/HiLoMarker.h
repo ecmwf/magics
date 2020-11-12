@@ -35,19 +35,19 @@ namespace magics {
 class HiLoMarker : public HiLoMarkerBase, public HiLoMarkerAttributes {
 public:
     HiLoMarker() : marker_(0) {}
-    virtual ~HiLoMarker() {}
-    void set(const map<string, string>& map) { HiLoMarkerAttributes::set(map); }
-    void set(const XmlNode& node) { HiLoMarkerAttributes::set(node); }
-    virtual bool accept(const string& node) { return HiLoMarkerAttributes::accept(node); }
+    virtual ~HiLoMarker() override {}
+    void set(const map<string, string>& map) override { HiLoMarkerAttributes::set(map); }
+    void set(const XmlNode& node) override { HiLoMarkerAttributes::set(node); }
+    virtual bool accept(const string& node) override { return HiLoMarkerAttributes::accept(node); }
 
-    virtual HiLoMarker* clone() const {
+    virtual HiLoMarker* clone() const override {
         HiLoMarker* object = new HiLoMarker();
         object->copy(*this);
         return object;
     }
-    virtual void clear() { marker_ = 0; }
+    virtual void clear() override { marker_ = 0; }
 
-    virtual void operator()(const PaperPoint& point, HiLo& hilo) {
+    virtual void operator()(const PaperPoint& point, HiLo& hilo) override {
         if (!marker_) {
             marker_ = new Symbol();
             marker_->setMarker(index_);
@@ -61,7 +61,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const {
+    virtual void print(ostream& out) const override {
         out << "HiLoMarker[";
         HiLoMarkerAttributes::print(out);
         out << "]";
@@ -88,17 +88,17 @@ private:
 class NoHiLoMarker : public HiLoMarkerBase {
 public:
     NoHiLoMarker() {}
-    virtual ~NoHiLoMarker() {}
-    virtual HiLoMarkerBase* clone() const {
+    virtual ~NoHiLoMarker() override {}
+    virtual HiLoMarkerBase* clone() const override {
         HiLoMarkerBase* object = new NoHiLoMarker();
         return object;
     }
-    virtual bool accept(const string& node) { return magCompare(node, "nohilo"); }
+    virtual bool accept(const string& node) override { return magCompare(node, "nohilo"); }
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const { out << "No HiLo Marker defined"; }
+    virtual void print(ostream& out) const override { out << "No HiLo Marker defined"; }
 };
 
 

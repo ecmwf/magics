@@ -49,7 +49,7 @@ protected:
 class StyleEntry {
 public:
     StyleEntry(){};
-    void set(const string& def, vector<string>& styles) {
+    void set(const string& def, const vector<string>& styles) {
         default_ = def;
         styles_  = styles;
     }
@@ -74,10 +74,10 @@ typedef AutoVector<MetaDataEntry> MetaDataEntryList;
 class MetaDataVisitor : public MetaDataAttributes, public MetaDataEntryList, public BasicSceneObject {
 public:
     MetaDataVisitor();
-    virtual ~MetaDataVisitor();
+    virtual ~MetaDataVisitor() override;
 
-    virtual void set(const XmlNode& node) { MetaDataAttributes::set(node); }
-    virtual void set(const map<string, string>& map) { MetaDataAttributes::set(map); }
+    virtual void set(const XmlNode& node) override { MetaDataAttributes::set(node); }
+    virtual void set(const map<string, string>& map) override { MetaDataAttributes::set(map); }
     virtual MetaDataVisitor* clone() const {
         MetaDataVisitor* object = new MetaDataVisitor();
         object->copy(*this);
@@ -98,7 +98,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     map<string, string> web_;
     AutoVector<StyleEntry> styles_;
 
@@ -122,16 +122,16 @@ private:
 class MetaData : public MetaDataVisitor {
 public:
     MetaData() {}
-    ~MetaData() {}
-    MetaDataVisitor* clone() const { return new MetaData(); }
+    ~MetaData() override {}
+    MetaDataVisitor* clone() const override { return new MetaData(); }
 };
 
 class NoMetaData : public MetaDataVisitor {
 public:
     NoMetaData() {}
-    ~NoMetaData() {}
-    MetaDataVisitor* clone() const { return new NoMetaData(); }
-    virtual void visit(BasicGraphicsObjectContainer&) {}
+    ~NoMetaData() override {}
+    MetaDataVisitor* clone() const override { return new NoMetaData(); }
+    virtual void visit(BasicGraphicsObjectContainer&) override {}
 };
 
 template <>

@@ -1,9 +1,9 @@
 #!/usr/bin/env perl
 # (C) Copyright 1996-2016 ECMWF.
-# 
+#
 # This software is licensed under the terms of the Apache Licence Version 2.0
-# which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-# In applying this licence, ECMWF does not waive the privileges and immunities 
+# which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+# In applying this licence, ECMWF does not waive the privileges and immunities
 # granted to it by virtue of its status as an intergovernmental organisation nor
 # does it submit to any jurisdiction.
 
@@ -23,13 +23,13 @@ open STDOUT, ">src/$class.h";
 print <<"EOF";
 /*! \\file $class.h
     \\brief Definition of the Template class $class.
-    
+
     Magics Team - ECMWF $year
-    
+
     Started: $string
-    
+
     Changes:
-    
+
 */
 
 #ifndef $class\_H
@@ -63,7 +63,7 @@ print <<"EOF";
 public:
 	$class() {}
 	virtual ~$class() {}
-    
+
     virtual void set(const XmlNode&) {
         MagLog::dev() << "$class\::set(const XmlNode&)---> to be checked!...\\n";
     }
@@ -77,10 +77,10 @@ public:
     virtual void toxml(ostream&, int = 0) const {
         MagLog::dev() << "$class\::toxml(ostream&, int = 0)---> to be checked!...\\n";
     }
-    
+
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
-	 virtual void print(ostream& out) const { out << "$class\\n"; } 
+	 virtual void print(ostream& out) const override { out << "$class\\n"; }
 
 private:
     //! Copy constructor - No copy allowed
@@ -96,12 +96,12 @@ private:
 };
 
 template <>
-class Translator<string, $class> { 
+class Translator<string, $class> {
 public:
 	$class* operator()(const string& val )
 	{
 		return SimpleObjectMaker<$class>::create(val);
-	}     
+	}
 
 	$class* magics(const string& param)
 	{
@@ -115,5 +115,3 @@ public:
 #endif
 EOF
 close STDOUT;
-
-

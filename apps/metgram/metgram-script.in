@@ -1,4 +1,4 @@
-#!/bin/ksh
+#!/usr/bin/env bash
 #set -x
 
 # Platform dependent variables
@@ -7,4 +7,3 @@ export LD_LIBRARY_PATH=$MAGPLUS_HOME/lib/:$2:$LD_LIBRARY_PATH
 
 # Call metgram
 exec $MAGPLUS_HOME/bin/metgramx "$@"
-

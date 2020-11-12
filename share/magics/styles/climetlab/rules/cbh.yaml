@@ -1,0 +1,12 @@
+match:
+- paramId: '228023'
+  shortName: cbh
+- long_name: Cloud base height
+- standard_name:
+  - cloud_base_altitude
+  - convective_cloud_base_height
+  - convective_cloud_base_altitude
+styles:
+- sh_cbh_blk_f0t22000
+- sh_cbh_f0t22000
+

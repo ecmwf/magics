@@ -1,0 +1,56 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: Black contours used for sunshine duration
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_label_blanking: false
+    contour_legend_text: 'Shade (Range: -100/100%)'
+    contour_level_list:
+    - -1
+    - -0.5
+    - -0.3
+    - -0.25
+    - -0.2
+    - -0.16
+    - -0.12
+    - -0.08
+    - -0.04
+    - -0.01
+    - 0.01
+    - 0.04
+    - 0.08
+    - 0.12
+    - 0.16
+    - 0.2
+    - 0.25
+    - 0.3
+    - 0.5
+    - 1
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0,0,255)
+    - rgb(0,25,255)
+    - rgb(0,50,255)
+    - rgb(0,75,255)
+    - rgb(0,100,255)
+    - rgb(0,125,255)
+    - rgb(0,150,255)
+    - rgb(0,175,255)
+    - rgb(0,200,255)
+    - none
+    - rgb(255,165,0)
+    - rgb(255,149,0)
+    - rgb(255,133,0)
+    - rgb(255,117,0)
+    - rgb(255,101,0)
+    - rgb(255,85,0)
+    - rgb(255,69,0)
+    - rgb(255,53,0)
+    - rgb(255,21,0)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: Contour dashed (count 4, thickness 2, black)
+

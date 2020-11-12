@@ -1,0 +1,47 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade Level list : (1/3/5/7/9/11/13/15/20/30/50/75/100/200)
+      Colour : Yellow-red Used for positive values of vorticity, divergence'
+    contour_highlight: false
+    contour_hilo: false
+    contour_internal_reduction_factor: 7
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 1 / 200)'
+    contour_level_list:
+    - 1
+    - 3
+    - 5
+    - 7
+    - 9
+    - 11
+    - 13
+    - 15
+    - 20
+    - 30
+    - 50
+    - 75
+    - 100
+    - 200
+    contour_level_selection_type: level_list
+    contour_min_level: 1
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(1,1,0)
+    - rgb(1,0.9,0)
+    - rgb(1,0.8,0)
+    - rgb(1,0.7,0)
+    - rgb(1,0.6,0)
+    - rgb(1,0.5,0)
+    - rgb(1,0.4,0)
+    - rgb(1,0.3,0)
+    - rgb(1,0.15,0)
+    - rgb(0.9,0,0)
+    - rgb(0.7,0,0)
+    - rgb(0.5,0,0)
+    - rgb(0.3,0,0)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_shade_min_level: 1
+    contour_title: 'Contour shade (Range: 1 / 200)'
+

@@ -11,8 +11,8 @@
 #include "MvBufrEdition.h"
 #include "eccodes.h"
 
-#include <assert.h>
 #include <iostream>
+#include "MagException.h"
 
 #define MV_CODES_CHECK(a, msg) codesCheck(#a, __FILE__, __LINE__, a, msg)
 
@@ -24,8 +24,7 @@ static std::vector<MvBufrElementTable*> bufrElementTableItems;
 static std::vector<MvBufrElementTable*> bufrElementTableItems;
 #endif
 
-bool codesCheck(const char* call, const char* file, int line, int e, const char* msg)
-{
+bool codesCheck(const char* call, const char* file, int line, int e, const char* msg) {
     if (e) {
         std::cout << call << grib_get_error_message(e);
         return false;
@@ -33,9 +32,7 @@ bool codesCheck(const char* call, const char* file, int line, int e, const char*
     return true;
 }
 
-MvBufrElementTable::MvBufrElementTable(MvBufrEdition* edition) :
-    edition_(edition)
-{
+MvBufrElementTable::MvBufrElementTable(MvBufrEdition* edition) : edition_(edition) {
     // Build descriptor-key table
     buildElementTable();
 
@@ -47,19 +44,17 @@ MvBufrElementTable::MvBufrElementTable(MvBufrEdition* edition) :
 #endif
 }
 
-MvBufrElementTable::~MvBufrElementTable()
-{
+MvBufrElementTable::~MvBufrElementTable() {
     std::cout << "delete element" << std::endl;
     edition_ = nullptr;
     melems_.clear();
 }
 
-MvBufrElementTable* MvBufrElementTable::find(MvBufrEdition* edition)
-{
+MvBufrElementTable* MvBufrElementTable::find(MvBufrEdition* edition) {
 #ifdef METVIEW_BUFR
-    for(auto item: metview::bufrElementTableItems) {
+    for (auto item : metview::bufrElementTableItems) {
 #else
-    for(auto item: bufrElementTableItems) {
+    for (auto item : bufrElementTableItems) {
 #endif
         if (item->edition_ == edition)
             return item;
@@ -69,8 +64,7 @@ MvBufrElementTable* MvBufrElementTable::find(MvBufrEdition* edition)
     return elem;
 }
 
-const std::string&
-MvBufrElementTable::keyName(int descriptor)  //const
+const std::string& MvBufrElementTable::keyName(int descriptor)  // const
 {
     static std::string emptyStr;
 
@@ -147,8 +141,7 @@ std::cout << it->second << std::endl;
 
 typedef std::map<int, std::string> map_bufr_table;
 
-static map_bufr_table create_map()
-{
+static map_bufr_table create_map() {
     map_bufr_table map;
 
     map[1001]  = "blockNumber";
@@ -1746,8 +1739,7 @@ static map_bufr_table create_map()
     return map;
 }
 
-bool MvBufrElementTable::buildElementTable()
-{
+bool MvBufrElementTable::buildElementTable() {
     melems_ = create_map();
     return true;
 }

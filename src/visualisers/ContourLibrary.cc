@@ -23,8 +23,8 @@
 #include "ContourLibrary.h"
 #include "Layer.h"
 #include "MetaData.h"
-#include "VisDefInfo.h"
 #include "Value.h"
+#include "VisDefInfo.h"
 
 using namespace magics;
 
@@ -104,10 +104,17 @@ bool ContourLibrary::setInfoObject(string type) {
         return false;
 }
 
+void ContourLibrary::setCriteria(MetaDataCollector& request, const string& criteria) {
+    request[criteria] = "";
+    MetaDataAttribute attribute;
+    attribute.setSource(MetaDataAttribute::GribApiSource);
+    request.setAttribute(criteria, attribute);
+}
+
 #include "MagConfig.h"
 
 void EcChartData::callback(const string& name, const Value& value) {
-    int iname                  = atoi(name.c_str());
+    int iname       = atoi(name.c_str());
     ValueMap object = value.get_value<ValueMap>();
     data_.insert(make_pair(iname, map<string, string>()));
     for (auto entry = object.begin(); entry != object.end(); ++entry) {
@@ -152,12 +159,6 @@ EcChartLibrary::EcChartLibrary() : contours_("contours"), default_set_("default"
 
 EcChartLibrary::~EcChartLibrary() {}
 
-void EcChartLibrary::setCriteria(MetaDataCollector& request, const string& criteria) {
-    request[criteria] = "";
-    MetaDataAttribute attribute;
-    attribute.setSource(MetaDataAttribute::GribApiSource);
-    request.setAttribute(criteria, attribute);
-}
 
 void EcChartLibrary::askId(MetaDataCollector& request) {
     // main keywords
@@ -270,12 +271,6 @@ void WebLibrary::askId(MetaDataCollector& request) {
     }
 }
 
-void WebLibrary::setCriteria(MetaDataCollector& request, const string& criteria) {
-    request[criteria] = "";
-    MetaDataAttribute attribute;
-    attribute.setSource(MetaDataAttribute::GribApiSource);
-    request.setAttribute(criteria, attribute);
-}
 
 // set the map to set the contour!
 void WebLibrary::getStyle(MetaDataCollector& data, MagDef& contour, StyleEntry& info) {
@@ -287,65 +282,65 @@ void WebLibrary::getStyle(MetaDataCollector& data, MagDef& contour, StyleEntry& 
 
     else {
         styles_->findStyle("default", contour);
-        // for (auto s = contour.begin(); s != contour.end(); ++s)
-        // cout << s->first << "--->" << s->second << endl;
     }
+    // for (auto s = contour.begin(); s != contour.end(); ++s)
+    //     cout << s->first << "--->" << s->second << endl;
 }
 
 void WebLibrary::getStyle(const string& name, MagDef& info) {
     styles_->findStyle(name, info);
 }
 // set the map to set the contour!
-void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& offset) {
-    MagDef values;
-    StyleEntry info;
-    scaling = 1;
-    offset  = 0;
+// void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& offset) {
+//     MagDef values;
+//     StyleEntry info;
+//     scaling = 1;
+//     offset  = 0;
 
-    // cout << "SCALING" << endl;
-    vector<string> keywords = {"preferred_units", "prefered_units"};
+//     // cout << "SCALING" << endl;
+//     vector<string> keywords = {"preferred_units", "prefered_units"};
 
-    auto unit = data.find("units");
-    if (unit == data.end())
-        unit = data.find("parameterUnits");
-    if (unit == data.end())
-        return;
-    MagLog::debug() << " Found Unit " << unit->second << endl;
-    bool found = styles_->findStyle(data, values, info);
-    if (!found) {
-        MagLog::debug() << "Can not find style" << endl;
-        return;
-    }
-    MagLog::debug() << " TRYING to scale " << unit->second << endl;
-    for (auto x = values.begin(); x != values.end(); ++x)
-        MagLog::debug() << x->first << "--->" << x->second << endl;
+//     auto unit = data.find("units");
+//     if (unit == data.end())
+//         unit = data.find("parameterUnits");
+//     if (unit == data.end())
+//         return;
+//     MagLog::debug() << " Found Unit " << unit->second << endl;
+//     bool found = styles_->findStyle(data, values, info);
+//     if (!found) {
+//         MagLog::debug() << "Can not find style" << endl;
+//         return;
+//     }
+//     MagLog::debug() << " TRYING to scale " << unit->second << endl;
+//     for (auto x = values.begin(); x != values.end(); ++x)
+//         MagLog::debug() << x->first << "--->" << x->second << endl;
 
-    MagDef::iterator need;
-    for (auto key = keywords.begin(); key != keywords.end(); ++key) {
-        need = values.find(*key);
-        if (need != values.end())
-            break;
-    }
+//     MagDef::iterator need;
+//     for (auto key = keywords.begin(); key != keywords.end(); ++key) {
+//         need = values.find(*key);
+//         if (need != values.end())
+//             break;
+//     }
 
-    if (need == values.end())
-        return;
+//     if (need == values.end())
+//         return;
 
 
-    UnitsLibrary converter;
+//     UnitsLibrary converter;
 
-    string whitespaces(" \t\f\v\n\r");
-    string clean    = unit->second;
-    std::size_t pos = clean.find_last_not_of(whitespaces);
-    if (pos != std::string::npos) {
-        // cout << "clean" << pos << endl;
-        clean = clean.substr(0, pos + 1);
-    }
-    // str is all whitespace
+//     string whitespaces(" \t\f\v\n\r");
+//     string clean    = unit->second;
+//     std::size_t pos = clean.find_last_not_of(whitespaces);
+//     if (pos != std::string::npos) {
+//         // cout << "clean" << pos << endl;
+//         clean = clean.substr(0, pos + 1);
+//     }
+//     // str is all whitespace
 
-    // cout << "CLEAN " << clean << ": " << clean.size() << endl;
-    converter.find(need->second, clean, scaling, offset);
-    MagLog::debug() << "Need " << need->second << " get " << unit->second << "--->APPLY " << scaling << " and "
-                    << offset << endl;
-}
+//     // cout << "CLEAN " << clean << ": " << clean.size() << endl;
+//     converter.find(need->second, clean, scaling, offset);
+//     MagLog::debug() << "Need " << need->second << " get " << unit->second << "--->APPLY " << scaling << " and "
+//                     << offset << endl;
+// }
 
 void WebLibrary::print(ostream&) const {}

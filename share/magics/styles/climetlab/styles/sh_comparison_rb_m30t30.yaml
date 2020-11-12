@@ -1,0 +1,67 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : Area fill Level range : -48 to 56 Interval : 4
+      Thickness : 3 Colour : All colours Used for temperature'
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: -30 / 30)'
+    contour_level_list:
+    - -30
+    - -25
+    - -20
+    - -15
+    - -10
+    - -8
+    - -6
+    - -5
+    - -4
+    - -3
+    - -2
+    - -1
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 8
+    - 10
+    - 15
+    - 20
+    - 25
+    - 30
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0,0,255)
+    - rgb(0,0,234)
+    - rgb(0,0,213)
+    - rgb(0,0,192)
+    - rgb(0,0,171)
+    - rgb(0,0,150)
+    - rgb(0,0,129)
+    - rgb(0,0,108)
+    - rgb(0,0,87)
+    - rgb(0,0,66)
+    - rgb(0,0,45)
+    - rgb(0,0,24)
+    - none
+    - rgb(21,0,0)
+    - rgb(42,0,0)
+    - rgb(63,0,0)
+    - rgb(84,0,0)
+    - rgb(105,0,0)
+    - rgb(126,0,0)
+    - rgb(147,0,0)
+    - rgb(168,0,0)
+    - rgb(189,0,0)
+    - rgb(210,0,0)
+    - rgb(231,0,0)
+    - rgb(255,0,0)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: Contour shade (10/-10)
+    grib_automatic_scaling: false
+    grib_missing_value_indicator: 9999
+

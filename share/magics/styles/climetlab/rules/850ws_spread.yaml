@@ -1,0 +1,10 @@
+match:
+- levelist:
+  - '850'
+  paramId: '10'
+  shortName: ws
+  type: es
+styles:
+- sh_blu_f02t30
+- sh_range_f02t30
+

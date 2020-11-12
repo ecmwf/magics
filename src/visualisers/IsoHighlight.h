@@ -71,23 +71,23 @@ private:
 class IsoHighlight : public NoIsoHighlight, public map<double, double>, public IsoHighlightAttributes {
 public:
     IsoHighlight() {}
-    virtual ~IsoHighlight() {}
-    virtual NoIsoHighlight* clone() const {
+    virtual ~IsoHighlight() override {}
+    virtual NoIsoHighlight* clone() const override {
         IsoHighlight* plot = new IsoHighlight();
         plot->copy(*this);
         return plot;
     }
-    virtual void set(const map<string, string>& map) { IsoHighlightAttributes::set(map); }
-    virtual void set(const XmlNode& node) { IsoHighlightAttributes::set(node); }
+    virtual void set(const map<string, string>& map) override { IsoHighlightAttributes::set(map); }
+    virtual void set(const XmlNode& node) override { IsoHighlightAttributes::set(node); }
 
-    virtual bool accept(const string& tag) { return IsoHighlightAttributes::accept(tag); }
-    virtual void visit(Polyline*& line) {
+    virtual bool accept(const string& tag) override { return IsoHighlightAttributes::accept(tag); }
+    virtual void visit(Polyline*& line) override {
         line = new Polyline();
         line->setColour(*this->colour_);
         line->setLineStyle(style_);
         line->setThickness(this->thickness_);
     }
-    virtual void prepare(LevelSelection& levels) {
+    virtual void prepare(LevelSelection& levels) override {
         vector<double> todo;
         clear();
         levels.thinLevels(frequency_, todo);
@@ -96,7 +96,7 @@ public:
         }
     }
 
-    virtual void operator()(Polyline& poly) {
+    virtual void operator()(Polyline& poly) override {
         if (poly.empty())
             return;
 
@@ -112,7 +112,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const {}
+    virtual void print(ostream& s) const override { s << "IsoHighlight[]"; }
 
 private:
     //! Copy constructor - No copy allowed

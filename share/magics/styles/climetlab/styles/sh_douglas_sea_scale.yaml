@@ -1,0 +1,40 @@
+magics:
+  mcont:
+    contour_description: Douglas sea scale
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_label_colour: black
+    contour_label_format: (F4.1)
+    contour_legend_text: Douglas sea scale
+    contour_level_list:
+    - 0
+    - 0.1
+    - 0.5
+    - 1.25
+    - 2.5
+    - 4
+    - 6
+    - 9
+    - 14
+    - 25
+    contour_level_selection_type: level_list
+    contour_line_colour: white
+    contour_min_level: 0
+    contour_reference_level: 0
+    contour_shade: true
+    contour_shade_colour_list:
+    - blue
+    - greenish_blue
+    - sky
+    - yellowish_green
+    - yellow
+    - orange_yellow
+    - orange
+    - red
+    - charcoal
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_shade_min_level: 0
+    contour_title: Douglas sea scale
+

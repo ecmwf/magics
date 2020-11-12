@@ -73,7 +73,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const { out << "CalmIndicator"; }
+    virtual void print(ostream& out) const { out << "CalmIndicator[]"; }
     Symbol* calm_;
     Symbol* dot_;
     Colour colour_;
@@ -99,13 +99,13 @@ private:
 class NoCalmIndicator : public CalmIndicator {
 public:
     NoCalmIndicator() {}
-    ~NoCalmIndicator() {}
-    virtual CalmIndicator* clone() { return new NoCalmIndicator(); }
-    virtual bool accept(const string& node) { return magCompare(node, "nocalm"); }
+    ~NoCalmIndicator() override {}
+    virtual CalmIndicator* clone() override { return new NoCalmIndicator(); }
+    virtual bool accept(const string& node) override { return magCompare(node, "nocalm"); }
 
 
-    void prepare(BasicGraphicsObjectContainer&) {}
-    virtual bool operator()(const PaperPoint&, double x, double y) {
+    void prepare(BasicGraphicsObjectContainer&) override {}
+    virtual bool operator()(const PaperPoint&, double x, double y) override {
         return (((x * x) + (y * y)) < this->below_) ? true : false;
     }
 };

@@ -1,0 +1,13 @@
+match:
+- paramId:
+  - '49'
+  - '228005'
+  shortName:
+  - 10fg
+  - mean10ws
+  type: cd
+styles:
+- sh_mc_wind_f0t80
+- ct_mc_wind_f0t80_black
+- ct_mc_wind_f0t80_blue
+

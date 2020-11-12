@@ -1,0 +1,8 @@
+match:
+- paramId: '228007'
+  shortName: dl
+- long_name: Lake depth
+styles:
+- sh_blue_f05t9000
+- sh_blue_f1t9000
+

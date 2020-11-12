@@ -4,6 +4,8 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
+
         {
             "name": "Python: Current File",
             "type": "python",
@@ -19,5 +21,18 @@
             "processId": "${command:pickProcess}",
             "MIMode": "lldb"
         },
+        {
+            "name": "Debug magics on mac",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/bin/magics",
+            "args": ["debug.yaml"],
+            "cwd": "${workspaceFolder}/regression/climetlab",
+            "MIMode": "lldb",
+            "env": {
+                "MAGPLUS_HOME": "${workspaceFolder}"
+            },
+            "envFile": "${workspaceFolder}/.env"
+        }
     ]
 }

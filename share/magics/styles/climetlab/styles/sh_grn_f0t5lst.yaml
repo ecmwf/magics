@@ -1,0 +1,28 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade, with contours Level list : (0.1/1/2/3/4/5)
+      Colour : green Leaf area index, high vegetation'
+    contour_hilo: false
+    contour_internal_reduction_factor: 4
+    contour_label: false
+    contour_legend_text: 'Contour shade (Level list : (0.1/1/2/3/4/5)'
+    contour_level_list:
+    - 0.1
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - '#eaffe0'
+    - '#aaffad'
+    - '#389257'
+    - '#3e6b00'
+    - '#3e5a33'
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: 'Contour shade (Level list : (0.1/1/2/3/4/5)'
+

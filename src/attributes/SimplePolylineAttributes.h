@@ -25,9 +25,9 @@
 #define SimplePolylineAttributes_H
 
 #include "magics.h"
+#include "Colour.h"
 #include "LevelSelection.h"
 #include "ColourTechnique.h"
-#include "Colour.h"
 namespace magics {
 
 class XmlNode;

@@ -1,9 +1,9 @@
-#!/bin/ksh
+#!/usr/bin/env bash
 
 
 set +x
 
-versions="3.0.1" 
+versions="3.0.1"
 
 ext="py"
 img_ext="png"

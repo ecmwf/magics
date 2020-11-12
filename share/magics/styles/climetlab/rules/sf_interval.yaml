@@ -1,0 +1,33 @@
+match:
+- paramId:
+  - '239'
+  - '240'
+  - '144'
+  shortName:
+  - csf
+  - lsf
+  - sf
+- long_name:
+  - Convective snowfall
+  - Large-scale snowfall
+  - Snowfall
+  standard_name:
+  - lwe_thickness_of_convective_snowfall_amount
+  - lwe_thickness_of_stratiform_snowfall_amount
+  - lwe_thickness_of_large_scale_snowfall_amount
+  - lwe_thickness_of_snowfall_amount
+- standard_name:
+  - lwe_thickness_of_convective_snowfall_amount
+  - lwe_thickness_of_stratiform_snowfall_amount
+  - lwe_thickness_of_large_scale_snowfall_amount
+  - lwe_thickness_of_snowfall_amount
+styles:
+- sh_blured_f05t300lst
+- sh_blured_f1t100lst
+- sh_blured_f1t100lst_dark
+- sh_grnvio_f1t100lst
+- sh_all_f05t300lst
+- sh_blured_f01t500lst
+- sh_blured_f0t300
+- ct_blumag_lst
+

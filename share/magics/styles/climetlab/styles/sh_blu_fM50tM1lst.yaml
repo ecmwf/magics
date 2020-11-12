@@ -1,0 +1,47 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade Level list : (-200/-100/-75/-50/-30/-20/-15/-13/-11/-9/-7/-5/-3/-1)
+      Colour : Blue Used for negative values of vorticity and divergence'
+    contour_highlight: false
+    contour_hilo: false
+    contour_internal_reduction_factor: 7
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: -200 / -1)'
+    contour_level_list:
+    - -200
+    - -100
+    - -75
+    - -50
+    - -30
+    - -20
+    - -15
+    - -13
+    - -11
+    - -9
+    - -7
+    - -5
+    - -3
+    - -1
+    contour_level_selection_type: level_list
+    contour_max_level: -1
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0,0,0.3)
+    - rgb(0,0,0.5)
+    - rgb(0,0,0.7)
+    - rgb(0,0,0.9)
+    - rgb(0,0.15,1)
+    - rgb(0,0.3,1)
+    - rgb(0,0.45,1)
+    - rgb(0,0.6,1)
+    - rgb(0,0.75,1)
+    - rgb(0,0.85,1)
+    - rgb(0.2,0.95,1)
+    - rgb(0.45,1,1)
+    - rgb(0.75,1,1)
+    contour_shade_colour_method: list
+    contour_shade_max_level: -1
+    contour_shade_method: area_fill
+    contour_title: 'Contour shade (Range: -200 / -1)'
+

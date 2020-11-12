@@ -1,0 +1,8 @@
+magics:
+  mcont:
+    contour_description: 'Method : Wind arrows Thickness : 1 Colour : Blue Used for
+      wind'
+    contour_title: Wind arrows (blue)
+    wind_arrow_unit_velocity: 40
+    wind_legend_text: Blue wind arrows
+

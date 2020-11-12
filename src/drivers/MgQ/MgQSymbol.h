@@ -63,7 +63,7 @@ protected:
 class MgQSymbolManager : public QList<MgQSymbolItem*> {
 public:
     MgQSymbolManager(){};
-    ~MgQSymbolManager();
+    ~MgQSymbolManager() override;
 
     MgQSymbolItem* addSymbol(const QString&, const float);
     MgQSymbolItem* getSymbol(const QString&, const float);

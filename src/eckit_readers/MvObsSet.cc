@@ -24,8 +24,9 @@
 //--------------------------------------------------------------------
 
 #include "MvObsSet.h"
+#include "MagException.h"
+#include "MagicsSettings.h"
 
-#include <assert.h>
 #include <cerrno>
 #include <cstring>
 #include <iostream>
@@ -33,6 +34,8 @@
 #ifdef METVIEW_PREPBUFR
 #include "MvPrepBufrPrep.h"
 #endif
+
+using namespace magics;
 
 int MAX_MESSAGE_LENGTH = 32000;  // e maybe delete in the future
 
@@ -135,6 +138,10 @@ bool MvObsSet::Open(const char* aFileName) {
     // Open bufr file
     _ecFile = fopen(aFileName, _IO_mode.c_str());
     if (!_ecFile) {
+        if (MagicsSettings::strict()) {
+            throw CannotOpenFile(aFileName);
+        }
+
         std::cerr << " >>> MvObsSet::Open - ERROR opening file \'" << aFileName << "\' - " << std::strerror(errno)
                   << std::endl;
         return false;
@@ -320,7 +327,7 @@ bool MvObsSet::write(MvObs& anObs) {
 }
 
 bool MvObsSet::writeCompressed(MvObs* obs) {
-    assert(obs);
+    ASSERT(obs);
 
     if (!obs->compressData())
         return false;
@@ -358,7 +365,7 @@ bool MvObsSet::writeCompressed(MvObs* obs) {
 }
 
 bool MvObsSet::writeCompressed(MvObs* obs, const std::vector<int>& subsetVec) {
-    assert(obs);
+    ASSERT(obs);
 
     if (!obs->compressData())
         return false;
@@ -592,7 +599,7 @@ MvObs MvObsSetIterator::operator()(ENextReturn returnType) {
 
 void MvObsSetIterator::setFilterProgressStep(int filterProgressStep) {
     filterProgressStep_ = filterProgressStep;
-    assert(filterProgressStep_ >= 0);
+    ASSERT(filterProgressStep_ >= 0);
     if (filterProgressStep_ == 0)
         filterProgressStep_ = 1;
 }

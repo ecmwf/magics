@@ -1,0 +1,24 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade Level list : (0.25/0.50/0.75/0.99/1.)
+      Colour : Grey to white'
+    contour_interpolation_ceiling: 1
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 0.25 to 1.0)'
+    contour_level_list:
+    - 0.25
+    - 0.5
+    - 0.75
+    - 0.99
+    - 1.1
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_direction: anti_clockwise
+    contour_shade_colour_method: calculate
+    contour_shade_max_level_colour: white
+    contour_shade_method: area_fill
+    contour_shade_min_level: 0
+    contour_shade_min_level_colour: grey
+    contour_title: 'Contour shade (Range: 0.25 to 1.00)'
+

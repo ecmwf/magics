@@ -1,0 +1,12 @@
+match:
+- paramId:
+  - '67'
+  shortName:
+  - lai_hv
+- long_name:
+  - Leaf area index, high vegetation
+- standard_name:
+  - leaf_area_index
+styles:
+- sh_grn_f0t7lst
+

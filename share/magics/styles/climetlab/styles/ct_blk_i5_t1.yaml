@@ -1,0 +1,15 @@
+magics:
+  mcont:
+    contour_description: 'Method : contour Interval : 5 Thickness : 1 Colour : Black
+      Used for msl'
+    contour_highlight_colour: black
+    contour_highlight_thickness: 2
+    contour_hilo: false
+    contour_interval: 5
+    contour_label: false
+    contour_legend_text: Interval 5, no labels
+    contour_level_selection_type: interval
+    contour_line_colour: black
+    contour_line_thickness: 1
+    contour_title: Contour with no labels (interval 5, black)
+

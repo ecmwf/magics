@@ -23,7 +23,7 @@
 #include <gd.h>
 #endif
 
-#include "magics_windef.h"
+#include "magics.h"
 
 using namespace magics;
 
@@ -174,19 +174,19 @@ static inline int check_ppmHeader(ifstream& I, int& col, int& row) {
 */
 MAGICS_NO_EXPORT void BaseDriver::renderImage(const ImportObject& obj) const {
     std::string f         = obj.getFormat();
-    GraphicsFormat format = PNG;
+    GraphicsFormat format = GraphicsFormat::PNG;
     if (magCompare(f, "ps"))
-        format = PS;
+        format = GraphicsFormat::PS;
     else if (magCompare(f, "eps"))
-        format = EPS;
+        format = GraphicsFormat::EPS;
     else if (magCompare(f, "gif"))
-        format = GIF;
+        format = GraphicsFormat::GIF;
     else if (magCompare(f, "jpeg") || magCompare(f, "jpg"))
-        format = JPG;
+        format = GraphicsFormat::JPG;
     else if (magCompare(f, "png"))
-        format = PNG;
+        format = GraphicsFormat::PNG;
     else if (magCompare(f, "svg"))
-        format = SVG;
+        format = GraphicsFormat::SVG;
 
     MFloat width  = 0;
     MFloat height = 0;
@@ -261,7 +261,7 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string& fname, const Gra
     string s2(" ");
     string pixmapFormat("rgb");
 
-    if (format == PS || format == EPS)  // File is PostScript
+    if (format == GraphicsFormat::PS || format == GraphicsFormat::EPS)  // File is PostScript
     {
         string cmd;
         int x1 = 0;

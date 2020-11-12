@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "sim_image_wv",
-    "prefered_units": "C",
+    "prefered_units": "degC",
     "styles": [
       "sim_image_wv_fixed_range"
     ],

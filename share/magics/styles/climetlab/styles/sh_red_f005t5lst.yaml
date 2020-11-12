@@ -1,0 +1,36 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade Level list : (0.05/0.1/0.2/0.3/0.5/1/2/5/10/50)
+      Colour: yellow-red Used for vertical velocity'
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 0.05 / 50 )'
+    contour_level_list:
+    - 0.05
+    - 0.1
+    - 0.2
+    - 0.3
+    - 0.5
+    - 1
+    - 2
+    - 5
+    - 10
+    - 50
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(1,1,0)
+    - rgb(1,0.85,0)
+    - rgb(1,0.7,0)
+    - rgb(1,0.55,0)
+    - rgb(1,0.4,0)
+    - rgb(1,0.1,0)
+    - rgb(0.85,0,0)
+    - rgb(0.6,0,0)
+    - rgb(0.4,0,0)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: 'Contour shade (Range: 0.05 / 50 )'
+

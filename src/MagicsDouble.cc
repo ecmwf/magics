@@ -82,33 +82,33 @@
 
 
 #include <iostream>
+#include "magics_export.h"
 
 extern "C" {
-#include <magics_api.h>
 
+void psetr_double(const char* namep, const double* value, int namel);
+void pset1r_double(const char* namep, const double* data, const int* dim, int namel);
+void pset2r_double(const char* namep, const double* data, const int* dim1, const int* dim2, int namel);
+void pset3r_double(const char* namep, const double* data, const int* dim1, const int* dim2, const int* dim3, int namel);
+void penqr_double(const char* namep, double* value, int namel);
 
 MAGICS_EXPORT void psetr_(char* name, double* value, int length) {
-    std::string n(name, length);
-    mag_setr(n.c_str(), *value);
+    psetr_double(name, value, length);
 }
 
 MAGICS_EXPORT void pset1r_(char* name, double* data, int* dim, int length) {
-    std::string n(name, length);
-    mag_set1r(n.c_str(), data, *dim);
+    pset1r_double(name, data, dim, length);
 }
 
 MAGICS_EXPORT void pset2r_(char* name, double* data, int* dim, int* dim2, int length) {
-    std::string n(name, length);
-    mag_set2r(n.c_str(), data, *dim, *dim2);
+    pset2r_double(name, data, dim, dim2, length);
 }
 
 MAGICS_EXPORT void pset3r_(char* name, double* data, int* dim, int* dim2, int* dim3, int length) {
-    std::string n(name, length);
-    mag_set3r(n.c_str(), data, *dim, *dim2, *dim3);
+    pset3r_double(name, data, dim, dim2, dim3, length);
 }
 
 MAGICS_EXPORT void penqr_(char* name, double* value, int length) {
-    std::string n(name, length);
-    mag_enqr(n.c_str(), value);
+    penqr_double(name, value, length);
 }
 }

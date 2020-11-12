@@ -1,11 +1,10 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
+	"folders": [{
+		"path": "."
+	}],
 	"settings": {
 		"files.associations": {
+			"*.make": "makefile",
 			"iosfwd": "cpp",
 			"locale": "cpp",
 			"queue": "cpp",
@@ -91,7 +90,22 @@
 			"concepts": "cpp",
 			"memory_resource": "cpp",
 			"ranges": "cpp",
-			"stop_token": "cpp"
-		}
+			"stop_token": "cpp",
+			"cfenv": "cpp",
+			"regex": "cpp",
+			"shared_mutex": "cpp",
+			"__functional_03": "cpp",
+			"__memory": "cpp",
+			"filesystem": "cpp"
+		},
+		"cmake.buildDirectory": "${workspaceFolder}/../../build/${workspaceFolderBasename}",
+		"c-cpp-flylint.flexelint.enable": false,
+		"c-cpp-flylint.cppcheck.extraArgs": [
+			"--suppress=noExplicitConstructor",
+			"--suppress=shadowFunction",
+			"--suppress=functionVariable",
+			"--suppress=functionConst",
+			"--suppress=functionStatic"
+		]
 	}
 }

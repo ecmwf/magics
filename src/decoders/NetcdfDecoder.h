@@ -41,27 +41,28 @@ class Transformation;
 class NetcdfDecoder : public Decoder, public Data, public NetcdfDecoderAttributes {
 public:
     NetcdfDecoder();
-    virtual ~NetcdfDecoder();
+    virtual ~NetcdfDecoder() override;
 
-    void decode() {}
+    void decode() override {}
     // implements BaseSceneObject interface
-    virtual void set(const map<string, string>& params) { NetcdfDecoderAttributes::set(params); }
-    virtual void set(const XmlNode& node) { NetcdfDecoderAttributes::set(node); }
+    virtual void set(const map<string, string>& params) override { NetcdfDecoderAttributes::set(params); }
+    virtual void set(const XmlNode& node) override { NetcdfDecoderAttributes::set(node); }
     virtual void visit(MagnifierVisitor&);
 
-    virtual PointsHandler& points(const Transformation&, bool);
+    virtual PointsHandler& points(const Transformation&, bool) override;
 
-    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all) {
+    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out,
+                          bool all) override {
         customisedPoints(t, n, out);
     }
 
-    void getReady(const Transformation& transformation) { (*interpretor_).getReady(transformation); }
+    void getReady(const Transformation& transformation) override { (*interpretor_).getReady(transformation); }
 
-    void visit(Transformation& transformation) { (*interpretor_).visit(transformation); }
+    void visit(Transformation& transformation) override { (*interpretor_).visit(transformation); }
 
-    void getInfo(map<string, string>&);
+    void getInfo(map<string, string>&) override;
 
-    MatrixHandler& matrix() {
+    MatrixHandler& matrix() override {
         MagLog::dev() << "NetcdfDecoder::matrix! "
                       << "\n";
         if (!data_)
@@ -81,7 +82,7 @@ public:
         (*interpretor_).customisedPoints(transformation, request, out, thinningFactor_);
     }
 
-    void visit(AnimationStep& step) {
+    void visit(AnimationStep& step) override {
         try {
             MatrixHandler& data = matrix();
             // Information about contains...
@@ -93,14 +94,17 @@ public:
         catch (...) {
         }
     }
-    void visit(MetaDataCollector&);
-    void visit(ValuesCollector&);
-    void visit(TextVisitor&);
+    void visit(MetaDataCollector&) override;
+    void visit(ValuesCollector&) override;
+    void visit(TextVisitor&) override;
+
+    string getUnits() const override;
+    void applyScaling(double scaling, double offset) override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream
     //! (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
     PointsList points_;
     Matrix* data_;
@@ -122,27 +126,27 @@ private:
 class NetcdfLoop : public DataLoop {
 public:
     NetcdfLoop(NetcdfDecoder* netcdf) : netcdf_(netcdf) {}
-    virtual ~NetcdfLoop() {}
-    void set(const map<string, string>& map) {}  // NetcdfLoopAttributes::set(map); }
-    void set(const XmlNode& node) {}             // NetcdfLoopAttributes::set(node); }
+    virtual ~NetcdfLoop() override {}
+    void set(const map<string, string>& map) override {}  // NetcdfLoopAttributes::set(map); }
+    void set(const XmlNode& node) override {}             // NetcdfLoopAttributes::set(node); }
 
     void set(NetcdfDecoder* netcdf) { netcdf_ = netcdf; }
 
-    Data* current() {
+    Data* current() override {
         NetcdfDecoder* current = netcdf_;
         netcdf_                = 0;
         return current;
     }
-    bool hasMore() { return (netcdf_ != 0); }
-    void next() { netcdf_ = 0; }
+    bool hasMore() override { return (netcdf_ != 0); }
+    void next() override { netcdf_ = 0; }
 
-    void visit(Transformation& transformation) {
+    void visit(Transformation& transformation) override {
         if (netcdf_)
             netcdf_->visit(transformation);
     }
 
 protected:
-    virtual void print(ostream&) const {}
+    virtual void print(ostream& s) const override { s << "NetcdfDecoder[]"; }
     NetcdfDecoder* netcdf_;
 
 private:

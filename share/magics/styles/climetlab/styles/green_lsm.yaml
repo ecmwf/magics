@@ -1,0 +1,12 @@
+magics:
+  mcont:
+    contour_level_selection_type: level_list
+    contour_level_list: [-0.000001, 0.5, 0.7, 0.9, 1.00001]
+    # contour_interpolation_floor: 0
+    # contour_interpolation_ceiling: 0.9999
+    contour_shade: on
+    contour_shade_technique: grid_shading
+    contour_shade_method: area_fill
+    contour_shade_colour_method: list
+    contour_shade_colour_list: ["#41b6c4", "#74c476", "#238b45", "#00441b"]
+    contour: off

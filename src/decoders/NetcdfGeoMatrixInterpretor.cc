@@ -26,7 +26,9 @@
 #include "ContourLibrary.h"
 #include "Factory.h"
 #include "Layer.h"
+#include "MagicsSettings.h"
 #include "NetcdfData.h"
+
 using namespace magics;
 
 NetcdfGeoMatrixInterpretor::NetcdfGeoMatrixInterpretor() {}
@@ -56,31 +58,20 @@ string NetcdfGeoMatrixInterpretor::proj4Detected(Netcdf& netcdf) {
 bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
     if (*matrix)
         return false;
-
     Netcdf netcdf(path_, dimension_method_);
 
     string proj4 = proj4Detected(netcdf);
 
 
     if (proj4.empty()) {
-        matrix_ = new Matrix();
+        matrix_.reset(new Matrix());
         matrix_->akimaEnabled();
     }
     else {
-        matrix_ = new Proj4Matrix(proj4);
+        matrix_.reset(new Proj4Matrix(proj4));
     }
-    *matrix = matrix_;
+    *matrix = matrix_.get();
 
-    if (automatic_scaling_) {
-        WebLibrary settings;
-        MetaDataCollector needs;
-        settings.askId(needs);
-        for (auto need = needs.begin(); need != needs.end(); ++need) {
-            need->second = getAttribute(field_, need->first, "");
-        }
-
-        settings.getScaling(needs, scaling_, offset_);
-    }
 
     // get the data ...
     try {
@@ -130,14 +121,15 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
                 i++;
             }
         }
-        matrix_->multiply(scaling_);
-        matrix_->plus(offset_);
+
         matrix_->setMapsAxis();
     }
     catch (MagicsException& e) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << e << "\n";
-        delete matrix_;
-        matrix_ = NULL;
+        matrix_.reset(nullptr);
         return false;
     }
     return true;
@@ -211,6 +203,9 @@ bool NetcdfGeoMatrixInterpretor::interpretAsPoints(PointsList& list) {
         MagLog::dev() << "everything ok" << endl;
     }
     catch (MagicsException& e) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << e << "\n";
         return false;
     }
@@ -313,6 +308,9 @@ void NetcdfGeoMatrixInterpretor::customisedPoints(const Transformation& transfor
         MagLog::dev() << "everything ok" << endl;
     }
     catch (MagicsException& e) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << e << "\n";
     }
 }

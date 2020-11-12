@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": ["mc_2tmean","mc_2tmax","mc_2tmin"],
-    "prefered_units": "C",
+    "prefered_units": "degC",
     "styles": [
       "sh_mc_t_fM80t60",
       "ct_mc_t_fM80t60_black",

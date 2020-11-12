@@ -18,14 +18,15 @@
 #ifndef SystemInfo_H
 #define SystemInfo_H
 
-#include <magics.h>
 #include <cstdlib>
-#ifndef MAGICS_ON_WINDOWS
+#include "magics.h"
+
+#ifdef MAGICS_ON_WINDOWS
+#include <lmcons.h>
+#include "windux.h"
+#else
 #include <pwd.h>
 #include <unistd.h>
-#else
-#include <lmcons.h>
-#include "win_time.h"
 #endif
 
 namespace magics {

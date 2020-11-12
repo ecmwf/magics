@@ -59,8 +59,8 @@ class LatLonProjP : public ProjP {
 public:
     LatLonProjP() {}
     LatLonProjP(const string& to) : ProjP("EPSG:4326", to) {}
-    int convert(double&, double&) const;
-    int revert(double&, double&) const;
+    int convert(double&, double&) const override;
+    int revert(double&, double&) const override;
 };
 
 }  // namespace magics

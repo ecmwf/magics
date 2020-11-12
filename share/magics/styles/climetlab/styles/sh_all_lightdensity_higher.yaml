@@ -1,0 +1,27 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: Lightning density - Default view
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 0.1 / 500)'
+    contour_level_list:
+    - 2
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    - 500
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0.9942,0.02538,0.1384)
+    - rgb(0.9942,0.4408,0.01758)
+    - rgb(0.9902,0.6293,0.005859)
+    - rgb(0.9961,0.8479,0.007828)
+    - rgb(0.9961,0.9796,0.007828)
+    - rgb(0.9484,0.9367,0.7143)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: 'Contour shade (Higher range: 2/500)'
+

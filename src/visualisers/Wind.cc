@@ -57,6 +57,9 @@ void Wind::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
         method = MagTranslator<string, ThinningMethod>()(this->thinning_method_);
     }
     catch (...) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
     }
     if (!method)
         method = new BasicThinningMethod();

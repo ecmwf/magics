@@ -34,27 +34,27 @@ class Akima474 : public MatrixHandler {
 public:
     Akima474(const AbstractMatrix& matrix, const Akima474MethodAttributes&);
 
-    ~Akima474(){};
+    ~Akima474() override{};
 
 
-    double operator()(int i, int j) const;
+    double operator()(int i, int j) const override;
     /*
         double interpolate(double  i, double  j) const {
             return   mono_.interpolate(i,j);
        }
     */
-    int rows() const { return nrows_; }
-    int columns() const { return ncols_; }
+    int rows() const override { return nrows_; }
+    int columns() const override { return ncols_; }
 
-    double regular_row(int i) const;
-    double regular_column(int j) const;
+    double regular_row(int i) const override;
+    double regular_column(int j) const override;
 
-    double row(int, int) const;
-    double column(int, int) const;
+    double row(int, int) const override;
+    double column(int, int) const override;
 
-    double missing() const { return mono_.missing(); }
+    double missing() const override { return mono_.missing(); }
 
-#if 0 
+#if 0
      //Code from Spring. Does not work for non-regular spaced
      //interval. Remove this later.
 
@@ -95,30 +95,30 @@ class Akima474Method : public ContourMethod, public Akima474MethodAttributes {
 public:
     Akima474Method() { MagLog::dev() << "Akima474Method::Akima474Method-->" << *this << "\n"; }
 
-    virtual ~Akima474Method() {}
+    virtual ~Akima474Method() override {}
 
-    ContourMethod* clone() const {
+    ContourMethod* clone() const override {
         Akima474Method* method = new Akima474Method();
         method->copy(*this);
         return method;
     }
 
 
-    virtual void set(const map<string, string>& map) { Akima474MethodAttributes::set(map); }
+    virtual void set(const map<string, string>& map) override { Akima474MethodAttributes::set(map); }
 
-    virtual void set(const XmlNode& node) { Akima474MethodAttributes::set(node); }
-    virtual bool accept(const string& node) {
+    virtual void set(const XmlNode& node) override { Akima474MethodAttributes::set(node); }
+    virtual bool accept(const string& node) override {
         return Akima474MethodAttributes::accept(node);
         ;
     }
 
-    virtual MatrixHandler* handler(const AbstractMatrix& matrix, const BasicGraphicsObjectContainer&) {
+    virtual MatrixHandler* handler(const AbstractMatrix& matrix, const BasicGraphicsObjectContainer&) override {
         return new Akima474(matrix, *this);
     }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const {
+    virtual void print(ostream& out) const override {
         out << "Akima474Method[";
         Akima474MethodAttributes::print(out);
         out << "]";

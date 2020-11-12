@@ -74,7 +74,7 @@ void MagnifierVisitor::add(const PaperPoint& point) {
         font.colour(*text_font_colour_);
         font.size(text_font_size_);
         values_->font(font);
-        values_->position(TextSymbol::M_BELOW);
+        values_->position(TextPosition::BELOW);
         values_->setSymbol(symbol_name_);  // A little cross
         values_->setHeight(symbol_height_);
         values_->setColour(*symbol_colour_);

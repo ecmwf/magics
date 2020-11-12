@@ -46,20 +46,22 @@ WebFormat.cc
 WebFormat.h
 XmlMagics.cc
 XmlMagics.h
+MagicsSettings.cc
+MagicsSettings.h
 )
 if ( metview )
-	list (APPEND metview_include 
-			basic/MagicsObserver.h 
+	list (APPEND metview_include
+			basic/MagicsObserver.h
 			basic/MagicsEvent.h
 			basic/RootSceneNode.h
 			basic/BasicSceneObject.h
 			basic/BasicGraphicsObject.h
 			basic/DisplayManager.h
 			basic/Layer.h
-			basic/SceneVisitor.h 
-			basic/XmlMagics.h 
-			basic/LegendVisitor.h 
-			basic/Visdef.h 
+			basic/SceneVisitor.h
+			basic/XmlMagics.h
+			basic/LegendVisitor.h
+			basic/Visdef.h
 			)
 	set( metview_include ${metview_include} PARENT_SCOPE )
 endif()

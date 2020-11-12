@@ -1,4 +1,4 @@
-#!/bin/ksh
+#!/usr/bin/env bash
 
 set -x
 
@@ -67,7 +67,7 @@ do
 #    ps2epsi $psfile "examples/fortran/epsi/$bname.epsi"
     convert -density $full_density $antialias $rotation $convert_args $psfile "$outdir/$bname.png"
 
-    # for the tutorial, we want to have slightly smaller images for the HTML pages 
+    # for the tutorial, we want to have slightly smaller images for the HTML pages
     if [[ $purpose = "tutorial" ]]
     then
         thumbname="${bname}_thumb"
@@ -84,7 +84,7 @@ do
 #    ps2epsi $psfile "examples/fortran/epsi/$bname.epsi"
     convert -density $full_density $antialias $rotation $convert_args $psfile "$outdir/$bname.png"
 
-    # for the tutorial, we want to have slightly smaller images for the HTML pages 
+    # for the tutorial, we want to have slightly smaller images for the HTML pages
     if [[ $purpose = "tutorial" ]]
     then
         thumbname="${bname}_thumb"
@@ -101,7 +101,7 @@ do
 #    ps2epsi $psfile "examples/magml/epsi/$bname.epsi"
     convert -density $full_density $antialias $rotation $convert_args $psfile "$outdir/$bname.png"
 
-    # for the tutorial, we want to have slightly smaller images for the HTML pages 
+    # for the tutorial, we want to have slightly smaller images for the HTML pages
     if [[ $purpose = "tutorial" ]]
     then
         thumbname="${bname}_thumb"
@@ -118,7 +118,7 @@ do
 #    ps2epsi $psfile "examples/magml/epsi/$bname.epsi"
     convert -density $full_density $antialias $rotation $convert_args $psfile "$outdir/$bname.png"
 
-    # for the tutorial, we want to have slightly smaller images for the HTML pages 
+    # for the tutorial, we want to have slightly smaller images for the HTML pages
     if [[ $purpose = "tutorial" ]]
     then
         thumbname="${bname}_thumb"
@@ -151,5 +151,3 @@ done
 #    convert -rotate 270 $convert_args $file out.png
 #    mv out.png $file
 #done
-
-

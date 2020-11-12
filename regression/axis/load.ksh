@@ -1,14 +1,14 @@
-#!/bin/ksh
+#!/usr/bin/env bash
 
-versions="current++ new++" 
-src="axis01 axis02 automatic_axis" 
-output="ps" 
-suffix="F" 
+versions="current++ new++"
+src="axis01 axis02 automatic_axis"
+output="ps"
+suffix="F"
 dir=`pwd`
 name=`basename $dir`
 
 
-for s in $src 
+for s in $src
 do
 for v in $versions
 do

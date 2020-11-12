@@ -1,0 +1,38 @@
+magics:
+  mcont:
+    contour: true
+    contour_description: 'Range: 0 to 1000'
+    contour_highlight: true
+    contour_highlight_colour: black
+    contour_highlight_frequency: 4
+    contour_highlight_thickness: 4
+    contour_hilo: false
+    contour_label_colour: black
+    contour_label_frequency: 1
+    contour_legend_text: 'Black contour (Range: 0/1000 KW/m)'
+    contour_level_list:
+    - 0
+    - 40
+    - 80
+    - 120
+    - 160
+    - 200
+    - 240
+    - 280
+    - 320
+    - 360
+    - 400
+    - 440
+    - 480
+    - 520
+    - 560
+    - 600
+    - 640
+    - 800
+    - 1000
+    contour_level_selection_type: level_list
+    contour_line_colour: black
+    contour_line_thickness: 3
+    contour_shade: false
+    contour_title: 'Black contour (Range: 0/1000)'
+

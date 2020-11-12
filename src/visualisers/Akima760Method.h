@@ -34,30 +34,30 @@ class Akima760 : public MatrixHandler {
 public:
     Akima760(const AbstractMatrix& matrix, const Akima760MethodAttributes&);
 
-    ~Akima760();
+    ~Akima760() override;
 
-    double operator()(int i, int j) const;
-    int rowIndex(double r) const;
-    int columnIndex(double r) const;
-    void boundRow(double r, double& row1, int& index1, double& row2, int& index2) const;
+    double operator()(int i, int j) const override;
+    int rowIndex(double r) const override;
+    int columnIndex(double r) const override;
+    void boundRow(double r, double& row1, int& index1, double& row2, int& index2) const override;
 
-    void boundColumn(double r, double& column1, int& index1, double& column2, int& index2) const;
+    void boundColumn(double r, double& column1, int& index1, double& column2, int& index2) const override;
     /*
     double interpolate(double  i, double  j) const {
         return this->matrix_.interpolate(i,j);
    }
    */
 
-    int rows() const { return nrows_; }
-    int columns() const { return ncols_; }
+    int rows() const override { return nrows_; }
+    int columns() const override { return ncols_; }
 
-    double regular_row(int i) const;
-    double regular_column(int j) const;
+    double regular_row(int i) const override;
+    double regular_column(int j) const override;
 
-    double column(int, int) const;
-    double row(int, int) const;
+    double column(int, int) const override;
+    double row(int, int) const override;
 
-    double missing() const { return this->matrix_.missing(); }
+    double missing() const override { return this->matrix_.missing(); }
 
     // Compute partial derivatives of a bivariate function
     // on a rectangular grid
@@ -104,29 +104,29 @@ private:
 class Akima760Method : public ContourMethod, public Akima760MethodAttributes {
 public:
     Akima760Method() { MagLog::dev() << "Akima760Method::Akima760Method-->" << *this << "\n"; }
-    virtual ~Akima760Method() {}
+    virtual ~Akima760Method() override {}
 
-    ContourMethod* clone() const {
+    ContourMethod* clone() const override {
         Akima760Method* method = new Akima760Method();
         method->copy(*this);
         return method;
     }
 
-    virtual void set(const map<string, string>& map) { Akima760MethodAttributes::set(map); }
+    virtual void set(const map<string, string>& map) override { Akima760MethodAttributes::set(map); }
 
-    virtual void set(const XmlNode& node) { Akima760MethodAttributes::set(node); }
-    virtual bool accept(const string& node) {
+    virtual void set(const XmlNode& node) override { Akima760MethodAttributes::set(node); }
+    virtual bool accept(const string& node) override {
         return Akima760MethodAttributes::accept(node);
         ;
     }
 
-    virtual MatrixHandler* handler(const AbstractMatrix& matrix, const BasicGraphicsObjectContainer&) {
+    virtual MatrixHandler* handler(const AbstractMatrix& matrix, const BasicGraphicsObjectContainer&) override {
         return new Akima760(matrix, *this);
     }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const {
+    virtual void print(ostream& out) const override {
         out << "Akima760Method[";
         Akima760MethodAttributes::print(out);
         out << "]";

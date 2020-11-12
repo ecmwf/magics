@@ -11,76 +11,76 @@
 #include "MagPlus.h"
 #include <iostream>
 
-#include <AxisWrapper.h>
-#include <CoastlinesWrapper.h>
-#include <FortranSceneNodeWrapper.h>
-#include <FortranViewNodeWrapper.h>
-#include <MvRootSceneNodeWrapper.h>
-#include <TaylorGridWrapper.h>
-#include <TephiGridWrapper.h>
-#include <VisualAction.h>
+#include "AxisWrapper.h"
+#include "CoastlinesWrapper.h"
+#include "FortranSceneNodeWrapper.h"
+#include "FortranViewNodeWrapper.h"
 #include "ImportObjectHandlerWrapper.h"
 #include "MetaDataWrapper.h"
+#include "MvRootSceneNodeWrapper.h"
+#include "TaylorGridWrapper.h"
+#include "TephiGridWrapper.h"
+#include "VisualAction.h"
 
 
-#include <GribDecoderWrapper.h>
-#include <GribLoopWrapper.h>
+#include "GribDecoderWrapper.h"
+#include "GribLoopWrapper.h"
 
 
 #ifdef HAVE_NETCDF
-#include <NetcdfDecoderWrapper.h>
+#include "NetcdfDecoderWrapper.h"
 #endif
 
-#include <BinningObjectWrapper.h>
-#include <GeoPointsDecoderWrapper.h>
+#include "BinningObjectWrapper.h"
+#include "GeoPointsDecoderWrapper.h"
 
 #ifdef HAVE_ODB
-#include <OdaGeoDecoderWrapper.h>
-#include <OdaXYDecoderWrapper.h>
+#include "OdaGeoDecoderWrapper.h"
+#include "OdaXYDecoderWrapper.h"
 #endif
 
 
-#include <ObsDecoderWrapper.h>
-#include <ObsPlottingWrapper.h>
+#include "ObsDecoderWrapper.h"
+#include "ObsPlottingWrapper.h"
 
 
-#include <ContourWrapper.h>
-#include <GeoJSonWrapper.h>
-#include <ImportActionWrapper.h>
-#include <ImportPlotWrapper.h>
-#include <InputDataWrapper.h>
-#include <TableDecoderWrapper.h>
+#include "ContourWrapper.h"
+#include "GeoJSonWrapper.h"
+#include "ImportActionWrapper.h"
+#include "ImportPlotWrapper.h"
+#include "InputDataWrapper.h"
+#include "TableDecoderWrapper.h"
 
-#include <LegendVisitorWrapper.h>
-#include <TextVisitor.h>
-#include <TextVisitorWrapper.h>
+#include "LegendVisitorWrapper.h"
+#include "TextVisitor.h"
+#include "TextVisitorWrapper.h"
 
-#include <GraphPlottingWrapper.h>
-#include <MultiVisdef.h>
-#include <SymbolPlottingWrapper.h>
-#include <WindWrapper.h>
+#include "GraphPlottingWrapper.h"
+#include "MultiVisdef.h"
+#include "SymbolPlottingWrapper.h"
+#include "WindWrapper.h"
 
-#include <EmagramGrid.h>
-#include <EmagramGridWrapper.h>
-#include <SkewtGrid.h>
-#include <SkewtGridWrapper.h>
+#include "EmagramGrid.h"
+#include "EmagramGridWrapper.h"
+#include "SkewtGrid.h"
+#include "SkewtGridWrapper.h"
 
-#include <UserPoint.h>
 #include "MagJSon.h"
 #include "MagicsEvent.h"
+#include "UserPoint.h"
 
-#include <PostScriptDriverWrapper.h>
+#include "PostScriptDriverWrapper.h"
 
 #ifdef HAVE_CAIRO
-#include <CairoDriverWrapper.h>
+#include "CairoDriverWrapper.h"
 #endif
 
-#include <GeoJsonDriverWrapper.h>
-#include <KMLDriverWrapper.h>
-#include <SVGDriverWrapper.h>
+#include "GeoJsonDriverWrapper.h"
+#include "KMLDriverWrapper.h"
+#include "SVGDriverWrapper.h"
 
 #ifdef MAGICS_QT
-#include <QtDriver.h>
+#include "QtDriver.h"
 #endif
 
 
@@ -823,7 +823,6 @@ bool MagPlus::binning(magics::MagRequest& in) {
 }
 
 bool MagPlus::grib(magics::MagRequest& in) {
-
     MagLog::dev() << "add grib" << endl;
     in.print();
 
@@ -983,7 +982,6 @@ void MagPlus::setIconInfo(magics::MagRequest& mv, MetviewIcon& object) {
 }
 
 bool MagPlus::gribloop(magics::MagRequest& in) {
-
     MagLog::dev() << "add gribloop" << endl;
     in.print();
     string loop("loop");
@@ -1398,7 +1396,6 @@ bool MagPlus::geojson(magics::MagRequest& in) {
 }
 
 bool MagPlus::bufr(magics::MagRequest& in) {
-
     /*
     // Extract the path ..
     magics::MagRequest record = in("RECORD");
@@ -1461,7 +1458,6 @@ bool MagPlus::graph(magics::MagRequest& in) {
 }
 
 bool MagPlus::obs(magics::MagRequest& in) {
-
     ObsPlottingWrapper visdef;
 
     visdef.set(in);
@@ -1469,7 +1465,6 @@ bool MagPlus::obs(magics::MagRequest& in) {
     MagLog::dev() << "add obs" << *visdef.object() << endl;
     top()->visdef(visdef.object());
     pop();
-
 
 
     return false;  // do not exit
