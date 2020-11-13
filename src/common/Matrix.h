@@ -437,7 +437,9 @@ class ProjectedMatrix : public Matrix {
 public:
     ProjectedMatrix(int rows, int columns);
 
-    MatrixHandler* getReady(const Transformation& transformation) const override { return Matrix::getReady(transformation); }
+    MatrixHandler* getReady(const Transformation& transformation) const override {
+        return Matrix::getReady(transformation);
+    }
     void getReady();  // Prepare the matrix ...
 
     vector<double>& values() const { return values_; }

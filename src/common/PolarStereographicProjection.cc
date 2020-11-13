@@ -691,7 +691,7 @@ void PolarStereographicProjection::centre(double width, double height) {
 */
 void PolarStereographicProjection::thin(MatrixHandler& matrix, double x, double y, vector<UserPoint>& out) const {
     Transformation::thin(matrix, x, y, out);
-    return; // FIXME: dead code below
+    return;  // FIXME: dead code below
     int yfactor = (int)ceil((float)x);
 
     int columns = matrix.columns();

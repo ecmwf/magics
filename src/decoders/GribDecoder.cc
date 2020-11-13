@@ -2359,7 +2359,9 @@ class GribEpsNumberInfoHandler : public TitleFieldHandler {
 public:
     GribEpsNumberInfoHandler() {}
     ~GribEpsNumberInfoHandler() {}
-    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib) override { title.back() += "epsnumber?"; }
+    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib) override {
+        title.back() += "epsnumber?";
+    }
 };
 
 class GribUnitHandler : public TitleFieldHandler {

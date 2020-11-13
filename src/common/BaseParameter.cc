@@ -21,7 +21,9 @@
 
 
 #include "BaseParameter.h"
+#include "MagTranslator.h"
 #include "ParameterManager.h"
+#include "Translator.h"
 
 using namespace magics;
 
@@ -34,6 +36,31 @@ BaseParameter::BaseParameter(const string& name) : name_(name) {
 BaseParameter::~BaseParameter() {}
 
 void BaseParameter::set(const double& value) {
+    // See first if we can accept int instead
+    double int_value = value;
+    if (type() == getType(int_value) && int(value) == value) {
+        try {
+            set(int_value);
+            return;
+        }
+        catch (MistmatchType&) {
+            // Throw the original mismatch error
+        }
+    }
+
+    // See first if we can accept int instead
+    std::string str_value = Translator<double, string>()(value);
+    if (type() == getType(str_value)) {
+        try {
+            set(str_value);
+            return;
+        }
+        catch (MistmatchType&) {
+            // Throw the original mismatch error
+        }
+    }
+
+
     throw MistmatchType(name_, getType(value), type());
 }
 
@@ -96,6 +123,33 @@ void BaseParameter::set(const int& value) {
         }
     }
 
+    // See first if we can accept int instead
+    std::string str_value = Translator<int, string>()(value);
+    if (type() == getType(str_value)) {
+        try {
+            set(str_value);
+            return;
+        }
+        catch (MistmatchType&) {
+            // Throw the original mismatch error
+        }
+    }
+
+    bool bool_value = false;
+    if (type() == getType(bool_value)) {
+        if (value == 0 || value == 1) {
+            bool_value = value != 0;
+
+            try {
+                set(bool_value);
+                return;
+            }
+            catch (MistmatchType&) {
+                // Throw the original mismatch error
+            }
+        }
+    }
+
     throw MistmatchType(name_, getType(value), type());
 }
 
@@ -139,10 +193,7 @@ void BaseParameter::get(magvector<long>& value) const {
 void BaseParameter::set(const string& value) {
     magvector<string> values;
     if (type() == getType(values)) {
-        for (auto v : values) {
-            values.push_back(v);
-        }
-
+        values.push_back(value);
         try {
             set(values);
             return;
@@ -151,6 +202,25 @@ void BaseParameter::set(const string& value) {
             // Throw the original mismatch error
         }
     }
+
+    bool bool_value = false;
+    if (type() == getType(bool_value)) {
+        string val = lowerCase(value);
+
+        if (val == "true" || val == "false" || val == "on" || val == "off" || val == "yes" || val == "no" ||
+            val == "1" || val == "0") {
+            bool_value = MagTranslator<string, bool>()(value);
+
+            try {
+                set(bool_value);
+                return;
+            }
+            catch (MistmatchType&) {
+                // Throw the original mismatch error
+            }
+        }
+    }
+
     throw MistmatchType(name_, getType(value), type());
 }
 
@@ -163,6 +233,7 @@ void BaseParameter::get(string& value) const {
 }
 
 void BaseParameter::set(const magvector<string>& value) {
+    std::cout << "++++" << std::endl;
     throw MistmatchType(name_, getType(value), type());
 }
 
