@@ -216,7 +216,7 @@ void MagicsCalls::raw() {
 }
 
 void MagicsCalls::set_python() {
-    strict(true);
+    MagicsSettings::compatibility(false);
 }
 
 void MagicsCalls::symb() {
@@ -512,10 +512,10 @@ const char* MagicsCalls::detect(const std::string& data, const std::string& dime
 }
 
 
-void MagicsCalls::strict(bool on) {
+void MagicsCalls::strict_mode() {
     // TODO: Come back
-    MagicsSettings::compatibility(!on);
-    MagicsSettings::strict(on);
+
+    MagicsSettings::strict(true);
 }
 
 }  // namespace magics

@@ -148,6 +148,7 @@ PYTHON_VOID(plot)
 PYTHON_VOID(print)
 PYTHON_VOID(raw)
 PYTHON_VOID(set_python)  // TODO: review name
+PYTHON_VOID(strict_mode)  // TODO: review name
 PYTHON_VOID(symb)
 PYTHON_VOID(table)
 PYTHON_VOID(taylor)

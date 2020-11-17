@@ -107,7 +107,7 @@ public:
 
     static const char* detect(const std::string& data, const std::string& dimension);
 
-    static void strict(bool = true);
+    static void strict_mode();
 };
 
 

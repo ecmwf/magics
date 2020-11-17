@@ -34,6 +34,9 @@ bool MagicsSettings::strict() {
 }
 
 void MagicsSettings::strict(bool s) {
+    if(s) {
+        instance().compatibility_ = false;
+    }
     instance().strict_ = s;
 }
 
