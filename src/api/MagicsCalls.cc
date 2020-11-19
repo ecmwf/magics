@@ -113,7 +113,7 @@ void MagicsCalls::geo() {
 }
 
 void MagicsCalls::geojson() {
-    NOTIMP;
+    FortranMagics::instance().geojson();;
 }
 
 void MagicsCalls::graph() {
