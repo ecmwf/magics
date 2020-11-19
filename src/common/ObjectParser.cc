@@ -210,6 +210,14 @@ Value ObjectParser::parseString(char quote) {
         }
         else {
             if (c == quote) {
+                if (yaml_ && quote == '\'') {
+                    if (peek() == '\'') {
+                        consume('\'');
+                        s += c;
+                        continue;
+                    }
+                }
+
                 comments_ = save;
                 return Value(s);
             }
@@ -337,7 +345,7 @@ Value ObjectParser::parseJSON() {
 }
 
 
-ObjectParser::ObjectParser(std::istream& in, bool comments) : StreamParser(in, comments) {}
+ObjectParser::ObjectParser(std::istream& in, bool comments, bool yaml) : StreamParser(in, comments), yaml_(yaml) {}
 
 Value ObjectParser::parse() {
     Value v = parseValue();

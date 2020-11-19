@@ -27,7 +27,7 @@ plot:
     axis_days_label_colour: '#0b265a'
     axis_days_label_height: 0.4
     axis_grid: true
-    axis_grid_colour: 'Rgb(0.5, 0.5, 0.5)'
+    axis_grid_colour: Rgb(0.5, 0.5, 0.5)
     axis_grid_line_style: dash
     axis_line_colour: '#0b265a'
     axis_minor_tick: true
@@ -102,8 +102,8 @@ plot:
     text_justification: left
     text_lines:
     - ECMWF Ensemble forecasts <json_info key='station_name'/>
-    - 'Location: <json_info key="location"/>'
-    - 'Base Time: <json_info key="date"/>'
+    - 'Location: <json_info key=''location''/>'
+    - 'Base Time: <json_info key=''date''/>'
     - <font size='0.1'> .  </font>
     - <font size='0.5'><json_info key='parameter_info'/></font><font size='0.5'> -
       Probability for </font><font size='0.5'><json_info key='plumes_interval'/></font><font
