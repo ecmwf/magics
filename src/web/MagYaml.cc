@@ -60,8 +60,10 @@ static std::map<std::string, action_proc> actions = {
     {"mtile", MagicsCalls::tile},
     {"mwind", MagicsCalls::wind},
     {"mwrepjson", MagicsCalls::wrepjson},
+    {"page", MagicsCalls::new_page},
     {"output", nullptr},
-    // {"page", MagicsCalls::new_page},
+    {"page", MagicsCalls::new_page},
+    {"maxis", MagicsCalls::axis},
 
 
 };

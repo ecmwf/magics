@@ -4,3 +4,7 @@ era5.grib
 *.style
 ci.*
 style
+*.pdf
+*.png
+*.gif
+*.ps

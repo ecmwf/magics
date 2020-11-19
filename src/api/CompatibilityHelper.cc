@@ -879,9 +879,9 @@ static TextQuality contour_label_quality("contour_label");
 static TextQuality map_label_quality("map_label_quality");
 static WindArrowIndexHead wind_arrow_index_head;
 
-static TextFontHeight text_reference_character_height("text_reference_character_height", "text_font_size");
+// static TextFontHeight text_reference_character_height("text_reference_character_height", "text_font_size");
 // static TextFontHeight text_height("text_font_size", "text_font_size");
-static TextFontHeight legend_text_font_size("legend_text_font_size", "legend_text_font_size");
+// static TextFontHeight legend_text_font_size("legend_text_font_size", "legend_text_font_size");
 
 static SubpageMapProjectionNone subpage_map_projection_none;
 static NoMoreGribex grib_mode("grib_mode");

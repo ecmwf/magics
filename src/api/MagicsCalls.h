@@ -70,6 +70,8 @@ public:
     static void wrepjson();
     static void info();
 
+    static void new_page() { page("page"); }
+
     static void page(const std::string& page);
     static void reset(const std::string& name);
     static void resets();
