@@ -64,6 +64,7 @@ static std::map<std::string, action_proc> actions = {
     {"output", nullptr},
     {"page", MagicsCalls::new_page},
     {"maxis", MagicsCalls::axis},
+    {"mgeo", MagicsCalls::geo},
 
 
 };
