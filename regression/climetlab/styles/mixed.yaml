@@ -1,7 +1,0 @@
-magics:
-  mcont:
-    contour_line_colour: black
-    contour_highlight_colour: black
-
-match:
-  shortName: msl
