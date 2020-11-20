@@ -39,7 +39,7 @@ protected:
     virtual int compare(const Content& other) const override;
 
     virtual void value(bool& n) const override { Content::value(n); }
-    virtual void value(long long& n) const override { Content::value(n); }
+    virtual void value(long long& n) const override;
     virtual void value(double& n) const override;
     virtual void value(std::string& n) const override;
     virtual void value(ValueList& n) const override { Content::value(n); }
