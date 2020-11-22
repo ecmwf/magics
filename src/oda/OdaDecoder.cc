@@ -32,6 +32,7 @@
 
 #include "SciMethods.h"
 #include "TextVisitor.h"
+#include "MagException.h"
 
 
 static int getOdbColumnIndex(odc::Reader::iterator&, const string&);
