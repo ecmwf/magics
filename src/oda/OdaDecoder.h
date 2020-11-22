@@ -45,7 +45,7 @@ public:
     virtual ~OdaGeoDecoder() override;
 
     //! Decoder interface
-    virtual void decode(const Transformation&) override;
+    virtual void decode(const Transformation&);
     virtual void decode() override;
     virtual void set(const map<string, string>& map) override { OdaGeoDecoderAttributes::set(map); }
     virtual void set(const XmlNode& node) override { OdaGeoDecoderAttributes::set(node); }
