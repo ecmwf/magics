@@ -53,6 +53,7 @@ void ObsJSon::decode() {
     Value value;
     if (!values_.empty()) {
         for (vector<string>::iterator val = values_.begin(); val != values_.end(); ++val) {
+            value = MagParser::decodeString(*val);
             ValueMap object = value.get_value<ValueMap>();
             points_.push_back(decode(object));
         }

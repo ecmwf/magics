@@ -24,6 +24,7 @@ using namespace magics;
 typedef void (*action_proc)();
 
 static std::map<std::string, action_proc> actions = {
+    {"maxis", MagicsCalls::axis},
     {"mboxplot", MagicsCalls::boxplot},
     {"mcoast", MagicsCalls::coast},
     {"mcont", MagicsCalls::cont},
@@ -36,7 +37,9 @@ static std::map<std::string, action_proc> actions = {
     {"mepsshading", MagicsCalls::epsshading},
     {"mepswave", MagicsCalls::epswave},
     {"mepswind", MagicsCalls::epswind},
+    {"mgeo", MagicsCalls::geo},
     {"mgeojson", MagicsCalls::geojson},
+    {"mgraph", MagicsCalls::graph},
     {"mgrib", MagicsCalls::grib},
     {"mimage", MagicsCalls::image},
     {"mimport", MagicsCalls::import},
@@ -60,12 +63,9 @@ static std::map<std::string, action_proc> actions = {
     {"mtile", MagicsCalls::tile},
     {"mwind", MagicsCalls::wind},
     {"mwrepjson", MagicsCalls::wrepjson},
-    {"page", MagicsCalls::new_page},
     {"output", nullptr},
     {"page", MagicsCalls::new_page},
-    {"maxis", MagicsCalls::axis},
-    {"mgeo", MagicsCalls::geo},
-
+    {"page", MagicsCalls::new_page},
 
 };
 

@@ -67,6 +67,14 @@ void DoubleContent::value(double& l) const {
     l = value_;
 }
 
+void DoubleContent::value(long long& l) const {
+    l = value_;
+    if(l != value_) {
+        Content::value(l);
+    }
+}
+
+
 void DoubleContent::value(std::string& s) const {
     s = Translator<double, std::string>()(value_);
 }
