@@ -34,6 +34,7 @@
 #include "TextVisitor.h"
 #include "MagException.h"
 
+using namespace magics;
 
 static int getOdbColumnIndex(odc::Reader::iterator&, const string&);
 
