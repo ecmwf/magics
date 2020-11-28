@@ -581,7 +581,18 @@ MAGICS_NO_EXPORT void BinaryDriver::circle(const MFloat x, const MFloat y, const
 */
 MAGICS_NO_EXPORT bool BinaryDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
                                                  unsigned char* pixmap, int landscape, bool) const {
-    MagLog::debug() << "BinaryDriver::renderPixmap needs implementing." << std::endl;
+    char cc = 'M';
+    out_.write(&cc, 1);
+    out_.write((char*)(&x0), sizeof(MFloat));
+    out_.write((char*)(&y0), sizeof(MFloat));
+    out_.write((char*)(&x1), sizeof(MFloat));
+    out_.write((char*)(&y1), sizeof(MFloat));
+    out_.write((char*)(&w), sizeof(int));
+    out_.write((char*)(&h), sizeof(int));
+    out_.write((char*)(&landscape), sizeof(int));
+    out_.write((char*)(pixmap), sizeof(unsigned char) * w * h);
+ 
+    MagLog::debug() << "BinaryDriver::renderPixmap called: "<< w*h << std::endl;
     return true;
 }
 
@@ -619,7 +630,6 @@ MAGICS_NO_EXPORT bool BinaryDriver::renderCellArray(const Image& image) const {
         si++;
     }
     const int sii = si;
-
 
     out_.write((char*)(&sii), sizeof(int));
     for (int v = 0; v < sii; v++) {

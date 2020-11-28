@@ -1079,6 +1079,24 @@ void BaseDriver::redisplay(const BinaryObject& binary) const {
                     l.maxY(maxy);
                     project(l);
                 } break;
+
+                case 'M': {             // Pixmap
+                    MFloat x0, x1, y0, y1;
+                    int wid, hei, landscape;
+                    in.read((char*)(&x0), sizeof(double));
+                    in.read((char*)(&y0), sizeof(double));
+                    in.read((char*)(&x1), sizeof(double));
+                    in.read((char*)(&y1), sizeof(double));
+                    in.read((char*)(&wid), sizeof(int));
+                    in.read((char*)(&hei), sizeof(int));
+                    in.read((char*)(&landscape), sizeof(int));
+                    MagLog::debug() << "BaseDriver::redisplayBinary for pixmap is CALLED. "<<wid<<"x"<<hei<< std::endl;
+                    const int d = wid * hei;
+                    unsigned char* pixmap = new unsigned char[d];
+                    in.read((char*)(pixmap), sizeof(unsigned char) * d);
+                    renderPixmap(x0, y0, x1, y1, wid, hei, pixmap, landscape, false);
+                } break;
+
                 case 'U':
                     unproject();
                     break;
