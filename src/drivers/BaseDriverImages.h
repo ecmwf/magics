@@ -23,6 +23,10 @@
 #include <gd.h>
 #endif
 
+#ifdef HAVE_CAIRO
+#include <cairo.h>
+#endif
+
 #include "magics_windef.h"
 
 using namespace magics;
@@ -191,33 +195,21 @@ MAGICS_NO_EXPORT void BaseDriver::renderImage(const ImportObject& obj) const {
     MFloat width  = 0;
     MFloat height = 0;
 
-    if (obj.getWidth() == -1 &&
-        (magCompare(f, "gif") || magCompare(f, "png") || magCompare(f, "jpeg") || magCompare(f, "jpg"))) {
-#ifndef MAGICS_RASTER
+    if (obj.getWidth() == -1 && magCompare(f, "png") ) {
+#ifndef HAVE_CAIRO
         MagLog::error()
-            << "BaseDriverImages: Dimension is -1 and default size can not be determined (GD library required)!"
+            << "BaseDriverImages: Dimension is -1 and default size can not be determined (Cairo library required)!"
             << endl;
         return;
 #else
-        FILE* in         = fopen(obj.getPath().c_str(), "rb");
-        gdImagePtr image = 0;
-        if (magCompare(f, "png"))
-            image = gdImageCreateFromPng(in);
-        else if (magCompare(f, "jpeg") || magCompare(f, "jpg"))
-            image = gdImageCreateFromJpeg(in);
-        else if (magCompare(f, "gif")) {
-#ifdef MAGICS_GIF
-            image = gdImageCreateFromGif(in);
-#else
-            MagLog::error() << "GIF import is not supported in this version! You need a GIF enabled GD library."
-                            << endl;
+        cairo_surface_t* surface = cairo_image_surface_create_from_png(obj.getPath().c_str());
+        if (cairo_surface_status(surface))
+        {
+            MagLog::error() << "BaseDriverImages: Can not read PNG to establish size - " <<obj.getPath().c_str()<< endl;
             return;
-#endif
         }
-        fclose(in);
-        width  = gdImageSX(image);
-        height = gdImageSY(image);
-        gdImageDestroy(image);
+        width  = cairo_image_surface_get_width(surface);
+        height = cairo_image_surface_get_height(surface);
 #endif
     }
     else {
