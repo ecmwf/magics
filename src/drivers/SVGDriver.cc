@@ -229,7 +229,7 @@ MAGICS_NO_EXPORT void SVGDriver::project(const magics::Layout& layout) const {
 
     pFile_ << "<g";
     if (!layout.name().empty())
-        pFile_ << " id=\"" << layout.name() << "\"";
+        pFile_ << " id=\"" << layout.name() << "\" inkscape:label=\""<< layout.name() <<"\"";
     if (!zero(x_set) || !zero(y_set))
         pFile_ << " transform=\"translate(" << x_set << "," << setY(y_set) << ")\"";
 
@@ -998,7 +998,7 @@ MAGICS_NO_EXPORT bool SVGDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, M
     const MFloat Y0 = y0;
 
     debugOutput("Pixmap - START");
-    pFile_ << "<g pointer-events=\"none\" >\n";
+    pFile_ << "<g pointer-events=\"none\" inkscape:label=\"pixmap\">\n";
 
     for (int i = h - 1; i >= 0; i--) {
         for (int j = 0; j < w; x0 += dx, j++) {
