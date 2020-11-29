@@ -237,8 +237,8 @@ MAGICS_NO_EXPORT void BaseDriver::renderImage(const ImportObject& obj) const {
 
 */
 MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string& fname, const GraphicsFormat format, const int reso,
-                                                  const MFloat wx0, const MFloat wy0, const MFloat wx1,
-                                                  const MFloat wy1) const {
+                                                  const MFloat x0, const MFloat y0, const MFloat x1,
+                                                  const MFloat y1) const {
 #ifdef MAGICS_ON_WINDOWS
     return false;
 #else
@@ -340,7 +340,6 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string& fname, const Gra
                 break;
           }
 
-
         uint8_t*   src        = cairo_image_surface_get_data(surface);
         const int  src_stride = cairo_image_surface_get_stride(surface);
         image                 = new unsigned char[row * col * bytes];
@@ -350,10 +349,14 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string& fname, const Gra
             uint32_t *s = (uint32_t*)(src + i * src_stride);        
             for (int j = 0; j < col; j++) {
                 uint32_t point = s[j];
-                *(p++) = (unsigned char) ((point >> 24) & 0xff);
-                *(p++) = (unsigned char) ((point >> 16) & 0xff);
-                *(p++) = (unsigned char) ((point >> 8) & 0xff);
-                *(p++) = (unsigned char) ((point >> 0) & 0xff);
+                const unsigned char a = (unsigned char) ((point >> 24) & 0xff);
+                const unsigned char r = (unsigned char) ((point >> 16) & 0xff);
+                const unsigned char g = (unsigned char) ((point >> 8) & 0xff);
+                const unsigned char b = (unsigned char) ((point >> 0) & 0xff);
+                *(p++) = r;
+                *(p++) = g;
+                *(p++) = b;
+                *(p++) = a;
             }
         }
     }
@@ -438,13 +441,8 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string& fname, const Gra
         return 1;
     }
 
-    MFloat x0 = wx0;  // Left
-    MFloat x1 = wx1;  // Right
-    MFloat y0 = wy0;
-    MFloat y1 = wy1;
-
     bool alpha = (pixmapFormat == "rgba");
-    status = renderPixmap(x0, y0, x1, y1, col, row, image, Landscape, alpha);
+    status = renderPixmap(x0, setY(y0), x1, setY(y1), col, row, image, Landscape, alpha);
 
     if (!status)
         MagLog::warning()
