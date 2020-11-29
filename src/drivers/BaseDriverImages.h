@@ -198,7 +198,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderImage(const ImportObject& obj) const {
     if (obj.getWidth() == -1 && magCompare(f, "png") ) {
 #ifndef HAVE_CAIRO
         MagLog::error()
-            << "BaseDriverImages: Dimension is -1 and default size can not be determined (Cairo library required)!"
+            << "BaseDriverImages: image size can not be determined (Cairo library required)!"
             << endl;
         return;
 #else
@@ -307,6 +307,58 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string& fname, const Gra
         I.close();
         remove(s2.c_str());
     }
+#ifdef HAVE_CAIRO
+    else if (format == PNG) {
+        cairo_surface_t* surface = cairo_image_surface_create_from_png(fname.c_str());
+        if (cairo_surface_status(surface))
+        {
+            MagLog::error() << "BaseDriverImages: Can not read PNG through Cairo!" << endl;
+            return false;
+        }
+
+        col = cairo_image_surface_get_width(surface);
+        row = cairo_image_surface_get_height(surface);
+
+        int bytes = 0;
+
+        switch (cairo_image_surface_get_format(surface)) {
+            case CAIRO_FORMAT_A1:
+            default:
+                MagLog::error() << "BaseDriverImages: Can not read PNG A1 through Cairo!" << endl;
+                return false;
+            case CAIRO_FORMAT_A8:
+                MagLog::error() << "BaseDriverImages: Can not read PNG A8 through Cairo!" << endl;
+                return false;
+            case CAIRO_FORMAT_RGB24:
+                MagLog::error() << "BaseDriverImages: Read PNG RGB24" << endl;
+                bytes = 3;
+                break;
+            case CAIRO_FORMAT_ARGB32:
+                MagLog::warning() << "BaseDriverImages: Read PNG ARGB32" << endl;
+                pixmapFormat = "rgba";
+                bytes = 4;
+                break;
+          }
+
+
+        uint8_t*   src        = cairo_image_surface_get_data(surface);
+        const int  src_stride = cairo_image_surface_get_stride(surface);
+        image                 = new unsigned char[row * col * bytes];
+        unsigned char* p      = image;
+  
+        for (int i = 0; i < row; i++) {
+            uint32_t *s = (uint32_t*)(src + i * src_stride);        
+            for (int j = 0; j < col; j++) {
+                uint32_t point = s[j];
+                *(p++) = (unsigned char) ((point >> 24) & 0xff);
+                *(p++) = (unsigned char) ((point >> 16) & 0xff);
+                *(p++) = (unsigned char) ((point >> 8) & 0xff);
+                *(p++) = (unsigned char) ((point >> 0) & 0xff);
+            }
+        }
+    }
+#endif
+/*
 #ifdef MAGICS_RASTER
     else if (format == GIF || format == PNG || format == JPG) {
         // convert png to ppm(raw) like image
@@ -380,9 +432,10 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string& fname, const Gra
         gdImageDestroy(imp);
     }
 #endif
+*/
     else {
         MagLog::warning() << "BaseDriverImages: graphics formats (" << format << ") is NOT supported!" << endl;
-        return 1;  // No PPM
+        return 1;
     }
 
     MFloat x0 = wx0;  // Left

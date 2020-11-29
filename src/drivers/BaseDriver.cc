@@ -1091,10 +1091,10 @@ void BaseDriver::redisplay(const BinaryObject& binary) const {
                     in.read((char*)(&hei), sizeof(int));
                     in.read((char*)(&landscape), sizeof(int));
                     MagLog::debug() << "BaseDriver::redisplayBinary for pixmap is CALLED. "<<wid<<"x"<<hei<< std::endl;
-                    const int d = wid * hei;
+                    const int d = wid * hei * 4;
                     unsigned char* pixmap = new unsigned char[d];
                     in.read((char*)(pixmap), sizeof(unsigned char) * d);
-                    renderPixmap(x0, y0, x1, y1, wid, hei, pixmap, landscape, false);
+                    renderPixmap(x0, y0, x1, y1, wid, hei, pixmap, landscape, true);
                 } break;
 
                 case 'U':
