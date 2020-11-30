@@ -75,7 +75,8 @@ FortranMagics::FortranMagics() :
     legend_todo_(false),
     symbolinput_todo_(false),
     matrixinput_todo_(false),
-    polyinput_todo_(false)
+    polyinput_todo_(false),
+    axisContainer_(0)
 
 {
     ASSERT(singleton_ == 0);
@@ -219,6 +220,11 @@ void FortranMagics::subpage() {
     top()->push_back(axisContainer_);
     axisContainer_->getReady();
     push(axisContainer_);
+
+    while (!axis_.empty()) {
+            axisContainer_->push_back(axis_.top());
+            axis_.pop();
+    }
 }
 
 void FortranMagics::page() {
@@ -368,8 +374,10 @@ void FortranMagics::actions() {
         Action action = actions_.top();
         (this->*action)();
         actions_.pop();
+        
         empty_ = false;
     }
+   
 }
 
 void FortranMagics::pcoast() {
@@ -423,10 +431,7 @@ void FortranMagics::ptest() {
 void FortranMagics::finish() {
     if (!empty_) {
         actions();  // The flag to force the generation of the plot has been set!
-        while (!axis_.empty()) {
-            axisContainer_->push_back(axis_.top());
-            axis_.pop();
-        }
+        
     }
 
     if (!axisContainer_)
@@ -967,7 +972,8 @@ void FortranMagics::epsshading() {
 }
 
 void FortranMagics::paxis() {
-    actions();
+   
+   
     try {
         string orientation;
 
@@ -976,12 +982,20 @@ void FortranMagics::paxis() {
         if (magCompare(orientation, "vertical")) {
             Axis* vaxis = new VerticalAxis();
             MagLog::dev() << *vaxis << "\n";
-            top()->push_back(vaxis);
+            if (axisContainer_)
+                axisContainer_->push_back(vaxis);
+            else 
+                axis_.push(vaxis);
+            
         }
         else {
             Axis* haxis = new HorizontalAxis();
             MagLog::dev() << *haxis << "\n";
-            top()->push_back(haxis);
+            if (axisContainer_)
+                axisContainer_->push_back(haxis);
+            else 
+                axis_.push(haxis);
+            
         }
     }
     catch (MagicsException& e) {
