@@ -597,7 +597,7 @@ bool BaseDriver::renderCellArray(const Image&) const {
     return true;
 }
 
-bool BaseDriver::renderPixmap(MFloat, MFloat, MFloat, MFloat, int, int, unsigned char*, int, bool) const {
+bool BaseDriver::renderPixmap(MFloat, MFloat, MFloat, MFloat, int, int, unsigned char*, int, bool, bool) const {
     return true;
 }
 
@@ -1094,7 +1094,7 @@ void BaseDriver::redisplay(const BinaryObject& binary) const {
                     const int d = wid * hei * 4;
                     unsigned char* pixmap = new unsigned char[d];
                     in.read((char*)(pixmap), sizeof(unsigned char) * d);
-                    renderPixmap(x0, y0, x1, y1, wid, hei, pixmap, landscape, true);
+                    renderPixmap(x0, y0, x1, y1, wid, hei, pixmap, landscape, true, true);
                 } break;
 
                 case 'U':

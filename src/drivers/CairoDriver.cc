@@ -1105,46 +1105,44 @@ MAGICS_NO_EXPORT void CairoDriver::circle(const MFloat x, const MFloat y, const 
   \param alpha transparency
 */
 MAGICS_NO_EXPORT bool CairoDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
-                                                unsigned char* pixmap, int, bool alpha) const {
+                                                unsigned char* pixmap, int, bool alpha, bool offset) const {
     MagLog::debug() << "CD:renderPixmap> " << w << "x" << h << endl;
     unsigned char* p = pixmap;
     const MFloat dx  = (x1 - x0) / w;
-    const MFloat dy  = -(y1 - y0) / h;  // Minus needed for Y axis correction
+    const MFloat dy  = (y1 - y0) / h;  // Minus needed for Y axis correction
+    MFloat a         = 1.;
 
-    const MFloat X0 = x0;
-    const MFloat Y0 = y0;
-    MFloat a        = 0;
+    if(offset){
+        x0 += offsetX_;
+        y0 += offsetY_;
+    }
 
     cairo_save(cr_);
-    cairo_antialias_t t = cairo_get_antialias(cr_);
-    cairo_set_antialias(cr_, CAIRO_ANTIALIAS_NONE);
+//    cairo_antialias_t t = cairo_get_antialias(cr_);
+//    cairo_set_antialias(cr_, CAIRO_ANTIALIAS_NONE);
 
-    for (int i = h - 1; i >= 0; i--) {
-        for (int j = 0; j < w; x0 += dx, j++) {
+    for (int i = 0; i < h; i++) {
+        for (int j = 0; j < w; j++) {
             const MFloat r = *(p++);
             const MFloat g = *(p++);
             const MFloat b = *(p++);
-            if (alpha)
-                a = *(p++);
+            if (alpha)   a = *(p++);
 
-            if ((r * g * b) > 0) {
-                if (!alpha)
-                    cairo_set_source_rgb(cr_, r, g, b);
-                else
-                    cairo_set_source_rgba(cr_, r, g, b, a);
+            //if ((r * g * b) > 0)
+            {
+                if (!alpha) cairo_set_source_rgb( cr_, r, g, b);
+                else        cairo_set_source_rgba(cr_, r, g, b, a);
 
-                const MFloat x0 = X0 + (j * dx);
-                const MFloat y0 = Y0 + (i * dy);
-                cairo_rectangle(cr_, x0, y0, dx, -dy);
+                const MFloat x = x0 + (j * dx);
+                const MFloat y = y0 + (i * dy);
+                cairo_rectangle(cr_, x, y, dx, dy);
                 cairo_stroke_preserve(cr_);
                 cairo_fill(cr_);
             }
         }
-        x0 = X0;
-        y0 += dy;
     }
     cairo_restore(cr_);
-    cairo_set_antialias(cr_, t);
+//    cairo_set_antialias(cr_, t);
     return true;
 }
 

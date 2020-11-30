@@ -580,7 +580,7 @@ MAGICS_NO_EXPORT void BinaryDriver::circle(const MFloat x, const MFloat y, const
 
 */
 MAGICS_NO_EXPORT bool BinaryDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
-                                                 unsigned char* pixmap, int landscape, bool) const {
+                                                 unsigned char* pixmap, int landscape, bool, bool) const {
     char cc = 'M';
     out_.write(&cc, 1);
     out_.write((char*)(&x0), sizeof(MFloat));

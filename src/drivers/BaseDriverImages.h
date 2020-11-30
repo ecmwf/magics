@@ -334,7 +334,7 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string& fname, const Gra
                 bytes = 3;
                 break;
             case CAIRO_FORMAT_ARGB32:
-                MagLog::warning() << "BaseDriverImages: Read PNG ARGB32" << endl;
+                MagLog::debug() << "BaseDriverImages: Read PNG ARGB32" << endl;
                 pixmapFormat = "rgba";
                 bytes = 4;
                 break;
@@ -442,7 +442,7 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string& fname, const Gra
     }
 
     bool alpha = (pixmapFormat == "rgba");
-    status = renderPixmap(x0, y0, x1, y1, col, row, image, Landscape, alpha);
+    status = renderPixmap(x0, y0, x1, y1, col, row, image, Landscape, alpha, false);
 
     if (!status)
         MagLog::warning()

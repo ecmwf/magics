@@ -427,7 +427,7 @@ protected:
                                                   const MFloat wx0, const MFloat wy0, const MFloat wx1,
                                                   const MFloat wy1) const;
     virtual MAGICS_NO_EXPORT bool renderPixmap(MFloat, MFloat, MFloat, MFloat, int, int, unsigned char*, int,
-                                               bool hasAlpha = false) const;
+                                               bool hasAlpha = false, bool offset=false) const;
     virtual MAGICS_NO_EXPORT bool renderCellArray(const Image&) const;
 
     mutable std::map<string, magFont, RuntimeStringCompare> FontMap_;
