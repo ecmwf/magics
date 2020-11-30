@@ -989,26 +989,28 @@ MAGICS_NO_EXPORT void SVGDriver::circle(const MFloat x, const MFloat y, const MF
 
 */
 MAGICS_NO_EXPORT bool SVGDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
-                                              unsigned char* pixmap, int, bool) const {
+                                              unsigned char* pixmap, int, bool alpha) const {
     unsigned char* p = pixmap;
     const MFloat dx  = (x1 - x0) / w;
-    const MFloat dy  = -(y1 - y0) / h;  // Minus needed for Y axis correction
+    const MFloat dy  = (y1 - y0) / h;  // Minus needed for Y axis correction
 
     const MFloat X0 = x0;
     const MFloat Y0 = y0;
 
-    debugOutput("Pixmap - START");
+    //debugOutput("Pixmap - START");
     pFile_ << "<g pointer-events=\"none\" inkscape:label=\"pixmap\">\n";
 
-    for (int i = h - 1; i >= 0; i--) {
+    for (int i = 0; i < h; i++) {
         for (int j = 0; j < w; x0 += dx, j++) {
             const int r = (int)*(p++);
             const int g = (int)*(p++);
             const int b = (int)*(p++);
+            if(alpha) const int a = (int)*(p++);
+
             if (r * g * b > 0.) {
                 const int x0 = static_cast<int>(X0 + (j * dx));
                 const int y0 = static_cast<int>(Y0 + (i * dy));
-                pFile_ << " <rect x=\"" << x0 << "\" y=\"" << setY(y0) << "\" width=\"" << dx << "\" height=\"" << dy
+                pFile_ << " <rect x=\"" << x0 << "\" y=\"" << y0 << "\" width=\"" << dx << "\" height=\"" << dy
                        << "\""
                        << " fill=\"rgb(" << r << "," << g << "," << b << ")\" "
                        << "stroke=\"none\" />\n";
