@@ -442,7 +442,7 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string& fname, const Gra
     }
 
     bool alpha = (pixmapFormat == "rgba");
-    status = renderPixmap(x0, setY(y0), x1, setY(y1), col, row, image, Landscape, alpha);
+    status = renderPixmap(x0, y0, x1, y1, col, row, image, Landscape, alpha);
 
     if (!status)
         MagLog::warning()
