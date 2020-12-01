@@ -989,7 +989,7 @@ MAGICS_NO_EXPORT void SVGDriver::circle(const MFloat x, const MFloat y, const MF
 
 */
 MAGICS_NO_EXPORT bool SVGDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
-                                              unsigned char* pixmap, int, bool alpha) const {
+                                              unsigned char* pixmap, int, bool alpha, bool) const {
     unsigned char* p = pixmap;
     const MFloat dx  = (x1 - x0) / w;
     const MFloat dy  = (y1 - y0) / h;  // Minus needed for Y axis correction
