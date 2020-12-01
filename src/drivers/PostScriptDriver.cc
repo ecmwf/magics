@@ -1132,7 +1132,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::circle(const MFloat x, const MFloat y, c
   \param alpha transparency of array
 */
 MAGICS_NO_EXPORT bool PostScriptDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int width, int height,
-                                                     unsigned char* pixmap, int landscape, bool alpha) const {
+                                                     unsigned char* pixmap, int landscape, bool alpha, bool ) const {
     if (landscape)  // swop w/h
     {
         const int x = width;

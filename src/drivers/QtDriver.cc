@@ -1601,7 +1601,7 @@ MAGICS_NO_EXPORT void QtDriver::renderImage(const ImportObject& obj) const {
 
 */
 MAGICS_NO_EXPORT bool QtDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
-                                             unsigned char* pixmap, int landscape, bool hasAlpha) const {
+                                             unsigned char* pixmap, int landscape, bool hasAlpha, bool) const {
     MagLog::debug() << "renderPixmap: " << x0 << " " << y0 << " " << x1 << " " << y1 << endl;
 
 

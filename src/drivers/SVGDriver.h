@@ -84,7 +84,7 @@ private:
     MAGICS_NO_EXPORT void renderSimplePolygon(const int, MFloat*, MFloat*) const;
     MAGICS_NO_EXPORT void renderSimplePolygon(const Polyline& line) const;
     MAGICS_NO_EXPORT void renderText(const Text& text) const;
-    MAGICS_NO_EXPORT bool renderPixmap(MFloat, MFloat, MFloat, MFloat, int, int, unsigned char*, int, bool) const;
+    MAGICS_NO_EXPORT bool renderPixmap(MFloat, MFloat, MFloat, MFloat, int, int, unsigned char*, int, bool, bool) const;
     MAGICS_NO_EXPORT void renderSymbols(const Symbol& symbol) const;
     MAGICS_NO_EXPORT bool renderCellArray(const Image& obj) const;
     MAGICS_NO_EXPORT void renderImage(const ImportObject& obj) const;
