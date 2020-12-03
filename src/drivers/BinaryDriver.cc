@@ -18,6 +18,7 @@
 
 #include <BinaryDriver.h>
 #include <Image.h>
+#include <ImportObject.h>
 #include <Polyline.h>
 #include <Text.h>
 
@@ -561,6 +562,48 @@ MAGICS_NO_EXPORT void BinaryDriver::circle(const MFloat x, const MFloat y, const
     out_.write((char*)(&r), sizeof(MFloat));
     out_.write((char*)(&s), sizeof(int));
 }
+
+/*!
+  \brief Image render method
+
+  Checks if the image is given by reference. If not, use BaseDriver version!
+*/
+MAGICS_NO_EXPORT void BinaryDriver::renderImage(const ImportObject& obj) const {
+cout << ">>>>       BinaryDriver::renderImage(const ImportObject& obj)" << endl;
+    if(obj.getByReference()) {
+      char c = 'J';
+      out_.write(&c, 1);
+      const MFloat x = obj.getOrigin().x();
+      const MFloat y = obj.getOrigin().y();
+      const MFloat w = obj.getWidth();
+      const MFloat h = obj.getHeight();
+      const ImageProperties::OriginReference r = obj.getOriginReference();
+      const std::string format = obj.getFormat();
+      const std::string path = obj.getPath();
+
+      out_.write((char*)(&x), sizeof(MFloat));
+      out_.write((char*)(&y), sizeof(MFloat));
+      out_.write((char*)(&w), sizeof(MFloat));
+      out_.write((char*)(&h), sizeof(MFloat));
+      out_.write((char*)(&r), sizeof(ImageProperties::OriginReference));
+
+      const int lformat = format.length();
+      out_.write((char*)(&lformat), sizeof(int));
+      char* pp = new char[lformat];
+      strcpy(pp, format.c_str());
+      out_.write(pp, sizeof(char) * lformat);
+      delete[] pp;
+
+      const int lpath = path.length();
+      out_.write((char*)(&lpath), sizeof(int));
+      char* pp2 = new char[lpath];
+      strcpy(pp2, path.c_str());
+      out_.write(pp2, sizeof(char) * lpath);
+      delete[] pp2;
+    }
+    else BaseDriver::renderImage(obj);
+}
+
 
 /*!
   \brief render pixmaps

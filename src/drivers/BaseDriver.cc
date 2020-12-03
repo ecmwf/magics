@@ -1080,6 +1080,40 @@ void BaseDriver::redisplay(const BinaryObject& binary) const {
                     project(l);
                 } break;
 
+                case 'J': {
+                    MFloat x, y, w, h;
+                    ImageProperties::OriginReference r;
+                    in.read((char*)(&x), sizeof(double));
+                    in.read((char*)(&y), sizeof(double));
+                    in.read((char*)(&w), sizeof(double));
+                    in.read((char*)(&h), sizeof(double));
+                    in.read((char*)(&r), sizeof(ImageProperties::OriginReference));
+
+                    int len;
+                    in.read((char*)(&len), sizeof(int));
+                    char* tex = new char[len + 1];
+                    in.read(tex, sizeof(char) * len);
+                    tex[len] = '\0';
+                    string format(tex);
+
+                    in.read((char*)(&len), sizeof(int));
+                    char* tex2 = new char[len + 1];
+                    in.read(tex2, sizeof(char) * len);
+                    tex2[len] = '\0';
+                    string path(tex2);
+
+                    ImportObject obj;
+                      obj.setOrigin(PaperPoint(x,y));
+                      obj.setWidth(w);
+                      obj.setHeight(h);
+                      obj.setOriginReference(r);
+                      obj.setFormat(format);
+                      obj.setPath(path);
+
+                    MagLog::debug() << "BaseDriver::redisplayBinary for ImportObject is CALLED. "<<w<<"x"<<h<< std::endl;
+                    renderImage(obj);
+                } break;
+
                 case 'M': {             // Pixmap
                     MFloat x0, x1, y0, y1;
                     int wid, hei, landscape;

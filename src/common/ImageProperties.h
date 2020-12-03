@@ -68,7 +68,7 @@ public:
     void setOriginReference(OriginReference ref) { originReference_ = ref; }
 
     void setByReference(bool by_reference) { by_reference_ = by_reference; }
-    double getByReference() const { return by_reference_; }
+    bool getByReference() const { return by_reference_; }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
