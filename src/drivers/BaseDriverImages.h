@@ -174,7 +174,7 @@ static inline int check_ppmHeader(ifstream& I, int& col, int& row) {
 /*!
   \brief Image render method for ALL drivers.
 
-  This method should be used by all Magics++ drivers to render image objects.
+  This method should be used by all Magics drivers to render image objects.
 */
 MAGICS_NO_EXPORT void BaseDriver::renderImage(const ImportObject& obj) const {
     std::string f         = obj.getFormat();

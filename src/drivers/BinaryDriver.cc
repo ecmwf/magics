@@ -569,7 +569,6 @@ MAGICS_NO_EXPORT void BinaryDriver::circle(const MFloat x, const MFloat y, const
   Checks if the image is given by reference. If not, use BaseDriver version!
 */
 MAGICS_NO_EXPORT void BinaryDriver::renderImage(const ImportObject& obj) const {
-cout << ">>>>       BinaryDriver::renderImage(const ImportObject& obj)" << endl;
     if(obj.getByReference()) {
       char c = 'J';
       out_.write(&c, 1);
