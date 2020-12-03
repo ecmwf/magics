@@ -34,6 +34,7 @@ SymbolIndividualModeAttributes::SymbolIndividualModeAttributes():
 	image_format_(ParameterManager::getString("symbol_image_format")),
 	image_width_(ParameterManager::getDouble("symbol_image_width")),
 	image_height_(ParameterManager::getDouble("symbol_image_height")),
+	image_by_reference_(ParameterManager::getBool("symbol_image_by_reference")),
 	text_(ParameterManager::getStringArray("symbol_text_list")),
 	text_position_(ParameterManager::getString("symbol_text_position")),
 	text_font_name_(ParameterManager::getString("symbol_text_font")),
@@ -69,6 +70,7 @@ void SymbolIndividualModeAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "symbol_image_format", image_format_, params);
 	setAttribute(prefix, "symbol_image_width", image_width_, params);
 	setAttribute(prefix, "symbol_image_height", image_height_, params);
+	setAttribute(prefix, "symbol_image_by_reference", image_by_reference_, params);
 	setAttribute(prefix, "symbol_text_list", text_, params);
 	setAttribute(prefix, "symbol_text_position", text_position_, params);
 	setAttribute(prefix, "symbol_text_font", text_font_name_, params);
@@ -92,6 +94,7 @@ void SymbolIndividualModeAttributes::copy(const SymbolIndividualModeAttributes& 
 	image_format_ = other.image_format_;
 	image_width_ = other.image_width_;
 	image_height_ = other.image_height_;
+	image_by_reference_ = other.image_by_reference_;
 	text_ = other.text_;
 	text_position_ = other.text_position_;
 	text_font_name_ = other.text_font_name_;
@@ -147,6 +150,7 @@ void SymbolIndividualModeAttributes::print(ostream& out)  const
 	out << " image_format = " <<  image_format_;
 	out << " image_width = " <<  image_width_;
 	out << " image_height = " <<  image_height_;
+	out << " image_by_reference = " <<  image_by_reference_;
 	out << " text = " <<  text_;
 	out << " text_position = " <<  text_position_;
 	out << " text_font_name = " <<  text_font_name_;
@@ -180,6 +184,8 @@ void SymbolIndividualModeAttributes::toxml(ostream& out)  const
 	niceprint(out,image_width_);
 	out << ", \"symbol_image_height\":";
 	niceprint(out,image_height_);
+	out << ", \"symbol_image_by_reference\":";
+	niceprint(out,image_by_reference_);
 	out << ", \"symbol_text_list\":";
 	niceprint(out,text_);
 	out << ", \"symbol_text_position\":";
@@ -208,6 +214,7 @@ static MagicsParameter<string> symbol_image_path("symbol_image_path", "", "");
 static MagicsParameter<string> symbol_image_format("symbol_image_format", "automatic", "");
 static MagicsParameter<double> symbol_image_width("symbol_image_width", -1, "");
 static MagicsParameter<double> symbol_image_height("symbol_image_height", -1, "");
+static MagicsParameter<string> symbol_image_by_reference("symbol_image_by_reference", "off", "");
 static MagicsParameter<stringarray> symbol_text_list("symbol_text_list", stringarray(), "");
 static MagicsParameter<string> symbol_text_position("symbol_text_position", "right", "");
 static MagicsParameter<string> symbol_text_font("symbol_text_font", "sansserif", "");

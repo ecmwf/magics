@@ -67,6 +67,9 @@ public:
     OriginReference getOriginReference() const { return originReference_; }
     void setOriginReference(OriginReference ref) { originReference_ = ref; }
 
+    void setByReference(bool by_reference) { by_reference_ = by_reference; }
+    double getByReference() const { return by_reference_; }
+
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
     virtual void print(ostream& out) const {
@@ -83,6 +86,7 @@ protected:
     double height_;
     mutable ColourTable table_;
     double transparency_;
+    bool by_reference_;
 
     OriginReference originReference_;
 

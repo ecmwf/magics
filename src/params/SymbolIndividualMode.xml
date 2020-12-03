@@ -85,6 +85,13 @@ does it submit to any jurisdiction.
 			name="symbol_image_height">
 			<documentation>height of the image</documentation>
 		</parameter>
+		<parameter member="image_by_reference"
+			to="bool"
+			default="off"
+			from="string"
+			name="symbol_image_by_reference">
+			<documentation>MGB driver: store the reference to the image, instaed of embeding it</documentation>
+		</parameter>
 		<parameter member="text"
 			to="stringarray"
 			default="stringarray()"

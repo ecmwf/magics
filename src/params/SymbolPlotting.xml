@@ -168,6 +168,7 @@ does it submit to any jurisdiction.
 			<set name="symbol_image_format" value="image"></set>
 			<set name="symbol_image_width" value="image"></set>
 			<set name="symbol_image_height" value="image"></set>
+			<set name="symbol_image_by_reference" value="image"></set>
 		</parameter>
 		<parameter xml="format"
 			from="string"
