@@ -454,7 +454,8 @@ void NetcdfGuess::callback(const string& name, const Value& value) {
 void DimensionGuess::init() {
 
     try {
-        Value value = JSONParser::decodeFile(definitions_);
+
+        Value value = JSONParser::decodeString(definitions_);
 
         ValueMap object = value.get_value<ValueMap>();
 
@@ -470,7 +471,7 @@ void DimensionGuess::init() {
         }
     }
     catch (std::exception& e) {
-        MagLog::error() << "JSON error in" << definitions_ << ": " << e.what() << endl;
+        MagLog::error() << "JSON error in " << definitions_ << ": " << e.what() << endl;
     }
 }
 

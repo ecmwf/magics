@@ -701,6 +701,3 @@ pair<double, double> RotatedMatrixHandler::unrotate(double lat_y, double lon_x) 
     double PXREG = ZXMXC + southPoleLon_;
     return std::make_pair(PYREG, PXREG);
 }
-
-
-
