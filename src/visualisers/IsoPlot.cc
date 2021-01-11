@@ -336,6 +336,8 @@ public:
                 continue;
             bool reverse = joiner.isHole(result.front());
 
+            // reverse = false;
+
             for (vector<vector<Point> >::iterator j = result.begin(); j != result.end(); ++j) {
                 if (reverse) {
                     if (!joiner.isHole((*j))) {
@@ -1271,7 +1273,6 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
         int c = 0;
         AutoVector<IsoProducerData> datas;
         for (int i = 0; i < view.size(); i++)
-        // int i = 1;
         {
             IsoProducerData* data = new IsoProducerData(shading_->shadingMode(), *this, *(view[i]));
             datas.push_back(data);
