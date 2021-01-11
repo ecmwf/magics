@@ -634,6 +634,11 @@ void Proj4Projection::geos() {
     for (vector<double>::reverse_iterator lon = last->second.rbegin(); lon != last->second.rend(); ++lon) {
         add(*lon, last->first);
     }
+
+    gridMinLat_ = -90;
+    gridMinLon_ = -200;
+    gridMaxLat_ = 90;
+    gridMaxLon_ = 200;
 }
 
 magics::Polyline& Proj4Projection::getSimplePCBoundingBox() const {
