@@ -68,7 +68,12 @@ public:
 
     CellBox() : parent_(0), row1_(0), row2_(0), column1_(0), column2_(0) {}
 
-    ~CellBox() {}
+    ~CellBox() {
+        for (map<int, SegmentJoiner*>::iterator index = helper_.begin(); index != helper_.end(); ++index) 
+            if ( index->second )
+                delete index->second;
+
+    }
 
     double value() { return (*parent_)(row1_, column1_)->value(0); }
 
@@ -166,46 +171,42 @@ public:
                 previous.push_back(PaperPoint(pt->x_, pt->y_));
             }
 
+            if (helper != helper_.end()) {
+                delete helper_[index];
+            }
             helper_[index] = new SegmentJoiner();
+
+            
 
 
             std::vector<Polyline*> output;
 
             clipper.clip(previous, pts, output);
 
-            /*
-                        if (output.size() == 1) {
-                            vector<PaperPoint> tmp;
-                            for ( auto pt = output.front()->begin();  pt != output.front()->end(); ++pt ) {
-                                    tmp.push_back(*pt);
-                                }
-
-                                push_back(index, tmp);
-
-
-                        }
-
-                        else
-                        {
-                            */
             MagClipper::add(pts, previous, output);
 
-
+            
             if (output.size() == 1) {
                 vector<PaperPoint> tmp;
                 for (auto pt = output.front()->begin(); pt != output.front()->end(); ++pt) {
                     tmp.push_back(*pt);
                 }
+                
+                
                 push_back(index, tmp);
             }
             else {
+
                 vector<PaperPoint> tmp;
                 for (auto pt = previous.begin(); pt != previous.end(); ++pt) {
                     tmp.push_back(*pt);
                 }
                 push_back(index, tmp);
             }
-            //}
+
+            for (auto p = output.begin(); p != output.end(); ++p )
+                delete *p;
+           
         }
     }
 
@@ -356,6 +357,8 @@ public:
                         std::swap((*j), polys.back());
                     }
                 }
+                
+
             }
 
             for (vector<vector<Point> >::iterator j = polys.begin(); j != polys.end(); ++j) {
@@ -384,6 +387,7 @@ public:
                 }
             }
             delete index->second;
+            index->second = 0;
         }
     }
 

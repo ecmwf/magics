@@ -1101,8 +1101,12 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(GribDecoder& grib) const 
                 lon = west + (x * step);
             }
         }
+       
     }
     // delete[] data;
+    delete[] data1;
+    delete[] data2;
+    delete[] data3;
 
     for (int x = 0; x < nblon; x++) {
         u->columnsAxis().push_back(west + (x * step));
