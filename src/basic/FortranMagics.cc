@@ -153,7 +153,9 @@ int FortranMagics::pclose(bool catch_exceptions) {
                 /***   Start clean-up  ***/
                 drivers_->dispatch(object);
                 drivers_->closeDrivers();
+                drivers_->clear();
 
+                //cout << "deleting object" << endl;
                 delete root_;
                 delete drivers_;
                 delete output_;
