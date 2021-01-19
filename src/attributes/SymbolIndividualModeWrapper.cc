@@ -94,6 +94,10 @@ void SymbolIndividualModeWrapper::set(const MagRequest& request)
 		double image_height_value = request("SYMBOL_IMAGE_HEIGHT");
 		symbolindividualmode_->image_height_ = image_height_value;
 		}
+	if  (request.countValues("SYMBOL_IMAGE_BY_REFERENCE") ) {
+		string image_by_reference_value = request("SYMBOL_IMAGE_BY_REFERENCE");
+		symbolindividualmode_->image_by_reference_ = MagTranslator<string, bool>()(image_by_reference_value);
+		}
 	stringarray  text_value;
 	for (int i = 0; i < request.countValues("SYMBOL_TEXT_LIST"); i++)
 		text_value.push_back((string)request("SYMBOL_TEXT_LIST", i));

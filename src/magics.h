@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 1996-2016 ECMWF.
+ * (C) Copyright 1996- ECMWF.
  *
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
@@ -81,7 +81,7 @@ using std::exception;
 
 /*! \namespace magics
 
- The <I>magics</I> namespace encapsulates all elements of Magics++.
+ The <I>magics</I> namespace encapsulates all elements of Magics.
  The namespace prevents confusions with other libraries or
  older versions of Magics.
 
@@ -261,13 +261,11 @@ inline MAGICS_NO_EXPORT string getEnvVariable(const string var) {
     return "";
 }
 
-//! Global function to return the Magics++ version for ID line
+//! Global function to return the Magics version for ID line
 /*! comes from magics_config.h !!! */
 inline string getMagicsVersionString() {
     const string magics = MAGICS_NAME;
     string version      = MAGICS_VERSION_STR;
-    if (sizeof(long) == 8)
-        version += string(" (64 bit)");
     return magics + string(" ") + version;
 }
 

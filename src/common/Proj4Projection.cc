@@ -634,6 +634,26 @@ void Proj4Projection::geos() {
     for (vector<double>::reverse_iterator lon = last->second.rbegin(); lon != last->second.rend(); ++lon) {
         add(*lon, last->first);
     }
+    
+   
+    gridMinLat_ = -90;
+    gridMinLon_ = vertical_longitude_ -180;
+    gridMaxLat_ = 90;
+    gridMaxLon_ = vertical_longitude_ + 180;
+
+
+    // Hre we have to make sure that the global area is defined between -180 and 180.
+
+    if ( gridMaxLon_ > 180 ) {
+        gridMaxLon_ = 180;
+        gridMinLon_ = std::min(gridMaxLon_ - 360, gridMinLon_);
+    }
+    if ( gridMinLon_ < -180 ) {
+        gridMinLon_ = -180;
+        gridMaxLon_ = std::max(gridMinLon_ + 360, gridMaxLon_);
+    }
+    
+    cout << gridMinLon_ << " --> " << gridMaxLon_ << endl;
 }
 
 magics::Polyline& Proj4Projection::getSimplePCBoundingBox() const {
@@ -733,6 +753,11 @@ void Proj4Projection::tpers() {
 
     userEnveloppe_->push_back(userEnveloppe_->front());
     PCEnveloppe_->push_back(PCEnveloppe_->front());
+
+    gridMinLat_ = -90;
+    gridMinLon_ = -200;
+    gridMaxLat_ = 90;
+    gridMaxLon_ = 200;
 }
 
 void Proj4Projection::boundingBox(double& xmin, double& ymin, double& xmax, double& ymax) const {
@@ -740,11 +765,14 @@ void Proj4Projection::boundingBox(double& xmin, double& ymin, double& xmax, doub
         projection_ = Epsg::find(definition_);
         helper_     = new LatLonProjP(projection_->definition());
     }
+    
+
 
     ymin = gridMinLat_;
-    xmin = gridMinLon_ - 5;
-    ymax = gridMaxLat_;
+    xmin = gridMinLon_ - 5;  
+    ymax = gridMaxLat_;  
     xmax = gridMaxLon_ + 5;
+   
 }
 
 double Proj4Projection::getMinX() const {
