@@ -241,6 +241,9 @@ struct NetVariable {
     void get(vector<float>& data, vector<size_t>& start, vector<size_t>& edges) {
         nc_get_vara_float(netcdf_, id_, &start.front(), &edges.front(), &data.front());
     }
+    void get(vector<long>& data, vector<size_t>& start, vector<size_t>& edges) {
+        nc_get_vara_long(netcdf_, id_, &start.front(), &edges.front(), &data.front());
+    }
 
     void get(vector<int>& data, vector<size_t>& start, vector<size_t>& edges) {
         nc_get_vara_int(netcdf_, id_, &start.front(), &edges.front(), &data.front());
