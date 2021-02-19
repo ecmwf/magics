@@ -12,8 +12,8 @@
 
    \section generalDriver Overview
 
-   Magics++ supports various vector and raster output formats. It
-   produces a generic descriptions of the output plot which
+   Magics supports various vector and raster graphical output formats. Within Magics
+   a generic description of graphics objects is generated which
    than gets converted by a chosen driver to the requested format(s).
 
    \sa DriverManager::DriverManager(), OutputHandler(), OutputFactory()
@@ -27,7 +27,7 @@
 
    \section addDriver How to add a new output format / driver
 
-   It is assumed you try to add a driver called <i>NewDriver</i>.
+   Let's assume you try to add a new driver called <i>NewDriver</i>.
 
    - go into the <i>tools</i> directory and run <i>perl newdriver New</i>
    - edit your <i>NewDriver.xml</i> and copy it to <i>src/xml</i>
@@ -38,9 +38,6 @@
         -# <i>src/common/OutputHandler.cc</i>
         -# <i>src/common/OutputFactory.cc/.h</i>
 
-
-\example drivers.c Example how mulitiples drivers can be used in C.
-\example drivers.magml Example how drivers can be used in MagML.
 */
 
 /*! \file BaseDriver.h
@@ -195,7 +192,7 @@ struct magFont {
 
 
 /*! \class BaseDriver
-    \brief Base class for all drivers of Magics++.
+    \brief Base class for all drivers of Magics.
     \ingroup drivers
 
     This abstract class provides an interface for Magics
