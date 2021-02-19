@@ -20,11 +20,11 @@ print(f"Python executable: {sys.executable}")
 # -- Project information -----------------------------------------------------
 
 project = 'magics'
-copyright = '2021, Sylvie Lamy-Thepaut ECMWF'
-author = 'Sylvie Lamy-Thepaut ECMWF'
+copyright = '2021, ECMWF'
+author = 'Sylvie Lamy-Thepaut Stephan Siemen ECMWF'
 
 # The full version, including alpha/beta/rc tags
-release = '4.5.3'
+release = '4.6.0'
 
 
 # -- General configuration ---------------------------------------------------
