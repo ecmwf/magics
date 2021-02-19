@@ -38,6 +38,11 @@ ecbuild_add_option( FEATURE CAIRO
                     DESCRIPTION "cairo support[png/jpeg]"
                     REQUIRED_PACKAGES PangoCairo)
 
+ecbuild_add_option( FEATURE DOCUMENTATION
+                    DEFAULT OFF
+                    DESCRIPTION "Adding support for automatic documentation"
+                  )
+
 
 string(STRIP "${PANGOCAIRO_LIBRARIES}" PANGOCAIRO_LIBRARIES)
 if(PANGOCAIRO_FOUND)
@@ -235,7 +240,9 @@ add_subdirectory( src )
 add_subdirectory( share )
 add_subdirectory( apps )
 add_subdirectory( test )
-add_subdirectory( docs )
+if( HAVE_DOCUMENTATION )
+  add_subdirectory( docs )
+endif()
 
 
 if(NOT HAVE_EFAS)
