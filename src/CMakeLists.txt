@@ -53,6 +53,9 @@ add_subdirectory( terralib )
 add_subdirectory( clipper )
 add_subdirectory( eckit_readers )
 
+list( APPEND MAGICS_DOCS common)
+list( APPEND MAGICS_DOCS basic)
+
 if( metview )
 	add_subdirectory( libMagWrapper )
 endif()

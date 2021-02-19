@@ -235,6 +235,7 @@ add_subdirectory( src )
 add_subdirectory( share )
 add_subdirectory( apps )
 add_subdirectory( test )
+add_subdirectory( docs )
 
 
 if(NOT HAVE_EFAS)
