@@ -1458,8 +1458,8 @@ MAGICS_NO_EXPORT void PostScriptDriver::writePSFileHeader() const {
     *ps << "\n%%Title: " << title_ << "\n%%Creator: ";
     if (!output_creator_.empty())
         *ps << output_creator_ << " and ";
-    *ps << getMagicsVersionString() << "\n%%CreationDate: " << info.getTime() << "\n%%For: " << info.getUserID() << "@"
-        << info.getHostName() << " " << info.getUserName() << "\n";
+    *ps << getMagicsVersionString() << "\n%%CreationDate: " << info.getTime() << "\n%%For: " 
+        << info.getUserID() << "@" << info.getHostName() << "\n";
 
     MFloat dimensionX = getXDeviceLength() * 72. / 2.54;  // 72   = points / inch
     MFloat dimensionY = getYDeviceLength() * 72. / 2.54;  // 2.54 = cm / inch

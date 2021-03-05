@@ -72,16 +72,6 @@ public:
         return tmp;
     };
 
-    MAGICS_NO_EXPORT string getUserName() const {
-#ifndef MAGICS_ON_WINDOWS
-        struct passwd* who = getpwuid(getuid());
-        string tmp(who->pw_gecos);
-        return tmp;
-#else
-        return getUserID();
-#endif
-    };
-
 private:
     // No copy allowed
     SystemInfo(const SystemInfo&);

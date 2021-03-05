@@ -187,7 +187,7 @@ void CairoDriver::setupNewSurface() const {
         cairo_ps_surface_dsc_comment(surface_, s1.c_str());
         const string s2 = "%%Creator2: " + output_creator_ + " " + getMagicsVersionString();
         cairo_ps_surface_dsc_comment(surface_, s2.c_str());
-        const string s3 = "%%For: " + info.getUserID() + "@" + info.getHostName() + " " + info.getUserName();
+        const string s3 = "%%For: " + info.getUserID() + "@" + info.getHostName();
         cairo_ps_surface_dsc_comment(surface_, s3.c_str());
 
         dimensionXglobal_ = static_cast<int>(getXDeviceLength() * 72 / 2.54);
