@@ -1,0 +1,23 @@
+[
+  {
+    "eccharts_layer": "",
+    "styles": [
+      "infsinx_1"
+    ],
+    "match": [
+      {
+        "paramId": [
+          "260544"
+        ],
+        "shortName": [
+          "infsinx"
+        ]
+      },
+      {
+        "long_name": [
+          "Initial fire spread index"
+        ]
+      }
+    ]
+  }
+]

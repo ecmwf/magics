@@ -1,0 +1,24 @@
+[
+  {
+    "eccharts_layer": "aristotle_risico",
+    "styles": [
+      "risico_1",
+      "risico_2"
+    ],
+    "match": [
+      {
+        "paramId": [
+          "260541"
+        ],
+        "shortName": [
+          "ffmcode"
+        ]
+      },
+      {
+        "long_name": [
+          "Fine fuel moisture code"
+        ]
+      }
+    ]
+  }
+]
