@@ -29,14 +29,13 @@
 
 #include <QApplication>
 #include <QDebug>
-#include <QDesktopWidget>
 #include <QGraphicsItem>
 #include <QPainter>
 
-#ifdef MAGICS_QT5
 #include <QGuiApplication>
 #include <QScreen>
-#elif defined(Q_WS_X11)
+#include <QtCore5Compat/QRegExp>
+#if defined(Q_WS_X11)
 #include <QX11Info>
 #endif
 
@@ -130,14 +129,8 @@ void QtDriver::open() {
     // the env var METVIEW_SCREEN_RESOLUTION on the metview side.
 
     // So we need to compute their ratio to correctly set font size for rendering!
-#ifdef MAGICS_QT5
     QList<QScreen*> scList    = QGuiApplication::screens();
     const int qtDpiResolution = (!scList.isEmpty()) ? scList.at(0)->logicalDotsPerInchY() : 72;
-#elif defined(Q_WS_X11)  // Do we work with a X11 display?
-    const int qtDpiResolution = QX11Info::appDpiY(0);
-#else                    // for MacOS X with Qt4
-    const int qtDpiResolution = 95;
-#endif
 
     // By default the ratio between the physical pixel size according to the external definition and Qt is 1
     dpiResolutionRatio_ = 1.;
@@ -1143,7 +1136,7 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
             }
 
             QFontMetrics fm(font);
-            int width  = fm.width(allText);
+            int width  = fm.horizontalAdvance(allText);
             int height = fm.height();
 
             MFloat x = 0;
@@ -1187,15 +1180,9 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
             item->setTransform(tr);
 
             if (an != 0 && an != 360) {
-#ifdef MAGICS_QT5
                 item->setTransform(QTransform::fromTranslate(x, y), true);
                 item->setTransform(QTransform().rotate(an), true);
                 item->setTransform(QTransform::fromTranslate(-x, -y), true);
-#else
-                item->translate(x, y);
-                item->rotate(an);
-                item->translate(-x, -y);
-#endif
             }
             item->setPos(x0, y0);
         }
@@ -1234,7 +1221,7 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
                 textToUnicode((*niceText).text(), str);
 
                 QFontMetrics fm(font);
-                totalWidth += fm.width(str);
+                totalWidth += fm.horizontalAdvance(str);
             }
 
             // Find out text start position
@@ -1267,7 +1254,7 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
                 textToUnicode((*niceText).text(), str);
 
                 QFontMetrics fm(font);
-                int width  = fm.width(str);
+                int width  = fm.horizontalAdvance(str);
                 int height = fm.height();
 
                 MFloat y = 0.;
