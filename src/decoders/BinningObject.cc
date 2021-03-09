@@ -232,3 +232,75 @@ Matrix* BinningObject::operator()(PointsList& points) {
         }i*/
     return matrix;
 }
+
+
+NoBinningObject::NoBinningObject() {
+}
+
+NoBinningObject::~NoBinningObject() {
+
+}
+
+BinningObject* NoBinningObject::clone() const {
+    return new NoBinningObject();
+}
+
+Matrix* NoBinningObject::operator()(PointsList& points) {
+
+    static float default_float_fill_value = 9.96921e+36;
+
+    // make a new Matrix object
+    Matrix* ret = new Matrix();
+
+    ret->akimaEnabled();
+    ret->reserve(points.size());
+    ret->missing(default_float_fill_value);
+
+    // set column values (longitudes)
+    points.setToFirst();
+
+    double last_latitude = -360;
+
+    vector<double> &xValues = ret->columnsAxis();
+    while (points.more()) {
+        const UserPoint& current_point = points.current();
+        double current_lat = current_point.y();
+
+        if ( (last_latitude != -360) && (last_latitude != current_lat))
+            break;
+
+        last_latitude = current_lat;
+        xValues.push_back(current_point.x());
+        points.advance();
+    }
+
+    int columns = xValues.size();
+    int rows    = points.size() / columns;
+
+    // set row (latitude) and data values
+    points.setToFirst();
+
+    int row    = points.size() - columns;
+    int column = 0;
+
+    vector<double> &yValues = ret->rowsAxis();
+    while (points.more()) {
+        const UserPoint& current_point = points.current();
+        double current_value = current_point.value();
+
+        (*ret)[row + column] = current_value;
+
+        points.advance();
+        ++column;
+
+        if (column == columns) {
+            row -= columns;
+            column = 0;
+            yValues.insert(yValues.begin(), current_point.y());
+        }
+    }
+
+    ret->setMapsAxis();
+
+    return ret;
+}
