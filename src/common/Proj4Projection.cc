@@ -653,7 +653,6 @@ void Proj4Projection::geos() {
         gridMaxLon_ = std::max(gridMinLon_ + 360, gridMaxLon_);
     }
     
-    cout << gridMinLon_ << " --> " << gridMaxLon_ << endl;
 }
 
 magics::Polyline& Proj4Projection::getSimplePCBoundingBox() const {
