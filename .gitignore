@@ -18,6 +18,8 @@ magics.config
 magics_*.config
 *.creator
 *.creator.*
+*.cflags
+*.cxxflags
 magics.includes
 magics_*.includes
 magics.files

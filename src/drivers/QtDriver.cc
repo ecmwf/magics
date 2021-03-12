@@ -27,14 +27,20 @@
 #include <Text.h>
 #include "HistoVisitor.h"
 
+#include <QtGlobal>
 #include <QApplication>
 #include <QDebug>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#include <QDesktopWidget>
+#endif
 #include <QGraphicsItem>
 #include <QPainter>
 
 #include <QGuiApplication>
 #include <QScreen>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QtCore5Compat/QRegExp>
+#endif
 #if defined(Q_WS_X11)
 #include <QX11Info>
 #endif
@@ -1136,7 +1142,11 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
             }
 
             QFontMetrics fm(font);
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 0)
             int width  = fm.horizontalAdvance(allText);
+#else
+            int width  = fm.width(allText);
+#endif
             int height = fm.height();
 
             MFloat x = 0;
@@ -1221,12 +1231,15 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
                 textToUnicode((*niceText).text(), str);
 
                 QFontMetrics fm(font);
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 0)
                 totalWidth += fm.horizontalAdvance(str);
+#else
+                totalWidth += fm.width(str);
+#endif
             }
 
             // Find out text start position
             int xPos = x0;
-            ;
             if (horizontal == MCENTRE)
                 xPos -= totalWidth * .5;
             else if (horizontal == MRIGHT)
