@@ -1508,7 +1508,7 @@ void GribDecoder::ask(MetaDataCollector& meta) {
     openField();  // just to be sure the file is opened!
     for (auto m = meta.begin(); m != meta.end(); ++m) {
         m->second = getString(m->first, false);
-        cout << "ASK --> " << m->first << " = " << m->second << endl;
+        //cout << "ASK --> " << m->first << " = " << m->second << endl;
     }
 }
 

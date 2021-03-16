@@ -544,7 +544,6 @@ void Proj4Projection::projectionSimple() {
     max_pcx_ = max_longitude_;
     max_pcy_ = max_latitude_;
 
-    cout << definition_ << endl;
 
     int error;
     
