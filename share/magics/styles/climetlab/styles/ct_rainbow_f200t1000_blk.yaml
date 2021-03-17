@@ -1,0 +1,25 @@
+magics:
+  mcont:
+    contour_description: 'Method : Rainbow contour 200 and 1000'
+    contour_highlight: false
+    contour_label: true
+    contour_label_colour: black
+    contour_label_frequency: 1
+    contour_legend_text: Contour coloured lines (200 and 1000)
+    contour_level_list:
+    - 200
+    - 1000
+    contour_level_selection_type: level_list
+    contour_line_colour_rainbow: true
+    contour_line_colour_rainbow_colour_list:
+    - black
+    - black
+    contour_line_colour_rainbow_method: list
+    contour_line_style_rainbow_list:
+    - solid
+    - dot
+    contour_line_thickness: 2
+    contour_max_level: 1000
+    contour_min_level: 200
+    contour_title: Contour black (200/1000)
+

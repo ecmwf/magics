@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "z300_spread",
-    "prefered_units": "dam",
+    "preferred_units": "dam",
     "styles": [
       "sh_blu_f03t75",
       "sh_blu_f02t50",

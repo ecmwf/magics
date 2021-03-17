@@ -1,0 +1,12 @@
+magics:
+  mcont:
+    contour_description: 'Method : Wind flags Thickness : 1 Colour : Mustard Used
+      for wind'
+    contour_title: Wind flags (mustard)
+    wind_field_type: Flags
+    wind_flag_colour: mustard
+    wind_flag_length: 0.3
+    wind_flag_origin_marker: dot
+    wind_flag_origin_marker_size: 0.1
+    wind_legend_text: Mustard wind flags (in knots)
+

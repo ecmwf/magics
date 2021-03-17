@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "cds_runoff",
-    "prefered_units": "mm",
+    "preferred_units": "mm",
     "styles": [
       "sh_blugrn_f05t20"
     ],

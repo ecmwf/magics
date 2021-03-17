@@ -1,0 +1,22 @@
+match:
+- paramId:
+  - '131090'
+  - '131091'
+  - '131089'
+  shortName:
+  - ph
+  - ptd
+  - pts
+  type: ep
+- long_name:
+  - Probability of a hurricane
+  - Probability of a tropical depression
+  - Probability of a tropical storm
+styles:
+- genesis_prob
+- genesis_prob_light
+- genesis_prob_dark
+- prob_red2blue
+- prob_blue2yellow
+- prob_green2yellow
+

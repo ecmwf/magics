@@ -1,0 +1,13 @@
+match:
+- paramId:
+  - '28'
+  - '27'
+  shortName:
+  - cvh
+  - cvl
+- long_name:
+  - High vegetation cover
+  - Low vegetation cover
+styles:
+- sh_grn_f0t1lst
+

@@ -1,4 +1,4 @@
-#!/bin/ksh
+#!/usr/bin/env bash
 
 #set -x
 # exit on error
@@ -56,17 +56,17 @@ mkdir $tmp_folder
 #mkdir -p $dst_folder
 
 
-# Checkout files if 
+# Checkout files if
 if [[ $p4_checkout -eq 1 ]]; then
 
     # checking out files from perforce
     for res in ${resolutions[@]}
     do
-          p4 sync $dst_folder/$res/$res'_'* 
-          p4 edit $dst_folder/$res/$res'_'* 
+          p4 sync $dst_folder/$res/$res'_'*
+          p4 edit $dst_folder/$res/$res'_'*
     done
-    p4 sync $dst_folder/10m_full/10m'_'* 
-    p4 edit $dst_folder/10m_full/10m'_'* 
+    p4 sync $dst_folder/10m_full/10m'_'*
+    p4 edit $dst_folder/10m_full/10m'_'*
 fi
 
 
@@ -76,23 +76,23 @@ do
     echo "  ======== ${i} resolution ======== "
     echo ""
 
-    if [[ $download_files -eq 1 ]]; then 
+    if [[ $download_files -eq 1 ]]; then
        wget http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/$i/physical/$i-physical.zip -P $tmp_folder
     else
-       # get the files locally      
+       # get the files locally
        cp $src_folder/geoscript/$i-physical.zip $tmp_folder
     fi
- 
+
     src_file=$tmp_folder/$i-physical.zip
     output_folder=$tmp_folder/$i'-physical_files'
 
-    # echo Creating folder $output_folder ... 
+    # echo Creating folder $output_folder ...
     rm -rf $output_folder
     mkdir $output_folder
 
     # echo Extracting $src_file to $output_folder
     unzip -q $src_file -d $output_folder
-     
+
     # there is now a single entry in the output folder
     # and that is where the files are
     subfolder=`ls $output_folder`
@@ -116,12 +116,12 @@ do
        do
            testfile=$filestub'.'$ext
            if [[ -f $testfile ]]; then
-              echo "     Found $testfile" 
+              echo "     Found $testfile"
            else
               echo "     ERROR: $testfile missing!"
            fi
 
-       done 
+       done
 
        # Do landmass feature merging here
        if [[ $i = "10m" && $j = "land" && $merge_10m_land -eq 1 ]]; then
@@ -144,20 +144,20 @@ do
 
        ogrout=$filestub'/output'
        echo "    Creating temporary folder $filestub"
-       mkdir $filestub       
-       
+       mkdir $filestub
+
        # set the scale limit according to the feature type
-        
+
        scale_limit=6
        if [[ $j = "land" ]]; then
           # a little more drastic on the land
           scale_limit=5
        fi
 
-       if [[ $i = "10m" ]]; then 
-    
-           echo "    Reducing resolution to $scale_limit for feature type $j at scale $i"          
-           $extract -where "ScaleRank<=$scale_limit" $ogrout $filestub'.shp' 
+       if [[ $i = "10m" ]]; then
+
+           echo "    Reducing resolution to $scale_limit for feature type $j at scale $i"
+           $extract -where "ScaleRank<=$scale_limit" $ogrout $filestub'.shp'
 
            set -A excluded_regions
            #NB an initial space \|/ appears compulsory when specifying -ve numbers :-/
@@ -172,11 +172,11 @@ do
            while [ $index -lt ${#excluded_regions[@]} ]
            do
                echo "    Preserving high-resolution data in region ${excluded_regions[$index]}"
-               $extract -append -spat ${excluded_regions[$index]} -where "ScaleRank > $scale_limit AND ScaleRank <= $scale_ceiling" $ogrout $filestub'.shp' 
-                
+               $extract -append -spat ${excluded_regions[$index]} -where "ScaleRank > $scale_limit AND ScaleRank <= $scale_ceiling" $ogrout $filestub'.shp'
+
                let index=$index+1
            done
-           
+
            # also copy the original files directly to a "10m_full" folder
            echo "    Copying full-resolution files to $data_folder/$i'_full_'$j'_output'"
            for ext in ${exts[@]}
@@ -190,25 +190,25 @@ do
            mkdir -p $ogrout
            echo "    Copying files at full resolution"
            for ext in ${exts[@]}
-           do 
+           do
                 cp $filestub'.'$ext $ogrout
            done
        fi
 
 
        # if statements to process according to file type
-       if [[ $j = "lakes" ]]; then              
+       if [[ $j = "lakes" ]]; then
 
 
           # IF we are processing 10m files we need to take account of the fact
           # that we need 10m_full resolution too.
           # NB in later versions of naturalearth Name1 and Name2 might be e.g.
           # Name and Name_alt or some other combination...
-          # 
+          #
           if [[ $i = "10m" ]]; then
              echo "    Removing Great Lakes duplicates and Caspian sea for $j feature type $i resolution"
-              $extract -overwrite -where "Name1 != 'Great Lakes' AND Name1 != 'Great  Lakes' AND Name1 != 'Caspian Sea' AND (Name2 != 'Great Lakes' OR ScaleRank=1 )" $dst_folder/$i'_full' $data_folder/$i'_full_'$j'_output'/$filestub_nopath'.shp' 
-              $extract -overwrite -where "Name1 != 'Great Lakes' AND Name1 != 'Great  Lakes' AND Name1 != 'Caspian Sea' AND (Name2 != 'Great Lakes' OR ScaleRank=1 )" $dst_folder/$i $ogrout/$filestub_nopath'.shp' 
+              $extract -overwrite -where "Name1 != 'Great Lakes' AND Name1 != 'Great  Lakes' AND Name1 != 'Caspian Sea' AND (Name2 != 'Great Lakes' OR ScaleRank=1 )" $dst_folder/$i'_full' $data_folder/$i'_full_'$j'_output'/$filestub_nopath'.shp'
+              $extract -overwrite -where "Name1 != 'Great Lakes' AND Name1 != 'Great  Lakes' AND Name1 != 'Caspian Sea' AND (Name2 != 'Great Lakes' OR ScaleRank=1 )" $dst_folder/$i $ogrout/$filestub_nopath'.shp'
            else
              # remove great lakes and caspian sea
              # with output folder the target folder
@@ -218,7 +218,7 @@ do
               echo "    Files written to target folder $dst_folder"
 
           fi
-         
+
 
        else
          # a simple copy to the target folder
@@ -230,7 +230,7 @@ do
            cp $ogrout/$f $dst_folder/$i/
            echo "     Copied $ogrout/$f to target folder $dst_folder/$i"
          done
-        
+
 
         if [[ $i = "10m" ]]; then
              # also take a copy of our full-resn files to 10m_full
@@ -243,7 +243,7 @@ do
         fi
       fi
 
-      
+
     done
 
     rm -f $dst_folder/*/*.qix $dst_folder/*/*.fix
@@ -260,7 +260,7 @@ if [[ $process_cities -eq 1 ]]; then
   echo "  Clean-up cities ..."
   POP_NAME=10m-populated-places-simple
   mkdir -p $tmp_folder/cultural/output
-  if [[ $download_files -eq 1 ]]; then 
+  if [[ $download_files -eq 1 ]]; then
       wget http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/${POP_NAME}.zip -P $tmp_folder
   else
       # get the files locally
@@ -268,7 +268,7 @@ if [[ $process_cities -eq 1 ]]; then
   fi
   unzip -q $tmp_folder/${POP_NAME}.zip -d $tmp_folder/cultural/
 
-  rename $tmp_folder/cultural/ne_10m_populated_places_simple $tmp_folder/cultural/10m_populated_places_simple $tmp_folder/cultural/*.* 
+  rename $tmp_folder/cultural/ne_10m_populated_places_simple $tmp_folder/cultural/10m_populated_places_simple $tmp_folder/cultural/*.*
 
   $extract -where "NAME != 'Vatican City' AND NAME != 'Vaduz' AND NAME != 'San Marino' AND NAME != 'Nicosia'" $tmp_folder/cultural/output $tmp_folder/cultural/10m_populated_places_simple.shp
   cp -f $tmp_folder/cultural/output/* $dst_folder/10m/
@@ -290,4 +290,3 @@ echo ""
 
 
 echo Done
-

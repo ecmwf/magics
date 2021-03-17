@@ -1,0 +1,24 @@
+magics:
+  mcont:
+    contour: true
+    contour_description: 'Blue contours for probabilities (thickness 2, range: 5-100)'
+    contour_highlight: true
+    contour_highlight_colour: blue
+    contour_highlight_frequency: 2
+    contour_highlight_thickness: 3
+    contour_hilo: false
+    contour_label_colour: blue
+    contour_label_frequency: 1
+    contour_legend_text: Blue contours for probabilities (thickness 1)
+    contour_level_list:
+    - 5
+    - 35
+    - 65
+    - 95
+    - 105
+    contour_level_selection_type: level_list
+    contour_line_colour: blue
+    contour_line_thickness: 2
+    contour_shade: false
+    contour_title: Blue contours for probabilities (thickness 2)
+

@@ -1,0 +1,83 @@
+magics:
+  mcont:
+    contour_description: 'Method : contour shade Level range : -80 to 80 Interval
+      : 2.5  Colour : blue and red Used for Eastward and Northward wind'
+    contour_highlight_colour: evergreen
+    contour_highlight_frequency: 4
+    contour_highlight_thickness: 1
+    contour_interval: 2
+    contour_label: false
+    contour_level_selection_type: interval
+    contour_line_thickness: 0
+    contour_shade: true
+    contour_shade_colour_list:
+    - '#001133'
+    - '#021642'
+    - '#051b4f'
+    - '#0b1f5e'
+    - '#12256b'
+    - '#182a79'
+    - '#1f2f88'
+    - '#253595'
+    - '#263f99'
+    - '#26499e'
+    - '#2553a2'
+    - '#235ca7'
+    - '#2365ac'
+    - '#236eb0'
+    - '#2377b4'
+    - '#2281b9'
+    - '#1f8abd'
+    - '#2294c0'
+    - '#2d9ec1'
+    - '#35a7c2'
+    - '#3db0c3'
+    - '#4cb9c3'
+    - '#64c1c0'
+    - '#77c9bd'
+    - '#89d1ba'
+    - '#9fd8b8'
+    - '#b0e0b7'
+    - '#c1e6b5'
+    - '#d3eeb3'
+    - '#e5f5b2'
+    - '#f5fbc3'
+    - '#ffffff'
+    - '#ffffff'
+    - '#fffac9'
+    - '#fff1ae'
+    - '#ffe79b'
+    - '#fede88'
+    - '#ffd575'
+    - '#ffcc60'
+    - '#fec14d'
+    - '#ffb744'
+    - '#ffac3b'
+    - '#fea131'
+    - '#fd9628'
+    - '#f98d23'
+    - '#f5841e'
+    - '#f17a19'
+    - '#ec7114'
+    - '#e56810'
+    - '#de610c'
+    - '#d75907'
+    - '#d05104'
+    - '#c74a02'
+    - '#be4503'
+    - '#b44003'
+    - '#a93b04'
+    - '#9f3704'
+    - '#953304'
+    - '#893005'
+    - '#7f2c06'
+    - '#742906'
+    - '#692606'
+    - '#671a13'
+    - '#67001f'
+    contour_shade_colour_method: list
+    contour_shade_max_level: 80
+    contour_shade_method: area_fill
+    contour_shade_min_level: -80
+    contour_title: Contour shade for wind components
+

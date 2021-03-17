@@ -1,0 +1,38 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade, Level list : (0./0.1/0.2/0.3/0.4/0.5/0.6/0.7/0.8/0.9/1)
+      Colour : green Used for Vegetation cover'
+    contour_hilo: false
+    contour_internal_reduction_factor: 4
+    contour_label: false
+    contour_legend_text: 'Contour shade (Level list : (0./0.1/0.2/0.3/0.4/0.5/0.6/0.7/0.8/0.9/1)'
+    contour_level_list:
+    - 0
+    - 0.1
+    - 0.2
+    - 0.3
+    - 0.4
+    - 0.5
+    - 0.6
+    - 0.7
+    - 0.8
+    - 0.9
+    - 1
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - '#fbffe2'
+    - '#faffbd'
+    - '#edff48'
+    - '#bfff7d'
+    - '#79ffa4'
+    - '#59c800'
+    - '#a99f89'
+    - '#73a57f'
+    - '#7a6e50'
+    - '#427200'
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: 'Contour shade (Level list : (0./0.1/0.2/0.3/0.4/0.5/0.6/0.7/0.8/0.9/1)'
+

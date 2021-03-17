@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "mc_sf",
-    "prefered_units": "mm",
+    "preferred_units": "mm",
     "styles": [
       "sh_mc_sf_f01t100",
       "ct_mc_sf_f01t100_black",

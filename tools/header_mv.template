@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: {{ generated }}
 */
-   
+
 
 #ifndef {{ object }}Wrapper_H
 #define {{ object }}Wrapper_H
@@ -33,7 +33,7 @@
 #include "{{ object_include }}"
 
 
-{% if inherit  != "" %} 
+{% if inherit  != "" %}
 #include "{{ inherit }}Wrapper.h"
 {% endif %}
 
@@ -41,19 +41,19 @@
 
 
 
-{% for w  in wrapper -%} 
+{% for w  in wrapper -%}
 #include "{{ w }}Wrapper.h"
-{% endfor %} 
+{% endfor %}
 
 namespace magics {
 
 class MagRequest;
 
 
-{% if inherit  != "" -%} 
+{% if inherit  != "" -%}
 class {{ object }}Wrapper: public {{ inherit }}Wrapper
-{% else %} 	
-class {{ object }}Wrapper 
+{% else %}
+class {{ object }}Wrapper
 {% endif %}
 {
 public:
@@ -63,30 +63,30 @@ public:
 //  --  destructor
     virtual ~{{ object }}Wrapper();
     virtual void set(const MagRequest&);
-    
-    {{ object }}* me()   { return {{ object | lower}}_; }
-   	
-   	virtual {{ object }}* object() { return {{ object | lower}}_; }
-	
 
-	virtual void object({{ object }}* o) { 
+    {{ object }}* me()   { return {{ object | lower}}_; }
+
+   	virtual {{ object }}* object() { return {{ object | lower}}_; }
+
+
+	virtual void object({{ object }}* o) {
 		// Remember to delete the previous object
 		{{ object | lower}}_ = o;
-		{% if inherit  != "" -%} 
+		{% if inherit  != "" -%}
 		  {{ inherit }}Wrapper::object(o);
 		{% endif %}
 
 	}
-    
-  
+
+
 
 protected:
     {{ object }}* {{ object | lower}}_;
 
 
 //  --  method
-	virtual void print(ostream&) const;
-	
+	virtual void print(ostream&) const override;
+
 
 private:
     string tag_;
@@ -97,6 +97,3 @@ private:
 } // namespace magics
 
 #endif
-
-
-

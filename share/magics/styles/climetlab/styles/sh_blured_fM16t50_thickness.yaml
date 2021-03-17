@@ -1,0 +1,68 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : Contour shade for thickness 500-1000 hPa'
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 504/604)'
+    contour_level_list:
+    - 488
+    - 504
+    - 508
+    - 512
+    - 516
+    - 520
+    - 524
+    - 528
+    - 532
+    - 536
+    - 540
+    - 544
+    - 548
+    - 552
+    - 556
+    - 560
+    - 564
+    - 568
+    - 572
+    - 576
+    - 580
+    - 584
+    - 588
+    - 592
+    - 596
+    - 604
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0.01,0.01,0.45)
+    - rgb(0.05,0.05,0.55)
+    - rgb(0.15,0.25,0.75)
+    - rgb(0.2,0.3,0.9)
+    - rgb(0.37,0.5,1)
+    - rgb(0.5,0.7,1)
+    - rgb(0.5,0.9,1)
+    - rgb(0.3,0.68,0.4)
+    - rgb(0.43,0.77,0.2)
+    - rgb(0.6,0.86,0.1)
+    - rgb(0.75,0.98,0)
+    - rgb(1,1,0)
+    - rgb(1,0.89,0)
+    - rgb(1,0.78,0)
+    - rgb(1,0.67,0)
+    - rgb(1,0.55,0)
+    - rgb(1,0.35,0)
+    - rgb(1,0.23,0)
+    - rgb(1,0,0.2)
+    - rgb(1,0,0.53)
+    - rgb(1,0,0.84)
+    - rgb(1,0,0.95)
+    - rgb(0.92,0,1)
+    - rgb(0.83,0,1)
+    - rgb(0.75,0,1)
+    - rgb(0.75,0,1)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: Contour shade
+

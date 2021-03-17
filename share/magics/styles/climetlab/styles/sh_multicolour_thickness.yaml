@@ -1,0 +1,107 @@
+magics:
+  mcont:
+    contour: true
+    contour_description: 'Method : Contours multi coloured'
+    contour_hilo: false
+    contour_label: true
+    contour_legend_text: 'Contours multi-coloured (Range: 444 / 618)'
+    contour_level_list:
+    - 444
+    - 450
+    - 456
+    - 462
+    - 468
+    - 474
+    - 480
+    - 486
+    - 492
+    - 498
+    - 504
+    - 510
+    - 516
+    - 522
+    - 528
+    - 534
+    - 540
+    - 546
+    - 552
+    - 558
+    - 564
+    - 570
+    - 576
+    - 582
+    - 588
+    - 594
+    - 600
+    - 606
+    - 612
+    - 618
+    contour_level_selection_type: level_list
+    contour_line_colour_rainbow: true
+    contour_line_colour_rainbow_colour_list:
+    - black
+    - black
+    - black
+    - rgb(0,0.75,0.75)
+    - rgb(0,0.75,0.75)
+    - rgb(0,0.75,0.75)
+    - bluish_purple
+    - bluish_purple
+    - bluish_purple
+    - rust
+    - rust
+    - rust
+    - greenish_blue
+    - greenish_blue
+    - greenish_blue
+    - rgb(0,0.82,0)
+    - rgb(0,0.82,0)
+    - rgb(0,0.82,0)
+    - red
+    - red
+    - red
+    - orange
+    - orange
+    - orange
+    - rgb(0.996,0.008,0.716)
+    - rgb(0.996,0.008,0.716)
+    - rgb(0.996,0.008,0.716)
+    - black
+    - black
+    - black
+    contour_line_colour_rainbow_method: list
+    contour_line_thickness: 4
+    contour_line_thickness_rainbow_list:
+    - 3
+    - 3
+    - 6
+    - 3
+    - 3
+    - 6
+    - 3
+    - 3
+    - 6
+    - 3
+    - 3
+    - 6
+    - 3
+    - 3
+    - 6
+    - 3
+    - 3
+    - 6
+    - 3
+    - 3
+    - 6
+    - 3
+    - 3
+    - 6
+    - 3
+    - 3
+    - 6
+    - 3
+    - 3
+    - 6
+    contour_shade: false
+    contour_title: Contours multi-coloured
+

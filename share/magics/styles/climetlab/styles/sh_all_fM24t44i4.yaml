@@ -1,0 +1,40 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : Area fill Level range : -24 to 44 Interval : 4
+      Thickness : 3 Colour : All colours'
+    contour_highlight_frequency: 20
+    contour_highlight_style: dash
+    contour_highlight_thickness: 5
+    contour_hilo: false
+    contour_interval: 4
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: -24 / 44)'
+    contour_level_selection_type: interval
+    contour_line_style: dot
+    contour_line_thickness: 3
+    contour_shade: true
+    contour_shade_colour_list:
+    - blue_purple
+    - greenish_blue
+    - blue_green
+    - bluish_green
+    - yellow_green
+    - greenish_yellow
+    - yellow
+    - orangish_yellow
+    - orange_yellow
+    - yellowish_orange
+    - orange
+    - reddish_orange
+    - red_orange
+    - orangish_red
+    - red
+    - magenta
+    - magenta
+    contour_shade_colour_method: list
+    contour_shade_max_level: 44
+    contour_shade_method: area_fill
+    contour_shade_min_level: -24
+    contour_title: 'Contour shade (Range: -24 / 44)'
+

@@ -5,7 +5,7 @@
       "300vorticity",
       "250vorticity"
     ],
-    "prefered_units": "10**5/sec",
+    "preferred_units": "10**5/sec",
     "styles": [
       "sh_blured_fM50t50lst_cell",
       "sh_blured_fM50t50lst",

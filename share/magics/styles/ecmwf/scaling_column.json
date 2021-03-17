@@ -1,6 +1,6 @@
 [
   {
-    "prefered_units": "dam",
+    "preferred_units": "dam",
     "match": [
       {
         "paramId": "206"

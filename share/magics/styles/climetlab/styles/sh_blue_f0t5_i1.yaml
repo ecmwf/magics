@@ -1,0 +1,21 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade Level list from 0 to 5'
+    contour_interval: 1
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 0 / 5)'
+    contour_level_selection_type: interval
+    contour_shade: true
+    contour_shade_colour_list:
+    - '#f6eff7'
+    - '#bdc9e1'
+    - '#67a9cf'
+    - '#1c9099'
+    - '#016c59'
+    contour_shade_colour_method: list
+    contour_shade_max_level: 5
+    contour_shade_method: area_fill
+    contour_shade_min_level: 0
+    contour_title: 'Contour shade (Range: 0 / 5)'
+

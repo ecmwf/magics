@@ -1,21 +1,29 @@
   <h2> Origin </h2>
+
   {% for r in results %}
     <button onclick='showFamily("{{ r }}" )'>{{ r }} </button>
     {% endfor %}
 
+
     <h2> Colours </h2>
+
   {% for c in colours %}
     <button onclick='showColour("{{ c }}" )'>{{ c }} </button>
     {% endfor %}
+
+
     <h2> Levels </h2>
   <select id="levels" onchange="showLevel(this.options[this.selectedIndex].value)">
+
      <option value="all">All</option>
   {% for c in levels %}
     <option value="level_{{ c }}">{{ c }} </option>
     {% endfor %}
+
 </select>
 
    <h2> Parameters </h2>
+
   <select id="parameters" onchange="showParam(this.options[this.selectedIndex].value)">
   <option value="all">All</option>
   {% for l, s in parameters.items() %}
@@ -25,7 +33,7 @@
 </select>
 <br/>
 <h2> Magics settings </h2>
-<textarea id="magics" rows="8" cols="100">
+<textarea id="magics" rows="4" cols="100">
 
 </textarea>
 
@@ -38,7 +46,7 @@
     {% for v in values %}
     <tr class='{{ v.colours }} {{ v.level }} {{ v.parameters }}'>
 
-    <td  onclick='magics("{{ v.title }}", {{ v.nb_level }})' style="cursor:pointer">
+    <td  onclick='magics("{{ v.title }}")' style="cursor:pointer">
       <b>  {{ v.title }} </b> - <i> {{ v.nb_level }} colours </i> <br/>
       <img src='/download/attachments/97362110/{{ v.path }}'/>
     </td>
@@ -83,19 +91,16 @@ function showColour(name) {
     showRow(name);
 
 }
-function magics(name, count) {
+function magics(name) {
 
 
     document.getElementById('magics').value = `contour = mcont(
-    contour_level_selection_type = "count",
-    contour_level_tolerance = 0, 
-    contour_level_count = ` + count + `,
     contour_shade = 'on',
-    contour_shade_method = 'area_fill',
+    contour_shade_method = 'area_fill'
     contour_shade_colour_method = 'palette',
     contour_shade_palette_name = '` + name + "')"
+    ;
 }
-
 function showLevel(name) {
     document.getElementById('parameters').value="all";
     if ( name == "all" ) {

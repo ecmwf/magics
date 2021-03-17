@@ -1,0 +1,33 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : Area fill  (Level list : 0/0.001/0.002/0.003/0.004/0.005/0.01/1)  Colour
+      : green/blue Used for Snow evaporation'
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Level list : -1/-0.01/-0.005/0/0.005/0.01/1)
+      Used for Snow evaporation'
+    contour_level_list:
+    - -1
+    - -0.01
+    - -0.005
+    - 0
+    - 0.005
+    - 0.01
+    - 1
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - '#ceecc8'
+    - '#85cdc2'
+    - '#47a9ce'
+    - '#2886ba'
+    - '#0b61a4'
+    - '#084081'
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: 'Contour shade (Level list : 0./0.001/0.002/0.003/0.004/0.005/0.01/1)
+      Used for Snow evaporation'
+    contour_units: cm
+    grib_missing_value_indicator: 9999
+

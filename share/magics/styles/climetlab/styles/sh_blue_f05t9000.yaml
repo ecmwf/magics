@@ -1,0 +1,39 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : Area fill Level range : 0.5 to 9000 Interval :
+      list Colour : Used for Lake depth (low values)'
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 0.5 / 9000), used for lake depth'
+    contour_level_list:
+    - 0.5
+    - 100
+    - 200
+    - 300
+    - 400
+    - 500
+    - 600
+    - 700
+    - 800
+    - 900
+    - 1000
+    - 9000
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - '#d3daeb'
+    - '#a6bddb'
+    - '#8eb3d5'
+    - '#74a9cf'
+    - '#599cc7'
+    - '#3690c0'
+    - '#2480b8'
+    - '#0570b0'
+    - '#05659e'
+    - '#045a8d'
+    - '#ffffff'
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: 'Contour shade (Range: 0.5 / 9000), used for Lake depth'
+

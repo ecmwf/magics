@@ -1,0 +1,44 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: CAPE extra range
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: Range 50 to 8000
+    contour_level_list:
+    - 50
+    - 100
+    - 200
+    - 400
+    - 600
+    - 800
+    - 1000
+    - 1300
+    - 1600
+    - 2000
+    - 2500
+    - 3000
+    - 3500
+    - 4000
+    - 8000
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(166,255,255)
+    - rgb(2,186,253)
+    - rgb(2,115,253)
+    - rgb(26,150,19)
+    - rgb(52,254,40)
+    - rgb(255,255,0)
+    - rgb(254,198,39)
+    - rgb(252,118,29)
+    - rgb(255,0,0)
+    - rgb(193,0,15)
+    - rgb(179,9,125)
+    - rgb(252,31,254)
+    - rgb(174,0,249)
+    - rgb(125,0,179)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: Shading (50 to 8000)
+

@@ -144,7 +144,7 @@ void Style::match(const Value& value) {
 void Style::set(const ValueMap& object) {
     if (methods_.empty()) {
         methods_["match"]          = &Style::criteria;
-        methods_["prefered_units"] = &Style::units;
+        methods_["preferred_units"] = &Style::units;
         methods_["styles"]         = &Style::styles;
         methods_["eccharts_layer"] = &Style::name;
         methods_["visdef"]         = &Style::style;
@@ -381,9 +381,9 @@ bool StyleLibrary::findStyle(const MetaDataCollector& data, MagDef& visdef, Styl
     if (score) {
         info.set(beststyle.styles_.front(), beststyle.styles_);
         allStyles_.find(info.default_, visdef);
-        if (visdef.find("prefered_units") == visdef.end())
+        if (visdef.find("preferred_units") == visdef.end())
             if (beststyle.preferedUnits_.size()) {
-                // visdef.insert(make_pair("prefered_units", beststyle.preferedUnits_));
+                // visdef.insert(make_pair("preferred_units", beststyle.preferedUnits_));
                 visdef.insert(make_pair("contour_units", beststyle.preferedUnits_));
             }
         return true;

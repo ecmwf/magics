@@ -1,4 +1,4 @@
-#!/bin/ksh
+#!/usr/bin/env bash
 
 # copies the publications in pdf and html to the dreamweaver
 # directory ready for uploading to wedit

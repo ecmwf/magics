@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "315Kpotvort",
-    "prefered_units": "pv units",
+    "preferred_units": "pv units",
     "styles": [
       "sh_blu_f02t30",
       "sh_gry_f0t20lst",

@@ -1,0 +1,34 @@
+magics:
+  mcont:
+    contour_description: 'Method : contour shade, with contours Level list : (0.05/0.2/0.4/1/2.5/5.0/10.0/25.0)
+      Colour : from blue to red Used for snowfall (m equivalent)'
+    contour_highlight: false
+    contour_hilo: false
+    contour_internal_reduction_factor: 4
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 0.05 / 25, with isolines)'
+    contour_level_list:
+    - 0.05
+    - 0.2
+    - 0.4
+    - 1
+    - 2.5
+    - 5
+    - 10
+    - 25
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - cyan
+    - greenish_blue
+    - blue
+    - bluish_purple
+    - magenta
+    - orange
+    - red
+    - charcoal
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_shade_min_level: 0.05
+    contour_title: 'Contour shade (Range: 0.05 / 250, with isolines)'
+

@@ -1,0 +1,53 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method: contour shade Level range : 0.0001 to 20 Interval
+      : varied Colour : Oranges'
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 1e-4 / 20, Orange colours)'
+    contour_level_list:
+    - 0.0001
+    - 0.0002
+    - 0.0005
+    - 0.001
+    - 0.002
+    - 0.005
+    - 0.01
+    - 0.02
+    - 0.05
+    - 0.1
+    - 0.2
+    - 0.5
+    - 1
+    - 2
+    - 5
+    - 10
+    - 20
+    contour_level_selection_type: level_list
+    contour_reference_level: 0
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0.2063,0,0)
+    - rgb(0.371,0,0)
+    - rgb(0.5358,0,0)
+    - rgb(0.7005,0,0)
+    - rgb(0.8652,0,0)
+    - rgb(1,0.0299,0)
+    - rgb(1,0.1946,0)
+    - rgb(1,0.3593,0)
+    - rgb(1,0.524,0)
+    - rgb(1,0.6887,0)
+    - rgb(1,0.8534,0)
+    - rgb(1,1,0.0272)
+    - rgb(1,1,0.2743)
+    - rgb(1,1,0.5213)
+    - rgb(1,1,0.7684)
+    - rgb(1,1,1)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_shade_min_level: 0
+    contour_shade_technique: grid_shading
+    contour_title: 'Contour shade (Range: 0.0001 / 20, orange colours)'
+

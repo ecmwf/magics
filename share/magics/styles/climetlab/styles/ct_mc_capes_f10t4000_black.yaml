@@ -1,0 +1,34 @@
+magics:
+  mcont:
+    contour: true
+    contour_description: 'Model climate CAPESHEAR contour Range: 10 to 4000'
+    contour_highlight: true
+    contour_highlight_colour: black
+    contour_highlight_frequency: 4
+    contour_highlight_thickness: 4
+    contour_hilo: false
+    contour_label_colour: black
+    contour_label_frequency: 1
+    contour_legend_text: 'Black contour (Range: 10/4000)'
+    contour_level_list:
+    - 10
+    - 50
+    - 100
+    - 200
+    - 300
+    - 400
+    - 500
+    - 600
+    - 800
+    - 1000
+    - 1250
+    - 1500
+    - 1750
+    - 2000
+    - 4000
+    contour_level_selection_type: level_list
+    contour_line_colour: black
+    contour_line_thickness: 2
+    contour_shade: false
+    contour_title: 'Black contour (Range: 10/4000)'
+

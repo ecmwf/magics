@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "mofc_z500_weekly_mean",
-    "prefered_units": "dam",
+    "preferred_units": "dam",
     "styles": [
       "ct_blk_i6_t2",
       "ct_blk_i5_t2",

@@ -1,0 +1,48 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: ERICHA 24-h accumulations from observations
+    contour_internal_reduction_factor: 6
+    contour_label: false
+    contour_level_list:
+    - 0.2
+    - 0.6
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 8
+    - 10
+    - 13
+    - 16
+    - 20
+    - 25
+    - 35
+    - 50
+    - 50000
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(214,226,255)
+    - rgb(142,178,255)
+    - rgb(99,112,247)
+    - rgb(0,99,255)
+    - rgb(0,150,150)
+    - rgb(0,198,51)
+    - rgb(99,255,0)
+    - rgb(198,255,51)
+    - rgb(255,255,0)
+    - rgb(255,198,0)
+    - rgb(255,160,0)
+    - rgb(255,124,0)
+    - rgb(255,25,0)
+    - rgb(162,10,40)
+    - rgb(156,21,157)
+    - rgb(210,148,210)
+    - rgb(246,233,246)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: ERICHA 24-h accumulations
+

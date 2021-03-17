@@ -1,0 +1,30 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade Level list from 0 to 900'
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 0 / 900)'
+    contour_level_list:
+    - 0
+    - 25
+    - 50
+    - 100
+    - 150
+    - 200
+    - 300
+    - 900
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0.99,0.025,0.025)
+    - rgb(0.99,0.52,0.0098)
+    - rgb(0.98,0.98,0.058)
+    - rgb(0.075,0.47,0.15)
+    - rgb(0.037,0.96,0.099)
+    - rgb(0.15,0.37,0.92)
+    - rgb(0.56,0.24,0.92)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: 'Contour shade (Range: 0/900)'
+

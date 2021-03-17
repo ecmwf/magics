@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "cds_es",
-    "prefered_units": "cm",
+    "preferred_units": "cm",
     "styles": [
       "sh_blugrn_f0t1lst"
     ],

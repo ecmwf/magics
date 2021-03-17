@@ -544,7 +544,7 @@ MAGICS_NO_EXPORT void GeoJsonDriver::renderText(const Text& text) const {}
 
 */
 MAGICS_NO_EXPORT bool GeoJsonDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
-                                                  unsigned char* pixmap, int, bool) const {
+                                                  unsigned char* pixmap, int, bool, bool) const {
     debugOutput("Start renderPixmap");
     if (render_) {
         if (GeoJson_placemark_)

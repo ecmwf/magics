@@ -1,5 +1,5 @@
 
-#!/bin/ksh
+#!/usr/bin/env bash
 src="../src/params"
 target="../src/attributes"
 list=${src}/*.xml
@@ -9,7 +9,7 @@ list=${src}/*.xml
 while getopts "h:i:a" arg; do
   case $arg in
     h)
-      echo "usage" 
+      echo "usage"
       ;;
     i)
       list=${src}/$OPTARG.xml
@@ -25,6 +25,6 @@ done
 for i in `ls ${list}`
 do
 echo  $i
-python xml2cc_mv.py .  $i ${target}
-python xml2cc.py .  $i ${target}
+python3 xml2cc_mv.py .  $i ${target}
+python3 xml2cc.py .  $i ${target}
 done

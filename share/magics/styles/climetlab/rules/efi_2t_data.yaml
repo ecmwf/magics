@@ -1,0 +1,19 @@
+match:
+- paramId:
+  - '132167'
+  - '132202'
+  - '132201'
+  shortName:
+  - 2ti
+  - mx2ti
+  - mn2ti
+  type: efi
+- long_name:
+  - 2 metre temperature index
+  - Maximum temperature at 2 metres index
+  - Minimum temperature at 2 metres index
+styles:
+- sh_blured_fM1t1lst
+- sh_efi2t_fM1t1lst
+- sh_efi2t_fM1t1lst_nc
+

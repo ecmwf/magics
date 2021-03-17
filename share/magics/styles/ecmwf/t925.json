@@ -7,7 +7,7 @@
       "t700",
       "t600"
     ],
-    "prefered_units": "C",
+    "preferred_units": "degC",
     "styles": [
       "sh_all_fM52t48i4",
       "sh_all_fM64t52i4",

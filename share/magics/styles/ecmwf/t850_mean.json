@@ -4,7 +4,7 @@
       "t850_mean",
       "t500_mean"
     ],
-    "prefered_units": "C",
+    "preferred_units": "degC",
     "styles": [
       "ct_blk_i5_t2",
       "ct_blk_i5_t1",

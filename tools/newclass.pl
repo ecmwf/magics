@@ -1,9 +1,9 @@
 #!/usr/bin/env perl
 # (C) Copyright 1996-2016 ECMWF.
-# 
+#
 # This software is licensed under the terms of the Apache Licence Version 2.0
-# which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-# In applying this licence, ECMWF does not waive the privileges and immunities 
+# which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+# In applying this licence, ECMWF does not waive the privileges and immunities
 # granted to it by virtue of its status as an intergovernmental organisation nor
 # does it submit to any jurisdiction.
 
@@ -23,13 +23,13 @@ open STDOUT, ">src/$class.h";
 print <<"EOF";
 /*! \\file $class.h
     \\brief Definition of the Template class $class.
-    
+
     Magics Team - ECMWF $year
-    
+
     Started: $string
-    
+
     Changes:
-    
+
 */
 
 #ifndef $class\_H
@@ -63,7 +63,7 @@ public:
 
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
-	 virtual void print(ostream&) const; 
+	 virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed
@@ -87,13 +87,13 @@ open STDOUT, ">src/$class.cc";
 print <<"EOF";
 /*! \\file $class.cc
     \\brief Implementation of the Template class $class.
-    
+
     Magics Team - ECMWF $year
-    
+
     Started: $string
-    
+
     Changes:
-    
+
 */
 
 
@@ -102,18 +102,18 @@ print <<"EOF";
 
 using namespace magics;
 
-$class\::$class() 
+$class\::$class()
 {
 }
 
 
-$class\::~$class() 
+$class\::~$class()
 {
 }
 
 /*!
  Class information are given to the output-stream.
-*/		
+*/
 void $class\::print(ostream& out)  const
 {
 	out << "$class\[";

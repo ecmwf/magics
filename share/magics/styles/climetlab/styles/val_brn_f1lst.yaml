@@ -1,0 +1,16 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour grid values Value supressed below : 1 Colour
+      : brown Used for orography'
+    contour_grid_value_colour: brown
+    contour_grid_value_format: I4
+    contour_grid_value_height: 0.3
+    contour_grid_value_min: 1
+    contour_grid_value_plot: true
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: Grid values (above 1.0, brown)
+    contour_title: Grid values (above 1.0, brown)
+    input_field_suppress_below: 1
+

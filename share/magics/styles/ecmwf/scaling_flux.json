@@ -1,6 +1,6 @@
 [
   {
-    "prefered_units": "mm",
+    "preferred_units": "mm",
     "match": [
       {
         "paramId": "140"

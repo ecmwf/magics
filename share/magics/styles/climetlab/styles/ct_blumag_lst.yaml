@@ -1,0 +1,27 @@
+magics:
+  mcont:
+    contour_description: 'Method : contour Level list : 1/5/15/40/100/250 Thickness
+      : 2 Colour : Blue-magenta Used for precipitation'
+    contour_highlight_colour: magenta
+    contour_highlight_frequency: 3
+    contour_highlight_thickness: 5
+    contour_hilo: false
+    contour_label: true
+    contour_label_colour: black
+    contour_label_frequency: 1
+    contour_label_height: 0
+    contour_legend_text: Intervals 1/5/15/40/100/250
+    contour_level_list:
+    - 1
+    - 5
+    - 15
+    - 40
+    - 100
+    - 250
+    contour_level_selection_type: level_list
+    contour_line_colour: blue
+    contour_line_thickness: 2
+    contour_min_level: -1
+    contour_reference_level: 15
+    contour_title: 'Contour (Range: 1 / 250, thickness 2, blue)'
+

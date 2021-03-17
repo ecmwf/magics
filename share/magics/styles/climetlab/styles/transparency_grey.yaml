@@ -1,0 +1,42 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade All shades of gray, for clouds'
+    contour_highlight: false
+    contour_hilo: false
+    contour_interpolation_ceiling: 1
+    contour_interpolation_floor: 0
+    contour_label: false
+    contour_legend_text: Transparency grey (rgbA)
+    contour_level_list:
+    - 0
+    - 0.1
+    - 0.2
+    - 0.3
+    - 0.4
+    - 0.5
+    - 0.6
+    - 0.7
+    - 0.8
+    - 0.9
+    - 1.5
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_cell_resolution: 35
+    contour_shade_colour_list:
+    - none
+    - rgba(0.66,0.66,0.66,0)
+    - rgba(0.66,0.66,0.66,0.1)
+    - rgba(0.66,0.66,0.66,0.2)
+    - rgba(0.66,0.66,0.66,0.3)
+    - rgba(0.66,0.66,0.66,0.4)
+    - rgba(0.66,0.66,0.66,0.5)
+    - rgba(0.66,0.66,0.66,0.6)
+    - rgba(0.66,0.66,0.66,0.7)
+    - rgba(0.66,0.66,0.66,0.8)
+    - rgba(0.66,0.66,0.66,0.9)
+    - rgba(0.66,0.66,0.66,1)
+    contour_shade_colour_method: list
+    contour_shade_technique: cell_shading
+    contour_title: Transparency grey (rgbA)
+

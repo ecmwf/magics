@@ -1,0 +1,28 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade (Coarser) Level list : (-1.5/1.5)
+      Conventional EFI 2T range'
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Coarse range: -1.5 / 1.5)'
+    contour_level_list:
+    - -1.5
+    - -0.75
+    - -0.5
+    - 0.5
+    - 0.75
+    - 1.5
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - sky
+    - rgb(0.8,0.9,0.9)
+    - none
+    - yellow
+    - orange
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: 'Contour shade (Coarse range: -1.5 / 1.5)'
+

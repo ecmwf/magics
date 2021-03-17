@@ -1,0 +1,50 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : Temperature anomaly'
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: -20 / 20)'
+    contour_level_list:
+    - -12
+    - -8
+    - -7
+    - -6
+    - -5
+    - -4
+    - -3
+    - -2
+    - -1
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 12
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0,0,255)
+    - rgb(0,31,255)
+    - rgb(0,62,255)
+    - rgb(0,93,255)
+    - rgb(0,124,255)
+    - rgb(0,155,255)
+    - rgb(0,186,255)
+    - rgb(0,217,255)
+    - none
+    - rgb(173,255,47)
+    - rgb(183,224,42)
+    - rgb(193,193,37)
+    - rgb(203,162,32)
+    - rgb(213,131,27)
+    - rgb(223,100,22)
+    - rgb(233,69,17)
+    - rgb(243,38,12)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: Contour shade for temeperature anomaly
+

@@ -1,0 +1,35 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : Area fill Level range : 0.3 to 3 Interval : list
+      Colour : Used for Lake ice depth'
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 0.5 / 3), used for lake ice depth'
+    contour_level_list:
+    - 0.3
+    - 0.6
+    - 0.9
+    - 1.2
+    - 1.5
+    - 1.8
+    - 2.1
+    - 2.4
+    - 2.7
+    - 3
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - '#fff7fb'
+    - '#c8d2e7'
+    - '#9ab8d8'
+    - '#7babd1'
+    - '#599cc7'
+    - '#328cbe'
+    - '#1978b4'
+    - '#0568a3'
+    - '#045a8d'
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: 'Contour shade (Range: 0.5 / 3), used for Lake ice depth'
+

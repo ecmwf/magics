@@ -1,0 +1,49 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade Level range : 60 to 10000 Colour
+      : YlGnBu colours'
+    contour_hi_min_value: 0
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 0 / 10000, all colours)'
+    contour_level_list:
+    - 60
+    - 77.14
+    - 94.29
+    - 111.43
+    - 128.57
+    - 145.71
+    - 162.86
+    - 180
+    - 197.14
+    - 214.29
+    - 231.43
+    - 248.57
+    - 265.71
+    - 282.86
+    - 1000
+    contour_level_selection_type: level_list
+    contour_reference_level: 0
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0.9601,0.9845,0.7624)
+    - rgb(0.9101,0.9649,0.6956)
+    - rgb(0.826,0.9317,0.7023)
+    - rgb(0.6985,0.8819,0.7138)
+    - rgb(0.539,0.8199,0.7294)
+    - rgb(0.396,0.7661,0.7481)
+    - rgb(0.2527,0.7114,0.7684)
+    - rgb(0.173,0.6295,0.7595)
+    - rgb(0.1166,0.5396,0.7393)
+    - rgb(0.1276,0.4267,0.6861)
+    - rgb(0.1369,0.3182,0.6348)
+    - rgb(0.1436,0.2252,0.5905)
+    - rgb(0.0956,0.1647,0.478)
+    - rgb(0.0314,0.1137,0.3451)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_shade_min_level: 60
+    contour_title: 'Contour shade (Range: 60 / 10000, YlGnBu)'
+

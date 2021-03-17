@@ -1,0 +1,39 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : Area fill Level range : 1000 to 12000 Interval
+      : list Colour : Used for Large scale surface precipitation fraction'
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 1000 / 12000)'
+    contour_level_list:
+    - 1000
+    - 2000
+    - 3000
+    - 4000
+    - 5000
+    - 6000
+    - 7000
+    - 8000
+    - 9000
+    - 10000
+    - 12000
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - '#fff7fb'
+    - '#ebe6f2'
+    - '#d7d6e9'
+    - '#bdc8e1'
+    - '#a0bad9'
+    - '#7fadd2'
+    - '#609fc9'
+    - '#3b91c1'
+    - '#2580b8'
+    - '#0770b0'
+    - '#046299'
+    - '#045483'
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: 'Contour shade (Range: 1000 / 12000)'
+

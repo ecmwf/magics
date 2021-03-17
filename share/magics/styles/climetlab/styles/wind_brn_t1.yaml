@@ -1,0 +1,11 @@
+magics:
+  mcont:
+    contour_description: 'Method : Wind arrows Thickness : 1 Colour : Mustard Used
+      for wind'
+    contour_title: Wind arrows (mustard)
+    wind_arrow_colour: mustard
+    wind_arrow_thickness: 1
+    wind_arrow_unit_velocity: 40
+    wind_field_type: arrows
+    wind_legend_text: Mustard wind arrows
+

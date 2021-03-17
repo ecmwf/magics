@@ -1,0 +1,84 @@
+- from: 1
+  to: gr kg-1
+  scaling: 1000
+  offset: 0
+
+- from: K
+  to: degC
+  scaling: 1
+  offset: -273.15
+
+- from: K m**2 kg**-1 s**-1
+  to: pv units
+  scaling: 1e+06
+  offset: 0
+
+- from: Pa
+  to: hPa
+  scaling: 0.01
+  offset: 0
+
+- from: gpm
+  to: dam
+  scaling: 10
+  offset: 0
+
+- from: kg kg**-1
+  to: g/kg
+  scaling: 1000
+  offset: 0
+
+- from: kg m**-2
+  to: Dob
+  scaling: 46696.2
+  offset: 0
+
+- from: kg m**-2 s**-1
+  to: kg m**-2 h**-1
+  scaling: 3600
+  offset: 0
+
+- from: m
+  to: cm
+  scaling: 100
+  offset: 0
+
+- from: m
+  to: dam
+  scaling: 0.1
+  offset: 0
+
+- from: m
+  to: hm
+  scaling: 0.01
+  offset: 0
+
+- from: m
+  to: mm
+  scaling: 1000
+  offset: 0
+
+- from: m of water
+  to: mm
+  scaling: 1000
+  offset: 0
+
+- from: m of water equivalent
+  to: cm
+  scaling: 100
+  offset: 0
+
+- from: m of water equivalent
+  to: mm
+  scaling: 1000
+  offset: 0
+
+- from: m**2 s**-2
+  to: dam
+  scaling: 0.0101972
+  offset: 0
+
+- from: s**-1
+  to: 10**5/sec
+  scaling: 100000
+  offset: 0

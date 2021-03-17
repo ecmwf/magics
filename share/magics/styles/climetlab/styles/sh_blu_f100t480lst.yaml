@@ -1,0 +1,47 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade, Level list : (100./120/140/160/180/200/220/240/260/280/300/320/340/360/480)
+      Colour : from white to blue Used for snow density'
+    contour_highlight: false
+    contour_hilo: false
+    contour_internal_reduction_factor: 4
+    contour_label: false
+    contour_legend_text: 'Contour shade (Level list : (100./120/140/160/180/200/220/240/260/280/300/320/340/360/480)'
+    contour_level_list:
+    - 100
+    - 120
+    - 140
+    - 160
+    - 180
+    - 200
+    - 220
+    - 240
+    - 260
+    - 280
+    - 300
+    - 320
+    - 340
+    - 360
+    - 480
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - '#eff3ff'
+    - '#deeaf8'
+    - '#cddff1'
+    - '#bdd6eb'
+    - '#aecce5'
+    - '#9ec2e0'
+    - '#8eb8da'
+    - '#7eaed5'
+    - '#6fa4d0'
+    - '#619acb'
+    - '#5290c6'
+    - '#4486c0'
+    - '#347bbb'
+    - '#2171b5'
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: 'Contour shade (Level list : (100./120/140/160/180/200/220/240/260/280/300/320/340/360/480)'
+

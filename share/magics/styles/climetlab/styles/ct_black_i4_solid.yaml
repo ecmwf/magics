@@ -1,0 +1,20 @@
+magics:
+  mcont:
+    contour_description: 'Method : contour Interval : 4 Colour : Black contour Used
+      for temperature'
+    contour_highlight_colour: black
+    contour_highlight_frequency: 5
+    contour_highlight_thickness: 2
+    contour_hilo: false
+    contour_interval: 4
+    contour_label: true
+    contour_label_frequency: 1
+    contour_label_height: 0
+    contour_legend_text: Interval 4
+    contour_level_selection_type: interval
+    contour_line_colour: black
+    contour_line_thickness: 2
+    contour_max_level: 100
+    contour_min_level: -100
+    contour_title: Contour (Interval 4, thicker)
+

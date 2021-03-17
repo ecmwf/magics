@@ -1,0 +1,32 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : Area fill Level range : 0 to 36 Interval : 3 Colour
+      : red Used for Lake mix-layer temperature'
+    contour_hilo: false
+    contour_interval: 3
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 0 / 36)'
+    contour_level_selection_type: interval
+    contour_shade: true
+    contour_shade_colour_list:
+    - '#ffffcc'
+    - '#ffe997'
+    - '#fecf6c'
+    - '#feb550'
+    - '#fe9841'
+    - '#fd7935'
+    - '#fc542b'
+    - '#ed3422'
+    - '#d71320'
+    - '#bc0026'
+    - '#9e0026'
+    - '#800026'
+    contour_shade_colour_method: list
+    contour_shade_max_level: 36
+    contour_shade_method: area_fill
+    contour_shade_min_level: 0
+    contour_title: 'Contour shade (Range: 0 / 36)'
+    contour_units: degC
+    grib_missing_value_indicator: 9999
+

@@ -1,0 +1,37 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade Level list : (0/0.4/0.7/1/1.5/2/3/4/5/10/20)
+      % Colour : Gray Used for potential vorticity'
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 0.0 / 1.0 & 1.5 / 20)'
+    contour_level_list:
+    - 0
+    - 0.4
+    - 0.7
+    - 1
+    - 1.5
+    - 2
+    - 3
+    - 4
+    - 5
+    - 10
+    - 20
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0.89,0.89,0.89)
+    - rgb(0.93,0.93,0.93)
+    - rgb(0.96,0.96,0.96)
+    - none
+    - rgb(0.73,0.73,0.73)
+    - rgb(0.6,0.6,0.6)
+    - rgb(0.52,0.52,0.52)
+    - rgb(0.44,0.44,0.44)
+    - rgb(0.37,0.37,0.37)
+    - rgb(0.3,0.3,0.3)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: 'Contour shade (Range: 0.0 / 1.0 & 1.5 / 20)'
+

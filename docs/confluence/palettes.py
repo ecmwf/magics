@@ -21,7 +21,7 @@ parameters = {}
 
 def put(file, where, comment):
     cmd = "java -jar /home/graphics/cgs/atlassian-cli-2.5.0/lib/confluence-cli-2.5.0.jar --server http://ussoftware.ecmwf.int:8081/wiki --user cgs --password sjnclEC4 --action addAttachment --space MAGP --file '%s' --comment '%s' --title '%s' " % (file, comment, where)
-    print (cmd)
+    print cmd
     os.system(cmd)
 
 
@@ -29,7 +29,7 @@ def put(file, where, comment):
 
 for p in palettes :
     origin = palettes[p]["tags"]["origin"]
-    print (p, origin)
+    print p, origin
     colour = sorted(palettes[p]["tags"]["colours"])
     
     for c in colour:
@@ -38,7 +38,7 @@ for p in palettes :
     for k in keyword:
         keywords[k] = k
     level = palettes[p]["tags"].get("n_levels", "0")
-    print (level)
+    print level
     levels[int(level)] = level
     params = palettes[p]["tags"]["parameter"]
     class_params = []
@@ -49,7 +49,7 @@ for p in palettes :
         short = short.replace(")", "")
         parameters[param] = "p"+short
         class_params.append( "p"+short)
-    print (class_params)
+    print class_params
     where = results.get(origin, [])
     where.append( {
         "title" : p,
@@ -82,4 +82,4 @@ with open(fname, "wt") as f:
 
 
 
-# put("table.html", "Predefined palettes in Magics",  "html" )
+put("table.html", "Predefined palettes in Magics",  "html" )

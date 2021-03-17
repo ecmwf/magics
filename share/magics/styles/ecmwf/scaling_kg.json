@@ -1,6 +1,6 @@
 [
   {
-    "prefered_units": "g/kg",
+    "preferred_units": "g/kg",
     "match": [
       {
         "paramId": "203"

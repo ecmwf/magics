@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "z500_spread",
-    "prefered_units": "dam",
+    "preferred_units": "dam",
     "styles": [
       "sh_blu_f02t50",
       "sh_range_f02t50"

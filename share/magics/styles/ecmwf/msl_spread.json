@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "msl_spread",
-    "prefered_units": "hPa",
+    "preferred_units": "hPa",
     "styles": [
       "sh_blu_f02t50",
       "sh_range_f02t50"

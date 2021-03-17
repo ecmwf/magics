@@ -1,0 +1,45 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method: contour shade Level range : 0.001 to 10 Colour:
+      all colours'
+    contour_hi_min_value: 0
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 0.001 / 10, all colours)'
+    contour_level_list:
+    - 0.001
+    - 0.002
+    - 0.005
+    - 0.01
+    - 0.05
+    - 0.1
+    - 0.2
+    - 0.5
+    - 1
+    - 2
+    - 5
+    - 10
+    - 99
+    contour_level_selection_type: level_list
+    contour_reference_level: 0
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0.14902,0.356863,0.627451)
+    - rgb(0.14902,0.568627,0.439216)
+    - rgb(0.419608,0.698039,0.356863)
+    - rgb(0.658824,0.788235,0.419608)
+    - rgb(1,0.956863,0.607843)
+    - rgb(0.956863,0.819608,0.219608)
+    - rgb(0.917647,0.709804,0.219608)
+    - rgb(0.866667,0.529412,0.25098)
+    - rgb(0.8,0.207843,0.2)
+    - rgb(0.607843,0.086275,0.137255)
+    - rgb(0.337255,0.098039,0.098039)
+    - rgb(0.2039,0.098039,0.098039)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_shade_min_level: 0
+    contour_title: 'Contour shade (Range: 0.001 / 10, all colours)'
+

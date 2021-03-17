@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "cds_tp_interval_spread",
-    "prefered_units": "mm",
+    "preferred_units": "mm",
     "styles": [
       "sh_magenta_f1t20"
     ],

@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "sf_interval",
-    "prefered_units": "mm",
+    "preferred_units": "mm",
     "styles": [
       "sh_blured_f05t300lst",
       "sh_blured_f1t100lst",

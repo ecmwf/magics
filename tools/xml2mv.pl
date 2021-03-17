@@ -1,9 +1,9 @@
 #!/usr/bin/env perl
 # (C) Copyright 1996-2016 ECMWF.
-# 
+#
 # This software is licensed under the terms of the Apache Licence Version 2.0
-# which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-# In applying this licence, ECMWF does not waive the privileges and immunities 
+# which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+# In applying this licence, ECMWF does not waive the privileges and immunities
 # granted to it by virtue of its status as an intergovernmental organisation nor
 # does it submit to any jurisdiction.
 
@@ -26,13 +26,13 @@ my %basetype = (
     "int" => 1,
     "float" => 1,
     "bool" => 1,
-    "string" => 1,  
-    "Colour" => 1,  
+    "string" => 1,
+    "Colour" => 1,
     "floatarray" =>1,
     "stringarray" => 1,
      "stringarray" => 1,
-    "intarray" => 1, 
-    "longintarray" => 1, 
+    "intarray" => 1,
+    "longintarray" => 1,
     "LineStyle" =>1,
     "Hemisphere" =>1,
     "ArrowPosition" => 1,
@@ -42,8 +42,8 @@ my %basetype = (
     "AxisAutomaticSetting" => 1,
     "OpenGLDriverObserverPtr" => 1,
     "Widget" =>1,
-    "QWidget*" =>1, 
-    "cairo_t*" =>1, 
+    "QWidget*" =>1,
+    "cairo_t*" =>1,
     "Matrix" => 1,
     "GribHandlePtr" =>1,
     "Path" =>1
@@ -61,58 +61,58 @@ my %pointertype = {
 };
 
 my %quote = (
-    "string" => 1,    
+    "string" => 1,
 );
 
 my %type = (
-    "float" => "double",    
+    "float" => "double",
 );
 
 sub parse
 {
     my $def = shift;
-    my $node = shift;   
-   
+    my $node = shift;
+
     while ( defined ( $element = shift @{ $node } ) )
     {
-       
+
         my $child = shift @{ $node };
         if ( ref $child )
         {
            my $attr = \%{ shift @{ $child } };
            my $name = $attr->{name};
-           
-           if ($name ne "") 
+
+           if ($name ne "")
            {
-               
+
                $def->{$element}->{$name} = {};
                my $list = $element . "_list";
                push( @{$def->{$list}}, $name);
-               foreach my $a (keys %{$attr}) 
+               foreach my $a (keys %{$attr})
                {
-                   $def->{$element}->{$name}->{attributes}->{$a} = $attr->{$a}; 
-                  
+                   $def->{$element}->{$name}->{attributes}->{$a} = $attr->{$a};
+
                }
-               parse($def->{$element}->{$name}, $child); 
-               
+               parse($def->{$element}->{$name}, $child);
+
            }
            else
            {
                    $def->{$element} = {};
-                   foreach my $a (keys %{$attr}) 
+                   foreach my $a (keys %{$attr})
                    {
                         $def->{$element}->{attributes}->{$a} = $attr->{$a};
-                       
+
                    }
-                   parse($def->{$element}, $child); 
+                   parse($def->{$element}, $child);
            }
         }
-        else 
+        else
         {
-         
+
           $def->{data} = $child;
         }
-    }   
+    }
 }
 
 
@@ -120,16 +120,16 @@ sub parse
 
 
 my $xml= new XML::Parser(Style=>"Tree");
-  
+
 parse ($info, $xml->parsefile($file));
 
 
 
 
 
-foreach my $object (keys %{$info->{magics}->{class}}) 
+foreach my $object (keys %{$info->{magics}->{class}})
 {
-   
+
     $current = $info->{magics}->{class}->{$object};
     $directory = $info->{magics}->{class}->{$object}->{attributes}->{directory};
     my $include_file = $info->{magics}->{class}->{$object}->{attributes}->{include};
@@ -138,12 +138,12 @@ foreach my $object (keys %{$info->{magics}->{class}})
 ######################################################
 #####                Include file
 
-  
+
 
     open STDOUT, ">$dir/$object\Wrapper.h";
-    
+
     my $string =  ctime();
-    
+
     $include_file = "$object.h" if  $include_file eq '';
     print  <<EOF;
 
@@ -151,13 +151,13 @@ foreach my $object (keys %{$info->{magics}->{class}})
     \\brief Wrapper for Metview Request
     Automatically generated on $string
     Do Not Edit!
-    
+
     Magics Team - ECMWF 2004
-   
+
     Created: $string
-    
+
 */
-   
+
 
 #ifndef $object\Wrapper_H
 #define $object\Wrapper_H
@@ -173,31 +173,31 @@ my $includes = {};
     my $member = lc $object;
     my $impl=$current->{attributes}->{inherits};
     my $abstract=$current->{attributes}->{abstract};
-    
-    print "#include \"$impl\Wrapper.h\"\n" if $impl ne ''; 
+
+    print "#include \"$impl\Wrapper.h\"\n" if $impl ne '';
     my $parent ='';
-    $parent=": public $impl\Wrapper" if $impl ne ''; 
-    
-    
-    foreach my $param (@{$current->{parameter_list}}) 
-    {   
+    $parent=": public $impl\Wrapper" if $impl ne '';
+
+
+    foreach my $param (@{$current->{parameter_list}})
+    {
        my $todo = $current->{parameter}->{$param}->{attributes}->{implemented};
        next if $todo eq 'no';
        my $mv = $current->{parameter}->{$param}->{attributes}->{metview};
        next if $mv eq 'no';
        my $to = $current->{parameter}->{$param}->{attributes}->{to};
-     
+
        $includes->{$to} = "find" unless $basetype{$to} || $to eq 'Colour' ;
     }
-    
-    foreach my $include (keys %{$includes} ) 
+
+    foreach my $include (keys %{$includes} )
     {
-          print "#include \"$include\Wrapper.h\"\n"; 
+          print "#include \"$include\Wrapper.h\"\n";
     }
-    
+
     print "\n";
-  
-    
+
+
     my $template = $current->{attributes}->{template};
     my $inherits_template = $current->{attributes}->{inherits_template};
     my $class = "$object\Wrapper";
@@ -209,7 +209,7 @@ my $includes = {};
         $object_t = "$object<P>";
         $parent = "$parent<P>" unless  $parent eq "";
     }
-    
+
     print <<EOF;
 
 
@@ -226,16 +226,16 @@ public:
     $object\Wrapper($object_t*);
 //  --  destructor
     virtual ~$object\Wrapper();
-    
+
     virtual void set(const MagRequest&);
 EOF
 
 if ($impl eq '') {
-print <<EOF; 
-    void object($object_t* $member) 
+print <<EOF;
+    void object($object_t* $member)
     	{ delete $member\_; $member\_ = $member; }
     $object_t* object()   { return $member\_; }
- 
+
 protected:
     $object_t* $member\_;
 
@@ -243,22 +243,22 @@ EOF
 }
 
 else {
-print <<EOF; 
+print <<EOF;
     $object_t* me() { return $member\_; }
-  
+
 protected:
     $object_t* $member\_;
 EOF
 }
 
 
-print <<EOF;  
+print <<EOF;
 
 //  --  method
-	virtual void print(ostream&) const;
+	virtual void print(ostream&) const override;
 	//virtual void toxml(ostream& out, int tabs = 0) const { toxml(out, tag_, tabs); }
 	//virtual void toxml(ostream&, const string&, int tabs) const;
-	
+
 
 
 private:
@@ -273,11 +273,11 @@ EOF
     if ( $template ne "" ) {
         print "#include \"$object\Wrapper.cc\" \n";
     }
-    
+
     print "\n#endif\n";
- 
+
     close STDOUT;
-    
+
 #####                Include file
 ######################################################
 
@@ -285,8 +285,8 @@ EOF
 #####                Source file
 
     open STDOUT, ">$dir/$object\Wrapper.cc";
-    
- 
+
+
     print  <<EOF;
 /*! \\file $object\Wrapper.h
     \\brief Implementation of $object Wrapper class.
@@ -294,9 +294,9 @@ EOF
     Do Not Edit!
 
     Created: $string
-*/    
+*/
 
-#include "MagRequest.h" 
+#include "MagRequest.h"
 #include "$object\Wrapper.h"
 #include "MagicsParameter.h"
 #include "Factory.h"
@@ -308,7 +308,7 @@ EOF
    $header = "";
    $p = "";
    $ip = "";
-   
+
    $ip = "<P>" if $inherits_template ne "";
    if ( $template ne "" ) {
         $header = "template <class $template>";
@@ -316,11 +316,11 @@ EOF
     }
     my $var = lc "$object";
     $member = lc "$object\_";
-   
+
 my $creator = '0';
-$creator="new $object_t()" if $abstract ne 'yes'; 
+$creator="new $object_t()" if $abstract ne 'yes';
 if ($impl eq '') {
-	
+
 print <<EOF;
 $header\n$object\Wrapper$p\::$object\Wrapper(): $member($creator)
 {
@@ -333,7 +333,7 @@ $header\n$object\Wrapper$p\::$object\Wrapper($object_t* $var): $member($var)
 EOF
 }
 else {
-	
+
 print <<EOF;
 $header\n$object\Wrapper$p\::$object\Wrapper(): $impl\Wrapper$ip($creator)
 {
@@ -365,7 +365,7 @@ EOF
 	$val = 0;
 	my $wrapper = lc $object;
 
-    foreach  my $param (@{$current->{parameter_list}}) 
+    foreach  my $param (@{$current->{parameter_list}})
     {
         my $todo = $current->{parameter}->{$param}->{attributes}->{implemented};
         next if $todo eq 'no';
@@ -395,15 +395,15 @@ EOF
         $magto = $magtype{$to} if $magtype{$to};
         $magto = "double" if $magto eq "float";
         $from = $magtype{$from} if $magtype{$from};
-	
-	
+
+
         $name = uc $name;
-	
+
         my %simpletype = (
 	        "Path" =>1,
 	        "LineStyle" => 1,
     		"AxisAutomaticSetting" => 1,
-            "ArrowPosition" =>1, 
+            "ArrowPosition" =>1,
 	        "Justification" => 1,
 		"Position" => 1,
             "ListPolicy" => 1,
@@ -422,27 +422,27 @@ EOF
 	    	"Colour" => "1",
 	    	"Path" => "1",
 		);
-	    if ( $arraytype{$to} ) 
+	    if ( $arraytype{$to} )
 	    {
 	    	print "\t\t$to $member;\n";
-	    	print "\t\tfor (int i = 0; i < request.countValues(\"$name\"); i++)\n";	
+	    	print "\t\tfor (int i = 0; i < request.countValues(\"$name\"); i++)\n";
 	    	print "\t\t\t$member.push_back($arraytype{$to}request(\"$name\", i));\n";
 	    	print "\t\tif ( !$member.empty() ) \n";
 	    	print "\t\t\t$wrapper\_->$member\_ = $member;\n";
 	    }
-        elsif ( $basetype{$to} ) 
+        elsif ( $basetype{$to} )
         {
-            if ( $default eq $mv_default ) 
-            {             
+            if ( $default eq $mv_default )
+            {
                 print "\t\t if  (request.countValues(\"$name\") ) {\n";
-            if ( $simpletype{$magto} ) 
+            if ( $simpletype{$magto} )
             {
                 print "\t\t\tstring $member\_s = request(\"$name\");\n";
                 print "\t\t\t$wrapper\_->$member\_ = MagTranslator<string, $magto>()($member\_s);\n";
             }
-            elsif ( $pointertype{$magto} ) 
+            elsif ( $pointertype{$magto} )
             {
-				
+
                 print "\t\t\tstring $member\_s = request(\"$name\");\n";
                 print "\t\t\t$wrapper\_->$member\_ = unique_ptr<$magto>(MagTranslator<string, $magto>()($member\_s));\n";
             }
@@ -452,24 +452,24 @@ EOF
         			print "\t\t\t$magto $member(request(\"$name\"));\n";
         		}
         		else {
-        			print "\t\t\t$magto $member = request(\"$name\");\n"; 
+        			print "\t\t\t$magto $member = request(\"$name\");\n";
         		}
                 print "\t\t\t$wrapper\_->$member\_ = $member;\n";
             }
             print "\t\t}\n\n";
             }
             else {
-                 if ( $simpletype{$magto} ) 
+                 if ( $simpletype{$magto} )
             {
                  $arg = "(request.countValues(\"$name\") ? (string) request(\"$name\") : \"$mv_default\")";
-                
+
                 print "\t\tstring $member\_s = $arg;\n";
                 print "\t\t$wrapper\_->$member\_ = (MagTranslator<string, $magto>()($member\_s));\n\n";
             }
-                 elsif ( $pointertype{$magto} ) 
+                 elsif ( $pointertype{$magto} )
             {
                  $arg = "(request.countValues(\"$name\") ? (string) request(\"$name\") : \"$mv_default\")";
-                
+
                 print "\t\tstring $member\_s = $arg;\n";
                 print "\t\t$wrapper\_->$member\_ = unique_ptr<$magto>(MagTranslator<string, $magto>()($member\_s));\n\n";
 			}
@@ -481,13 +481,13 @@ EOF
         		}
         		else {
                  $arg = "(request.countValues(\"$name\") ? request(\"$name\") : $mv_default)";
-        			print "\t\t$magto $member = $arg;\n"; 
+        			print "\t\t$magto $member = $arg;\n";
         		}
                 print "\t\t$wrapper\_->$member\_ = $member;\n\n";
             }
             }
-           
-            
+
+
          }
          else {
          	    print "\t\tstring $member\_s = request.countValues(\"$name\") ?  (string) request(\"$name\") : \"$mv_default\";\n";
@@ -497,7 +497,7 @@ EOF
                 print "\t\t{\n";
                 print "\t\t\t$member\_w = SimpleFactory<$wrapper_t>::create($member\_s);\n";
                 print "\t\t}\n";
-                print "\t\t catch (NoFactoryException) {\n"; 
+                print "\t\t catch (NoFactoryException) {\n";
                 print "\t\t\tMagLog::warning() << \"[\" << $member\_s << \"] is not a valid value for $name: reset to default -> [$mv_default]\" << endl;\n";
                 print "\t\t\t$member\_w = SimpleFactory<$wrapper_t>::create(\"$mv_default\");\n";
 			    print "\t\t}\n";
@@ -506,7 +506,7 @@ EOF
                 print "\t\tdelete $member\_w;\n\n";
          }
     }
-    
+
 print <<EOF;
 }
 
@@ -518,11 +518,11 @@ void $object\Wrapper$p\::print(ostream& out)  const
 
 EOF
 
-    foreach  my $param (@{$current->{parameter_list}}) 
+    foreach  my $param (@{$current->{parameter_list}})
     {
         my $todo = $current->{parameter}->{$param}->{attributes}->{implemented};
         next if $todo eq 'no';
-        foreach  my $option (@{$current->{parameter}->{$param}->{option_list}}) { 
+        foreach  my $option (@{$current->{parameter}->{$param}->{option_list}}) {
         	my $class = $current->{parameter}->{$param}->{option}->{$option}->{attributes}->{name};
         	my $include = $current->{parameter}->{$param}->{option}->{$option}->{attributes}->{include};
         	my $fortran = $current->{parameter}->{$param}->{option}->{$option}->{attributes}->{fortran};
@@ -534,14 +534,14 @@ EOF
               if ( $class eq  $base) {
                 for my $o (@fortrans) {
                     print "\nstatic SimpleObjectMaker<$base\Wrapper> $object\_$o\_$class\_w(\"$o\");\n" if $o ne "";
-        	    }  
+        	    }
               }
               else {
-                print "\n#include \"$class\Wrapper.h\"\n";  
-                for my $o (@fortrans) { 
+                print "\n#include \"$class\Wrapper.h\"\n";
+                for my $o (@fortrans) {
                     $n = $o;
                     $n =~ s/://;
-                    print "static SimpleObjectMaker<$class, $base> $n\_$class(\"$n\");\n" if $o ne "";	
+                    print "static SimpleObjectMaker<$class, $base> $n\_$class(\"$n\");\n" if $o ne "";
         	        print "static SimpleObjectMaker<$class\Wrapper, $base\Wrapper> $object\_$n\_$class\_w(\"$o\");\n" if $o ne "";
                 }
                 if ($xml ne "") {
@@ -552,11 +552,11 @@ EOF
         	  }
         	}
         	else {
-        		my @templates = split("/", $template);	
+        		my @templates = split("/", $template);
         		print "\n#include \"$class\Wrapper.h\"\n";
 
         		for my $t (@templates) {
-        		  print "\n#include \"$t.h\"\n";  
+        		  print "\n#include \"$t.h\"\n";
         		  if ( $class eq  $base) {
                 	print "static SimpleObjectMaker<$base\Wrapper<$t> > $object\_$fortran\_$class\_$t\_w(\"$fortran\");\n" if $fortran ne "";
         	      }

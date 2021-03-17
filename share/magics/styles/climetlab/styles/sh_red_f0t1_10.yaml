@@ -1,0 +1,36 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade Level list : (0.0/0.1/0.2/0.3/0.4/0.5/0.6/0.7/0.8/0.9/1.0)
+      Colour : Yellow to red Used for Anisotropy of sub-gridscale orography'
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 0.0 / 1.0)'
+    contour_level_list:
+    - 0
+    - 0.1
+    - 0.2
+    - 0.3
+    - 0.4
+    - 0.5
+    - 0.6
+    - 0.7
+    - 0.8
+    - 0.9
+    - 1
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - '#ffffe0'
+    - '#ffe3af'
+    - '#ffc58a'
+    - '#ffa474'
+    - '#fa8266'
+    - '#ed645c'
+    - '#db4551'
+    - '#c52940'
+    - '#aa0e27'
+    - '#8b0000'
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: 'Contour shade (Range: 0.0 / 1.0)'
+

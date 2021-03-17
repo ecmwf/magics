@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "cds_sp",
-    "prefered_units": "hPa",
+    "preferred_units": "hPa",
     "styles": [
       "ct_blk_f500t1050_t2"
     ],

@@ -1,0 +1,60 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade Level range : 0 to 300 Colour : BrBG'
+    contour_hi_min_value: 0
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 0 / 300, BrBG)'
+    contour_level_list:
+    - 0
+    - 5
+    - 10
+    - 15
+    - 20
+    - 25
+    - 30
+    - 35
+    - 40
+    - 45
+    - 50
+    - 55
+    - 60
+    - 65
+    - 70
+    - 75
+    - 80
+    - 85
+    - 90
+    - 95
+    - 300
+    contour_level_selection_type: level_list
+    contour_reference_level: 0
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0.0018,0.3128,0.2731)
+    - rgb(0.0038,0.3968,0.3651)
+    - rgb(0.1039,0.4942,0.4628)
+    - rgb(0.2078,0.5922,0.5608)
+    - rgb(0.3578,0.7001,0.6607)
+    - rgb(0.4962,0.7998,0.753)
+    - rgb(0.6384,0.8597,0.8261)
+    - rgb(0.7804,0.9176,0.898)
+    - rgb(0.8724,0.9396,0.93)
+    - rgb(0.9609,0.9598,0.9569)
+    - rgb(0.9627,0.9358,0.8647)
+    - rgb(0.9647,0.9098,0.7647)
+    - rgb(0.9187,0.8338,0.6248)
+    - rgb(0.872,0.7558,0.484)
+    - rgb(0.8081,0.6258,0.3241)
+    - rgb(0.749,0.5059,0.1765)
+    - rgb(0.6471,0.4099,0.1065)
+    - rgb(0.5447,0.3151,0.0388)
+    - rgb(0.4328,0.2491,0.0288)
+    - rgb(0.3294,0.1882,0.0196)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_shade_min_level: 0
+    contour_title: 'Contour shade  (Range: 0 / 300, BrBG colours)'
+

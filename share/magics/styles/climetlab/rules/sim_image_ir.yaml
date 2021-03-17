@@ -1,0 +1,8 @@
+match:
+- channel: 9
+  paramId: '260510'
+  shortName: clbt
+- long_name: Cloudy brightness temperature
+styles:
+- sim_image_ir_fixed_range
+

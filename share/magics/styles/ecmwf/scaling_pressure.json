@@ -1,6 +1,6 @@
 [
   {
-    "prefered_units": "hPa",
+    "preferred_units": "hPa",
     "match": [
       {
         "paramId": "54"

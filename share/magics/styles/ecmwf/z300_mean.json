@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "z300_mean",
-    "prefered_units": "dam",
+    "preferred_units": "dam",
     "styles": [
       "ct_blk_i5_t2",
       "ct_red_i5_t2",

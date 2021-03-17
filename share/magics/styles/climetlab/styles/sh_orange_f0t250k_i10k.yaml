@@ -1,0 +1,41 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade Level list from 0 to 250000'
+    contour_interval: 10000
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 0 / 250000)'
+    contour_level_selection_type: interval
+    contour_shade: true
+    contour_shade_colour_list:
+    - '#ffffe5'
+    - '#fff6bb'
+    - '#ffeba1'
+    - '#fee08b'
+    - '#ffd473'
+    - '#ffc959'
+    - '#febc48'
+    - '#ffb03d'
+    - '#fea232'
+    - '#fc9627'
+    - '#f78a21'
+    - '#f37e1c'
+    - '#ed7315'
+    - '#e66810'
+    - '#dc5f0b'
+    - '#d45505'
+    - '#cb4b02'
+    - '#bf4503'
+    - '#b34003'
+    - '#a63a04'
+    - '#9a3404'
+    - '#8c3105'
+    - '#802d06'
+    - '#722906'
+    - '#662506'
+    contour_shade_colour_method: list
+    contour_shade_max_level: 250000
+    contour_shade_method: area_fill
+    contour_shade_min_level: 0
+    contour_title: 'Contour shade (Range: 0 / 250000)'
+

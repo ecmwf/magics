@@ -1,0 +1,8 @@
+match:
+- paramId: '228046'
+  shortName: hcct
+- long_name: Height of convective cloud top
+styles:
+- sh_hcct_blk_f0t22000
+- sh_hcct_f0t22000
+

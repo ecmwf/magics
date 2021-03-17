@@ -1,0 +1,38 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade, with contours Level list : (0./0.1/0.2/0.3/0.4/0.5/0.6/0.7/0.8/0.9/1)
+      Colour : from white to blue Used for Volumetric soil water'
+    contour_hilo: false
+    contour_internal_reduction_factor: 4
+    contour_label: false
+    contour_legend_text: 'Contour shade (Level list : (0./0.1/0.2/0.3/0.4/0.5/0.6/0.7/0.8/0.9/1)'
+    contour_level_list:
+    - 0
+    - 0.1
+    - 0.2
+    - 0.3
+    - 0.4
+    - 0.5
+    - 0.6
+    - 0.7
+    - 0.8
+    - 0.9
+    - 1
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - '#cfffff'
+    - '#cdffe1'
+    - '#76f3de'
+    - '#ffbda6'
+    - '#accf88'
+    - '#70bb92'
+    - '#bda0da'
+    - '#acaf7f'
+    - '#ef928d'
+    - '#de98a7'
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: 'Contour shade (Level list : (0./0.1/0.2/0.3/0.4/0.5/0.6/0.7/0.8/0.9/1)'
+

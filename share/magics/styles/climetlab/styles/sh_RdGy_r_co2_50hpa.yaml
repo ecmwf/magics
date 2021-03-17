@@ -1,0 +1,82 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method: contour shade Level range : 386.5 to 403.0 Colour:
+      RdGy_r colours'
+    contour_hi_min_value: 0
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 386.5 / 403.0, RdGy_r colours)'
+    contour_level_list:
+    - 386.5
+    - 389
+    - 389.5
+    - 390
+    - 390.5
+    - 391
+    - 391.5
+    - 392
+    - 392.5
+    - 393
+    - 393.5
+    - 394
+    - 394.5
+    - 395
+    - 395.5
+    - 396
+    - 396.5
+    - 397
+    - 397.5
+    - 398
+    - 398.5
+    - 399
+    - 399.5
+    - 400
+    - 400.5
+    - 401
+    - 401.5
+    - 402
+    - 402.5
+    - 403
+    - 403.5
+    contour_level_selection_type: level_list
+    contour_line_thickness: 0
+    contour_reference_level: 0
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0.102,0.102,0.102)
+    - rgb(0.1647,0.1647,0.1647)
+    - rgb(0.2353,0.2353,0.2353)
+    - rgb(0.3064,0.3064,0.3064)
+    - rgb(0.3867,0.3867,0.3867)
+    - rgb(0.467,0.467,0.467)
+    - rgb(0.5373,0.5373,0.5373)
+    - rgb(0.6078,0.6078,0.6078)
+    - rgb(0.6784,0.6784,0.6784)
+    - rgb(0.744,0.744,0.744)
+    - rgb(0.7966,0.7966,0.7966)
+    - rgb(0.8492,0.8492,0.8492)
+    - rgb(0.8927,0.8927,0.8927)
+    - rgb(0.9356,0.9356,0.9356)
+    - rgb(0.9785,0.9785,0.9785)
+    - rgb(0.9986,0.9751,0.9612)
+    - rgb(0.9958,0.9253,0.8837)
+    - rgb(0.9931,0.8754,0.8062)
+    - rgb(0.9852,0.8173,0.7273)
+    - rgb(0.9728,0.7426,0.6318)
+    - rgb(0.9603,0.6678,0.5363)
+    - rgb(0.9269,0.5781,0.4568)
+    - rgb(0.8854,0.4826,0.3835)
+    - rgb(0.8438,0.3871,0.3101)
+    - rgb(0.8005,0.299,0.2654)
+    - rgb(0.7506,0.1993,0.2183)
+    - rgb(0.7008,0.0997,0.1712)
+    - rgb(0.6,0.0627,0.1529)
+    - rgb(0.4962,0.0295,0.1363)
+    - rgb(0.4039,0,0.1216)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_shade_min_level: 0
+    contour_title: 'Contour shade (Range: 386.5 / 403.0, RdGy_r colours)'
+

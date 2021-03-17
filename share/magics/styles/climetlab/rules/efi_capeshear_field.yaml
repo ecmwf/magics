@@ -1,0 +1,16 @@
+match:
+- paramId:
+  - '132044'
+  - '132059'
+  shortName:
+  - capesi
+  - capei
+  type: efi
+- long_name:
+  - Convective available potential energy shear index
+  - Convective available potential energy index
+styles:
+- sh_red_f05t1i01
+- mrk_efi_capes_f06t1
+- sh_efi_f05t1_nc
+

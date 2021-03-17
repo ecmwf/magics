@@ -1,0 +1,39 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : Area fill Level range : -68 to 0 Interval : 4 Colour
+      : blue Used for Lake ice temperature'
+    contour_hilo: false
+    contour_interpolation_ceiling: -0.99999
+    contour_interval: 4
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: -68 / 0)'
+    contour_level_selection_type: interval
+    contour_shade: true
+    contour_shade_colour_list:
+    - '#00008b'
+    - '#181595'
+    - '#27269f'
+    - '#3236aa'
+    - '#3c45b4'
+    - '#4453bf'
+    - '#4c62c9'
+    - '#5471d3'
+    - '#8370ef'
+    - '#9081f2'
+    - '#9d91f4'
+    - '#a8a2f6'
+    - '#b3b1f8'
+    - '#bec3fa'
+    - '#c8d4fb'
+    - '#d2e4fd'
+    - '#dbf6fe'
+    - '#ffffff'
+    contour_shade_colour_method: list
+    contour_shade_max_level: 0
+    contour_shade_method: area_fill
+    contour_shade_min_level: -68
+    contour_title: 'Contour shade (Range: -68 / 0)'
+    contour_units: degC
+    grib_missing_value_indicator: 9999
+

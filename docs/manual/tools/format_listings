@@ -1,4 +1,4 @@
-#!/bin/ksh
+#!/usr/bin/env bash
 
 
 purpose="manual"
@@ -108,7 +108,7 @@ done
 
 # format the MagML listings
 
-for magml in examples/$purpose/magml/source/*.magml    examples/$purpose/metgram/source/*.epsml 
+for magml in examples/$purpose/magml/source/*.magml    examples/$purpose/metgram/source/*.epsml
 do
     magml_cc=${magml}_cc    # 'cc' here means 'colour coded'
     temp="temp.x"
@@ -202,5 +202,3 @@ do
         echo "</programlisting>" >> $py_cc
         rm -f $temp
 done
-
-

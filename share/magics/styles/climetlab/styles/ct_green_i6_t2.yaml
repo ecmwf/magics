@@ -1,0 +1,19 @@
+magics:
+  mcont:
+    contour_description: 'Method : contour Interval : 5 Thickness : 2 Colour : Green'
+    contour_highlight: true
+    contour_highlight_colour: green
+    contour_highlight_frequency: 3
+    contour_highlight_thickness: 4
+    contour_hilo: false
+    contour_interval: 6
+    contour_label: true
+    contour_label_frequency: 2
+    contour_label_height: 0
+    contour_legend_text: Interval 6, thickness 2
+    contour_level_selection_type: interval
+    contour_line_colour: green
+    contour_line_thickness: 2
+    contour_reference_level: 528
+    contour_title: Contour (interval 6, thickness 2, green)
+

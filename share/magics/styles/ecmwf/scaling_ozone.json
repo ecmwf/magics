@@ -1,6 +1,6 @@
 [
   {
-    "prefered_units": "Dob",
+    "preferred_units": "Dob",
     "match": [
       {
         "paramId": "206"

@@ -1,0 +1,27 @@
+magics:
+  mcont:
+    contour: true
+    contour_description: 'Method : contour shade Level list : (10/25/50/75/99/101)
+      Colour : Grey to white'
+    contour_highlight: false
+    contour_interpolation_ceiling: 100
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 10/100 as percentage)'
+    contour_level_list:
+    - 10
+    - 25
+    - 50
+    - 75
+    - 99
+    - 110
+    contour_level_selection_type: level_list
+    contour_line_colour: rgb(0.8,0.8,0.8)
+    contour_shade: true
+    contour_shade_colour_direction: anti_clockwise
+    contour_shade_colour_method: calculate
+    contour_shade_max_level_colour: white
+    contour_shade_method: area_fill
+    contour_shade_min_level: 5
+    contour_shade_min_level_colour: grey
+    contour_title: 'Contour shade (Range: 10 / 100 as percentage)'
+

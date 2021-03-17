@@ -103,29 +103,28 @@ private:
     MAGICS_NO_EXPORT void project(const MagnifierLayout&) const;
     MAGICS_NO_EXPORT void project(const HistoLayout&) const;
     MAGICS_NO_EXPORT void project(const SceneLayout&) const;
-    MAGICS_NO_EXPORT void unproject() const override;
-    MAGICS_NO_EXPORT void newLayer(Layer&) const override;
-    MAGICS_NO_EXPORT void newLayer(StaticLayer&) const override;
-    MAGICS_NO_EXPORT void newLayer(StepLayer&) const override;
-    MAGICS_NO_EXPORT void closeLayer(Layer&) const override;
-    MAGICS_NO_EXPORT void closeLayer(StaticLayer&) const override;
-    MAGICS_NO_EXPORT void closeLayer(StepLayer&) const override;
+    MAGICS_NO_EXPORT void unproject() const;
+    MAGICS_NO_EXPORT void newLayer(Layer&) const;
+    MAGICS_NO_EXPORT void newLayer(StaticLayer&) const;
+    MAGICS_NO_EXPORT void newLayer(StepLayer&) const;
+    MAGICS_NO_EXPORT void closeLayer(Layer&) const;
+    MAGICS_NO_EXPORT void closeLayer(StaticLayer&) const;
+    MAGICS_NO_EXPORT void closeLayer(StepLayer&) const;
 
-    MAGICS_NO_EXPORT void setNewLineWidth(const MFloat) const override;
-    MAGICS_NO_EXPORT void setNewColour(const Colour& col) const override;
-    MAGICS_NO_EXPORT int setLineParameters(const LineStyle style, const MFloat w) const override;
+    MAGICS_NO_EXPORT void setNewLineWidth(const MFloat) const;
+    MAGICS_NO_EXPORT void setNewColour(const Colour& col) const;
+    MAGICS_NO_EXPORT int setLineParameters(const LineStyle style, const MFloat w) const;
 
-    MAGICS_NO_EXPORT void renderPolyline(const int, MFloat*, MFloat*) const override;
-    MAGICS_NO_EXPORT void renderPolyline2(const int n, MFloat* x, MFloat* y) const override;
-    MAGICS_NO_EXPORT void renderSimplePolygon(const int, MFloat*, MFloat*) const override;
-    MAGICS_NO_EXPORT void renderSimplePolygon(const Polyline&) const override;
-    MAGICS_NO_EXPORT void renderText(const Text& text) const override;
-    MAGICS_NO_EXPORT void circle(const MFloat x, const MFloat y, const MFloat r, const int) const override;
-    MAGICS_NO_EXPORT void renderImage(const ImportObject&) const override;
-    MAGICS_NO_EXPORT bool renderPixmap(MFloat, MFloat, MFloat, MFloat, int, int, unsigned char*, int,
-                                       bool) const override;
-    MAGICS_NO_EXPORT bool renderCellArray(const Image& obj) const override;
-    MAGICS_NO_EXPORT void renderSymbols(const Symbol&) const override;
+    MAGICS_NO_EXPORT void renderPolyline(const int, MFloat*, MFloat*) const;
+    MAGICS_NO_EXPORT void renderPolyline2(const int n, MFloat* x, MFloat* y) const;
+    MAGICS_NO_EXPORT void renderSimplePolygon(const int, MFloat*, MFloat*) const;
+    MAGICS_NO_EXPORT void renderSimplePolygon(const Polyline&) const;
+    MAGICS_NO_EXPORT void renderText(const Text& text) const;
+    MAGICS_NO_EXPORT void circle(const MFloat x, const MFloat y, const MFloat r, const int) const;
+    MAGICS_NO_EXPORT void renderImage(const ImportObject&) const;
+    MAGICS_NO_EXPORT bool renderPixmap(MFloat, MFloat, MFloat, MFloat, int, int, unsigned char*, int, bool, bool) const;
+    MAGICS_NO_EXPORT bool renderCellArray(const Image& obj) const;
+    MAGICS_NO_EXPORT void renderSymbols(const Symbol&) const;
 
     //! Methods to redisplay an object (virtual).
     MAGICS_NO_EXPORT void redisplay(const Layer&) const override;

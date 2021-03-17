@@ -1,0 +1,39 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : shading, Range: 50 to 9000 (Used for CAPE)'
+    contour_hilo: false
+    contour_label: false
+    contour_level_list:
+    - 50
+    - 100
+    - 200
+    - 400
+    - 800
+    - 1200
+    - 1600
+    - 2000
+    - 2500
+    - 3000
+    - 4000
+    - 9000
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0.01,0.45,0.99)
+    - rgb(0.0098,0.73,0.99)
+    - rgb(0.01,0.99,0.95)
+    - rgb(0.02,0.7,0.65)
+    - rgb(0.0098,0.99,0.21)
+    - rgb(0.77,0.99,0.01)
+    - rgb(0.99,0.58,0.0098)
+    - rgb(0.99,0.075,0.0098)
+    - rgb(0.7,0.038,0.49)
+    - rgb(1,0,1)
+    - rgb(0.5,0.01,0.99)
+    contour_shade_colour_method: list
+    contour_shade_max_level: 9000
+    contour_shade_method: area_fill
+    contour_shade_min_level: 50
+    contour_title: Shade from 50 to 9000
+

@@ -29,7 +29,6 @@
 namespace magics {
 
 
-
 struct InputWrep {
     bool empty() { return steps_.empty(); }
     map<string, vector<double>> values_;

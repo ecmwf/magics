@@ -1,0 +1,19 @@
+magics:
+  mcont:
+    contour_description: 'Method : contour Interval : 5 Colour : Orange and red Used
+      for wind'
+    contour_highlight_colour: orange
+    contour_highlight_frequency: 10
+    contour_highlight_thickness: 1
+    contour_hilo: false
+    contour_interval: 5
+    contour_label: true
+    contour_label_frequency: 1
+    contour_label_height: 0
+    contour_legend_text: Interval 5, minimum 10 (in m/s)
+    contour_level_selection_type: interval
+    contour_line_colour: rgb(1,0.35,0)
+    contour_line_thickness: 3
+    contour_min_level: 10
+    contour_title: Contour (Interval 5, orange-red)
+

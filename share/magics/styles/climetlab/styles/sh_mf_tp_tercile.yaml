@@ -1,0 +1,33 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade Level list : (5/100 in every 10)
+      % Colour : Used for probability'
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: Tercile shading
+    contour_level_list:
+    - 0
+    - 10
+    - 20
+    - 40
+    - 50
+    - 60
+    - 70
+    - 110
+    contour_level_selection_type: level_list
+    contour_method: linear
+    contour_shade: true
+    contour_shade_colour_list:
+    - hsl(1,1,0.5)
+    - hsl(1,1,0.7)
+    - white
+    - hsl(220,1,0.9)
+    - hsl(220,1,0.7)
+    - hsl(220,1,0.5)
+    - hsl(220,1,0.3)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: Tercile shading
+

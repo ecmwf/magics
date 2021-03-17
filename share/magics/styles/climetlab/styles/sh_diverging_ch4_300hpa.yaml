@@ -1,0 +1,47 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method: contour shade Level range : 1560.0 to 1940.0 Colour:
+      diverging colours'
+    contour_hi_min_value: 0
+    contour_highlight: false
+    contour_hilo: false
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: 1560.0 / 1940.0, diverging colours)'
+    contour_level_list:
+    - 1560
+    - 1720
+    - 1740
+    - 1760
+    - 1780
+    - 1800
+    - 1820
+    - 1840
+    - 1860
+    - 1880
+    - 1900
+    - 1920
+    - 1940
+    - 2300
+    contour_level_selection_type: level_list
+    contour_reference_level: 0
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0.094,0.31,0.635)
+    - rgb(0.2432,0.4236,0.6951)
+    - rgb(0.3924,0.5373,0.7552)
+    - rgb(0.5488,0.6564,0.8182)
+    - rgb(0.698,0.77,0.8783)
+    - rgb(0.8472,0.8836,0.9385)
+    - rgb(0.9983,0.9976,0.9968)
+    - rgb(0.9266,0.8975,0.8605)
+    - rgb(0.855,0.7973,0.7243)
+    - rgb(0.7799,0.6924,0.5816)
+    - rgb(0.7083,0.5923,0.4454)
+    - rgb(0.6366,0.4921,0.3092)
+    - rgb(0.565,0.392,0.173)
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_shade_min_level: 0
+    contour_title: 'Contour shade (Range: 1560.0 / 1940.0, diverging colours)'
+

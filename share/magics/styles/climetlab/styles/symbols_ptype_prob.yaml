@@ -1,0 +1,55 @@
+magics:
+  mcont:
+    contour_description: 'Precipitation type probability (Range: 1 to 21 types)'
+    contour_title: Marker (1 to 21 types)
+    symbol_advanced_table_colour_list:
+    - rgb(0.79,0.94,0.75)
+    - rgb(0.23,0.89,0.08)
+    - rgb(0.1,0.64,0.03)
+    - rgb(0.479,0.917,0.866)
+    - turquoise
+    - rgb(0.081,0.444,0.4018)
+    - sky
+    - rgb(0.268,0.268,0.9793)
+    - navy
+    - rgb(0.829,0.757,0.9451)
+    - lavender
+    - rgb(0.336,0.111,0.697)
+    - rgb(0.923,0.727,0.544)
+    - orange
+    - rgb(0.74,0.39,0.02)
+    - rgb(0.96,0.51,0.54)
+    - rgb(1,0.01,0.29)
+    - rgb(0.75,0.02,0.3)
+    - rgb(0.64,0.64,0.64)
+    - rgb(0.83,0.83,0.83)
+    - white
+    symbol_advanced_table_colour_method: list
+    symbol_advanced_table_level_list:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+    - 11
+    - 12
+    - 13
+    - 14
+    - 15
+    - 16
+    - 17
+    - 18
+    - 19
+    - 20
+    - 21
+    symbol_advanced_table_marker_list:
+    - 18
+    symbol_advanced_table_selection_type: list
+    symbol_table_mode: advanced
+    symbol_type: marker
+

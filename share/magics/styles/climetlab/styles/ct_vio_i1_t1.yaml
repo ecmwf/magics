@@ -1,0 +1,20 @@
+magics:
+  mcont:
+    contour_description: 'Method : contour Interval : 1 Thickness : 1 Colour : Violet
+      Used for waves'
+    contour_highlight_colour: rgb(0.48,0.4,0.7)
+    contour_highlight_frequency: 100
+    contour_highlight_thickness: 5
+    contour_hilo: false
+    contour_interval: 1
+    contour_label: true
+    contour_label_frequency: 1
+    contour_label_height: 0
+    contour_legend_text: Interval 1
+    contour_level_selection_type: interval
+    contour_line_colour: rgb(0.6,0.5,0.8)
+    contour_line_thickness: 2
+    contour_min_level: 1
+    contour_reference_level: 2
+    contour_title: Contour (interval 1, thickness 1, violet)
+

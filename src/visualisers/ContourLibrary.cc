@@ -298,7 +298,7 @@ void WebLibrary::getStyle(const string& name, MagDef& info) {
 //     offset  = 0;
 
 //     // cout << "SCALING" << endl;
-//     vector<string> keywords = {"preferred_units", "prefered_units"};
+//     vector<string> keywords = {"preferred_units", "preferred_units"};
 
 //     auto unit = data.find("units");
 //     if (unit == data.end())

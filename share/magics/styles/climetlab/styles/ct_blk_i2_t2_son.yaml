@@ -1,0 +1,16 @@
+magics:
+  mcont:
+    contour_description: 'Method : contour Interval : 2 Thickness : 2 Colour : Black
+      Used for msl'
+    contour_highlight_colour: black
+    contour_highlight_thickness: 4
+    contour_hilo: false
+    contour_interval: 10
+    contour_label: true
+    contour_label_frequency: 2
+    contour_label_height: 0
+    contour_legend_text: Interval 2, thickness 2
+    contour_line_colour: black
+    contour_line_thickness: 2
+    contour_title: Contour ANOM (interval 2, thickness 2, black)
+

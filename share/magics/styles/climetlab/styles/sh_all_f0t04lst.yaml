@@ -1,0 +1,35 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade, with contours Level list : (0./0.05/0.1/0.15/0.2/0.25/0.3/0.35/0.4)
+      Colour : all Used for Snow melt'
+    contour_hilo: false
+    contour_internal_reduction_factor: 4
+    contour_label: false
+    contour_legend_text: 'Contour shade (Level list : (0./0.05/0.1/0.15/0.2/0.25/0.3/0.35/0.4)'
+    contour_level_list:
+    - 0
+    - 0.05
+    - 0.1
+    - 0.15
+    - 0.2
+    - 0.25
+    - 0.3
+    - 0.35
+    - 0.4
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - '#ffffff'
+    - '#d1edca'
+    - '#9dd9b9'
+    - '#69c1cb'
+    - '#43a6cc'
+    - '#2b8bbe'
+    - '#1e72ae'
+    - '#08589e'
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: 'Contour shade (Level list : 0./0.05/0.1/0.15/0.2/0.25/0.3/0.35/0.4)'
+    contour_units: cm
+

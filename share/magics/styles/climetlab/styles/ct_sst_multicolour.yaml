@@ -1,0 +1,71 @@
+magics:
+  mcont:
+    contour: true
+    contour_description: 'Method : Contour Level range : -2 to 36 Interval : 4 Thickness
+      : 2 Colour : Black Used for sst'
+    contour_hilo: false
+    contour_label: true
+    contour_label_frequency: 2
+    contour_label_height: 0
+    contour_legend_text: 'Contour (Range: -2 / 36)'
+    contour_level_list:
+    - -2
+    - 0
+    - 2
+    - 4
+    - 6
+    - 8
+    - 10
+    - 12
+    - 14
+    - 16
+    - 18
+    - 20
+    - 22
+    - 24
+    - 26
+    - 28
+    - 30
+    - 32
+    contour_level_selection_type: level_list
+    contour_line_colour_rainbow: true
+    contour_line_colour_rainbow_colour_list:
+    - rgb(0.88,0.2,0.88)
+    - rgb(0.48,0.2,0.48)
+    - rgb(0.2,0,0.4)
+    - rgb(0.35,0,0.5)
+    - blue_purple
+    - greenish_blue
+    - rgb(0,0.8,1)
+    - blue_green
+    - bluish_green
+    - yellow_green
+    - greenish_yellow
+    - rgb(1,1,0.5)
+    - orange_yellow
+    - rgb(1,0.45,0)
+    - red
+    - burgundy
+    - mahogany
+    contour_line_colour_rainbow_method: list
+    contour_line_thickness_rainbow_list:
+    - 3
+    - 3
+    - 3
+    - 3
+    - 6
+    - 3
+    - 3
+    - 3
+    - 3
+    - 6
+    - 3
+    - 3
+    - 3
+    - 3
+    - 6
+    - 3
+    - 3
+    contour_title: 'Contours (Range: -2 / 36) multi-colour, interval 2'
+    contour_units: degC
+

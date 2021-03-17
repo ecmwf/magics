@@ -81,9 +81,8 @@ private:
     MAGICS_NO_EXPORT void renderSimplePolygon(const int, MFloat*, MFloat*) const override;
     MAGICS_NO_EXPORT void renderSimplePolygon(const Polyline& line) const override;
     MAGICS_NO_EXPORT void renderText(const Text& text) const override;
-    MAGICS_NO_EXPORT void circle(const MFloat x, const MFloat y, const MFloat r, const int) const override {}
-    MAGICS_NO_EXPORT bool renderPixmap(MFloat, MFloat, MFloat, MFloat, int, int, unsigned char*, int,
-                                       bool) const override;
+    MAGICS_NO_EXPORT void circle(const MFloat x, const MFloat y, const MFloat r, const int) const {}
+    MAGICS_NO_EXPORT bool renderPixmap(MFloat, MFloat, MFloat, MFloat, int, int, unsigned char*, int, bool, bool) const override;
     MAGICS_NO_EXPORT bool renderCellArray(const Image& obj) const override;
     MAGICS_NO_EXPORT void renderSymbols(const Symbol& symbol) const override;
     MAGICS_NO_EXPORT void renderWindArrow(const Arrow& arrow) const override;

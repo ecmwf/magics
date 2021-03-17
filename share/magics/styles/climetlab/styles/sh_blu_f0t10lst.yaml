@@ -1,0 +1,43 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : contour shade, with contours Level list : (0./0.1/0.2/0.3/0.4/0.5/0.6/0.7/0.8/0.8/0.9/1/10)
+      Colour : from white to blue Used for snow depth'
+    contour_highlight: false
+    contour_hilo: false
+    contour_internal_reduction_factor: 4
+    contour_label: false
+    contour_legend_text: 'Contour shade (Level list : (0./0.1/0.2/0.3/0.4/0.5/0.6/0.7/0.8/0.8/0.9/1/10)'
+    contour_level_list:
+    - 0
+    - 0.1
+    - 0.2
+    - 0.3
+    - 0.4
+    - 0.5
+    - 0.6
+    - 0.7
+    - 0.8
+    - 0.8
+    - 0.9
+    - 1
+    - 10.1
+    contour_level_selection_type: level_list
+    contour_shade: true
+    contour_shade_colour_list:
+    - '#eff3ff'
+    - '#dbe8f6'
+    - '#c8dcef'
+    - '#b4d1e8'
+    - '#a1c4e1'
+    - '#8fb9db'
+    - '#7eadd5'
+    - '#6ca1cf'
+    - '#5b95c9'
+    - '#4989c2'
+    - '#367dbc'
+    - '#2171b5'
+    contour_shade_colour_method: list
+    contour_shade_method: area_fill
+    contour_title: 'Contour shade (Level list : (0./0.1/0.2/0.3/0.4/0.5/0.6/0.7/0.8/0.8/0.9/1/10)'
+

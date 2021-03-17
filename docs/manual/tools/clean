@@ -1,4 +1,4 @@
-#!/bin/ksh
+#!/usr/bin/env bash
 
 rm -f books/*.html
 rm -f books/*.fo

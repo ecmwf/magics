@@ -1,9 +1,9 @@
 #!/usr/bin/env perl
 # (C) Copyright 1996-2016 ECMWF.
-# 
+#
 # This software is licensed under the terms of the Apache Licence Version 2.0
-# which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-# In applying this licence, ECMWF does not waive the privileges and immunities 
+# which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+# In applying this licence, ECMWF does not waive the privileges and immunities
 # granted to it by virtue of its status as an intergovernmental organisation nor
 # does it submit to any jurisdiction.
 
@@ -24,39 +24,39 @@ my $date_string=ctime();
 
 package Function;
 
-sub new { 
+sub new {
     my ($class, $name, $comment, $out, $const, @args) = @_;
     my $self = {};
     print "$#args\n";
-  
+
     $self->{nb_args}= $#args;
     my $i = 0;
 	foreach my $arg (@args)
-	{		
+	{
 		$self->{args}[$i] = $arg;
 		$i++;
 	}
-	
-   
+
+
     $self->{name}=$name;
     $self->{comment}=$comment;
     $self->{out}=$out;
     $self->{const}=$const;
-   
+
     bless $self;
     return $self;
 }
 
 sub header  {
-    my $self = shift;  
-    
+    my $self = shift;
+
     print "\t/*!\n\t\\\\brief $self->{comment}\n\t*/\n";
-    
+
     print "\tvirtual $self->{out} $self->{name}(";
     my $sep = "";
     if (! $self->{no_arg} ) {
-    
-    my $i = 0;   
+
+    my $i = 0;
     while ($i < $self->{nb_args} ) {
     	my @args = @{$self->{args}};
     	print "$sep@args[$i]";
@@ -67,13 +67,13 @@ sub header  {
 	print ") $self->{const};\n";
 }
 sub implementation  {
-    my $self = shift;  
+    my $self = shift;
     print "$self->{out} $class\::$self->{name}(";
     my $sep = "";
-    
+
     my $out = "";
 	$out =  "return " unless    $self->{out} eq "void";
-   
+
     my $i = 0;
     while ($i < $self->{nb_args}) {
     	my @args = @{$self->{args}};
@@ -94,166 +94,166 @@ sub implementation  {
 	print ");\n}\n\n";
 }
 
-my @functions = ( 
-    Function->new("init", 
-    	"Initialise the projection", 
+my @functions = (
+    Function->new("init",
+    	"Initialise the projection",
     	"void", ""),
-    Function->new("operator()", 
-    	"", 
-    	"PaperPoint", "const", 
+    Function->new("operator()",
+    	"",
+    	"PaperPoint", "const",
     	"const UserPoint&", "point"),
-	Function->new("operator()", 
-		"", 
-		"PaperPoint", "const", 
+	Function->new("operator()",
+		"",
+		"PaperPoint", "const",
 		"const GeoPoint&", "point"),
-	Function->new("operator()", 
-		"", 
-		"PaperPoint", "const", 
+	Function->new("operator()",
+		"",
+		"PaperPoint", "const",
 		"const PaperPoint&", "point"),
-	Function->new("revert", 
-		"", 
-		"void", "const", 
-		"const PaperPoint&", "xy", 
+	Function->new("revert",
+		"",
+		"void", "const",
+		"const PaperPoint&", "xy",
 		"GeoPoint&", "point"),
-	Function->new("revert", 
-		"", 
-		"void", "const", 
-		"const PaperPoint&", "xy", 
+	Function->new("revert",
+		"",
+		"void", "const",
+		"const PaperPoint&", "xy",
 		"UserPoint&", "point"),
-	Function->new("needShiftedCoastlines", 
-		"Does the projection needs the coastalines to be shifted!", 
+	Function->new("needShiftedCoastlines",
+		"Does the projection needs the coastalines to be shifted!",
 		"bool", "const" ),
-	Function->new("aspectRatio", 
- 		"set the aspect ratio!", 
- 		"void", 
- 		"", 
+	Function->new("aspectRatio",
+ 		"set the aspect ratio!",
+ 		"void",
+ 		"",
  		"double&", "width",
  		"double&", "height"),
- 	Function->new("boundingBox", 
- 		"set the bounding box!", 
- 		"void", 
- 		"const", 
+ 	Function->new("boundingBox",
+ 		"set the bounding box!",
+ 		"void",
+ 		"const",
  		"double&", "xmin",
  		"double&", "ymin",
  		"double&", "xmax",
  		"double&", "ymax"),
- 	Function->new("getMinX", 
- 		"return the xmin in user coordinates!", 
- 		"double", 
+ 	Function->new("getMinX",
+ 		"return the xmin in user coordinates!",
+ 		"double",
  		"const"),
- 	Function->new("getMinY", 
- 		"return the ymin in user coordinates!", 
- 		"double", 
+ 	Function->new("getMinY",
+ 		"return the ymin in user coordinates!",
+ 		"double",
  		"const"),
-   Function->new("getMaxX", 
- 		"return the xmax in user coordinates!", 
- 		"double", 
+   Function->new("getMaxX",
+ 		"return the xmax in user coordinates!",
+ 		"double",
  		"const"),
- 		Function->new("getMaxY", 
- 		"return the ymax in user coordinates!", 
- 		"double", 
+ 		Function->new("getMaxY",
+ 		"return the ymax in user coordinates!",
+ 		"double",
  		"const"),
- 		Function->new("setMinX", 
- 		"set the xmin in user coordinates!", 
- 		"void", 
+ 		Function->new("setMinX",
+ 		"set the xmin in user coordinates!",
+ 		"void",
  		"",
  		"double", "x"),
- 	Function->new("setMinY", 
- 		"return the ymin in user coordinates!", 
- 		"void", 
+ 	Function->new("setMinY",
+ 		"return the ymin in user coordinates!",
+ 		"void",
  		"",
  		"double", "y"),
-   Function->new("setMaxX", 
- 		"return the xmax in user coordinates!", 
- 		"void", 
+   Function->new("setMaxX",
+ 		"return the xmax in user coordinates!",
+ 		"void",
  		"",
  		"double", "x"),
- 		Function->new("setMaxY", 
- 		"return the ymax in user coordinates!", 
- 		"void", 
+ 		Function->new("setMaxY",
+ 		"return the ymax in user coordinates!",
+ 		"void",
  		"",
  		"double", "y"),
- 		Function->new("getMinPCX", 
- 		"return the xmin in projection coordinates!", 
- 		"double", 
+ 		Function->new("getMinPCX",
+ 		"return the xmin in projection coordinates!",
+ 		"double",
  		"const"),
- 	Function->new("getMinPCY", 
- 		"return the ymin in projection coordinates!", 
- 		"double", 
+ 	Function->new("getMinPCY",
+ 		"return the ymin in projection coordinates!",
+ 		"double",
  		"const"),
-   Function->new("getMaxPCX", 
- 		"return the xmax in projection coordinates!", 
- 		"double", 
+   Function->new("getMaxPCX",
+ 		"return the xmax in projection coordinates!",
+ 		"double",
  		"const"),
- 		Function->new("getMaxPCY", 
- 		"return the ymax in projection coordinates!", 
- 		"double", 
+ 		Function->new("getMaxPCY",
+ 		"return the ymax in projection coordinates!",
+ 		"double",
  		"const"),
- 	 Function->new("gridLongitudes", 
- 		"create the grid for the longitudes!!", 
- 		"void", 
+ 	 Function->new("gridLongitudes",
+ 		"create the grid for the longitudes!!",
+ 		"void",
  		"const",
  		"const GridPlotting&", "grid",
  		"GraphicsList&", "out"),
-     Function->new("gridLatitudes", 
- 		"create the grid for the latitudes!!", 
- 		"void", 
+     Function->new("gridLatitudes",
+ 		"create the grid for the latitudes!!",
+ 		"void",
  		"const",
  		"const GridPlotting&", "grid",
  		"GraphicsList&", "out"),
- 	  Function->new("topLabels", 
- 		"calculate the top labels", 
- 		"void", 
+ 	  Function->new("topLabels",
+ 		"calculate the top labels",
+ 		"void",
  		"const",
  		"const BasicSceneObject&", "object",
  		"const LabelPlotting&", "label",
  		"GraphicsList&", "out"),
- 	Function->new("bottomLabels", 
- 		"calculate the top labels", 
- 		"void", 
+ 	Function->new("bottomLabels",
+ 		"calculate the top labels",
+ 		"void",
  		"const",
  		"const BasicSceneObject&", "object",
  		"const LabelPlotting&", "label",
  		"GraphicsList&", "out"),
- 	Function->new("leftLabels", 
- 		"calculate the left labels", 
- 		"void", 
+ 	Function->new("leftLabels",
+ 		"calculate the left labels",
+ 		"void",
  		"const",
  		"const BasicSceneObject&", "object",
  		"const LabelPlotting&", "label",
  		"GraphicsList&", "out"),
- 	Function->new("rightLabels", 
- 		"calculate the right labels", 
- 		"void", 
+ 	Function->new("rightLabels",
+ 		"calculate the right labels",
+ 		"void",
  		"const",
  		"const BasicSceneObject&", "object",
  		"const LabelPlotting&", "label",
  		"GraphicsList&", "out"),
- 	Function->new("thin", 
- 		"thin the position for wind plotting", 
- 		"void", 
+ 	Function->new("thin",
+ 		"thin the position for wind plotting",
+ 		"void",
  		"const",
- 		"MatrixHandler<GeoPoint>&", "data",  
+ 		"MatrixHandler<GeoPoint>&", "data",
  		"double", "x",
  		"double", "y",
- 		"vector<GeoPoint>&", "out"),	
- 	Function->new("javascript",       
- 		"prepare the javascript for thes particular instance of projection", 
+ 		"vector<GeoPoint>&", "out"),
+ 	Function->new("javascript",
+ 		"prepare the javascript for thes particular instance of projection",
  		"string", "",
         "double", "x",
- 		"double", "y", 
-        "double", "width", 
-        "double", "height"),	
- ); 
- 
- 
- 
- 
+ 		"double", "y",
+        "double", "width",
+        "double", "height"),
+ );
+
+
+
+
  foreach my $function  (@functions) {
  	print ("hello");
        $function->header();
 }
-	
+
 
 
 ########################################
@@ -315,24 +315,24 @@ public:
         Transformation::set(map);
         ${class}Attributes::set(map);
 	}
-    
+
     virtual Transformation* clone() const {
 		${class}* transformation = new ${class}();
         transformation->copy(*this);
 		return transformation;
 	}
-	
+
 EOF
 
 foreach my $function  (@functions) {
        $function->header();
 }
-	
+
 print <<"EOF";
-	
+
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
-	 virtual void print(ostream&) const; 
+	 virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed
@@ -346,7 +346,7 @@ private:
 		{ p.print(s); return s; }
 
 };
-    
+
 
 } // namespace magics
 #endif
@@ -379,7 +379,7 @@ using namespace magics;
 /*!
   \\brief Constructor
 */
-$class\::$class() 
+$class\::$class()
 {
 	MagLog::debug() << "$class\::$class needs implementing." << std::endl;
 }
@@ -387,7 +387,7 @@ $class\::$class()
 /*!
   \\brief Destructor
 */
-$class\::~$class() 
+$class\::~$class()
 {
 }
 
@@ -395,15 +395,15 @@ void $class\::print(ostream& out) const
 {
     out << "$class\[";
     $class\Attributes::print(out);
-    out << "]"; 
-} 
+    out << "]";
+}
 
 EOF
 
 foreach my $function  (@functions) {
        $function->implementation();
 }
-	
+
 print <<"EOF";
 
 
@@ -419,7 +419,7 @@ print <<"EOF";
 <?xml-stylesheet type='text/css' href='parameter.css'?>
 <!--
  ******************************** LICENSE ********************************
- 
+
 @license
 
  ******************************** LICENSE ********************************
@@ -427,7 +427,7 @@ print <<"EOF";
 <magics>
 <class name='$class' action='projection' directory='common'>
 	<documentation>
-		These are the attributes of the $projection projection. 
+		These are the attributes of the $projection projection.
 	</documentation>
 <!--
 	<parameter name='' from='string' to='string' member='' default='' xml=''>
@@ -440,4 +440,3 @@ print <<"EOF";
 EOF
 
 close STDOUT;
-

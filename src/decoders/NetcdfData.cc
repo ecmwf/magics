@@ -428,24 +428,3 @@ static TypedAccessor<unsigned short, double> short_double_accessor(NC_USHORT);
 static TypedAccessor<int, double> int_double_accessor(NC_INT);
 static TypedAccessor<float, double> float_double_accessor(NC_FLOAT);
 static TypedAccessor<double, double> double_double_accessor(NC_DOUBLE);
-
-namespace magics {
-
-const char* nc_type_to_name(int n) {
-
-    switch (n) {
-        case NC_UBYTE: return "NC_UBYTE"; break;
-        case NC_BYTE: return "NC_BYTE"; break;
-        case NC_SHORT: return "NC_SHORT"; break;
-        case NC_USHORT: return "NC_USHORT"; break;
-        case NC_INT: return "NC_INT"; break;
-        case NC_FLOAT: return "NC_FLOAT"; break;
-        case NC_DOUBLE: return "NC_DOUBLE"; break;
-
-    }
-
-    static char unknown[20];
-    sprintf(unknown, "UNKNOWN(%d)", n);
-    return unknown;
-}
-}

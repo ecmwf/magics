@@ -1,0 +1,20 @@
+match:
+- paramId:
+  - '228029'
+  - '228028'
+  - '123'
+  shortName:
+  - i10fg
+  - 10fg6
+  - 10fg3
+- long_name:
+  - Instantaneous 10 metre wind gust
+  - 10 metre wind gust in the last 6 hours
+  - 10 metre wind gust in the last 3 hours
+styles:
+- sh_red_f10t70lst
+- sh_all_f2t50i2
+- sh_grn_f10t100lst
+- sh_all_f03t70_beauf
+- ct_red_i5
+

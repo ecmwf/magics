@@ -1,0 +1,14 @@
+magics:
+  mcont:
+    contour_description: 'Method : contour Line plotting : Split Level range : -48
+      to 56 Interval : 4 Thickness : 3 Colour : Blue, red Used for temperature'
+    contour_hilo: false
+    contour_interval: 4
+    contour_label: false
+    contour_label_colour: black
+    contour_legend_text: 'Contour (Range: -48 / 56)'
+    contour_level_selection_type: interval
+    contour_max_level: 56
+    contour_min_level: -48
+    contour_title: 'Contour (Range: -48 / 56)'
+

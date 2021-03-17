@@ -1,0 +1,50 @@
+magics:
+  mcont:
+    contour: false
+    contour_description: 'Method : Area fill Level range : -64 to 52 Interval : 4
+      Thickness : 3 Colour : All colours Used for temperature'
+    contour_hilo: false
+    contour_interval: 4
+    contour_label: false
+    contour_legend_text: 'Contour shade (Range: -64 / 52)'
+    contour_level_selection_type: interval
+    contour_line_thickness: 3
+    contour_shade: true
+    contour_shade_colour_list:
+    - rgb(0,0,0.1)
+    - rgb(0.1,0,0.2)
+    - rgb(0.2,0,0.4)
+    - rgb(0.35,0,0.5)
+    - rgb(0.42,0,0.6)
+    - violet
+    - rgb(0.5,0,0.85)
+    - blue_purple
+    - rgb(0.42,0.08,1)
+    - rgb(0.36,0.16,1)
+    - rgb(0.25,0.25,1)
+    - rgb(0.1,0.4,1)
+    - greenish_blue
+    - rgb(0,0.6,1)
+    - rgb(0,0.7,1)
+    - rgb(0,0.8,1)
+    - rgb(0,0.9,1)
+    - blue_green
+    - bluish_green
+    - yellow_green
+    - greenish_yellow
+    - yellow
+    - orangish_yellow
+    - orange_yellow
+    - yellowish_orange
+    - orange
+    - reddish_orange
+    - red_orange
+    - orangish_red
+    - red
+    - magenta
+    contour_shade_colour_method: list
+    contour_shade_max_level: 52
+    contour_shade_method: area_fill
+    contour_shade_min_level: -72
+    contour_title: 'Contour shade (Range: -64 / 52)'
+

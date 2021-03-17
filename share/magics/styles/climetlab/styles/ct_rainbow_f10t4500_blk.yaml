@@ -1,0 +1,71 @@
+magics:
+  mcont:
+    contour_description: 'Method : Rainbow contour from 10 to 4500'
+    contour_highlight: false
+    contour_label: true
+    contour_label_colour: black
+    contour_label_frequency: 1
+    contour_legend_text: 'Contour coloured lines (Range: 10/4500)'
+    contour_level_list:
+    - 10
+    - 100
+    - 200
+    - 300
+    - 400
+    - 600
+    - 800
+    - 1000
+    - 1200
+    - 1500
+    - 2000
+    - 3000
+    - 4500
+    contour_level_selection_type: level_list
+    contour_line_colour_rainbow: true
+    contour_line_colour_rainbow_colour_list:
+    - black
+    - black
+    - black
+    - black
+    - black
+    - black
+    - black
+    - black
+    - black
+    - black
+    - black
+    - black
+    - black
+    contour_line_colour_rainbow_method: list
+    contour_line_style_rainbow_list:
+    - solid
+    - solid
+    - solid
+    - solid
+    - solid
+    - solid
+    - solid
+    - dot
+    - solid
+    - solid
+    - solid
+    - solid
+    - solid
+    contour_line_thickness_rainbow_list:
+    - 1
+    - 1
+    - 4
+    - 1
+    - 1
+    - 1
+    - 1
+    - 4
+    - 1
+    - 1
+    - 1
+    - 1
+    - 4
+    contour_max_level: 5000
+    contour_min_level: 10
+    contour_title: Contour black (Range:10 to 4500)
+
