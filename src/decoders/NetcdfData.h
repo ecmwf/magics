@@ -488,14 +488,20 @@ template <class T>
 map<nc_type, Accessor<T>*>* Accessor<T>::accessors_ = nullptr;
 #endif
 
+const char* nc_type_to_name(int);
+
+inline const char* type_name(double*) { return "double"; }
+inline const char* type_name(float*) { return "float"; }
+inline const char* type_name(long*) { return "long"; }
+inline const char* type_name(int*) { return "int"; }
+
 template <class T>
 void Accessor<T>::access(vector<T>& data, vector<size_t>& start, vector<size_t>& edges, NetVariable& var) {
     typename map<nc_type, Accessor<T>*>::const_iterator accessor = accessors_->find(var.type());
     if (accessor == accessors_->end()) {
-        MagLog::error() << "NetcdfDecoder : No accessor available for " << var.type() << endl;
-        MagLog::error() << "Throwing excpetion for  " << var.type() << endl;
-
-        throw MagicsException("No accessor available");
+        std::ostringstream oss;
+        oss << "NetcdfDecoder: no accessor from '" << nc_type_to_name(var.type()) << "' converting to '" << type_name((T*)0) << "'";
+        throw MagicsException(oss.str());
     }
 
     (*(*accessor).second)(data, start, edges, var);
