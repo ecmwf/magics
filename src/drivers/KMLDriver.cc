@@ -16,16 +16,16 @@
 
 */
 
-#include <Arrow.h>
-#include <Flag.h>
-#include <Image.h>
-#include <KMLDriver.h>
-#include <Layer.h>
-#include <Polyline.h>
-#include <Symbol.h>
-#include <Text.h>
+#include "KMLDriver.h"
+#include "Arrow.h"
+#include "Flag.h"
+#include "Image.h"
+#include "Layer.h"
+#include "Polyline.h"
+#include "Symbol.h"
+#include "Text.h"
 
-#include "magics_windef.h"
+#include "magics.h"
 
 //! For generating KMZ files
 extern "C" {
@@ -34,7 +34,7 @@ extern "C" {
 #define MAXFILENAME 256
 #define WRITEBUFFERSIZE 16384
 #include <fcntl.h>  // open
-#include <cstdio>   // BUFSIZ
+#include <cstdio>  // BUFSIZ
 
 #ifndef MAGICS_ON_WINDOWS
 #include <unistd.h>
@@ -47,8 +47,8 @@ extern "C" {
 #endif
 
 #ifdef HAVE_CAIRO
-#include <CairoDriver.h>
 #include <cairo.h>
+#include "CairoDriver.h"
 #endif
 
 using namespace magics;
@@ -758,7 +758,7 @@ MAGICS_NO_EXPORT void KMLDriver::renderText(const Text& text) const {}
 
 */
 MAGICS_NO_EXPORT bool KMLDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
-                                              unsigned char* pixmap, int, bool, bool) const {
+                                              unsigned char* pixmap, int, bool) const {
     debugOutput("Start renderPixmap");
     if (render_) {
         if (kml_placemark_)
@@ -1262,9 +1262,9 @@ MAGICS_NO_EXPORT void KMLDriver::renderWindFlag(const Flag& flag) const {
 /*!
   \brief prints debug output
 
-  When Magics is compiled in debug mode these extra strings are printed.
+  When Magics++ is compiled in debug mode these extra strings are printed.
 
-  \note This can increase file and log file sizes if you run Magics in debug mode!
+  \note This can increase file and log file sizes if you run Magics++ in debug mode!
 
   \param s string to be printed
 */

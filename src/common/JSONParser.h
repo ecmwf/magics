@@ -21,24 +21,20 @@ namespace magics {
 //----------------------------------------------------------------------------------------------------------------------
 
 class JSONParser : public ObjectParser {
-
-public: // methods
-
+public:  // methods
     JSONParser(std::istream& in);
 
     static Value decodeFile(const std::string& path);
     static Value decodeString(const std::string& str);
 
 private:
-
-    virtual Value parseValue();
-    virtual std::string parserName() const;
-
+    virtual Value parseValue() override;
+    virtual std::string parserName() const override;
 };
 
 
 //----------------------------------------------------------------------------------------------------------------------
 
-} // namespace magics
+}  // namespace magics
 
 #endif

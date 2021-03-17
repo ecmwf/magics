@@ -64,6 +64,9 @@ void NetcdfDecoder::visit(MagnifierVisitor& magnify) {
         }
     }
     catch (...) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
     }
 }
 
@@ -73,6 +76,17 @@ void NetcdfDecoder::getInfo(map<string, string>& infos) {
     for (map<string, string>::iterator info = infos.begin(); info != infos.end(); ++info)
         info->second = data.get(info->first, info->second);
 }
+
+void NetcdfDecoder::applyScaling(double scaling, double offset) {
+    if (!data_)
+        valid_ = (*interpretor_).interpretAsMatrix(&data_);
+    if (!valid_)
+        throw MagicsException("Unable to use data");
+
+    data_->multiply(scaling);
+    data_->plus(offset);
+}
+
 void NetcdfDecoder::visit(MetaDataCollector& mdc) {
     bool interpretorCalled = false;
     for (map<string, string>::iterator key = mdc.begin(); key != mdc.end(); ++key) {
@@ -109,6 +123,9 @@ void NetcdfDecoder::visit(ValuesCollector& values) {
         (*interpretor_).visit(values, points_);
     }
     catch (...) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         valid_ = false;
     }
 }
@@ -119,8 +136,22 @@ void NetcdfDecoder::visit(TextVisitor& text) {
         (*interpretor_).visit(text);
     }
     catch (...) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         valid_ = false;
     }
+}
+
+string NetcdfDecoder::getUnits() const {
+    MetaDataCollector collector;
+    collector["units"] = "";
+    MetaDataAttribute attribute;
+    attribute.setSource(MetaDataAttribute::GribApiSource);
+    collector.setAttribute("units", attribute);
+    // FIXME: make visit() const
+    const_cast<NetcdfDecoder*>(this)->visit(collector);
+    return collector["units"];
 }
 
 PointsHandler& NetcdfDecoder::points(const Transformation& transformation, bool all) {

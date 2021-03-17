@@ -25,8 +25,8 @@
 #define InputMatrixAttributes_H
 
 #include "magics.h"
-#include "InputMatrixInterpretor.h"
 #include "Matrix.h"
+#include "InputMatrixInterpretor.h"
 namespace magics {
 
 class XmlNode;
@@ -53,6 +53,7 @@ public:
 	//  --  members:
 	string tag_;
 	bool simple_field_;
+	string units_;
 	string metadata_;
 	string mapping_;
 	double suppress_below_;

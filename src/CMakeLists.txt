@@ -42,7 +42,7 @@ foreach( file ${metview_xmls} )
 #add_custom_command( magics_params DEPENDS ${magics_params_srcs} ${metview_wrappers_srcs} )
 
 ###############################################################################
-
+add_subdirectory( api )
 add_subdirectory( common )
 add_subdirectory( basic )
 add_subdirectory( web )
@@ -53,9 +53,6 @@ add_subdirectory( terralib )
 add_subdirectory( clipper )
 add_subdirectory( eckit_readers )
 
-list( APPEND MAGICS_DOCS common)
-list( APPEND MAGICS_DOCS basic)
-
 if( metview )
 	add_subdirectory( libMagWrapper )
 endif()
@@ -65,6 +62,13 @@ if( HAVE_ODB )
   # Adding path to the Oda directory
   list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/oda> )
 endif()
+
+
+if( EC_OS_NAME MATCHES "linux" )
+  # Not sure if linux or g++
+  set( EXTRA_CXX_LIBRARIES stdc++fs)
+endif()
+
 
 ecbuild_add_library( TARGET    MagPlus
                      SOURCES
@@ -81,6 +85,7 @@ ecbuild_add_library( TARGET    MagPlus
                         ${clipper_srcs}
                         ${terralib_srcs}
                         ${odb_srcs}
+                        ${api_srcs}
                      TEMPLATES
                         ${common_templates}
                      PUBLIC_DEFINITIONS
@@ -88,6 +93,7 @@ ecbuild_add_library( TARGET    MagPlus
                      PUBLIC_LIBS
                         ${MAGICS_EXTRA_LIBRARIES}
                         eccodes
+                        ${EXTRA_CXX_LIBRARIES}
                      PRIVATE_INCLUDES $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/clipper>
                                       ${MAGICS_PRIVATE_INCLUDE_DIRS}
 
@@ -96,6 +102,7 @@ ecbuild_add_library( TARGET    MagPlus
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/attributes>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/basic>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/api>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/common>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/drivers>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/decoders>
@@ -194,7 +201,6 @@ endif()
 
 install( FILES magics.h                DESTINATION ${INSTALL_INCLUDE_DIR})
 install( FILES common/magics_export.h  DESTINATION ${INSTALL_INCLUDE_DIR})
-install( FILES common/magics_windef.h  DESTINATION ${INSTALL_INCLUDE_DIR})
 
 ## Add install include dirs to install interface
 foreach( target     MagPlus

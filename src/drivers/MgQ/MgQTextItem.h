@@ -31,7 +31,7 @@ public:
     };
 
     MgQTextItem(const QString&, QGraphicsItem* parent = 0);
-    ~MgQTextItem();
+    ~MgQTextItem() override;
 
     void setBoundingRectSize(float s) { boundingRectSize_ = s; }
     QRectF boundingRect() const;

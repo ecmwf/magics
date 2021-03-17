@@ -19,14 +19,14 @@
 #ifndef _MPP_QtDriver_H
 #define _MPP_QtDriver_H
 
-#include <BaseDriver.h>
-#include <QtDriverAttributes.h>
-#include <XmlNode.h>
+#include "BaseDriver.h"
+#include "QtDriverAttributes.h"
+#include "XmlNode.h"
 
 #include <QColor>
 #include <QMap>
 
-//#include <Qt/qqwidget.h>
+//#include "Qt/qqwidget.h"
 
 class QGraphicsItem;
 class QGraphicsScene;
@@ -60,14 +60,14 @@ class QtDriver : public BaseDriver, public QtDriverAttributes {
 
 public:
     QtDriver();
-    ~QtDriver();
+    ~QtDriver() override;
     void open();
     void close();
 
     /*!
       \brief sets a new XML node
     */
-    void set(const XmlNode& node) {
+    void set(const XmlNode& node) override {
         if (magCompare(node.name(), "binary")) {
             XmlNode basic = node;
             basic.name("driver");
@@ -80,7 +80,7 @@ public:
     /*!
       \brief sets a new map
     */
-    void set(const map<std::string, std::string>& map) {
+    void set(const map<std::string, std::string>& map) override {
         BaseDriver::set(map);
         QtDriverAttributes::set(map);
     }
@@ -96,48 +96,49 @@ public:
     void setScene(QGraphicsScene* sc) { scene_ = sc; }
 
 private:
-    MAGICS_NO_EXPORT void startPage() const;
-    MAGICS_NO_EXPORT void endPage() const;
-    MAGICS_NO_EXPORT void project(const Layout&) const;
+    MAGICS_NO_EXPORT void startPage() const override;
+    MAGICS_NO_EXPORT void endPage() const override;
+    MAGICS_NO_EXPORT void project(const Layout&) const override;
     MAGICS_NO_EXPORT void project(const PreviewLayout&) const;
     MAGICS_NO_EXPORT void project(const MagnifierLayout&) const;
     MAGICS_NO_EXPORT void project(const HistoLayout&) const;
     MAGICS_NO_EXPORT void project(const SceneLayout&) const;
-    MAGICS_NO_EXPORT void unproject() const;
-    MAGICS_NO_EXPORT void newLayer(Layer&) const;
-    MAGICS_NO_EXPORT void newLayer(StaticLayer&) const;
-    MAGICS_NO_EXPORT void newLayer(StepLayer&) const;
-    MAGICS_NO_EXPORT void closeLayer(Layer&) const;
-    MAGICS_NO_EXPORT void closeLayer(StaticLayer&) const;
-    MAGICS_NO_EXPORT void closeLayer(StepLayer&) const;
+    MAGICS_NO_EXPORT void unproject() const override;
+    MAGICS_NO_EXPORT void newLayer(Layer&) const override;
+    MAGICS_NO_EXPORT void newLayer(StaticLayer&) const override;
+    MAGICS_NO_EXPORT void newLayer(StepLayer&) const override;
+    MAGICS_NO_EXPORT void closeLayer(Layer&) const override;
+    MAGICS_NO_EXPORT void closeLayer(StaticLayer&) const override;
+    MAGICS_NO_EXPORT void closeLayer(StepLayer&) const override;
 
-    MAGICS_NO_EXPORT void setNewLineWidth(const MFloat) const;
-    MAGICS_NO_EXPORT void setNewColour(const Colour& col) const;
-    MAGICS_NO_EXPORT int setLineParameters(const LineStyle style, const MFloat w) const;
+    MAGICS_NO_EXPORT void setNewLineWidth(const MFloat) const override;
+    MAGICS_NO_EXPORT void setNewColour(const Colour& col) const override;
+    MAGICS_NO_EXPORT int setLineParameters(const LineStyle style, const MFloat w) const override;
 
-    MAGICS_NO_EXPORT void renderPolyline(const int, MFloat*, MFloat*) const;
-    MAGICS_NO_EXPORT void renderPolyline2(const int n, MFloat* x, MFloat* y) const;
-    MAGICS_NO_EXPORT void renderSimplePolygon(const int, MFloat*, MFloat*) const;
-    MAGICS_NO_EXPORT void renderSimplePolygon(const Polyline&) const;
-    MAGICS_NO_EXPORT void renderText(const Text& text) const;
-    MAGICS_NO_EXPORT void circle(const MFloat x, const MFloat y, const MFloat r, const int) const;
-    MAGICS_NO_EXPORT void renderImage(const ImportObject&) const;
-    MAGICS_NO_EXPORT bool renderPixmap(MFloat, MFloat, MFloat, MFloat, int, int, unsigned char*, int, bool, bool) const;
-    MAGICS_NO_EXPORT bool renderCellArray(const Image& obj) const;
-    MAGICS_NO_EXPORT void renderSymbols(const Symbol&) const;
+    MAGICS_NO_EXPORT void renderPolyline(const int, MFloat*, MFloat*) const override;
+    MAGICS_NO_EXPORT void renderPolyline2(const int n, MFloat* x, MFloat* y) const override;
+    MAGICS_NO_EXPORT void renderSimplePolygon(const int, MFloat*, MFloat*) const override;
+    MAGICS_NO_EXPORT void renderSimplePolygon(const Polyline&) const override;
+    MAGICS_NO_EXPORT void renderText(const Text& text) const override;
+    MAGICS_NO_EXPORT void circle(const MFloat x, const MFloat y, const MFloat r, const int) const override;
+    MAGICS_NO_EXPORT void renderImage(const ImportObject&) const override;
+    MAGICS_NO_EXPORT bool renderPixmap(MFloat, MFloat, MFloat, MFloat, int, int, unsigned char*, int,
+                                       bool) const override;
+    MAGICS_NO_EXPORT bool renderCellArray(const Image& obj) const override;
+    MAGICS_NO_EXPORT void renderSymbols(const Symbol&) const override;
 
     //! Methods to redisplay an object (virtual).
-    MAGICS_NO_EXPORT void redisplay(const Layer&) const;
-    MAGICS_NO_EXPORT void redisplay(const PreviewLayout&) const;
-    MAGICS_NO_EXPORT void redisplay(const MagnifierLayout&) const;
-    MAGICS_NO_EXPORT void redisplay(const HistoLayout&) const;
-    MAGICS_NO_EXPORT void redisplay(const SceneLayout&) const;
-    MAGICS_NO_EXPORT void redisplay(const SceneLayer&) const;
-    MAGICS_NO_EXPORT void redisplay(const StaticLayer&) const;
-    MAGICS_NO_EXPORT void redisplay(const StepLayer&) const;
+    MAGICS_NO_EXPORT void redisplay(const Layer&) const override;
+    MAGICS_NO_EXPORT void redisplay(const PreviewLayout&) const override;
+    MAGICS_NO_EXPORT void redisplay(const MagnifierLayout&) const override;
+    MAGICS_NO_EXPORT void redisplay(const HistoLayout&) const override;
+    MAGICS_NO_EXPORT void redisplay(const SceneLayout&) const override;
+    MAGICS_NO_EXPORT void redisplay(const SceneLayer&) const override;
+    MAGICS_NO_EXPORT void redisplay(const StaticLayer&) const override;
+    MAGICS_NO_EXPORT void redisplay(const StepLayer&) const override;
 
-    MAGICS_NO_EXPORT void redisplay(const Arrow&) const;
-    MAGICS_NO_EXPORT void redisplay(const Flag&) const;
+    MAGICS_NO_EXPORT void redisplay(const Arrow&) const override;
+    MAGICS_NO_EXPORT void redisplay(const Flag&) const override;
 
 
     // QtDriver specific member functions BEGIN
@@ -160,8 +161,8 @@ private:
     QColor getQtColour(const Colour&) const;
 
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    void print(ostream&) const;
-    MAGICS_NO_EXPORT void debugOutput(const string& s) const;
+    void print(ostream&) const override;
+    MAGICS_NO_EXPORT void debugOutput(const string& s) const override;
 
     //! Copy constructor - No copy allowed
     QtDriver(const QtDriver&);

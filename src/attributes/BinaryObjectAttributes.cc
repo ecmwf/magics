@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -33,17 +33,17 @@ BinaryObjectAttributes::BinaryObjectAttributes():
 	mgb_height_(ParameterManager::getDouble("mgb_height")),
 	mgb_blur_radius_(ParameterManager::getInt("mgb_blur_radius"))
 	
-	 
+	
 {
-} 
+}
 
 
 BinaryObjectAttributes::~BinaryObjectAttributes()
 {
-	
+
 }
 
-    
+
 void BinaryObjectAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -71,12 +71,12 @@ void BinaryObjectAttributes::copy(const BinaryObjectAttributes& other)
 	mgb_height_ = other.mgb_height_;
 	mgb_blur_radius_ = other.mgb_blur_radius_;
 	
-} 
+}
 
 
 bool BinaryObjectAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "mgb")  )
 		return true;
 	
@@ -87,7 +87,7 @@ void BinaryObjectAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "mgb")  )
@@ -121,7 +121,7 @@ void BinaryObjectAttributes::print(ostream& out)  const
 
 void BinaryObjectAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"mgb\""; 
+	out <<  "\"mgb\"";
 	out << ", \"mgb_filename\":";
 	niceprint(out,path_);
 	out << ", \"mgb_transparency\":";
@@ -139,10 +139,10 @@ void BinaryObjectAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> mgb_filename("mgb_filename", "", "");
-static MagicsParameter<double> mgb_transparency("mgb_transparency", 1.0, "");
-static MagicsParameter<double> mgb_x("mgb_x", 0, "");
-static MagicsParameter<double> mgb_y("mgb_y", 0, "");
-static MagicsParameter<double> mgb_width("mgb_width", 100, "");
-static MagicsParameter<double> mgb_height("mgb_height", 100, "");
-static MagicsParameter<int> mgb_blur_radius("mgb_blur_radius", -1, "");
+static MagicsParameter<string> mgb_filename("mgb_filename", "");
+static MagicsParameter<double> mgb_transparency("mgb_transparency", 1.0);
+static MagicsParameter<double> mgb_x("mgb_x", 0);
+static MagicsParameter<double> mgb_y("mgb_y", 0);
+static MagicsParameter<double> mgb_width("mgb_width", 100);
+static MagicsParameter<double> mgb_height("mgb_height", 100);
+static MagicsParameter<int> mgb_blur_radius("mgb_blur_radius", -1);

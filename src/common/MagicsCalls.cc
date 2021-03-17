@@ -1248,7 +1248,7 @@ MAGICS_EXPORT void pinfo_() {
         try {                            \
             magics();                    \
         }                                \
-        catch (exception& e) {            \
+        catch (exception & e) {          \
             return e.what();             \
         }                                \
         return NULL;                     \
@@ -1258,7 +1258,7 @@ MAGICS_EXPORT void pinfo_() {
         try {                            \
             return magics();             \
         }                                \
-        catch (exception& e) {            \
+        catch (exception & e) {          \
             return e.what();             \
         }                                \
         return NULL;                     \

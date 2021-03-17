@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -41,17 +41,17 @@ EpsBufrAttributes::EpsBufrAttributes():
 	percentile_(ParameterManager::getDouble("epsbufr_y_axis_percentile")),
 	threshold_(ParameterManager::getDouble("epsbufr_y_axis_threshold"))
 	
-	 
+	
 {
-} 
+}
 
 
 EpsBufrAttributes::~EpsBufrAttributes()
 {
-	
+
 }
 
-    
+
 void EpsBufrAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -95,12 +95,12 @@ void EpsBufrAttributes::copy(const EpsBufrAttributes& other)
 	percentile_ = other.percentile_;
 	threshold_ = other.threshold_;
 	
-} 
+}
 
 
 bool EpsBufrAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "epsbufr")  )
 		return true;
 	
@@ -111,7 +111,7 @@ void EpsBufrAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "epsbufr")  )
@@ -153,7 +153,7 @@ void EpsBufrAttributes::print(ostream& out)  const
 
 void EpsBufrAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"epsbufr\""; 
+	out <<  "\"epsbufr\"";
 	out << ", \"epsbufr_input_filename\":";
 	niceprint(out,path_);
 	out << ", \"epsbufr_title\":";
@@ -187,18 +187,18 @@ void EpsBufrAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> epsbufr_input_filename("epsbufr_input_filename", "", "");
-static MagicsParameter<string> epsbufr_title("epsbufr_title", "", "");
-static MagicsParameter<string> epsbufr_parameter_title("epsbufr_parameter_title", "", "");
-static MagicsParameter<string> epsbufr_information("epsbufr_information", "on", "");
-static MagicsParameter<string> epsbufr_short_title("epsbufr_short_title", "on", "");
-static MagicsParameter<int> epsbufr_parameter_descriptor("epsbufr_parameter_descriptor", 0, "");
-static MagicsParameter<int> epsbufr_parameter_2_descriptor("epsbufr_parameter_2_descriptor", 0, "");
-static MagicsParameter<string> epsbufr_accumulated_parameter("epsbufr_accumulated_parameter", "off", "");
-static MagicsParameter<string> epsbufr_station_name("epsbufr_station_name", "", "");
-static MagicsParameter<double> epsbufr_station_latitude("epsbufr_station_latitude", 0, "");
-static MagicsParameter<double> epsbufr_station_longitude("epsbufr_station_longitude", 0, "");
-static MagicsParameter<double> epsbufr_parameter_scaling_factor("epsbufr_parameter_scaling_factor", 1, "");
-static MagicsParameter<double> epsbufr_parameter_offset_factor("epsbufr_parameter_offset_factor", 0, "");
-static MagicsParameter<double> epsbufr_y_axis_percentile("epsbufr_y_axis_percentile", 1, "");
-static MagicsParameter<double> epsbufr_y_axis_threshold("epsbufr_y_axis_threshold", 50, "");
+static MagicsParameter<string> epsbufr_input_filename("epsbufr_input_filename", "");
+static MagicsParameter<string> epsbufr_title("epsbufr_title", "");
+static MagicsParameter<string> epsbufr_parameter_title("epsbufr_parameter_title", "");
+static MagicsParameter<string> epsbufr_information("epsbufr_information", "on");
+static MagicsParameter<string> epsbufr_short_title("epsbufr_short_title", "on");
+static MagicsParameter<int> epsbufr_parameter_descriptor("epsbufr_parameter_descriptor", 0);
+static MagicsParameter<int> epsbufr_parameter_2_descriptor("epsbufr_parameter_2_descriptor", 0);
+static MagicsParameter<string> epsbufr_accumulated_parameter("epsbufr_accumulated_parameter", "off");
+static MagicsParameter<string> epsbufr_station_name("epsbufr_station_name", "");
+static MagicsParameter<double> epsbufr_station_latitude("epsbufr_station_latitude", 0);
+static MagicsParameter<double> epsbufr_station_longitude("epsbufr_station_longitude", 0);
+static MagicsParameter<double> epsbufr_parameter_scaling_factor("epsbufr_parameter_scaling_factor", 1);
+static MagicsParameter<double> epsbufr_parameter_offset_factor("epsbufr_parameter_offset_factor", 0);
+static MagicsParameter<double> epsbufr_y_axis_percentile("epsbufr_y_axis_percentile", 1);
+static MagicsParameter<double> epsbufr_y_axis_threshold("epsbufr_y_axis_threshold", 50);

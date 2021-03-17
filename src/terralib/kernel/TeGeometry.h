@@ -91,7 +91,7 @@ public:
     virtual bool isRing() const { return false; }
 
     //! Returns the basic geometry type in a set of geometries structure
-    virtual TeGeomRep elemType() { return TeGEOMETRYNONE; }
+    virtual TeGeomRep elemtype() { return TeGEOMETRYNONE; }
 
 protected:
     TeBox box_;        //!<  The bounding box of the geometry
@@ -205,7 +205,7 @@ public:
     }
 
     //! Destructor
-    virtual ~TeGeomComposite() { pImpl_->detach(); }
+    virtual ~TeGeomComposite() override { pImpl_->detach(); }
 
 
     //! Copy Constructor
@@ -231,10 +231,10 @@ public:
     }
 
     //! Returns the identification of the object associated to this geometry
-    virtual string objectId() const { return objectId_; }
+    virtual string objectId() const override { return objectId_; }
 
     //! Sets the identification of the object associated to this geometry
-    virtual void objectId(const string& id) {
+    virtual void objectId(const string& id) override {
         objectId_                            = id;
         typename TeComposite<T>::iterator it = pImpl_->begin();
         while (it != pImpl_->end()) {
@@ -310,7 +310,7 @@ public:
     }
 
     //! Returns the size of the composite
-    unsigned int size() const { return ((unsigned int)pImpl_->size()); }
+    unsigned int size() const override { return ((unsigned int)pImpl_->size()); }
 
     //! Reserves space for a given number of elements (reserve is available for vectors)
     void reserve(int nelem) { pImpl_->reserve(nelem); }

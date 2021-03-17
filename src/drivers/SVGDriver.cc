@@ -15,15 +15,15 @@
     Started: Fri Oct 26 20:58:21 2007
 */
 
-#include <Image.h>
-#include <ImportObject.h>
-#include <Layer.h>
-#include <Polyline.h>
-#include <SVGDriver.h>
-#include <Symbol.h>
-#include <System.h>
-#include <Text.h>
+#include "SVGDriver.h"
 #include <iomanip>
+#include "Image.h"
+#include "ImportObject.h"
+#include "Layer.h"
+#include "Polyline.h"
+#include "Symbol.h"
+#include "System.h"
+#include "Text.h"
 
 //! For generating SVGZ files
 extern "C" {
@@ -229,7 +229,7 @@ MAGICS_NO_EXPORT void SVGDriver::project(const magics::Layout& layout) const {
 
     pFile_ << "<g";
     if (!layout.name().empty())
-        pFile_ << " id=\"" << layout.name() << "\" inkscape:label=\""<< layout.name() <<"\"";
+        pFile_ << " id=\"" << layout.name() << "\"";
     if (!zero(x_set) || !zero(y_set))
         pFile_ << " transform=\"translate(" << x_set << "," << setY(y_set) << ")\"";
 
@@ -414,13 +414,13 @@ MAGICS_NO_EXPORT int SVGDriver::setLineParameters(const LineStyle linestyle, con
            << ")\""
            << " fill=\"none\"";
 
-    if (currentLineType_ == M_DASH)
+    if (currentLineType_ == LineStyle::DASH)
         stream << " stroke-dasharray=\"" << 2 * widi << "," << 2 * widi << "\"";
-    else if (currentLineType_ == M_DOT)
+    else if (currentLineType_ == LineStyle::DOT)
         stream << " stroke-dasharray=\"" << 1 * widi << "," << 2 * widi << "\"";
-    else if (currentLineType_ == M_CHAIN_DASH)
+    else if (currentLineType_ == LineStyle::CHAIN_DASH)
         stream << " stroke-dasharray=\"" << 4 * widi << "," << 2 * widi << "," << 2 * widi << "," << 2 * widi << "\"";
-    else if (currentLineType_ == M_CHAIN_DOT)
+    else if (currentLineType_ == LineStyle::CHAIN_DOT)
         stream << " stroke-dasharray=\"" << 4 * widi << "," << 2 * widi << "," << 2 * widi << "," << 2 * widi << ","
                << 2 * widi << "\"";
 
@@ -573,7 +573,7 @@ MAGICS_NO_EXPORT void SVGDriver::renderSimplePolygon(const int n, MFloat* x, MFl
     }
 
     if (count > 2) {
-        if (currentShading_ == M_SH_DOT) {
+        if (currentShading_ == Shading::DOT) {
             const DotShadingProperties* pro = (DotShadingProperties*)currentShadingProperties_;
             const int density               = (int)sqrt(pro->density_);
             if (density <= 0)
@@ -593,7 +593,7 @@ MAGICS_NO_EXPORT void SVGDriver::renderSimplePolygon(const int n, MFloat* x, MFl
                    << "<path fill=\"url(#D_" << svg_pattern_count << ")\" stroke=\"none\" " << stream.str() << "\"/>\n";
             svg_pattern_count++;
         }
-        else if (currentShading_ == M_SH_HATCH) {
+        else if (currentShading_ == Shading::HATCH) {
             const HatchShadingProperties* pro = (HatchShadingProperties*)currentShadingProperties_;
             indexHatch_                       = pro->index_;
             const int density                 = (int)(1. / pro->density_ * 150);
@@ -734,7 +734,7 @@ void SVGDriver::renderSimplePolygon(const magics::Polyline& line) const {
 
     ostringstream strFill;
 
-    if (currentShading_ == M_SH_DOT) {
+    if (currentShading_ == Shading::DOT) {
         const DotShadingProperties* pro = (DotShadingProperties*)currentShadingProperties_;
         const int density               = (int)sqrt(pro->density_);
         if (density <= 0)
@@ -754,7 +754,7 @@ void SVGDriver::renderSimplePolygon(const magics::Polyline& line) const {
         strFill << "url(#D_" << svg_pattern_count << ")";
         svg_pattern_count++;
     }
-    else if (currentShading_ == M_SH_HATCH) {
+    else if (currentShading_ == Shading::HATCH) {
         const HatchShadingProperties* pro = (HatchShadingProperties*)currentShadingProperties_;
         indexHatch_                       = pro->index_;
         const int density                 = (int)(1. / pro->density_ * 150);
@@ -813,9 +813,9 @@ MAGICS_NO_EXPORT void SVGDriver::renderText(const Text& text) const {
 
     Justification horizontalAlign = text.getJustification();
     string justification          = "middle";
-    if (horizontalAlign == MLEFT)
+    if (horizontalAlign == Justification::LEFT)
         justification = "start";
-    else if (horizontalAlign == MRIGHT)
+    else if (horizontalAlign == Justification::RIGHT)
         justification = "end";
 
     VerticalAlign verticalAlign = text.getVerticalAlign();
@@ -836,11 +836,11 @@ MAGICS_NO_EXPORT void SVGDriver::renderText(const Text& text) const {
             const string font              = magfont.name() + "_" + style;
 
             string verticalJustification = "no-change";
-            if (verticalAlign == MBASE)
+            if (verticalAlign == VerticalAlign::BASE)
                 verticalJustification = "alphabetic";
-            else if (verticalAlign == MTOP)
+            else if (verticalAlign == VerticalAlign::TOP)
                 verticalJustification = "hanging";
-            else if (verticalAlign == MHALF)
+            else if (verticalAlign == VerticalAlign::HALF)
                 verticalJustification = "middle";
 
             fontMapIter iter = FontMap_.find(font);
@@ -989,31 +989,33 @@ MAGICS_NO_EXPORT void SVGDriver::circle(const MFloat x, const MFloat y, const MF
 
 */
 MAGICS_NO_EXPORT bool SVGDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
-                                              unsigned char* pixmap, int, bool alpha, bool) const {
+                                              unsigned char* pixmap, int, bool) const {
     unsigned char* p = pixmap;
     const MFloat dx  = (x1 - x0) / w;
-    const MFloat dy  = (y1 - y0) / h;  // Minus needed for Y axis correction
+    const MFloat dy  = -(y1 - y0) / h;  // Minus needed for Y axis correction
 
-    //debugOutput("Pixmap - START");
-    pFile_ << "<g pointer-events=\"none\" inkscape:label=\"pixmap\">\n";
+    const MFloat X0 = x0;
+    const MFloat Y0 = y0;
 
-    int a = 255;
-    for (int i = 0; i < h; i++) {
-        for (int j = 0; j < w; j++) {
+    debugOutput("Pixmap - START");
+    pFile_ << "<g pointer-events=\"none\" >\n";
+
+    for (int i = h - 1; i >= 0; i--) {
+        for (int j = 0; j < w; x0 += dx, j++) {
             const int r = (int)*(p++);
             const int g = (int)*(p++);
             const int b = (int)*(p++);
-            if(alpha) a = (int)*(p++);
-
-            if (r + g + b > 0.) {
-                const int x = static_cast<int>(x0 + (j * dx));
-                const int y = static_cast<int>(y0 + (i * dy));
-                pFile_ << " <rect x=\"" << x << "\" y=\"" << y << "\" width=\"" << dx << "\" height=\"" << dy
+            if (r * g * b > 0.) {
+                const int x0 = static_cast<int>(X0 + (j * dx));
+                const int y0 = static_cast<int>(Y0 + (i * dy));
+                pFile_ << " <rect x=\"" << x0 << "\" y=\"" << setY(y0) << "\" width=\"" << dx << "\" height=\"" << dy
                        << "\""
-                       << " fill=\"rgba(" << r << "," << g << "," << b << "," << float(a)/255. <<")\" "
-                       << "stroke=\"rgba(" << r << "," << g << "," << b << "," << float(a)/255. <<")\" />\n";
+                       << " fill=\"rgb(" << r << "," << g << "," << b << ")\" "
+                       << "stroke=\"none\" />\n";
             }
         }
+        x0 = X0;
+        y0 += dy;
     }
     pFile_ << "</g>\n";
     debugOutput("Pixmap - END");

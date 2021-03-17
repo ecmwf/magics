@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -37,17 +37,17 @@ LabelPlottingAttributes::LabelPlottingAttributes():
 	bottom_(ParameterManager::getBool("map_label_bottom"))
 	,
 	colour_(MagTranslator<string, Colour>().magics("map_label_colour"))
-	 
+	
 {
-} 
+}
 
 
 LabelPlottingAttributes::~LabelPlottingAttributes()
 {
-	
+
 }
 
-    
+
 void LabelPlottingAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -84,12 +84,12 @@ void LabelPlottingAttributes::copy(const LabelPlottingAttributes& other)
 	bottom_ = other.bottom_;
 	colour_ = unique_ptr<Colour>(other.colour_->clone());
 	
-} 
+}
 
 
 bool LabelPlottingAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "label")  )
 		return true;
 	
@@ -100,7 +100,7 @@ void LabelPlottingAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "label")  )
@@ -138,7 +138,7 @@ void LabelPlottingAttributes::print(ostream& out)  const
 
 void LabelPlottingAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"label\""; 
+	out <<  "\"label\"";
 	out << ", \"map_label_font\":";
 	niceprint(out,font_);
 	out << ", \"map_label_font_style\":";
@@ -164,14 +164,14 @@ void LabelPlottingAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> map_label_font("map_label_font", "sansserif", "");
-static MagicsParameter<string> map_label_font_style("map_label_font_style", "normal", "");
-static MagicsParameter<double> map_label_height("map_label_height", 0.25, "");
-static MagicsParameter<string> map_label_blanking("map_label_blanking", "on", "");
-static MagicsParameter<int> map_label_latitude_frequency("map_label_latitude_frequency", 1, "");
-static MagicsParameter<int> map_label_longitude_frequency("map_label_longitude_frequency", 1, "");
-static MagicsParameter<string> map_label_left("map_label_left", "on", "");
-static MagicsParameter<string> map_label_right("map_label_right", "on", "");
-static MagicsParameter<string> map_label_top("map_label_top", "on", "");
-static MagicsParameter<string> map_label_bottom("map_label_bottom", "on", "");
-static MagicsParameter<string> map_label_colour("map_label_colour", "black", ""); 
+static MagicsParameter<string> map_label_font("map_label_font", "sansserif");
+static MagicsParameter<string> map_label_font_style("map_label_font_style", "normal");
+static MagicsParameter<double> map_label_height("map_label_height", 0.25);
+static MagicsParameter<string> map_label_blanking("map_label_blanking", "on");
+static MagicsParameter<int> map_label_latitude_frequency("map_label_latitude_frequency", 1);
+static MagicsParameter<int> map_label_longitude_frequency("map_label_longitude_frequency", 1);
+static MagicsParameter<string> map_label_left("map_label_left", "on");
+static MagicsParameter<string> map_label_right("map_label_right", "on");
+static MagicsParameter<string> map_label_top("map_label_top", "on");
+static MagicsParameter<string> map_label_bottom("map_label_bottom", "on");
+static MagicsParameter<string> map_label_colour("map_label_colour", "black");

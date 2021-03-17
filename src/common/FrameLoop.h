@@ -36,7 +36,7 @@ class AsIsAnimationRules;
 class FrameEntry : public BasicSceneObject, public GraphicsList {
 public:
     FrameEntry();
-    virtual ~FrameEntry();
+    virtual ~FrameEntry() override;
     void execute(const BaseDriver&);
     void add(BasicSceneObject* object) { BasicSceneObject::push_back(object); }
     void add(BaseGraphicsObject* object) { GraphicsList::push_back(object); }
@@ -56,13 +56,13 @@ protected:
 class FrameLoop : public BaseGraphicsObject, public vector<FrameEntry*> {
 public:
     FrameLoop();
-    virtual ~FrameLoop();
+    virtual ~FrameLoop() override;
     bool reproject(const Transformation&, BaseGraphicsList& out) const;
-    void redisplay(const BaseDriver& driver) const;
+    void redisplay(const BaseDriver& driver) const override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     AnimationRules* rules_;  // Later will probably come from an Attributes!
 
 private:
@@ -82,13 +82,13 @@ private:
 class AnimationStep : public vector<FrameEntry*> {
 public:
     AnimationStep();
-    virtual ~AnimationStep();
+    virtual ~AnimationStep() override;
     string label() { return label_; }
     void label(const string& label) { label_ = label; }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     string label_;
 
 private:
@@ -109,18 +109,19 @@ private:
 class AnimationRules : public TagHandler, public vector<AnimationStep*> {
 public:
     AnimationRules();
-    virtual ~AnimationRules();
-    virtual void callback(FrameEntry&){};
+    virtual ~AnimationRules() override;
+    virtual void callback(FrameEntry&) override {}
+    override;
 
     string labelFormat() const { return labelFormat_; }
 
-    virtual void getReady() {}
-    virtual void rules(vector<string>&) const;
+    virtual void getReady() override {}
+    virtual void rules(vector<string>&) const override;
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     string labelFormat_;
 
 private:
@@ -141,26 +142,26 @@ private:
 class AsIsAnimationRules : public AnimationRules {
 public:
     AsIsAnimationRules();
-    virtual ~AsIsAnimationRules();
-    virtual void callback(FrameEntry& entry) { entry.animate(*this); }
+    virtual ~AsIsAnimationRules() override;
+    virtual void callback(FrameEntry& entry) override { entry.animate(*this); }
     AnimationStep* step(int);
     void getReady();
     void rules(vector<string>&) const;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     map<int, AnimationStep*> steps_;
 };
 class DateAnimationRules : public AnimationRules {
 public:
     DateAnimationRules();
-    virtual ~DateAnimationRules();
+    virtual ~DateAnimationRules() override;
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 };
 
 }  // namespace magics

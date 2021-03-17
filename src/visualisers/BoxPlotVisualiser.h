@@ -40,21 +40,21 @@ class LegendVisitor;
 class BoxPlotVisualiser : public BoxPlotVisualiserAttributes, public Visdef {
 public:
     BoxPlotVisualiser();
-    virtual ~BoxPlotVisualiser();
+    virtual ~BoxPlotVisualiser() override;
 
 
-    void operator()(Data&, BasicGraphicsObjectContainer&);
-    void visit(LegendVisitor&);
+    void operator()(Data&, BasicGraphicsObjectContainer&) override;
+    void visit(LegendVisitor&) override;
 
 
     // Implements the set method ...
-    void set(const map<string, string>& map) { BoxPlotVisualiserAttributes::set(map); }
-    void set(const XmlNode& node) { BoxPlotVisualiserAttributes::set(node); }
+    void set(const map<string, string>& map) override { BoxPlotVisualiserAttributes::set(map); }
+    void set(const XmlNode& node) override { BoxPlotVisualiserAttributes::set(node); }
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     double resolution_;
 
 

@@ -52,10 +52,7 @@ void GribInterpretor::longitudesSanityCheck(double& west, double& east) const {
         east -= 360.;
     }
 }
-void GribInterpretor::scaling(GribDecoder& grib, double& scaling, double& offset) const {
-    string originalUnits, derivedUnits;
-    this->scaling(grib, scaling, offset, originalUnits, derivedUnits);
-}
+
 
 /// @brief The usual PI/180 constant
 // static const double DEG_TO_RAD = 0.017453292519943295769236907684886;
@@ -266,46 +263,12 @@ Index GribInterpretor::nearest(double ulat, double ulon) {
     return index;
 }
 
-void GribInterpretor::scaling(GribDecoder& grib, double& scaling, double& offset, string& originalUnits,
-                              string& derivedUnits) const {
-    scaling = 1;
-    offset  = 0;
-
-    // First check that they are not derived fields!
-
-    long derived = grib.getLong("generatingProcessIdentifier");
-    bool scale   = (derived == 254) ? grib.derived_scaling_ : grib.scaling_;
-
-    if (scale) {
-        WebLibrary settings;
-        MetaDataCollector needs;
-        settings.askId(needs);
-        grib.ask(needs);
-        settings.getScaling(needs, scaling, offset);
-    }
-    else {
-        scaling = grib.scaling_factor_;
-        offset  = grib.scaling_offset_;
-    }
-    // Add a sanity check : the factor can not be 0..
-    if (scaling == 0)
-        scaling = 1;
-}
-
-void GribInterpretor::scaling(GribDecoder& grib, Matrix& matrix) const {
-    double factor, offset;
-
-    scaling(grib, factor, offset);
-
-    matrix.multiply(factor);
-    matrix.plus(offset);
-}
 void GribInterpretor::index(const GribDecoder& grib) {
     throw MethodNotYetImplemented("GribInterpretor::index");
 }
 
 int GribInterpretor::nearest(double lon, double lat, double& nlon, double& nlat) {
-    assert(false);
+    ASSERT(false);
     return -1;
 }
 
@@ -313,8 +276,10 @@ void GribInterpretor::raw(GribDecoder& grib, const Transformation& transformatio
                           vector<pair<double, vector<pair<double, CustomisedPoint*> > > >& points, double& minlon,
                           double& maxlon) const {
     Timer timer("grib", "raw");
+    std::string originalUnits, derivedUnits;
     double factor, offset;
-    scaling(grib, factor, offset);
+    grib.defaultScaling(factor, offset, originalUnits, derivedUnits);
+
     int err;
 
     string uname, vname;
@@ -384,7 +349,8 @@ void GribInterpretor::raw(GribDecoder& grib, const Transformation& transformatio
                           map<double, map<double, CustomisedPoint*> >& points) const {
     Timer timer("grib", "raw");
     double factor, offset;
-    scaling(grib, factor, offset);
+    std::string originalUnits, derivedUnits;
+    grib.defaultScaling(factor, offset, originalUnits, derivedUnits);
     int err;
     size_t nb;
     grib_get_size(grib.id(), "values", &nb);
@@ -486,6 +452,9 @@ void GribRegularInterpretor::index(const GribDecoder& grib) {
     }
 
     catch (...) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         throw MagicsException("GribRegularInterpretor - Not enough memory");
     }
 }
@@ -600,6 +569,9 @@ void GribRegularInterpretor::interpretAsMatrix(GribDecoder& grib) const {
         u->missing(missing);
     }
     catch (...) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         throw MagicsException("GribRegularInterpretor - Not enough memory");
     }
 }
@@ -1101,12 +1073,8 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(GribDecoder& grib) const 
                 lon = west + (x * step);
             }
         }
-       
     }
     // delete[] data;
-    delete[] data1;
-    delete[] data2;
-    delete[] data3;
 
     for (int x = 0; x < nblon; x++) {
         u->columnsAxis().push_back(west + (x * step));
@@ -1441,6 +1409,9 @@ void GribLambertAzimutalInterpretor::interpretAsMatrix(GribDecoder& grib) const 
         rotated->setMapsAxis();
     }
     catch (MagicsException& e) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << e << "\n";
     }
 }
@@ -1461,7 +1432,7 @@ void GribRotatedInterpretor::interpretAsMatrix(GribDecoder& grib) const {
     long nblon = grib.getLong("numberOfPointsAlongAParallel");
     long nblat = grib.getLong("numberOfPointsAlongAMeridian");
 
-    Matrix* u  = grib.u(new RotatedMatrix(nblat, nblon, southPoleLat_, southPoleLon_));
+    Matrix* u = grib.u(new RotatedMatrix(nblat, nblon, southPoleLat_, southPoleLon_));
     Matrix* v = grib.v(new RotatedMatrix(nblat, nblon, southPoleLat_, southPoleLon_));
 
     size_t nb;
@@ -1472,7 +1443,8 @@ void GribRotatedInterpretor::interpretAsMatrix(GribDecoder& grib) const {
     double missing = INT_MAX;
     grib.setDouble("missingValue", missing);
     u->missing(missing);
-    if ( v) v->missing(missing);
+    if (v)
+        v->missing(missing);
 
     double north = grib.getDouble("latitudeOfFirstGridPointInDegrees");
     double west  = grib.getDouble("longitudeOfFirstGridPointInDegrees");
@@ -1481,7 +1453,7 @@ void GribRotatedInterpretor::interpretAsMatrix(GribDecoder& grib) const {
 
     longitudesSanityCheck(west, east);
 
-    
+
     double loni = longitudeIncrement(grib);
 
     double lon = (east - west) / (nblon - 1);
@@ -1526,7 +1498,7 @@ void GribRotatedInterpretor::interpretAsMatrix(GribDecoder& grib) const {
         if (jPointsAreConsecutive) {
             vector<double>* d = new vector<double>(nb);  // temporary array
             double* d1        = &d->front();             // temporary array pointer
-            double* d2        = &u->front();        // final array
+            double* d2        = &u->front();             // final array
 
             grib_get_double_array(grib.id(), "values", d1, &aux);
 
@@ -1557,6 +1529,9 @@ void GribRotatedInterpretor::interpretAsMatrix(GribDecoder& grib) const {
         u->missing(missing);
     }
     catch (...) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         throw MagicsException("GribRegularInterpretor - Not enough memory");
     }
 }
@@ -1580,12 +1555,13 @@ void GribRotatedInterpretor::interpret2D(double& lat, double& lon, double& uc, d
 void GribRotatedInterpretor::raw(GribDecoder& grib, const Transformation& transformation, const string& key,
                                  map<double, map<double, CustomisedPoint*> >& points) const {
     double factor, offset;
-    scaling(grib, factor, offset);
+    std::string originalUnits, derivedUnits;
+    grib.defaultScaling(factor, offset, originalUnits, derivedUnits);
     int err;
     southPoleLat_ = grib.getDouble("latitudeOfSouthernPoleInDegrees");
     southPoleLon_ = grib.getDouble("longitudeOfSouthernPoleInDegrees");
     angle_        = grib.getDouble("angleOfRotationInDegrees") * 180.0 / M_PI;
-    ;
+
     grib_iterator* iter = grib_iterator_new(grib.handle(), 0, &err);
     double missing      = grib.getDouble("missingValue");
 
@@ -1813,6 +1789,9 @@ void GribLambertInterpretor::interpretAsMatrix(GribDecoder& grib) const {
     }
 
     catch (MagicsException& e) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << e << "\n";
     }
 }
@@ -2012,6 +1991,9 @@ void GribProjInterpretor::interpretAsMatrix(GribDecoder& grib) const {
         matrix->setMapsAxis();
     }
     catch (...) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         throw MagicsException("GribRegularInterpretor - Not enough memory");
     }
 }

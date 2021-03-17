@@ -17,14 +17,12 @@ static std::vector<MvBufrEdition*> bufrEditionItems;
 static std::vector<MvBufrEdition*> bufrEditionItems;
 #endif
 
-MvBufrEdition::MvBufrEdition(int masterNumber, int masterVersion, int localVersion,
-                             int centre, int subCentre) :
+MvBufrEdition::MvBufrEdition(int masterNumber, int masterVersion, int localVersion, int centre, int subCentre) :
     masterNumber_(masterNumber),
     masterVersion_(masterVersion),
     localVersion_(localVersion),
     centre_(centre),
-    subCentre_(subCentre)
-{
+    subCentre_(subCentre) {
 #ifdef METVIEW_BUFR
     metview::bufrEditionItems.push_back(this);
 #else
@@ -32,22 +30,18 @@ MvBufrEdition::MvBufrEdition(int masterNumber, int masterVersion, int localVersi
 #endif
 }
 
-MvBufrEdition* MvBufrEdition::find(int masterNumber, int masterVersion, int localVersion,
-                                   int centre, int subCentre)
-{
+MvBufrEdition* MvBufrEdition::find(int masterNumber, int masterVersion, int localVersion, int centre, int subCentre) {
 #ifdef METVIEW_BUFR
-    for(auto item: metview::bufrEditionItems) {
+    for (auto item : metview::bufrEditionItems) {
 #else
-    for(auto item: bufrEditionItems) {
+    for (auto item : bufrEditionItems) {
 #endif
         if (item->masterNumber_ == masterNumber && item->masterVersion_ == masterVersion &&
-            item->localVersion_ == localVersion && item->centre_ == centre &&
-            item->subCentre_ == subCentre) {
-                    return item;
+            item->localVersion_ == localVersion && item->centre_ == centre && item->subCentre_ == subCentre) {
+            return item;
         }
     }
 
-    MvBufrEdition* e = new MvBufrEdition(masterNumber, masterVersion, localVersion,
-                                         centre, subCentre);
+    MvBufrEdition* e = new MvBufrEdition(masterNumber, masterVersion, localVersion, centre, subCentre);
     return e;
 }

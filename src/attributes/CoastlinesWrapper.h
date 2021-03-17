@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-   
+
 
 #ifndef CoastlinesWrapper_H
 #define CoastlinesWrapper_H
@@ -42,15 +42,15 @@
 #include "NoCoastPlottingWrapper.h"
 #include "NoGridPlottingWrapper.h"
 #include "NoLabelPlottingWrapper.h"
- 
+
 
 namespace magics {
 
 class MagRequest;
 
 
- 	
-class CoastlinesWrapper 
+
+class CoastlinesWrapper
 
 {
 public:
@@ -60,28 +60,28 @@ public:
 //  --  destructor
     virtual ~CoastlinesWrapper();
     virtual void set(const MagRequest&);
-    
-    Coastlines* me()   { return coastlines_; }
-   	
-   	virtual Coastlines* object() { return coastlines_; }
-	
 
-	virtual void object(Coastlines* o) { 
+    Coastlines* me()   { return coastlines_; }
+
+   	virtual Coastlines* object() { return coastlines_; }
+
+
+	virtual void object(Coastlines* o) {
 		// Remember to delete the previous object
 		coastlines_ = o;
 		
 
 	}
-    
-  
+
+
 
 protected:
     Coastlines* coastlines_;
 
 
 //  --  method
-	virtual void print(ostream&) const;
-	
+	virtual void print(ostream&) const override;
+
 
 private:
     string tag_;
@@ -92,5 +92,3 @@ private:
 } // namespace magics
 
 #endif
-
-

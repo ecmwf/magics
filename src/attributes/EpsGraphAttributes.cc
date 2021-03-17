@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -62,17 +62,17 @@ EpsGraphAttributes::EpsGraphAttributes():
 	deterministic_style_(MagTranslator<string, LineStyle>().magics("eps_deterministic_line_style")),
 	control_colour_(MagTranslator<string, Colour>().magics("eps_control_line_colour")),
 	control_style_(MagTranslator<string, LineStyle>().magics("eps_control_line_style"))
-	 
+	
 {
-} 
+}
 
 
 EpsGraphAttributes::~EpsGraphAttributes()
 {
-	
+
 }
 
-    
+
 void EpsGraphAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -158,12 +158,12 @@ void EpsGraphAttributes::copy(const EpsGraphAttributes& other)
 	control_colour_ = unique_ptr<Colour>(other.control_colour_->clone());
 	control_style_ = other.control_style_;
 	
-} 
+}
 
 
 bool EpsGraphAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "epsgraph")  )
 		return true;
 	
@@ -174,7 +174,7 @@ void EpsGraphAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "epsgraph")  )
@@ -237,7 +237,7 @@ void EpsGraphAttributes::print(ostream& out)  const
 
 void EpsGraphAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"epsgraph\""; 
+	out <<  "\"epsgraph\"";
 	out << ", \"eps_font\":";
 	niceprint(out,font_);
 	out << ", \"eps_font_size\":";
@@ -313,39 +313,39 @@ void EpsGraphAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> eps_font("eps_font", "sansserif", "");
-static MagicsParameter<double> eps_font_size("eps_font_size", 0.25, "");
-static MagicsParameter<string> eps_font_style("eps_font_style", "", "");
-static MagicsParameter<int> eps_box_shift("eps_box_shift", 0, "");
-static MagicsParameter<stringarray> eps_box_quantiles_colour("eps_box_quantiles_colour", stringarray(), "");
-static MagicsParameter<int> eps_box_border_thickness("eps_box_border_thickness", 3, "");
-static MagicsParameter<int> eps_box_median_thickness("eps_box_median_thickness", 3, "");
-static MagicsParameter<double> eps_maximum("eps_maximum", INT_MAX, "");
-static MagicsParameter<string> eps_maximum_font("eps_maximum_font", "sansserif", "");
-static MagicsParameter<string> eps_maximum_font_style("eps_maximum_font_style", "normal", "");
-static MagicsParameter<double> eps_maximum_font_size("eps_maximum_font_size", 0.25, "");
-static MagicsParameter<double> eps_box_width("eps_box_width", -1, "");
-static MagicsParameter<string> eps_whisker("eps_whisker", "on", "");
-static MagicsParameter<string> eps_legend_resolution("eps_legend_resolution", "truncature", "");
-static MagicsParameter<string> eps_legend_control_text("eps_legend_control_text", "", "");
-static MagicsParameter<double> eps_legend_font_size("eps_legend_font_size", 0.3, "");
-static MagicsParameter<string> eps_legend_forecast_text("eps_legend_forecast_text", "", "");
-static MagicsParameter<string> eps_deterministic("eps_deterministic", "on", "");
-static MagicsParameter<int> eps_deterministic_line_thickness("eps_deterministic_line_thickness", 2, "");
-static MagicsParameter<string> eps_deterministic_legend_text("eps_deterministic_legend_text", "High Resolution", "");
-static MagicsParameter<string> eps_control("eps_control", "on", "");
-static MagicsParameter<int> eps_control_line_thickness("eps_control_line_thickness", 2, "");
-static MagicsParameter<string> eps_control_legend_text("eps_control_legend_text", "ENS Control", "");
-static MagicsParameter<string> legend("legend", "on", "");
-static MagicsParameter<string> eps_grey_legend("eps_grey_legend", "on", "");
-static MagicsParameter<string> eps_font_colour("eps_font_colour", "blue", ""); 
-static MagicsParameter<string> eps_box_colour("eps_box_colour", "cyan", ""); 
-static MagicsParameter<string> eps_right_box_colour("eps_right_box_colour", "red", ""); 
-static MagicsParameter<string> eps_left_box_colour("eps_left_box_colour", "blue", ""); 
-static MagicsParameter<string> eps_box_border_colour("eps_box_border_colour", "black", ""); 
-static MagicsParameter<string> eps_box_median_colour("eps_box_median_colour", "black", ""); 
-static MagicsParameter<string> eps_maximum_font_colour("eps_maximum_font_colour", "red", ""); 
-static MagicsParameter<string> eps_deterministic_line_colour("eps_deterministic_line_colour", "blue", ""); 
-static MagicsParameter<string> eps_deterministic_line_style("eps_deterministic_line_style", "solid", ""); 
-static MagicsParameter<string> eps_control_line_colour("eps_control_line_colour", "red", ""); 
-static MagicsParameter<string> eps_control_line_style("eps_control_line_style", "dash", ""); 
+static MagicsParameter<string> eps_font("eps_font", "sansserif");
+static MagicsParameter<double> eps_font_size("eps_font_size", 0.25);
+static MagicsParameter<string> eps_font_style("eps_font_style", "");
+static MagicsParameter<int> eps_box_shift("eps_box_shift", 0);
+static MagicsParameter<stringarray> eps_box_quantiles_colour("eps_box_quantiles_colour", stringarray());
+static MagicsParameter<int> eps_box_border_thickness("eps_box_border_thickness", 3);
+static MagicsParameter<int> eps_box_median_thickness("eps_box_median_thickness", 3);
+static MagicsParameter<double> eps_maximum("eps_maximum", INT_MAX);
+static MagicsParameter<string> eps_maximum_font("eps_maximum_font", "sansserif");
+static MagicsParameter<string> eps_maximum_font_style("eps_maximum_font_style", "normal");
+static MagicsParameter<double> eps_maximum_font_size("eps_maximum_font_size", 0.25);
+static MagicsParameter<double> eps_box_width("eps_box_width", -1);
+static MagicsParameter<string> eps_whisker("eps_whisker", "on");
+static MagicsParameter<string> eps_legend_resolution("eps_legend_resolution", "truncature");
+static MagicsParameter<string> eps_legend_control_text("eps_legend_control_text", "");
+static MagicsParameter<double> eps_legend_font_size("eps_legend_font_size", 0.3);
+static MagicsParameter<string> eps_legend_forecast_text("eps_legend_forecast_text", "");
+static MagicsParameter<string> eps_deterministic("eps_deterministic", "on");
+static MagicsParameter<int> eps_deterministic_line_thickness("eps_deterministic_line_thickness", 2);
+static MagicsParameter<string> eps_deterministic_legend_text("eps_deterministic_legend_text", "High Resolution");
+static MagicsParameter<string> eps_control("eps_control", "on");
+static MagicsParameter<int> eps_control_line_thickness("eps_control_line_thickness", 2);
+static MagicsParameter<string> eps_control_legend_text("eps_control_legend_text", "ENS Control");
+static MagicsParameter<string> legend("legend", "on");
+static MagicsParameter<string> eps_grey_legend("eps_grey_legend", "on");
+static MagicsParameter<string> eps_font_colour("eps_font_colour", "blue");
+static MagicsParameter<string> eps_box_colour("eps_box_colour", "cyan");
+static MagicsParameter<string> eps_right_box_colour("eps_right_box_colour", "red");
+static MagicsParameter<string> eps_left_box_colour("eps_left_box_colour", "blue");
+static MagicsParameter<string> eps_box_border_colour("eps_box_border_colour", "black");
+static MagicsParameter<string> eps_box_median_colour("eps_box_median_colour", "black");
+static MagicsParameter<string> eps_maximum_font_colour("eps_maximum_font_colour", "red");
+static MagicsParameter<string> eps_deterministic_line_colour("eps_deterministic_line_colour", "blue");
+static MagicsParameter<string> eps_deterministic_line_style("eps_deterministic_line_style", "solid");
+static MagicsParameter<string> eps_control_line_colour("eps_control_line_colour", "red");
+static MagicsParameter<string> eps_control_line_style("eps_control_line_style", "dash");

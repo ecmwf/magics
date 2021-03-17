@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -29,17 +29,17 @@ CalculateColourTechniqueAttributes::CalculateColourTechniqueAttributes():
 	,
 	max_(MagTranslator<string, Colour>().magics("contour_shade_max_level_colour")),
 	min_(MagTranslator<string, Colour>().magics("contour_shade_min_level_colour"))
-	 
+	
 {
-} 
+}
 
 
 CalculateColourTechniqueAttributes::~CalculateColourTechniqueAttributes()
 {
-	
+
 }
 
-    
+
 void CalculateColourTechniqueAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(5);
@@ -63,12 +63,12 @@ void CalculateColourTechniqueAttributes::copy(const CalculateColourTechniqueAttr
 	max_ = unique_ptr<Colour>(other.max_->clone());
 	min_ = unique_ptr<Colour>(other.min_->clone());
 	
-} 
+}
 
 
 bool CalculateColourTechniqueAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "calculate")  )
 		return true;
 	
@@ -79,7 +79,7 @@ void CalculateColourTechniqueAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "calculate")  )
@@ -109,7 +109,7 @@ void CalculateColourTechniqueAttributes::print(ostream& out)  const
 
 void CalculateColourTechniqueAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"calculate\""; 
+	out <<  "\"calculate\"";
 	out << ", \"contour_shade_colour_direction\":";
 	niceprint(out,direction_);
 	out << ", \"contour_shade_max_level_colour\":";
@@ -119,6 +119,6 @@ void CalculateColourTechniqueAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> contour_shade_colour_direction("contour_shade_colour_direction", "anti_clockwise", "");
-static MagicsParameter<string> contour_shade_max_level_colour("contour_shade_max_level_colour", "blue", ""); 
-static MagicsParameter<string> contour_shade_min_level_colour("contour_shade_min_level_colour", "red", ""); 
+static MagicsParameter<string> contour_shade_colour_direction("contour_shade_colour_direction", "anti_clockwise");
+static MagicsParameter<string> contour_shade_max_level_colour("contour_shade_max_level_colour", "blue");
+static MagicsParameter<string> contour_shade_min_level_colour("contour_shade_min_level_colour", "red");

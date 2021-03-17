@@ -35,13 +35,13 @@ class DateTime;
 
 class MagicsEvent {
 public:
-    MagicsEvent() {}
-    virtual ~MagicsEvent() {}
-    virtual void notify(MagicsObserver&) {}
+    MagicsEvent();
+    virtual ~MagicsEvent();
+    virtual void notify(MagicsObserver&);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const { out << "MagicsEvent[]"; }
+    virtual void print(ostream& out) const;
 
 private:
     //! Copy constructor - No copy allowed
@@ -60,38 +60,38 @@ private:
 class MagicsCursorEvent : public MagicsEvent {
 public:
     MagicsCursorEvent(const string& cursor = "") : cursor_(cursor) {}
-    virtual ~MagicsCursorEvent() {}
-    virtual void notify(MagicsObserver& observer) { observer.notify(*this); }
+    virtual ~MagicsCursorEvent() override {}
+    virtual void notify(MagicsObserver& observer) override { observer.notify(*this); }
     const string& cursor() { return cursor_; }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const { out << "MagicsCursorEvent[cursor : " << cursor_ << "]"; }
+    virtual void print(ostream& out) const override { out << "MagicsCursorEvent[cursor : " << cursor_ << "]"; }
     string cursor_;
 };
 class MagicsSwapBufferEvent : public MagicsEvent {
 public:
     MagicsSwapBufferEvent() {}
-    virtual ~MagicsSwapBufferEvent() {}
-    virtual void notify(MagicsObserver& observer) { observer.notify(*this); }
+    virtual ~MagicsSwapBufferEvent() override {}
+    virtual void notify(MagicsObserver& observer) override { observer.notify(*this); }
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const { out << "MagicsSwapBufferEvent[]"; }
+    virtual void print(ostream& out) const override { out << "MagicsSwapBufferEvent[]"; }
 };
 
 class MagicsAntialiasingEvent : public MagicsEvent {
     // From Uplot to driver!
 public:
     MagicsAntialiasingEvent(bool set) : set_(set) {}
-    virtual ~MagicsAntialiasingEvent() {}
-    virtual void notify(MagicsObserver& observer) { observer.notify(*this); }
+    virtual ~MagicsAntialiasingEvent() override {}
+    virtual void notify(MagicsObserver& observer) override { observer.notify(*this); }
     bool set() const { return set_; }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const {
+    virtual void print(ostream& out) const override {
         string set = (set_) ? "on" : "false";
         out << "MagicsAntialiasingEvent[" << set << "]";
     }
@@ -102,13 +102,13 @@ class MagicsZoomEvent : public MagicsEvent {
     // From Uplot to driver!
 public:
     MagicsZoomEvent(bool set) : set_(set) {}
-    virtual ~MagicsZoomEvent() {}
-    void notify(MagicsObserver& observer) { observer.notify(*this); }
+    virtual ~MagicsZoomEvent() override {}
+    void notify(MagicsObserver& observer) override { observer.notify(*this); }
     bool set() const { return set_; }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const {
+    virtual void print(ostream& out) const override {
         string set = (set_) ? "on" : "false";
         out << "MagicsZoomEvent[" << set << "]";
     }
@@ -119,13 +119,13 @@ class MagicsMagnifierEvent : public MagicsEvent {
     // From Uplot to driver!
 public:
     MagicsMagnifierEvent(bool set) : set_(set) {}
-    virtual ~MagicsMagnifierEvent() {}
-    void notify(MagicsObserver& observer) { observer.notify(*this); }
+    virtual ~MagicsMagnifierEvent() override {}
+    void notify(MagicsObserver& observer) override { observer.notify(*this); }
     bool set() const { return set_; }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const {
+    virtual void print(ostream& out) const override {
         string set = (set_) ? "on" : "false";
         out << "MagicsMagnifierEvent[" << set << "]";
     }
@@ -136,12 +136,12 @@ class MagicsRestoreFbEvent : public MagicsEvent {
     // From Uplot to driver!
 public:
     MagicsRestoreFbEvent() {}
-    virtual ~MagicsRestoreFbEvent() {}
-    void notify(MagicsObserver& observer) { observer.notify(*this); }
+    virtual ~MagicsRestoreFbEvent() override {}
+    void notify(MagicsObserver& observer) override { observer.notify(*this); }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const {
+    virtual void print(ostream& out) const override {
         out << "MagicsRestoreFbEvent["
             << "]";
     }
@@ -152,7 +152,7 @@ public:
     MagicsAnimationStepData(vector<string>& label, bool /*cached*/) : label_(label), cached_(false){};
     const vector<string>& label() const { return label_; }
     bool cached() const { return cached_; }
-    void setLabel(vector<string>& s) { label_ = s; }
+    void setLabel(const vector<string>& s) { label_ = s; }
     void setCached(bool b) { cached_ = b; }
 
 private:
@@ -165,13 +165,13 @@ class MagicsAnimationCurrentStepEvent : public MagicsEvent {
     // From Uplot to driver!
 public:
     MagicsAnimationCurrentStepEvent(int step) : step_(step) {}
-    virtual ~MagicsAnimationCurrentStepEvent() {}
-    void notify(MagicsObserver& observer) { observer.notify(*this); }
+    virtual ~MagicsAnimationCurrentStepEvent() override {}
+    void notify(MagicsObserver& observer) override { observer.notify(*this); }
     int step() const { return step_; }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const { out << "MagicsAnimationCurrentStepEvent[" << step_ << "]"; }
+    virtual void print(ostream& out) const override { out << "MagicsAnimationCurrentStepEvent[" << step_ << "]"; }
     int step_;
 };
 
@@ -179,13 +179,13 @@ class MagicsAnimationStepsEvent : public MagicsEvent {
     // From Uplot to driver!
 public:
     MagicsAnimationStepsEvent(vector<MagicsAnimationStepData> steps) : steps_(steps) {}
-    virtual ~MagicsAnimationStepsEvent() {}
-    void notify(MagicsObserver& observer) { observer.notify(*this); }
+    virtual ~MagicsAnimationStepsEvent() override {}
+    void notify(MagicsObserver& observer) override { observer.notify(*this); }
     const vector<MagicsAnimationStepData>& steps() const { return steps_; }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const {
+    virtual void print(ostream& out) const override {
         out << "MagicsAnimationFramseEvent["
             << "]";
     }
@@ -197,12 +197,12 @@ class MagicsLayerUpdateEvent : public MagicsEvent {
     // From Uplot to driver!
 public:
     MagicsLayerUpdateEvent() {}
-    virtual ~MagicsLayerUpdateEvent() {}
-    void notify(MagicsObserver& observer) { observer.notify(*this); }
+    virtual ~MagicsLayerUpdateEvent() override {}
+    void notify(MagicsObserver& observer) override { observer.notify(*this); }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const {
+    virtual void print(ostream& out) const override {
         out << "MagicsLayerUpdateEvent["
             << "]";
     }
@@ -264,6 +264,8 @@ public:
         zindexLayer_(-1),
         transparencyLayer_(0){};
 
+    virtual ~MetviewIcon() {}
+
     void icon(const string& name, const string& cname, const string& id = "unknown") {
         iconName_  = name;
         iconClass_ = cname;
@@ -307,6 +309,8 @@ public:
     const string& id() const { return idLayer_; }
     const string& name() const { return nameLayer_; }
 
+    virtual void print(std::ostream& s) const { s << "MetviewIcon[]"; }
+
 protected:
     string iconName_;
     string iconClass_;
@@ -318,6 +322,12 @@ protected:
     string nameLayer_;
 
     map<string, string> information_;
+
+private:
+    friend ostream& operator<<(ostream& s, const MetviewIcon& p) {
+        p.print(s);
+        return s;
+    }
 };
 
 }  // namespace magics

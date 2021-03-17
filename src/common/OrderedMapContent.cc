@@ -10,14 +10,13 @@
 
 #include <algorithm>
 
-#include "OrderedMapContent.h"
 #include "JSON.h"
 #include "MagException.h"
+#include "OrderedMapContent.h"
 
 namespace magics {
 
 //----------------------------------------------------------------------------------------------------------------------
-
 
 
 OrderedMapContent::OrderedMapContent() {}
@@ -26,7 +25,6 @@ OrderedMapContent::OrderedMapContent(const ValueMap& v, const ValueList& keys) :
     ASSERT(keys.size() == value_.size());
     keys_ = keys;
 }
-
 
 
 OrderedMapContent::~OrderedMapContent() {}
@@ -52,7 +50,8 @@ Value OrderedMapContent::remove(const Value& key) {
     Value result = value_[key];
     value_.erase(key);
     auto it = std::find(keys_.begin(), keys_.end(), key);
-    if (it != keys_.end()) keys_.erase(it);
+    if (it != keys_.end())
+        keys_.erase(it);
     return result;
 }
 
@@ -84,7 +83,6 @@ int OrderedMapContent::compareOrderedMap(const OrderedMapContent& other) const {
     // compare the keys in order
     ValueList::const_iterator jc = (*longer).begin();
     for (ValueList::const_iterator j = shorter->begin(); j != shorter->end(); ++j, ++jc) {
-
         if (*j == *jc) {
             continue;
         }
@@ -99,7 +97,6 @@ int OrderedMapContent::compareOrderedMap(const OrderedMapContent& other) const {
     // all keys are equal and in same order, compare now the values
     jc = (*longer).begin();
     for (ValueList::const_iterator j = shorter->begin(); j != shorter->end(); ++j, ++jc) {
-
         const Value& k     = *j;
         const Value& left  = value_.at(k);
         const Value& right = other.value_.at(k);
@@ -137,7 +134,6 @@ void OrderedMapContent::json(JSON& s) const {
 
 
 Content* OrderedMapContent::clone() const {
-
     OrderedMapContent* m = new OrderedMapContent();
 
     for (ValueMap::const_iterator j = value_.begin(); j != value_.end(); ++j) {
@@ -169,7 +165,6 @@ Content* OrderedMapContent::mod(const Content& other) const {
 
 
 void OrderedMapContent::dump(std::ostream& out, size_t depth, bool indent) const {
-
     if (indent) {
         size_t n = depth;
         while (n-- > 0) {
@@ -198,7 +193,6 @@ void OrderedMapContent::dump(std::ostream& out, size_t depth, bool indent) const
 
     out << "}";
 }
-
 
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -15,9 +15,9 @@ using namespace magics;
 #include "XmlMagics.h"
 #include "XmlTree.h"
 
+#include "MagParser.h"
 #include "Timer.h"
 #include "Value.h"
-#include "JSONParser.h"
 
 MagJSon::MagJSon() {
     patchs_["drivers"]    = &MagJSon::drivers;
@@ -32,13 +32,13 @@ void MagJSon::execute(const string& magml, const map<string, string>& params) {
 }
 
 void MagJSon::parse(const string& file) {
-    Value value = JSONParser::decodeFile(file);
+    Value value = MagParser::decodeFile(file);
     magics(value);
 }
 
 void MagJSon::interpret(const string& def) {
     MagLog::dev() << "interpret-->" << def << endl;
-    Value value = JSONParser::decodeString(def);
+    Value value = MagParser::decodeString(def);
 
     ValueMap object = value.get_value<ValueMap>();
     // buils the Magics XmlNode!
@@ -46,7 +46,6 @@ void MagJSon::interpret(const string& def) {
 }
 
 void ParamJSon::magics(const Value& value) {
-
     ValueMap object = value.get_value<ValueMap>();
     for (auto entry = object.begin(); entry != object.end(); ++entry) {
         this->insert(make_pair(entry->first, string(entry->second)));
@@ -56,13 +55,12 @@ void ParamJSon::magics(const Value& value) {
 ParamJSon::ParamJSon(const string& param) {
     if (param.empty())
         return;
-    Value value = JSONParser::decodeString(param);
+    Value value = MagParser::decodeString(param);
     magics(value);
 }
 
 
 void MagJSon::drivers(XmlNode& parent, const Value& value) {
-
     XmlNode* drivers = new XmlNode("drivers");
     parent.push_back(drivers);
     ValueList all = value.get_value<ValueList>();
@@ -82,7 +80,6 @@ void MagJSon::drivers(XmlNode& parent, const Value& value) {
 
 
 void MagJSon::definitions(XmlNode& parent, const Value& value) {
-
     XmlNode* definitions = new XmlNode("definition");
     tree_.definition(definitions);
 
@@ -105,20 +102,19 @@ void MagJSon::build(XmlNode& parent, const string& name, ValueMap& object) {
     map<string, string> attributes;
 
     for (auto entry = object.begin(); entry != object.end(); ++entry) {
-
         if (entry->second.isBool()) {
             string value = entry->second.get_value<bool>() ? "on" : "off";
             attributes.insert(make_pair(entry->first, value));
         }
-        else if ( !entry->second.isList() && !entry->second.isMap() && !entry->second.isOrderedMap() ) {
+        else if (!entry->second.isList() && !entry->second.isMap() && !entry->second.isOrderedMap()) {
             attributes.insert(make_pair(entry->first, string(entry->second)));
         }
     }
-    
-    
+
+
     XmlNode* node = tree_.newNode(name, attributes);
     parent.push_back(node);
-    
+
     for (auto entry = object.begin(); entry != object.end(); ++entry) {
         // We can apply a patch ..
         map<string, Patch>::iterator patch = patchs_.find(entry->first);
@@ -127,7 +123,7 @@ void MagJSon::build(XmlNode& parent, const string& name, ValueMap& object) {
             continue;
         }
 
-        if (entry->second.isMap() ) {
+        if (entry->second.isMap()) {
             ValueMap object = entry->second.get_value<ValueMap>();
             build(*node, entry->first, object);
         }

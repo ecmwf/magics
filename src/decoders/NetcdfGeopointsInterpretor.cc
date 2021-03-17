@@ -37,13 +37,10 @@ NetcdfGeopointsInterpretor::~NetcdfGeopointsInterpretor() {}
 
 static void setDim(Netcdf& netcdf, const string& name, vector<double>& values, map<string, string>& first,
                    map<string, string>& last) {
-       
     try {
-       
         netcdf.get(name, values, first, last);
-       
     }
-    catch (exception& e) {    
+    catch (exception& e) {
         int dim = netcdf.getDimension(name);
         for (int i = 0; i < dim; ++i)
             values.push_back(i);
@@ -97,6 +94,9 @@ bool NetcdfGeopointsInterpretor::interpretAsPoints(PointsList& list, const Trans
         }
     }
     catch (MagicsException& e) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << e << "\n";
         return false;
     }
@@ -148,6 +148,9 @@ bool NetcdfGeopointsInterpretor::interpretAsPoints(PointsList& list) {
         }
     }
     catch (MagicsException& e) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << e << "\n";
         return false;
     }
@@ -271,6 +274,9 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const Transf
         }
     }
     catch (MagicsException& e) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << e << "\n";
         return false;
     }
@@ -292,7 +298,7 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const std::s
         vector<double> values;
         map<string, string> first, last;
         setDimensions(dimension_, first, last);
-        
+
         if (field_.empty() == false) {
             netcdf.get(field_, values, first, last);
         }
@@ -311,7 +317,6 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const std::s
         vector<double>::const_iterator val = values.begin();
 
         while (x != xs.end() && y != ys.end()) {
-            
             double value = 0;
             if (val != values.end()) {
                 value = *val;
@@ -341,6 +346,9 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const std::s
         }
     }
     catch (MagicsException& e) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << e << "\n";
         return false;
     }
@@ -380,6 +388,9 @@ void NetcdfXYpointsInterpretor::visit(Transformation& transformation) {
         }
     }
     catch (...) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
     }
 }
 
@@ -454,6 +465,9 @@ void NetcdfXYpointsInterpretor::visit(MetaDataCollector& mdc) {
             }
         }
         catch (...) {
+            if (MagicsSettings::strict()) {
+                throw;
+            }
         }
 
         mdc["statsType"] = "scalar";

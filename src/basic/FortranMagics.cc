@@ -21,35 +21,36 @@
 
 #include "FortranMagics.h"
 
-#include "Coastlines.h"
-#include "LegendVisitor.h"
-#include "MagicsGlobal.h"
-#include "RootSceneNode.h"
-#include "SceneNode.h"
-#include "TextVisitor.h"
-#include "Timer.h"
-#include "ViewNode.h"
-#include "VisualAction.h"
-#include "GribDecoder.h"
 #include "Axis.h"
 #include "BoxPlotDecoder.h"
 #include "BoxPlotVisualiser.h"
+#include "Coastlines.h"
+#include "CompatibilityHelper.h"
 #include "Contour.h"
 #include "GeoPointsDecoder.h"
 #include "GraphPlotting.h"
+#include "GribDecoder.h"
 #include "ImportAction.h"
 #include "ImportObjectHandler.h"
 #include "ImportPlot.h"
 #include "InputMatrix.h"
+#include "LegendVisitor.h"
+#include "MagicsSettings.h"
 #include "MapGenDecoder.h"
 #include "MetaData.h"
+#include "RootSceneNode.h"
+#include "SceneNode.h"
 #include "SimplePolylineInput.h"
 #include "SimplePolylineVisualiser.h"
 #include "SymbolInput.h"
 #include "SymbolPlotting.h"
 #include "TaylorGrid.h"
+#include "TextVisitor.h"
+#include "Timer.h"
 #include "TitleTemplate.h"
 #include "UserPoint.h"
+#include "ViewNode.h"
+#include "VisualAction.h"
 #include "Wind.h"
 #include "XYList.h"
 
@@ -70,33 +71,57 @@ FortranMagics::FortranMagics() :
     drivers_(0),
     output_(0),
     action_(0),
+    root_(0),
+    axisContainer_(0),
     empty_(true),
     gribindex_(0),
     legend_todo_(false),
     symbolinput_todo_(false),
     matrixinput_todo_(false),
-    polyinput_todo_(false),
-    axisContainer_(0)
+    polyinput_todo_(false)
 
 {
-    ASSERT(singleton_ == 0);
-    singleton_ = this;
+    reset();
 }
 
 FortranMagics::~FortranMagics() {
-    if (drivers_)
-        delete drivers_;
-    //	if ( root_ ) delete root_;
-    if (output_)
-        delete output_;
-    singleton_ = 0;
+    reset();
+}
 
-    /*
-    ParameterManager::release();
-    TitleTemplate::release();
+void FortranMagics::reset() {
+    delete drivers_;
+    drivers_ = 0;
 
-    GribDecoder::releaseContext();
-    */
+    delete output_;
+    output_ = 0;
+
+    delete root_;
+    root_ = 0;
+
+    empty_            = true;
+    gribindex_        = 0;
+    legend_todo_      = false;
+    symbolinput_todo_ = false;
+    matrixinput_todo_ = false;
+    polyinput_todo_   = false;
+
+
+    while (actions_.size()) {
+        actions_.pop();
+    }
+
+    // TODO: clear memory
+    texts_.clear();
+    legends_.clear();
+    later_.clear();
+    while (axis_.size()) {
+        axis_.pop();
+    }
+
+
+    ParameterManager::reset();
+    Layout::reset();
+    CompatibilityHelper::resetAll();
 }
 
 /*!
@@ -108,8 +133,12 @@ void FortranMagics::print(ostream& out) const {
 }
 
 void FortranMagics::popen() {
+    reset();
+
     MagLog::info() << "popen()" << endl;
-    if (getEnvVariable("MAGPLUS_QUIET").empty() && !MagicsGlobal::silent()) {
+
+
+    if (getEnvVariable("MAGPLUS_QUIET").empty() && !MagicsSettings::silent()) {
         MagLog::userInfo() << "----------------------------------------------------"
                               "--------------\n";
         MagLog::userInfo() << "\n";
@@ -138,44 +167,34 @@ void FortranMagics::popen() {
   Here is where the real magics is happen. Everything is dispatched, followed
   by a comprehensive clean-up.
 */
-int FortranMagics::pclose(bool catch_exceptions) {
+void FortranMagics::pclose() {
     MagLog::info() << "pclose()" << endl;
-    singleton_ = 0;
-    try {
-        if (!empty_) {
-            finish();
-            dispatch();
-        }
 
-        if (root_ && drivers_) {
-            BasicGraphicsObject* object = root_->close();
-            if (object) {
-                /***   Start clean-up  ***/
-                drivers_->dispatch(object);
-                drivers_->closeDrivers();
-                drivers_->clear();
+    if (!empty_) {
+        finish();
+        dispatch();
+    }
 
-                //cout << "deleting object" << endl;
-                delete root_;
-                delete drivers_;
-                delete output_;
+    if (root_ && drivers_) {
+        BasicGraphicsObject* object = root_->close();
+        if (object) {
+            /***   Start clean-up  ***/
+            drivers_->dispatch(object);
+            drivers_->closeDrivers();
 
-                drivers_ = 0;
-                root_    = 0;
-                output_  = 0;
-            }
+            delete root_;
+            delete drivers_;
+            delete output_;
+
+            drivers_ = 0;
+            root_    = 0;
+            output_  = 0;
         }
     }
-    catch (MagicsException& e) {
-        MagLog::error() << "Errors reported:" << e.what() << " - No plot produced  " << endl;
-        MagLog::error().flush();
 
-        if(!catch_exceptions) {
-            throw;
-        }
+    ParameterManager::reset();
+    Layout::reset();
 
-        return -1;
-    }
 
     // the Magics log messages are not broadcast until the next log event -
     // therefore, the last log message will not be broadcast. We fix that by
@@ -184,14 +203,8 @@ int FortranMagics::pclose(bool catch_exceptions) {
     // scenes.
     MagLog::info().flush();
 
-    // We reset all the parameters to their default,
-    // then a consecutive call to popen will not be affected by the current
-    // values.
-    ParameterManager::reset();
 
-    Layout::reset();
-
-    if (getEnvVariable("MAGPLUS_QUIET").empty() && !MagicsGlobal::silent()) {
+    if (getEnvVariable("MAGPLUS_QUIET").empty() && !MagicsSettings::silent()) {
         MagLog::userInfo() << "----------------------------------------------------"
                               "--------------\n";
         MagLog::userInfo() << "    COMPLETED\n";
@@ -201,8 +214,6 @@ int FortranMagics::pclose(bool catch_exceptions) {
         MagLog::userInfo() << "----------------------------------------------------"
                               "--------------\n";
     }
-    singleton_ = 0;
-    return 0;
 }
 
 void FortranMagics::drivers() {
@@ -222,11 +233,6 @@ void FortranMagics::subpage() {
     top()->push_back(axisContainer_);
     axisContainer_->getReady();
     push(axisContainer_);
-
-    while (!axis_.empty()) {
-            axisContainer_->push_back(axis_.top());
-            axis_.pop();
-    }
 }
 
 void FortranMagics::page() {
@@ -376,10 +382,8 @@ void FortranMagics::actions() {
         Action action = actions_.top();
         (this->*action)();
         actions_.pop();
-        
         empty_ = false;
     }
-   
 }
 
 void FortranMagics::pcoast() {
@@ -433,7 +437,10 @@ void FortranMagics::ptest() {
 void FortranMagics::finish() {
     if (!empty_) {
         actions();  // The flag to force the generation of the plot has been set!
-        
+        while (!axis_.empty()) {
+            axisContainer_->push_back(axis_.top());
+            axis_.pop();
+        }
     }
 
     if (!axisContainer_)
@@ -590,6 +597,8 @@ const char* FortranMagics::metanetcdf() {
     static string temp;
     temp = out.str();
     return temp.c_str();
+#else
+    return 0;
 #endif
 }
 
@@ -624,7 +633,7 @@ void FortranMagics::pgrib() {
     int index;
     ParameterManager::get("grib_field_position", index);
 
-    if (grib == gribfile && MagicsGlobal::compatibility()) {
+    if (grib == gribfile && MagicsSettings::compatibility()) {
         if (index == gribindex_) {
             gribindex_++;
         }
@@ -866,7 +875,6 @@ void FortranMagics::wrepjson() {
     action_->data(wrep);
 }
 void FortranMagics::metbufr() {
-
     actions();
     action_ = new VisualAction();
 
@@ -889,10 +897,9 @@ void FortranMagics::epsinput() {
 #include "MetgramGraph.h"
 void FortranMagics::metgraph() {
     actions();
-    if (!action_) {
-        MagLog::error() << "epscloud -> No data defined " << endl;
-        exit(1);
-    }
+
+    ASSERT(action_);
+
     MetgramGraph* graph = new MetgramGraph();
 
     action_->visdef(graph);
@@ -900,20 +907,18 @@ void FortranMagics::metgraph() {
 
 void FortranMagics::epscloud() {
     actions();
-    if (!action_) {
-        MagLog::error() << "epscloud -> No data defined " << endl;
-        exit(1);
-    }
+
+    ASSERT(action_);
+
     EpsCloud* epscloud = new EpsCloud();
 
     action_->visdef(epscloud);
 }
 void FortranMagics::epsplumes() {
     actions();
-    if (!action_) {
-        MagLog::error() << "epsplumes -> No data defined " << endl;
-        exit(1);
-    }
+
+    ASSERT(action_);
+
     EpsPlume* plumes = new EpsPlume();
 
     action_->visdef(plumes);
@@ -921,40 +926,36 @@ void FortranMagics::epsplumes() {
 
 void FortranMagics::epsgraph() {
     actions();
-    if (!action_) {
-        MagLog::error() << "epscloud -> No data defined " << endl;
-        exit(1);
-    }
+
+    ASSERT(action_);
+
     EpsGraph* epsgraph = new EpsGraph();
     action_->visdef(epsgraph);
 }
 
 void FortranMagics::epslight() {
     actions();
-    if (!action_) {
-        MagLog::error() << "epslight-> No data defined " << endl;
-        exit(1);
-    }
+
+    ASSERT(action_);
+
     EpsLight* epslight = new EpsLight();
     action_->visdef(epslight);
 }
 
 void FortranMagics::epswave() {
     actions();
-    if (!action_) {
-        MagLog::error() << "epscloud -> No data defined " << endl;
-        exit(1);
-    }
+
+    ASSERT(action_);
+
     EpsWave* eps = new EpsWave();
     action_->visdef(eps);
 }
 
 void FortranMagics::epswind() {
     actions();
-    if (!action_) {
-        MagLog::error() << "epscloud -> No data defined " << endl;
-        exit(1);
-    }
+
+    ASSERT(action_);
+
     EpsWind* epswind = new EpsWind();
     action_->visdef(epswind);
 }
@@ -965,17 +966,15 @@ void FortranMagics::epsbar() {
 }
 void FortranMagics::epsshading() {
     actions();
-    if (!action_) {
-        MagLog::error() << "epscloud -> No data defined " << endl;
-        exit(1);
-    }
+
+    ASSERT(action_);
+
     EpsShade* eps = new EpsShade();
     action_->visdef(eps);
 }
 
 void FortranMagics::paxis() {
-   
-   
+    actions();
     try {
         string orientation;
 
@@ -984,23 +983,19 @@ void FortranMagics::paxis() {
         if (magCompare(orientation, "vertical")) {
             Axis* vaxis = new VerticalAxis();
             MagLog::dev() << *vaxis << "\n";
-            if (axisContainer_)
-                axisContainer_->push_back(vaxis);
-            else 
-                axis_.push(vaxis);
-            
+            top()->push_back(vaxis);
         }
         else {
             Axis* haxis = new HorizontalAxis();
             MagLog::dev() << *haxis << "\n";
-            if (axisContainer_)
-                axisContainer_->push_back(haxis);
-            else 
-                axis_.push(haxis);
-            
+            top()->push_back(haxis);
         }
     }
     catch (MagicsException& e) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
+
         MagLog::error() << e << "\n";
     }
     empty_ = false;  // Force the generation of the plot!
@@ -1062,5 +1057,7 @@ void FortranMagics::pboxplot() {
     action_->visdef(plot);
 }
 
-FortranMagics* FortranMagics::singleton_ = 0;
-MagicsGlobal* MagicsGlobal::singleton_   = 0;
+FortranMagics& FortranMagics::instance() {
+    static FortranMagics instance_;
+    return instance_;
+}

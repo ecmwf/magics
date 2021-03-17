@@ -32,10 +32,10 @@ namespace magics {
 class ImportObject : public ImageProperties {
 public:
     ImportObject() {}
-    virtual ~ImportObject() {}
+    virtual ~ImportObject() override {}
 
     // Implement the BaseGraphics Interface
-    virtual void redisplay(const BaseDriver& driver) const { driver.redisplay(*this); }
+    virtual void redisplay(const BaseDriver& driver) const override { driver.redisplay(*this); }
 
     void setPath(const string& path) { path_ = path; }
     string getPath() const { return path_; }
@@ -46,11 +46,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& p) const { 
-        p << "by_reference-->" << by_reference_ << endl; 
-        p << "width-->" << width_ << endl; 
-        p << "height-->" << height_ << endl; 
-        }
+    virtual void print(ostream& s) const override { s << "ImportObject[]"; }
     string path_;
     string format_;
 

@@ -60,7 +60,6 @@ public:
 	string image_format_;
 	double image_width_;
 	double image_height_;
-	bool image_by_reference_;
 	stringarray text_;
 	string text_position_;
 	string text_font_name_;

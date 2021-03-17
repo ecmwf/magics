@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 1996- ECMWF.
+ * (C) Copyright 1996-2016 ECMWF.
  *
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
@@ -12,76 +12,18 @@
 
   \brief This file contains all global definition for the MagPlus library.
   \author Meteorological Visualisation Section, ECMWF
-  \copyright Apache License 2.0
+  \license Apache License 2.0
 
   Started: January 2004
 
   Changes:
 
 */
-
-/*! \mainpage 
-
- \section intro What is Magics?
-
- Magics is the second generation of a meteorological graphics
- library developed at the <a href="http://www.ecmwf.int"><i>European
- Centre for Medium Range Forecasts (ECMWF)</i></a>. This library is
- developed in C++ and offers output in various formats such as PostScript,
- PDF, PNG, SVG and Qt (for <a href="https://confluence.ecmwf.int/metview">Metview</a>).
-
- \section install How-to install
-
- Before installation you have to compile Magics. To do so, simply
- unpack the tarball in an appropiate directory and run <i>cmake ..</i>
- followed by <i>make</i>. 
-
- To install type <i>make install</i>. Depending on the
- choosen installation directory you need root permission.
-
- \section interfaces Magics interfaces
-
- Magics offers different interfaces to access its graphics
- functionality: C++ (for higher-level applicatiosn such as Metview), C, Fortran 77
- Python and MagJson. The Fortran interface is intended to be backwards compatible with older
- versions (mainly the the 6.x series) of Magics.
-
- \section modules More information
-
- - \ref hilo "Computations of High &amp; Lows"
-
- - \ref projections "Geographical projections"
-
- - \ref drivers "Output drivers"
-
- - \ref coastlines "Coastlines"
-
- - \ref colours "Colours"
-
- - \ref obs "Plotting of observations"
-
- \section links Links
-
- - <a href="http://software.ecmwf.int/magics">Magics++ homepage</a>
-
- \section copyright License
-
- (C) Copyright 1996- ECMWF
-
- This software is licensed under the terms of the Apache Licence Version 2.0
- which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- In applying this licence, ECMWF does not waive the privileges and immunities
- granted to it by virtue of its status as an intergovernmental organisation nor
- does it submit to any jurisdiction.
-*/
-
 #ifndef magicsplusplus_H
 #define magicsplusplus_H
 
 #include <magics_config.h>
-#if defined(MAGICS_AIX_XLC)
-#include <unistd.h>  // for AIX
-#endif
+
 #include <climits>
 
 #include "magics_export.h"
@@ -125,19 +67,21 @@ using std::vector;
 
 using std::exception;
 
-#include <cassert>
+// #include <cassert>
 #include <cmath>
 
-#include "magics_windef.h"
-
-#ifdef MAGICS_ON_WINDOWS
+// #include "magics_windef.h"
+#if defined(_WIN32) && defined(_MSC_VER)
+#define MAGICS_ON_WINDOWS
 #include <io.h>
-#define strcasecmp _stricmp
+inline int strcasecmp(const char* a, const char* b) {
+    return _stricmp(a, b);
+}
 #endif
 
 /*! \namespace magics
 
- The <I>magics</I> namespace encapsulates all elements of Magics.
+ The <I>magics</I> namespace encapsulates all elements of Magics++.
  The namespace prevents confusions with other libraries or
  older versions of Magics.
 
@@ -189,69 +133,97 @@ typedef magvector<long int> longintarray;
 typedef magvector<double> doublearray;
 typedef magvector<double> floatarray;
 
-enum LineStyle
+enum class LineStyle
 {
-    M_SOLID,
-    M_DASH,
-    M_DOT,
-    M_CHAIN_DASH,
-    M_CHAIN_DOT
+    SOLID,
+    DASH,
+    DOT,
+    CHAIN_DASH,
+    CHAIN_DOT
 };
-enum Hemisphere
+
+std::ostream& operator<<(ostream& s, LineStyle);
+
+enum class Hemisphere
 {
     NORTH,
     SOUTH
 };
-enum Justification
+
+std::ostream& operator<<(ostream& s, Hemisphere);
+
+enum class Justification
 {
-    MLEFT,
-    MCENTRE,
-    MRIGHT
+    LEFT,
+    CENTRE,
+    RIGHT
 };
-enum Position
+
+std::ostream& operator<<(ostream& s, Justification);
+
+enum class Position
 {
-    M_AUTOMATIC,
-    M_TOP,
-    M_BOTTOM,
-    M_LEFT,
-    M_RIGHT
+    AUTOMATIC,
+    TOP,
+    BOTTOM,
+    LEFT,
+    RIGHT
 };
-enum VerticalAlign
+
+std::ostream& operator<<(ostream& s, Position);
+
+enum class VerticalAlign
 {
-    MNORMAL,
-    MTOP,
-    MCAP,
-    MHALF,
-    MBASE,
-    MBOTTOM
+    NORMAL,
+    TOP,
+    CAP,
+    HALF,
+    BASE,
+    BOTTOM
 };
-enum Shading
+
+std::ostream& operator<<(ostream& s, VerticalAlign);
+
+
+enum class Shading
 {
-    M_SH_NONE,
-    M_SH_SOLID,
-    M_SH_HATCH,
-    M_SH_DOT
+    NONE,
+    SOLID,
+    HATCH,
+    DOT
 };
-enum ArrowPosition
+
+std::ostream& operator<<(ostream& s, Shading);
+
+enum class ArrowPosition
 {
-    M_TAIL,
-    M_CENTRE,
-    M_HEAD_ONLY
+    TAIL,
+    CENTRE,
+    HEAD_ONLY
 };
-enum DisplayType
+
+std::ostream& operator<<(ostream& s, ArrowPosition);
+
+enum class DisplayType
 {
-    M_DT_ABSOLUTE,
-    M_DT_INLINE,
-    M_DT_BLOCK,
-    M_DT_NONE,
-    M_DT_HIDDEN
+    ABSOLUTE,
+    INLINE,
+    BLOCK,
+    NONE,
+    HIDDEN
 };
-enum ListPolicy
+
+std::ostream& operator<<(ostream& s, DisplayType);
+
+enum class ListPolicy
 {
-    M_LASTONE,
-    M_CYCLE
+    LASTONE,
+    CYCLE
 };
-enum GraphicsFormat
+
+std::ostream& operator<<(ostream& s, ListPolicy);
+
+enum class GraphicsFormat
 {
     PS,
     EPS,
@@ -268,15 +240,20 @@ enum GraphicsFormat
     QT,
     GEOJSON
 };
-enum AxisAutomaticSetting
+
+std::ostream& operator<<(ostream& s, GraphicsFormat);
+
+enum class AxisAutomaticSetting
 {
-    m_off,
-    m_both,
-    m_min_only,
-    m_max_only
+    OFF,
+    BOTH,
+    MIN_ONLY,
+    MAX_ONLY
 };
 
-static double EPSILON = 1.25e-10;
+std::ostream& operator<<(ostream& s, AxisAutomaticSetting);
+
+static /*const*/ double EPSILON = 1.25e-10;
 
 template <class T>
 inline MAGICS_NO_EXPORT T abs(const T a) {
@@ -317,11 +294,13 @@ inline MAGICS_NO_EXPORT string getEnvVariable(const string var) {
     return "";
 }
 
-//! Global function to return the Magics version for ID line
+//! Global function to return the Magics++ version for ID line
 /*! comes from magics_config.h !!! */
 inline string getMagicsVersionString() {
     const string magics = MAGICS_NAME;
     string version      = MAGICS_VERSION_STR;
+    if (sizeof(long) == 8)
+        version += string(" (64 bit)");
     return magics + string(" ") + version;
 }
 

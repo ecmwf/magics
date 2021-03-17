@@ -88,5 +88,5 @@ void BasicThinningMethod::set(const ThinningMethodUI& ui) {
 }
 
 static SimpleObjectMaker<AutomaticThinningMethod, ThinningMethod> automatic("automatic");
-static SimpleObjectMaker<BasicThinningMethod, BasicThinningMethod> basic("basic");
-static SimpleObjectMaker<BasicThinningMethod, BasicThinningMethod> data("data");
+static SimpleObjectMaker<BasicThinningMethod, ThinningMethod> basic("basic");
+static SimpleObjectMaker<BasicThinningMethod, ThinningMethod> data("data");

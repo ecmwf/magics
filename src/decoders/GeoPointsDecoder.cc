@@ -170,7 +170,7 @@ void GeoPointsDecoder::xyv1(const string& line) {
 
 void GeoPointsDecoder::ncols(const string& line, const Transformation& transformation) {
     std::istringstream in(line);
-    double lat, lon, date, time, level, elevation, value;
+    double lat = missing_, lon = missing_, date, time, level, value = missing_;
     string stnid;
 
     // the column order has been detected by parseColumnNames and stored in
@@ -185,8 +185,6 @@ void GeoPointsDecoder::ncols(const string& line, const Transformation& transform
             in >> lon;
         else if (colTypes_[c] == eGeoColLevel)
             in >> level;
-        else if (colTypes_[c] == eGeoColElevation)
-            in >> elevation;
         else if (colTypes_[c] == eGeoColDate)
             in >> date;
         else if (colTypes_[c] == eGeoColTime)
@@ -220,7 +218,6 @@ const std::map<std::string, GeoPointsDecoder::eGeoColType>& GeoPointsDecoder::co
         coordColMap_["latitude"]  = eGeoColLat;
         coordColMap_["longitude"] = eGeoColLon;
         coordColMap_["level"]     = eGeoColLevel;
-        coordColMap_["elevation"] = eGeoColElevation;
         coordColMap_["date"]      = eGeoColDate;
         coordColMap_["time"]      = eGeoColTime;
         coordColMap_["stnid"]     = eGeoColStnId;
@@ -333,6 +330,9 @@ void GeoPointsDecoder::decode(const Transformation& transformation) {
         in.close();
     }
     catch (...) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << "Geopoints file : can not open " << path_ << endl;
     }
 }
@@ -385,6 +385,9 @@ void GeoPointsDecoder::decode() {
         in.close();
     }
     catch (...) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << "Geopoints file : can not open " << path_ << endl;
     }
 }

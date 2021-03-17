@@ -38,21 +38,21 @@ class XmlNode;
 class Bar : public BarAttributes, public Graph {
 public:
     Bar();
-    virtual ~Bar();
+    virtual ~Bar() override;
     // Implements the set method ...
-    void set(const XmlNode& node);
-    void set(const map<string, string>& map) {
+    void set(const XmlNode& node) override;
+    void set(const map<string, string>& map) override {
         BarAttributes::set(map);
         Graph::set(map);
     }
 
-    void operator()(Data&, BasicGraphicsObjectContainer&);
+    void operator()(Data&, BasicGraphicsObjectContainer&) override;
     void horizontal(CustomisedPointsList&, BasicGraphicsObjectContainer&);
     void vertical(CustomisedPointsList&, BasicGraphicsObjectContainer&);
 
-    void visit(LegendVisitor&);
-    void visit(TopAxisVisitor&);
-    void visit(Transformation&, Data&);
+    void visit(LegendVisitor&) override;
+    void visit(TopAxisVisitor&) override;
+    void visit(Transformation&, Data&) override;
 
     void fullbar(double, double, double, BasicGraphicsObjectContainer&);
     void linebar(double, double, double, BasicGraphicsObjectContainer&);
@@ -65,7 +65,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     vector<Text*> texts_;
 
     typedef void (Bar::*Renderer)(double, double, double, BasicGraphicsObjectContainer&);
@@ -88,23 +88,23 @@ private:
 class GraphFlag : public GraphFlagAttributes, public Graph {
 public:
     GraphFlag();
-    virtual ~GraphFlag();
+    virtual ~GraphFlag() override;
 
-    void set(const XmlNode& node) {
+    void set(const XmlNode& node) override {
         GraphFlagAttributes::set(node);
         Graph::set(node);
     }
 
-    void operator()(Data&, BasicGraphicsObjectContainer&);
-    void visit(LegendVisitor&);
+    void operator()(Data&, BasicGraphicsObjectContainer&) override;
+    void visit(LegendVisitor&) override;
 
 
     // Implements the set method ...
-    void set(const map<string, string>& map) { GraphFlagAttributes::set(map); }
+    void set(const map<string, string>& map) override { GraphFlagAttributes::set(map); }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 
 private:
@@ -124,23 +124,23 @@ private:
 class GraphArrow : public GraphArrowAttributes, public Graph {
 public:
     GraphArrow();
-    virtual ~GraphArrow();
+    virtual ~GraphArrow() override;
 
-    void set(const XmlNode& node) {
+    void set(const XmlNode& node) override {
         GraphArrowAttributes::set(node);
         Graph::set(node);
     }
 
-    void operator()(Data&, BasicGraphicsObjectContainer&);
-    void visit(LegendVisitor&);
+    void operator()(Data&, BasicGraphicsObjectContainer&) override;
+    void visit(LegendVisitor&) override;
 
 
     // Implements the set method ...
-    void set(const map<string, string>& map) { GraphArrowAttributes::set(map); }
+    void set(const map<string, string>& map) override { GraphArrowAttributes::set(map); }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 
 private:

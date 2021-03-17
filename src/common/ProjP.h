@@ -14,10 +14,8 @@
 
 #include "magics.h"
 
-#if !defined PROJ_H
 typedef struct PJconsts PJ;
 typedef struct projCtx_t PJ_CONTEXT;
-#endif
 
 
 namespace magics {
@@ -61,8 +59,8 @@ class LatLonProjP : public ProjP {
 public:
     LatLonProjP() {}
     LatLonProjP(const string& to) : ProjP("EPSG:4326", to) {}
-    int convert(double&, double&) const;
-    int revert(double&, double&) const;
+    int convert(double&, double&) const override;
+    int revert(double&, double&) const override;
 };
 
 }  // namespace magics

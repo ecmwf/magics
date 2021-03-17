@@ -31,7 +31,7 @@ CalculateColourTechnique.cc
 CalculateColourTechnique.h
 GradientsColourTechnique.cc
 GradientsColourTechnique.h
-CalcStreamlines.cc  
+CalcStreamlines.cc
 CalcStreamlines.h
 CalmIndicator.h
 CellShading.cc
@@ -50,6 +50,8 @@ Contour.cc
 Contour.h
 ContourLibrary.cc
 ContourLibrary.h
+CliMetLabLibrary.cc
+CliMetLabLibrary.h
 ContourMethod.h
 CountSelectionType.cc
 CountSelectionType.h
@@ -58,7 +60,6 @@ Curve.h
 DateAxis.cc
 DateAxis.h
 DefinitionTable.h
-DefinitionTable.hcc
 DotPolyShadingMethod.h
 EmagramGrid.cc
 EmagramGrid.h
@@ -177,7 +178,7 @@ SymbolPlotting.cc
 SymbolPlotting.h
 TaylorGrid.cc
 TaylorGrid.h
-TephiGrid.cc  
+TephiGrid.cc
 TephiGrid.h
 TextOrientation.cc
 TextOrientation.h
@@ -202,8 +203,8 @@ endforeach()
 set( visualisers_srcs ${visualisers_srcs} PARENT_SCOPE )
 
 if ( metview )
-    list (APPEND metview_include 
-            visualisers/LegendMethod.h      
+    list (APPEND metview_include
+            visualisers/LegendMethod.h
             visualisers/LookupTableMode.h
             )
     set( metview_include ${metview_include} PARENT_SCOPE )

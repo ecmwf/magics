@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -31,7 +31,7 @@ ArrowPlottingAttributes::ArrowPlottingAttributes():
 	ratio_(ParameterManager::getDouble("wind_arrow_head_ratio")),
 	max_speed_(ParameterManager::getDouble("wind_arrow_max_speed")),
 	min_speed_(ParameterManager::getDouble("wind_arrow_min_speed")),
-	thickness_(ParameterManager::getInt("wind_arrow_thickness")),
+	thickness_(ParameterManager::getDouble("wind_arrow_thickness")),
 	unit_system_(ParameterManager::getString("wind_arrow_unit_system")),
 	unit_velocity_(ParameterManager::getDouble("wind_arrow_unit_velocity")),
 	legend_unit_(ParameterManager::getString("wind_arrow_legend_text")),
@@ -41,17 +41,17 @@ ArrowPlottingAttributes::ArrowPlottingAttributes():
 	colour_(MagTranslator<string, Colour>().magics("wind_arrow_colour")),
 	origin_position_(MagTranslator<string, ArrowPosition>().magics("wind_arrow_origin_position")),
 	style_(MagTranslator<string, LineStyle>().magics("wind_arrow_style"))
-	 
+	
 {
-} 
+}
 
 
 ArrowPlottingAttributes::~ArrowPlottingAttributes()
 {
-	
+
 }
 
-    
+
 void ArrowPlottingAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -96,12 +96,12 @@ void ArrowPlottingAttributes::copy(const ArrowPlottingAttributes& other)
 	origin_position_ = other.origin_position_;
 	style_ = other.style_;
 	
-} 
+}
 
 
 bool ArrowPlottingAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "arrow")  )
 		return true;
 	if ( acceptNode(node, calm_) )
@@ -114,7 +114,7 @@ void ArrowPlottingAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "arrow")  )
@@ -129,7 +129,7 @@ void ArrowPlottingAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), calm_, *elt); 
+		setMember(elt->name(), calm_, *elt);
 		
 	}
 }
@@ -158,7 +158,7 @@ void ArrowPlottingAttributes::print(ostream& out)  const
 
 void ArrowPlottingAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"arrow\""; 
+	out <<  "\"arrow\"";
 	out << ", \"wind_arrow_calm_indicator_size\":";
 	niceprint(out,calm_indicator_size_);
 	out << ", \"wind_arrow_calm_below\":";
@@ -192,21 +192,21 @@ void ArrowPlottingAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> wind_arrow_calm_indicator_size("wind_arrow_calm_indicator_size", 0.3, "");
-static MagicsParameter<double> wind_arrow_calm_below("wind_arrow_calm_below", 0.5, "");
-static MagicsParameter<int> wind_arrow_head_shape("wind_arrow_head_shape", 0, "");
-static MagicsParameter<double> wind_arrow_head_ratio("wind_arrow_head_ratio", 0.3, "");
-static MagicsParameter<double> wind_arrow_max_speed("wind_arrow_max_speed", 1.0e+21, "");
-static MagicsParameter<double> wind_arrow_min_speed("wind_arrow_min_speed", -1.0e+21, "");
-static MagicsParameter<int> wind_arrow_thickness("wind_arrow_thickness", 1, "");
-static MagicsParameter<string> wind_arrow_unit_system("wind_arrow_unit_system", "paper", "");
-static MagicsParameter<double> wind_arrow_unit_velocity("wind_arrow_unit_velocity", 25.0, "");
-static MagicsParameter<string> wind_arrow_legend_text("wind_arrow_legend_text", "m/s", "");
-static MagicsParameter<double> wind_arrow_fixed_velocity("wind_arrow_fixed_velocity", 0.0, "");
-static MagicsParameter<string> wind_arrow_calm_indicator("wind_arrow_calm_indicator", "off", ""); 
-static MagicsParameter<string> wind_arrow_colour("wind_arrow_colour", "blue", ""); 
-static MagicsParameter<string> wind_arrow_origin_position("wind_arrow_origin_position", "tail", ""); 
-static MagicsParameter<string> wind_arrow_style("wind_arrow_style", "solid", ""); 
+static MagicsParameter<double> wind_arrow_calm_indicator_size("wind_arrow_calm_indicator_size", 0.3);
+static MagicsParameter<double> wind_arrow_calm_below("wind_arrow_calm_below", 0.5);
+static MagicsParameter<int> wind_arrow_head_shape("wind_arrow_head_shape", 0);
+static MagicsParameter<double> wind_arrow_head_ratio("wind_arrow_head_ratio", 0.3);
+static MagicsParameter<double> wind_arrow_max_speed("wind_arrow_max_speed", 1.0e+21);
+static MagicsParameter<double> wind_arrow_min_speed("wind_arrow_min_speed", -1.0e+21);
+static MagicsParameter<double> wind_arrow_thickness("wind_arrow_thickness", 1);
+static MagicsParameter<string> wind_arrow_unit_system("wind_arrow_unit_system", "paper");
+static MagicsParameter<double> wind_arrow_unit_velocity("wind_arrow_unit_velocity", 25.0);
+static MagicsParameter<string> wind_arrow_legend_text("wind_arrow_legend_text", "m/s");
+static MagicsParameter<double> wind_arrow_fixed_velocity("wind_arrow_fixed_velocity", 0.0);
+static MagicsParameter<string> wind_arrow_calm_indicator("wind_arrow_calm_indicator", "off");
+static MagicsParameter<string> wind_arrow_colour("wind_arrow_colour", "blue");
+static MagicsParameter<string> wind_arrow_origin_position("wind_arrow_origin_position", "tail");
+static MagicsParameter<string> wind_arrow_style("wind_arrow_style", "solid");
 #include "CalmIndicator.h"
 static SimpleObjectMaker<CalmIndicator , CalmIndicator> calm_CalmIndicator("calm");
 static SimpleObjectMaker<CalmIndicator , CalmIndicator> on_CalmIndicator("on");

@@ -84,7 +84,7 @@ public:
     }
 
     virtual void toxml(ostream&) const {}
-    virtual AxisAutomaticSetting automatic() { return m_off; }
+    virtual AxisAutomaticSetting automatic() { return AxisAutomaticSetting::OFF; }
     virtual void automatic(bool) {}
 
     virtual double operator()(const string& val) const { return tonumber(val); }
@@ -119,63 +119,63 @@ private:
 class XCoordinate : public Coordinate {
 public:
     XCoordinate() {}
-    virtual ~XCoordinate() {}
+    virtual ~XCoordinate() override {}
     virtual XCoordinate* clone() const {
         MagLog::dev() << "(const map<string, string&)---> to be checked!...\n";
         return new XCoordinate();
     }
-    virtual void toxml(ostream& out) const {}
-    void set(const XmlNode& node) {}
-    void set(const map<string, string>& map) {}
-    void set() {}
-    void print(ostream& out) const {}
-    virtual AxisAutomaticSetting automatic() { return m_off; }
-    virtual void automatic(bool val) {}
-    bool accept(const string& tag) { return false; }
+    virtual void toxml(ostream& out) const override {}
+    void set(const XmlNode& node) override {}
+    void set(const map<string, string>& map) override {}
+    void set() override {}
+    void print(ostream& out) const override {}
+    virtual AxisAutomaticSetting automatic() override { return AxisAutomaticSetting::OFF; }
+    virtual void automatic(bool val) override {}
+    bool accept(const string& tag) override { return false; }
     //! Overloaded << operator to call print().
     friend ostream& operator<<(ostream& s, const XCoordinate& p) {
         p.print(s);
         return s;
     }
-    virtual void getNewDefinition(const UserPoint& ll, const UserPoint& ur, map<string, string>& def) const {
+    virtual void getNewDefinition(const UserPoint& ll, const UserPoint& ur, map<string, string>& def) const override {
         def["x_axis_type"] = type();
         def["x_min"]       = tostring(ll.x_);
         def["x_max"]       = tostring(ur.x_);
         def["x_automatic"] = "off";
     }
-    virtual void dataMinMax(double min, double max) { minmax(min, max); }
-    virtual void dataMinMax(double min, double max, const string&) { minmax(min, max); }
+    virtual void dataMinMax(double min, double max) override { minmax(min, max); }
+    virtual void dataMinMax(double min, double max, const string&) override { minmax(min, max); }
 };
 
 class YCoordinate : public Coordinate {
 public:
     YCoordinate() {}
-    virtual ~YCoordinate() {}
-    virtual void toxml(ostream& out) const {}
+    virtual ~YCoordinate() override {}
+    virtual void toxml(ostream& out) const override {}
     virtual YCoordinate* clone() const {
         MagLog::dev() << "(const map<string, string&)---> to be checked!...\n";
         return new YCoordinate();
     }
-    virtual void automatic(bool val) {}
-    void set(const XmlNode& node) {}
-    void set(const map<string, string>& map) {}
-    void set() {}
-    void print(ostream& out) const {}
-    bool accept(const string& tag) { return false; }
-    virtual AxisAutomaticSetting automatic() { return m_off; }
+    virtual void automatic(bool val) override {}
+    void set(const XmlNode& node) override {}
+    void set(const map<string, string>& map) override {}
+    void set() override {}
+    void print(ostream& out) const override {}
+    bool accept(const string& tag) override { return false; }
+    virtual AxisAutomaticSetting automatic() override { return AxisAutomaticSetting::OFF; }
     //! Overloaded << operator to call print().
     friend ostream& operator<<(ostream& s, const YCoordinate& p) {
         p.print(s);
         return s;
     }
-    virtual void getNewDefinition(const UserPoint& ll, const UserPoint& ur, map<string, string>& def) const {
+    virtual void getNewDefinition(const UserPoint& ll, const UserPoint& ur, map<string, string>& def) const override {
         def["y_axis_type"] = type();
         def["y_min"]       = tostring(ll.y_);
         def["y_max"]       = tostring(ur.y_);
         def["y_automatic"] = "off";
     }
-    virtual void dataMinMax(double min, double max) { minmax(min, max); }
-    virtual void dataMinMax(double min, double max, const string&) { minmax(min, max); }
+    virtual void dataMinMax(double min, double max) override { minmax(min, max); }
+    virtual void dataMinMax(double min, double max, const string&) override { minmax(min, max); }
 };
 
 class RegularCoordinate {
@@ -187,11 +187,11 @@ public:
 class XRegularCoordinate : public RegularCoordinate, public XCoordinate, public XRegularCoordinateAttributes {
 public:
     XRegularCoordinate() { set(); }
-    virtual ~XRegularCoordinate() {}
-    void toxml(ostream& out) const { XRegularCoordinateAttributes::toxml(out); }
-    void set() {
+    virtual ~XRegularCoordinate() override {}
+    void toxml(ostream& out) const override { XRegularCoordinateAttributes::toxml(out); }
+    void set() override {
         switch (automatic_) {
-            case m_both:
+            case AxisAutomaticSetting::BOTH:
                 if (reverse_) {
                     max_ = std::numeric_limits<double>::max();
                     min_ = -max_;
@@ -201,10 +201,10 @@ public:
                     max_ = -min_;
                 }
                 break;
-            case m_min_only:
+            case AxisAutomaticSetting::MIN_ONLY:
                 min_ = std::numeric_limits<double>::max();
                 break;
-            case m_max_only:
+            case AxisAutomaticSetting::MAX_ONLY:
                 max_ = -std::numeric_limits<double>::max();
                 break;
             default:
@@ -212,30 +212,30 @@ public:
         }
     }
 
-    virtual void set(const XmlNode& node) {
+    virtual void set(const XmlNode& node) override {
         XRegularCoordinateAttributes::set(node);
         set();
     }
-    void set(const map<string, string>& map) {
+    void set(const map<string, string>& map) override {
         XRegularCoordinateAttributes::set(map);
         set();
     }
-    virtual bool accept(const string& node) { return XRegularCoordinateAttributes::accept(node); }
-    double min() { return min_; }
-    double max() { return max_; }
-    double minpc() { return min_; }
-    double maxpc() { return max_; }
+    virtual bool accept(const string& node) override { return XRegularCoordinateAttributes::accept(node); }
+    double min() override { return min_; }
+    double max() override { return max_; }
+    double minpc() override { return min_; }
+    double maxpc() override { return max_; }
 
-    AxisAutomaticSetting automatic() { return automatic_; }
-    void setAutomatic(AxisAutomaticSetting automatic) { automatic_ = automatic; }
-    virtual void automatic(bool automatic) {
-        automatic_ = automatic ? m_both : m_off;
+    AxisAutomaticSetting automatic() override { return automatic_; }
+    void setAutomatic(AxisAutomaticSetting automatic) override { automatic_ = automatic; }
+    virtual void automatic(bool automatic) override {
+        automatic_ = automatic ? AxisAutomaticSetting::BOTH : AxisAutomaticSetting::OFF;
         set();
     }
 
-    void minmax(double min, double max) {
+    void minmax(double min, double max) override {
         switch (automatic_) {
-            case m_both:
+            case AxisAutomaticSetting::BOTH:
                 // set the
                 if (reverse_) {
                     max_ = std::min(min, max_);
@@ -246,13 +246,13 @@ public:
                     max_ = std::max(max, max_);
                 }
                 break;
-            case m_min_only:
+            case AxisAutomaticSetting::MIN_ONLY:
                 if (reverse_)
                     max_ = std::min(min, max_);
                 else
                     min_ = std::min(min, min_);
                 break;
-            case m_max_only:
+            case AxisAutomaticSetting::MAX_ONLY:
                 if (reverse_)
                     min_ = std::max(max, min_);
                 else
@@ -262,7 +262,7 @@ public:
                 break;
         }
     }
-    virtual XCoordinate* clone() const {
+    virtual XCoordinate* clone() const override {
         XRegularCoordinate* x = new XRegularCoordinate();
         x->copy(*this);
         return x;
@@ -270,19 +270,19 @@ public:
 
 
 protected:
-    virtual void print(ostream& out) const { XRegularCoordinateAttributes::print(out); }
+    virtual void print(ostream& out) const override { XRegularCoordinateAttributes::print(out); }
 };
 
 class YRegularCoordinate : public RegularCoordinate, public YCoordinate, public YRegularCoordinateAttributes {
 public:
     YRegularCoordinate() { set(); }
-    virtual ~YRegularCoordinate() {}
+    virtual ~YRegularCoordinate() override {}
 
-    void toxml(ostream& out) const { YRegularCoordinateAttributes::toxml(out); }
+    void toxml(ostream& out) const override { YRegularCoordinateAttributes::toxml(out); }
 
-    void set() {
+    void set() override {
         switch (automatic_) {
-            case m_both:
+            case AxisAutomaticSetting::BOTH:
                 if (reverse_) {
                     max_ = std::numeric_limits<double>::max();
                     min_ = -max_;
@@ -292,11 +292,11 @@ public:
                     max_ = -min_;
                 }
                 break;
-            case m_min_only:
+            case AxisAutomaticSetting::MIN_ONLY:
 
                 min_ = std::numeric_limits<double>::max();
                 break;
-            case m_max_only:
+            case AxisAutomaticSetting::MAX_ONLY:
 
                 max_ = -std::numeric_limits<double>::max();
                 break;
@@ -304,17 +304,17 @@ public:
                 break;
         }
     }
-    double min() { return min_; }
-    double max() { return max_; }
-    double minpc() { return min_; }
-    double maxpc() { return max_; }
-    virtual void setAutomatic(AxisAutomaticSetting automatic) {
+    double min() override { return min_; }
+    double max() override { return max_; }
+    double minpc() override { return min_; }
+    double maxpc() override { return max_; }
+    virtual void setAutomatic(AxisAutomaticSetting automatic) override {
         automatic_ = automatic;
         set();
     }
-    void minmax(double min, double max) {
+    void minmax(double min, double max) override {
         switch (automatic_) {
-            case m_both:
+            case AxisAutomaticSetting::BOTH:
                 // set the
                 if (reverse_) {
                     max_ = std::min(min, max_);
@@ -325,13 +325,13 @@ public:
                     max_ = std::max(max, max_);
                 }
                 break;
-            case m_min_only:
+            case AxisAutomaticSetting::MIN_ONLY:
                 if (reverse_)
                     max_ = std::min(min, max_);
                 else
                     min_ = std::min(min, min_);
                 break;
-            case m_max_only:
+            case AxisAutomaticSetting::MAX_ONLY:
                 if (reverse_)
                     min_ = std::max(max, min_);
                 else
@@ -342,40 +342,40 @@ public:
         }
     }
 
-    virtual void automatic(bool automatic) {
-        automatic_ = automatic ? m_both : m_off;
+    virtual void automatic(bool automatic) override {
+        automatic_ = automatic ? AxisAutomaticSetting::BOTH : AxisAutomaticSetting::OFF;
         set();
     }
-    virtual YCoordinate* clone() const {
+    virtual YCoordinate* clone() const override {
         YRegularCoordinate* y = new YRegularCoordinate();
         y->copy(*this);
         return y;
     }
-    void set(const XmlNode& node) {
+    void set(const XmlNode& node) override {
         YRegularCoordinateAttributes::set(node);
         set();
     }
-    void set(const map<string, string>& map) {
+    void set(const map<string, string>& map) override {
         YRegularCoordinateAttributes::set(map);
         set();
     }
-    bool accept(const string& node) { return YRegularCoordinateAttributes::accept(node); }
+    bool accept(const string& node) override { return YRegularCoordinateAttributes::accept(node); }
 
     void setMin(double min) { min_ = min; }
     void setMax(double max) { max_ = max; }
-    AxisAutomaticSetting automatic() { return automatic_; }
+    AxisAutomaticSetting automatic() override { return automatic_; }
 
 
 protected:
-    virtual void print(ostream& out) const { YRegularCoordinateAttributes::print(out); }
+    virtual void print(ostream& out) const override { YRegularCoordinateAttributes::print(out); }
 };
 
 
 class LogarithmicCoordinate : public Coordinate {
 public:
     LogarithmicCoordinate() {}
-    virtual ~LogarithmicCoordinate() {}
-    string type() const { return "logarithmic"; }
+    virtual ~LogarithmicCoordinate() override {}
+    string type() const override { return "logarithmic"; }
 };
 
 class XLogarithmicCoordinate : public LogarithmicCoordinate,
@@ -383,13 +383,13 @@ class XLogarithmicCoordinate : public LogarithmicCoordinate,
                                public XLogarithmicCoordinateAttributes {
 public:
     XLogarithmicCoordinate() {}
-    virtual ~XLogarithmicCoordinate() {}
-    virtual void toxml(ostream& out) const { XLogarithmicCoordinateAttributes::toxml(out); }
-    double min() { return min_; }
-    double max() { return max_; }
-    double minpc() { return (*this)(min_); }
-    double maxpc() { return (*this)(max_); }
-    void set(const XmlNode& node) {
+    virtual ~XLogarithmicCoordinate() override {}
+    virtual void toxml(ostream& out) const override { XLogarithmicCoordinateAttributes::toxml(out); }
+    double min() override { return min_; }
+    double max() override { return max_; }
+    double minpc() override { return (*this)(min_); }
+    double maxpc() override { return (*this)(max_); }
+    void set(const XmlNode& node) override {
         if (!magCompare(node.name(), "x_logarithmic"))
             return;
         XmlNode regular = node;
@@ -398,13 +398,13 @@ public:
         set();
     }
 
-    void set(const map<string, string>& map) {
+    void set(const map<string, string>& map) override {
         XLogarithmicCoordinateAttributes::set(map);
         set();
     }
-    void set() {
+    void set() override {
         switch (automatic_) {
-            case m_both:
+            case AxisAutomaticSetting::BOTH:
                 if (reverse_) {
                     max_ = std::numeric_limits<double>::max();
                     min_ = -max_;
@@ -414,21 +414,21 @@ public:
                     max_ = -min_;
                 }
                 break;
-            case m_min_only:
-                automatic_ = m_off;
+            case AxisAutomaticSetting::MIN_ONLY:
+                automatic_ = AxisAutomaticSetting::OFF;
                 min_       = std::numeric_limits<double>::max();
                 break;
-            case m_max_only:
-                automatic_ = m_off;
+            case AxisAutomaticSetting::MAX_ONLY:
+                automatic_ = AxisAutomaticSetting::OFF;
                 max_       = -std::numeric_limits<double>::max();
                 break;
             default:
                 break;
         }
     }
-    void minmax(double min, double max) {
+    void minmax(double min, double max) override {
         switch (automatic_) {
-            case m_both:
+            case AxisAutomaticSetting::BOTH:
                 // set the
                 if (reverse_) {
                     max_ = std::min(min, max_);
@@ -439,13 +439,13 @@ public:
                     max_ = std::max(max, max_);
                 }
                 break;
-            case m_min_only:
+            case AxisAutomaticSetting::MIN_ONLY:
                 if (reverse_)
                     max_ = std::min(min, max_);
                 else
                     min_ = std::min(min, min_);
                 break;
-            case m_max_only:
+            case AxisAutomaticSetting::MAX_ONLY:
                 if (reverse_)
                     min_ = std::max(max, min_);
                 else
@@ -456,31 +456,33 @@ public:
         }
     }
 
-    double operator()(double c) { return (c) ? log10(c) : 0; }
-    double revert(double c) { return pow(c, 10); }
+    double operator()(double c) override { return (c) ? log10(c) : 0; }
+    double revert(double c) override { return pow(c, 10); }
 
-    virtual XCoordinate* clone() const {
+    virtual XCoordinate* clone() const override {
         XLogarithmicCoordinate* x = new XLogarithmicCoordinate();
         x->copy(*this);
         MagLog::dev() << "(const map<string, string&)---> to be checked!...\n";
         return x;
     }
 
-    void getNewDefinition(const UserPoint& ll, const UserPoint& ur, map<string, string>& def) const {
+    void getNewDefinition(const UserPoint& ll, const UserPoint& ur, map<string, string>& def) const override {
         def["x_axis_type"] = "logarithmic";
         def["x_min"]       = tostring(ll.x_);
         def["x_max"]       = tostring(ur.x_);
         def["x_automatic"] = "off";
     }
 
-    virtual void dataMinMax(double min, double max) { NOTIMP; }
-    virtual void dataMinMax(double min, double max, const string&) { NOTIMP; }
-    AxisAutomaticSetting automatic() { return automatic_; }
-    virtual void automatic(bool automatic) { automatic_ = (automatic ? m_both : m_off); }
-    virtual void setAutomatic(AxisAutomaticSetting automatic) { automatic_ = automatic; }
+    virtual void dataMinMax(double min, double max) override { NOTIMP; }
+    virtual void dataMinMax(double min, double max, const string&) override { NOTIMP; }
+    AxisAutomaticSetting automatic() override { return automatic_; }
+    virtual void automatic(bool automatic) override {
+        automatic_ = (automatic ? AxisAutomaticSetting::BOTH : AxisAutomaticSetting::OFF);
+    }
+    virtual void setAutomatic(AxisAutomaticSetting automatic) override { automatic_ = automatic; }
 
 protected:
-    virtual void print(ostream& out) const {
+    virtual void print(ostream& out) const override {
         out << "XLogarithmicCoordinate[";
         XLogarithmicCoordinateAttributes::print(out);
         out << "]";
@@ -493,8 +495,8 @@ class YLogarithmicCoordinate : public LogarithmicCoordinate,
                                public YLogarithmicCoordinateAttributes {
 public:
     YLogarithmicCoordinate() {}
-    virtual ~YLogarithmicCoordinate() {}
-    virtual void set(const XmlNode& node) {
+    virtual ~YLogarithmicCoordinate() override {}
+    virtual void set(const XmlNode& node) override {
         if (!magCompare(node.name(), "y_logarithmic"))
             return;
         XmlNode regular = node;
@@ -503,14 +505,14 @@ public:
         set();
     }
 
-    virtual void set(const map<string, string>& map) {
+    virtual void set(const map<string, string>& map) override {
         YLogarithmicCoordinateAttributes::set(map);
         set();
     }
-    virtual void toxml(ostream& out) const { YLogarithmicCoordinateAttributes::toxml(out); }
-    void set() {
+    virtual void toxml(ostream& out) const override { YLogarithmicCoordinateAttributes::toxml(out); }
+    void set() override {
         switch (automatic_) {
-            case m_both:
+            case AxisAutomaticSetting::BOTH:
                 if (reverse_) {
                     max_ = std::numeric_limits<double>::max();
                     min_ = -max_;
@@ -520,25 +522,25 @@ public:
                     max_ = -min_;
                 }
                 break;
-            case m_min_only:
+            case AxisAutomaticSetting::MIN_ONLY:
                 min_ = std::numeric_limits<double>::max();
                 break;
-            case m_max_only:
+            case AxisAutomaticSetting::MAX_ONLY:
                 max_ = -std::numeric_limits<double>::max();
                 break;
             default:
                 break;
         }
     }
-    double min() { return min_; }
-    double max() { return max_; }
-    double minpc() { return (*this)(min_); }
-    double maxpc() { return (*this)(max_); }
-    virtual void dataMinMax(double min, double max) { NOTIMP; }
-    virtual void dataMinMax(double min, double max, const string&) { NOTIMP; }
-    void minmax(double min, double max) {
+    double min() override { return min_; }
+    double max() override { return max_; }
+    double minpc() override { return (*this)(min_); }
+    double maxpc() override { return (*this)(max_); }
+    virtual void dataMinMax(double min, double max) override { NOTIMP; }
+    virtual void dataMinMax(double min, double max, const string&) override { NOTIMP; }
+    void minmax(double min, double max) override {
         switch (automatic_) {
-            case m_both:
+            case AxisAutomaticSetting::BOTH:
                 // set the
                 if (reverse_) {
                     max_ = std::min(min, max_);
@@ -549,13 +551,13 @@ public:
                     max_ = std::max(max, max_);
                 }
                 break;
-            case m_min_only:
+            case AxisAutomaticSetting::MIN_ONLY:
                 if (reverse_)
                     max_ = std::min(min, max_);
                 else
                     min_ = std::min(min, min_);
                 break;
-            case m_max_only:
+            case AxisAutomaticSetting::MAX_ONLY:
                 if (reverse_)
                     min_ = std::max(max, min_);
                 else
@@ -565,32 +567,34 @@ public:
                 break;
         }
     }
-    void getNewDefinition(const UserPoint& ll, const UserPoint& ur, map<string, string>& def) const {
+    void getNewDefinition(const UserPoint& ll, const UserPoint& ur, map<string, string>& def) const override {
         def["y_axis_type"] = "logarithmic";
         def["y_min"]       = tostring(::pow(10., ll.y_));
         def["y_max"]       = tostring(::pow(10., ur.y_));
         def["y_automatic"] = "off";
     }
-    AxisAutomaticSetting automatic() { return automatic_; }
+    AxisAutomaticSetting automatic() override { return automatic_; }
 
     void setMinMax(double min, double max) {
         min_ = min;
         max_ = max;
     }
 
-    double operator()(double c) { return (c) ? log10(c) : 0; }
-    double revert(double c) { return ::pow(10., c); }
-    virtual YCoordinate* clone() const {
+    double operator()(double c) override { return (c) ? log10(c) : 0; }
+    double revert(double c) override { return ::pow(10., c); }
+    virtual YCoordinate* clone() const override {
         YLogarithmicCoordinate* y = new YLogarithmicCoordinate();
         y->copy(*this);
         return y;
     }
 
-    virtual void automatic(bool automatic) { automatic_ = automatic ? m_both : m_off; }
-    virtual void setAutomatic(AxisAutomaticSetting automatic) { automatic_ = automatic; }
+    virtual void automatic(bool automatic) override {
+        automatic_ = automatic ? AxisAutomaticSetting::BOTH : AxisAutomaticSetting::OFF;
+    }
+    virtual void setAutomatic(AxisAutomaticSetting automatic) override { automatic_ = automatic; }
 
 protected:
-    virtual void print(ostream& out) const {
+    virtual void print(ostream& out) const override {
         out << "YLogarithmicCoordinate[";
         YLogarithmicCoordinateAttributes::print(out);
         out << "]";
@@ -608,13 +612,13 @@ public:
 class XDateCoordinate : public DateCoordinate, public XDateCoordinateAttributes, public XCoordinate {
 public:
     XDateCoordinate() { anna_ = false; }
-    virtual ~XDateCoordinate() {}
-    virtual void toxml(ostream& out) const { XDateCoordinateAttributes::toxml(out); }
-    double min() { return 0; }
-    double max() { return DateTime(date_max_) - DateTime(date_min_); }
+    virtual ~XDateCoordinate() override {}
+    virtual void toxml(ostream& out) const override { XDateCoordinateAttributes::toxml(out); }
+    double min() override { return 0; }
+    double max() override { return DateTime(date_max_) - DateTime(date_min_); }
 
-    double minpc() { return anna_ ? min_anna_ : 0; }
-    double maxpc() { return anna_ ? max_anna_ : max(); }
+    double minpc() override { return anna_ ? min_anna_ : 0; }
+    double maxpc() override { return anna_ ? max_anna_ : max(); }
 
     void min(double min) {
         min_anna_ = min;
@@ -625,23 +629,27 @@ public:
         anna_     = true;
     }
 
-    string reference() { return DateTime(date_min_); }
-    virtual XCoordinate* clone() const {
+    string reference() override { return DateTime(date_min_); }
+    virtual XCoordinate* clone() const override {
         XDateCoordinate* x = new XDateCoordinate();
 
         return x;
     }
-    virtual string type() const { return "date"; }
-    AxisAutomaticSetting automatic() { return automatic_ ? m_both : m_off; }
-    void set(const XmlNode& node) { XDateCoordinateAttributes::set(node); }
-    void set(const map<string, string>& map) { XDateCoordinateAttributes::set(map); }
-    bool accept(const string& xml) { return XDateCoordinateAttributes::accept(xml); }
+    virtual string type() const override { return "date"; }
+    AxisAutomaticSetting automatic() override {
+        return (automatic_ != AxisAutomaticSetting::OFF) ? AxisAutomaticSetting::BOTH : AxisAutomaticSetting::OFF;
+    }
+    void set(const XmlNode& node) override { XDateCoordinateAttributes::set(node); }
+    void set(const map<string, string>& map) override { XDateCoordinateAttributes::set(map); }
+    bool accept(const string& xml) override { return XDateCoordinateAttributes::accept(xml); }
 
     void setMin(double) {}
     void setMax(double) {}
 
-    void automatic(bool automatic) { automatic_ = (automatic ? m_both : m_off); }
-    virtual void setAutomatic(AxisAutomaticSetting automatic) { automatic_ = (automatic); }
+    void automatic(bool automatic) override {
+        automatic_ = (automatic ? AxisAutomaticSetting::BOTH : AxisAutomaticSetting::OFF);
+    }
+    virtual void setAutomatic(AxisAutomaticSetting automatic) override { automatic_ = (automatic); }
 
     void setMinMax(const string& min, const string& max) {
         date_min_ = min;
@@ -649,7 +657,7 @@ public:
     }
 
 
-    void dataMinMax(double min, double max, const string& date) {
+    void dataMinMax(double min, double max, const string& date) override {
         DateTime base(date);
         DateTime mind = base + Second(min);
         DateTime maxd = base + Second(max);
@@ -661,7 +669,7 @@ public:
         DateTime maxd_(date_max_);
 
         switch (automatic_) {
-            case m_both:
+            case AxisAutomaticSetting::BOTH:
                 // set the
                 if (reverse_) {
                     maxd_ = std::min(mind, maxd_);
@@ -672,13 +680,13 @@ public:
                     maxd_ = std::max(maxd, maxd_);
                 }
                 break;
-            case m_min_only:
+            case AxisAutomaticSetting::MIN_ONLY:
                 if (reverse_)
                     maxd_ = std::min(mind, maxd_);
                 else
                     mind_ = std::min(mind, mind_);
                 break;
-            case m_max_only:
+            case AxisAutomaticSetting::MAX_ONLY:
                 if (reverse_)
                     mind_ = std::max(maxd, mind_);
                 else
@@ -692,14 +700,14 @@ public:
     }
 
 
-    double operator()(double c) { return c; }
+    double operator()(double c) override { return c; }
 
-    double operator()(const string& val) const {
+    double operator()(const string& val) const override {
         DateTime date(val);
         return date - DateTime(date_min_);
     }
 
-    void getNewDefinition(const UserPoint& ll, const UserPoint& ur, map<string, string>& def) const {
+    void getNewDefinition(const UserPoint& ll, const UserPoint& ur, map<string, string>& def) const override {
         DateTime min       = DateTime(date_min_) + Second(ll.x_);
         DateTime max       = DateTime(date_min_) + Second(ur.x_);
         def["x_axis_type"] = "date";
@@ -710,7 +718,7 @@ public:
 
 
 protected:
-    virtual void print(ostream& out) const { XDateCoordinateAttributes::print(out); }
+    virtual void print(ostream& out) const override { XDateCoordinateAttributes::print(out); }
     // patch for anna!
 
     double min_anna_;
@@ -722,26 +730,30 @@ protected:
 class YDateCoordinate : public DateCoordinate, public YDateCoordinateAttributes, public YCoordinate {
 public:
     YDateCoordinate() {}
-    virtual ~YDateCoordinate() {}
-    virtual void toxml(ostream& out) const { YDateCoordinateAttributes::toxml(out); }
-    double min() { return 0; }
-    double max() { return DateTime(date_max_) - DateTime(date_min_); }
-    double minpc() { return 0; }
-    double maxpc() { return DateTime(date_max_) - DateTime(date_min_); }
-    string reference() { return DateTime(date_min_); }
-    virtual string type() const { return "date"; }
-    bool accept(const string& xml) { return YDateCoordinateAttributes::accept(xml); }
-    void set(const XmlNode& node) { YDateCoordinateAttributes::set(node); }
-    void set(const map<string, string>& map) { YDateCoordinateAttributes::set(map); }
-    void setAutomatic(AxisAutomaticSetting automatic) { automatic_ = (automatic); }
-    void automatic(bool automatic) { automatic_ = (automatic ? m_both : m_off); }
+    virtual ~YDateCoordinate() override {}
+    virtual void toxml(ostream& out) const override { YDateCoordinateAttributes::toxml(out); }
+    double min() override { return 0; }
+    double max() override { return DateTime(date_max_) - DateTime(date_min_); }
+    double minpc() override { return 0; }
+    double maxpc() override { return DateTime(date_max_) - DateTime(date_min_); }
+    string reference() override { return DateTime(date_min_); }
+    virtual string type() const override { return "date"; }
+    bool accept(const string& xml) override { return YDateCoordinateAttributes::accept(xml); }
+    void set(const XmlNode& node) override { YDateCoordinateAttributes::set(node); }
+    void set(const map<string, string>& map) override { YDateCoordinateAttributes::set(map); }
+    void setAutomatic(AxisAutomaticSetting automatic) override { automatic_ = (automatic); }
+    void automatic(bool automatic) override {
+        automatic_ = (automatic ? AxisAutomaticSetting::BOTH : AxisAutomaticSetting::OFF);
+    }
 
-    virtual YCoordinate* clone() const {
+    virtual YCoordinate* clone() const override {
         YDateCoordinate* y = new YDateCoordinate();
         // y->copy(*this);
         return y;
     }
-    AxisAutomaticSetting automatic() { return automatic_ ? m_both : m_off; }
+    AxisAutomaticSetting automatic() override {
+        return (automatic_ != AxisAutomaticSetting::OFF) ? AxisAutomaticSetting::BOTH : AxisAutomaticSetting::OFF;
+    }
 
     void setMinMax(double, double) {}
 
@@ -752,13 +764,13 @@ public:
     }
 
 
-    double operator()(double c) { return c; }
-    double operator()(const string& val) const {
+    double operator()(double c) override { return c; }
+    double operator()(const string& val) const override {
         DateTime date(val);
         return date - DateTime(date_min_);
     }
 
-    void dataMinMax(double min, double max, const string& date) {
+    void dataMinMax(double min, double max, const string& date) override {
         DateTime base(date);
         DateTime mind = base + Second(min);
         DateTime maxd = base + Second(max);
@@ -770,7 +782,7 @@ public:
         DateTime maxd_(date_max_);
 
         switch (automatic_) {
-            case m_both:
+            case AxisAutomaticSetting::BOTH:
                 // set the
                 if (reverse_) {
                     maxd_ = std::min(mind, maxd_);
@@ -781,13 +793,13 @@ public:
                     maxd_ = std::max(maxd, maxd_);
                 }
                 break;
-            case m_min_only:
+            case AxisAutomaticSetting::MIN_ONLY:
                 if (reverse_)
                     maxd_ = std::min(mind, maxd_);
                 else
                     mind_ = std::min(mind, mind_);
                 break;
-            case m_max_only:
+            case AxisAutomaticSetting::MAX_ONLY:
                 if (reverse_)
                     mind_ = std::max(maxd, mind_);
                 else
@@ -801,7 +813,7 @@ public:
     }
 
 
-    void getNewDefinition(const UserPoint& ll, const UserPoint& ur, map<string, string>& def) const {
+    void getNewDefinition(const UserPoint& ll, const UserPoint& ur, map<string, string>& def) const override {
         DateTime min       = DateTime(date_min_) + Second(ll.y_);
         DateTime max       = DateTime(date_min_) + Second(ur.y_);
         def["y_axis_type"] = "date";
@@ -811,51 +823,55 @@ public:
     }
 
 protected:
-    virtual void print(ostream& out) const { YDateCoordinateAttributes::print(out); }
+    virtual void print(ostream& out) const override { YDateCoordinateAttributes::print(out); }
 };
 
 
 class YHyperCoordinate : public YHyperCoordinateAttributes, public YCoordinate {
 public:
     YHyperCoordinate() {}
-    virtual ~YHyperCoordinate() {}
-    double min() { return (min_lon_ == max_lon_) ? min_lat_ : min_lon_; }
-    double max() { return (min_lon_ == max_lon_) ? max_lat_ : max_lon_; }
-    double minpc() { return (min_lon_ == max_lon_) ? min_lat_ : min_lon_; }
-    double maxpc() { return (min_lon_ == max_lon_) ? max_lat_ : max_lon_; }
-    string reference() { return ""; }
-    void toxml(ostream& out) const { YHyperCoordinateAttributes::toxml(out); }
-    bool accept(const string& xml) { return YHyperCoordinateAttributes::accept(xml); }
-    void set(const XmlNode& node) { YHyperCoordinateAttributes::set(node); }
-    void set(const map<string, string>& map) { YHyperCoordinateAttributes::set(map); }
-    void setAutomatic(AxisAutomaticSetting automatic) { YCoordinate::setAutomatic(automatic); }
-    void setAutomatic(bool automatic) { automatic_ = automatic ? m_both : m_off; }
-    void automatic(bool automatic) { automatic_ = automatic ? m_both : m_off; }
+    virtual ~YHyperCoordinate() override {}
+    double min() override { return (min_lon_ == max_lon_) ? min_lat_ : min_lon_; }
+    double max() override { return (min_lon_ == max_lon_) ? max_lat_ : max_lon_; }
+    double minpc() override { return (min_lon_ == max_lon_) ? min_lat_ : min_lon_; }
+    double maxpc() override { return (min_lon_ == max_lon_) ? max_lat_ : max_lon_; }
+    string reference() override { return ""; }
+    void toxml(ostream& out) const override { YHyperCoordinateAttributes::toxml(out); }
+    bool accept(const string& xml) override { return YHyperCoordinateAttributes::accept(xml); }
+    void set(const XmlNode& node) override { YHyperCoordinateAttributes::set(node); }
+    void set(const map<string, string>& map) override { YHyperCoordinateAttributes::set(map); }
+    void setAutomatic(AxisAutomaticSetting automatic) override { YCoordinate::setAutomatic(automatic); }
+    void setAutomatic(bool automatic) {
+        automatic_ = automatic ? AxisAutomaticSetting::BOTH : AxisAutomaticSetting::OFF;
+    }
+    void automatic(bool automatic) override {
+        automatic_ = automatic ? AxisAutomaticSetting::BOTH : AxisAutomaticSetting::OFF;
+    }
 
-    virtual YCoordinate* clone() const {
+    virtual YCoordinate* clone() const override {
         YHyperCoordinate* y = new YHyperCoordinate();
         // y->copy(*this);
         return y;
     }
-    AxisAutomaticSetting automatic() { return automatic_; }
+    AxisAutomaticSetting automatic() override { return automatic_; }
 
     void setMinMax(double, double) {}
 
 
-    vector<double> mins() {
+    vector<double> mins() override {
         vector<double> mins;
         mins.push_back(min_lon_);
         mins.push_back(min_lat_);
         return mins;
     }
-    vector<double> maxs() {
+    vector<double> maxs() override {
         vector<double> maxs;
         maxs.push_back(max_lon_);
         maxs.push_back(max_lat_);
         return maxs;
     }
-    string type() const { return "geoline"; }
-    void getNewDefinition(const UserPoint& ll, const UserPoint& ur, map<string, string>& def) const {
+    string type() const override { return "geoline"; }
+    void getNewDefinition(const UserPoint& ll, const UserPoint& ur, map<string, string>& def) const override {
         double lon1 = ll.y();
         double lon2 = ur.y();
 
@@ -870,15 +886,15 @@ public:
         def["y_min_longitude"] = tostring(lon1);
         def["y_max_longitude"] = tostring(lon2);
     }
-    void dataMinMax(double min, double max, const string& info) {
+    void dataMinMax(double min, double max, const string& info) override {
         // interpret the info : lonmin/latmin
         Tokenizer tokenizer("/");
         vector<string> tokens;
         tokenizer(info, tokens);
         switch (automatic_) {
-            case m_both:
+            case AxisAutomaticSetting::BOTH:
 
-            case m_min_only: {
+            case AxisAutomaticSetting::MIN_ONLY: {
                 if (reverse_) {
                     max_lon_ = tonumber(tokens[0]);
                     max_lat_ = tonumber(tokens[1]);
@@ -892,7 +908,8 @@ public:
             default:
                 break;
         }
-        automatic_ = (automatic_ == m_both) ? m_max_only : m_off;
+        automatic_ =
+            (automatic_ == AxisAutomaticSetting::BOTH) ? AxisAutomaticSetting::MAX_ONLY : AxisAutomaticSetting::OFF;
 
 
         // interpret the info : lonmin/latmin
@@ -900,8 +917,8 @@ public:
         tokens.clear();
         tokenizer(info, tokens);
         switch (automatic_) {
-            case m_both:
-            case m_max_only: {
+            case AxisAutomaticSetting::BOTH:
+            case AxisAutomaticSetting::MAX_ONLY: {
                 if (reverse_) {
                     min_lon_ = tonumber(tokens[2]);
                     min_lat_ = tonumber(tokens[3]);
@@ -916,61 +933,68 @@ public:
             default:
                 break;
         }
-        automatic_ = (automatic_ == m_both) ? m_min_only : m_off;
+        automatic_ =
+            (automatic_ == AxisAutomaticSetting::BOTH) ? AxisAutomaticSetting::MIN_ONLY : AxisAutomaticSetting::OFF;
     }
 
 protected:
-    virtual void print(ostream& out) const { YHyperCoordinateAttributes::print(out); }
+    virtual void print(ostream& out) const override { YHyperCoordinateAttributes::print(out); }
 };
 
 class XHyperCoordinate : public XHyperCoordinateAttributes, public XCoordinate {
 public:
     XHyperCoordinate() {}
-    virtual ~XHyperCoordinate() {}
-    double min() { return (min_lon_ == max_lon_) ? min_lat_ : min_lon_; }
-    double max() { return (min_lon_ == max_lon_) ? max_lat_ : max_lon_; }
-    double minpc() { return (min_lon_ == max_lon_) ? min_lat_ : min_lon_; }
-    double maxpc() { return (min_lon_ == max_lon_) ? max_lat_ : max_lon_; }
-    string reference() { return ""; }
-    void toxml(ostream& out) const { XHyperCoordinateAttributes::toxml(out); }
-    bool accept(const string& xml) { return XHyperCoordinateAttributes::accept(xml); }
-    void set(const XmlNode& node) { XHyperCoordinateAttributes::set(node); }
-    void set(const map<string, string>& map) { XHyperCoordinateAttributes::set(map); }
-    void setAutomatic(AxisAutomaticSetting automatic) { XCoordinate::setAutomatic(automatic); }
-    void setAutomatic(bool automatic) { automatic_ = (automatic ? m_both : m_off); }
-    void automatic(bool automatic) { automatic_ = automatic ? m_both : m_off; }
-    vector<double> mins() {
+    virtual ~XHyperCoordinate() override {}
+    double min() override { return (min_lon_ == max_lon_) ? min_lat_ : min_lon_; }
+    double max() override { return (min_lon_ == max_lon_) ? max_lat_ : max_lon_; }
+    double minpc() override { return (min_lon_ == max_lon_) ? min_lat_ : min_lon_; }
+    double maxpc() override { return (min_lon_ == max_lon_) ? max_lat_ : max_lon_; }
+    string reference() override { return ""; }
+    void toxml(ostream& out) const override { XHyperCoordinateAttributes::toxml(out); }
+    bool accept(const string& xml) override { return XHyperCoordinateAttributes::accept(xml); }
+    void set(const XmlNode& node) override { XHyperCoordinateAttributes::set(node); }
+    void set(const map<string, string>& map) override { XHyperCoordinateAttributes::set(map); }
+    void setAutomatic(AxisAutomaticSetting automatic) override { XCoordinate::setAutomatic(automatic); }
+    void setAutomatic(bool automatic) {
+        automatic_ = (automatic ? AxisAutomaticSetting::BOTH : AxisAutomaticSetting::OFF);
+    }
+    void automatic(bool automatic) override {
+        automatic_ = automatic ? AxisAutomaticSetting::BOTH : AxisAutomaticSetting::OFF;
+    }
+    vector<double> mins() override {
         vector<double> mins;
         mins.push_back(min_lon_);
         mins.push_back(min_lat_);
         return mins;
     }
-    vector<double> maxs() {
+    vector<double> maxs() override {
         vector<double> maxs;
         maxs.push_back(max_lon_);
         maxs.push_back(max_lat_);
         return maxs;
     }
 
-    virtual XCoordinate* clone() const {
+    virtual XCoordinate* clone() const override {
         XHyperCoordinate* x = new XHyperCoordinate();
 
         return x;
     }
-    AxisAutomaticSetting automatic() { return automatic_ ? m_both : m_off; }
+    AxisAutomaticSetting automatic() override {
+        return (automatic_ != AxisAutomaticSetting::OFF) ? AxisAutomaticSetting::BOTH : AxisAutomaticSetting::OFF;
+    }
 
     void setMinMax(double, double) {}
 
 
-    string type() const { return "geoline"; }
-    void dataMinMax(double min, double max, const string& info) {
+    string type() const override { return "geoline"; }
+    void dataMinMax(double min, double max, const string& info) override {
         // interpret the info : lonmin/latmin
         Tokenizer tokenizer("/");
         vector<string> tokens;
         tokenizer(info, tokens);
         switch (automatic_) {
-            case m_both:
-            case m_min_only: {
+            case AxisAutomaticSetting::BOTH:
+            case AxisAutomaticSetting::MIN_ONLY: {
                 if (reverse_) {
                     max_lon_ = tonumber(tokens[0]);
                     max_lat_ = tonumber(tokens[1]);
@@ -985,13 +1009,14 @@ public:
                 break;
         }
 
-        automatic_ = (automatic_ == m_both) ? m_max_only : m_off;
+        automatic_ =
+            (automatic_ == AxisAutomaticSetting::BOTH) ? AxisAutomaticSetting::MAX_ONLY : AxisAutomaticSetting::OFF;
 
         // interpret the info : lonmin/latmin
 
         switch (automatic_) {
-            case m_both:
-            case m_max_only: {
+            case AxisAutomaticSetting::BOTH:
+            case AxisAutomaticSetting::MAX_ONLY: {
                 if (reverse_) {
                     min_lon_ = tonumber(tokens[2]);
                     min_lat_ = tonumber(tokens[3]);
@@ -1004,9 +1029,10 @@ public:
             default:
                 break;
         }
-        automatic_ = (automatic_ == m_both) ? m_min_only : m_off;
+        automatic_ =
+            (automatic_ == AxisAutomaticSetting::BOTH) ? AxisAutomaticSetting::MIN_ONLY : AxisAutomaticSetting::OFF;
     }
-    void getNewDefinition(const UserPoint& ll, const UserPoint& ur, map<string, string>& def) const {
+    void getNewDefinition(const UserPoint& ll, const UserPoint& ur, map<string, string>& def) const override {
         double lon1 = ll.x();
         double lon2 = ur.x();
 
@@ -1025,7 +1051,7 @@ public:
     }
 
 protected:
-    virtual void print(ostream& out) const { XHyperCoordinateAttributes::print(out); }
+    virtual void print(ostream& out) const override { XHyperCoordinateAttributes::print(out); }
 };
 
 template <>

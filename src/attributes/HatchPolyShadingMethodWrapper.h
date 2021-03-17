@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-   
+
 
 #ifndef HatchPolyShadingMethodWrapper_H
 #define HatchPolyShadingMethodWrapper_H
@@ -33,7 +33,7 @@
 #include "HatchPolyShadingMethod.h"
 
 
- 
+
 #include "PolyShadingMethodWrapper.h"
 
 
@@ -41,7 +41,7 @@
 
 
 
- 
+
 
 namespace magics {
 
@@ -58,29 +58,29 @@ public:
 //  --  destructor
     virtual ~HatchPolyShadingMethodWrapper();
     virtual void set(const MagRequest&);
-    
-    HatchPolyShadingMethod* me()   { return hatchpolyshadingmethod_; }
-   	
-   	virtual HatchPolyShadingMethod* object() { return hatchpolyshadingmethod_; }
-	
 
-	virtual void object(HatchPolyShadingMethod* o) { 
+    HatchPolyShadingMethod* me()   { return hatchpolyshadingmethod_; }
+
+   	virtual HatchPolyShadingMethod* object() { return hatchpolyshadingmethod_; }
+
+
+	virtual void object(HatchPolyShadingMethod* o) {
 		// Remember to delete the previous object
 		hatchpolyshadingmethod_ = o;
 		PolyShadingMethodWrapper::object(o);
 		
 
 	}
-    
-  
+
+
 
 protected:
     HatchPolyShadingMethod* hatchpolyshadingmethod_;
 
 
 //  --  method
-	virtual void print(ostream&) const;
-	
+	virtual void print(ostream&) const override;
+
 
 private:
     string tag_;
@@ -91,5 +91,3 @@ private:
 } // namespace magics
 
 #endif
-
-

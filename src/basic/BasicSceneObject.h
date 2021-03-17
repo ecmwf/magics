@@ -82,7 +82,7 @@ enum MagicsMode
 class BasicSceneObject : public MetviewIcon {
 public:
     BasicSceneObject(BasicSceneObject* parent = 0);
-    virtual ~BasicSceneObject();
+    virtual ~BasicSceneObject() override;
 
     virtual void push_front(BasicSceneObject* item) {
         item->parent(this);
@@ -144,7 +144,7 @@ public:
     virtual void visit(Transformation& transformation) { dispatch(transformation); }
     virtual void visit(AnimationRules& rules) { dispatch(rules); }
 
-    virtual void visit(MetaDataCollector& infos) { dispatch(infos); }
+    virtual void visit(MetaDataCollector& infos) override { dispatch(infos); }
     virtual void visit(MagnifierCollector& infos) { dispatch(infos); }
     virtual void visit(ValuesCollector& infos) { dispatch(infos); }
     virtual void visit(DataIndexCollector& infos) { dispatch(infos); }
@@ -241,7 +241,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     typedef void (BasicSceneObject::*Function)();
 
 
@@ -284,8 +284,8 @@ private:
 class BasicPositionalObject : public BasicSceneObject {
 public:
     BasicPositionalObject() {}
-    virtual ~BasicPositionalObject() {}
-    virtual Layout& layout() const = 0;
+    virtual ~BasicPositionalObject() override {}
+    virtual Layout& layout() const override = 0;
 
 protected:
     double adjustDimension(double, double, double);
@@ -295,29 +295,29 @@ class BasicSceneNode : public BasicPositionalObject {
 public:
     BasicSceneNode();
     BasicSceneNode(Layout*);
-    virtual ~BasicSceneNode();
+    virtual ~BasicSceneNode() override;
 
     virtual BasicSceneNode* insert(
-        BasicPositionalObject*);  // Return the node tinto which the object has been inserted!
-    Layout& layout() const {
+        BasicPositionalObject*) override;  // Return the node tinto which the object has been inserted!
+    Layout& layout() const override {
         {
             ASSERT(layout_);
             return *layout_;
         }
     }
-    virtual void getReady();
+    virtual void getReady() override;
     virtual BasicSceneNode* clone();
     virtual BasicSceneNode* newNode(BasicPositionalObject*);
 
-    virtual void visit(BasicGraphicsObjectContainer& tree) {
+    virtual void visit(BasicGraphicsObjectContainer& tree) override {
         tree.push_back(layout_);
         layout_->blankIt();
         dispatch(*layout_);
         layout_->frameIt();
     }
     void newpage();
-    double absoluteWidth() const;
-    double absoluteHeight() const;
+    double absoluteWidth() const override;
+    double absoluteHeight() const override;
 
 
     void manager(LayoutManager* manager) { manager_ = manager; }
@@ -331,15 +331,15 @@ protected:
 class EmptySceneObject : public BasicSceneObject {
 public:
     EmptySceneObject();
-    virtual ~EmptySceneObject();
+    virtual ~EmptySceneObject() override;
 
 
-    void visit(SceneLayer&, vector<LayoutVisitor*>&);
+    void visit(SceneLayer&, vector<LayoutVisitor*>&) override;
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 
 private:
@@ -359,10 +359,10 @@ private:
 class FrameBackgroundObject : public BasicSceneObject {
 public:
     FrameBackgroundObject(bool blankIt, const Colour& colour) : blankIt_(blankIt), colour_(colour) {}
-    virtual ~FrameBackgroundObject(){};
+    virtual ~FrameBackgroundObject() override{};
 
-    void visit(DrawingVisitor&);
-    void visit(SceneLayer&, vector<LayoutVisitor*>&);
+    void visit(DrawingVisitor&) override;
+    void visit(SceneLayer&, vector<LayoutVisitor*>&) override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
@@ -390,10 +390,10 @@ public:
     FrameForegroundObject(bool frameIt, const Colour& colour, LineStyle style, int thickness) :
         frameIt_(frameIt), colour_(colour), style_(style), thickness_(thickness) {}
 
-    virtual ~FrameForegroundObject(){};
+    virtual ~FrameForegroundObject() override{};
 
-    void visit(DrawingVisitor&);
-    void visit(SceneLayer&, vector<LayoutVisitor*>&);
+    void visit(DrawingVisitor&) override;
+    void visit(SceneLayer&, vector<LayoutVisitor*>&) override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).

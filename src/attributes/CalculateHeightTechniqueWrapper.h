@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-   
+
 
 #ifndef CalculateHeightTechniqueWrapper_H
 #define CalculateHeightTechniqueWrapper_H
@@ -33,7 +33,7 @@
 #include "HeightTechnique.h"
 
 
- 
+
 #include "HeightTechniqueWrapper.h"
 
 
@@ -41,7 +41,7 @@
 
 
 
- 
+
 
 namespace magics {
 
@@ -58,29 +58,29 @@ public:
 //  --  destructor
     virtual ~CalculateHeightTechniqueWrapper();
     virtual void set(const MagRequest&);
-    
-    CalculateHeightTechnique* me()   { return calculateheighttechnique_; }
-   	
-   	virtual CalculateHeightTechnique* object() { return calculateheighttechnique_; }
-	
 
-	virtual void object(CalculateHeightTechnique* o) { 
+    CalculateHeightTechnique* me()   { return calculateheighttechnique_; }
+
+   	virtual CalculateHeightTechnique* object() { return calculateheighttechnique_; }
+
+
+	virtual void object(CalculateHeightTechnique* o) {
 		// Remember to delete the previous object
 		calculateheighttechnique_ = o;
 		HeightTechniqueWrapper::object(o);
 		
 
 	}
-    
-  
+
+
 
 protected:
     CalculateHeightTechnique* calculateheighttechnique_;
 
 
 //  --  method
-	virtual void print(ostream&) const;
-	
+	virtual void print(ostream&) const override;
+
 
 private:
     string tag_;
@@ -91,5 +91,3 @@ private:
 } // namespace magics
 
 #endif
-
-

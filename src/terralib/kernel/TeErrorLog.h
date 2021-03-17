@@ -105,7 +105,7 @@ class TL_DLL TeErrorLog : public TeSingleton<TeErrorLog> {
 public:
     TeErrorLog();
 
-    ~TeErrorLog();
+    ~TeErrorLog() override;
 
     string message(const TeErrorType code);
 

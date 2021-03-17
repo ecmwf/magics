@@ -18,14 +18,15 @@
 #ifndef SystemInfo_H
 #define SystemInfo_H
 
-#include <magics.h>
 #include <cstdlib>
-#ifndef MAGICS_ON_WINDOWS
+#include "magics.h"
+
+#ifdef MAGICS_ON_WINDOWS
+#include <lmcons.h>
+#include "windux.h"
+#else
 #include <pwd.h>
 #include <unistd.h>
-#else
-#include <lmcons.h>
-#include "win_time.h"
 #endif
 
 namespace magics {
@@ -70,6 +71,16 @@ public:
         string tmp(username);
 #endif
         return tmp;
+    };
+
+    MAGICS_NO_EXPORT string getUserName() const {
+#ifndef MAGICS_ON_WINDOWS
+        struct passwd* who = getpwuid(getuid());
+        string tmp(who->pw_gecos);
+        return tmp;
+#else
+        return getUserID();
+#endif
     };
 
 private:

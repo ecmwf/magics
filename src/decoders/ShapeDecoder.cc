@@ -74,6 +74,9 @@ void ShapeDecoder::customisedPoints(const std::set<string>&, CustomisedPointsLis
         hSHP       = SHPOpen(shp.c_str(), "rb");
         hDBF       = DBFOpen(dbf.c_str(), "rb");
         if (!hSHP || !hDBF) {
+            if (MagicsSettings::strict()) {
+                throw CannotOpenFile(shp);
+            }
             MagLog::error() << "Can not open points Shapefile " << shp << endl;
             return;
         }
@@ -124,7 +127,11 @@ void ShapeDecoder::customisedPoints(const std::set<string>&, CustomisedPointsLis
         DBFClose(hDBF);
     }
     catch (...) {
-        MagLog::error() << "Can not open Shapefile " << path_ << endl;
+        if (MagicsSettings::strict()) {
+            throw;
+        }
+
+        MagLog::error() << "Can not open Shapefile (1) " << path_ << endl;
     }
     MagLog::dev() << "Shape file--->" << this->size() << endl;
 }
@@ -154,7 +161,10 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
         const DBFHandle hDBF = DBFOpen(dbf.c_str(), "rb");
 
         if (!hSHP || !hDBF) {
-            MagLog::error() << "Can not open Shapefile " << shp << endl;
+            if (MagicsSettings::strict()) {
+                throw CannotOpenFile(shp);
+            }
+            MagLog::error() << "Can not open Shapefile (2) " << shp << endl;
             return;
         }
 
@@ -280,7 +290,10 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
         DBFClose(hDBF);
     }
     catch (...) {
-        MagLog::error() << "Can not open Shapefile " << path_ << endl;
+        if (MagicsSettings::strict()) {
+            throw;
+        }
+        MagLog::error() << "Can not open Shapefile (3) " << path_ << endl;
     }
     MagLog::dev() << "Shape file--->" << this->size() << endl;
 }
@@ -302,7 +315,10 @@ void ShapeDecoder::decode(vector<magics::Polyline*>& data, const Transformation&
         string dbf = path_ + ".dbf";
         hSHP       = SHPOpen(shp.c_str(), "rb");
         if (!hSHP) {
-            MagLog::error() << "Can not open Shapefile " << shp << endl;
+            if (MagicsSettings::strict()) {
+                throw CannotOpenFile(shp);
+            }
+            MagLog::error() << "Can not open Shapefile (4) " << shp << endl;
             return;
         }
         data.clear();
@@ -421,6 +437,9 @@ void ShapeDecoder::decode(vector<magics::Polyline*>& data, const Transformation&
         SHPClose(hSHP);
     }
     catch (std::exception& e) {
-        MagLog::error() << "Can not open Shapefile " << path_ << endl;
+        if (MagicsSettings::strict()) {
+            throw;
+        }
+        MagLog::error() << "Can not open Shapefile " << path_ << " " << e.what() << endl;
     }
 }

@@ -102,9 +102,9 @@ does it submit to any jurisdiction.
 			<documentation>The position of the wind arrow relative to the wind origin</documentation>
 		</parameter>
 		<parameter member="thickness"
-			to="int"
+			to="float"
 			default="1"
-			from="int"
+			from="float"
 			name="wind_arrow_thickness">
 			<release>Basic implementation in 0.8</release>
 			<documentation>Thickness of wind arrow shaft</documentation>

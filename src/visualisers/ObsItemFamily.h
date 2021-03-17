@@ -20,9 +20,9 @@
 class ObsItemBox : public ObsItem {
 public:
     ObsItemBox() {}
-    ~ObsItemBox() {}
+    ~ObsItemBox() override {}
 
-    virtual void set(const map<string, string>& def);
+    virtual void set(const map<string, string>& def) override;
 
 protected:
     int row_;
@@ -36,8 +36,8 @@ protected:
 class ObsStationRing : public ObsItemBox {
 public:
     ObsStationRing() {}
-    ~ObsStationRing() {}
-    void visit(std::set<string>& tokens) {
+    ~ObsStationRing() override {}
+    void visit(std::set<string>& tokens) override {
         if (!owner_->station_ring_visible_)
             return;
         tokens.insert("latitude");
@@ -45,7 +45,7 @@ public:
         tokens.insert("total_cloud");
     }
 
-    void operator()(CustomisedPoint&, ComplexSymbol& symbol) const {
+    void operator()(CustomisedPoint&, ComplexSymbol& symbol) const override {
         if (!owner_->station_ring_visible_)
             return;
         SymbolItem* station = new SymbolItem();
@@ -58,18 +58,18 @@ public:
     }
 
 protected:
-    void print(ostream& out) const { out << "ObsStationRing"; }
+    void print(ostream& out) const override { out << "ObsStationRing"; }
 };
 class ObsStationTriangle : public ObsItemBox {
 public:
     ObsStationTriangle() {}
-    ~ObsStationTriangle() {}
-    void visit(std::set<string>& tokens) {
+    ~ObsStationTriangle() override {}
+    void visit(std::set<string>& tokens) override {
         if (!owner_->station_ring_visible_)
             return;
     }
 
-    void operator()(CustomisedPoint&, ComplexSymbol& symbol) const {
+    void operator()(CustomisedPoint&, ComplexSymbol& symbol) const override {
         if (!owner_->station_ring_visible_)
             return;
         SymbolItem* station = new SymbolItem();
@@ -82,29 +82,29 @@ public:
     }
 
 protected:
-    void print(ostream& out) const { out << "ObsStationTriangle"; }
+    void print(ostream& out) const override { out << "ObsStationTriangle"; }
 };
 
 class ObsTimePlot : public ObsItemBox {
 public:
     ObsTimePlot() {}
-    ~ObsTimePlot() {}
-    void visit(std::set<string>& tokens);
-    void operator()(CustomisedPoint&, ComplexSymbol&) const;
+    ~ObsTimePlot() override {}
+    void visit(std::set<string>& tokens) override;
+    void operator()(CustomisedPoint&, ComplexSymbol&) const override;
 
 protected:
-    void print(ostream& out) const { out << "ObsTimePlot"; }
+    void print(ostream& out) const override { out << "ObsTimePlot"; }
 };
 
 
 class ObsWind : public ObsItemBox {
 public:
     ObsWind() { setOrigins(); }
-    ~ObsWind() {}
-    void visit(std::set<string>& tokens);
+    ~ObsWind() override {}
+    void visit(std::set<string>& tokens) override;
 
-    virtual void operator()(CustomisedPoint&, ComplexSymbol&) const;
-    virtual void set(const map<string, string>& def) {
+    virtual void operator()(CustomisedPoint&, ComplexSymbol&) const override;
+    virtual void set(const map<string, string>& def) override {
         row_       = atoi(find(def, "row").c_str());
         column_    = atoi(find(def, "column").c_str());
         colour_    = find(def, "colour");
@@ -116,14 +116,14 @@ protected:
     string speed_;
     string direction_;
     void setOrigins();
-    void print(ostream& out) const { out << "ObsWind"; }
+    void print(ostream& out) const override { out << "ObsWind"; }
 };
 
 class ObsCloudAndWind : public ObsItemBox {
 public:
     ObsCloudAndWind() { setOrigins(); }
-    ~ObsCloudAndWind() {}
-    void visit(std::set<string>& tokens) {
+    ~ObsCloudAndWind() override {}
+    void visit(std::set<string>& tokens) override {
         if (!owner_->wind_visible_)
             return;
         tokens.insert("wind_speed");
@@ -134,11 +134,11 @@ public:
         tokens.insert("high_cloud");
     }
 
-    virtual void operator()(CustomisedPoint&, ComplexSymbol&) const;
+    virtual void operator()(CustomisedPoint&, ComplexSymbol&) const override;
 
 protected:
     void setOrigins();
-    void print(ostream& out) const { out << "ObsWind"; }
+    void print(ostream& out) const override { out << "ObsWind"; }
 
     static map<int, string> origins_;
 };
@@ -147,167 +147,167 @@ protected:
 class ObsTemperature : public ObsItemBox {
 public:
     ObsTemperature() {}
-    ~ObsTemperature() {}
-    void visit(std::set<string>& tokens) {
+    ~ObsTemperature() override {}
+    void visit(std::set<string>& tokens) override {
         if (!owner_->temperature_visible_)
             return;
         tokens.insert("temperature");
     }
-    void operator()(CustomisedPoint&, ComplexSymbol& symbol) const;
+    void operator()(CustomisedPoint&, ComplexSymbol& symbol) const override;
 
 protected:
-    void print(ostream& out) const { out << "ObsTemperature"; }
+    void print(ostream& out) const override { out << "ObsTemperature"; }
 };
 
 class ObsSeaTemperature : public ObsItemBox {
 public:
     ObsSeaTemperature() {}
-    ~ObsSeaTemperature() {}
-    void visit(std::set<string>& tokens);
-    void operator()(CustomisedPoint&, ComplexSymbol& symbol) const;
+    ~ObsSeaTemperature() override {}
+    void visit(std::set<string>& tokens) override;
+    void operator()(CustomisedPoint&, ComplexSymbol& symbol) const override;
 
 protected:
-    void print(ostream& out) const { out << "ObsSeaTemperature"; }
+    void print(ostream& out) const override { out << "ObsSeaTemperature"; }
 };
 class ObsWave : public ObsItemBox {
 public:
     ObsWave() {}
-    ~ObsWave() {}
-    void visit(std::set<string>& tokens);
-    void operator()(CustomisedPoint&, ComplexSymbol& symbol) const;
+    ~ObsWave() override {}
+    void visit(std::set<string>& tokens) override;
+    void operator()(CustomisedPoint&, ComplexSymbol& symbol) const override;
 
 protected:
-    void print(ostream& out) const { out << "ObsWave"; }
+    void print(ostream& out) const override { out << "ObsWave"; }
 };
 class ObsPressure : public ObsItemBox {
 public:
     ObsPressure() {}
-    ~ObsPressure() {}
-    void visit(std::set<string>& tokens);
-    void operator()(CustomisedPoint&, ComplexSymbol&) const;
+    ~ObsPressure() override {}
+    void visit(std::set<string>& tokens) override;
+    void operator()(CustomisedPoint&, ComplexSymbol&) const override;
 
 protected:
-    void print(ostream& out) const { out << "ObsPressure"; }
+    void print(ostream& out) const override { out << "ObsPressure"; }
 };
 
 
 class ObsPressureLevel : public ObsItemBox {
 public:
     ObsPressureLevel() {}
-    ~ObsPressureLevel() {}
-    void visit(std::set<string>& tokens);
-    void operator()(CustomisedPoint&, ComplexSymbol&) const;
+    ~ObsPressureLevel() override {}
+    void visit(std::set<string>& tokens) override;
+    void operator()(CustomisedPoint&, ComplexSymbol&) const override;
 
 protected:
-    void print(ostream& out) const { out << "ObsPressureLevel"; }
+    void print(ostream& out) const override { out << "ObsPressureLevel"; }
 };
 
 
 class ObsPressureTendency : public ObsItemBox {
 public:
     ObsPressureTendency() {}
-    ~ObsPressureTendency() {}
-    void visit(std::set<string>& tokens);
-    void operator()(CustomisedPoint&, ComplexSymbol&) const;
+    ~ObsPressureTendency() override {}
+    void visit(std::set<string>& tokens) override;
+    void operator()(CustomisedPoint&, ComplexSymbol&) const override;
 
 protected:
-    void print(ostream& out) const { out << "ObsPressureTendency"; }
+    void print(ostream& out) const override { out << "ObsPressureTendency"; }
 };
 
 
 class ObsThickness : public ObsItemBox {
 public:
     ObsThickness() {}
-    ~ObsThickness() {}
-    void visit(std::set<string>& tokens);
-    void operator()(CustomisedPoint&, ComplexSymbol&) const;
+    ~ObsThickness() override {}
+    void visit(std::set<string>& tokens) override;
+    void operator()(CustomisedPoint&, ComplexSymbol&) const override;
 
 protected:
-    void print(ostream& out) const { out << "ObsThickness"; }
+    void print(ostream& out) const override { out << "ObsThickness"; }
 };
 
 class ObsDewPoint : public ObsItemBox {
 public:
     ObsDewPoint() {}
-    ~ObsDewPoint() {}
-    void visit(std::set<string>& tokens);
-    void operator()(CustomisedPoint&, ComplexSymbol&) const;
+    ~ObsDewPoint() override {}
+    void visit(std::set<string>& tokens) override;
+    void operator()(CustomisedPoint&, ComplexSymbol&) const override;
 
 protected:
-    void print(ostream& out) const { out << "ObsDewPoint"; }
+    void print(ostream& out) const override { out << "ObsDewPoint"; }
 };
 
 
 class ObsHeight : public ObsItemBox {
 public:
     ObsHeight() {}
-    ~ObsHeight() {}
-    void visit(std::set<string>& tokens);
-    void operator()(CustomisedPoint&, ComplexSymbol&) const;
+    ~ObsHeight() override {}
+    void visit(std::set<string>& tokens) override;
+    void operator()(CustomisedPoint&, ComplexSymbol&) const override;
 
 protected:
-    void print(ostream& out) const { out << "ObsHeight"; }
+    void print(ostream& out) const override { out << "ObsHeight"; }
 };
 
 
 class ObsVisibility : public ObsItemBox {
 public:
     ObsVisibility() {}
-    ~ObsVisibility() {}
-    void visit(std::set<string>& tokens);
-    void operator()(CustomisedPoint&, ComplexSymbol&) const;
+    ~ObsVisibility() override {}
+    void visit(std::set<string>& tokens) override;
+    void operator()(CustomisedPoint&, ComplexSymbol&) const override;
 
 protected:
-    void print(ostream& out) const { out << "ObsVisibility"; }
+    void print(ostream& out) const override { out << "ObsVisibility"; }
 };
 
 
 class ObsPresentWeather : public ObsItemBox {
 public:
     ObsPresentWeather() {}
-    ~ObsPresentWeather() {}
-    void visit(std::set<string>& tokens);
-    void operator()(CustomisedPoint&, ComplexSymbol&) const;
+    ~ObsPresentWeather() override {}
+    void visit(std::set<string>& tokens) override;
+    void operator()(CustomisedPoint&, ComplexSymbol&) const override;
 
 protected:
-    void print(ostream& out) const { out << "ObsPresentWeather"; }
+    void print(ostream& out) const override { out << "ObsPresentWeather"; }
 };
 
 
 class ObsIdentifier : public ObsItemBox {
 public:
     ObsIdentifier() {}
-    ~ObsIdentifier() {}
-    void visit(std::set<string>& tokens);
-    void operator()(CustomisedPoint&, ComplexSymbol&) const;
+    ~ObsIdentifier() override {}
+    void visit(std::set<string>& tokens) override;
+    void operator()(CustomisedPoint&, ComplexSymbol&) const override;
 
 protected:
-    void print(ostream& out) const { out << "ObsIdentifier"; }
+    void print(ostream& out) const override { out << "ObsIdentifier"; }
 };
 
 
 class ObsPastWeather : public ObsItemBox {
 public:
     ObsPastWeather() {}
-    ~ObsPastWeather() {}
-    void visit(std::set<string>& tokens);
-    void operator()(CustomisedPoint&, ComplexSymbol&) const;
+    ~ObsPastWeather() override {}
+    void visit(std::set<string>& tokens) override;
+    void operator()(CustomisedPoint&, ComplexSymbol&) const override;
 
 protected:
-    void print(ostream& out) const { out << "ObsPastWeather"; }
+    void print(ostream& out) const override { out << "ObsPastWeather"; }
 };
 
 
 class ObsCloud : public ObsItemBox {
 public:
     ObsCloud() {}
-    ~ObsCloud() {}
-    void set(const map<string, string>& def);
-    void visit(std::set<string>& tokens);
-    void operator()(CustomisedPoint&, ComplexSymbol&) const;
+    ~ObsCloud() override {}
+    void set(const map<string, string>& def) override;
+    void visit(std::set<string>& tokens) override;
+    void operator()(CustomisedPoint&, ComplexSymbol&) const override;
 
 protected:
-    void print(ostream& out) const { out << "ObsCloud"; }
+    void print(ostream& out) const override { out << "ObsCloud"; }
     int lowRow_;
     int lowColumn_;
     int mediumRow_;
@@ -319,58 +319,58 @@ protected:
 class ObsDemoItem1 : public ObsItemBox {
 public:
     ObsDemoItem1() {}
-    ~ObsDemoItem1() {}
+    ~ObsDemoItem1() override {}
 
-    void visit(std::set<string>& tokens);
-    void operator()(CustomisedPoint&, ComplexSymbol&) const;
+    void visit(std::set<string>& tokens) override;
+    void operator()(CustomisedPoint&, ComplexSymbol&) const override;
 
 protected:
-    void print(ostream& out) const { out << "ObsDemoItem1"; }
+    void print(ostream& out) const override { out << "ObsDemoItem1"; }
 };
 class ObsDemoItem2 : public ObsItemBox {
 public:
     ObsDemoItem2() {}
-    ~ObsDemoItem2() {}
+    ~ObsDemoItem2() override {}
 
-    void visit(std::set<string>& tokens);
-    void operator()(CustomisedPoint&, ComplexSymbol&) const;
+    void visit(std::set<string>& tokens) override;
+    void operator()(CustomisedPoint&, ComplexSymbol&) const override;
 
 protected:
-    void print(ostream& out) const { out << "ObsDemoItem2"; }
+    void print(ostream& out) const override { out << "ObsDemoItem2"; }
 };
 
 class ObsEra : public ObsItemBox {
 public:
     ObsEra() {}
-    ~ObsEra() {}
+    ~ObsEra() override {}
 
-    void visit(std::set<string>& tokens);
-    void operator()(CustomisedPoint&, ComplexSymbol&) const;
+    void visit(std::set<string>& tokens) override;
+    void operator()(CustomisedPoint&, ComplexSymbol&) const override;
 
 protected:
-    void print(ostream& out) const { out << "ObsEra"; }
+    void print(ostream& out) const override { out << "ObsEra"; }
 };
 class ObsString : public ObsItemBox {
 public:
     ObsString() {}
-    ~ObsString() {}
+    ~ObsString() override {}
 
-    void visit(std::set<string>& tokens);
-    void operator()(CustomisedPoint&, ComplexSymbol&) const;
+    void visit(std::set<string>& tokens) override;
+    void operator()(CustomisedPoint&, ComplexSymbol&) const override;
 
 protected:
-    void print(ostream& out) const { out << "ObsNumber"; }
+    void print(ostream& out) const override { out << "ObsNumber"; }
     std::set<string> keys_;
 };
 class ObsNumber : public ObsItemBox {
 public:
     ObsNumber() {}
-    ~ObsNumber() {}
+    ~ObsNumber() override {}
 
-    void visit(std::set<string>& tokens);
-    void operator()(CustomisedPoint&, ComplexSymbol&) const;
+    void visit(std::set<string>& tokens) override;
+    void operator()(CustomisedPoint&, ComplexSymbol&) const override;
 
 protected:
-    void print(ostream& out) const { out << "ObsNumber"; }
+    void print(ostream& out) const override { out << "ObsNumber"; }
 };
 #endif

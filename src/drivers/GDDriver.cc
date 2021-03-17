@@ -32,11 +32,11 @@
         saveFlag: 1:on 0:off  (PNG only) AS EARLY AS POSSIBLE!
 */
 
-#include <GDDriver.h>
-#include <Image.h>
-#include <Polyline.h>
-#include <Symbol.h>
-#include <Text.h>
+#include "GDDriver.h"
+#include "Image.h"
+#include "Polyline.h"
+#include "Symbol.h"
+#include "Text.h"
 
 #include <gdfontl.h>
 
@@ -178,6 +178,11 @@ MAGICS_NO_EXPORT void GDDriver::startPage() const {
     if (animated_ && cPage == 0) {
         string fileName = getFileName("gif", 0);
         outFile_        = fopen(fileName.c_str(), "wb");
+
+        if (!outFile_) {
+            throw CannotOpenFile(fileName);
+        }
+
         printOutputName(fileName);
 
         gdImageGifAnimBegin(currentImage_, outFile_, 1 /*global colormap*/, 0 /*infinite loop*/);
@@ -241,8 +246,12 @@ MAGICS_NO_EXPORT void GDDriver::endPage() const {
                 fclose(outFile_);
                 printOutputName(fileName);
             }
-            else
+            else {
+                if (MagicsSettings::strict()) {
+                    throw CannotOpenFile(fileName);
+                }
                 MagLog::error() << "GIF: cannot open file " << fileName << "!" << endl;
+            }
 #endif
         }
 
@@ -254,8 +263,12 @@ MAGICS_NO_EXPORT void GDDriver::endPage() const {
                 fclose(outFile_);
                 printOutputName(fileName);
             }
-            else
+            else {
+                if (MagicsSettings::strict()) {
+                    throw CannotOpenFile(fileName);
+                }
                 MagLog::error() << "PNG: cannot open file " << fileName << "!" << endl;
+            }
         }
 
         if (jpg_) {
@@ -266,8 +279,12 @@ MAGICS_NO_EXPORT void GDDriver::endPage() const {
                 fclose(outFile_);
                 printOutputName(fileName);
             }
-            else
+            else {
+                if (MagicsSettings::strict()) {
+                    throw CannotOpenFile(fileName);
+                }
                 MagLog::error() << "JPEG: cannot open file " << fileName << "!" << endl;
+            }
         }
         outFile_ = 0;
     }
@@ -848,7 +865,7 @@ MAGICS_NO_EXPORT void GDDriver::circle(const MFloat x, const MFloat y, const MFl
 
 */
 MAGICS_NO_EXPORT bool GDDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
-                                             unsigned char* pixmap, int, bool alpha, bool) const {
+                                             unsigned char* pixmap, int, bool alpha) const {
     unsigned char* p = pixmap;
     const float dx   = (x1 - x0) / w;
     const float dy   = (y1 - y0) / h;
