@@ -15,7 +15,6 @@
 #include "magics.h"
 
 typedef struct PJconsts PJ;
-typedef struct projCtx_t PJ_CONTEXT;
 
 
 namespace magics {
@@ -41,7 +40,6 @@ protected:
     string from_;
     string to_;
     PJ* converter_;
-    static PJ_CONTEXT* context_;
 
 private:
     //! Copy constructor - No copy allowed

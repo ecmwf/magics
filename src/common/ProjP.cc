@@ -24,7 +24,7 @@
 
 using namespace magics;
 
-PJ_CONTEXT* ProjP::context_ = 0;
+static PJ_CONTEXT* context_ = 0;
 
 ProjP::ProjP() : converter_(0) {}
 ProjP::ProjP(const string& from, const string& to) : from_(from), to_(to), converter_(0) {
