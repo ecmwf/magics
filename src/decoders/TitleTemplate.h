@@ -22,12 +22,12 @@
 #ifndef TitleTemplate_H
 #define TitleTemplate_H
 
-#include "AutoVector.h"
-#include "Data.h"
-#include "Factory.h"
-#include "TitleField.h"
-#include "TitleTemplateAttributes.h"
-#include "magics.h"
+#include <AutoVector.h>
+#include <Data.h>
+#include <Factory.h>
+#include <TitleField.h>
+#include <TitleTemplateAttributes.h>
+#include <magics.h>
 
 #include <stack>
 
@@ -74,7 +74,7 @@ class TitleTemplate : public AutoVector<TitleTemplate>,
 public:
     TitleTemplate(map<string, string> criteria) : criteria_(criteria) {}
     TitleTemplate();
-    virtual ~TitleTemplate() override;
+    virtual ~TitleTemplate();
 
     void add(TitleField* field) { template_.push_back(field); }
 
@@ -107,6 +107,7 @@ public:
         }
 
         for (auto& entry : template_) {
+
             try {
                 unique_ptr<TitleFieldHandler> object(SimpleObjectMaker<TitleFieldHandler>::create(entry->name()));
                 (*object)(*entry, lines, data);
@@ -116,6 +117,7 @@ public:
                 MagLog::debug() << "Can Not Create the TitleFieldHandler for " << entry->name() << "\n";
                 (*entry)(lines);
             }
+
         }
 
         for (vector<string>::iterator line = lines.begin(); line != lines.end(); ++line)
@@ -123,6 +125,7 @@ public:
                 out.push_back(*line);
     }
 
+   
 
     bool verify(const GribDecoder& data) const;
 
@@ -130,7 +133,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     map<string, string> criteria_;
     AutoVector<TitleField> template_;
     static TitleTemplate* singleton_;

@@ -47,7 +47,7 @@ SymbolProperties::SymbolProperties(Colour colour, double height, const string& m
     height_(height),
     marker_(marker),
     label_(label),
-    position_(TextPosition::NONE),
+    position_(Symbol::M_NONE),
     outline_(false),
     connectLine_(false),
     image_(false) {
@@ -60,7 +60,7 @@ SymbolProperties::SymbolProperties(Colour colour, double height, int marker, con
     height_(height),
     marker_(Symbol::convert(marker)),
     label_(label),
-    position_(TextPosition::NONE),
+    position_(Symbol::M_NONE),
     outline_(false),
     connectLine_(false),
     image_(false) {
@@ -73,7 +73,7 @@ SymbolProperties::SymbolProperties() :
     height_(0),
     marker_(Symbol::convert(1)),
     label_(""),
-    position_(TextPosition::NONE),
+    position_(Symbol::M_NONE),
     outline_(false),
     connectLine_(false),
     image_(false) {
@@ -95,7 +95,7 @@ Symbol* SymbolProperties::symbol(const string& type) const {
     if (magCompare(type, "marker")) {
         if (image_) {
             ImageSymbol* img = new ImageSymbol(image_path_, image_format_);
-            img->set(image_width_, image_height_);
+            img->set(image_width_, image_height_, image_by_reference_);
             symbol = img;
         }
 
@@ -241,7 +241,7 @@ void Symbol::boundingbox(const Polyline& boundingbox) {
 
 void TextSymbol::redisplay(const BaseDriver& driver) const {
     if (!connectLine()) {
-        if (position_ == TextPosition::CENTRE) {
+        if (position_ == M_CENTRE) {
             // send text and symbol;
             Symbol::redisplay(driver);
             // Now we display the text
@@ -252,8 +252,8 @@ void TextSymbol::redisplay(const BaseDriver& driver) const {
                 text.addText(*info, font_);
                 text.push_back(*point);
                 text.setBlanking(blanking_);
-                text.setVerticalAlign(VerticalAlign::HALF);
-                text.setJustification(Justification::CENTRE);
+                text.setVerticalAlign(MHALF);
+                text.setJustification(MCENTRE);
                 ++point;
                 text.redisplay(driver);
 
@@ -311,6 +311,7 @@ void ImageSymbol::redisplay(const BaseDriver& driver) const {
         object->setFormat(format_);
         object->setWidth(width_);
         object->setHeight(height_);
+        object->setByReference(by_reference_);
         driver.redisplay(*object);
     }
 }

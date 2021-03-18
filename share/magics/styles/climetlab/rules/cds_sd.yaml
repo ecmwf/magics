@@ -1,8 +1,0 @@
-match:
-- paramId: '141'
-  shortName: sd
-- long_name:
-  - Snow depth
-styles:
-- sh_blu_f0t10lst
-

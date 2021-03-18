@@ -16,15 +16,15 @@
 
 */
 
-#include "Proj4Projection.h"
-#include "GridPlotting.h"
-#include "LabelPlotting.h"
-#include "Layer.h"
-#include "MagJSon.h"
-#include "MatrixHandler.h"
-#include "ParameterSettings.h"
-#include "Polyline.h"
-#include "Text.h"
+#include <GridPlotting.h>
+#include <LabelPlotting.h>
+#include <Layer.h>
+#include <MagJSon.h>
+#include <MatrixHandler.h>
+#include <ParameterSettings.h>
+#include <Polyline.h>
+#include <Proj4Projection.h>
+#include <Text.h>
 
 #include <cmath>
 
@@ -50,6 +50,7 @@ public:
         initMethods_["polar_south"] = &Epsg::polarsouthinit;
         initMethods_["EPSG:32661"]  = &Epsg::epsg32661;
         initMethods_["EPSG:32761"]  = &Epsg::epsg32761;
+        
     }
     string name_;
     string definition_;
@@ -121,7 +122,7 @@ public:
         definition_ = def.str();
     }
 
-    void epsg32661(const Proj4Projection& from) {
+      void epsg32661(const Proj4Projection& from) {
         ostringstream def;
 
         def << "+proj=stere +lat_0=90 +lat_ts=90 ";
@@ -546,24 +547,27 @@ void Proj4Projection::projectionSimple() {
     cout << definition_ << endl;
 
     int error;
-
+    
     helper_->revert(min_longitude_, min_latitude_);
-    error    = helper_->revert(max_longitude_, max_latitude_);
+    error = helper_->revert(max_longitude_, max_latitude_);
     double x = max_longitude_;
     double y = max_latitude_;
 
     helper_->convert(x, y);
 
     // cout << "[" << min_pcx_ << " " << min_pcy_ << "]-->[" << max_pcx_ << " " << max_pcy_ << "]" << endl;
-    // cout << "[" << min_longitude_ << " " << min_latitude_ << "]-->[" << max_longitude_ << " " << max_latitude_ << "]"
-    // << endl; cout << "[" << max_longitude_ << " " << max_latitude_ << "]-->[" << x << " " << y << "] --> " << error
-    // <<  endl;
+    // cout << "[" << min_longitude_ << " " << min_latitude_ << "]-->[" << max_longitude_ << " " << max_latitude_ << "]" << endl;
+    // cout << "[" << max_longitude_ << " " << max_latitude_ << "]-->[" << x << " " << y << "] --> " << error <<  endl;
 
     if (max_longitude_ < 0) {
         max_longitude_ += 360.;
     }
+    
+
+   
 
 
+    
     magics::Polyline box;
     box.box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
 
@@ -630,6 +634,26 @@ void Proj4Projection::geos() {
     for (vector<double>::reverse_iterator lon = last->second.rbegin(); lon != last->second.rend(); ++lon) {
         add(*lon, last->first);
     }
+    
+   
+    gridMinLat_ = -90;
+    gridMinLon_ = vertical_longitude_ -180;
+    gridMaxLat_ = 90;
+    gridMaxLon_ = vertical_longitude_ + 180;
+
+
+    // Hre we have to make sure that the global area is defined between -180 and 180.
+
+    if ( gridMaxLon_ > 180 ) {
+        gridMaxLon_ = 180;
+        gridMinLon_ = std::min(gridMaxLon_ - 360, gridMinLon_);
+    }
+    if ( gridMinLon_ < -180 ) {
+        gridMinLon_ = -180;
+        gridMaxLon_ = std::max(gridMinLon_ + 360, gridMaxLon_);
+    }
+    
+    cout << gridMinLon_ << " --> " << gridMaxLon_ << endl;
 }
 
 magics::Polyline& Proj4Projection::getSimplePCBoundingBox() const {
@@ -729,6 +753,11 @@ void Proj4Projection::tpers() {
 
     userEnveloppe_->push_back(userEnveloppe_->front());
     PCEnveloppe_->push_back(PCEnveloppe_->front());
+
+    gridMinLat_ = -90;
+    gridMinLon_ = -200;
+    gridMaxLat_ = 90;
+    gridMaxLon_ = 200;
 }
 
 void Proj4Projection::boundingBox(double& xmin, double& ymin, double& xmax, double& ymax) const {
@@ -736,11 +765,14 @@ void Proj4Projection::boundingBox(double& xmin, double& ymin, double& xmax, doub
         projection_ = Epsg::find(definition_);
         helper_     = new LatLonProjP(projection_->definition());
     }
+    
+
 
     ymin = gridMinLat_;
-    xmin = gridMinLon_ - 5;
-    ymax = gridMaxLat_;
+    xmin = gridMinLon_ - 5;  
+    ymax = gridMaxLat_;  
     xmax = gridMaxLon_ + 5;
+   
 }
 
 double Proj4Projection::getMinX() const {
@@ -911,15 +943,15 @@ void Proj4Projection::labels(const LabelPlotting& label, LeftAxisVisitor& visito
             label.add(text);
             text->setText(writeLatitude(point));
             text->push_back(xy);
-            text->setJustification(Justification::RIGHT);
-            text->setVerticalAlign(VerticalAlign::HALF);
+            text->setJustification(MRIGHT);
+            text->setVerticalAlign(MHALF);
             text->setBlanking(true);
         }
     }
     else {
         double x = max_pcx_ - ((max_pcx_ - min_pcx_) * .1);
         // we calculate the intersection of the longitudes with the left side
-        verticalLabels(label, min_pcx_, x, Justification::RIGHT);
+        verticalLabels(label, min_pcx_, x, MRIGHT);
     }
 }
 
@@ -940,15 +972,15 @@ void Proj4Projection::labels(const LabelPlotting& label, RightAxisVisitor& visit
             label.add(text);
             text->setText(writeLatitude(point));
             text->push_back(xy);
-            text->setJustification(Justification::LEFT);
-            text->setVerticalAlign(VerticalAlign::HALF);
+            text->setJustification(MLEFT);
+            text->setVerticalAlign(MHALF);
             text->setBlanking(true);
         }
     }
     else {
         // we calculate the intersection of the longitudes with the right side
         double x = min_pcx_ + ((max_pcx_ - min_pcx_) * .1);
-        verticalLabels(label, max_pcx_, x, Justification::LEFT);
+        verticalLabels(label, max_pcx_, x, MLEFT);
     }
 }
 
@@ -970,15 +1002,15 @@ void Proj4Projection::labels(const LabelPlotting& label, BottomAxisVisitor& visi
             text->setText(writeLongitude(point));
 
             text->push_back(xy);
-            text->setJustification(Justification::CENTRE);
-            text->setVerticalAlign(VerticalAlign::TOP);
+            text->setJustification(MCENTRE);
+            text->setVerticalAlign(MTOP);
             text->setBlanking(true);
         }
     }
     else {
         // we calculate the intersection of the longitudes with the right side
         double y = min_pcy_ + ((max_pcy_ - min_pcy_) * .8);
-        horizontalLabels(label, min_pcy_, y, VerticalAlign::TOP);
+        horizontalLabels(label, min_pcy_, y, MTOP);
     }
 }
 
@@ -1025,7 +1057,7 @@ void Proj4Projection::verticalLabels(const LabelPlotting& label, double x, doubl
                 Text* text = new Text();
                 label.add(text);
                 text->setJustification(justif);
-                text->setVerticalAlign(VerticalAlign::HALF);
+                text->setVerticalAlign(MHALF);
                 text->setText(writeLongitude(geo));
                 text->push_back(xy);
             }
@@ -1055,7 +1087,7 @@ void Proj4Projection::horizontalLabels(const LabelPlotting& label, double y, dou
                     continue;
                 Text* text = new Text();
                 label.add(text);
-                text->setJustification(Justification::CENTRE);
+                text->setJustification(MCENTRE);
                 text->setVerticalAlign(align);
                 text->setText(writeLongitude(geo));
                 text->push_back(xy);
@@ -1081,15 +1113,15 @@ void Proj4Projection::labels(const LabelPlotting& label, TopAxisVisitor& visitor
             label.add(text);
             text->setText(writeLongitude(point));
             text->push_back(xy);
-            text->setJustification(Justification::CENTRE);
-            text->setVerticalAlign(VerticalAlign::BOTTOM);
+            text->setJustification(MCENTRE);
+            text->setVerticalAlign(MBOTTOM);
             text->setBlanking(true);
         }
     }
     else {
         // we calculate the intersection of the longitudes with the right side
         double y = min_pcy_ + ((max_pcy_ - min_pcy_) * .2);
-        horizontalLabels(label, max_pcy_, y, VerticalAlign::BOTTOM);
+        horizontalLabels(label, max_pcy_, y, MBOTTOM);
     }
 }
 

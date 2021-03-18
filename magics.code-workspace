@@ -2,14 +2,10 @@
 	"folders": [
 		{
 			"path": "."
-		},
-		{
-			"path": "../magics-test"
 		}
 	],
 	"settings": {
 		"files.associations": {
-			"*.make": "makefile",
 			"iosfwd": "cpp",
 			"locale": "cpp",
 			"queue": "cpp",
@@ -96,21 +92,9 @@
 			"memory_resource": "cpp",
 			"ranges": "cpp",
 			"stop_token": "cpp",
-			"cfenv": "cpp",
+			"filesystem": "cpp",
 			"regex": "cpp",
-			"shared_mutex": "cpp",
-			"__functional_03": "cpp",
-			"__memory": "cpp",
-			"filesystem": "cpp"
-		},
-		"cmake.buildDirectory": "${workspaceFolder}/../../build/${workspaceFolderBasename}",
-		"c-cpp-flylint.flexelint.enable": false,
-		"c-cpp-flylint.cppcheck.extraArgs": [
-			"--suppress=noExplicitConstructor",
-			"--suppress=shadowFunction",
-			"--suppress=functionVariable",
-			"--suppress=functionConst",
-			"--suppress=functionStatic"
-		]
+			"shared_mutex": "cpp"
+		}
 	}
 }

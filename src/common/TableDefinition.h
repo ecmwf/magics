@@ -37,16 +37,16 @@ class TableDefinition : public vector<T> {
 public:
     typedef vector<double>::const_iterator TableIterator;
     TableDefinition() {}
-    virtual ~TableDefinition() override {}
-    virtual TableDefinition* clone() const override = 0;
-    virtual void set(const XmlNode&)                = 0;
+    virtual ~TableDefinition() {}
+    virtual TableDefinition* clone() const = 0;
+    virtual void set(const XmlNode&)       = 0;
     virtual void prepare() {}
     virtual void adjust(double, double) {}
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& s) const override { s << "TableDefinition[]"; }
+    virtual void print(ostream&) const {}
 
 private:
     //! Copy constructor - No copy allowed
@@ -67,8 +67,8 @@ template <class T>
 class TableDefinitionInterface {
 public:
     TableDefinitionInterface() : helper_(0) {}
-    virtual void set(const XmlNode& node) override {
-        ASSERT(helper_) override;
+    virtual void set(const XmlNode& node) {
+        ASSERT(helper_);
         helper_->set(node);
     }
     int size() {
@@ -100,7 +100,7 @@ public:
 protected:
     TableDefinition<T>* helper_;
 
-    virtual void print(ostream& out) const override { out << *helper_; }
+    virtual void print(ostream& out) const { out << *helper_; }
 
 
 private:

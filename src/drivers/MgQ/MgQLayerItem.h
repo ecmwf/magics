@@ -19,7 +19,7 @@
 #ifndef _MgQLayerItem_H
 #define _MgQLayerItem_H
 
-#include "Layer.h"
+#include <Layer.h>
 #include "MgQ.h"
 
 using magics::Layer;
@@ -52,7 +52,7 @@ public:
     };
 
     MgQSceneLayerItem(const SceneLayer& sc) : sceneLayer_(sc){};
-    ~MgQSceneLayerItem() override{};
+    ~MgQSceneLayerItem(){};
 
     const SceneLayer& sceneLayer() { return sceneLayer_; };
     void addProjectorItem(MgQLayoutItem* n) { projectorItems_ << n; }
@@ -81,7 +81,7 @@ public:
     };
 
     MgQLayerItem(Layer&, MgQLayoutItem*, int);
-    ~MgQLayerItem() override;
+    ~MgQLayerItem();
 
     QString name() const { return QString::fromStdString(layer_.name()); }
     Layer& layer() { return layer_; };

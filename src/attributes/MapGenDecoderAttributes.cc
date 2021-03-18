@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -28,17 +28,17 @@ MapGenDecoderAttributes::MapGenDecoderAttributes():
 	path_(ParameterManager::getString("mapgen_input_file_name")),
 	record_(ParameterManager::getInt("mapgen_record"))
 	
-	
+	 
 {
-}
+} 
 
 
 MapGenDecoderAttributes::~MapGenDecoderAttributes()
 {
-
+	
 }
 
-
+    
 void MapGenDecoderAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -56,12 +56,12 @@ void MapGenDecoderAttributes::copy(const MapGenDecoderAttributes& other)
 	path_ = other.path_;
 	record_ = other.record_;
 	
-}
+} 
 
 
 bool MapGenDecoderAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "mapgen")  )
 		return true;
 	
@@ -72,7 +72,7 @@ void MapGenDecoderAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "mapgen")  )
@@ -101,7 +101,7 @@ void MapGenDecoderAttributes::print(ostream& out)  const
 
 void MapGenDecoderAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"mapgen\"";
+	out <<  "\"mapgen\""; 
 	out << ", \"mapgen_input_file_name\":";
 	niceprint(out,path_);
 	out << ", \"mapgen_record\":";
@@ -109,5 +109,5 @@ void MapGenDecoderAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> mapgen_input_file_name("mapgen_input_file_name", "");
-static MagicsParameter<int> mapgen_record("mapgen_record", -1);
+static MagicsParameter<string> mapgen_input_file_name("mapgen_input_file_name", "", "");
+static MagicsParameter<int> mapgen_record("mapgen_record", -1, "");

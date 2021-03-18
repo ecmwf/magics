@@ -11,8 +11,8 @@
 #ifndef MagPlus_H
 #define MagPlus_H
 
+#include <magics.h>
 #include "DriverManager.h"
-#include "magics.h"
 
 // undefine the macro ABS because it is defined in mars.h and will be redefined
 // by Terralib (only an big issue on AIX)
@@ -41,7 +41,7 @@ class MultiVisdef;
 class MagPlus : public stack<BasicSceneObject*> {
 public:
     MagPlus();
-    ~MagPlus() override {}
+    ~MagPlus() {}
 
     void execute(MagRequest&);
 

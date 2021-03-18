@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -28,17 +28,17 @@ FixedTableModeAttributes::FixedTableModeAttributes():
 	levels_(ParameterManager::getIntArray("image_level_list")),
 	indexes_(ParameterManager::getIntArray("image_index_list"))
 	
-	
+	 
 {
-}
+} 
 
 
 FixedTableModeAttributes::~FixedTableModeAttributes()
 {
-
+	
 }
 
-
+    
 void FixedTableModeAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -56,12 +56,12 @@ void FixedTableModeAttributes::copy(const FixedTableModeAttributes& other)
 	levels_ = other.levels_;
 	indexes_ = other.indexes_;
 	
-}
+} 
 
 
 bool FixedTableModeAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "")  )
 		return true;
 	
@@ -72,7 +72,7 @@ void FixedTableModeAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "")  )
@@ -101,7 +101,7 @@ void FixedTableModeAttributes::print(ostream& out)  const
 
 void FixedTableModeAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"\"";
+	out <<  "\"\""; 
 	out << ", \"image_level_list\":";
 	niceprint(out,levels_);
 	out << ", \"image_index_list\":";
@@ -109,5 +109,5 @@ void FixedTableModeAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<intarray> image_level_list("image_level_list", intarray());
-static MagicsParameter<intarray> image_index_list("image_index_list", intarray());
+static MagicsParameter<intarray> image_level_list("image_level_list", intarray(), "");
+static MagicsParameter<intarray> image_index_list("image_index_list", intarray(), "");

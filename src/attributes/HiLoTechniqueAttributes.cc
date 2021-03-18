@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -30,17 +30,17 @@ HiLoTechniqueAttributes::HiLoTechniqueAttributes():
 	,
 	hi_colour_(MagTranslator<string, Colour>().magics("contour_hi_colour")),
 	lo_colour_(MagTranslator<string, Colour>().magics("contour_lo_colour"))
-	
+	 
 {
-}
+} 
 
 
 HiLoTechniqueAttributes::~HiLoTechniqueAttributes()
 {
-
+	
 }
 
-
+    
 void HiLoTechniqueAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -63,12 +63,12 @@ void HiLoTechniqueAttributes::copy(const HiLoTechniqueAttributes& other)
 	hi_colour_ = unique_ptr<Colour>(other.hi_colour_->clone());
 	lo_colour_ = unique_ptr<Colour>(other.lo_colour_->clone());
 	
-}
+} 
 
 
 bool HiLoTechniqueAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "hilo")  )
 		return true;
 	
@@ -79,7 +79,7 @@ void HiLoTechniqueAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "hilo")  )
@@ -110,7 +110,7 @@ void HiLoTechniqueAttributes::print(ostream& out)  const
 
 void HiLoTechniqueAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"hilo\"";
+	out <<  "\"hilo\""; 
 	out << ", \"contour_hilo_height\":";
 	niceprint(out,contour_hilo_height_);
 	out << ", \"contour_hilo_format\":";
@@ -122,7 +122,7 @@ void HiLoTechniqueAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> contour_hilo_height("contour_hilo_height", 0.4);
-static MagicsParameter<string> contour_hilo_format("contour_hilo_format", "(automatic)");
-static MagicsParameter<string> contour_hi_colour("contour_hi_colour", "blue");
-static MagicsParameter<string> contour_lo_colour("contour_lo_colour", "blue");
+static MagicsParameter<double> contour_hilo_height("contour_hilo_height", 0.4, "");
+static MagicsParameter<string> contour_hilo_format("contour_hilo_format", "(automatic)", "");
+static MagicsParameter<string> contour_hi_colour("contour_hi_colour", "blue", ""); 
+static MagicsParameter<string> contour_lo_colour("contour_lo_colour", "blue", ""); 

@@ -1,6 +1,6 @@
 [
   {
-    "preferred_units": "degC",
+    "prefered_units": "C",
     "match": [
       {
         "paramId": [
@@ -19,7 +19,7 @@
     ]
   },
   {
-    "preferred_units": "dam",
+    "prefered_units": "dam",
     "match": [
       {
         "paramId": "129"

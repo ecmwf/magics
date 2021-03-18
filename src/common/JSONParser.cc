@@ -21,7 +21,7 @@
 namespace magics {
 
 
-JSONParser::JSONParser(std::istream& in) : ObjectParser(in, false, false) {}
+JSONParser::JSONParser(std::istream& in) : ObjectParser(in, false) {}
 
 Value JSONParser::decodeFile(const std::string& path) {
     std::ifstream in(path.c_str());

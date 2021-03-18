@@ -33,13 +33,13 @@ namespace magics {
 class ImportAction : public ImportActionAttributes, public Data {
 public:
     ImportAction() {}
-    virtual ~ImportAction() override {}
-    void set(const map<string, string>& map) override { ImportActionAttributes::set(map); }
+    virtual ~ImportAction() {}
+    void set(const map<string, string>& map) { ImportActionAttributes::set(map); }
 
 
-    string path() override { return path_; }
+    string path() { return path_; }
 
-    void visit(MetaDataCollector& collector) override {
+    void visit(MetaDataCollector& collector) {
         MetviewIcon::visit(collector);
 
         MetaDataCollector::iterator format = collector.find("MV_Format");
@@ -53,7 +53,7 @@ public:
         }
     }
 
-    void visit(TextVisitor& text) override {
+    void visit(TextVisitor& text) {
         MetaDataCollector collector;
         collector["service_name"]  = "";
         collector["service_title"] = "";
@@ -72,17 +72,15 @@ public:
             text.addAutomaticTitle(service_ + " :" + url_);
         }
     }
-    virtual void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&,
-                                  bool) override {}
+    virtual void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, bool) {}
     //! Method to access the data as a list of points
     // needMissing : if true the list will contain all the points (If they are outside the area: They will be flagged
     // missing)
-    virtual PointsHandler& points(const Transformation&, bool) override { NOTIMP; }
-
+    virtual PointsHandler& points(const Transformation&, bool) { NOTIMP; }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const override {
+    virtual void print(ostream& out) const {
         out << "ImportAction[";
         ImportActionAttributes::print(out);
         out << "]";
@@ -106,16 +104,16 @@ private:
 class ImportLoop : public DataLoop, public vector<Data*> {
 public:
     ImportLoop() {}
-    virtual ~ImportLoop() override {}
-    virtual void set(const map<string, string>&) override {}
-    virtual void set(const XmlNode&) override {}
-    virtual void set(LayerNode&) override {}
+    virtual ~ImportLoop() {}
+    virtual void set(const map<string, string>&) {}
+    virtual void set(const XmlNode&) {}
+    virtual void set(LayerNode&) {}
 
-    virtual void setToFirst() override { current_ = this->begin(); }
-    virtual Data* current() override { return *current_; }
-    virtual bool hasMore() override { return current_ != this->end(); }
-    virtual void next() override { ++current_; }
-    void add(Data* data) override { push_back(data); }
+    virtual void setToFirst() { current_ = this->begin(); }
+    virtual Data* current() { return *current_; }
+    virtual bool hasMore() { return current_ != this->end(); }
+    virtual void next() { ++current_; }
+    void add(Data* data) { push_back(data); }
 
 protected:
     vector<Data*>::iterator current_;

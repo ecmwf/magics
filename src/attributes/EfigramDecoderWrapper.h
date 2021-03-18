@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-
+   
 
 #ifndef EfigramDecoderWrapper_H
 #define EfigramDecoderWrapper_H
@@ -39,15 +39,15 @@
 
 
 
-
+ 
 
 namespace magics {
 
 class MagRequest;
 
 
-
-class EfigramDecoderWrapper
+ 	
+class EfigramDecoderWrapper 
 
 {
 public:
@@ -57,28 +57,28 @@ public:
 //  --  destructor
     virtual ~EfigramDecoderWrapper();
     virtual void set(const MagRequest&);
-
+    
     EfigramDecoder* me()   { return efigramdecoder_; }
-
+   	
    	virtual EfigramDecoder* object() { return efigramdecoder_; }
+	
 
-
-	virtual void object(EfigramDecoder* o) {
+	virtual void object(EfigramDecoder* o) { 
 		// Remember to delete the previous object
 		efigramdecoder_ = o;
 		
 
 	}
-
-
+    
+  
 
 protected:
     EfigramDecoder* efigramdecoder_;
 
 
 //  --  method
-	virtual void print(ostream&) const override;
-
+	virtual void print(ostream&) const;
+	
 
 private:
     string tag_;
@@ -89,3 +89,5 @@ private:
 } // namespace magics
 
 #endif
+
+

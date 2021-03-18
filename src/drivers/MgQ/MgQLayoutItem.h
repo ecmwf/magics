@@ -19,9 +19,9 @@
 #ifndef _MgQLayoutItem_H
 #define _MgQLayoutItem_H
 
+#include <PaperPoint.h>
+#include <magics.h>
 #include "Layout.h"
-#include "PaperPoint.h"
-#include "magics.h"
 
 #include "MgQ.h"
 
@@ -39,8 +39,8 @@ public:
     MgQLayoutItem(const Layout&);
     MgQLayoutItem(const MgQLayoutItem&);
 
-    virtual int type() const override { return Type; }
-    virtual QRectF boundingRect() const override;
+    virtual int type() const { return Type; }
+    virtual QRectF boundingRect() const;
     void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
 
     const Layout& layout() { return layout_; };

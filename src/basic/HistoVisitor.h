@@ -33,15 +33,15 @@ namespace magics {
 class HistoVisitor : public SceneVisitor, public HistoLayout {
 public:
     HistoVisitor();
-    virtual ~HistoVisitor() override;
+    virtual ~HistoVisitor();
     virtual void set(const XmlNode&) {}
     virtual void set(const map<string, string>&) {}
     virtual bool accept(const string&) { return false; }
     virtual void toxml(ostream&, int = 0) const {}
-    virtual HistoVisitor* clone() const override { return new HistoVisitor(); }
-    void visit(BasicGraphicsObjectContainer&) override;
-    void redisplay(const BaseDriver& driver) const override;
-    void visit(BasicSceneObject& object) override;
+    virtual HistoVisitor* clone() const { return new HistoVisitor(); }
+    void visit(BasicGraphicsObjectContainer&);
+    void redisplay(const BaseDriver& driver) const;
+    void visit(BasicSceneObject& object);
     void basic(bool basic) { basic_ = basic; }
     bool basic() const { return basic_; }
     void dataLayoutTransformation(const Transformation* dlt) { dataLayoutTransformation_ = dlt; }
@@ -50,7 +50,7 @@ public:
     const MetviewIcon& dataVisdefIcon() const { return dataVisdefIcon_; }
 
 protected:
-    virtual void print(ostream& s) const override;
+    virtual void print(ostream& s) const;
 
     friend ostream& operator<<(ostream& s, const HistoVisitor& p) {
         p.print(s);

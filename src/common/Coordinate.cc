@@ -24,7 +24,7 @@
 using namespace magics;
 
 Coordinate::Coordinate() {
-    if (automatic() != AxisAutomaticSetting::OFF) {
+    if (automatic()) {
         minmax(std::numeric_limits<double>::max(), -std::numeric_limits<double>::max());
     }
 }

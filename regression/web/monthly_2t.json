@@ -1,0 +1,103 @@
+{
+    "drivers": [
+        {
+            "format": "png", 
+            "fullname": "monthly_2t.png", 
+            "output_cairo_transparent_background": "off", 
+            "output_name_first_page_number": "off", 
+            "output_width": "525"
+        }
+    ], 
+    "height": "120", 
+    "method": "wrep", 
+    "page": {
+        "border": "off", 
+        "height": "100%", 
+        "map": {
+            "border": "on", 
+            "border-colour": "Rgb(0.5, 0.5, 0.5)", 
+            "cartesian": {
+                "x_date": {
+                    "automatic": "on"
+                }, 
+                "y_regular": {
+                    "automatic": "on"
+                }
+            }, 
+            "height": "100%", 
+            "horizontal_axis": {
+                "axis_date_type": "monthly", 
+                "axis_days_label": "both", 
+                "axis_days_label_colour": "Rgb(0.5, 0.5, 0.5)", 
+                "axis_days_label_height": "0.35", 
+                "axis_grid": "on", 
+                "axis_grid_colour": "Rgb(0.5, 0.5, 0.5)", 
+                "axis_grid_line_style": "solid", 
+                "axis_line_colour": "grey", 
+                "axis_minor_tick": "on", 
+                "axis_minor_tick_colour": "grey", 
+                "axis_months_label": "off", 
+                "axis_months_label_colour": "Rgb(0.5, 0.5, 0.5)", 
+                "axis_months_label_height": "0.3", 
+                "axis_tick_colour": "grey", 
+                "axis_type": "date", 
+                "axis_years_label": "off", 
+                "axis_years_label_colour": "Rgb(0.5, 0.5, 0.5)", 
+                "axis_years_label_height": "0.3"
+            }, 
+            "margin_bottom": "20%", 
+            "margin_top": "5%", 
+            "plot": [
+                {
+                    "epsshade": {
+                        "eps_shade_colour": "gold", 
+                        "eps_shade_line_thickness": "4"
+                    }, 
+                    "wrepjson": {
+                        "wrepjson_family": "eps", 
+                        "wrepjson_ignore_keys": "100", 
+                        "wrepjson_input_filename": "monthly_2t.data",
+                        "wrepjson_keyword": "clim", 
+                        "wrepjson_parameter": "167.128", 
+                        "wrepjson_parameter_offset_factor": "0", 
+                        "wrepjson_parameter_scaling_factor": "1"
+                    }
+                }, 
+                {
+                    "epsgraph": {
+                        "box_border_colour": "Rgb(0.5, 0.5, 0.5)", 
+                        "box_border_thickness": "2", 
+                        "box_colour": "gold", 
+                        "eps_box_width": "12"
+                    }, 
+                    "wrepjson": {
+                        "wrepjson_family": "eps", 
+                        "wrepjson_ignore_keys": "100", 
+                        "wrepjson_input_filename": "monthly_2t.data",
+                        "wrepjson_keyword": "eps", 
+                        "wrepjson_parameter": "167.171", 
+                        "wrepjson_parameter_offset_factor": "0", 
+                        "wrepjson_parameter_scaling_factor": "1"
+                    }
+                }
+            ], 
+            "template": "mf_anom.json", 
+            "vertical_axis": {
+                "axis_grid": "on", 
+                "axis_grid_colour": "grey", 
+                "axis_grid_line_style": "dot", 
+                "axis_label_font": "sansserif", 
+                "axis_line": "on", 
+                "axis_line_colour": "grey", 
+                "axis_tick_colour": "charcoal", 
+                "axis_tick_label_colour": "charcoal", 
+                "id": "vaxis"
+            }
+        }, 
+        "meta": {
+        }, 
+        "page_id": "off"
+    }, 
+    "version": "3.0", 
+    "width": "525"
+}

@@ -1,9 +1,0 @@
-magics:
-  mcont:
-    contour_description: Coloured lookup table for satellite image
-    contour_legend_text: Coloured lookup table for satellite image
-    contour_title: Coloured lookup table for satellite image
-    image_colour_direction: anti-clockwise
-    image_max_level_colour: red
-    image_min_level_colour: blue
-

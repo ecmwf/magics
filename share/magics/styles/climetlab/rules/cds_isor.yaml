@@ -1,7 +1,0 @@
-match:
-- paramId: '161'
-  shortName: isor
-- long_name: Anisotropy of sub-gridscale orography
-styles:
-- sh_red_f0t1_10
-

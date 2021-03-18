@@ -56,8 +56,8 @@ public:
 
 class Data : public MetviewIcon {
 public:
-    Data() : dimension_(1), valid_(true), scaled_(false), thinningFactor_(1), name_("no_name"), binning_(0) {}
-    virtual ~Data() override {
+    Data() : dimension_(1), valid_(true), thinningFactor_(1), name_("no_name"), binning_(0) {}
+    virtual ~Data() {
         if (binning_)
             delete binning_;
     }
@@ -119,13 +119,13 @@ public:
     virtual void visit(AnimationRules&) {}
     virtual void visit(AnimationStep&) {}
     virtual void visit(MetaDataVisitor&) {}
-    virtual void visit(Layer& layer) override {
+    virtual void visit(Layer& layer) {
         MetviewIcon::visit(layer);
         layer.name(name());
         layer.validTime(from(), to());
     }
     bool valid() { return valid_; }
-    virtual void visit(MetaDataCollector& collector) override { MetviewIcon::visit(collector); }
+    virtual void visit(MetaDataCollector& collector) { MetviewIcon::visit(collector); }
     virtual void visit(ValuesCollector&) {}
     virtual void visit(DataIndexCollector& dc) { dc.setDataIndex(dataIndex_); }
     virtual void visit(MagnifierCollector& magnifier) {
@@ -138,13 +138,8 @@ public:
             list.advance();
         }
     }
-    virtual void initInfo() override { MetviewIcon::initInfo(); }
+    virtual void initInfo() { MetviewIcon::initInfo(); }
     string legend() { return legend_; }
-
-    virtual std::string getUnits() const;
-    virtual void applyScaling(const std::string& target_units);
-    virtual void applyScaling(double, double);
-    virtual void defaultScaling(double& scaling, double& offset, std::string& dataUnits, std::string& plotUnits);
 
     // Information needed fron layer management!
     virtual string layerId() { return (layerId_.empty()) ? iconName_ + "/ " + iconClass_ : layerId_; }
@@ -166,7 +161,6 @@ protected:
     int dimension_;
     int index_;
     bool valid_;
-    bool scaled_;
     int thinningFactor_;
     static int uniqueOwnerId_;  // Metview usage for overlay control
 
@@ -174,7 +168,7 @@ protected:
     LevelDescription dataLevel_;
 
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const override { out << "Data<P>"; }
+    virtual void print(ostream& out) const { out << "Data<P>"; }
     virtual void computeStats();
 
     AutoVector<PointsHandler> pointsHandlers_;
@@ -211,7 +205,7 @@ private:
 class DataLoop : public MetviewIcon {
 public:
     DataLoop() {}
-    virtual ~DataLoop() override {}
+    virtual ~DataLoop() {}
     virtual void set(const map<string, string>&) {}
     virtual void set(const XmlNode&) {}
     virtual void set(LayerNode&) {}
@@ -224,18 +218,18 @@ public:
     virtual string layerId() { return iconName_ + "/ " + iconClass_; }
     virtual string name() { return iconName_; }
     virtual void visit(Transformation&) {}
-    void visit(Layer& layer) override { MetviewIcon::visit(layer); }
+    void visit(Layer& layer) { MetviewIcon::visit(layer); }
 };
 
 class DataList : public DataLoop {
 public:
     DataList();
-    ~DataList() override;
-    void setToFirst() override;
-    Data* current() override;
-    bool hasMore() override;
-    void next() override;
-    void add(Data*) override;
+    ~DataList();
+    void setToFirst();
+    Data* current();
+    bool hasMore();
+    void next();
+    void add(Data*);
 
 protected:
     vector<Data*>::iterator current_;

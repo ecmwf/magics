@@ -8,35 +8,33 @@
  * does it submit to any jurisdiction.
  */
 
-#include "magics.h"
-
 #include "MagConfig.h"
-#include "MagException.h"
+#include "MagExceptions.h"
 #include "MagLog.h"
-#include "MagParser.h"
 #include "MetaData.h"
+#include "magics_windef.h"
 #include "Value.h"
+#include "JSONParser.h"
 
-
-#if ((defined(_MSVC_LANG) && _MSVC_LANG >= 201703L) || __cplusplus >= 201703L)
-#include <filesystem>
-namespace fs = std::filesystem;
+#ifndef MAGICS_ON_WINDOWS
+#include <dirent.h>
 #else
-#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
-#include <experimental/filesystem>
-namespace fs = std::experimental::filesystem;
+#include <direct.h>
+#include <io.h>
 #endif
 
-
+#include <Tokenizer.h>
 #include <cstring>
-#include "Tokenizer.h"
 
 using namespace magics;
 
 
 MagConfigHandler::MagConfigHandler(const string& config, MagConfig& magics) {
+
+
+
     try {
-        Value value = MagParser::decodeFile(config);
+        Value value = JSONParser::decodeFile(config);
 
         if (value.isList()) {
             ValueList values = value.get_value<ValueList>();
@@ -50,9 +48,6 @@ MagConfigHandler::MagConfigHandler(const string& config, MagConfig& magics) {
         }
     }
     catch (std::exception& e) {
-        if (MagicsSettings::strict()) {
-            throw;
-        }
         MagLog::error() << "JSON error in file: " << config << ": " << e.what() << endl;
     }
 }
@@ -144,7 +139,7 @@ void Style::match(const Value& value) {
 void Style::set(const ValueMap& object) {
     if (methods_.empty()) {
         methods_["match"]          = &Style::criteria;
-        methods_["preferred_units"] = &Style::units;
+        methods_["prefered_units"] = &Style::units;
         methods_["styles"]         = &Style::styles;
         methods_["eccharts_layer"] = &Style::name;
         methods_["visdef"]         = &Style::style;
@@ -186,21 +181,48 @@ void StyleLibrary::init() {
     for (auto token = paths.begin(); token != paths.end(); ++token) {
         string path = magCompare(*token, "ecmwf") ? ecmwf : *token;
 
-        for (auto& p : fs::directory_iterator(path)) {
-            std::string full = p.path().string();
+#ifndef MAGICS_ON_WINDOWS
+        DIR* dir = opendir(path.c_str());
+        if (!dir) {
+            ostringstream error;
+            error << "Trying to open directory " << library << ": " << strerror(errno);
+            throw FailedSystemCall(error.str());
+        }
+        struct dirent* entry = readdir(dir);
+        while (entry) {
+            if (entry->d_name[0] != '.') {
+                current_ = entry->d_name;
+                if (current_ == "styles.json")
+                    allStyles_.init(path, "styles.json");
+                else
+                    MagConfigHandler(path + "/" + current_, *this);
+            }
 
-            if (p.path().extension() == ".json") {
-                try {
-                    if (p.path().filename() == "styles.json")
+
+            entry = readdir(dir);
+        }
+#else
+        struct _finddata_t fileinfo;
+        intptr_t handle = _findfirst((path + "/*").c_str(), &fileinfo);
+        if (handle == -1) {
+            ostringstream error;
+            error << "Trying to open directory " << library << ": " << strerror(errno);
+            throw FailedSystemCall(error.str());
+        }
+        else {
+            do {
+                if (fileinfo.name[0] != '.') {
+                    current_ = fileinfo.name;
+                    if (current_ == "styles.json")
                         allStyles_.init(path, "styles.json");
                     else
-                        MagConfigHandler(full, *this);
+                        MagConfigHandler(path + "/" + current_, *this);
                 }
-                catch (std::exception& e) {
-                    MagLog::error() << "Error processing " << full << ": " << e.what() << ", ignored." << std::endl;
-                }
-            }
+            } while (!_findnext(handle, &fileinfo));
+
+            _findclose(handle);
         }
+#endif
     }
 }
 
@@ -235,7 +257,7 @@ void Palette::set(const ValueMap& object) {
 }
 void PaletteLibrary::callback(const string& name, const Value& value) {
     Palette palette;
-    palette.name_   = name;
+    palette.name_              = name;
     ValueMap object = value.get_value<ValueMap>();
     palette.set(object);
     library_.insert(make_pair(name, palette));
@@ -381,11 +403,9 @@ bool StyleLibrary::findStyle(const MetaDataCollector& data, MagDef& visdef, Styl
     if (score) {
         info.set(beststyle.styles_.front(), beststyle.styles_);
         allStyles_.find(info.default_, visdef);
-        if (visdef.find("preferred_units") == visdef.end())
-            if (beststyle.preferedUnits_.size()) {
-                // visdef.insert(make_pair("preferred_units", beststyle.preferedUnits_));
-                visdef.insert(make_pair("contour_units", beststyle.preferedUnits_));
-            }
+        if (visdef.find("prefered_units") == visdef.end())
+            if (beststyle.preferedUnits_.size())
+                visdef.insert(make_pair("prefered_units", beststyle.preferedUnits_));
         return true;
     }
 
@@ -432,8 +452,10 @@ void NetcdfGuess::callback(const string& name, const Value& value) {
 }
 
 void DimensionGuess::init() {
+
     try {
-        Value value = MagParser::decodeFile(definitions_);
+
+        Value value = JSONParser::decodeString(definitions_);
 
         ValueMap object = value.get_value<ValueMap>();
 
@@ -449,10 +471,7 @@ void DimensionGuess::init() {
         }
     }
     catch (std::exception& e) {
-        if (MagicsSettings::strict()) {
-            throw;
-        }
-        MagLog::error() << "JSON error in" << definitions_ << ": " << e.what() << endl;
+        MagLog::error() << "JSON error in " << definitions_ << ": " << e.what() << endl;
     }
 }
 
@@ -481,7 +500,7 @@ void MagDef::set(const ValueMap& object) {
 
 void MagDefLibrary::callback(const string& name, const Value& value) {
     MagDef def;
-    def.name_       = name;
+    def.name_                  = name;
     ValueMap object = value.get_value<ValueMap>();
     def.set(object);
 

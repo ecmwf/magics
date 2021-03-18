@@ -16,18 +16,18 @@
 
 */
 
-#include "GeoRectangularProjection.h"
+#include <GeoRectangularProjection.h>
 
-#include "Polyline.h"
-#include "Text.h"
+#include <Polyline.h>
+#include <Text.h>
 
-#include "GridPlotting.h"
-#include "LabelPlotting.h"
+#include <GridPlotting.h>
+#include <LabelPlotting.h>
+#include <MatrixHandler.h>
+#include <SceneVisitor.h>
+#include <UserPoint.h>
 #include "MagJSon.h"
-#include "MatrixHandler.h"
 #include "ParameterSettings.h"
-#include "SceneVisitor.h"
-#include "UserPoint.h"
 
 using namespace magics;
 
@@ -241,8 +241,8 @@ void GeoRectangularProjection::labels(const LabelPlotting& label, TopAxisVisitor
             text = new Text();
             label.add(text);
             text->setText(writeLongitude(point));
-            text->setJustification(Justification::CENTRE);
-            text->setVerticalAlign(VerticalAlign::BOTTOM);
+            text->setJustification(MCENTRE);
+            text->setVerticalAlign(MBOTTOM);
             text->push_back((*this)(point));
         }
     }
@@ -264,8 +264,8 @@ void GeoRectangularProjection::labels(const LabelPlotting& label, BottomAxisVisi
             text = new Text();
             label.add(text);
             text->setText(writeLongitude(point));
-            text->setJustification(Justification::CENTRE);
-            text->setVerticalAlign(VerticalAlign::TOP);
+            text->setJustification(MCENTRE);
+            text->setVerticalAlign(MTOP);
             text->push_back((*this)(point));
         }
     }
@@ -287,8 +287,8 @@ void GeoRectangularProjection::labels(const LabelPlotting& label, LeftAxisVisito
             text = new Text();
             label.add(text);
             text->setText(writeLatitude(point));
-            text->setJustification(Justification::RIGHT);
-            text->setVerticalAlign(VerticalAlign::HALF);
+            text->setJustification(MRIGHT);
+            text->setVerticalAlign(MHALF);
             text->push_back((*this)(point));
         }
     }
@@ -312,8 +312,8 @@ void GeoRectangularProjection::labels(const LabelPlotting& label, RightAxisVisit
             text = new Text();
             label.add(text);
             text->setText(writeLatitude(point));
-            text->setJustification(Justification::LEFT);
-            text->setVerticalAlign(VerticalAlign::HALF);
+            text->setJustification(MLEFT);
+            text->setVerticalAlign(MHALF);
             text->push_back((*this)(point));
         }
     }

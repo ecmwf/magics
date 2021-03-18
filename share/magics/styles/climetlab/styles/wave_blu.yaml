@@ -1,8 +1,0 @@
-magics:
-  mcont:
-    contour_description: 'Method: Wind wave arrows Colour: Blue Used for wind waves'
-    contour_title: Wind wave arrows (blue)
-    legend: false
-    wind_arrow_calm_below: 0
-    wind_legend_text: Blue wind wave arrows
-

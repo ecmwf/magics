@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "msl",
-    "preferred_units": "hPa",
+    "prefered_units": "hPa",
     "styles": [
       "ct_blk_i5_t2",
       "ct_blk_i5_t1",

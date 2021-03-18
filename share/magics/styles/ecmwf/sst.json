@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "sst",
-    "preferred_units": "degC",
+    "prefered_units": "C",
     "styles": [
       "sh_sst_fM2t36i2",
       "sh_sst_fM5t45",

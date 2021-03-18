@@ -34,24 +34,24 @@ namespace magics {
 class HatchPolyShadingMethod : public PolyShadingMethod, public HatchPolyShadingMethodAttributes {
 public:
     HatchPolyShadingMethod() {}
-    virtual ~HatchPolyShadingMethod() override {}
+    virtual ~HatchPolyShadingMethod() {}
 
 
-    virtual void set(const map<string, string>& map) override { HatchPolyShadingMethodAttributes::set(map); }
-    virtual void set(const XmlNode& node) override { HatchPolyShadingMethodAttributes::set(node); }
-    virtual bool accept(const string& node) override { return HatchPolyShadingMethodAttributes::accept(node); }
-    virtual PolyShadingMethod* clone() const override {
+    virtual void set(const map<string, string>& map) { HatchPolyShadingMethodAttributes::set(map); }
+    virtual void set(const XmlNode& node) { HatchPolyShadingMethodAttributes::set(node); }
+    virtual bool accept(const string& node) { return HatchPolyShadingMethodAttributes::accept(node); }
+    virtual PolyShadingMethod* clone() const {
         HatchPolyShadingMethod* object = new HatchPolyShadingMethod();
         object->copy(*this);
         return object;
     }
 
-    virtual void prepare(LevelSelection& levels, const ColourTechnique&) override;
-    virtual void operator()(Polyline& poly) const override;
+    virtual void prepare(LevelSelection& levels, const ColourTechnique&);
+    virtual void operator()(Polyline& poly) const;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& s) const override { s << "HatchPolyShadingMethod[]"; }
+    virtual void print(ostream&) const {}
     vector<int> hatches_;
 
 private:

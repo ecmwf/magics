@@ -29,8 +29,8 @@ namespace magics {
 class AutomaticPlotManager : public PlotManager, public AutomaticPlotManagerAttributes {
 public:
     AutomaticPlotManager();
-    virtual ~AutomaticPlotManager() override;
-    virtual void set(const map<string, string>& map) override { AutomaticPlotManagerAttributes::set(map); }
+    virtual ~AutomaticPlotManager();
+    virtual void set(const map<string, string>& map) { AutomaticPlotManagerAttributes::set(map); }
 
     void page(MagicsManager&);
     void subpage(MagicsManager&);
@@ -54,7 +54,7 @@ protected:
         HORIZONTAL
     };
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     double x_;
     double y_;
     double pageX_;

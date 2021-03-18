@@ -1,0 +1,268 @@
+{
+    "efi": {
+        "84": {
+            "143.128": {
+                "efi": [
+                    0.574346125126, 
+                    0.265192687511, 
+                    -0.073814034462, 
+                    -0.0596466064453, 
+                    -0.127029061317
+                ], 
+                "steps": [
+                    "36", 
+                    "60", 
+                    "84", 
+                    "108", 
+                    "132"
+                ]
+            }, 
+            "date": "20150620", 
+            "deterministic_height": 0.735702514648, 
+            "distance": {
+                "angle": 252.997034443, 
+                "direction": "west", 
+                "distance": 8, 
+                "distance_unit": "km"
+            }, 
+            "eps_height": -0.13525390625, 
+            "height": -9999, 
+            "land_sea_mask": 0.0, 
+            "location": {
+                "lat": 56.4429512024, 
+                "lon": 3.83999991417
+            }, 
+            "metadata": {
+                "date": "20150620", 
+                "db": "efi", 
+                "deterministic_height": 0.735702514648, 
+                "deterministic_resolution": null, 
+                "distance": {
+                    "angle": 252.997034443, 
+                    "direction": "west", 
+                    "distance": 8, 
+                    "distance_unit": "km"
+                }, 
+                "eps_height": -0.13525390625, 
+                "eps_resolution": null, 
+                "height": "", 
+                "land_sea_mask": 0.0, 
+                "location": {
+                    "lat": 56.4429512024, 
+                    "lon": 3.83999991417
+                }, 
+                "points_along_meridian": 320, 
+                "requested_location": {
+                    "lat": 56.4660829318, 
+                    "lon": 3.97640796579
+                }, 
+                "temperature_adjustment": null, 
+                "temperature_correction": false, 
+                "time": "1200", 
+                "valid_time": "201506240000", 
+                "wave_resolution": null
+            }, 
+            "points_along_meridian": 320, 
+            "station_name": "", 
+            "time": "1200"
+        }, 
+        "96": {
+            "143.128": {
+                "efi": [
+                    -0.337638556957, 
+                    0.406100809574, 
+                    0.141971468925, 
+                    -0.0677217841148, 
+                    -0.124444842339
+                ], 
+                "steps": [
+                    "24", 
+                    "48", 
+                    "72", 
+                    "96", 
+                    "120"
+                ]
+            }, 
+            "date": "20150620", 
+            "deterministic_height": 0.735702514648, 
+            "distance": {
+                "angle": 252.997034443, 
+                "direction": "west", 
+                "distance": 8, 
+                "distance_unit": "km"
+            }, 
+            "eps_height": -0.13525390625, 
+            "height": -9999, 
+            "land_sea_mask": 0.0, 
+            "location": {
+                "lat": 56.4429512024, 
+                "lon": 3.83999991417
+            }, 
+            "metadata": {
+                "date": "20150620", 
+                "db": "efi", 
+                "deterministic_height": 0.735702514648, 
+                "deterministic_resolution": null, 
+                "distance": {
+                    "angle": 252.997034443, 
+                    "direction": "west", 
+                    "distance": 8, 
+                    "distance_unit": "km"
+                }, 
+                "eps_height": -0.13525390625, 
+                "eps_resolution": null, 
+                "height": "", 
+                "land_sea_mask": 0.0, 
+                "location": {
+                    "lat": 56.4429512024, 
+                    "lon": 3.83999991417
+                }, 
+                "points_along_meridian": 320, 
+                "requested_location": {
+                    "lat": 56.4660829318, 
+                    "lon": 3.97640796579
+                }, 
+                "temperature_adjustment": null, 
+                "temperature_correction": false, 
+                "time": "0000", 
+                "valid_time": "201506240000", 
+                "wave_resolution": null
+            }, 
+            "points_along_meridian": 320, 
+            "station_name": "", 
+            "time": "0000"
+        }, 
+        "108": {
+            "143.128": {
+                "efi": [
+                    -0.307542324066, 
+                    0.419442772865, 
+                    0.14128690958, 
+                    -0.0688765645027, 
+                    -0.135574519634
+                ], 
+                "steps": [
+                    "36", 
+                    "60", 
+                    "84", 
+                    "108", 
+                    "132"
+                ]
+            }, 
+            "date": "20150619", 
+            "deterministic_height": 0.735702514648, 
+            "distance": {
+                "angle": 252.997034443, 
+                "direction": "west", 
+                "distance": 8, 
+                "distance_unit": "km"
+            }, 
+            "eps_height": -0.13525390625, 
+            "height": -9999, 
+            "land_sea_mask": 0.0, 
+            "location": {
+                "lat": 56.4429512024, 
+                "lon": 3.83999991417
+            }, 
+            "metadata": {
+                "date": "20150619", 
+                "db": "efi", 
+                "deterministic_height": 0.735702514648, 
+                "deterministic_resolution": null, 
+                "distance": {
+                    "angle": 252.997034443, 
+                    "direction": "west", 
+                    "distance": 8, 
+                    "distance_unit": "km"
+                }, 
+                "eps_height": -0.13525390625, 
+                "eps_resolution": null, 
+                "height": "", 
+                "land_sea_mask": 0.0, 
+                "location": {
+                    "lat": 56.4429512024, 
+                    "lon": 3.83999991417
+                }, 
+                "points_along_meridian": 320, 
+                "requested_location": {
+                    "lat": 56.4660829318, 
+                    "lon": 3.97640796579
+                }, 
+                "temperature_adjustment": null, 
+                "temperature_correction": false, 
+                "time": "1200", 
+                "valid_time": "201506240000", 
+                "wave_resolution": null
+            }, 
+            "points_along_meridian": 320, 
+            "station_name": "", 
+            "time": "1200"
+        }, 
+        "120": {
+            "143.128": {
+                "efi": [
+                    -0.194570958614, 
+                    -0.266760289669, 
+                    0.32838845253, 
+                    0.194837808609, 
+                    -0.0920380353928
+                ], 
+                "steps": [
+                    "24", 
+                    "48", 
+                    "72", 
+                    "96", 
+                    "120"
+                ]
+            }, 
+            "date": "20150619", 
+            "deterministic_height": 0.735702514648, 
+            "distance": {
+                "angle": 252.997034443, 
+                "direction": "west", 
+                "distance": 8, 
+                "distance_unit": "km"
+            }, 
+            "eps_height": -0.13525390625, 
+            "height": -9999, 
+            "land_sea_mask": 0.0, 
+            "location": {
+                "lat": 56.4429512024, 
+                "lon": 3.83999991417
+            }, 
+            "metadata": {
+                "date": "20150619", 
+                "db": "efi", 
+                "deterministic_height": 0.735702514648, 
+                "deterministic_resolution": null, 
+                "distance": {
+                    "angle": 252.997034443, 
+                    "direction": "west", 
+                    "distance": 8, 
+                    "distance_unit": "km"
+                }, 
+                "eps_height": -0.13525390625, 
+                "eps_resolution": null, 
+                "height": "", 
+                "land_sea_mask": 0.0, 
+                "location": {
+                    "lat": 56.4429512024, 
+                    "lon": 3.83999991417
+                }, 
+                "points_along_meridian": 320, 
+                "requested_location": {
+                    "lat": 56.4660829318, 
+                    "lon": 3.97640796579
+                }, 
+                "temperature_adjustment": null, 
+                "temperature_correction": false, 
+                "time": "0000", 
+                "valid_time": "201506240000", 
+                "wave_resolution": null
+            }, 
+            "points_along_meridian": 320, 
+            "station_name": "", 
+            "time": "0000"
+        }
+    }
+}

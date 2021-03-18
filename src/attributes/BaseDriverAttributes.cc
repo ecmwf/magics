@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -26,7 +26,6 @@ using namespace magics;
 
 BaseDriverAttributes::BaseDriverAttributes():
 	title_(ParameterManager::getString("output_title")),
-	file_(ParameterManager::getString("output_file")),
 	name_(ParameterManager::getString("output_name")),
 	firstnumber_(ParameterManager::getBool("output_name_first_page_number")),
 	firstvalue_(ParameterManager::getInt("output_name_first_page_number_value")),
@@ -43,17 +42,17 @@ BaseDriverAttributes::BaseDriverAttributes():
 	filelist_reset_(ParameterManager::getBool("output_filelist_reset")),
 	frame_list_(ParameterManager::getIntArray("output_frame_list"))
 	
-	
+	 
 {
-}
+} 
 
 
 BaseDriverAttributes::~BaseDriverAttributes()
 {
-
+	
 }
 
-
+    
 void BaseDriverAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -61,7 +60,6 @@ void BaseDriverAttributes::set(const std::map<string, string>& params)
 	prefix[i++] = "output";
 	
 	setAttribute(prefix, "output_title", title_, params);
-	setAttribute(prefix, "output_file", file_, params);
 	setAttribute(prefix, "output_name", name_, params);
 	setAttribute(prefix, "output_name_first_page_number", firstnumber_, params);
 	setAttribute(prefix, "output_name_first_page_number_value", firstvalue_, params);
@@ -84,7 +82,6 @@ void BaseDriverAttributes::set(const std::map<string, string>& params)
 void BaseDriverAttributes::copy(const BaseDriverAttributes& other)
 {
 	title_ = other.title_;
-	file_ = other.file_;
 	name_ = other.name_;
 	firstnumber_ = other.firstnumber_;
 	firstvalue_ = other.firstvalue_;
@@ -101,12 +98,12 @@ void BaseDriverAttributes::copy(const BaseDriverAttributes& other)
 	filelist_reset_ = other.filelist_reset_;
 	frame_list_ = other.frame_list_;
 	
-}
+} 
 
 
 bool BaseDriverAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "driver")  )
 		return true;
 	
@@ -117,7 +114,7 @@ void BaseDriverAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "driver")  )
@@ -139,7 +136,6 @@ void BaseDriverAttributes::print(ostream& out)  const
 {
 	out << "Attributes[";
 	out << " title = " <<  title_;
-	out << " file = " <<  file_;
 	out << " name = " <<  name_;
 	out << " firstnumber = " <<  firstnumber_;
 	out << " firstvalue = " <<  firstvalue_;
@@ -161,11 +157,9 @@ void BaseDriverAttributes::print(ostream& out)  const
 
 void BaseDriverAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"driver\"";
+	out <<  "\"driver\""; 
 	out << ", \"output_title\":";
 	niceprint(out,title_);
-	out << ", \"output_file\":";
-	niceprint(out,file_);
 	out << ", \"output_name\":";
 	niceprint(out,name_);
 	out << ", \"output_name_first_page_number\":";
@@ -199,20 +193,19 @@ void BaseDriverAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> output_title("output_title", "Magics plot");
-static MagicsParameter<string> output_file("output_file", "");
-static MagicsParameter<string> output_name("output_name", "");
-static MagicsParameter<string> output_name_first_page_number("output_name_first_page_number", "on");
-static MagicsParameter<int> output_name_first_page_number_value("output_name_first_page_number_value", 1);
-static MagicsParameter<string> output_fullname("output_fullname", "");
-static MagicsParameter<string> output_legacy_name("output_legacy_name", "");
-static MagicsParameter<int> output_file_minimal_width("output_file_minimal_width", 1);
-static MagicsParameter<string> output_file_separator("output_file_separator", ".");
-static MagicsParameter<string> output_creator("output_creator", "");
-static MagicsParameter<string> output_mgb_template("output_mgb_template", "");
-static MagicsParameter<string> output_debug("output_debug", "off");
-static MagicsParameter<int> output_width("output_width", 800);
-static MagicsParameter<string> output_filelist("output_filelist", "off");
-static MagicsParameter<string> output_filelist_name("output_filelist_name", "magics_outputs.lst");
-static MagicsParameter<string> output_filelist_reset("output_filelist_reset", "off");
-static MagicsParameter<intarray> output_frame_list("output_frame_list", intarray());
+static MagicsParameter<string> output_title("output_title", "Magics plot", "");
+static MagicsParameter<string> output_name("output_name", "", "");
+static MagicsParameter<string> output_name_first_page_number("output_name_first_page_number", "on", "");
+static MagicsParameter<int> output_name_first_page_number_value("output_name_first_page_number_value", 1, "");
+static MagicsParameter<string> output_fullname("output_fullname", "", "");
+static MagicsParameter<string> output_legacy_name("output_legacy_name", "", "");
+static MagicsParameter<int> output_file_minimal_width("output_file_minimal_width", 1, "");
+static MagicsParameter<string> output_file_separator("output_file_separator", ".", "");
+static MagicsParameter<string> output_creator("output_creator", "", "");
+static MagicsParameter<string> output_mgb_template("output_mgb_template", "", "");
+static MagicsParameter<string> output_debug("output_debug", "off", "");
+static MagicsParameter<int> output_width("output_width", 800, "");
+static MagicsParameter<string> output_filelist("output_filelist", "off", "");
+static MagicsParameter<string> output_filelist_name("output_filelist_name", "magics_outputs.lst", "");
+static MagicsParameter<string> output_filelist_reset("output_filelist_reset", "off", "");
+static MagicsParameter<intarray> output_frame_list("output_frame_list", intarray(), "");

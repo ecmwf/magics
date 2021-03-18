@@ -60,7 +60,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const { out << "OriginMarker[]"; }
+    virtual void print(ostream& out) const { out << "OriginMarker"; }
 
     string marker_;
     double height_;
@@ -83,14 +83,14 @@ private:
 class NoOriginMarker : public OriginMarker {
 public:
     NoOriginMarker() {}
-    ~NoOriginMarker() override {}
-    virtual OriginMarker* clone() override { return new NoOriginMarker(); }
-    virtual void prepare(ArrowProperties& object) override { object.setOriginHeight(0); }
+    ~NoOriginMarker() {}
+    virtual OriginMarker* clone() { return new NoOriginMarker(); }
+    virtual void prepare(ArrowProperties& object) { object.setOriginHeight(0); }
 
 
     void operator()(const PaperPoint&) {}
-    virtual bool accept(const string& node) override { return magCompare(node, "nomarker"); }
-    double height() override { return 0.; }
+    virtual bool accept(const string& node) { return magCompare(node, "nomarker"); }
+    double height() { return 0.; }
 };
 
 
@@ -100,14 +100,14 @@ public:
         this->marker_ = "magics_1";
         this->height_ = 0.3;
     }
-    virtual OriginMarker* clone() override {
+    virtual OriginMarker* clone() {
         OriginMarker* object = new CircleOriginMarker();
         object->set(*this);
         return object;
     }
-    virtual bool accept(const string& node) override { return magCompare(node, "circlemarker"); }
+    virtual bool accept(const string& node) { return magCompare(node, "circlemarker"); }
 
-    ~CircleOriginMarker() override {}
+    ~CircleOriginMarker() {}
 };
 
 
@@ -117,13 +117,13 @@ public:
         this->marker_ = "magics_15";
         this->height_ = 0.1;
     }
-    virtual OriginMarker* clone() override {
+    virtual OriginMarker* clone() {
         OriginMarker* object = new DotOriginMarker();
         object->set(*this);
         return object;
     }
-    ~DotOriginMarker() override {}
-    virtual bool accept(const string& node) override { return magCompare(node, "dotmarker"); }
+    ~DotOriginMarker() {}
+    virtual bool accept(const string& node) { return magCompare(node, "dotmarker"); }
 };
 
 template <>

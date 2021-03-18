@@ -20,6 +20,7 @@
 
 
 #include "IsoPlot.h"
+#include "AutoLock.h"
 #include "Colour.h"
 #include "Factory.h"
 #include "Histogram.h"
@@ -27,16 +28,15 @@
 #include "LegendVisitor.h"
 #include "MagClipper.h"
 #include "MatrixHandler.h"
+#include "ThreadControler.h"
 #include "Timer.h"
 #include "UserPoint.h"
 
-#include <thread>
 
 namespace magics {
 
 
-static std::mutex producer_mutex_;
-static std::condition_variable producer_cond_;
+static MutexCond producerMutex_;
 
 IsoPlot::IsoPlot() {
     setTag("isoline");
@@ -68,7 +68,12 @@ public:
 
     CellBox() : parent_(0), row1_(0), row2_(0), column1_(0), column2_(0) {}
 
-    ~CellBox() {}
+    ~CellBox() {
+        for (map<int, SegmentJoiner*>::iterator index = helper_.begin(); index != helper_.end(); ++index) 
+            if ( index->second )
+                delete index->second;
+
+    }
 
     double value() { return (*parent_)(row1_, column1_)->value(0); }
 
@@ -166,46 +171,42 @@ public:
                 previous.push_back(PaperPoint(pt->x_, pt->y_));
             }
 
+            if (helper != helper_.end()) {
+                delete helper_[index];
+            }
             helper_[index] = new SegmentJoiner();
+
+            
 
 
             std::vector<Polyline*> output;
 
             clipper.clip(previous, pts, output);
 
-            /*
-                        if (output.size() == 1) {
-                            vector<PaperPoint> tmp;
-                            for ( auto pt = output.front()->begin();  pt != output.front()->end(); ++pt ) {
-                                    tmp.push_back(*pt);
-                                }
-
-                                push_back(index, tmp);
-
-
-                        }
-
-                        else
-                        {
-                            */
             MagClipper::add(pts, previous, output);
 
-
+            
             if (output.size() == 1) {
                 vector<PaperPoint> tmp;
                 for (auto pt = output.front()->begin(); pt != output.front()->end(); ++pt) {
                     tmp.push_back(*pt);
                 }
+                
+                
                 push_back(index, tmp);
             }
             else {
+
                 vector<PaperPoint> tmp;
                 for (auto pt = previous.begin(); pt != previous.end(); ++pt) {
                     tmp.push_back(*pt);
                 }
                 push_back(index, tmp);
             }
-            //}
+
+            for (auto p = output.begin(); p != output.end(); ++p )
+                delete *p;
+           
         }
     }
 
@@ -335,6 +336,8 @@ public:
                 continue;
             bool reverse = joiner.isHole(result.front());
 
+            // reverse = false;
+
             for (vector<vector<Point> >::iterator j = result.begin(); j != result.end(); ++j) {
                 if (reverse) {
                     if (!joiner.isHole((*j))) {
@@ -356,6 +359,8 @@ public:
                         std::swap((*j), polys.back());
                     }
                 }
+                
+
             }
 
             for (vector<vector<Point> >::iterator j = polys.begin(); j != polys.end(); ++j) {
@@ -384,6 +389,7 @@ public:
                 }
             }
             delete index->second;
+            index->second = 0;
         }
     }
 
@@ -506,13 +512,11 @@ public:
     IsoPlot& parent_;
     CellBox& cell_;
     bool more_;
-
-    std::mutex mutex_;
-    std::condition_variable cond_;
+    MutexCond cond_;
 };
 
 
-class IsoProducer {
+class IsoProducer : public Thread {
 public:
     IsoProducer(int n, IsoProducerData& data) : n_(n), objects_(data) {}
     void run() {
@@ -1129,15 +1133,15 @@ void IsoPlot::isoline(Cell& cell, CellBox* parent) const {
                     // We send it to a thread!
                     const int t = (*l) % threads_;
                     {
-                        std::unique_lock<std::mutex> lockproducer(producer_mutex_);
+                        AutoLock<MutexCond> lockproducer(producerMutex_);
                         {
-                            std::unique_lock<std::mutex> lock(segments_[t]->mutex_);
+                            AutoLock<MutexCond> lock(segments_[t]->cond_);
                             segments_[t]->segments_.push_back(
                                 make_pair(levels_[*l], std::make_pair(make_pair(x1, y1), std::make_pair(x2, y2))));
                             if (segments_[t]->segments_.size() >= 2000)
-                                segments_[t]->cond_.notify_one();
+                                segments_[t]->cond_.signal();
                         }
-                        producer_cond_.notify_one();
+                        producerMutex_.signal();
                     }
                 }
 
@@ -1149,10 +1153,10 @@ void IsoPlot::isoline(Cell& cell, CellBox* parent) const {
 
             }  // end of levels...
 
-            if (box) {
-                box->reshape(parent);
-                delete box;
-            }
+
+            box->reshape(parent);
+            delete box;
+
 
         }  // step to next triangle
     }
@@ -1169,15 +1173,6 @@ inline bool getEnv(const string& name, bool def) {
     return def;
 }
 
-template <class T>
-void run(T* p, std::exception_ptr* eptr) {
-    try {
-        p->run();
-    }
-    catch (...) {
-        *eptr = current_exception();
-    }
-}
 
 void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent) {
     const Transformation& transformation = parent.transformation();
@@ -1251,27 +1246,25 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
             threads_ = 4;
     }
 
+
     vector<IsoHelper*> consumers_;
     vector<IsoProducer*> producers_;
 
     {
         Timer timer("Threading", "Threading");
-
-        std::vector<std::exception_ptr> exceptions(threads_ + view.size(), nullptr);
-        AutoVector<std::thread> consumers;
-        AutoVector<std::thread> producers;
+        AutoVector<ThreadControler> consumers;
+        AutoVector<ThreadControler> producers;
         segments_.clear();
         colourShapes_.clear();
         lines_.clear();
-
-        int e = 0;
 
         for (int c = 0; c < threads_; c++) {
             vector<Polyline*>* lines = new vector<Polyline*>();
             lines_.push_back(lines);
             segments_.push_back(new IsoData());
             consumers_.push_back(new IsoHelper(c, *lines, *(segments_.back())));
-            consumers.push_back(new std::thread(run<IsoHelper>, consumers_.back(), &exceptions[e++]));
+            consumers.push_back(new ThreadControler(consumers_.back(), false));
+            consumers.back()->start();
         }
 
         view.split(threads_);
@@ -1280,39 +1273,29 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
         int c = 0;
         AutoVector<IsoProducerData> datas;
         for (int i = 0; i < view.size(); i++)
-        // int i = 1;
         {
             IsoProducerData* data = new IsoProducerData(shading_->shadingMode(), *this, *(view[i]));
             datas.push_back(data);
             producers_.push_back(new IsoProducer(c, *data));
-            exceptions.push_back(nullptr);
-            producers.push_back(new std::thread(run<IsoProducer>, producers_.back(), &exceptions[e++]));
+            producers.push_back(new ThreadControler(producers_.back(), false));
+            producers.back()->start();
             c++;
         }
 
-        for (auto& producer : producers) {
-            producer->join();
-        }
+        for (auto& producer : producers)
+            producer->wait();
 
         // No more
         {
             for (int i = 0; i < threads_; i++) {
-                std::unique_lock<std::mutex> lock(segments_[i]->mutex_);
+                AutoLock<MutexCond> lock(segments_[i]->cond_);
                 segments_[i]->more_ = false;
-                segments_[i]->cond_.notify_one();
+                segments_[i]->cond_.signal();
             }
         }
 
-        for (auto& consumer : consumers) {
-            consumer->join();
-        }
-
-        // Check for exceptions
-        for (int i = 0; i < exceptions.size(); i++) {
-            if (exceptions[i]) {
-                rethrow_exception(exceptions[i]);
-            }
-        }
+        for (auto& consumer : consumers)
+            consumer->wait();
     }
 
 
@@ -1451,13 +1434,13 @@ void IsoPlot::visit(Data& data, LegendVisitor& legend) {
     if (magCompare(legend_special_, "spaghetti")) {
         Polyline* blue = new Polyline();
         blue->setColour(Colour("blue"));
-        blue->setLineStyle(LineStyle::DASH);
+        blue->setLineStyle(M_DASH);
         Polyline* red = new Polyline();
         red->setColour(Colour("red"));
-        red->setLineStyle(LineStyle::DASH);
+        red->setLineStyle(M_DASH);
         Polyline* grey = new Polyline();
         grey->setColour(Colour("grey"));
-        grey->setLineStyle(LineStyle::SOLID);
+        grey->setLineStyle(M_SOLID);
         legend.add(new DoubleLineEntry("Det", blue, 0));
         legend.add(new DoubleLineEntry("Control", red, 0));
         legend.add(new DoubleLineEntry("EPS members", grey, 0));
@@ -1841,14 +1824,14 @@ void IsoPlot::setThicknessAndStyle() {
         line_style_list_.insert(make_pair(*level, *style));
         ++thickness;
         if (thickness == rainbowThicknessList_.end()) {
-            if (rainbowThicknessListPolicy_ == ListPolicy::LASTONE)
+            if (rainbowThicknessListPolicy_ == M_LASTONE)
                 --thickness;
             else
                 thickness = rainbowThicknessList_.begin();
         }
         ++style;
         if (style == styles.end()) {
-            if (rainbowStyleListPolicy_ == ListPolicy::LASTONE)
+            if (rainbowStyleListPolicy_ == M_LASTONE)
                 --style;
             else
                 style = styles.begin();

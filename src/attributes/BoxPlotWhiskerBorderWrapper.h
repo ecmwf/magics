@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-
+   
 
 #ifndef BoxPlotWhiskerBorderWrapper_H
 #define BoxPlotWhiskerBorderWrapper_H
@@ -39,15 +39,15 @@
 
 
 
-
+ 
 
 namespace magics {
 
 class MagRequest;
 
 
-
-class BoxPlotWhiskerBorderWrapper
+ 	
+class BoxPlotWhiskerBorderWrapper 
 
 {
 public:
@@ -57,28 +57,28 @@ public:
 //  --  destructor
     virtual ~BoxPlotWhiskerBorderWrapper();
     virtual void set(const MagRequest&);
-
+    
     BoxPlotWhiskerBorder* me()   { return boxplotwhiskerborder_; }
-
+   	
    	virtual BoxPlotWhiskerBorder* object() { return boxplotwhiskerborder_; }
+	
 
-
-	virtual void object(BoxPlotWhiskerBorder* o) {
+	virtual void object(BoxPlotWhiskerBorder* o) { 
 		// Remember to delete the previous object
 		boxplotwhiskerborder_ = o;
 		
 
 	}
-
-
+    
+  
 
 protected:
     BoxPlotWhiskerBorder* boxplotwhiskerborder_;
 
 
 //  --  method
-	virtual void print(ostream&) const override;
-
+	virtual void print(ostream&) const;
+	
 
 private:
     string tag_;
@@ -89,3 +89,5 @@ private:
 } // namespace magics
 
 #endif
+
+

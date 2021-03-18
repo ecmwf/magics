@@ -78,57 +78,57 @@ private:
 class MetgramBar : public MetgramStyle, public MetgramBarAttributes {
 public:
     MetgramBar() {}
-    virtual ~MetgramBar() override {}
+    virtual ~MetgramBar() {}
 
-    virtual void set(const XmlNode& node) override { MetgramBarAttributes::set(node); }
-    virtual void set(const map<string, string>& map) override { MetgramBarAttributes::set(map); }
-    virtual bool accept(const string& node) override { return magCompare(node, "bar"); }
-    virtual MetgramStyle* clone() const override { return new MetgramBar(); }
+    virtual void set(const XmlNode& node) { MetgramBarAttributes::set(node); }
+    virtual void set(const map<string, string>& map) { MetgramBarAttributes::set(map); }
+    virtual bool accept(const string& node) { return magCompare(node, "bar"); }
+    virtual MetgramStyle* clone() const { return new MetgramBar(); }
 
-    virtual void operator()(CustomisedPointsList& points, BasicGraphicsObjectContainer& task) override;
+    virtual void operator()(CustomisedPointsList& points, BasicGraphicsObjectContainer& task);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 };
 
 class MetgramCurve : public MetgramStyle, public MetgramCurveAttributes {
 public:
     MetgramCurve() {}
-    virtual ~MetgramCurve() override {}
+    virtual ~MetgramCurve() {}
 
-    virtual void set(const XmlNode& node) override { MetgramCurveAttributes::set(node); }
-    virtual void set(const map<string, string>& map) override { MetgramCurveAttributes::set(map); }
-    virtual MetgramStyle* clone() const override { return new MetgramCurve(); }
-    virtual bool accept(const string& node) override { return magCompare(node, "curve"); }
-    virtual void operator()(CustomisedPointsList& points, BasicGraphicsObjectContainer& task) override;
-    virtual void visit(LegendVisitor&) override;
+    virtual void set(const XmlNode& node) { MetgramCurveAttributes::set(node); }
+    virtual void set(const map<string, string>& map) { MetgramCurveAttributes::set(map); }
+    virtual MetgramStyle* clone() const { return new MetgramCurve(); }
+    virtual bool accept(const string& node) { return magCompare(node, "curve"); }
+    virtual void operator()(CustomisedPointsList& points, BasicGraphicsObjectContainer& task);
+    virtual void visit(LegendVisitor&);
     virtual void set(const PaperPoint&, BasicGraphicsObjectContainer&) {}
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 };
 
 
 class MetgramFlags : public MetgramStyle, public MetgramFlagsAttributes {
 public:
     MetgramFlags() {}
-    virtual ~MetgramFlags() override {}
+    virtual ~MetgramFlags() {}
 
-    virtual void set(const XmlNode& node) override { MetgramFlagsAttributes::set(node); }
-    virtual void set(const map<string, string>& node) override { MetgramFlagsAttributes::set(node); }
-    virtual bool accept(const string& node) override { return magCompare(node, "flags"); }
-    virtual MetgramStyle* clone() const override {
+    virtual void set(const XmlNode& node) { MetgramFlagsAttributes::set(node); }
+    virtual void set(const map<string, string>& node) { MetgramFlagsAttributes::set(node); }
+    virtual bool accept(const string& node) { return magCompare(node, "flags"); }
+    virtual MetgramStyle* clone() const {
         MagLog::dev() << "(const map<string, string&)---> to be checked!...\n";
         return new MetgramFlags();
     }
 
-    virtual void operator()(CustomisedPointsList& points, BasicGraphicsObjectContainer& task) override;
+    virtual void operator()(CustomisedPointsList& points, BasicGraphicsObjectContainer& task);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 };
 
 template <>

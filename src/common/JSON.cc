@@ -40,6 +40,7 @@ static std::ostream& encode(std::ostream& s, const char* p) {
     s << '"';
     while (*p) {
         switch (*p) {
+
             case '\\':
                 s << "\\\\";
                 break;

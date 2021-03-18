@@ -23,12 +23,15 @@
 #include <vector>
 
 
+
 namespace magics {
 
 //----------------------------------------------------------------------------------------------------------------------
 
 class JSON {
+
 public:  // methods
+
     JSON(std::ostream&, bool null = true);
 
     ~JSON();

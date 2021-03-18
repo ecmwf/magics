@@ -40,7 +40,7 @@ void setHandler(const vector<string>& keys, vector<T>& values, ListPolicy policy
         handler.insert(make_pair(*key, translator(*value)));
         value++;
         if (value == values.end())
-            value = (policy == ListPolicy::CYCLE) ? values.begin() : --value;
+            value = (policy == M_CYCLE) ? values.begin() : --value;
     }
 }
 
@@ -295,8 +295,8 @@ void CurveArea::operator()(Data& data, BasicGraphicsObjectContainer& task) {
                 bool result;
                 std::map<string, MissingMethod>::iterator method = missingMethods_.find(lowerCase(missing_mode_));
                 result                                           = (method == missingMethods_.end())
-                                                                       ? ignore(last, missing.front(), missing, task)
-                                                                       : (this->*method->second)(last, missing.front(), missing, task);
+                             ? ignore(last, missing.front(), missing, task)
+                             : (this->*method->second)(last, missing.front(), missing, task);
                 if (result) {
                     if (line_)
                         transformation(*curve_, task);

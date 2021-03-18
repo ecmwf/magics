@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -36,17 +36,17 @@ CitiesAttributes::CitiesAttributes():
 	,
 	font_colour_(MagTranslator<string, Colour>().magics("map_cities_font_colour")),
 	marker_colour_(MagTranslator<string, Colour>().magics("map_cities_marker_colour"))
-	
+	 
 {
-}
+} 
 
 
 CitiesAttributes::~CitiesAttributes()
 {
-
+	
 }
 
-
+    
 void CitiesAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -80,12 +80,12 @@ void CitiesAttributes::copy(const CitiesAttributes& other)
 	font_colour_ = unique_ptr<Colour>(other.font_colour_->clone());
 	marker_colour_ = unique_ptr<Colour>(other.marker_colour_->clone());
 	
-}
+} 
 
 
 bool CitiesAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "")  )
 		return true;
 	
@@ -96,7 +96,7 @@ void CitiesAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "")  )
@@ -133,7 +133,7 @@ void CitiesAttributes::print(ostream& out)  const
 
 void CitiesAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"\"";
+	out <<  "\"\""; 
 	out << ", \"map_cities_unit_system\":";
 	niceprint(out,unit_);
 	out << ", \"map_cities_font\":";
@@ -157,13 +157,13 @@ void CitiesAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> map_cities_unit_system("map_cities_unit_system", "percent");
-static MagicsParameter<string> map_cities_font("map_cities_font", "sansserif");
-static MagicsParameter<string> map_cities_font_style("map_cities_font_style", "normal");
-static MagicsParameter<string> map_cities_text_blanking("map_cities_text_blanking", "on");
-static MagicsParameter<double> map_cities_font_size("map_cities_font_size", 2.5);
-static MagicsParameter<string> map_cities_name_position("map_cities_name_position", "above");
-static MagicsParameter<string> map_cities_marker("map_cities_marker", "plus");
-static MagicsParameter<double> map_cities_marker_height("map_cities_marker_height", 0.7);
-static MagicsParameter<string> map_cities_font_colour("map_cities_font_colour", "navy");
-static MagicsParameter<string> map_cities_marker_colour("map_cities_marker_colour", "evergreen");
+static MagicsParameter<string> map_cities_unit_system("map_cities_unit_system", "percent", "");
+static MagicsParameter<string> map_cities_font("map_cities_font", "sansserif", "");
+static MagicsParameter<string> map_cities_font_style("map_cities_font_style", "normal", "");
+static MagicsParameter<string> map_cities_text_blanking("map_cities_text_blanking", "on", "");
+static MagicsParameter<double> map_cities_font_size("map_cities_font_size", 2.5, "");
+static MagicsParameter<string> map_cities_name_position("map_cities_name_position", "above", "");
+static MagicsParameter<string> map_cities_marker("map_cities_marker", "plus", "");
+static MagicsParameter<double> map_cities_marker_height("map_cities_marker_height", 0.7, "");
+static MagicsParameter<string> map_cities_font_colour("map_cities_font_colour", "navy", ""); 
+static MagicsParameter<string> map_cities_marker_colour("map_cities_marker_colour", "evergreen", ""); 

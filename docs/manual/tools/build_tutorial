@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/ksh
 set -x
 
 mkdir -p exercises

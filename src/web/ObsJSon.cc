@@ -11,10 +11,9 @@
 #include "ObsJSon.h"
 #include <locale>
 #include "CustomisedPoint.h"
-#include "MagParser.h"
-#include "MagicsSettings.h"
 #include "MetaData.h"
 #include "Value.h"
+#include "JSONParser.h"
 
 using namespace magics;
 
@@ -30,15 +29,18 @@ ObsJSon::~ObsJSon() {}
 
 
 CustomisedPoint* ObsJSon::decode(ValueMap& point) {
+
     CustomisedPoint* current = new CustomisedPoint();
     for (auto key = point.begin(); key != point.end(); ++key) {
         map<string, ObsJSon::Method>::iterator method = methods_.find(key->first);
-
+        
         if (method != methods_.end()) {
             (this->*method->second)(key->second, *current);
         }
         else {
+            
             if (key->second.isDouble()) {
+               
                 (*current)[key->first] = key->second.get_value<double>();
             }
         }
@@ -49,11 +51,11 @@ CustomisedPoint* ObsJSon::decode(ValueMap& point) {
 
 
 void ObsJSon::decode() {
+     
     points_.clear();
     Value value;
     if (!values_.empty()) {
         for (vector<string>::iterator val = values_.begin(); val != values_.end(); ++val) {
-            value = MagParser::decodeString(*val);
             ValueMap object = value.get_value<ValueMap>();
             points_.push_back(decode(object));
         }
@@ -61,12 +63,16 @@ void ObsJSon::decode() {
     }
 
     try {
-        Value value = MagParser::decodeFile(path_);
+       
+        
+        Value value = JSONParser::decodeFile(path_);
 
+        
 
         ValueMap object = value.get_value<ValueMap>();
 
         for (auto entry = object.begin(); entry != object.end(); ++entry) {
+            
             ValueList points = entry->second.get_value<ValueList>();
 
             for (unsigned int i = 0; i < points.size(); i++) {
@@ -76,9 +82,6 @@ void ObsJSon::decode() {
         }
     }
     catch (std::exception& e) {
-        if (MagicsSettings::strict()) {
-            throw;
-        }
         MagLog::error() << "Could not processed the file: " << path_ << ": " << e.what() << endl;
     }
 }
@@ -108,6 +111,7 @@ void ObsJSon::customisedPoints(const Transformation&, const std::set<string>& wh
     for (vector<CustomisedPoint*>::const_iterator point = points_.begin(); point != points_.end(); ++point) {
         out.push_back(*point);
     }
+
 }
 void ObsJSon::customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out,
                                bool all) {

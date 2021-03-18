@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "nc_sd",
-    "preferred_units": "cm",
+    "prefered_units": "cm",
     "styles": [
       "snow_1to10000",
       "snow_1to1000_whi"

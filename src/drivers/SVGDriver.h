@@ -19,9 +19,9 @@
 #ifndef _SVGDriver_H
 #define _SVGDriver_H
 
-#include "BaseDriver.h"
-#include "SVGDriverAttributes.h"
-#include "XmlNode.h"
+#include <BaseDriver.h>
+#include <SVGDriverAttributes.h>
+#include <XmlNode.h>
 
 namespace magics {
 
@@ -36,14 +36,14 @@ namespace magics {
 class SVGDriver : public BaseDriver, public SVGDriverAttributes {
 public:
     SVGDriver();
-    ~SVGDriver() override;
-    void open() override;
-    void close() override;
+    ~SVGDriver();
+    void open();
+    void close();
 
     /*!
       \brief sets a new XML node
     */
-    void set(const XmlNode& node) override {
+    void set(const XmlNode& node) {
         XmlNode basic = node;
         basic.name("driver");
         BaseDriver::set(basic);
@@ -54,50 +54,50 @@ public:
     /*!
       \brief sets a new map
     */
-    void set(const map<string, string>& map) override {
+    void set(const map<string, string>& map) {
         BaseDriver::set(map);
         SVGDriverAttributes::set(map);
     }
 
 private:
-    MAGICS_NO_EXPORT void startPage() const override;
-    MAGICS_NO_EXPORT void endPage() const override;
-    MAGICS_NO_EXPORT void project(const Layout& lay) const override;
-    MAGICS_NO_EXPORT void unproject() const override;
-    MAGICS_NO_EXPORT void redisplay(const StaticLayer& layer) const override;
-    MAGICS_NO_EXPORT void redisplay(const StepLayer& layer) const override;
-    MAGICS_NO_EXPORT void redisplay(const NoDataLayer& layer) const override;
+    MAGICS_NO_EXPORT void startPage() const;
+    MAGICS_NO_EXPORT void endPage() const;
+    MAGICS_NO_EXPORT void project(const Layout& lay) const;
+    MAGICS_NO_EXPORT void unproject() const;
+    MAGICS_NO_EXPORT void redisplay(const StaticLayer& layer) const;
+    MAGICS_NO_EXPORT void redisplay(const StepLayer& layer) const;
+    MAGICS_NO_EXPORT void redisplay(const NoDataLayer& layer) const;
     MAGICS_NO_EXPORT string buildLayerName(const Layer* layer, string type) const;
-    MAGICS_NO_EXPORT void newLayer() const override;
-    MAGICS_NO_EXPORT void closeLayer() const override;
-    //	MAGICS_NO_EXPORT void renderInteractiveBegin(const InteractiveBegin&) const  override ;
-    //	MAGICS_NO_EXPORT void renderInteractiveEnd(const InteractiveEnd&) const  override ;
+    MAGICS_NO_EXPORT void newLayer() const;
+    MAGICS_NO_EXPORT void closeLayer() const;
+    //	MAGICS_NO_EXPORT void renderInteractiveBegin(const InteractiveBegin&) const;
+    //	MAGICS_NO_EXPORT void renderInteractiveEnd(const InteractiveEnd&) const;
 
-    MAGICS_NO_EXPORT void setNewLineWidth(const MFloat) const override;
-    MAGICS_NO_EXPORT void setNewColour(const Colour& col) const override;
-    MAGICS_NO_EXPORT int setLineParameters(const LineStyle style, const MFloat w) const override;
+    MAGICS_NO_EXPORT void setNewLineWidth(const MFloat) const;
+    MAGICS_NO_EXPORT void setNewColour(const Colour& col) const;
+    MAGICS_NO_EXPORT int setLineParameters(const LineStyle style, const MFloat w) const;
     //	MAGICS_NO_EXPORT void printLine(const Polyline &line) const;
 
     //	MAGICS_NO_EXPORT void redisplay(const Polyline& line) const;
-    MAGICS_NO_EXPORT void renderPolyline(const int, MFloat*, MFloat*) const override;
-    MAGICS_NO_EXPORT void renderPolyline2(const int n, MFloat* x, MFloat* y) const override;
-    MAGICS_NO_EXPORT void renderSimplePolygon(const int, MFloat*, MFloat*) const override;
-    MAGICS_NO_EXPORT void renderSimplePolygon(const Polyline& line) const override;
-    MAGICS_NO_EXPORT void renderText(const Text& text) const override;
-    MAGICS_NO_EXPORT bool renderPixmap(MFloat, MFloat, MFloat, MFloat, int, int, unsigned char*, int, bool, bool) const override;
-    MAGICS_NO_EXPORT void renderSymbols(const Symbol& symbol) const override;
-    MAGICS_NO_EXPORT bool renderCellArray(const Image& obj) const override;
-    MAGICS_NO_EXPORT void renderImage(const ImportObject& obj) const override;
-    MAGICS_NO_EXPORT void circle(const MFloat x, const MFloat y, const MFloat r, const int) const override;
+    MAGICS_NO_EXPORT void renderPolyline(const int, MFloat*, MFloat*) const;
+    MAGICS_NO_EXPORT void renderPolyline2(const int n, MFloat* x, MFloat* y) const;
+    MAGICS_NO_EXPORT void renderSimplePolygon(const int, MFloat*, MFloat*) const;
+    MAGICS_NO_EXPORT void renderSimplePolygon(const Polyline& line) const;
+    MAGICS_NO_EXPORT void renderText(const Text& text) const;
+    MAGICS_NO_EXPORT bool renderPixmap(MFloat, MFloat, MFloat, MFloat, int, int, unsigned char*, int, bool, bool) const;
+    MAGICS_NO_EXPORT void renderSymbols(const Symbol& symbol) const;
+    MAGICS_NO_EXPORT bool renderCellArray(const Image& obj) const;
+    MAGICS_NO_EXPORT void renderImage(const ImportObject& obj) const;
+    MAGICS_NO_EXPORT void circle(const MFloat x, const MFloat y, const MFloat r, const int) const;
 
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    MAGICS_NO_EXPORT void print(ostream&) const override;
-    MAGICS_NO_EXPORT void debugOutput(const string& s) const override;
+    MAGICS_NO_EXPORT void print(ostream&) const;
+    MAGICS_NO_EXPORT void debugOutput(const string& s) const;
 
-    MAGICS_NO_EXPORT MFloat setY(const MFloat y) const override { return -y; }
-    MAGICS_NO_EXPORT MFloat setSymbolY(const MFloat y) const override { return -y; }
-    MAGICS_NO_EXPORT MFloat setAngleY(const MFloat y) const override { return y; }
-    MAGICS_NO_EXPORT MFloat setFlagY(const MFloat y) const override { return -y; }
+    MAGICS_NO_EXPORT MFloat setY(const MFloat y) const { return -y; }
+    MAGICS_NO_EXPORT MFloat setSymbolY(const MFloat y) const { return -y; }
+    MAGICS_NO_EXPORT MFloat setAngleY(const MFloat y) const { return y; }
+    MAGICS_NO_EXPORT MFloat setFlagY(const MFloat y) const { return -y; }
     MAGICS_NO_EXPORT double getRatio() const { return getYDeviceLength() / getXDeviceLength(); }
 
     MAGICS_NO_EXPORT void openGroup(string g) const;

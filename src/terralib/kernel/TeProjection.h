@@ -318,7 +318,7 @@ public:
     }
 
     //! Destructor
-    ~TeUtm() override {}
+    ~TeUtm() {}
 
     //! This implementation of a pure virtual method defined in Projection transforms geodetic into UTM coordinates.
     /*!
@@ -331,7 +331,7 @@ public:
             (500,000 m and 10,000,000 m) are always added
             to the resulting projection coordinates.
     */
-    virtual TeCoord2D LL2PC(TeCoord2D& p) override;
+    virtual TeCoord2D LL2PC(TeCoord2D& p);
 
     //!	This implementation of a pure virtual method defined in
     /*	Projection transforms UTM into geodetic coordinates.
@@ -343,7 +343,7 @@ public:
         handled in this method, and therefore must not be
         previously subtracted.
     */
-    virtual TeCoord2D PC2LL(TeCoord2D& p) override;
+    virtual TeCoord2D PC2LL(TeCoord2D& p);
 };
 
 //!  Provides methods that are required to handle Lambert conformal conic map projection..
@@ -371,12 +371,12 @@ public:
         TeProjection("LambertConformal", datum, long0, lat0, offx, offy, stlat1, stlat2, units) {}
 
     //! Destructor
-    ~TeLambertConformal() override {}
+    ~TeLambertConformal() {}
 
 
-    virtual TeCoord2D LL2PC(TeCoord2D& p) override;
+    virtual TeCoord2D LL2PC(TeCoord2D& p);
 
-    virtual TeCoord2D PC2LL(TeCoord2D& p) override;
+    virtual TeCoord2D PC2LL(TeCoord2D& p);
 };
 
 //!  Provides methods that are required to handle the Mercator map projection.
@@ -402,11 +402,11 @@ public:
         TeProjection("Mercator", datum, long0, lat0, offx, offy, stlat1, 0., units) {}
 
     //! Destructor
-    ~TeMercator() override {}
+    ~TeMercator() {}
 
-    virtual TeCoord2D LL2PC(TeCoord2D& p) override;
+    virtual TeCoord2D LL2PC(TeCoord2D& p);
 
-    virtual TeCoord2D PC2LL(TeCoord2D& p) override;
+    virtual TeCoord2D PC2LL(TeCoord2D& p);
 };
 
 
@@ -433,12 +433,12 @@ public:
         TeProjection("Polyconic", datum, long0, lat0, offx, offy, 0., 0., units) {}
 
     //! Destructor
-    ~TePolyconic() override {}
+    ~TePolyconic() {}
 
 
-    virtual TeCoord2D LL2PC(TeCoord2D& p) override;
+    virtual TeCoord2D LL2PC(TeCoord2D& p);
 
-    virtual TeCoord2D PC2LL(TeCoord2D& p) override;
+    virtual TeCoord2D PC2LL(TeCoord2D& p);
 };
 
 //!  Provides methods that are required to handle the Equidistant Cylindrical  map projection.
@@ -454,16 +454,16 @@ public:
         TeProjection("LatLong", datum, 0., 0., 0., 0., 0., 0., units) {}
 
     //! Destructor
-    ~TeLatLong() override {}
+    ~TeLatLong() {}
 
     //! Returns the same coordinate
-    virtual TeCoord2D LL2PC(TeCoord2D& p) override;
+    virtual TeCoord2D LL2PC(TeCoord2D& p);
 
     //! Returns the same coordinate
-    virtual TeCoord2D PC2LL(TeCoord2D& p) override;
+    virtual TeCoord2D PC2LL(TeCoord2D& p);
 
-    virtual void LL2PC(double xi, double yi, double& xo, double& yo) const override;  // FAMI
-    virtual void PC2LL(double xi, double yi, double& xo, double& yo) override;        // FAMI
+    virtual void LL2PC(double xi, double yi, double& xo, double& yo) const;  // FAMI
+    virtual void PC2LL(double xi, double yi, double& xo, double& yo);        // FAMI
 };
 
 //!  Provides methods that are required to handle the Albers Conic map  projection.
@@ -491,11 +491,11 @@ public:
         TeProjection("Albers", datum, lon0, lat0, offx, offy, stlat1, stlat2, units) {}
 
     //! Destructor
-    ~TeAlbers() override {}
+    ~TeAlbers() {}
 
-    virtual TeCoord2D LL2PC(TeCoord2D& p) override;
+    virtual TeCoord2D LL2PC(TeCoord2D& p);
 
-    virtual TeCoord2D PC2LL(TeCoord2D& p) override;
+    virtual TeCoord2D PC2LL(TeCoord2D& p);
 };
 
 //!  Provides methods that are required to handle the Miller map projection.
@@ -519,11 +519,11 @@ public:
         TeProjection("Miller", datum, long0, 0., offx, offy, 0., 0., units) {}
 
     //! Destructor
-    ~TeMiller() override {}
+    ~TeMiller() {}
 
-    virtual TeCoord2D LL2PC(TeCoord2D& p) override;
+    virtual TeCoord2D LL2PC(TeCoord2D& p);
 
-    virtual TeCoord2D PC2LL(TeCoord2D& p) override;
+    virtual TeCoord2D PC2LL(TeCoord2D& p);
 };
 
 //! Provides methods that are required to handle the Sinusoidal map projection.
@@ -550,11 +550,11 @@ public:
         TeProjection("Sinusoidal", datum, long0, 0., offx, offy, 0., 0., units) {}
 
     //! Empty destructor.
-    ~TeSinusoidal() override {}
+    ~TeSinusoidal() {}
 
-    virtual TeCoord2D LL2PC(TeCoord2D& p) override;
+    virtual TeCoord2D LL2PC(TeCoord2D& p);
 
-    virtual TeCoord2D PC2LL(TeCoord2D& p) override;
+    virtual TeCoord2D PC2LL(TeCoord2D& p);
 };
 
 //! Provides methods that are required to handle the Cylindrical Equidistant map projection
@@ -574,11 +574,11 @@ public:
                              const string& units = "Meters") :
         TeProjection("CylindricalEquidistant", datum, lon0, 0., offx, offy, stlat1, 0, units) {}
     //! Empty destructor.
-    ~TeCylindricalEquidistant() override {}
+    ~TeCylindricalEquidistant() {}
 
-    virtual TeCoord2D LL2PC(TeCoord2D& p) override;
+    virtual TeCoord2D LL2PC(TeCoord2D& p);
 
-    virtual TeCoord2D PC2LL(TeCoord2D& p) override;
+    virtual TeCoord2D PC2LL(TeCoord2D& p);
 };
 
 //! Provides methods that are required to handle the Polar Stereographic map projection
@@ -599,13 +599,13 @@ public:
         TeProjection("PolarStereographic", datum, lon0, 0., offx, offy, 0, 0, units, 1, hem) {}
 
     //! Destructor
-    ~TePolarStereographic() override {}
+    ~TePolarStereographic() {}
 
-    virtual TeCoord2D LL2PC(TeCoord2D& p) override;
-    virtual void LL2PC(ostream&) const override;  // FAMI
-    virtual TeCoord2D PC2LL(TeCoord2D& p) override;
+    virtual TeCoord2D LL2PC(TeCoord2D& p);
+    virtual void LL2PC(ostream&) const;  // FAMI
+    virtual TeCoord2D PC2LL(TeCoord2D& p);
 
-    virtual void LL2PC(double xi, double yi, double& xo, double& yo) const override;  // FAMI
+    virtual void LL2PC(double xi, double yi, double& xo, double& yo) const;  // FAMI
 };
 
 // FAMI
@@ -651,14 +651,14 @@ public:
         SPscn(Pscn),
         SPyaw(Pyaw) {}
 
-    ~TeSatelliteProjection() override {}
+    ~TeSatelliteProjection() {}
 
-    virtual TeCoord2D LL2PC(TeCoord2D& p) override;
+    virtual TeCoord2D LL2PC(TeCoord2D& p);
 
-    virtual TeCoord2D PC2LL(TeCoord2D& p) override;
+    virtual TeCoord2D PC2LL(TeCoord2D& p);
 
     // Returns a the parameters of this projection
-    virtual TeProjectionParams params() const override;
+    virtual TeProjectionParams params() const;
 
     double RadiusSatOrbit() { return SPrs; }
 };
@@ -672,11 +672,11 @@ public:
         GPname = "NoProjection", GPunits = units;
     }
 
-    ~TeNoProjection() override {}
+    ~TeNoProjection() {}
 
-    virtual TeCoord2D LL2PC(TeCoord2D& p) override { return p; }
+    virtual TeCoord2D LL2PC(TeCoord2D& p) { return p; }
 
-    virtual TeCoord2D PC2LL(TeCoord2D& p) override { return p; };
+    virtual TeCoord2D PC2LL(TeCoord2D& p) { return p; };
 };
 
 bool TL_DLL decodifyDescription(const string& projDescription, TeProjectionParams& pars);

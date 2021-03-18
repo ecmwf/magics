@@ -16,26 +16,25 @@
 
 */
 
-#include <iomanip>
 
+#include "XmlMagics.h"
 #include "MagException.h"
 #include "Timer.h"
-#include "XmlMagics.h"
 #include "XmlReader.h"
 
 #include "BinaryObject.h"
 #include "Coastlines.h"
-#include "Contour.h"
-#include "EpsXmlInput.h"
-#include "GeoJSon.h"
-#include "GribDecoder.h"
 #include "RootSceneNode.h"
 #include "SceneNode.h"
-#include "SymbolPlotting.h"
-#include "TableDecoder.h"
 #include "TaylorGrid.h"
 #include "TephiGrid.h"
 #include "ViewNode.h"
+#include "GribDecoder.h"
+#include "Contour.h"
+#include "EpsXmlInput.h"
+#include "GeoJSon.h"
+#include "SymbolPlotting.h"
+#include "TableDecoder.h"
 #include "VisualAction.h"
 #include "Wind.h"
 #include "WrepJSon.h"
@@ -488,6 +487,7 @@ void XmlMagics::grib(const XmlNode& node) {
 }
 
 
+
 #include "GeoPointsDecoder.h"
 void XmlMagics::geopoints(const XmlNode& node) {
     GeoPointsDecoder* geo = new GeoPointsDecoder();
@@ -646,6 +646,7 @@ void XmlMagics::epsbufr(const XmlNode& node) {
     EpsBufr* eps = new EpsBufr();
     eps->set(node);
     top()->data(eps);
+
 }
 
 void XmlMagics::epsgraph(const XmlNode& node) {
@@ -791,4 +792,5 @@ void XmlMagics::wind(const XmlNode& node) {
 
     if (gribloop_)
         gribloop_->next();
+
 }

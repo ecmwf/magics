@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -60,17 +60,17 @@ CurveAttributes::CurveAttributes():
 	style_policy_(MagTranslator<string, ListPolicy>().magics("graph_line_style_list_policy")),
 	colour_policy_(MagTranslator<string, ListPolicy>().magics("graph_colour_list_policy")),
 	thickness_policy_(MagTranslator<string, ListPolicy>().magics("graph_thickness_list_policy"))
-	
+	 
 {
-}
+} 
 
 
 CurveAttributes::~CurveAttributes()
 {
-
+	
 }
 
-
+    
 void CurveAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -152,12 +152,12 @@ void CurveAttributes::copy(const CurveAttributes& other)
 	colour_policy_ = other.colour_policy_;
 	thickness_policy_ = other.thickness_policy_;
 	
-}
+} 
 
 
 bool CurveAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "")  )
 		return true;
 	
@@ -168,7 +168,7 @@ void CurveAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "")  )
@@ -229,7 +229,7 @@ void CurveAttributes::print(ostream& out)  const
 
 void CurveAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"\"";
+	out <<  "\"\""; 
 	out << ", \"graph_line\":";
 	niceprint(out,line_);
 	out << ", \"graph_line_thickness\":";
@@ -301,37 +301,37 @@ void CurveAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> graph_line("graph_line", "on");
-static MagicsParameter<int> graph_line_thickness("graph_line_thickness", 1);
-static MagicsParameter<string> graph_symbol("graph_symbol", "off");
-static MagicsParameter<int> graph_symbol_marker_index("graph_symbol_marker_index", 3);
-static MagicsParameter<double> graph_symbol_height("graph_symbol_height", 0.2);
-static MagicsParameter<string> graph_symbol_outline("graph_symbol_outline", "off");
-static MagicsParameter<int> graph_symbol_outline_thickness("graph_symbol_outline_thickness", 1);
-static MagicsParameter<double> graph_x_suppress_below("graph_x_suppress_below", LLONG_MIN);
-static MagicsParameter<double> graph_x_suppress_above("graph_x_suppress_above", LLONG_MAX);
-static MagicsParameter<double> graph_y_suppress_below("graph_y_suppress_below", LLONG_MIN);
-static MagicsParameter<double> graph_y_suppress_above("graph_y_suppress_above", LLONG_MAX);
-static MagicsParameter<string> graph_missing_data_mode("graph_missing_data_mode", "ignore");
-static MagicsParameter<int> graph_missing_data_thickness("graph_missing_data_thickness", 1);
-static MagicsParameter<string> graph_curve_method("graph_curve_method", "straight");
-static MagicsParameter<string> graph_style_setting("graph_style_setting", "simple");
-static MagicsParameter<string> graph_line_style_variable_name("graph_line_style_variable_name", "");
-static MagicsParameter<stringarray> graph_line_style_value_list("graph_line_style_value_list", stringarray());
-static MagicsParameter<stringarray> graph_line_style_list("graph_line_style_list", stringarray());
-static MagicsParameter<string> graph_colour_variable_name("graph_colour_variable_name", "");
-static MagicsParameter<stringarray> graph_colour_value_list("graph_colour_value_list", stringarray());
-static MagicsParameter<stringarray> graph_colour_list("graph_colour_list", stringarray());
-static MagicsParameter<string> graph_thickness_variable_name("graph_thickness_variable_name", "");
-static MagicsParameter<stringarray> graph_thickness_value_list("graph_thickness_value_list", stringarray());
-static MagicsParameter<intarray> graph_thickness_list("graph_thickness_list", intarray());
-static MagicsParameter<string> graph_line_style("graph_line_style", "solid");
-static MagicsParameter<string> graph_line_colour("graph_line_colour", "blue");
-static MagicsParameter<string> graph_symbol_colour("graph_symbol_colour", "red");
-static MagicsParameter<string> graph_symbol_outline_colour("graph_symbol_outline_colour", "black");
-static MagicsParameter<string> graph_symbol_outline_style("graph_symbol_outline_style", "solid");
-static MagicsParameter<string> graph_missing_data_style("graph_missing_data_style", "dash");
-static MagicsParameter<string> graph_missing_data_colour("graph_missing_data_colour", "red");
-static MagicsParameter<string> graph_line_style_list_policy("graph_line_style_list_policy", "lastone");
-static MagicsParameter<string> graph_colour_list_policy("graph_colour_list_policy", "lastone");
-static MagicsParameter<string> graph_thickness_list_policy("graph_thickness_list_policy", "lastone");
+static MagicsParameter<string> graph_line("graph_line", "on", "");
+static MagicsParameter<int> graph_line_thickness("graph_line_thickness", 1, "");
+static MagicsParameter<string> graph_symbol("graph_symbol", "off", "");
+static MagicsParameter<int> graph_symbol_marker_index("graph_symbol_marker_index", 3, "");
+static MagicsParameter<double> graph_symbol_height("graph_symbol_height", 0.2, "");
+static MagicsParameter<string> graph_symbol_outline("graph_symbol_outline", "off", "");
+static MagicsParameter<int> graph_symbol_outline_thickness("graph_symbol_outline_thickness", 1, "");
+static MagicsParameter<double> graph_x_suppress_below("graph_x_suppress_below", LLONG_MIN, "");
+static MagicsParameter<double> graph_x_suppress_above("graph_x_suppress_above", LLONG_MAX, "");
+static MagicsParameter<double> graph_y_suppress_below("graph_y_suppress_below", LLONG_MIN, "");
+static MagicsParameter<double> graph_y_suppress_above("graph_y_suppress_above", LLONG_MAX, "");
+static MagicsParameter<string> graph_missing_data_mode("graph_missing_data_mode", "ignore", "");
+static MagicsParameter<int> graph_missing_data_thickness("graph_missing_data_thickness", 1, "");
+static MagicsParameter<string> graph_curve_method("graph_curve_method", "straight", "");
+static MagicsParameter<string> graph_style_setting("graph_style_setting", "simple", "");
+static MagicsParameter<string> graph_line_style_variable_name("graph_line_style_variable_name", "", "");
+static MagicsParameter<stringarray> graph_line_style_value_list("graph_line_style_value_list", stringarray(), "");
+static MagicsParameter<stringarray> graph_line_style_list("graph_line_style_list", stringarray(), "");
+static MagicsParameter<string> graph_colour_variable_name("graph_colour_variable_name", "", "");
+static MagicsParameter<stringarray> graph_colour_value_list("graph_colour_value_list", stringarray(), "");
+static MagicsParameter<stringarray> graph_colour_list("graph_colour_list", stringarray(), "");
+static MagicsParameter<string> graph_thickness_variable_name("graph_thickness_variable_name", "", "");
+static MagicsParameter<stringarray> graph_thickness_value_list("graph_thickness_value_list", stringarray(), "");
+static MagicsParameter<intarray> graph_thickness_list("graph_thickness_list", intarray(), "");
+static MagicsParameter<string> graph_line_style("graph_line_style", "solid", ""); 
+static MagicsParameter<string> graph_line_colour("graph_line_colour", "blue", ""); 
+static MagicsParameter<string> graph_symbol_colour("graph_symbol_colour", "red", ""); 
+static MagicsParameter<string> graph_symbol_outline_colour("graph_symbol_outline_colour", "black", ""); 
+static MagicsParameter<string> graph_symbol_outline_style("graph_symbol_outline_style", "solid", ""); 
+static MagicsParameter<string> graph_missing_data_style("graph_missing_data_style", "dash", ""); 
+static MagicsParameter<string> graph_missing_data_colour("graph_missing_data_colour", "red", ""); 
+static MagicsParameter<string> graph_line_style_list_policy("graph_line_style_list_policy", "lastone", ""); 
+static MagicsParameter<string> graph_colour_list_policy("graph_colour_list_policy", "lastone", ""); 
+static MagicsParameter<string> graph_thickness_list_policy("graph_thickness_list_policy", "lastone", ""); 

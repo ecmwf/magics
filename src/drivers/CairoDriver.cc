@@ -37,15 +37,15 @@ Something like:
 */
 #include <cairo.h>
 
-#include "CairoDriver.h"
+#include <CairoDriver.h>
 
-#include "Image.h"
-#include "ImportObject.h"
-#include "Polyline.h"
-#include "Symbol.h"
-#include "System.h"
-#include "Text.h"
-#include "Timer.h"
+#include <Image.h>
+#include <ImportObject.h>
+#include <Polyline.h>
+#include <Symbol.h>
+#include <System.h>
+#include <Text.h>
+#include <Timer.h>
 
 #include <iconv.h>  // Only for AIX?
 #include <pango/pangocairo.h>
@@ -187,15 +187,15 @@ void CairoDriver::setupNewSurface() const {
         cairo_ps_surface_dsc_comment(surface_, s1.c_str());
         const string s2 = "%%Creator2: " + output_creator_ + " " + getMagicsVersionString();
         cairo_ps_surface_dsc_comment(surface_, s2.c_str());
-        const string s3 = "%%For: " + info.getUserID() + "@" + info.getHostName() + " " + info.getUserName();
+        const string s3 = "%%For: " + info.getUserID() + "@" + info.getHostName();
         cairo_ps_surface_dsc_comment(surface_, s3.c_str());
 
         dimensionXglobal_ = static_cast<int>(getXDeviceLength() * 72 / 2.54);
         dimensionYglobal_ = static_cast<int>(getYDeviceLength() * 72 / 2.54);
         cairo_ps_surface_dsc_comment(surface_, "%%PageOrientation: Landscape");
 
-        // if (magCompare(MAGICS_SITE, "ecmwf"))
-        //     cairo_ps_surface_dsc_comment(surface_, "%%Copyright: ECMWF");
+       // if (magCompare(MAGICS_SITE, "ecmwf"))
+       //     cairo_ps_surface_dsc_comment(surface_, "%%Copyright: ECMWF");
 #endif
     }
 
@@ -378,18 +378,12 @@ MAGICS_NO_EXPORT void CairoDriver::write_tiff() const {
 
     TIFF* tif = TIFFOpen(fileName_.c_str(), "w");
     if (!tif) {
-        if (MagicsSettings::strict()) {
-            throw CannotOpenFile(fileName_);
-        }
         MagLog::warning() << "CairoDriver: Unable to open TIFF file " << fileName_ << std::endl;
         return;
     }
 
     GTIF* gtif = GTIFNew(tif);
     if (!gtif) {
-        if (MagicsSettings::strict()) {
-            throw CannotOpenFile(fileName_);
-        }
         MagLog::warning() << "CairoDriver: Unable to open GeoTIFF file " << fileName_ << std::endl;
         return;
     }
@@ -583,30 +577,30 @@ MAGICS_NO_EXPORT int CairoDriver::setLineParameters(const LineStyle linestyle, c
     setNewLineWidth(width);
 
 #if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 4, 0)
-    if (cairo_get_dash_count(cr_) == 0 && linestyle == LineStyle::SOLID)
+    if (cairo_get_dash_count(cr_) == 0 && linestyle == M_SOLID)
         return 0;
 #endif
     switch (linestyle) {
-        case LineStyle::DASH:  // 6 on - 2 off
+        case M_DASH:  // 6 on - 2 off
         {
             cairo_set_line_cap(cr_, CAIRO_LINE_CAP_SQUARE);
             const double dash_line[] = {4.};
             cairo_set_dash(cr_, dash_line, 1, 0.);
         } break;
-        case LineStyle::DOT:  // 1 on - 2 off
+        case M_DOT:  // 1 on - 2 off
         {
             setNewLineWidth(2 * width);
             const double dotted_line[] = {0., 6.};
             cairo_set_line_cap(cr_, CAIRO_LINE_CAP_ROUND);
             cairo_set_dash(cr_, dotted_line, 2, 0.);
         } break;
-        case LineStyle::CHAIN_DASH:  // 4 on - 2 off -  1 on - 2 off
+        case M_CHAIN_DASH:  // 4 on - 2 off -  1 on - 2 off
         {
             const double chain_dash_line[] = {4., 4., 0., 6.};
             cairo_set_line_cap(cr_, CAIRO_LINE_CAP_SQUARE);
             cairo_set_dash(cr_, chain_dash_line, 4, 0.);
         } break;
-        case LineStyle::CHAIN_DOT:  // 4 on - 2 off -  1 on - 2 off - 1 on - 2 off
+        case M_CHAIN_DOT:  // 4 on - 2 off -  1 on - 2 off - 1 on - 2 off
         {
             const double chain_dot_line[] = {4., 4., 0., 6., 0., 6.};
             cairo_set_line_cap(cr_, CAIRO_LINE_CAP_SQUARE);
@@ -792,7 +786,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon(const int n, MFloat* x, M
 */
 MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon() const {
 #if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 2, 0)
-    if (currentShading_ == Shading::DOT) {
+    if (currentShading_ == M_SH_DOT) {
         const DotShadingProperties* pro = (DotShadingProperties*)currentShadingProperties_;
         const int density               = (int)sqrt(pro->density_);
         if (density <= 0)
@@ -825,7 +819,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon() const {
         cairo_surface_destroy(pat_surface);
         cairo_destroy(cr2);
     }
-    else if (currentShading_ == Shading::HATCH) {
+    else if (currentShading_ == M_SH_HATCH) {
         const HatchShadingProperties* pro = (HatchShadingProperties*)currentShadingProperties_;
         indexHatch_                       = pro->index_;
         if (indexHatch_ < 1 || indexHatch_ > 6) {
@@ -880,7 +874,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon() const {
     }
     else
 #else
-    if (currentShading_ == Shading::HATCH || currentShading_ == Shading::DOT)
+    if (currentShading_ == M_SH_HATCH || currentShading_ == M_SH_DOT)
         MagLog::error() << "CairoDriver: For hatch and dot shading you need at least Cairo 1.2!\n"
                         << "             Solid shading used instead." << std::endl;
 #endif
@@ -888,7 +882,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon() const {
         cairo_fill(cr_);
     }
     cairo_restore(cr_);
-    currentShading_ = Shading::SOLID;
+    currentShading_ = M_SH_SOLID;
 }
 
 
@@ -1011,19 +1005,19 @@ MAGICS_NO_EXPORT void CairoDriver::renderText(const Text& text) const {
         double height = h / PANGO_SCALE;
 
         MFloat x = 0;
-        if (horizontal == Justification::CENTRE)
+        if (horizontal == MCENTRE)
             x = width * .5;
-        else if (horizontal == Justification::RIGHT)
+        else if (horizontal == MRIGHT)
             x = width;
 
         MFloat y = 0.;
-        if (vertical == VerticalAlign::BASE) {
+        if (vertical == MBASE) {
             y = height * .85;
         }
-        else if (vertical == VerticalAlign::HALF) {
+        else if (vertical == MHALF) {
             y = height * .5;
         }
-        else if (vertical == VerticalAlign::BOTTOM) {
+        else if (vertical == MBOTTOM) {
             y = height;
         }
 
@@ -1155,7 +1149,7 @@ MAGICS_NO_EXPORT bool CairoDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1,
 /*!
   \brief Image render method for ALL drivers.
 
-  This method should be used by all Magics++ drivers to render image objects.
+  This method should be used by all Magics drivers to render image objects.
 */
 MAGICS_NO_EXPORT void CairoDriver::renderImage(const ImportObject& obj) const {
     std::string file = obj.getPath();
@@ -1180,8 +1174,8 @@ MAGICS_NO_EXPORT void CairoDriver::renderImage(const ImportObject& obj) const {
         int w = cairo_image_surface_get_width(image);
         int h = cairo_image_surface_get_height(image);
 
-        const MFloat oow = (obj.getWidth() < 0) ? 30. / coordRatioX_ : obj.getWidth();
-        const MFloat ooh = (obj.getHeight() < 0) ? 30. / coordRatioY_ : obj.getHeight();
+        const MFloat oow = (obj.getWidth()  < 0) ? w / coordRatioX_ : obj.getWidth();
+        const MFloat ooh = (obj.getHeight() < 0) ? h / coordRatioY_ : obj.getHeight();
         const MFloat x   = projectX(obj.getOrigin().x());
         const MFloat y   = projectY(obj.getOrigin().y());
         const MFloat oh  = fabs(projectY(obj.getOrigin().y() + ooh) - y);
@@ -1359,7 +1353,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderSymbols(const Symbol& symbol) const {
 MAGICS_NO_EXPORT bool CairoDriver::convertToPixmap(const string& fname, const GraphicsFormat format, const int reso,
                                                    const MFloat wx0, const MFloat wy0, const MFloat wx1,
                                                    const MFloat wy1) const {
-    if (format == GraphicsFormat::PNG) {
+    if (format == PNG) {
         cairo_save(cr_);
         cairo_surface_t* image = cairo_image_surface_create_from_png(fname.c_str());
         int w                  = cairo_image_surface_get_width(image);

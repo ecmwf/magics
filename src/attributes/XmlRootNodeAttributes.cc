@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -35,17 +35,17 @@ XmlRootNodeAttributes::XmlRootNodeAttributes():
 	,
 	border_colour_(MagTranslator<string, Colour>().magics("root_node_frame_colour")),
 	border_style_(MagTranslator<string, LineStyle>().magics("root_node_frame_line_style"))
-	
+	 
 {
-}
+} 
 
 
 XmlRootNodeAttributes::~XmlRootNodeAttributes()
 {
-
+	
 }
 
-
+    
 void XmlRootNodeAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -77,12 +77,12 @@ void XmlRootNodeAttributes::copy(const XmlRootNodeAttributes& other)
 	border_colour_ = unique_ptr<Colour>(other.border_colour_->clone());
 	border_style_ = other.border_style_;
 	
-}
+} 
 
 
 bool XmlRootNodeAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "magics")  )
 		return true;
 	
@@ -93,7 +93,7 @@ void XmlRootNodeAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "magics")  )
@@ -129,7 +129,7 @@ void XmlRootNodeAttributes::print(ostream& out)  const
 
 void XmlRootNodeAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"magics\"";
+	out <<  "\"magics\""; 
 	out << ", \"root_node_format\":";
 	niceprint(out,format_);
 	out << ", \"root_node_orientation\":";
@@ -151,12 +151,12 @@ void XmlRootNodeAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> root_node_format("root_node_format", "a4");
-static MagicsParameter<string> root_node_orientation("root_node_orientation", "landscape");
-static MagicsParameter<double> root_node_width("root_node_width", -1);
-static MagicsParameter<double> root_node_height("root_node_height", -1);
-static MagicsParameter<string> root_node_frame("root_node_frame", "off");
-static MagicsParameter<int> root_node_frame_thickness("root_node_frame_thickness", 1);
-static MagicsParameter<string> root_node_application("root_node_application", "magml");
-static MagicsParameter<string> root_node_frame_colour("root_node_frame_colour", "blue");
-static MagicsParameter<string> root_node_frame_line_style("root_node_frame_line_style", "solid");
+static MagicsParameter<string> root_node_format("root_node_format", "a4", "");
+static MagicsParameter<string> root_node_orientation("root_node_orientation", "landscape", "");
+static MagicsParameter<double> root_node_width("root_node_width", -1, "");
+static MagicsParameter<double> root_node_height("root_node_height", -1, "");
+static MagicsParameter<string> root_node_frame("root_node_frame", "off", "");
+static MagicsParameter<int> root_node_frame_thickness("root_node_frame_thickness", 1, "");
+static MagicsParameter<string> root_node_application("root_node_application", "magml", "");
+static MagicsParameter<string> root_node_frame_colour("root_node_frame_colour", "blue", ""); 
+static MagicsParameter<string> root_node_frame_line_style("root_node_frame_line_style", "solid", ""); 

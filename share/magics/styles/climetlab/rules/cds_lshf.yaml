@@ -1,7 +1,0 @@
-match:
-- paramId: '228012'
-  shortName: lshf
-- long_name: Lake shape factor
-styles:
-- sh_blugrn_f06t08_i002
-

@@ -19,12 +19,16 @@
 #ifndef _Proj4Projection_H
 #define _Proj4Projection_H
 
-#include "Proj4ProjectionAttributes.h"
-#include "Transformation.h"
-#include "XmlNode.h"
+#include <Proj4ProjectionAttributes.h>
+#include <Transformation.h>
+#include <XmlNode.h>
 
+#include "magics_windef.h"
+#ifdef MAGICS_ON_WINDOWS
+#define PROJ_MSVC_DLL_IMPORT 1
+#endif
 
-#include "ProjP.h"
+#include <ProjP.h>
 
 namespace magics {
 
@@ -41,12 +45,12 @@ class Proj4Projection : public Transformation, public Proj4ProjectionAttributes 
 public:
     Proj4Projection();
     Proj4Projection(const string& definition);
-    ~Proj4Projection() override;
+    ~Proj4Projection();
 
     /*!
       \brief sets  from an XML node
     */
-    void set(const XmlNode& node) override {
+    void set(const XmlNode& node) {
         Transformation::set(node);
         Proj4ProjectionAttributes::set(node);
         init();
@@ -54,73 +58,73 @@ public:
     /*!
        \brief sets  from a map
      */
-    void set(const map<string, string>& map) override {
+    void set(const map<string, string>& map) {
         Transformation::set(map);
         Proj4ProjectionAttributes::set(map);
         init();
     }
 
-    virtual Transformation* clone() const override {
+    virtual Transformation* clone() const {
         Proj4Projection* transformation = new Proj4Projection(definition_);
         transformation->copy(*this);
         return transformation;
     }
 
-    bool addSouth() const override;
-    void populate(double lon, double lat, double value, vector<UserPoint>& out) const override;
+    bool addSouth() const;
+    void populate(double lon, double lat, double value, vector<UserPoint>& out) const;
 
     /*!
     \\brief Initialise the projection
     */
-    virtual void init() override;
+    virtual void init();
     /*!
     \\brief
     */
-    void fill(double&, double&) override;
+    void fill(double&, double&);
 
-    virtual PaperPoint operator()(const UserPoint&) const override;
+    virtual PaperPoint operator()(const UserPoint&) const;
     /*!
     \\brief
     */
-    virtual bool fast_reproject(double& x, double& y) const override;
+    virtual bool fast_reproject(double& x, double& y) const;
 
-    virtual PaperPoint operator()(const PaperPoint&) const override;
+    virtual PaperPoint operator()(const PaperPoint&) const;
     /*!
     \\brief
     */
-    void collect(MetaDataCollector&) const override;
-    virtual void revert(const PaperPoint&, UserPoint&) const override;
+    void collect(MetaDataCollector&) const;
+    virtual void revert(const PaperPoint&, UserPoint&) const;
 
-    void revert(const vector<std::pair<double, double> >& in, vector<std::pair<double, double> >& out) const override;
+    void revert(const vector<std::pair<double, double> >& in, vector<std::pair<double, double> >& out) const;
 
     /*!
     \\brief Does the projection needs the coastalines to be shifted!
     */
-    virtual bool needShiftedCoastlines() const override;
+    virtual bool needShiftedCoastlines() const;
     /*!
     \\brief set the aspect ratio!
     */
-    virtual void aspectRatio(double&, double&) override;
+    virtual void aspectRatio(double&, double&);
     /*!
     \\brief set the bounding box!
     */
-    virtual void boundingBox(double&, double&, double&, double&) const override;
+    virtual void boundingBox(double&, double&, double&, double&) const;
     /*!
     \\brief return the xmin in user coordinates!
     */
-    virtual double getMinX() const override;
+    virtual double getMinX() const;
     /*!
     \\brief return the ymin in user coordinates!
     */
-    virtual double getMinY() const override;
+    virtual double getMinY() const;
     /*!
     \\brief return the xmax in user coordinates!
     */
-    virtual double getMaxX() const override;
+    virtual double getMaxX() const;
     /*!
     \\brief return the ymax in user coordinates!
     */
-    virtual double getMaxY() const override;
+    virtual double getMaxY() const;
     /*!
     \\brief set the xmin in user coordinates!
     */
@@ -140,58 +144,58 @@ public:
     /*!
     \\brief return the xmin in projection coordinates!
     */
-    virtual double getMinPCX() const override;
+    virtual double getMinPCX() const;
     /*!
     \\brief return the ymin in projection coordinates!
     */
-    virtual double getMinPCY() const override;
+    virtual double getMinPCY() const;
     /*!
     \\brief return the xmax in projection coordinates!
     */
-    virtual double getMaxPCX() const override;
+    virtual double getMaxPCX() const;
     /*!
     \\brief return the ymax in projection coordinates!
     */
-    virtual double getMaxPCY() const override;
+    virtual double getMaxPCY() const;
     /*!
     \\brief create the grid for the longitudes!!
     */
-    virtual void gridLongitudes(const GridPlotting&) const override;
+    virtual void gridLongitudes(const GridPlotting&) const;
     /*!
     \\brief create the grid for the latitudes!!
     */
-    virtual void gridLatitudes(const GridPlotting&) const override;
+    virtual void gridLatitudes(const GridPlotting&) const;
     /*!
     \\brief calculate the labels
     */
-    virtual void labels(const LabelPlotting&, DrawingVisitor&) const override;
+    virtual void labels(const LabelPlotting&, DrawingVisitor&) const;
     /*!
     \\brief calculate the left labels
     */
-    virtual void labels(const LabelPlotting&, LeftAxisVisitor&) const override;
+    virtual void labels(const LabelPlotting&, LeftAxisVisitor&) const;
     /*!
     \\brief calculate the right labels
     */
-    virtual void labels(const LabelPlotting&, RightAxisVisitor&) const override;
+    virtual void labels(const LabelPlotting&, RightAxisVisitor&) const;
     /*!
     \\brief calculate the bottom labels
     */
-    virtual void labels(const LabelPlotting&, BottomAxisVisitor&) const override;
+    virtual void labels(const LabelPlotting&, BottomAxisVisitor&) const;
     /*!
     \\brief calculate the top labels
     */
-    virtual void labels(const LabelPlotting&, TopAxisVisitor&) const override;
-    virtual void coastSetting(map<string, string>&, double, double) const override;
+    virtual void labels(const LabelPlotting&, TopAxisVisitor&) const;
+    virtual void coastSetting(map<string, string>&, double, double) const;
 
     void visit(MetaDataVisitor& visitor, double left, double top, double width, double height, double imgw,
-               double imgh) override;
-    void setNewPCBox(double minx, double miny, double maxx, double maxy) override;
+               double imgh);
+    void setNewPCBox(double minx, double miny, double maxx, double maxy);
     void verticalLabels(const LabelPlotting& label, double x, double pos, Justification justif) const;
     void horizontalLabels(const LabelPlotting& label, double y, double pos, VerticalAlign align) const;
-    MatrixHandler* prepareData(const AbstractMatrix&) const override;
-    Polyline& getPCBoundingBox() const override;
-    Polyline& getSimplePCBoundingBox() const override;
-    Polyline& getUserBoundingBox() const override;
+    MatrixHandler* prepareData(const AbstractMatrix&) const;
+    Polyline& getPCBoundingBox() const;
+    Polyline& getSimplePCBoundingBox() const;
+    Polyline& getUserBoundingBox() const;
 
     typedef void (Proj4Projection::*InitMethod)();
     map<string, InitMethod> methods_;
@@ -201,17 +205,17 @@ public:
     void tpers();
     void simple();
     void projectionSimple();
-    void cleaninit() override { init(); }
+    void cleaninit() { init(); }
 
     void add(double, double);
 
-    double patchDistance(double) const override;
+    double patchDistance(double) const;
     const string& name() const { return definition_; }
-    void getNewDefinition(const UserPoint&, const UserPoint&, string&) const override;
-    void setDefinition(const string&) override;
-    void reprojectComponents(double&, double&, pair<double, double>&) const override;
-    void reprojectSpeedDirection(const PaperPoint& point, pair<double, double>&) const override;
-    virtual void geoProjection(int& geo) const override { geo = 1; }  // Useful for Streamlines !
+    void getNewDefinition(const UserPoint&, const UserPoint&, string&) const;
+    void setDefinition(const string&);
+    void reprojectComponents(double&, double&, pair<double, double>&) const;
+    void reprojectSpeedDirection(const PaperPoint& point, pair<double, double>&) const;
+    virtual void geoProjection(int& geo) const { geo = 1; }  // Useful for Streamlines !
 
     void wrap(double&, double&);
 
@@ -225,7 +229,7 @@ protected:
     void corners();
     void centre();
 
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     mutable LatLonProjP* helper_;
     double min_pcx_;
     double max_pcx_;

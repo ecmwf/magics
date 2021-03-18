@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/ksh
 
 # get the command-line arguments
 
@@ -12,9 +12,9 @@ password=$2
 cd html
 
 
-for file in *.html *.png *.gif intro/* examples/* examples/c/* examples/fortran/* examples/magml/* interfaces/* interfaces/c/* interfaces/fortran/* interfaces/magml/* formats/*  parameters/*
-# for file in interfaces/magml/*
-# for file in *.html *.png *.gif intro/* examples/*.html interfaces/* formats/*
+for file in *.html *.png *.gif intro/* examples/* examples/c/* examples/fortran/* examples/magml/* interfaces/* interfaces/c/* interfaces/fortran/* interfaces/magml/* formats/*  parameters/* 
+# for file in interfaces/magml/* 
+# for file in *.html *.png *.gif intro/* examples/*.html interfaces/* formats/* 
 do
   fname=$file
   ../tools/dav.pl $fname $username $password wedit

@@ -65,10 +65,10 @@ public:
     virtual void keepOriginal(bool) {}
     virtual PaperPoint reference(const GribDecoder&, const Transformation&);
     virtual void interpretAsRaster(const GribDecoder&, RasterData&, const Transformation&) const {}
-    // virtual void scaling(GribDecoder&, Matrix&) const;
-    // virtual void scaling(GribDecoder& grib, double& scaling, double& offset) const;
-    // virtual void scaling(GribDecoder& grib, double& scaling, double& offset, string& originalUnits,
-    //                      string& derivedUnits) const;
+    virtual void scaling(GribDecoder&, Matrix&) const;
+    virtual void scaling(GribDecoder& grib, double& scaling, double& offset) const;
+    virtual void scaling(GribDecoder& grib, double& scaling, double& offset, string& originalUnits,
+                         string& derivedUnits) const;
     void longitudesSanityCheck(double&, double&) const;
 
     void interpolate(const GribDecoder& grib, Matrix& matrix) const;

@@ -37,11 +37,11 @@ namespace magics {
 class NoGridPlotting : public NoGridPlottingAttributes {
 public:
     NoGridPlotting() {}
-    virtual ~NoGridPlotting() override {}
+    virtual ~NoGridPlotting() {}
 
-    virtual void set(const XmlNode&) override {}
-    virtual void set(const map<string, string>&) override {}
-    virtual bool accept(const string&) override { return false; }
+    virtual void set(const XmlNode&) {}
+    virtual void set(const map<string, string>&) {}
+    virtual bool accept(const string&) { return false; }
     virtual void toxml(ostream&, int = 0) const {}
     virtual NoGridPlotting* clone() const { return new NoGridPlotting(); }
     virtual void operator()(DrawingVisitor&);
@@ -59,7 +59,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const override { out << "NoGridPlotting\n"; }
+    virtual void print(ostream& out) const { out << "NoGridPlotting\n"; }
     mutable vector<double> latitudes_;
     mutable vector<double> longitudes_;
 
@@ -97,9 +97,9 @@ public:
 class GridPlotting : public NoGridPlotting, public GridPlottingAttributes {
 public:
     GridPlotting();
-    virtual ~GridPlotting() override;
+    virtual ~GridPlotting();
 
-    virtual NoGridPlotting* clone() const override {
+    virtual NoGridPlotting* clone() const {
         GridPlotting* object = new GridPlotting();
         object->copy(*this);
         return object;
@@ -109,32 +109,32 @@ public:
         NoGridPlottingAttributes::copy(other);
         GridPlottingAttributes::copy(other);
     }
-    virtual void set(const XmlNode& node) override {
+    virtual void set(const XmlNode& node) {
         NoGridPlottingAttributes::set(node);
         GridPlottingAttributes::set(node);
     }
-    virtual void set(const map<string, string>& map) override {
+    virtual void set(const map<string, string>& map) {
         NoGridPlottingAttributes::set(map);
         GridPlottingAttributes::set(map);
     }
-    bool accept(const string& node) override { return GridPlottingAttributes::accept(node); }
-    virtual void operator()(DrawingVisitor&) override;
-    virtual void operator()(PreviewVisitor&) override;
+    bool accept(const string& node) { return GridPlottingAttributes::accept(node); }
+    virtual void operator()(DrawingVisitor&);
+    virtual void operator()(PreviewVisitor&);
 
 
     void add(Polyline&) const;
     void addFrame(Polyline&) const;
-    void layer(BasicGraphicsObjectContainer* layer) override { layer_ = layer; }
+    void layer(BasicGraphicsObjectContainer* layer) { layer_ = layer; }
 
 
     void visit(Transformation&) {}
 
 
-    virtual string colour() const override { return colour_->name(); }
+    virtual string colour() const { return colour_->name(); }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 
     BasicGraphicsObjectContainer* layer_;

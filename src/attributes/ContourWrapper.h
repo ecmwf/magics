@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-
+   
 
 #ifndef ContourWrapper_H
 #define ContourWrapper_H
@@ -43,15 +43,15 @@
 #include "ContourMethodWrapper.h"
 #include "HiLoBaseWrapper.h"
 #include "ValuePlotBaseWrapper.h"
-
+ 
 
 namespace magics {
 
 class MagRequest;
 
 
-
-class ContourWrapper
+ 	
+class ContourWrapper 
 
 {
 public:
@@ -61,28 +61,28 @@ public:
 //  --  destructor
     virtual ~ContourWrapper();
     virtual void set(const MagRequest&);
-
+    
     Contour* me()   { return contour_; }
-
+   	
    	virtual Contour* object() { return contour_; }
+	
 
-
-	virtual void object(Contour* o) {
+	virtual void object(Contour* o) { 
 		// Remember to delete the previous object
 		contour_ = o;
 		
 
 	}
-
-
+    
+  
 
 protected:
     Contour* contour_;
 
 
 //  --  method
-	virtual void print(ostream&) const override;
-
+	virtual void print(ostream&) const;
+	
 
 private:
     string tag_;
@@ -93,3 +93,5 @@ private:
 } // namespace magics
 
 #endif
+
+

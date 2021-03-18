@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/ksh
 
 
 # create any directories that do not already exist
@@ -32,16 +32,16 @@ do
 
         bname=`basename $source_file .f`
         echo "  Source : $source_file ($bname)"
-
+        
         print "<?pagebreak?>"                    >> $examples_xml_file
         print "<section id=\"Program_$bname\">"  >> $examples_xml_file
         print "  <title>Program: $bname</title>" >> $examples_xml_file
-
-
+        
+  
         print "    <programlisting><xi:include href=\"../fortran/source/$bname.f_cc\" parse=\"xml\"" >> $examples_xml_file
         print "            xmlns:xi=\"http://www.w3.org/2001/XInclude\" />"                >> $examples_xml_file
         print "    </programlisting>"                                                      >> $examples_xml_file
-
+        
 
         # if there exists a corresponding MagML example, then include its source too
 

@@ -25,10 +25,10 @@
 #define ContourAttributes_H
 
 #include "magics.h"
-#include "IsoPlot.h"
 #include "ContourMethod.h"
-#include "HiLoBase.h"
 #include "ValuePlotBase.h"
+#include "IsoPlot.h"
+#include "HiLoBase.h"
 namespace magics {
 
 class XmlNode;
@@ -55,15 +55,12 @@ public:
 	//  --  members:
 	string tag_;
 	bool legend_;
-	string description_;
-	string title_;
 	double floor_;
 	double ceiling_;
 	string setting_;
 	string predefined_;
 	bool metadata_only_;
 	string library_path_;
-	string units_;
 	unique_ptr<IsoPlot> contour_;
 	unique_ptr<ContourMethod> method_;
 	unique_ptr<HiLoBase> hilo_;

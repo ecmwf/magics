@@ -13,8 +13,9 @@
 /// @date Sep 2012
 
 #include "StreamParser.h"
-#include "MagException.h"
 #include "Translator.h"
+#include <MagException.h>
+
 
 
 namespace magics {
@@ -22,7 +23,10 @@ namespace magics {
 //----------------------------------------------------------------------------------------------------------------------
 
 StreamParser::StreamParser(std::istream& in, bool comments, const char* comment) :
-    line_(0), pos_(0), in_(in), comments_(comments) {
+    line_(0),
+    pos_(0),
+    in_(in),
+    comments_(comments) {
     while (*comment) {
         comment_.insert(*comment++);
     }
@@ -32,23 +36,16 @@ char StreamParser::_get() {
     char c = 0;
     in_.get(c);
     pos_++;
-    if (c == '\n' || c == '\r') {
+    if (c == '\n') {
         line_++;
         pos_ = 0;
-        if (c == '\r' && in_.peek() == '\n') {
-            in_.get(c);
-        }
     }
     return c;
 }
 
 
 char StreamParser::_peek() {
-    char c = in_.peek();
-    if (c == '\r') {
-        c = '\n';
-    }
-    return c;
+    return in_.peek();
 }
 
 bool StreamParser::_eof() {

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/ksh
 
 # copies the MagML example code and formats it for the manuals
 

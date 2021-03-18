@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "t250",
-    "preferred_units": "degC",
+    "prefered_units": "C",
     "styles": [
       "sh_all_fM64t52i4",
       "ct_red_i2_dash",

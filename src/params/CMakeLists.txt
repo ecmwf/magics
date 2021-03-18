@@ -1,5 +1,5 @@
 list( APPEND _common_xmls
-MagicsSettings.xml
+MagicsGlobal.xml
 Akima474Method.xml
 Akima760Method.xml
 ArrowPlotting.xml

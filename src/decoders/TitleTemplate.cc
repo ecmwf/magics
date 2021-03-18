@@ -106,9 +106,8 @@ void TitleTemplate::decode() {
 
     FILE* in = fopen(filename.c_str(), "r");
 
-    if (!in) {
+    if (!in)
         throw CannotOpenFile(filename);
-    }
 
     do {
         size_t len = fread(buf, 1, sizeof(buf), in);
@@ -146,6 +145,7 @@ void TitleTemplate::print(ostream& out) const {
 
 bool TitleTemplate::verify(const GribDecoder& data) const {
     for (map<string, string>::const_iterator criter = criteria_.begin(); criter != criteria_.end(); ++criter) {
+
         try {
             MagLog::debug() << "Try  to create the MatchCriteria for " << criter->first << "\n";
             unique_ptr<MatchCriteria> object(SimpleObjectMaker<MatchCriteria>::create(criter->first));
@@ -154,9 +154,6 @@ bool TitleTemplate::verify(const GribDecoder& data) const {
                 return false;
         }
         catch (NoFactoryException& e) {  // The data do not know how to verify the criter ....
-            if (MagicsSettings::strict()) {
-                throw;
-            }
             MagLog::warning() << "Can Not Create the MatchCriteria for " << criter->first << "\n";
             return false;
         }

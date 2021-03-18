@@ -35,30 +35,30 @@ namespace magics {
 class ValuePlot : public ValuePlotBase, public ValuePlotAttributes {
 public:
     ValuePlot();
-    virtual ~ValuePlot() override;
+    virtual ~ValuePlot();
 
-    virtual ValuePlotBase* clone() const override {
+    virtual ValuePlotBase* clone() const {
         ValuePlot* plot = new ValuePlot();
         plot->copy(*this);
         return plot;
     }
-    virtual bool accept(const string& node) override {
+    virtual bool accept(const string& node) {
         return ValuePlotAttributes::accept(node);
         ;
     }
 
     // Implements the VisualComponent Interface...
-    void operator()(MatrixHandler&, BasicGraphicsObjectContainer&) override;
-    void operator()(Data&, BasicGraphicsObjectContainer&) override;
+    void operator()(MatrixHandler&, BasicGraphicsObjectContainer&);
+    void operator()(Data&, BasicGraphicsObjectContainer&);
 
 
-    virtual void visit(LegendVisitor&) override;
-    virtual void set(const map<string, string>& map) override { ValuePlotAttributes::set(map); }
-    virtual void set(const XmlNode& node) override { ValuePlotAttributes::set(node); }
+    virtual void visit(LegendVisitor&);
+    virtual void set(const map<string, string>& map) { ValuePlotAttributes::set(map); }
+    virtual void set(const XmlNode& node) { ValuePlotAttributes::set(node); }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed
@@ -79,13 +79,13 @@ private:
 class NoValuePlot : public ValuePlotBase {
 public:
     NoValuePlot(){};
-    ~NoValuePlot() override{};
-    ValuePlotBase* clone() const override { return new NoValuePlot(); }
-    bool accept(const string& node) override { return magCompare(node, "nogridvalues"); }
+    ~NoValuePlot(){};
+    ValuePlotBase* clone() const { return new NoValuePlot(); }
+    bool accept(const string& node) { return magCompare(node, "nogridvalues"); }
 
-    void operator()(MatrixHandler&, BasicGraphicsObjectContainer&) override {}
+    void operator()(MatrixHandler&, BasicGraphicsObjectContainer&) {}
     void operator()(PointsHandler&, BasicGraphicsObjectContainer&) {}
-    void visit(LegendVisitor&) override {}
+    void visit(LegendVisitor&) {}
 };
 
 }  // namespace magics

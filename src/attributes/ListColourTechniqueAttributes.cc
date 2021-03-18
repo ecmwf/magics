@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -27,17 +27,17 @@ using namespace magics;
 ListColourTechniqueAttributes::ListColourTechniqueAttributes():
 	values_(ParameterManager::getStringArray("contour_shade_colour_list"))
 	
-	
+	 
 {
-}
+} 
 
 
 ListColourTechniqueAttributes::~ListColourTechniqueAttributes()
 {
-
+	
 }
 
-
+    
 void ListColourTechniqueAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(5);
@@ -57,12 +57,12 @@ void ListColourTechniqueAttributes::copy(const ListColourTechniqueAttributes& ot
 {
 	values_ = other.values_;
 	
-}
+} 
 
 
 bool ListColourTechniqueAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "list")  )
 		return true;
 	
@@ -73,7 +73,7 @@ void ListColourTechniqueAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "list")  )
@@ -101,10 +101,10 @@ void ListColourTechniqueAttributes::print(ostream& out)  const
 
 void ListColourTechniqueAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"list\"";
+	out <<  "\"list\""; 
 	out << ", \"contour_shade_colour_list\":";
 	niceprint(out,values_);
 	
 }
 
-static MagicsParameter<stringarray> contour_shade_colour_list("contour_shade_colour_list", stringarray());
+static MagicsParameter<stringarray> contour_shade_colour_list("contour_shade_colour_list", stringarray(), "");

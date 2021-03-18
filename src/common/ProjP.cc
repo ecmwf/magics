@@ -16,11 +16,8 @@
 
    Apr 06: update for GCC 4.0 (Stephan)
 */
-#include "ProjP.h"
-#include "MagException.h"
-
-
 #include <proj.h>
+#include <ProjP.h>
 
 using namespace magics;
 
@@ -31,14 +28,11 @@ ProjP::ProjP(const string& from, const string& to) : from_(from), to_(to), conve
     if (!context_)
         context_ = proj_context_create();
     PJ* p = proj_create_crs_to_crs(context_, from_.c_str(), to_.c_str(), NULL);
-    ASSERT(p);
+    assert(p);
     converter_ = proj_normalize_for_visualization(context_, p);
 
-    ASSERT(converter_);
-    // double x = -180;
-    // double y = 90;
-    // convert(x, y);
-    // revert(x, y);
+    assert(converter_);
+    
 }
 
 ProjP::~ProjP() {
@@ -114,6 +108,7 @@ int ProjP::revert(double& x, double& y) const {
     x = out.xy.x;
     y = out.xy.y;
 
+    
 
     return 0;
 }

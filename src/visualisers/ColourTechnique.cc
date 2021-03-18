@@ -29,7 +29,7 @@
 
 using namespace magics;
 
-ColourTechnique::ColourTechnique() : policy_(ListPolicy::LASTONE) {}
+ColourTechnique::ColourTechnique() : policy_(M_LASTONE) {}
 
 
 ColourTechnique::~ColourTechnique() {}
@@ -196,7 +196,7 @@ void PaletteColourTechnique::set(LevelSelection& out, LevelSelection& in, Colour
     // We need nb-1 colours!
     for (int i = 0; i < nb - 1; i++) {
         if (colour == colours_.end()) {
-            if (palette_policy_ == ListPolicy::LASTONE) {
+            if (palette_policy_ == M_LASTONE) {
                 table.push_back(Colour(colours_.back()));
             }
             else {

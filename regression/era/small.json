@@ -1,0 +1,19 @@
+{"obs": [
+    {
+    "identifier": "era",
+    "val1": 10.0,
+    "val2": 20.0,
+    "longitude": 15.3,
+    "latitude": 49.,
+    "type": "ersagun"
+    },
+    {
+    "identifier": "era2",
+    "val1": 1015.0,
+    "val2": 1025.0,
+    "longitude": -10.3,
+    "latitude": 48.,
+    "type": "ersagun"
+    }
+    ]
+ }

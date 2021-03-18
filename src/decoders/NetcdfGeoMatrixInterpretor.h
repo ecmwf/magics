@@ -22,7 +22,13 @@
 #ifndef NetcdfGeoMatrixInterpretor_H
 #define NetcdfGeoMatrixInterpretor_H
 
-#include "ProjP.h"
+#include "magics.h"
+#include "magics_windef.h"
+#ifdef MAGICS_ON_WINDOWS
+#define PROJ_MSVC_DLL_IMPORT 1
+#endif
+
+#include <ProjP.h>
 
 #include "Matrix.h"
 #include "NetcdfInterpretor.h"
@@ -33,13 +39,12 @@ namespace magics {
 class NetcdfGeoMatrixInterpretor : public NetcdfInterpretor {
 public:
     NetcdfGeoMatrixInterpretor();
-    virtual ~NetcdfGeoMatrixInterpretor() override;
+    virtual ~NetcdfGeoMatrixInterpretor();
 
     static NetcdfInterpretor* guess(const NetcdfInterpretor&);
-    void visit(Transformation& transformation) override;
+    void visit(Transformation& transformation);
 
-    void set(const XmlNode& node) override {
-        // FIXME: Infinit recursion
+    void set(const XmlNode& node) {
         MagLog::debug() << "NetcdfGeoMatrixInterpretor::set(params)"
                         << "\n";
         set(node);
@@ -47,27 +52,27 @@ public:
         netcdf.name("netcdf");
         set(netcdf);
     }
-    virtual NetcdfInterpretor* clone() const override {
+    virtual NetcdfInterpretor* clone() const {
         NetcdfGeoMatrixInterpretor* object = new NetcdfGeoMatrixInterpretor();
         object->clone(*this);
         return object;
     }
     void clone(const NetcdfGeoMatrixInterpretor& other) { copy(other); }
-    bool interpretAsMatrix(Matrix**) override;
-    bool interpretAsPoints(PointsList&) override;
+    bool interpretAsMatrix(Matrix**);
+    bool interpretAsPoints(PointsList&);
     UserPoint* newPoint(const string&, double, double, double);
-    virtual void statsData(map<string, vector<double> >&) override;
-    virtual void visit(MetaDataCollector&) override;
-    virtual void visit(ValuesCollector&, PointsList&) override;
-    void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, int) override;
+    virtual void statsData(map<string, vector<double> >&);
+    virtual void visit(MetaDataCollector&);
+    virtual void visit(ValuesCollector&, PointsList&);
+    void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, int);
     string proj4Detected(Netcdf& netcdf);
     void checkProj4Units(Netcdf& netcdf, const string& variable, vector<double>& data);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream
     //! (virtual).
-    virtual void print(ostream&) const override;
-    std::unique_ptr<Matrix> matrix_;
+    virtual void print(ostream&) const;
+    Matrix* matrix_;
     LatLonProjP projection_;
 
 private:

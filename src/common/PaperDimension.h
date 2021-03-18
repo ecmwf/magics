@@ -25,6 +25,7 @@
 #include "Factory.h"
 #include "MagTranslator.h"
 #include "magics.h"
+#include "magics_windef.h"
 
 namespace magics {
 
@@ -41,7 +42,7 @@ public:
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
 #ifdef MAGICS_ON_WINDOWS
-    virtual void print(ostream& s) const { s << "PaperDimension[]"; };
+    virtual void print(ostream&) const {};
 #else
     virtual void print(ostream&) const = 0;
 #endif
@@ -70,10 +71,10 @@ public:
         smallDimension_ = 10.5;
         largeDimension_ = 14.8;
     }
-    ~A6() override {}
+    ~A6() {}
 
 protected:
-    virtual void print(ostream& out) const override { out << "format=a6[10.5,29.7]"; }
+    virtual void print(ostream& out) const { out << "format=a6[10.5,29.7]"; }
 };
 
 class A5 : public PaperDimension {
@@ -82,10 +83,10 @@ public:
         smallDimension_ = 14.8;
         largeDimension_ = 21.;
     }
-    ~A5() override {}
+    ~A5() {}
 
 protected:
-    virtual void print(ostream& out) const override { out << "format=a5[14.8,21.]"; }
+    virtual void print(ostream& out) const { out << "format=a5[14.8,21.]"; }
 };
 
 class A4 : public PaperDimension {
@@ -94,10 +95,10 @@ public:
         smallDimension_ = 21.;
         largeDimension_ = 29.7;
     }
-    ~A4() override {}
+    ~A4() {}
 
 protected:
-    virtual void print(ostream& out) const override { out << "format=a4[21.,29.7]"; }
+    virtual void print(ostream& out) const { out << "format=a4[21.,29.7]"; }
 };
 
 class A3 : public PaperDimension {
@@ -106,10 +107,10 @@ public:
         smallDimension_ = 29.7;
         largeDimension_ = 42.;
     }
-    ~A3() override {}
+    ~A3() {}
 
 protected:
-    virtual void print(ostream& out) const override { out << "format=a3[29.7,42.]"; }
+    virtual void print(ostream& out) const { out << "format=a3[29.7,42.]"; }
 };
 
 template <>

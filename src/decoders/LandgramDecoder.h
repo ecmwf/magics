@@ -35,32 +35,31 @@ namespace magics {
 class LandgramDecoder : public LandgramDecoderAttributes, public Decoder, public Data, public XmlNodeVisitor {
 public:
     LandgramDecoder();
-    virtual ~LandgramDecoder() override;
+    virtual ~LandgramDecoder();
     // implements Decoder interface
-    void decode() override;
+    void decode();
 
-    virtual void set(const map<string, string>& map) override { LandgramDecoderAttributes::set(map); }
-    virtual void set(const XmlNode& node) override { LandgramDecoderAttributes::set(node); }
-    void visit(const XmlNode& node) override;
-    void visit(TextVisitor& node) override;
+    virtual void set(const map<string, string>& map) { LandgramDecoderAttributes::set(map); }
+    virtual void set(const XmlNode& node) { LandgramDecoderAttributes::set(node); }
+    void visit(const XmlNode& node);
+    void visit(TextVisitor& node);
 
 
     PointsHandler& points() { throw MethodNotYetImplemented("LandgramDecoder::points()"); }
-    virtual MatrixHandler& matrix() override {
+    virtual MatrixHandler& matrix() {
         decode();
         matrixHandlers_.push_back(new MatrixHandler(matrix_));
         return *(matrixHandlers_.back());
     }
     void customisedPoints(const std::set<string>&, CustomisedPointsList&);
-    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out,
-                          bool all) override {
+    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all) {
         customisedPoints(n, out);
     }
-    PointsHandler& points(const Transformation& t, bool) override { return points(); }
+    PointsHandler& points(const Transformation& t, bool) { return points(); }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     Matrix matrix_;
     vector<double> values_;
     vector<double> steps_;

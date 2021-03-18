@@ -37,7 +37,7 @@ class XmlNode;
 class ShapeDecoder : public ShapeDecoderAttributes, public Data, public Decoder, public vector<PointsList*> {
 public:
     ShapeDecoder();
-    virtual ~ShapeDecoder() override;
+    virtual ~ShapeDecoder();
     //! Method to access the data as a list of points : Used by psymb.
 
     virtual void decode(const Transformation&);
@@ -46,24 +46,23 @@ public:
     void clip(const Transformation&, const vector<Polyline>&, vector<Polyline*>&) const;
     void clipAndClose(const Transformation&, const vector<Polyline>&, vector<Polyline*>&) const;
     virtual void decode(const Transformation&, const string&, const vector<string>&);
-    void set(const map<string, string>& map) override { ShapeDecoderAttributes::set(map); }
-    void set(const XmlNode& node) override { ShapeDecoderAttributes::set(node); }
+    void set(const map<string, string>& map) { ShapeDecoderAttributes::set(map); }
+    void set(const XmlNode& node) { ShapeDecoderAttributes::set(node); }
     void customisedPoints(const std::set<string>&, CustomisedPointsList&);
-    void decode() override { NOTIMP; }
+    void decode() { ASSERT(false); }
     void needHoles(bool holes) { holes_ = holes; }
     void setPath(const string& path) { path_ = path; }
     PointsHandler& points() { NOTIMP; }
 
-    PointsHandler& points(const Transformation&, bool) override { NOTIMP; }
+    PointsHandler& points(const Transformation&, bool) { NOTIMP; }
 
-    void customisedPoints(const Transformation&, const std::set<string>& n, CustomisedPointsList& out, bool) override {
+    void customisedPoints(const Transformation&, const std::set<string>& n, CustomisedPointsList& out, bool) {
         customisedPoints(n, out);
     }
 
-
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     bool holes_;  // Do we need to deal with the holes during decoding!.
 
     //! Method to ensure all inner rings lie within outer ring of polygon

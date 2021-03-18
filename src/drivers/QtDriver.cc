@@ -16,16 +16,16 @@
 
 */
 
-#include "QtDriver.h"
-#include "AnimationRules.h"
-#include "Flag.h"
+#include <AnimationRules.h>
+#include <Flag.h>
+#include <Image.h>
+#include <ImportObject.h>
+#include <Layer.h>
+#include <Polyline.h>
+#include <QtDriver.h>
+#include <Symbol.h>
+#include <Text.h>
 #include "HistoVisitor.h"
-#include "Image.h"
-#include "ImportObject.h"
-#include "Layer.h"
-#include "Polyline.h"
-#include "Symbol.h"
-#include "Text.h"
 
 #include <QApplication>
 #include <QDebug>
@@ -135,7 +135,7 @@ void QtDriver::open() {
     const int qtDpiResolution = (!scList.isEmpty()) ? scList.at(0)->logicalDotsPerInchY() : 72;
 #elif defined(Q_WS_X11)  // Do we work with a X11 display?
     const int qtDpiResolution = QX11Info::appDpiY(0);
-#else  // for MacOS X with Qt4
+#else                    // for MacOS X with Qt4
     const int qtDpiResolution = 95;
 #endif
 
@@ -445,7 +445,7 @@ MAGICS_NO_EXPORT void QtDriver::project(MgQLayoutItem* item) const {
 		if(layout.name() != "drawing")
 			r->setBrush(Qt::cyan);
 		else
-			r->setBrush(Qt::red);
+			r->setBrush(Qt::red);	
 		//r->setTransform(tr);
 		//scene_->addItem(r);
 		//group->addToGroup(r);
@@ -491,7 +491,7 @@ MAGICS_NO_EXPORT void QtDriver::unproject() const {
     if (dimensionStack_.empty()) {
         MagLog::error() << "--->UNPROJECT ("
                         << ") Dimension stack error!" << endl;
-        ASSERT(dimensionStack_.empty() == false);
+        assert(dimensionStack_.empty() == false);
     }
 
     coordRatioX_ = scalesX_.top();
@@ -615,7 +615,7 @@ MAGICS_NO_EXPORT void QtDriver::closeLayer(MgQLayerItem* qln) const {
         return;
 
     // Get current layer item
-    // ASSERT(qln->layer().id() == layer.id());
+    // assert(qln->layer().id() == layer.id());
 
     // Pop layer item from the stack
     layerItemStack_.pop();
@@ -1084,7 +1084,7 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
     MFloat pheight;
 
     // Check if all the text items has the same font, size, colour  and style
-    ASSERT(text.textBegin() != text.textEnd());
+    assert(text.textBegin() != text.textEnd());
     const MagFont& magfontFirst = (text.textBegin())->font();
     bool sameFontForItems       = true;
     for (vector<NiceText>::const_iterator niceText = text.textBegin(); niceText != text.textEnd(); niceText++) {
@@ -1555,21 +1555,20 @@ MAGICS_NO_EXPORT void QtDriver::renderImage(const ImportObject& obj) const {
 
     MgQPixmapItem* item = new MgQPixmapItem(QPixmap::fromImage(img.mirrored(false, true)));
 
-    MFloat x0 = 0., y0 = 0., x1 = 0., y1 = 0.;
+    MFloat x0 = 0., y0 = 0., x1 =0.,  y1=0.;
 
     if (obj.getOriginReference() == ImageProperties::centre) {
-        x0 = projectX(obj.getOrigin().x() - width / 2.);
-        y0 = projectY(obj.getOrigin().y() - height / 2.);
-        x1 = projectX(obj.getOrigin().x() + width / 2.);
-        y1 = projectY(obj.getOrigin().y() + height / 2.);
-    }
-    else {
+        x0 = projectX(obj.getOrigin().x() - width/2.);
+        y0 = projectY(obj.getOrigin().y() - height/2.);
+        x1 = projectX(obj.getOrigin().x() + width/2.);
+        y1 = projectY(obj.getOrigin().y() + height/2.);
+    } else {
         x0 = projectX(obj.getOrigin().x());
         y0 = projectY(obj.getOrigin().y());
         x1 = projectX(obj.getOrigin().x() + width);
         y1 = projectY(obj.getOrigin().y() + height);
     }
-
+    
     item->setParentItem(currentItem_);
     item->setTargetRect(QRectF(x0, y0, x1 - x0, y1 - y0));
     item->setPos(x0, y0);

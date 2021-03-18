@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -28,17 +28,17 @@ CartesianTransformationAttributes::CartesianTransformationAttributes():
 	
 	x_(MagTranslator<string, XCoordinate>().magics("subpage_x_axis_type")),
 	y_(MagTranslator<string, YCoordinate>().magics("subpage_y_axis_type"))
-	
+	 
 {
-}
+} 
 
 
 CartesianTransformationAttributes::~CartesianTransformationAttributes()
 {
-
+	
 }
 
-
+    
 void CartesianTransformationAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -56,12 +56,12 @@ void CartesianTransformationAttributes::copy(const CartesianTransformationAttrib
 	x_ = unique_ptr<XCoordinate>(other.x_->clone());
 	y_ = unique_ptr<YCoordinate>(other.y_->clone());
 	
-}
+} 
 
 
 bool CartesianTransformationAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "cartesian")  )
 		return true;
 	if ( acceptNode(node, x_) )
@@ -76,7 +76,7 @@ void CartesianTransformationAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "cartesian")  )
@@ -92,8 +92,8 @@ void CartesianTransformationAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), x_, *elt);
-		setMember(elt->name(), y_, *elt);
+		setMember(elt->name(), x_, *elt); 
+		setMember(elt->name(), y_, *elt); 
 		
 	}
 }
@@ -109,7 +109,7 @@ void CartesianTransformationAttributes::print(ostream& out)  const
 
 void CartesianTransformationAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"cartesian\"";
+	out <<  "\"cartesian\""; 
 	out << ", \"subpage_x_axis_type\":";
 	x_->toxml(out);
 	out << ", \"subpage_y_axis_type\":";
@@ -117,8 +117,8 @@ void CartesianTransformationAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> subpage_x_axis_type("subpage_x_axis_type", "regular");
-static MagicsParameter<string> subpage_y_axis_type("subpage_y_axis_type", "regular");
+static MagicsParameter<string> subpage_x_axis_type("subpage_x_axis_type", "regular", ""); 
+static MagicsParameter<string> subpage_y_axis_type("subpage_y_axis_type", "regular", ""); 
 #include "Coordinate.h"
 static SimpleObjectMaker<XRegularCoordinate , XCoordinate> x_regular_XRegularCoordinate("x_regular");
 static SimpleObjectMaker<XRegularCoordinate , XCoordinate> regular_XRegularCoordinate("regular");

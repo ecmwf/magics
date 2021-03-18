@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -29,17 +29,17 @@ CoastPlottingAttributes::CoastPlottingAttributes():
 	,
 	colour_(MagTranslator<string, Colour>().magics("map_coastline_colour")),
 	style_(MagTranslator<string, LineStyle>().magics("map_coastline_style"))
-	
+	 
 {
-}
+} 
 
 
 CoastPlottingAttributes::~CoastPlottingAttributes()
 {
-
+	
 }
 
-
+    
 void CoastPlottingAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -60,12 +60,12 @@ void CoastPlottingAttributes::copy(const CoastPlottingAttributes& other)
 	colour_ = unique_ptr<Colour>(other.colour_->clone());
 	style_ = other.style_;
 	
-}
+} 
 
 
 bool CoastPlottingAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "coast")  )
 		return true;
 	
@@ -76,7 +76,7 @@ void CoastPlottingAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "coast")  )
@@ -106,7 +106,7 @@ void CoastPlottingAttributes::print(ostream& out)  const
 
 void CoastPlottingAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"coast\"";
+	out <<  "\"coast\""; 
 	out << ", \"map_coastline_thickness\":";
 	niceprint(out,thickness_);
 	out << ", \"map_coastline_colour\":";
@@ -116,6 +116,6 @@ void CoastPlottingAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<int> map_coastline_thickness("map_coastline_thickness", 1);
-static MagicsParameter<string> map_coastline_colour("map_coastline_colour", "black");
-static MagicsParameter<string> map_coastline_style("map_coastline_style", "solid");
+static MagicsParameter<int> map_coastline_thickness("map_coastline_thickness", 1, "");
+static MagicsParameter<string> map_coastline_colour("map_coastline_colour", "black", ""); 
+static MagicsParameter<string> map_coastline_style("map_coastline_style", "solid", ""); 

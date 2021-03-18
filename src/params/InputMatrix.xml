@@ -53,14 +53,6 @@ does it submit to any jurisdiction.
 			<option xml="irregular" fortran="nonregular" include="InputMatrixInterpretor.h" name="InputMatrixIrregularInterpretor"></option>
 			<documentation>How data is organized in the input field (REGULAR /IRREGULAR/)</documentation>
 		</parameter>
-		<parameter xml="input_field_units"
-			from="string"
-			name="input_field_units"
-			default=""
-			member="units"
-			to="string">
-			<documentation>Units of the input field</documentation>
-		</parameter>
 		<parameter xml="input_metadata"
 			from="string"
 			name="input_metadata"
@@ -68,7 +60,8 @@ does it submit to any jurisdiction.
 			member="metadata"
 			to="string">
 			<documentation>Json Object that contains metadata to descrive the the input data: will be used by the automatic eccharts contouring</documentation>
-		</parameter>		<parameter xml="input_field_subpage_mapping"
+		</parameter>
+		<parameter xml="input_field_subpage_mapping"
 			from="string"
 			name="input_field_subpage_mapping"
 			default="upper_left"

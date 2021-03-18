@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "cds_sp_spread",
-    "preferred_units": "hPa",
+    "prefered_units": "hPa",
     "styles": [
       "sh_magenta_f01t50"
     ],

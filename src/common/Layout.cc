@@ -47,7 +47,7 @@ Layout::Layout() :
     height_(100),
     x_(0),
     y_(0),
-    display_(DisplayType::INLINE),
+    display_(M_DT_INLINE),
     xmin_(0),
     xmax_(100),
     ymin_(0),
@@ -119,8 +119,7 @@ MagnifierLayout::~MagnifierLayout() {}
 MagnifierLayout::MagnifierLayout() {}
 
 
-LayoutFrame::LayoutFrame() :
-    thickness_(1), style_(LineStyle::SOLID), colour_("grey"), blanking_(false), visible_(false) {}
+LayoutFrame::LayoutFrame() : thickness_(1), style_(M_SOLID), colour_("grey"), blanking_(false), visible_(false) {}
 
 LayoutFrame::~LayoutFrame() {}
 

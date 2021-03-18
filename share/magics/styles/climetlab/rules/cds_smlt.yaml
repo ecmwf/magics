@@ -1,7 +1,0 @@
-match:
-- paramId: '45'
-  shortName: smlt
-- long_name: Snowmelt
-styles:
-- sh_all_f0t04lst
-

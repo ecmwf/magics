@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-
+   
 
 #ifndef XLogarithmicCoordinateWrapper_H
 #define XLogarithmicCoordinateWrapper_H
@@ -33,7 +33,7 @@
 #include "Coordinate.h"
 
 
-
+ 
 #include "XCoordinateWrapper.h"
 
 
@@ -41,7 +41,7 @@
 
 
 
-
+ 
 
 namespace magics {
 
@@ -58,29 +58,29 @@ public:
 //  --  destructor
     virtual ~XLogarithmicCoordinateWrapper();
     virtual void set(const MagRequest&);
-
+    
     XLogarithmicCoordinate* me()   { return xlogarithmiccoordinate_; }
-
+   	
    	virtual XLogarithmicCoordinate* object() { return xlogarithmiccoordinate_; }
+	
 
-
-	virtual void object(XLogarithmicCoordinate* o) {
+	virtual void object(XLogarithmicCoordinate* o) { 
 		// Remember to delete the previous object
 		xlogarithmiccoordinate_ = o;
 		XCoordinateWrapper::object(o);
 		
 
 	}
-
-
+    
+  
 
 protected:
     XLogarithmicCoordinate* xlogarithmiccoordinate_;
 
 
 //  --  method
-	virtual void print(ostream&) const override;
-
+	virtual void print(ostream&) const;
+	
 
 private:
     string tag_;
@@ -91,3 +91,5 @@ private:
 } // namespace magics
 
 #endif
+
+

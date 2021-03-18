@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "cds_tp_interval",
-    "preferred_units": "mm",
+    "prefered_units": "mm",
     "styles": [
       "sh_blured_f0000008t00042lst",
       "sh_blured_f1t100lst",

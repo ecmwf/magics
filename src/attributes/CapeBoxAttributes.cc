@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -39,17 +39,17 @@ CapeBoxAttributes::CapeBoxAttributes():
 	marker_colour_(MagTranslator<string, Colour>().magics("cape_marker_colour")),
 	box_style_(MagTranslator<string, LineStyle>().magics("cape_box_line_style")),
 	text_font_colour_(MagTranslator<string, Colour>().magics("cape_text_font_colour"))
-	
+	 
 {
-}
+} 
 
 
 CapeBoxAttributes::~CapeBoxAttributes()
 {
-
+	
 }
 
-
+    
 void CapeBoxAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -89,12 +89,12 @@ void CapeBoxAttributes::copy(const CapeBoxAttributes& other)
 	box_style_ = other.box_style_;
 	text_font_colour_ = unique_ptr<Colour>(other.text_font_colour_->clone());
 	
-}
+} 
 
 
 bool CapeBoxAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "capebox")  )
 		return true;
 	
@@ -105,7 +105,7 @@ void CapeBoxAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "capebox")  )
@@ -145,7 +145,7 @@ void CapeBoxAttributes::print(ostream& out)  const
 
 void CapeBoxAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"capebox\"";
+	out <<  "\"capebox\""; 
 	out << ", \"cape_box_border_thickness\":";
 	niceprint(out,box_border_thickness_);
 	out << ", \"cape_marker_index\":";
@@ -175,16 +175,16 @@ void CapeBoxAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> cape_box_border_thickness("cape_box_border_thickness", 2);
-static MagicsParameter<int> cape_marker_index("cape_marker_index", 15);
-static MagicsParameter<double> cape_marker_height("cape_marker_height", 0.5);
-static MagicsParameter<double> cape_box_thickness("cape_box_thickness", 1);
-static MagicsParameter<double> cape_box_width("cape_box_width", 1);
-static MagicsParameter<double> cape_text_font_size("cape_text_font_size", 0.5);
-static MagicsParameter<string> cape_control_colour("cape_control_colour", "red");
-static MagicsParameter<string> cape_hres_colour("cape_hres_colour", "blue");
-static MagicsParameter<string> cape_box_colour("cape_box_colour", "black");
-static MagicsParameter<string> cape_box_border_colour("cape_box_border_colour", "black");
-static MagicsParameter<string> cape_marker_colour("cape_marker_colour", "black");
-static MagicsParameter<string> cape_box_line_style("cape_box_line_style", "solid");
-static MagicsParameter<string> cape_text_font_colour("cape_text_font_colour", "black");
+static MagicsParameter<double> cape_box_border_thickness("cape_box_border_thickness", 2, "");
+static MagicsParameter<int> cape_marker_index("cape_marker_index", 15, "");
+static MagicsParameter<double> cape_marker_height("cape_marker_height", 0.5, "");
+static MagicsParameter<double> cape_box_thickness("cape_box_thickness", 1, "");
+static MagicsParameter<double> cape_box_width("cape_box_width", 1, "");
+static MagicsParameter<double> cape_text_font_size("cape_text_font_size", 0.5, "");
+static MagicsParameter<string> cape_control_colour("cape_control_colour", "red", ""); 
+static MagicsParameter<string> cape_hres_colour("cape_hres_colour", "blue", ""); 
+static MagicsParameter<string> cape_box_colour("cape_box_colour", "black", ""); 
+static MagicsParameter<string> cape_box_border_colour("cape_box_border_colour", "black", ""); 
+static MagicsParameter<string> cape_marker_colour("cape_marker_colour", "black", ""); 
+static MagicsParameter<string> cape_box_line_style("cape_box_line_style", "solid", ""); 
+static MagicsParameter<string> cape_text_font_colour("cape_text_font_colour", "black", ""); 

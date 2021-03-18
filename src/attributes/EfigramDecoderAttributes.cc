@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -44,17 +44,17 @@ EfigramDecoderAttributes::EfigramDecoderAttributes():
 	legend_normal_thickness_(ParameterManager::getInt("efi_legend_normal_thickness"))
 	,
 	legend_normal_colour_(MagTranslator<string, Colour>().magics("efi_legend_normal_colour"))
-	
+	 
 {
-}
+} 
 
 
 EfigramDecoderAttributes::~EfigramDecoderAttributes()
 {
-
+	
 }
 
-
+    
 void EfigramDecoderAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -104,12 +104,12 @@ void EfigramDecoderAttributes::copy(const EfigramDecoderAttributes& other)
 	legend_normal_thickness_ = other.legend_normal_thickness_;
 	legend_normal_colour_ = unique_ptr<Colour>(other.legend_normal_colour_->clone());
 	
-}
+} 
 
 
 bool EfigramDecoderAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "efigram")  )
 		return true;
 	
@@ -120,7 +120,7 @@ void EfigramDecoderAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "efigram")  )
@@ -165,7 +165,7 @@ void EfigramDecoderAttributes::print(ostream& out)  const
 
 void EfigramDecoderAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"efigram\"";
+	out <<  "\"efigram\""; 
 	out << ", \"efi_root_database\":";
 	niceprint(out,database_);
 	out << ", \"efi_legend_root_database\":";
@@ -205,21 +205,21 @@ void EfigramDecoderAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> efi_root_database("efi_root_database", "");
-static MagicsParameter<string> efi_legend_root_database("efi_legend_root_database", "");
-static MagicsParameter<string> efi_clim_root_database("efi_clim_root_database", "");
-static MagicsParameter<stringarray> efi_dates("efi_dates", stringarray());
-static MagicsParameter<string> efi_clim_parameter("efi_clim_parameter", "");
-static MagicsParameter<string> efi_clim_date("efi_clim_date", "");
-static MagicsParameter<int> efi_clim_step("efi_clim_step", 36);
-static MagicsParameter<intarray> efi_steps("efi_steps", intarray());
-static MagicsParameter<string> efi_parameter("efi_parameter", "");
-static MagicsParameter<string> efi_long_title("efi_long_title", "off");
-static MagicsParameter<string> efi_title("efi_title", "off");
-static MagicsParameter<double> efi_latitude("efi_latitude", 0);
-static MagicsParameter<double> efi_longitude("efi_longitude", 0);
-static MagicsParameter<string> efi_legend("efi_legend", "on");
-static MagicsParameter<stringarray> efi_legend_colour_list("efi_legend_colour_list", stringarray());
-static MagicsParameter<string> efi_legend_box_type("efi_legend_box_type", "both");
-static MagicsParameter<int> efi_legend_normal_thickness("efi_legend_normal_thickness", 4);
-static MagicsParameter<string> efi_legend_normal_colour("efi_legend_normal_colour", "black");
+static MagicsParameter<string> efi_root_database("efi_root_database", "", "");
+static MagicsParameter<string> efi_legend_root_database("efi_legend_root_database", "", "");
+static MagicsParameter<string> efi_clim_root_database("efi_clim_root_database", "", "");
+static MagicsParameter<stringarray> efi_dates("efi_dates", stringarray(), "");
+static MagicsParameter<string> efi_clim_parameter("efi_clim_parameter", "", "");
+static MagicsParameter<string> efi_clim_date("efi_clim_date", "", "");
+static MagicsParameter<int> efi_clim_step("efi_clim_step", 36, "");
+static MagicsParameter<intarray> efi_steps("efi_steps", intarray(), "");
+static MagicsParameter<string> efi_parameter("efi_parameter", "", "");
+static MagicsParameter<string> efi_long_title("efi_long_title", "off", "");
+static MagicsParameter<string> efi_title("efi_title", "off", "");
+static MagicsParameter<double> efi_latitude("efi_latitude", 0, "");
+static MagicsParameter<double> efi_longitude("efi_longitude", 0, "");
+static MagicsParameter<string> efi_legend("efi_legend", "on", "");
+static MagicsParameter<stringarray> efi_legend_colour_list("efi_legend_colour_list", stringarray(), "");
+static MagicsParameter<string> efi_legend_box_type("efi_legend_box_type", "both", "");
+static MagicsParameter<int> efi_legend_normal_thickness("efi_legend_normal_thickness", 4, "");
+static MagicsParameter<string> efi_legend_normal_colour("efi_legend_normal_colour", "black", ""); 

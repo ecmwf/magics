@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-
+   
 
 #ifndef XmlViewNodeWrapper_H
 #define XmlViewNodeWrapper_H
@@ -33,7 +33,7 @@
 #include "XmlViewNode.h"
 
 
-
+ 
 #include "XmlBasicNodeWrapper.h"
 
 
@@ -42,7 +42,7 @@
 
 
 #include "TransformationWrapper.h"
-
+ 
 
 namespace magics {
 
@@ -59,29 +59,29 @@ public:
 //  --  destructor
     virtual ~XmlViewNodeWrapper();
     virtual void set(const MagRequest&);
-
+    
     XmlViewNode* me()   { return xmlviewnode_; }
-
+   	
    	virtual XmlViewNode* object() { return xmlviewnode_; }
+	
 
-
-	virtual void object(XmlViewNode* o) {
+	virtual void object(XmlViewNode* o) { 
 		// Remember to delete the previous object
 		xmlviewnode_ = o;
 		XmlBasicNodeWrapper::object(o);
 		
 
 	}
-
-
+    
+  
 
 protected:
     XmlViewNode* xmlviewnode_;
 
 
 //  --  method
-	virtual void print(ostream&) const override;
-
+	virtual void print(ostream&) const;
+	
 
 private:
     string tag_;
@@ -92,3 +92,5 @@ private:
 } // namespace magics
 
 #endif
+
+

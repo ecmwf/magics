@@ -22,10 +22,7 @@
 #include "XmlReader.h"
 #include "MagException.h"
 #include "MagLog.h"
-#include "MagicsSettings.h"
 #include "expat.h"
-
-
 using namespace magics;
 
 XmlReader::XmlReader(bool tag) : dataAsTag_(tag) {}
@@ -71,6 +68,17 @@ static void XMLCALL dataHandler(void* data, const char* value, int len) {
     }
     else
         reader->addData(stringval);
+}
+
+
+static int externalEntityRefHandler(XML_Parser,  //	 parser,
+                                    const XML_Char* context, const XML_Char* base, const XML_Char* systemID,
+                                    const XML_Char* publicID) {
+    // MagLog::dev()<< "context--->" << context << endl;
+    // MagLog::dev()<< "base--->" << base << endl;
+    // MagLog::dev()<< "systemID--->" << systemID << endl;
+    // MagLog::dev()<< "publicID--->" << publicID << endl;
+    return 0;
 }
 
 
@@ -120,9 +128,6 @@ void XmlReader::interpret(const string& xml, XmlTree* tree) {
     FILE* in = fopen(xml.c_str(), "r");
 
     if (!in) {
-        if (MagicsSettings::strict()) {
-            throw CannotOpenFile(xml);
-        }
         MagLog::dev() << "XmlDecoder: can not open file " << xml << endl;
         MagLog::error() << "XmlDecoder: can not open file " << xml << endl;
         return;

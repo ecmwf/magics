@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/ksh
 
 
 
@@ -253,7 +253,7 @@ then
     echo "RUNNING MAGML EXAMPLES"
 
     ./make_magml_testsuite -$purpose
-
+    
 #     cd 4_examples/progs
 fi
 
@@ -268,7 +268,7 @@ fi
 
 # copy the output PostScript files across
 # pwd
-# ls -l ../../html/test/magml/
+# ls -l ../../html/test/magml/  
 cp -f ../../html/$purpose/magml/*.ps  ../../../manual/examples/$purpose/magml/ps
 
 
@@ -337,7 +337,7 @@ rm -f pstemp.txt
 
 # copy the output PostScript files across
 # pwd
-# ls -l ../../html/test/magml/
+# ls -l ../../html/test/magml/  
 # cp -f ../../html/$purpose/python/*.ps  ../../../manual/examples/$purpose/python/ps
 
 
@@ -362,7 +362,7 @@ rm -f pstemp.txt
 #    echo "RUNNING MAGML EXAMPLES"
 #
 #    ./make_magml_testsuite -$purpose
-#
+#    
 ##     cd 4_examples/progs
 #fi
 #
@@ -377,7 +377,7 @@ rm -f pstemp.txt
 #
 ## copy the output PostScript files across
 ## pwd
-## ls -l ../../html/test/magml/
+## ls -l ../../html/test/magml/  
 #cp -f ../../html/test/magml/*.ps  ../../../manual/examples/$purpose/magml/ps
 #
 
@@ -415,3 +415,4 @@ mv examples/manual/fortran/png/diagram*.png diagrams
 cd $original_dir
 tools/generate_example_listings
 tools/format_listings -$purpose
+

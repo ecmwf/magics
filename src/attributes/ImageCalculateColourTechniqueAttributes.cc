@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -29,17 +29,17 @@ ImageCalculateColourTechniqueAttributes::ImageCalculateColourTechniqueAttributes
 	,
 	max_(MagTranslator<string, Colour>().magics("image_max_level_colour")),
 	min_(MagTranslator<string, Colour>().magics("image_min_level_colour"))
-	
+	 
 {
-}
+} 
 
 
 ImageCalculateColourTechniqueAttributes::~ImageCalculateColourTechniqueAttributes()
 {
-
+	
 }
 
-
+    
 void ImageCalculateColourTechniqueAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -59,12 +59,12 @@ void ImageCalculateColourTechniqueAttributes::copy(const ImageCalculateColourTec
 	max_ = unique_ptr<Colour>(other.max_->clone());
 	min_ = unique_ptr<Colour>(other.min_->clone());
 	
-}
+} 
 
 
 bool ImageCalculateColourTechniqueAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "lut_computed")  )
 		return true;
 	
@@ -75,7 +75,7 @@ void ImageCalculateColourTechniqueAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "lut_computed")  )
@@ -105,7 +105,7 @@ void ImageCalculateColourTechniqueAttributes::print(ostream& out)  const
 
 void ImageCalculateColourTechniqueAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"lut_computed\"";
+	out <<  "\"lut_computed\""; 
 	out << ", \"image_colour_direction\":";
 	niceprint(out,direction_);
 	out << ", \"image_max_level_colour\":";
@@ -115,6 +115,6 @@ void ImageCalculateColourTechniqueAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> image_colour_direction("image_colour_direction", "anti_clockwise");
-static MagicsParameter<string> image_max_level_colour("image_max_level_colour", "blue");
-static MagicsParameter<string> image_min_level_colour("image_min_level_colour", "red");
+static MagicsParameter<string> image_colour_direction("image_colour_direction", "anti_clockwise", "");
+static MagicsParameter<string> image_max_level_colour("image_max_level_colour", "blue", ""); 
+static MagicsParameter<string> image_min_level_colour("image_min_level_colour", "red", ""); 

@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -32,17 +32,17 @@ XHyperCoordinateAttributes::XHyperCoordinateAttributes():
 	reverse_(ParameterManager::getBool("subpage_x_automatic_reverse"))
 	,
 	automatic_(MagTranslator<string, AxisAutomaticSetting>().magics("subpage_x_automatic"))
-	
+	 
 {
-}
+} 
 
 
 XHyperCoordinateAttributes::~XHyperCoordinateAttributes()
 {
-
+	
 }
 
-
+    
 void XHyperCoordinateAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(3);
@@ -70,12 +70,12 @@ void XHyperCoordinateAttributes::copy(const XHyperCoordinateAttributes& other)
 	reverse_ = other.reverse_;
 	automatic_ = other.automatic_;
 	
-}
+} 
 
 
 bool XHyperCoordinateAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "x_hyper")  )
 		return true;
 	
@@ -86,7 +86,7 @@ void XHyperCoordinateAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "x_hyper")  )
@@ -119,7 +119,7 @@ void XHyperCoordinateAttributes::print(ostream& out)  const
 
 void XHyperCoordinateAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"x_hyper\"";
+	out <<  "\"x_hyper\""; 
 	out << ", \"subpage_x_min_latitude\":";
 	niceprint(out,min_lat_);
 	out << ", \"subpage_x_max_latitude\":";
@@ -135,9 +135,9 @@ void XHyperCoordinateAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> subpage_x_min_latitude("subpage_x_min_latitude", -90);
-static MagicsParameter<double> subpage_x_max_latitude("subpage_x_max_latitude", 90);
-static MagicsParameter<double> subpage_x_min_longitude("subpage_x_min_longitude", -180);
-static MagicsParameter<double> subpage_x_max_longitude("subpage_x_max_longitude", 180);
-static MagicsParameter<string> subpage_x_automatic_reverse("subpage_x_automatic_reverse", "off");
-static MagicsParameter<string> subpage_x_automatic("subpage_x_automatic", "off");
+static MagicsParameter<double> subpage_x_min_latitude("subpage_x_min_latitude", -90, "");
+static MagicsParameter<double> subpage_x_max_latitude("subpage_x_max_latitude", 90, "");
+static MagicsParameter<double> subpage_x_min_longitude("subpage_x_min_longitude", -180, "");
+static MagicsParameter<double> subpage_x_max_longitude("subpage_x_max_longitude", 180, "");
+static MagicsParameter<string> subpage_x_automatic_reverse("subpage_x_automatic_reverse", "off", "");
+static MagicsParameter<string> subpage_x_automatic("subpage_x_automatic", "off", ""); 

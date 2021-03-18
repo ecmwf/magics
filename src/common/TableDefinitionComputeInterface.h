@@ -32,14 +32,14 @@ template <class T>
 class TableDefinitionComputeInterface {
 public:
     TableDefinitionComputeInterface() {}
-    virtual ~TableDefinitionComputeInterface() override {}
+    virtual ~TableDefinitionComputeInterface() {}
     virtual int getCount() const = 0;
-    virtual T getMin() const override { return std::numeric_limits<T>::max(); }
-    virtual T getMax() const override { return std::numeric_limits<T>::min(); }
+    virtual T getMin() const { return std::numeric_limits<T>::max(); }
+    virtual T getMax() const { return std::numeric_limits<T>::min(); }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& s) const override { s << "TableDefinitionComputeInterface[]"; }
+    virtual void print(ostream&) const {}
 
 private:
     //! Copy constructor - No copy allowed

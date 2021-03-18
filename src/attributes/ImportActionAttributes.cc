@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -31,17 +31,17 @@ ImportActionAttributes::ImportActionAttributes():
 	url_(ParameterManager::getString("url")),
 	short_name_(ParameterManager::getString("layers"))
 	
-	
+	 
 {
-}
+} 
 
 
 ImportActionAttributes::~ImportActionAttributes()
 {
-
+	
 }
 
-
+    
 void ImportActionAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -65,12 +65,12 @@ void ImportActionAttributes::copy(const ImportActionAttributes& other)
 	url_ = other.url_;
 	short_name_ = other.short_name_;
 	
-}
+} 
 
 
 bool ImportActionAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "import")  )
 		return true;
 	
@@ -81,7 +81,7 @@ void ImportActionAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "import")  )
@@ -113,7 +113,7 @@ void ImportActionAttributes::print(ostream& out)  const
 
 void ImportActionAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"import\"";
+	out <<  "\"import\""; 
 	out << ", \"import_file_name\":";
 	niceprint(out,path_);
 	out << ", \"import_valid_time\":";
@@ -127,8 +127,8 @@ void ImportActionAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> import_file_name("import_file_name", "");
-static MagicsParameter<string> import_valid_time("import_valid_time", "");
-static MagicsParameter<string> service("service", "");
-static MagicsParameter<string> url("url", "");
-static MagicsParameter<string> layers("layers", "");
+static MagicsParameter<string> import_file_name("import_file_name", "", "");
+static MagicsParameter<string> import_valid_time("import_valid_time", "", "");
+static MagicsParameter<string> service("service", "", "");
+static MagicsParameter<string> url("url", "", "");
+static MagicsParameter<string> layers("layers", "", "");

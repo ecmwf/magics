@@ -60,9 +60,6 @@ void OutputHandler::set(const XmlNode& node, DriverManager& magics) {
         factories_.push_back(factory);
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
-            throw;
-        }
     }
 }
 
@@ -77,9 +74,6 @@ void OutputHandler::drivers(vector<string>& ds) {
             ds.push_back(d);
         }
         catch (...) {
-            if (MagicsSettings::strict()) {
-                throw;
-            }
         }
     }
 }

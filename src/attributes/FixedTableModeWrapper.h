@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-
+   
 
 #ifndef FixedTableModeWrapper_H
 #define FixedTableModeWrapper_H
@@ -33,7 +33,7 @@
 #include "FixedTableMode.h"
 
 
-
+ 
 #include "LookupTableModeWrapper.h"
 
 
@@ -41,7 +41,7 @@
 
 
 
-
+ 
 
 namespace magics {
 
@@ -58,29 +58,29 @@ public:
 //  --  destructor
     virtual ~FixedTableModeWrapper();
     virtual void set(const MagRequest&);
-
+    
     FixedTableMode* me()   { return fixedtablemode_; }
-
+   	
    	virtual FixedTableMode* object() { return fixedtablemode_; }
+	
 
-
-	virtual void object(FixedTableMode* o) {
+	virtual void object(FixedTableMode* o) { 
 		// Remember to delete the previous object
 		fixedtablemode_ = o;
 		LookupTableModeWrapper::object(o);
 		
 
 	}
-
-
+    
+  
 
 protected:
     FixedTableMode* fixedtablemode_;
 
 
 //  --  method
-	virtual void print(ostream&) const override;
-
+	virtual void print(ostream&) const;
+	
 
 private:
     string tag_;
@@ -91,3 +91,5 @@ private:
 } // namespace magics
 
 #endif
+
+

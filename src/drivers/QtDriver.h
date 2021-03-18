@@ -19,14 +19,14 @@
 #ifndef _MPP_QtDriver_H
 #define _MPP_QtDriver_H
 
-#include "BaseDriver.h"
-#include "QtDriverAttributes.h"
-#include "XmlNode.h"
+#include <BaseDriver.h>
+#include <QtDriverAttributes.h>
+#include <XmlNode.h>
 
 #include <QColor>
 #include <QMap>
 
-//#include "Qt/qqwidget.h"
+//#include <Qt/qqwidget.h>
 
 class QGraphicsItem;
 class QGraphicsScene;
@@ -60,14 +60,14 @@ class QtDriver : public BaseDriver, public QtDriverAttributes {
 
 public:
     QtDriver();
-    ~QtDriver() override;
+    ~QtDriver();
     void open();
     void close();
 
     /*!
       \brief sets a new XML node
     */
-    void set(const XmlNode& node) override {
+    void set(const XmlNode& node) {
         if (magCompare(node.name(), "binary")) {
             XmlNode basic = node;
             basic.name("driver");
@@ -80,7 +80,7 @@ public:
     /*!
       \brief sets a new map
     */
-    void set(const map<std::string, std::string>& map) override {
+    void set(const map<std::string, std::string>& map) {
         BaseDriver::set(map);
         QtDriverAttributes::set(map);
     }
@@ -96,9 +96,9 @@ public:
     void setScene(QGraphicsScene* sc) { scene_ = sc; }
 
 private:
-    MAGICS_NO_EXPORT void startPage() const override;
-    MAGICS_NO_EXPORT void endPage() const override;
-    MAGICS_NO_EXPORT void project(const Layout&) const override;
+    MAGICS_NO_EXPORT void startPage() const;
+    MAGICS_NO_EXPORT void endPage() const;
+    MAGICS_NO_EXPORT void project(const Layout&) const;
     MAGICS_NO_EXPORT void project(const PreviewLayout&) const;
     MAGICS_NO_EXPORT void project(const MagnifierLayout&) const;
     MAGICS_NO_EXPORT void project(const HistoLayout&) const;
@@ -127,17 +127,17 @@ private:
     MAGICS_NO_EXPORT void renderSymbols(const Symbol&) const;
 
     //! Methods to redisplay an object (virtual).
-    MAGICS_NO_EXPORT void redisplay(const Layer&) const override;
-    MAGICS_NO_EXPORT void redisplay(const PreviewLayout&) const override;
-    MAGICS_NO_EXPORT void redisplay(const MagnifierLayout&) const override;
-    MAGICS_NO_EXPORT void redisplay(const HistoLayout&) const override;
-    MAGICS_NO_EXPORT void redisplay(const SceneLayout&) const override;
-    MAGICS_NO_EXPORT void redisplay(const SceneLayer&) const override;
-    MAGICS_NO_EXPORT void redisplay(const StaticLayer&) const override;
-    MAGICS_NO_EXPORT void redisplay(const StepLayer&) const override;
+    MAGICS_NO_EXPORT void redisplay(const Layer&) const;
+    MAGICS_NO_EXPORT void redisplay(const PreviewLayout&) const;
+    MAGICS_NO_EXPORT void redisplay(const MagnifierLayout&) const;
+    MAGICS_NO_EXPORT void redisplay(const HistoLayout&) const;
+    MAGICS_NO_EXPORT void redisplay(const SceneLayout&) const;
+    MAGICS_NO_EXPORT void redisplay(const SceneLayer&) const;
+    MAGICS_NO_EXPORT void redisplay(const StaticLayer&) const;
+    MAGICS_NO_EXPORT void redisplay(const StepLayer&) const;
 
-    MAGICS_NO_EXPORT void redisplay(const Arrow&) const override;
-    MAGICS_NO_EXPORT void redisplay(const Flag&) const override;
+    MAGICS_NO_EXPORT void redisplay(const Arrow&) const;
+    MAGICS_NO_EXPORT void redisplay(const Flag&) const;
 
 
     // QtDriver specific member functions BEGIN
@@ -160,8 +160,8 @@ private:
     QColor getQtColour(const Colour&) const;
 
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    void print(ostream&) const override;
-    MAGICS_NO_EXPORT void debugOutput(const string& s) const override;
+    void print(ostream&) const;
+    MAGICS_NO_EXPORT void debugOutput(const string& s) const;
 
     //! Copy constructor - No copy allowed
     QtDriver(const QtDriver&);

@@ -27,7 +27,7 @@
 
 namespace magics {
 
-enum class FlagConvention
+enum FlagConvention
 {
     SI,
     KNOTS

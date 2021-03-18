@@ -36,7 +36,7 @@ namespace magics {
 class BinningObject : public BinningObjectAttributes {
 public:
     BinningObject();
-    ~BinningObject() override;
+    ~BinningObject();
 
     virtual BinningObject* clone() const { return new BinningObject(); }
 
@@ -45,7 +45,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    void print(ostream&) const override;
+    void print(ostream&) const;
     typedef void (BinningObject::*binner)(vector<double>&, double, double);
     map<string, binner> binners_x_;
     map<string, binner> binners_y_;
@@ -77,8 +77,8 @@ private:
 class NoBinningObject : public BinningObject {
 public:
     NoBinningObject() {}
-    ~NoBinningObject() override {}
-    BinningObject* clone() const override { return new NoBinningObject(); }
+    ~NoBinningObject() {}
+    BinningObject* clone() const { return new NoBinningObject(); }
 };
 
 

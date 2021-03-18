@@ -1,9 +1,0 @@
-match:
-- standard_name:
-  - thickness_of_convective_snowfall_amount
-  - thickness_of_snowfall_amount
-  - thickness_of_stratiform_snowfall_amount
-styles:
-- snow_1to10000
-- snow_1to1000_whi
-

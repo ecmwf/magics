@@ -22,13 +22,6 @@ does it submit to any jurisdiction.
 			name="output_title">
 			<documentation>Defines a title for the output which gets displayed if the format supports it.</documentation>
 		</parameter>
-		<parameter member="file"
-			to="string"
-			default=""
-			from="string"
-			name="output_file">
-			<documentation>Defines the name of the output file. The file extension is used to select the format.</documentation>
-		</parameter>
 		<parameter member="name"
 			to="string"
 			default=""

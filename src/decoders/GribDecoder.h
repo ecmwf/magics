@@ -33,7 +33,7 @@
 
 #include "GribLoopAttributes.h"
 
-#include <eccodes.h>
+#include "grib_api.h"
 
 #include "GribInterpretor.h"
 
@@ -55,7 +55,7 @@ public:
     GribFileMagException(const string& file, int index) {
         ostringstream s;
         s << "Grib decoding failed: field " << index << " in " << file << endl;
-        reason(s.str());
+        what_ = s.str();
     }
 };
 
@@ -66,7 +66,7 @@ class GribEntryDecoder;
 class GribDecoder : public Decoder, public Data, public GribDecoderAttributes {
 public:
     GribDecoder();
-    virtual ~GribDecoder() override;
+    virtual ~GribDecoder();
 
     enum InterpolateMethod
     {
@@ -76,29 +76,29 @@ public:
     };
 
     // implements BaseSceneObject interface
-    virtual void set(const map<string, string>& params) override { GribDecoderAttributes::set(params); }
-    virtual void set(const XmlNode& node) override;
+    virtual void set(const map<string, string>& params) { GribDecoderAttributes::set(params); }
+    virtual void set(const XmlNode& node);
     void set(const GribLoop&, int);
     // implements Decoder interface
-    void decode() override;
+    void decode();
     void decode1D();  // RV MF
     void decode2D();
     void decode(const Transformation&);
     void decode2D(const Transformation&);
     void decodeRaster(const Transformation&);
     void decodePoints();
-    void release() override;
+    void release();
     void newPoint(const Transformation&, double, double, double, double, double, vector<CustomisedPoint*>&, double);
     bool verify(const string& where) const;
-    MatrixHandler& direction() override;
+    MatrixHandler& direction();
     // Data Interface : info for the layer managment!
-    string layerId() override {
+    string layerId() {
         decode();
         return layerId_;
     }
     string name() const { return name_; }
-    const DateTime& from() override { return from_; }
-    const DateTime& to() override { return to_; }
+    const DateTime& from() { return from_; }
+    const DateTime& to() { return to_; }
 
     string title() const { return title_; }
 
@@ -121,19 +121,19 @@ public:
 
 
     // implements Decoder
-    void visit(AnimationRules&) override;
-    void visit(MetaDataCollector&) override;
-    void visit(MagnifierCollector&) override;
-    void visit(ValuesCollector&) override;
-    void visit(Transformation&) override;
-    void visit(MetaDataVisitor&) override;
+    void visit(AnimationRules&);
+    void visit(MetaDataCollector&);
+    void visit(MagnifierCollector&);
+    void visit(ValuesCollector&);
+    void visit(Transformation&);
+    void visit(MetaDataVisitor&);
     void ask(MetaDataCollector&);
 
-    const DateDescription& timeStamp() override;
-    const LevelDescription& level() override;
+    const DateDescription& timeStamp();
+    const LevelDescription& level();
 
     // implements Decoder
-    void visit(TextVisitor&) override;
+    void visit(TextVisitor&);
 
     PointsHandler& points() {
         decodePoints();
@@ -145,20 +145,20 @@ public:
         pointsHandlers_.push_back(new BoxPointsHandler(points_, transformation, true));
         return *(pointsHandlers_.back());
     }
-    PointsHandler& points(const Transformation& transformation, bool all) override {
+    PointsHandler& points(const Transformation& transformation, bool all) {
         decodePoints();
         pointsHandlers_.push_back(new BoxPointsHandler(points_, transformation, !all));
         return *(pointsHandlers_.back());
     }
 
-    MatrixHandler& matrix() override {
+    MatrixHandler& matrix() {
         // RV MF
         decode1D();
         //		decode();
         matrixHandlers_.push_back(new MatrixHandler(*xComponent_));
         return *(matrixHandlers_.back());
     }
-    MatrixHandler& matrix(const Transformation& transformation) override {
+    MatrixHandler& matrix(const Transformation& transformation) {
         decode(transformation);
         matrixHandlers_.push_back(new MatrixHandler(*xComponent_));
         return *(matrixHandlers_.back());
@@ -170,13 +170,12 @@ public:
         decodeRaster(transformation);
         return raster_;
     }
-    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out,
-                          bool all) override {}
+    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all) {}
 
     void customisedPoints(const AutomaticThinningMethod&, const Transformation&, const std::set<string>&,
-                          CustomisedPointsList&) override;
+                          CustomisedPointsList&);
     void customisedPoints(const BasicThinningMethod&, const Transformation&, const std::set<string>&,
-                          CustomisedPointsList&) override;
+                          CustomisedPointsList&);
     void customisedPoints(const Transformation& t, CustomisedPointsList& out, double xpts, double ypts, double gap);
 
 
@@ -235,15 +234,11 @@ public:
 
 
     grib_handle* handle() const { return field_; }
-    void initInfo() override;
-
-    virtual string getUnits() const override;
-    virtual void defaultScaling(double& scaling, double& offset, string& dataUnits, string& plotUnits) override;
-    virtual void applyScaling(double scaling, double offset) override;
+    void initInfo();
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
     void handle(grib_handle*);
 
@@ -299,8 +294,8 @@ private:
     vector<GribEntryDecoder*>::iterator entry_;
 
 
-    Data* current() override;
-    Data* next() override;
+    Data* current();
+    Data* next();
 };
 
 
@@ -312,7 +307,6 @@ public:
         handle2_         = 0;
         handle3_         = 0;
         Data::dimension_ = 1;
-        ASSERT(handle);
     }
     GribEntryDecoder(grib_handle* handle1, grib_handle* handle2) {
         field_   = handle1;
@@ -321,8 +315,6 @@ public:
         handle3_ = 0;
 
         Data::dimension_ = 2;
-        ASSERT(handle1);
-        ASSERT(handle2);
     }
     GribEntryDecoder(grib_handle* handle1, grib_handle* handle2, grib_handle* handle3) {
         field_           = handle1;
@@ -330,25 +322,22 @@ public:
         handle2_         = handle2;
         handle3_         = handle3;
         Data::dimension_ = 3;
-        ASSERT(handle1);
-        ASSERT(handle2);
-        ASSERT(handle3);
     }
-    ~GribEntryDecoder() override {}
+    ~GribEntryDecoder() {}
 
-    grib_handle* open(grib_handle*, bool sendMsg = true) override;
+    grib_handle* open(grib_handle*, bool sendMsg = true);
 
-    void openFirstComponent() override { ASSERT(field_); }
-    void openField() override {
+    void openFirstComponent() { ASSERT(field_); }
+    void openField() {
         ASSERT(field_);
         current_handle_ = field_;
     }
 
-    void openSecondComponent() override {
+    void openSecondComponent() {
         ASSERT(handle2_);
         component2_ = handle2_;
     }
-    void openThirdComponent() override {
+    void openThirdComponent() {
         // Can Be NULL
 
         colour_ = handle3_;
@@ -364,21 +353,21 @@ protected:
 class GribLoop : public GribLoopAttributes, public DataLoop {
 public:
     GribLoop();
-    virtual ~GribLoop() override;
+    virtual ~GribLoop();
 
 
-    void set(const map<string, string>& map) override { GribLoopAttributes::set(map); }
-    void set(const XmlNode& node) override { GribLoopAttributes::set(node); }
+    void set(const map<string, string>& map) { GribLoopAttributes::set(map); }
+    void set(const XmlNode& node) { GribLoopAttributes::set(node); }
 
 
-    Data* current() override;
-    bool hasMore() override;
-    void next() override;
-    void setToFirst() override;
+    Data* current();
+    bool hasMore();
+    void next();
+    void setToFirst();
 
 
 protected:
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     vector<GribDecoder*> gribs_;
     GribDecoder* currentgrib_;
     friend class GribDecoder;

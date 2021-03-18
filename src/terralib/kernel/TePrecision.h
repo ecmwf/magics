@@ -25,7 +25,7 @@
 class TL_DLL TePrecision : public TeSingleton<TePrecision> {
 public:
     //! Destructor
-    ~TePrecision() override {}
+    ~TePrecision() {}
 
     friend class TeSingleton<TePrecision>;
 

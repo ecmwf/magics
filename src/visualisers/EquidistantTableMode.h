@@ -35,18 +35,18 @@ namespace magics {
 class EquidistantTableMode : public LookupTableMode {
 public:
     EquidistantTableMode();
-    virtual ~EquidistantTableMode() override;
-    void set(const map<string, string>&) override  // for MagML
+    virtual ~EquidistantTableMode();
+    void set(const map<string, string>&)  // for MagML
     {
         // LookupTableMode::set(map);
         // EquidistantTableModeAttributes::set(map);
     }
 
-    virtual void operator()(Image&, Raster&) override;
+    virtual void operator()(Image&, Raster&);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed

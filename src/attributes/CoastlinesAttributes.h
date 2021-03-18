@@ -26,8 +26,8 @@
 
 #include "magics.h"
 #include "CoastPlotting.h"
-#include "GridPlotting.h"
 #include "LabelPlotting.h"
+#include "GridPlotting.h"
 namespace magics {
 
 class XmlNode;

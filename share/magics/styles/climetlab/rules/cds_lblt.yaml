@@ -1,7 +1,0 @@
-match:
-- paramId: '228010'
-  shortName: lblt
-- long_name: Lake bottom temperature
-styles:
-- sh_blured_f0t40_i4
-

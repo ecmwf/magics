@@ -25,8 +25,8 @@
 #define FortranSceneNodeAttributes_H
 
 #include "magics.h"
-#include "Colour.h"
 #include "PageID.h"
+#include "Colour.h"
 namespace magics {
 
 class XmlNode;

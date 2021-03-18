@@ -35,12 +35,12 @@ namespace magics {
 class HiLoNumber : public HiLoTechnique, public HiLoNumberAttributes {
 public:
     HiLoNumber() {}
-    virtual ~HiLoNumber() override {}
-    void set(const map<string, string>& map) override {
+    virtual ~HiLoNumber() {}
+    void set(const map<string, string>& map) {
         HiLoTechnique::set(map);
         HiLoNumberAttributes::set(map);
     }
-    void set(const XmlNode& node) override {
+    void set(const XmlNode& node) {
         HiLoTechnique::set(node);
         HiLoNumberAttributes::set(node);
     }
@@ -56,8 +56,8 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const override { out << "HiLoNumber"; }
-    virtual void operator()(const PaperPoint& point, HiLo& hilo) override {
+    virtual void print(ostream& out) const { out << "HiLoNumber"; }
+    virtual void operator()(const PaperPoint& point, HiLo& hilo) {
         ostringstream nice;
         nice << MagicsFormat(this->format_, point.value());
 

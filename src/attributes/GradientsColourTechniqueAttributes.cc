@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -31,17 +31,17 @@ GradientsColourTechniqueAttributes::GradientsColourTechniqueAttributes():
 	technique_direction_(ParameterManager::getString("contour_gradients_technique_direction")),
 	steps_(ParameterManager::getIntArray("contour_gradients_step_list"))
 	
-	
+	 
 {
-}
+} 
 
 
 GradientsColourTechniqueAttributes::~GradientsColourTechniqueAttributes()
 {
-
+	
 }
 
-
+    
 void GradientsColourTechniqueAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -65,12 +65,12 @@ void GradientsColourTechniqueAttributes::copy(const GradientsColourTechniqueAttr
 	technique_direction_ = other.technique_direction_;
 	steps_ = other.steps_;
 	
-}
+} 
 
 
 bool GradientsColourTechniqueAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "")  )
 		return true;
 	
@@ -81,7 +81,7 @@ void GradientsColourTechniqueAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "")  )
@@ -113,7 +113,7 @@ void GradientsColourTechniqueAttributes::print(ostream& out)  const
 
 void GradientsColourTechniqueAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"\"";
+	out <<  "\"\""; 
 	out << ", \"contour_gradients_colour_list\":";
 	niceprint(out,colours_);
 	out << ", \"contour_gradients_waypoint_method\":";
@@ -127,8 +127,8 @@ void GradientsColourTechniqueAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<stringarray> contour_gradients_colour_list("contour_gradients_colour_list", stringarray());
-static MagicsParameter<string> contour_gradients_waypoint_method("contour_gradients_waypoint_method", "both");
-static MagicsParameter<string> contour_gradients_technique("contour_gradients_technique", "rgb");
-static MagicsParameter<string> contour_gradients_technique_direction("contour_gradients_technique_direction", "clockwise");
-static MagicsParameter<intarray> contour_gradients_step_list("contour_gradients_step_list", intarray());
+static MagicsParameter<stringarray> contour_gradients_colour_list("contour_gradients_colour_list", stringarray(), "");
+static MagicsParameter<string> contour_gradients_waypoint_method("contour_gradients_waypoint_method", "both", "");
+static MagicsParameter<string> contour_gradients_technique("contour_gradients_technique", "rgb", "");
+static MagicsParameter<string> contour_gradients_technique_direction("contour_gradients_technique_direction", "clockwise", "");
+static MagicsParameter<intarray> contour_gradients_step_list("contour_gradients_step_list", intarray(), "");

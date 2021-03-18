@@ -36,36 +36,35 @@ namespace magics {
 class TableDecoder : public Data, public TableDecoderAttributes, public PointsList {
 public:
     TableDecoder();
-    virtual ~TableDecoder() override {}
+    virtual ~TableDecoder() {}
 
     void prepareXY();
     void prepareGeo();
 
-    void set(const map<string, string>& map) override { TableDecoderAttributes::set(map); }
-    void set(const XmlNode& node) override { TableDecoderAttributes::set(node); }
-    void visit(Transformation& transformation) override;
-    void visit(TextVisitor& title) override;
+    void set(const map<string, string>& map) { TableDecoderAttributes::set(map); }
+    void set(const XmlNode& node) { TableDecoderAttributes::set(node); }
+    void visit(Transformation& transformation);
+    void visit(TextVisitor& title);
 
-    PointsHandler& points(const Transformation& transformation, bool) override;
+    PointsHandler& points(const Transformation& transformation, bool);
 
     PointsHandler& points() {
         this->pointsHandlers_.push_back(new PointsHandler(*this));
         return *(this->pointsHandlers_.back());
     }
 
-    MatrixHandler& matrix() override;
+    MatrixHandler& matrix();
     bool check(const Transformation&, UserPoint*, stack<UserPoint>&);
     void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&);
     void customisedPoints(const std::set<string>&, CustomisedPointsList&);
-    void getReady(const Transformation&) override;
-    string legendText(double, double) override;
-    void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, bool) override;
-    void visit(ValuesCollector&) override;
-
+    void getReady(const Transformation&);
+    string legendText(double, double);
+    void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, bool);
+    void visit(ValuesCollector&);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     void dateSetting(vector<string>&, vector<double>&, DateTime&);
     void numberSetting(vector<double>&, vector<double>&);
     void indexGeoMode(TableReader&);

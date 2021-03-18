@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "fzra",
-    "preferred_units": "mm",
+    "prefered_units": "mm",
     "styles": [
       "sh_all_f05t100",
       "sh_red_f001t10",

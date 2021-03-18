@@ -1,0 +1,56 @@
+{
+    "_name": "data", 
+    "drivers": [
+        {
+            "format": "png", 
+            "fullname": "cloud.png",
+            "output_cairo_transparent_background": "off", 
+            "output_name_first_page_number": "off", 
+            "output_width": "1625"
+        }
+    ], 
+    "height": "788", 
+    "method": "wrep", 
+    "page": {
+        "map": {
+            "border": "off", 
+            "fitted_mode": "expand", 
+            "lower_left_latitude": "21.51", 
+            "lower_left_longitude": "-37.27", 
+            "margin_bottom": "0", 
+            "margin_left": "0", 
+            "margin_right": "0", 
+            "margin_top": "0", 
+            "plot": {
+                "contour": {
+                    "contour": "off", 
+                    "contour_highlight": "off", 
+                    "contour_hilo": "off", 
+                    "contour_interpolation_ceiling": "1", 
+                    "contour_label": "off", 
+                    "contour_legend_text": "Transparency grey (rgbA)", 
+                    "contour_level_list": "0/0.1/0.2/0.3/0.4/0.5/0.6/0.7/0.8/0.9/1.", 
+                    "contour_level_selection_type": "level_list", 
+                    "contour_shade": "on", 
+                    "contour_shade_colour_list": "none/rgba(0.66,0.66,0.66,0)/rgba(0.66,0.66,0.66,0.1)/rgba(0.66,0.66,0.66,0.2)/rgba(0.66,0.66,0.66,0.3)/rgba(0.66,0.66,0.66,0.4)/rgba(0.66,0.66,0.66,0.5)/rgba(0.66,0.66,0.66,0.6)/rgba(0.66,0.66,0.66,0.7)/rgba(0.66,0.66,0.66,0.8)/rgba(0.66,0.66,0.66,0.9)/rgba(0.66,0.66,0.66,1)", 
+                    "contour_shade_colour_method": "list", 
+                    "contour_shade_method": "area_fill",
+                    "icontour_shade_technique": "cell_shading"
+                }, 
+                "grib": {
+                    "input_file_name": "cloud.grib"
+                }
+            }, 
+            "projection": "polar_stereographic", 
+            "upper_right_latitude": "51.28", 
+            "upper_right_longitude": "65", 
+            "vertical_longitude": "0"
+        }, 
+        "meta": {
+            "javascript_path": "cloud.js"
+        }, 
+        "page_id": "off"
+    }, 
+    "version": "3.0", 
+    "width": "1625"
+}

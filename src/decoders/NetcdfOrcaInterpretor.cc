@@ -200,9 +200,6 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
     }
 
     catch (MagicsException& e) {
-        if (MagicsSettings::strict()) {
-            throw;
-        }
         MagLog::error() << e << "\n";
         return false;
     }
@@ -247,9 +244,6 @@ bool NetcdfOrcaInterpretor::interpretAsPoints(PointsList& points) {
     }
 
     catch (MagicsException& e) {
-        if (MagicsSettings::strict()) {
-            throw;
-        }
         MagLog::error() << e << "\n";
     }
     return true;
@@ -296,9 +290,6 @@ void NetcdfOrcaInterpretor::customisedPoints(const Transformation& transformatio
     }
 
     catch (MagicsException& e) {
-        if (MagicsSettings::strict()) {
-            throw;
-        }
         MagLog::error() << e << "\n";
     }
 }

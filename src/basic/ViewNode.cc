@@ -21,7 +21,7 @@
 
 #include "ViewNode.h"
 
-#include "MagConfig.h"
+#include <MagConfig.h>
 
 #include "AnimationRules.h"
 #include "Dimension.h"
@@ -29,7 +29,7 @@
 #include "Layer.h"
 #include "Layout.h"
 #include "LegendVisitor.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 #include "MetaData.h"
 #include "SceneVisitor.h"
 #include "TextVisitor.h"
@@ -275,7 +275,7 @@ void ViewNode::visit(SceneLayer& tree) {
 
     tree.rules(rules_);
 
-    if (MagicsSettings::compatibility())
+    if (MagicsGlobal::compatibility())
         needLegend_ = false;
     // Here we checking for the legend!
     if (!needLegend_) {

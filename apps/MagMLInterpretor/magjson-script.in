@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/ksh
 #set -x
 
 # Platform dependent variables
@@ -8,3 +8,4 @@ echo $LD_LIBRARY_PATH
 
 # Call the real mars script
 exec $MAGPLUS_HOME/bin/magjsonx "$@"
+

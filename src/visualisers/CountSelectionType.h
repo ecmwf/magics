@@ -34,16 +34,16 @@ namespace magics {
 class CountSelectionType : public CountSelectionTypeAttributes, public LevelSelection {
 public:
     CountSelectionType();
-    virtual ~CountSelectionType() override;
+    virtual ~CountSelectionType();
 
 
-    virtual void calculate(double min, double max, bool) override;
+    virtual void calculate(double min, double max, bool);
 
-    void set(const map<string, string>& params) override {
+    void set(const map<string, string>& params) {
         CountSelectionTypeAttributes::set(params);
         LevelSelection::set(params);
     }
-    void set(const XmlNode& node) override {
+    void set(const XmlNode& node) {
         CountSelectionTypeAttributes::set(node);
         if (magCompare(node.name(), "count")) {
             XmlNode level = node;
@@ -51,13 +51,13 @@ public:
             LevelSelection::set(level);
         }
     }
-    void set(const LevelSelectionInterface&) override;
+    void set(const LevelSelectionInterface&);
 
-    double reference(int) const override { return reference_; }
+    double reference(int) const { return reference_; }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed

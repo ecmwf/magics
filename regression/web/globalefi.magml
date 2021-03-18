@@ -1,0 +1,439 @@
+
+<magics version='3.0' >
+
+       <definition>
+        <map id='Europe' margin_top='20%' margin_bottom='0%' projection='polar_stereographic'
+			vertical_longitude="0"
+                        lower_left_longitude="-37"
+                        lower_left_latitude="21"
+                        upper_right_longitude="68"
+                        upper_right_latitude="48" />
+        <map id='Global' margin_top='25%' margin_bottom='0%' projection='cylindrical'
+                        lower_left_longitude="-180"
+                        lower_left_latitude="-90"
+                        upper_right_longitude="180"
+                        upper_right_latitude="90" />
+        <map id='North_America' margin_top='20%' margin_bottom='0%' projection='cylindrical'
+                        lower_left_longitude="-140."
+                        lower_left_latitude="-5."
+                        upper_right_longitude="-15."
+                        upper_right_latitude="80." />
+
+	<map id='South_America' margin_top='20%' margin_bottom='0%' projection='cylindrical'
+                        lower_left_longitude="-125."
+                        lower_left_latitude="-65."
+                        upper_right_longitude="5."
+                        upper_right_latitude="20." />
+	<map id='Asia' margin_top='20%' margin_bottom='0%' projection='cylindrical'
+                        lower_left_longitude="55."
+                        lower_left_latitude="0."
+                        upper_right_longitude="175."
+                        upper_right_latitude="80." />
+	<map id='Australia' margin_top='20%' margin_bottom='0%' projection='cylindrical'
+                        lower_left_longitude="80."
+                        lower_left_latitude="-55."
+                        upper_right_longitude="190."
+                        upper_right_latitude="5." />
+	<map id='Africa' margin_top='20%' margin_bottom='0%' projection='cylindrical'
+                        lower_left_longitude="-45."
+                        lower_left_latitude="-40."
+                        upper_right_longitude="75."
+                        upper_right_latitude="40." />
+
+	<contour id='Europe_contour' level_selection_type='interval'
+                 interval='4.'
+                 line_thickness='1'
+                 line_colour='black'
+                 highlight_thickness='3'
+		 		 highlight_colour='black'
+                 label_quality='high'
+                 label_height='0.4'
+                 hilo_suppress_radius='40.'
+                 hilo_reduction_radius='40.'
+                 lo_colour='sky'
+                 hi_colour='red'
+                 hilo_quality='low'
+                 hilo='on'
+                 hilo_height='0.5'/>
+
+	<contour id='Global_contour'
+                 level_selection_type='interval'
+                 interval='4.'
+                 line_thickness='1'
+                 line_colour='black'
+                 highlight='off'
+                 label_quality='high'
+                 label_height='0.25'
+                 hilo_suppress_radius='40.'
+                 hilo_reduction_radius='40.'
+                 lo_colour='sky'
+                 hi_colour='red'
+                 hilo_quality='low'
+                 hilo='on'
+                 hilo_height='0.5'/>
+
+	<contour id='North_America_contour' level_selection_type='interval'
+                 interval='4.'
+                 line_thickness='1'
+                 line_colour='black'
+                 highlight_thickness='3'
+		 highlight_colour='black'
+                 label_quality='high'
+                 label_height='0.4'
+                 hilo_suppress_radius='40.'
+                 hilo_reduction_radius='40.'
+                 lo_colour='sky'
+                 hi_colour='red'
+                 hilo_quality='low'
+                 hilo='on'
+                 hilo_height='0.5'/>
+
+	<contour id='South_America_contour' level_selection_type='interval'
+                 interval='4.'
+                 line_thickness='1'
+                 line_colour='black'
+                 highlight_thickness='3'
+		 highlight_colour='black'
+                 label_quality='high'
+                 label_height='0.4'
+                 hilo_suppress_radius='40.'
+                 hilo_reduction_radius='40.'
+                 lo_colour='sky'
+                 hi_colour='red'
+                 hilo_quality='low'
+                 hilo='on'
+                 hilo_height='0.5'/>
+	<contour id='Asia_contour' level_selection_type='interval'
+                 interval='4.'
+                 line_thickness='1'
+                 line_colour='black'
+                 highlight_thickness='3'
+		 highlight_colour='black'
+                 label_quality='high'
+                 label_height='0.4'
+                 hilo_suppress_radius='40.'
+                 hilo_reduction_radius='40.'
+                 lo_colour='sky'
+                 hi_colour='red'
+                 hilo_quality='low'
+                 hilo='on'
+                 hilo_height='0.5'/>
+	<contour id='Africa_contour' level_selection_type='interval'
+                 interval='4.'
+                 line_thickness='1'
+                 line_colour='black'
+                 highlight_thickness='3'
+		 highlight_colour='black'
+                 label_quality='high'
+                 label_height='0.4'
+                 hilo_suppress_radius='40.'
+                 hilo_reduction_radius='40.'
+                 lo_colour='sky'
+                 hi_colour='red'
+                 hilo_quality='low'
+                 hilo='on'
+                 hilo_height='0.5'/>
+	<contour id='Australia_contour' level_selection_type='interval'
+                 interval='4.'
+                 line_thickness='1'
+                 line_colour='black'
+                 highlight_thickness='3'
+		 highlight_colour='black'
+                 label_quality='high'
+                 label_height='0.4'
+                 hilo_suppress_radius='40.'
+                 hilo_reduction_radius='40.'
+                 lo_colour='sky'
+                 hi_colour='red'
+                 hilo_quality='low'
+                 hilo='on'
+                 hilo_height='0.5'/>
+
+<!-- Europe markers -->
+	<contour id='Europe_2t' contour='off'
+                 level_selection_type='list'
+                 level_list='-1.5/-0.75/-0.5/0.5/0.75/1.5'
+                 contour_shade='on'
+		 contour_method='linear'
+                 shade_colour_method='list'
+                 shade_colour_list='sky/rgb(0.8,0.9,0.9)/none/yellow/orange'
+                 shade_method='area_fill'
+                 label='off'
+                 hilo='off'/>
+
+        <contour id='Europe_fx' contour='off'
+                 level_selection_type='list'
+                 level_list='0.6/0.8/1.5'
+                 shade='on'
+                 shade_technique='marker'
+                 shade_colour_table='bluish_purple/bluish_purple'
+                 shade_height_table='0.05/0.3'
+                 shade_marker_table='5/17'
+                 label='off'
+                 hilo='off'/>
+        <contour id='Europe_tp' contour='off'
+                 level_selection_type='list'
+                 level_list='0.6/0.8/1.5'
+                 shade='on'
+                 shade_technique='marker'
+                 shade_colour_table='kelly_green/kelly_green'
+                 shade_height_table='0.05/0.3'
+                 shade_marker_table='6/20'
+                 label='off'
+                 hilo='off'/>
+
+<!-- Global markers -->
+	<contour id='Global_2t' contour='off'
+                 level_selection_type='list'
+                 level_list='-1.5/-0.75/-0.5/0.5/0.75/1.5'
+                 contour_shade='on'
+		 contour_method='linear'
+                 shade_colour_method='list'
+                 shade_colour_list='sky/rgb(0.8,0.9,0.9)/none/yellow/orange'
+                 shade_method='area_fill'
+                 label='off'
+                 hilo='off'/>
+
+        <contour id='Global_fx' contour='off'
+                 level_selection_type='list'
+                 level_list='0.6/0.8/1.5'
+                 shade='on'
+                 shade_technique='marker'
+                 shade_colour_table='bluish_purple/bluish_purple'
+                 shade_height_table='0.05/0.3'
+                 shade_marker_table='5/17'
+                 label='off'
+                 hilo='off'/>
+        <contour id='Global_tp' contour='off'
+                 level_selection_type='list'
+                 level_list='0.6/0.8/1.5'
+                 shade='on'
+                 shade_technique='marker'
+                 shade_colour_table='kelly_green/kelly_green'
+                 shade_height_table='0.05/0.3'
+                 shade_marker_table='6/20'
+                 label='off'
+                 hilo='off'/>
+<!-- North America markers -->
+	<contour id='North_America_2t' contour='off'
+                 level_selection_type='list'
+                 level_list='-1.5/-0.75/-0.5/0.5/0.75/1.5'
+                 contour_shade='on'
+		 contour_method='linear'
+                 shade_colour_method='list'
+                 shade_colour_list='sky/rgb(0.8,0.9,0.9)/none/yellow/orange'
+                 shade_method='area_fill'
+                 label='off'
+                 hilo='off'/>
+
+        <contour id='North_America_fx' contour='off'
+                 level_selection_type='list'
+                 level_list='0.6/0.8/1.5'
+                 shade='on'
+                 shade_technique='marker'
+                 shade_colour_table='bluish_purple/bluish_purple'
+                 shade_height_table='0.05/0.3'
+                 shade_marker_table='5/17'
+                 label='off'
+                 hilo='off'/>
+        <contour id='North_America_tp' contour='off'
+                 level_selection_type='list'
+                 level_list='0.6/0.8/1.5'
+                 shade='on'
+                 shade_technique='marker'
+                 shade_colour_table='kelly_green/kelly_green'
+                 shade_height_table='0.05/0.3'
+                 shade_marker_table='6/20'
+                 label='off'
+                 hilo='off'/>
+<!-- South America markers -->
+	<contour id='South_America_2t' contour='off'
+                 level_selection_type='list'
+                 level_list='-1.5/-0.75/-0.5/0.5/0.75/1.5'
+                 contour_shade='on'
+		 contour_method='linear'
+                 shade_colour_method='list'
+                 shade_colour_list='sky/rgb(0.8,0.9,0.9)/none/yellow/orange'
+                 shade_method='area_fill'
+                 label='off'
+                 hilo='off'/>
+
+        <contour id='South_America_fx' contour='off'
+                 level_selection_type='list'
+                 level_list='0.6/0.8/1.5'
+                 shade='on'
+                 shade_technique='marker'
+                 shade_colour_table='bluish_purple/bluish_purple'
+                 shade_height_table='0.05/0.3'
+                 shade_marker_table='5/17'
+                 label='off'
+                 hilo='off'/>
+        <contour id='South_America_tp' contour='off'
+                 level_selection_type='list'
+                 level_list='0.6/0.8/1.5'
+                 shade='on'
+                 shade_technique='marker'
+                 shade_colour_table='kelly_green/kelly_green'
+                 shade_height_table='0.05/0.3'
+                 shade_marker_table='6/20'
+                 label='off'
+                 hilo='off'/>
+
+<!-- Asia markers -->
+	<contour id='Asia_2t' contour='off'
+                 level_selection_type='list'
+                 level_list='-1.5/-0.75/-0.5/0.5/0.75/1.5'
+                 contour_shade='on'
+		 contour_method='linear'
+                 shade_colour_method='list'
+                 shade_colour_list='sky/rgb(0.8,0.9,0.9)/none/yellow/orange'
+                 shade_method='area_fill'
+                 label='off'
+                 hilo='off'/>
+
+        <contour id='Asia_fx' contour='off'
+                 level_selection_type='list'
+                 level_list='0.6/0.8/1.5'
+                 shade='on'
+                 shade_technique='marker'
+                 shade_colour_table='bluish_purple/bluish_purple'
+                 shade_height_table='0.05/0.3'
+                 shade_marker_table='5/17'
+                 label='off'
+                 hilo='off'/>
+        <contour id='Asia_tp' contour='off'
+                 level_selection_type='list'
+                 level_list='0.6/0.8/1.5'
+                 shade='on'
+                 shade_technique='marker'
+                 shade_colour_table='kelly_green/kelly_green'
+                 shade_height_table='0.05/0.3'
+                 shade_marker_table='6/20'
+                 label='off'
+                 hilo='off'/>
+
+<!-- Africa markers -->
+	<contour id='Africa_2t' contour='off'
+                 level_selection_type='list'
+                 level_list='-1.5/-0.75/-0.5/0.5/0.75/1.5'
+                 contour_shade='on'
+		 contour_method='linear'
+                 shade_colour_method='list'
+                 shade_colour_list='sky/rgb(0.8,0.9,0.9)/none/yellow/orange'
+                 shade_method='area_fill'
+                 label='off'
+                 hilo='off'/>
+
+        <contour id='Africa_fx' contour='off'
+                 level_selection_type='list'
+                 level_list='0.6/0.8/1.5'
+                 shade='on'
+                 shade_technique='marker'
+                 shade_colour_table='bluish_purple/bluish_purple'
+                 shade_height_table='0.05/0.3'
+                 shade_marker_table='5/17'
+                 label='off'
+                 hilo='off'/>
+        <contour id='Africa_tp' contour='off'
+                 level_selection_type='list'
+                 level_list='0.6/0.8/1.5'
+                 shade='on'
+                 shade_technique='marker'
+                 shade_colour_table='kelly_green/kelly_green'
+                 shade_height_table='0.05/0.3'
+                 shade_marker_table='6/20'
+                 label='off'
+                 hilo='off'/>
+
+<!-- Australia markers -->
+	<contour id='Australia_2t' contour='off'
+                 level_selection_type='list'
+                 level_list='-1.5/-0.75/-0.5/0.5/0.75/1.5'
+                 contour_shade='on'
+		 contour_method='linear'
+                 shade_colour_method='list'
+                 shade_colour_list='sky/rgb(0.8,0.9,0.9)/none/yellow/orange'
+                 shade_method='area_fill'
+                 label='off'
+                 hilo='off'/>
+
+        <contour id='Australia_fx' contour='off'
+                 level_selection_type='list'
+                 level_list='0.6/0.8/1.5'
+                 shade='on'
+                 shade_technique='marker'
+                 shade_colour_table='bluish_purple/bluish_purple'
+                 shade_height_table='0.05/0.3'
+                 shade_marker_table='5/17'
+                 label='off'
+                 hilo='off'/>
+        <contour id='Australia_tp' contour='off'
+                 level_selection_type='list'
+                 level_list='0.6/0.8/1.5'
+                 shade='on'
+                 shade_technique='marker'
+                 shade_colour_table='kelly_green/kelly_green'
+                 shade_height_table='0.05/0.3'
+                 shade_marker_table='6/20'
+                 label='off'
+                 hilo='off'/>
+
+</definition>
+
+
+    <drivers>
+
+		<png  fullname='globalefi.png' output_name_first_page_number="off" />
+
+
+	</drivers>
+	<page>
+      <nopageid/>
+      <meta  efi_path='globalefi.js' efi_template='Global_All32parameters_0.js'/>
+
+    <text colour='navy' display='absolute' height='15%' bottom='82%'
+        justification='left' text_line_count='5' text_quality='high'
+        text_line_1 ='Anomalous weather predicted by EPS:&lt;grib_info key="base-date" id="z" /&gt;'
+        text_line_2 ="1000 hPa Z ensemble mean (&lt;grib_info id='z'  key='start-date'/&gt;)"
+        text_line_3 ="and EFI values for Total precipitation,maximum 10m wind gust and mean 2m temperature (all 24h)"
+        text_line_4 = "&lt;font size='0.1'&gt; . &lt;/font&gt; "
+        text_line_5 ="valid for 24hours from &lt;grib_info id='efi' key='start-date'/&gt; to &lt;grib_info id='efi' key='end-date'/&gt;"
+        />
+
+      <map use_id='Global' height='85%'>
+
+      <coastlines   land_shade='on'
+                    land_shade_colour='cream'
+                    colour='tan'/>
+
+      <plot>
+        <grib id='efi' input_file_name='efi_2t0.grib'/>
+        <contour  legend='on' use_id='Global_2t'/>
+
+      </plot>
+
+
+      <plot>
+        <grib input_file_name='efi_fx0.grib'/>
+        <contour legend='on' use_id='Global_fx'/>
+      </plot>
+      <plot>
+        <grib input_file_name='efi_tp0.grib'/>
+        <contour legend='on' use_id='Global_tp'/>
+       </plot>
+       <plot>
+        <grib input_file_name='em0.grib' id='z'/>
+        <contour legend='off'  use_id='Global_contour' />
+
+
+      </plot>
+       <coastlines  colour='tan'/>
+       <legend display='absolute' height='7%' bottom='5%' left='-5%' width='100%' legend_entry_text_width='70%'
+           legend_user_lines='extreme cold/cold/ignore/warm/extreme warm/wind/extreme wind/precip/extreme precip'
+           legend_text_colour='navy' legend_text_height='0.3' border='off' blanking='off' />
+       </map>
+
+    </page>
+
+</magics>
+

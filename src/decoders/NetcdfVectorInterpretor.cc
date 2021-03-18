@@ -83,9 +83,6 @@ void NetcdfVectorInterpretor::customisedPoints(const Transformation& transformat
         }
     }
     catch (MagicsException& e) {
-        if (MagicsSettings::strict()) {
-            throw;
-        }
         MagLog::error() << e << "\n";
     }
 }
@@ -139,9 +136,6 @@ void NetcdfGeoVectorInterpretor::customisedPoints(const Transformation& transfor
         }
     }
     catch (MagicsException& e) {
-        if (MagicsSettings::strict()) {
-            throw;
-        }
         MagLog::error() << e << "\n";
     }
 }
@@ -241,9 +235,6 @@ void NetcdfGeoPolarMatrixInterpretor::customisedPoints(const Transformation&, co
         */
     }
     catch (MagicsException& e) {
-        if (MagicsSettings::strict()) {
-            throw;
-        }
         MagLog::error() << e << "\n";
     }
 }

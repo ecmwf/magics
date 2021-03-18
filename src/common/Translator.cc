@@ -12,15 +12,16 @@
 
 // #include "magics/exception/Exceptions.h"
 // #include "StringTools.h"
-#include "MagException.h"
 #include "Tokenizer.h"
 #include "Translator.h"
+#include <MagException.h>
 
 namespace magics {
 
 //----------------------------------------------------------------------------------------------------------------------
 
 static unsigned long long multiplier(const char* p) {
+
     while (isspace(*p))
         p++;
 
@@ -81,6 +82,7 @@ std::string Translator<unsigned int, std::string>::operator()(unsigned int value
 }
 
 int Translator<std::string, int>::operator()(const std::string& s) {
+
     if (s == "no" || s == "off" || s == "false")
         return false;
     if (s == "yes" || s == "on" || s == "true")
@@ -93,6 +95,7 @@ int Translator<std::string, int>::operator()(const std::string& s) {
 }
 
 unsigned int Translator<std::string, unsigned int>::operator()(const std::string& s) {
+
     if (s == "no" || s == "off" || s == "false")
         return false;
     if (s == "yes" || s == "on" || s == "true")

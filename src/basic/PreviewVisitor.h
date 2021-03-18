@@ -33,17 +33,17 @@ namespace magics {
 class NoPreviewVisitor : public SceneVisitor, public PreviewLayout {
 public:
     NoPreviewVisitor() {}
-    virtual ~NoPreviewVisitor() override {}
+    virtual ~NoPreviewVisitor() {}
     virtual void set(const XmlNode&) {}
     virtual void set(const map<string, string>&) {}
     virtual bool accept(const string&) { return false; }
     virtual void toxml(ostream&, int = 0) const {}
-    virtual NoPreviewVisitor* clone() const override { return new NoPreviewVisitor(); }
+    virtual NoPreviewVisitor* clone() const { return new NoPreviewVisitor(); }
 
-    void visit(BasicSceneObject&) override {}
+    void visit(BasicSceneObject&) {}
 
 protected:
-    virtual void print(ostream& s) const override;
+    virtual void print(ostream& s) const;
 
     friend ostream& operator<<(ostream& s, const NoPreviewVisitor& p) {
         p.print(s);
@@ -55,15 +55,15 @@ protected:
 class PreviewVisitor : public NoPreviewVisitor {
 public:
     PreviewVisitor();
-    ~PreviewVisitor() override;
-    NoPreviewVisitor* clone() const override { return new PreviewVisitor(); }
-    void visit(BasicGraphicsObjectContainer&) override;
-    void redisplay(const BaseDriver& driver) const override;
-    void visit(BasicSceneObject& object) override;
+    ~PreviewVisitor();
+    NoPreviewVisitor* clone() const { return new PreviewVisitor(); }
+    void visit(BasicGraphicsObjectContainer&);
+    void redisplay(const BaseDriver& driver) const;
+    void visit(BasicSceneObject& object);
     CoastPlotting& coastlines() { return coastlines_; }
 
 protected:
-    void print(ostream& s) const override;
+    void print(ostream& s) const;
     CoastPlotting coastlines_;
 };
 

@@ -1,9 +1,0 @@
-match:
-- paramId: '228022'
-  shortName: cdir
-  type:
-  - fc
-  - an
-styles:
-- sh_orange_f0t4m_i100k
-

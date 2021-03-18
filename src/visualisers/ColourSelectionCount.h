@@ -32,13 +32,13 @@ namespace magics {
 class ColourSelectionCount : public ColourSelection, public ColourSelectionCountAttributes {
 public:
     ColourSelectionCount();
-    virtual ~ColourSelectionCount() override;
-    virtual void set(map<string, string> map) override { ColourSelectionCountAttributes::set(map); }
-    virtual void prepare() override;
+    virtual ~ColourSelectionCount();
+    virtual void set(map<string, string> map) { ColourSelectionCountAttributes::set(map); }
+    virtual void prepare();
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed

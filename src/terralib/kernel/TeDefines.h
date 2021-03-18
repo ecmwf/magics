@@ -117,21 +117,21 @@ const double TeEARTHRADIUS = 6378160.;                 //!< Int. Astronomical Un
 /** @defgroup Selection Mode for the objects
     @{
  */
-#define TeDEFAULT 0  //!< default selection
-#define TePOINTED 1  //!< object pointed
-#define TeQUERIED 2  //!< object queried
+#define TeDEFAULT 0          //!< default selection
+#define TePOINTED 1          //!< object pointed
+#define TeQUERIED 2          //!< object queried
 #define TePOINTED_QUERIED 3  //!< object pointed and queried
-/** @} */  // end Selection Mode
+/** @} */                    // end Selection Mode
 
 
 /** @defgroup Orient Ring orientation
     @{
  */
-#define TeNOTURN 0  //!< Unknown orientation
-#define TeCOLLINEAR 0  //!< Collinear
-#define TeCLOCKWISE -1  //!< Clockwise orientation
+#define TeNOTURN 0            //!< Unknown orientation
+#define TeCOLLINEAR 0         //!< Collinear
+#define TeCLOCKWISE -1        //!< Clockwise orientation
 #define TeCOUNTERCLOCKWISE 1  //!< Counter-Clockwise orientation
-/** @} */  // end Orientation
+/** @} */                     // end Orientation
 
 /** @defgroup TopDefines Topology related defines
     @{
@@ -141,9 +141,9 @@ const double TeEARTHRADIUS = 6378160.;                 //!< Int. Astronomical Un
     @{
  */
 #define TeUNKNOWNPOSITION 0  //!< unknown position
-#define TeINSIDE 1  //!< inside position
-#define TeOUTSIDE 2  //!< outside position
-#define TeBOUNDARY 4  //!< on the boundary position
+#define TeINSIDE 1           //!< inside position
+#define TeOUTSIDE 2          //!< outside position
+#define TeBOUNDARY 4         //!< on the boundary position
 /** @} */
 
 
@@ -155,36 +155,36 @@ const double TeEARTHRADIUS = 6378160.;                 //!< Int. Astronomical Un
     @ingroup Inter
     @{
  */
-#define TeINTERIORINTERIOR 8  //!< interior and interior intersection
-#define TeINTERIORBOUNDARY 16  //!< interior and boundary intersection
-#define TeINTERIOREXTERIOR 32  //!< interior and exterior intersection
-#define TeBOUNDARYINTERIOR 64  //!< boundary and interior intersection
-#define TeBOUNDARYBOUNDARY 128  //!< boundary and boundary intersection
-#define TeBOUNDARYEXTERIOR 256  //!< boundary and exterior intersection
-#define TeEXTERIORINTERIOR 512  //!< exterior and interior intersection
+#define TeINTERIORINTERIOR 8     //!< interior and interior intersection
+#define TeINTERIORBOUNDARY 16    //!< interior and boundary intersection
+#define TeINTERIOREXTERIOR 32    //!< interior and exterior intersection
+#define TeBOUNDARYINTERIOR 64    //!< boundary and interior intersection
+#define TeBOUNDARYBOUNDARY 128   //!< boundary and boundary intersection
+#define TeBOUNDARYEXTERIOR 256   //!< boundary and exterior intersection
+#define TeEXTERIORINTERIOR 512   //!< exterior and interior intersection
 #define TeEXTERIORBOUNDARY 1024  //!< exterior and boundary intersection
 #define TeEXTERIOREXTERIOR 2048  //!< exterior and exterior intersection
-/** @} */  // end GeneralInter
+/** @} */                        // end GeneralInter
 
 /** @defgroup SegInter Segments intersection
     @ingroup Inter
     @{
  */
 #define TeDONT_INTERSECT 0  //!< segments don't intersects
-#define TeDO_INTERSECT 1  //!< segments intersects
-#define TeAT_ENDPOINT 4  //!< segments intersects at end points
-/** @} */  // end SegInter
-/** @} */  // end Inte
+#define TeDO_INTERSECT 1    //!< segments intersects
+#define TeAT_ENDPOINT 4     //!< segments intersects at end points
+/** @} */                   // end SegInter
+/** @} */                   // end Inte
 
 /** @defgroup TopOper Topological operations
     @{
  */
-#define TeDIFFERENCE 1  //!< Difference operation
-#define TeUNION 2  //!< Union operation
+#define TeDIFFERENCE 1    //!< Difference operation
+#define TeUNION 2         //!< Union operation
 #define TeINTERSECTION 4  //!< Intersection operation
-/** @} */  // end TopOper
-/** @} */  // end TopDefines
-/** @} */  // end Defines
+/** @} */                 // end TopOper
+/** @} */                 // end TopDefines
+/** @} */                 // end Defines
 
 //! Current terralib database version
 const std::string TeDBVERSION = "3.2.0.1";

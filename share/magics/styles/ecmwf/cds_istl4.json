@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "cds_istl4",
-    "preferred_units": "degC",
+    "prefered_units": "C",
     "styles": [
       "sh_blu_fM14tM16"
     ],

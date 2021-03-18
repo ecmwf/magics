@@ -49,23 +49,23 @@ class MatrixHandler;
 class HiLo : public HiLoBase, public HiLoAttributes, public vector<BasicGraphicsObject*> {
 public:
     HiLo();
-    virtual ~HiLo() override;
-    virtual void set(const map<string, string>&) override;
-    virtual void set(const XmlNode& node) override { HiLoAttributes::set(node); }
-    virtual bool accept(const string& node) override {
+    virtual ~HiLo();
+    virtual void set(const map<string, string>&);
+    virtual void set(const XmlNode& node) { HiLoAttributes::set(node); }
+    virtual bool accept(const string& node) {
         return HiLoAttributes::accept(node);
         ;
     }
 
-    virtual HiLoBase* clone() const override {
+    virtual HiLoBase* clone() const {
         HiLo* hilo = new HiLo();
         hilo->copy(*this);
         return hilo;
     }
 
-    virtual void operator()(MatrixHandler&, BasicGraphicsObjectContainer&) override;
+    virtual void operator()(MatrixHandler&, BasicGraphicsObjectContainer&);
     virtual void operator()(const PaperPoint&);
-    virtual void clear() override {
+    virtual void clear() {
         this->type_->clear();
         this->marker_->clear();
         vector<BasicGraphicsObject*>::clear();
@@ -73,7 +73,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed
@@ -91,27 +91,27 @@ private:
 class NoHiLo : public HiLoBase {
 public:
     NoHiLo() {}
-    virtual ~NoHiLo() override {}
-    HiLoBase* clone() const override { return new NoHiLo(); }
-    virtual void set(const map<string, string>&) override {}
-    virtual BasicGraphicsObject* next() override { return 0; }
-    virtual bool more() override { return false; }
-    virtual void operator()(MatrixHandler&, BasicGraphicsObjectContainer&) override {}
-    void print(ostream& out) const override { out << "NoHiLo[]"; }
+    virtual ~NoHiLo() {}
+    HiLoBase* clone() const { return new NoHiLo(); }
+    virtual void set(const map<string, string>&) {}
+    virtual BasicGraphicsObject* next() { return 0; }
+    virtual bool more() { return false; }
+    virtual void operator()(MatrixHandler&, BasicGraphicsObjectContainer&) {}
+    void print(ostream& out) const { out << "No HiLo"; }
 };
 
 
 class HighHiLo : public HiLo {
 public:
     HighHiLo() {}
-    virtual ~HighHiLo() override {}
-    HiLoBase* clone() const override {
+    virtual ~HighHiLo() {}
+    HiLoBase* clone() const {
         HiLo* hilo = new HighHiLo();
         // hilo->copy(*this);
         return hilo;
     }
 
-    void operator()(const PaperPoint& point) override {
+    void operator()(const PaperPoint& point) {
         if (point.high())
             HiLo::operator()(point);
     }
@@ -121,14 +121,14 @@ public:
 class LowHiLo : public HiLo {
 public:
     LowHiLo() {}
-    virtual ~LowHiLo() override {}
-    HiLoBase* clone() const override {
+    virtual ~LowHiLo() {}
+    HiLoBase* clone() const {
         HiLoBase* hilo = new LowHiLo();
         // hilo->copy(*this);
         return hilo;
     }
 
-    void operator()(const PaperPoint& point) override {
+    void operator()(const PaperPoint& point) {
         if (point.low())
             HiLo::operator()(point);
     }

@@ -38,12 +38,12 @@ namespace magics {
 class LookupTableMode : public LookupTableModeAttributes {
 public:
     LookupTableMode();
-    virtual ~LookupTableMode() override;
-    virtual void set(const map<string, string>& map) override  // for MagML
+    virtual ~LookupTableMode();
+    virtual void set(const map<string, string>& map)  // for MagML
     {
         LookupTableModeAttributes::set(map);
     }
-    virtual void set(const XmlNode& node) override  // for MagML
+    virtual void set(const XmlNode& node)  // for MagML
     {
         LookupTableModeAttributes::set(node);
     }
@@ -57,7 +57,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed
@@ -77,23 +77,23 @@ private:
 class FixedTableMode : public LookupTableMode, public FixedTableModeAttributes {
 public:
     FixedTableMode();
-    virtual ~FixedTableMode() override;
-    void set(const map<string, string>& map) override  // for MagML
+    virtual ~FixedTableMode();
+    void set(const map<string, string>& map)  // for MagML
     {
         LookupTableMode::set(map);
         FixedTableModeAttributes::set(map);
     }
-    void set(const XmlNode& node) override  // for MagML
+    void set(const XmlNode& node)  // for MagML
     {
         LookupTableMode::set(node);
         FixedTableModeAttributes::set(node);
     }
 
-    virtual void operator()(Image&, Raster&) override;
+    virtual void operator()(Image&, Raster&);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     //! Overloaded << operator to call print().
     friend ostream& operator<<(ostream& s, const FixedTableMode& p) {
         p.print(s);

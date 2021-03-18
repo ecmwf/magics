@@ -1,9 +1,0 @@
-match:
-- long_name: Near-Surface Specific Humidity
-  standard_name: specific_humidity
-styles:
-- sh_spechum_option1
-- sh_spechum_option2
-- sh_spechum_option3
-- spechum_extra1
-

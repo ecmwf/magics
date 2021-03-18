@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -39,17 +39,17 @@ ClassicMtgDecoderAttributes::ClassicMtgDecoderAttributes():
 	height_(ParameterManager::getDouble("metgram_station_height")),
 	correction_(ParameterManager::getBool("metgram_temperature_correction"))
 	
-	
+	 
 {
-}
+} 
 
 
 ClassicMtgDecoderAttributes::~ClassicMtgDecoderAttributes()
 {
-
+	
 }
 
-
+    
 void ClassicMtgDecoderAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -89,12 +89,12 @@ void ClassicMtgDecoderAttributes::copy(const ClassicMtgDecoderAttributes& other)
 	height_ = other.height_;
 	correction_ = other.correction_;
 	
-}
+} 
 
 
 bool ClassicMtgDecoderAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "metgram")  )
 		return true;
 	
@@ -105,7 +105,7 @@ void ClassicMtgDecoderAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "metgram")  )
@@ -145,7 +145,7 @@ void ClassicMtgDecoderAttributes::print(ostream& out)  const
 
 void ClassicMtgDecoderAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"metgram\"";
+	out <<  "\"metgram\""; 
 	out << ", \"metgram_database\":";
 	niceprint(out,database_);
 	out << ", \"metgram_parameter\":";
@@ -175,16 +175,16 @@ void ClassicMtgDecoderAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> metgram_database("metgram_database", "/vol/epsgram/data/spotbase/epsdb");
-static MagicsParameter<string> metgram_parameter("metgram_parameter", "");
-static MagicsParameter<double> metgram_latitude("metgram_latitude", 0);
-static MagicsParameter<double> metgram_parameter_scaling_factor("metgram_parameter_scaling_factor", 1);
-static MagicsParameter<double> metgram_parameter_offset("metgram_parameter_offset", 0);
-static MagicsParameter<string> metgram_parameter_title("metgram_parameter_title", "");
-static MagicsParameter<double> metgram_longitude("metgram_longitude", 0);
-static MagicsParameter<string> metgram_date("metgram_date", "-1");
-static MagicsParameter<string> metgram_time("metgram_time", "0000");
-static MagicsParameter<string> metgram_long_title("metgram_long_title", "off");
-static MagicsParameter<string> metgram_station_name("metgram_station_name", "");
-static MagicsParameter<double> metgram_station_height("metgram_station_height", -1.);
-static MagicsParameter<string> metgram_temperature_correction("metgram_temperature_correction", "yes");
+static MagicsParameter<string> metgram_database("metgram_database", "/vol/epsgram/data/spotbase/epsdb", "");
+static MagicsParameter<string> metgram_parameter("metgram_parameter", "", "");
+static MagicsParameter<double> metgram_latitude("metgram_latitude", 0, "");
+static MagicsParameter<double> metgram_parameter_scaling_factor("metgram_parameter_scaling_factor", 1, "");
+static MagicsParameter<double> metgram_parameter_offset("metgram_parameter_offset", 0, "");
+static MagicsParameter<string> metgram_parameter_title("metgram_parameter_title", "", "");
+static MagicsParameter<double> metgram_longitude("metgram_longitude", 0, "");
+static MagicsParameter<string> metgram_date("metgram_date", "-1", "");
+static MagicsParameter<string> metgram_time("metgram_time", "0000", "");
+static MagicsParameter<string> metgram_long_title("metgram_long_title", "off", "");
+static MagicsParameter<string> metgram_station_name("metgram_station_name", "", "");
+static MagicsParameter<double> metgram_station_height("metgram_station_height", -1., "");
+static MagicsParameter<string> metgram_temperature_correction("metgram_temperature_correction", "yes", "");

@@ -139,7 +139,7 @@ class Section1Base {
 public:
     Section1Base(const unsigned char* octs);
     Section1Base(const Section1Base* aSec1);
-    virtual ~Section1Base() override { delete[] octets_; }
+    virtual ~Section1Base() { delete[] octets_; }
 
     int len() const { return 65536 * octets_[0] + 256 * octets_[1] + octets_[2]; }
     bool isDifferent(const Section1Base* aSec1) const;
@@ -260,7 +260,7 @@ protected:
 
 protected:
     MvBufrBase(const long len);  //( char *msg, long len );
-    virtual ~MvBufrBase override(void);
+    virtual ~MvBufrBase(void);
 
     void attach(void);  // { _refCount++; }
     void detach(void);  // { if( --_refCount == 0 ) delete this; }
@@ -289,7 +289,7 @@ class MvBufr : public MvBufrBase {
 
 protected:
     MvBufr(char* msg, long len, long aMessageNumber = 0);
-    ~MvBufr override(void);
+    ~MvBufr(void);
     // F
     void setEccodes(codes_handle** ecH);
 
@@ -383,7 +383,7 @@ class MvBufrOut : public MvBufrBase
 
  protected:
 	    MvBufrOut( const long len, MvObsSet* anOutSet );
-	    ~MvBufrOut override( void );
+	    ~MvBufrOut( void );
 
    static long  _bufrOut_ref;
 

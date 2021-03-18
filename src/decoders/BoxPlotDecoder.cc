@@ -77,8 +77,5 @@ void BoxPlotDecoder::getReady(const Transformation& transformation) {
             x_.push_back(transformation.x(*x));
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
-            throw;
-        }
     }
 }

@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -34,6 +34,7 @@ SymbolIndividualModeAttributes::SymbolIndividualModeAttributes():
 	image_format_(ParameterManager::getString("symbol_image_format")),
 	image_width_(ParameterManager::getDouble("symbol_image_width")),
 	image_height_(ParameterManager::getDouble("symbol_image_height")),
+	image_by_reference_(ParameterManager::getBool("symbol_image_by_reference")),
 	text_(ParameterManager::getStringArray("symbol_text_list")),
 	text_position_(ParameterManager::getString("symbol_text_position")),
 	text_font_name_(ParameterManager::getString("symbol_text_font")),
@@ -43,17 +44,17 @@ SymbolIndividualModeAttributes::SymbolIndividualModeAttributes():
 	,
 	colour_(MagTranslator<string, Colour>().magics("symbol_colour")),
 	text_font_colour_(MagTranslator<string, Colour>().magics("symbol_text_font_colour"))
-	
+	 
 {
-}
+} 
 
 
 SymbolIndividualModeAttributes::~SymbolIndividualModeAttributes()
 {
-
+	
 }
 
-
+    
 void SymbolIndividualModeAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -69,6 +70,7 @@ void SymbolIndividualModeAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "symbol_image_format", image_format_, params);
 	setAttribute(prefix, "symbol_image_width", image_width_, params);
 	setAttribute(prefix, "symbol_image_height", image_height_, params);
+	setAttribute(prefix, "symbol_image_by_reference", image_by_reference_, params);
 	setAttribute(prefix, "symbol_text_list", text_, params);
 	setAttribute(prefix, "symbol_text_position", text_position_, params);
 	setAttribute(prefix, "symbol_text_font", text_font_name_, params);
@@ -92,6 +94,7 @@ void SymbolIndividualModeAttributes::copy(const SymbolIndividualModeAttributes& 
 	image_format_ = other.image_format_;
 	image_width_ = other.image_width_;
 	image_height_ = other.image_height_;
+	image_by_reference_ = other.image_by_reference_;
 	text_ = other.text_;
 	text_position_ = other.text_position_;
 	text_font_name_ = other.text_font_name_;
@@ -101,12 +104,12 @@ void SymbolIndividualModeAttributes::copy(const SymbolIndividualModeAttributes& 
 	colour_ = unique_ptr<Colour>(other.colour_->clone());
 	text_font_colour_ = unique_ptr<Colour>(other.text_font_colour_->clone());
 	
-}
+} 
 
 
 bool SymbolIndividualModeAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "individual")  )
 		return true;
 	
@@ -117,7 +120,7 @@ void SymbolIndividualModeAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "individual")  )
@@ -147,6 +150,7 @@ void SymbolIndividualModeAttributes::print(ostream& out)  const
 	out << " image_format = " <<  image_format_;
 	out << " image_width = " <<  image_width_;
 	out << " image_height = " <<  image_height_;
+	out << " image_by_reference = " <<  image_by_reference_;
 	out << " text = " <<  text_;
 	out << " text_position = " <<  text_position_;
 	out << " text_font_name = " <<  text_font_name_;
@@ -161,7 +165,7 @@ void SymbolIndividualModeAttributes::print(ostream& out)  const
 
 void SymbolIndividualModeAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"individual\"";
+	out <<  "\"individual\""; 
 	out << ", \"legend_user_text\":";
 	niceprint(out,legend_text_);
 	out << ", \"symbol_height\":";
@@ -180,6 +184,8 @@ void SymbolIndividualModeAttributes::toxml(ostream& out)  const
 	niceprint(out,image_width_);
 	out << ", \"symbol_image_height\":";
 	niceprint(out,image_height_);
+	out << ", \"symbol_image_by_reference\":";
+	niceprint(out,image_by_reference_);
 	out << ", \"symbol_text_list\":";
 	niceprint(out,text_);
 	out << ", \"symbol_text_position\":";
@@ -199,20 +205,21 @@ void SymbolIndividualModeAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> legend_user_text("legend_user_text", "");
-static MagicsParameter<double> symbol_height("symbol_height", 0.2);
-static MagicsParameter<string> symbol_marker_mode("symbol_marker_mode", "index");
-static MagicsParameter<int> symbol_marker_index("symbol_marker_index", 1);
-static MagicsParameter<string> symbol_marker_name("symbol_marker_name", "dot");
-static MagicsParameter<string> symbol_image_path("symbol_image_path", "");
-static MagicsParameter<string> symbol_image_format("symbol_image_format", "automatic");
-static MagicsParameter<double> symbol_image_width("symbol_image_width", -1);
-static MagicsParameter<double> symbol_image_height("symbol_image_height", -1);
-static MagicsParameter<stringarray> symbol_text_list("symbol_text_list", stringarray());
-static MagicsParameter<string> symbol_text_position("symbol_text_position", "right");
-static MagicsParameter<string> symbol_text_font("symbol_text_font", "sansserif");
-static MagicsParameter<double> symbol_text_font_size("symbol_text_font_size", 0.25);
-static MagicsParameter<string> symbol_text_font_style("symbol_text_font_style", "normal");
-static MagicsParameter<double> symbol_legend_height("symbol_legend_height", -1);
-static MagicsParameter<string> symbol_colour("symbol_colour", "blue");
-static MagicsParameter<string> symbol_text_font_colour("symbol_text_font_colour", "automatic");
+static MagicsParameter<string> legend_user_text("legend_user_text", "", "");
+static MagicsParameter<double> symbol_height("symbol_height", 0.2, "");
+static MagicsParameter<string> symbol_marker_mode("symbol_marker_mode", "index", "");
+static MagicsParameter<int> symbol_marker_index("symbol_marker_index", 1, "");
+static MagicsParameter<string> symbol_marker_name("symbol_marker_name", "dot", "");
+static MagicsParameter<string> symbol_image_path("symbol_image_path", "", "");
+static MagicsParameter<string> symbol_image_format("symbol_image_format", "automatic", "");
+static MagicsParameter<double> symbol_image_width("symbol_image_width", -1, "");
+static MagicsParameter<double> symbol_image_height("symbol_image_height", -1, "");
+static MagicsParameter<string> symbol_image_by_reference("symbol_image_by_reference", "off", "");
+static MagicsParameter<stringarray> symbol_text_list("symbol_text_list", stringarray(), "");
+static MagicsParameter<string> symbol_text_position("symbol_text_position", "right", "");
+static MagicsParameter<string> symbol_text_font("symbol_text_font", "sansserif", "");
+static MagicsParameter<double> symbol_text_font_size("symbol_text_font_size", 0.25, "");
+static MagicsParameter<string> symbol_text_font_style("symbol_text_font_style", "normal", "");
+static MagicsParameter<double> symbol_legend_height("symbol_legend_height", -1, "");
+static MagicsParameter<string> symbol_colour("symbol_colour", "blue", ""); 
+static MagicsParameter<string> symbol_text_font_colour("symbol_text_font_colour", "automatic", ""); 

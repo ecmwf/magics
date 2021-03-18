@@ -16,16 +16,16 @@
 
 */
 
-#include "PolarStereographicProjection.h"
+#include <BasicSceneObject.h>
+#include <GridPlotting.h>
+#include <LabelPlotting.h>
+#include <MagJSon.h>
+#include <MatrixHandler.h>
+#include <MetaData.h>
+#include <ParameterSettings.h>
+#include <PolarStereographicProjection.h>
+#include <Text.h>
 #include <math.h>
-#include "BasicSceneObject.h"
-#include "GridPlotting.h"
-#include "LabelPlotting.h"
-#include "MagJSon.h"
-#include "MatrixHandler.h"
-#include "MetaData.h"
-#include "ParameterSettings.h"
-#include "Text.h"
 
 using namespace magics;
 
@@ -65,7 +65,7 @@ void PolarStereographicProjection::print(ostream& out) const {
 
 double PolarStereographicProjection::unitToCm(double width, double height) const {
     // Reproject 2 point and find the unit
-    const int hemis = (hemisphere_ == Hemisphere::NORTH) ? 1 : -1;
+    const int hemis = (hemisphere_ == NORTH) ? 1 : -1;
 
     UserPoint ll1(0, hemis * 50);
     UserPoint ll2(0, hemis * 51);
@@ -81,7 +81,7 @@ double PolarStereographicProjection::unitToCm(double width, double height) const
 
 double PolarStereographicProjection::height() const {
     // Reproject 2 point and find the unit
-    int hemis = (hemisphere_ == Hemisphere::NORTH) ? 1 : -1;
+    int hemis = (hemisphere_ == NORTH) ? 1 : -1;
     bool pole;
     double height;
     UserPoint ll(0, hemis * 90);
@@ -93,7 +93,7 @@ double PolarStereographicProjection::height() const {
         height = (ymax_ - ymin_);
     }
     else {
-        if (hemisphere_ == Hemisphere::NORTH) {
+        if (hemisphere_ == NORTH) {
             height = 180 - ymax_ - ymin_;
         }
         else {
@@ -147,13 +147,13 @@ bool PolarStereographicProjection::needShiftedCoastlines() const {
 void PolarStereographicProjection::init(double width, double height) {
     if (!projection_)
         projection_ = new TePolarStereographic(TeDatum(), vertical_longitude_ * TeCDR, 0., 0., "Meters",
-                                               (hemisphere_ == Hemisphere::NORTH) ? TeNORTH_HEM : TeSOUTH_HEM);
+                                               (hemisphere_ == NORTH) ? TeNORTH_HEM : TeSOUTH_HEM);
 
     if (magCompare(area_, "full")) {
-        ymin_ = (hemisphere_ == Hemisphere::NORTH) ? -20. : 20.;
-        ymax_ = (hemisphere_ == Hemisphere::NORTH) ? -20. : 20.;
-        xmin_ = (hemisphere_ == Hemisphere::NORTH) ? -45. + vertical_longitude_ : 45. + vertical_longitude_;
-        xmax_ = (hemisphere_ == Hemisphere::NORTH) ? 135. + vertical_longitude_ : -135. + vertical_longitude_;
+        ymin_ = (hemisphere_ == NORTH) ? -20. : 20.;
+        ymax_ = (hemisphere_ == NORTH) ? -20. : 20.;
+        xmin_ = (hemisphere_ == NORTH) ? -45. + vertical_longitude_ : 45. + vertical_longitude_;
+        xmax_ = (hemisphere_ == NORTH) ? 135. + vertical_longitude_ : -135. + vertical_longitude_;
     }
     else
         magCompare(area_, "corners") ? corners() : centre(width, height);
@@ -485,8 +485,9 @@ void PolarStereographicProjection::horizontalLabels(const LabelPlotting& label, 
         point.y(yy);
 
         Text* text = new Text();
-        text->setJustification(Justification::CENTRE);
-        text->setVerticalAlign(top ? VerticalAlign::BOTTOM : VerticalAlign::TOP);
+        text->setJustification(MCENTRE);
+        text->setVerticalAlign(MBOTTOM);
+        text->setVerticalAlign(top ? MBOTTOM : MTOP);
         label.add(text);
         text->setText(writeLongitude(geo));
         text->push_back(point);
@@ -539,8 +540,8 @@ void PolarStereographicProjection::verticalLabels(const LabelPlotting& label, do
 
         Text* text = new Text();
         label.add(text);
-        text->setJustification(left ? Justification::RIGHT : Justification::LEFT);
-        text->setVerticalAlign(VerticalAlign::HALF);
+        text->setJustification(left ? MRIGHT : MLEFT);
+        text->setVerticalAlign(MHALF);
         text->setText(writeLongitude(geo));
         text->push_back(point);
     }
@@ -648,10 +649,10 @@ void PolarStereographicProjection::visit(MetaDataVisitor& visitor, double left, 
 void PolarStereographicProjection::corners() {
     // For backwards compatibility!
     if (min_longitude_ == -180 && max_longitude_ == 180 && min_latitude_ == -90 && max_latitude_ == 90) {
-        min_latitude_  = (hemisphere_ == Hemisphere::NORTH) ? -20. : 20.;
-        max_latitude_  = (hemisphere_ == Hemisphere::NORTH) ? -20. : 20.;
-        min_longitude_ = (hemisphere_ == Hemisphere::NORTH) ? -45. + vertical_longitude_ : 45. + vertical_longitude_;
-        max_longitude_ = (hemisphere_ == Hemisphere::NORTH) ? 135. + vertical_longitude_ : -135. + vertical_longitude_;
+        min_latitude_  = (hemisphere_ == NORTH) ? -20. : 20.;
+        max_latitude_  = (hemisphere_ == NORTH) ? -20. : 20.;
+        min_longitude_ = (hemisphere_ == NORTH) ? -45. + vertical_longitude_ : 45. + vertical_longitude_;
+        max_longitude_ = (hemisphere_ == NORTH) ? 135. + vertical_longitude_ : -135. + vertical_longitude_;
     }
 
     xmin_ = min_longitude_;
@@ -691,7 +692,7 @@ void PolarStereographicProjection::centre(double width, double height) {
 */
 void PolarStereographicProjection::thin(MatrixHandler& matrix, double x, double y, vector<UserPoint>& out) const {
     Transformation::thin(matrix, x, y, out);
-    return;  // FIXME: dead code below
+    return;
     int yfactor = (int)ceil((float)x);
 
     int columns = matrix.columns();
@@ -891,7 +892,7 @@ void PolarStereographicProjection::getNewDefinition(const UserPoint& ll, const U
     def["subpage_map_projection"]      = "polar_stereographic";
     def["subpage_map_area_definition"] = "corners";
 
-    def["subpage_map_hemisphere"]         = (hemisphere_ == Hemisphere::NORTH) ? "north" : "south";
+    def["subpage_map_hemisphere"]         = (hemisphere_ == NORTH) ? "north" : "south";
     def["subpage_map_vertical_longitude"] = tostring(vertical_longitude_);
     def["subpage_lower_left_longitude"]   = tostring(ll.x_);
     def["subpage_lower_left_latitude"]    = tostring(ll.y_);
@@ -914,6 +915,6 @@ void PolarStereographicProjection::setDefinition(const string& json) {
 }
 
 UserPoint PolarStereographicProjection::reference() const {
-    UserPoint ll = (hemisphere_ == Hemisphere::NORTH) ? UserPoint(0, 60) : UserPoint(0, -60);
+    UserPoint ll = (hemisphere_ == NORTH) ? UserPoint(0, 60) : UserPoint(0, -60);
     return ll;
 }

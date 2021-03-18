@@ -20,6 +20,8 @@ namespace magics {
 //----------------------------------------------------------------------------------------------------------------------
 
 
+
+
 MapContent::MapContent() {}
 
 MapContent::MapContent(const ValueMap& v) : value_(v) {}
@@ -120,6 +122,7 @@ Content* MapContent::mod(const Content& other) const {
 
 
 void MapContent::dump(std::ostream& out, size_t depth, bool indent) const {
+
     if (indent) {
         size_t n = depth;
         while (n-- > 0) {

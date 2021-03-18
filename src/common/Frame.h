@@ -35,24 +35,24 @@ class Polyline;
 class Frame : public FrameBase, public FrameAttributes {
 public:
     Frame();
-    virtual ~Frame() override;
-    virtual FrameBase* clone() const override;
+    virtual ~Frame();
+    virtual FrameBase* clone() const;
 
     void set(const map<string, string>& map) { FrameAttributes::set(map); }
     void set(const XmlNode& xml) { FrameAttributes::set(xml); }
 
-    virtual bool operator()() const override { return true; }
+    virtual bool operator()() const { return true; }
     void set(Polyline&);
     void blank(Polyline&);
     // Simulate the FrameAttributes interface!
-    virtual void setColour(Colour* colour) override { FrameAttributes::setColour(colour); }
-    virtual void setStyle(LineStyle style) override { FrameAttributes::setStyle(style); }
-    virtual void setThickness(int thickness) override { FrameAttributes::setThickness(thickness); }
-    virtual void setBlanking(bool blanking) override { FrameAttributes::setBlanking(blanking); }
+    virtual void setColour(Colour* colour) { FrameAttributes::setColour(colour); }
+    virtual void setStyle(LineStyle style) { FrameAttributes::setStyle(style); }
+    virtual void setThickness(int thickness) { FrameAttributes::setThickness(thickness); }
+    virtual void setBlanking(bool blanking) { FrameAttributes::setBlanking(blanking); }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     // -- Friends
@@ -65,13 +65,13 @@ private:
 class NoFrame : public FrameBase {
 public:
     NoFrame() {}
-    ~NoFrame() override {}
+    ~NoFrame() {}
 
     bool operator()() const { return false; }
-    FrameBase* clone() const override { return new NoFrame(); }
+    FrameBase* clone() const { return new NoFrame(); }
 
 protected:
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 };
 
 

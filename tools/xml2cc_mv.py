@@ -5,7 +5,6 @@ from xml.sax import make_parser
 from datetime import date
 
 import sys
-import os
 
 
 class ObjectHandler(ContentHandler):
@@ -155,7 +154,7 @@ class ObjectHandler(ContentHandler):
 
         param = self.parameters["factory"][-1]
         name = attrs.get("xml")
-        if name is not None:
+        if name != None:
             param["options"].append(
                 {
                     "key": attrs.get("xml"),
@@ -169,7 +168,7 @@ class ObjectHandler(ContentHandler):
 
         if attrs.get("fortran") != attrs.get("xml"):
             name = attrs.get("fortran")
-            if name is not None:
+            if name != None:
                 param["options"].append(
                     {
                         "key": attrs.get("fortran"),

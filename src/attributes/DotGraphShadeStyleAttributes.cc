@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -28,17 +28,17 @@ DotGraphShadeStyleAttributes::DotGraphShadeStyleAttributes():
 	density_(ParameterManager::getInt("graph_shade_dot_density")),
 	size_(ParameterManager::getDouble("graph_shade_dot_size"))
 	
-	
+	 
 {
-}
+} 
 
 
 DotGraphShadeStyleAttributes::~DotGraphShadeStyleAttributes()
 {
-
+	
 }
 
-
+    
 void DotGraphShadeStyleAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -56,12 +56,12 @@ void DotGraphShadeStyleAttributes::copy(const DotGraphShadeStyleAttributes& othe
 	density_ = other.density_;
 	size_ = other.size_;
 	
-}
+} 
 
 
 bool DotGraphShadeStyleAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "")  )
 		return true;
 	
@@ -72,7 +72,7 @@ void DotGraphShadeStyleAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "")  )
@@ -101,7 +101,7 @@ void DotGraphShadeStyleAttributes::print(ostream& out)  const
 
 void DotGraphShadeStyleAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"\"";
+	out <<  "\"\""; 
 	out << ", \"graph_shade_dot_density\":";
 	niceprint(out,density_);
 	out << ", \"graph_shade_dot_size\":";
@@ -109,5 +109,5 @@ void DotGraphShadeStyleAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<int> graph_shade_dot_density("graph_shade_dot_density", 20);
-static MagicsParameter<double> graph_shade_dot_size("graph_shade_dot_size", 0.02);
+static MagicsParameter<int> graph_shade_dot_density("graph_shade_dot_density", 20, "");
+static MagicsParameter<double> graph_shade_dot_size("graph_shade_dot_size", 0.02, "");

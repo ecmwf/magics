@@ -207,15 +207,15 @@ protected:
 class EmptyEntry : public LegendEntry {
 public:
     EmptyEntry() : LegendEntry("") {}
-    ~EmptyEntry() override {}
-    virtual void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&) override;
-    virtual void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&) override;
-    const string& label() const override {
+    ~EmptyEntry() {}
+    virtual void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&);
+    virtual void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&);
+    const string& label() const {
         static string empty;
         return empty;
     }
-    void interpret(string& text) const override { text = ""; }
-    bool needText() override { return false; }
+    void interpret(string& text) const { text = ""; }
+    bool needText() { return false; }
 };
 
 
@@ -226,14 +226,14 @@ public:
     SymbolEntry(double min, double max, Symbol* symbol = 0) : LegendEntry(min, max), symbol_(symbol) {
         format(min, max);
     }
-    virtual void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&) override;
-    virtual void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&) override;
-    void set(const PaperPoint&, BasicGraphicsObjectContainer&) override;
-    ~SymbolEntry() override;
+    virtual void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&);
+    virtual void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&);
+    void set(const PaperPoint&, BasicGraphicsObjectContainer&);
+    ~SymbolEntry();
 
 protected:
     Symbol* symbol_;
-    Colour colour() override;
+    Colour colour();
 };
 
 
@@ -253,34 +253,34 @@ public:
     LineEntry(const string label, Polyline* line = 0) : LegendEntry(label), line_(line) {}
     LineEntry(double label, Polyline* line = 0) : LegendEntry(label), line_(line) { format(label); }
     LineEntry(double min, double max, Polyline* line = 0) : LegendEntry(min, max), line_(line) { format(min, max); }
-    void set(const PaperPoint&, BasicGraphicsObjectContainer&) override;
-    virtual void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&) override;
-    virtual void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&) override;
-    bool needContinuousText(Text& text) override {
-        text.setJustification(Justification::LEFT);
+    void set(const PaperPoint&, BasicGraphicsObjectContainer&);
+    virtual void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&);
+    virtual void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&);
+    bool needContinuousText(Text& text) {
+        text.setJustification(MLEFT);
         return true;
     }
-    ~LineEntry() override;
+    ~LineEntry();
 
 protected:
     Polyline* line_;
-    Colour colour() override;
+    Colour colour();
 };
 
 class CdfEntry : public LineEntry {
 public:
     CdfEntry(const string label, Polyline* line = 0) : LineEntry(label, line) {}
-    void set(const PaperPoint&, BasicGraphicsObjectContainer&) override;
-    ~CdfEntry() override;
+    void set(const PaperPoint&, BasicGraphicsObjectContainer&);
+    ~CdfEntry();
 };
 class RainbowEntry : public LineEntry {
 public:
     RainbowEntry(double label, Polyline* line = 0) : LineEntry(label, line) {}
-    bool needContinuousText(Text&) override { return true; }
-    void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&) override;
-    void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&) override;
+    bool needContinuousText(Text&) { return true; }
+    void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&);
+    void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&);
 
-    ~RainbowEntry() override;
+    ~RainbowEntry();
 };
 
 
@@ -296,19 +296,19 @@ public:
         LegendEntry(min, max), line1_(line1), line2_(line2) {
         format(min, max);
     }
-    void set(const PaperPoint&, BasicGraphicsObjectContainer&) override;
-    virtual void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&) override;
-    virtual void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&) override;
-    bool needContinuousText(Text& text) override {
-        text.setJustification(Justification::LEFT);
+    void set(const PaperPoint&, BasicGraphicsObjectContainer&);
+    virtual void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&);
+    virtual void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&);
+    bool needContinuousText(Text& text) {
+        text.setJustification(MLEFT);
         return true;
     }
-    ~DoubleLineEntry() override;
+    ~DoubleLineEntry();
 
 protected:
     Polyline* line1_;
     Polyline* line2_;
-    Colour colour() override;
+    Colour colour();
 };
 
 
@@ -319,13 +319,13 @@ public:
     ArrowEntry(const double min, double max, Arrow* arrow = 0) : LegendEntry(min, max), arrow_(arrow) {
         format(min, max);
     }
-    ~ArrowEntry() override;
+    ~ArrowEntry();
     void setArrow(Arrow* arrow) { arrow_ = arrow; }
-    void set(const PaperPoint&, BasicGraphicsObjectContainer&) override;
-    virtual void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&) override;
-    virtual void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&) override;
-    bool needContinuousText(Text&) override { return false; }
-    PaperPoint leftTextBox(const PaperPoint&) override;
+    void set(const PaperPoint&, BasicGraphicsObjectContainer&);
+    virtual void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&);
+    virtual void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&);
+    bool needContinuousText(Text&) { return false; }
+    PaperPoint leftTextBox(const PaperPoint&);
 
 protected:
     Arrow* arrow_;
@@ -337,13 +337,13 @@ public:
     FlagEntry(const string label, Flag* flag = 0) : LegendEntry(label), flag_(flag) {}
     FlagEntry(const double label, Flag* flag = 0) : LegendEntry(label), flag_(flag) { format(label); }
     FlagEntry(const double min, double max, Flag* flag = 0) : LegendEntry(min, max), flag_(flag) { format(min, max); }
-    ~FlagEntry() override;
+    ~FlagEntry();
     void setArrow(Flag* flag) { flag_ = flag; }
-    void set(const PaperPoint&, BasicGraphicsObjectContainer&) override;
-    virtual void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&) override;
-    virtual void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&) override;
-    bool needContinuousText(Text&) override { return false; }
-    PaperPoint leftTextBox(const PaperPoint&) override;
+    void set(const PaperPoint&, BasicGraphicsObjectContainer&);
+    virtual void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&);
+    virtual void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&);
+    bool needContinuousText(Text&) { return false; }
+    PaperPoint leftTextBox(const PaperPoint&);
 
 protected:
     Flag* flag_;
@@ -355,16 +355,16 @@ public:
     BoxEntry(const string label, Polyline* box = 0) : LegendEntry(label), box_(box) {}
     BoxEntry(const double label, Polyline* box = 0) : LegendEntry(label), box_(box) { format(label); }
     BoxEntry(double min, double max, Polyline* box = 0) : LegendEntry(min, max), box_(box) { format(min, max); }
-    ~BoxEntry() override;
-    void set(const PaperPoint&, BasicGraphicsObjectContainer&) override;
-    void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&) override;
-    void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&) override;
-    void rowHisto(const PaperPoint&, BasicGraphicsObjectContainer&, const Colour&) override;
-    void columnHisto(const PaperPoint&, BasicGraphicsObjectContainer&, const Colour&) override;
+    ~BoxEntry();
+    void set(const PaperPoint&, BasicGraphicsObjectContainer&);
+    void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&);
+    void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&);
+    void rowHisto(const PaperPoint&, BasicGraphicsObjectContainer&, const Colour&);
+    void columnHisto(const PaperPoint&, BasicGraphicsObjectContainer&, const Colour&);
 
 protected:
     Polyline* box_;
-    Colour colour() override;
+    Colour colour();
 };
 
 
@@ -374,13 +374,13 @@ class LegendVisitor : public LayoutVisitor,
                       public AutoVector<LegendEntry> {
 public:
     LegendVisitor();
-    virtual ~LegendVisitor() override;
-    virtual void getReady() override;
+    virtual ~LegendVisitor();
+    virtual void getReady();
     virtual LegendVisitor* clone() {
         NOTIMP;
         return 0;
     }
-    virtual Layout& layout() const override {
+    virtual Layout& layout() const {
         ASSERT(layout_);
         return *layout_;
     }
@@ -388,10 +388,10 @@ public:
         ASSERT(layout_);
         return layout_;
     }
-    // virtual Layout* legend()   override { ASSERT( layout_) override; return this; }
+    // virtual Layout* legend()  { ASSERT( layout_); return this; }
 
-    void set(const XmlNode& node) override { LegendVisitorAttributes::set(node); }
-    void set(const std::map<string, string>& map) override { LegendVisitorAttributes::set(map); }
+    void set(const XmlNode& node) { LegendVisitorAttributes::set(node); }
+    void set(const std::map<string, string>& map) { LegendVisitorAttributes::set(map); }
     void add(LegendEntry* entry) { AutoVector<LegendEntry>::push_back(entry); }
     void newLegend() {
         if (!AutoVector<LegendEntry>::empty())
@@ -399,10 +399,10 @@ public:
     }
     double getFont_size() const { return font_size_; }
     // Layout* execute(AnimationStep& step,  const Layout*);
-    void visit(BasicGraphicsObjectContainer&) override;
-    void visit(BasicSceneObject&) override;
-    void visit(AnimationStep&) override;
-    void visit(MetaDataVisitor&) override;
+    void visit(BasicGraphicsObjectContainer&);
+    void visit(BasicSceneObject&);
+    void visit(AnimationStep&);
+    void visit(MetaDataVisitor&);
     bool positional() { return positional_; }
     bool right() { return magCompare(box_position_, "right"); }
     bool top() { return magCompare(box_position_, "top"); }
@@ -426,7 +426,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     typedef string (LegendVisitor::*Composition)(const string&, const string&);
     map<string, Composition> compositions_;
     // Calculate the grid!
@@ -488,8 +488,8 @@ private:
 class XmlLegendVisitor : public LegendVisitor, public XmlBasicNodeAttributes {
 public:
     XmlLegendVisitor() { positional_ = true; }
-    ~XmlLegendVisitor() override {}
-    void set(const XmlNode& node) override {
+    ~XmlLegendVisitor() {}
+    void set(const XmlNode& node) {
         XmlNode view = node;
         view.name("view");
         XmlBasicNodeAttributes::set(view);
@@ -499,24 +499,24 @@ public:
         XmlBasicNodeAttributes::copy(other);
         LegendVisitor::copy(other);
     }
-    LegendVisitor* clone() override {
+    LegendVisitor* clone() {
         XmlLegendVisitor* legend = new XmlLegendVisitor();
         legend->copy(*this);
         legend->positional_ = true;
         return legend;
     }
-    void getReady() override;
+    void getReady();
 };
 
 
 class FortranPositionalLegendVisitor : public LegendVisitor {
 public:
     FortranPositionalLegendVisitor() { positional_ = true; }
-    ~FortranPositionalLegendVisitor() override {}
-    void set(const XmlNode& node) override { LegendVisitor::set(node); }
-    void getReady() override;
+    ~FortranPositionalLegendVisitor() {}
+    void set(const XmlNode& node) { LegendVisitor::set(node); }
+    void getReady();
     void copy(const FortranPositionalLegendVisitor& other) { LegendVisitor::copy(other); }
-    LegendVisitor* clone() override {
+    LegendVisitor* clone() {
         FortranPositionalLegendVisitor* legend = new FortranPositionalLegendVisitor();
         legend->copy(*this);
         legend->positional_ = true;
@@ -528,10 +528,10 @@ public:
 class FortranAutomaticLegendVisitor : public LegendVisitor {
 public:
     FortranAutomaticLegendVisitor() { positional_ = false; }
-    ~FortranAutomaticLegendVisitor() override {}
-    void set(const XmlNode& node) override { LegendVisitor::set(node); }
-    void getReady() override;
-    LegendVisitor* clone() override {
+    ~FortranAutomaticLegendVisitor() {}
+    void set(const XmlNode& node) { LegendVisitor::set(node); }
+    void getReady();
+    LegendVisitor* clone() {
         FortranAutomaticLegendVisitor* legend = new FortranAutomaticLegendVisitor();
         legend->copy(*this);
         legend->positional_ = false;

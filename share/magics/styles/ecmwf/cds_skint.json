@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "cds_skint",
-    "preferred_units": "degC",
+    "prefered_units": "C",
     "styles": [
       "sh_all_fM72t72i4"
     ],

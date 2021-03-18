@@ -65,25 +65,24 @@ public:
 class ObsStatDecoder : public ObsStatDecoderAttributes, public Data, public PointsList {
 public:
     ObsStatDecoder();
-    virtual ~ObsStatDecoder() override;
+    virtual ~ObsStatDecoder();
 
-    void set(const map<string, string>& map) override { ObsStatDecoderAttributes::set(map); }
-    void set(const XmlNode& node) override { ObsStatDecoderAttributes::set(node); }
+    void set(const map<string, string>& map) { ObsStatDecoderAttributes::set(map); }
+    void set(const XmlNode& node) { ObsStatDecoderAttributes::set(node); }
 
     virtual void decode();
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 
     void customisedPoints(const std::set<string>&, CustomisedPointsList&);
     virtual PointsHandler& points();
-    void customisedPoints(const Transformation&, const std::set<string>& needs, CustomisedPointsList& out,
-                          bool) override {
+    void customisedPoints(const Transformation&, const std::set<string>& needs, CustomisedPointsList& out, bool) {
         customisedPoints(needs, out);
     }
-    PointsHandler& points(const Transformation&, bool) override { return points(); }
+    PointsHandler& points(const Transformation&, bool) { return points(); }
 
 
     string version_;

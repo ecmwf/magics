@@ -73,9 +73,6 @@ void MapGenDecoder::decode() {
         in.close();
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
-            throw;
-        }
         MagLog::error() << "MapGen file : can not open " << path_ << endl;
     }
     MagLog::dev() << "Map gen file--->" << this->size() << endl;

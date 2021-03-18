@@ -34,23 +34,22 @@ namespace magics {
 class BoxPlotDecoder : public BoxPlotDecoderAttributes, public Data, public PointsList {
 public:
     BoxPlotDecoder();
-    virtual ~BoxPlotDecoder() override;
+    virtual ~BoxPlotDecoder();
 
-    virtual void set(const map<string, string>& map) override { BoxPlotDecoderAttributes::set(map); }
+    virtual void set(const map<string, string>& map) { BoxPlotDecoderAttributes::set(map); }
 
-    virtual void set(const XmlNode& node) override { BoxPlotDecoderAttributes::set(node); }
+    virtual void set(const XmlNode& node) { BoxPlotDecoderAttributes::set(node); }
 
     void customisedPoints(const std::set<string>&, CustomisedPointsList&);
-    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out,
-                          bool all) override {
+    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all) {
         customisedPoints(n, out);
     }
-    PointsHandler& points(const Transformation&, bool) override { NOTIMP; }
-    void getReady(const Transformation&) override;
+    PointsHandler& points(const Transformation&, bool) { NOTIMP; }
+    void getReady(const Transformation&);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed

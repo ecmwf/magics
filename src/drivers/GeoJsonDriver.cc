@@ -16,17 +16,16 @@
 
 */
 
-#include "GeoJsonDriver.h"
-#include "Arrow.h"
-#include "Flag.h"
-#include "Image.h"
-#include "Layer.h"
-#include "MagicsSettings.h"
-#include "Polyline.h"
-#include "Symbol.h"
-#include "Text.h"
+#include <Arrow.h>
+#include <Flag.h>
+#include <GeoJsonDriver.h>
+#include <Image.h>
+#include <Layer.h>
+#include <Polyline.h>
+#include <Symbol.h>
+#include <Text.h>
 
-#include "magics.h"
+#include "magics_windef.h"
 
 //! For generating ZIP files
 extern "C" {
@@ -35,7 +34,7 @@ extern "C" {
 #define MAXFILENAME 256
 #define WRITEBUFFERSIZE 16384
 #include <fcntl.h>  // open
-#include <cstdio>  // BUFSIZ
+#include <cstdio>   // BUFSIZ
 
 #ifndef MAGICS_ON_WINDOWS
 #include <unistd.h>
@@ -153,18 +152,11 @@ void GeoJsonDriver::close() {
 
                 err = zipOpenNewFileInZip(zf, filename, 0, 0, 0, 0, 0, 0, Z_DEFLATED, Z_DEFAULT_COMPRESSION);
 
-                if (err != ZIP_OK) {
-                    if (MagicsSettings::strict()) {
-                        throw CannotOpenFile(filename);
-                    }
+                if (err != ZIP_OK)
                     MagLog::error() << "Could NOT open ZIP file " << filename << endl;
-                }
                 else {
                     fin = fopen(filename, "rb");
                     if (fin == 0) {
-                        if (MagicsSettings::strict()) {
-                            throw CannotOpenFile(filename);
-                        }
                         MagLog::error() << "Open file " << filename << " to be added to ZIP FAILED!" << endl;
                         return;
                     }

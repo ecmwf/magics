@@ -1,8 +1,0 @@
-match:
-- paramId: '210065'
-  shortName: tcch4
-- long_name: CH4 column-mean molar fraction
-styles:
-- sh_nipy_spectral_ch4_totalcolumn
-- sh_RdGy_r_ch4_totalcolumn
-

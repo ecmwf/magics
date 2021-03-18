@@ -39,7 +39,7 @@ class XmlTree;
 class XmlMagics : public XmlNodeVisitor, public stack<BasicSceneObject*>, public vector<MagicsObserver*> {
 public:
     MAGICS_EXPORT XmlMagics();
-    MAGICS_EXPORT ~XmlMagics() override;
+    MAGICS_EXPORT ~XmlMagics();
 
     MAGICS_EXPORT void execute(const string&, std::map<string, string>& metadata);
     MAGICS_EXPORT void execute(const string& magml) {
@@ -48,7 +48,7 @@ public:
     }
     MAGICS_EXPORT void execute(XmlTree& magml);
 
-    void visit(const XmlNode& node) override;
+    void visit(const XmlNode& node);
 
     void magics(const XmlNode&);
 

@@ -57,9 +57,9 @@ Flag* FlagPlotting::southFlag(const Colour& colour) {
     south->setStyle(this->style_);
     south->setCrossBoundary(cross_boundary_);
     south->setOriginHeight(origin_marker_size_);
-    south->setHemisphere(Hemisphere::SOUTH);
+    south->setHemisphere(SOUTH);
     south->setLength(length_);
-    south->setConvention(FlagConvention::KNOTS);
+    south->setConvention(KNOTS);
     southFlags_.insert(make_pair(colour, south));
     (*origin_).prepare(*south);
     return south;
@@ -78,8 +78,8 @@ Flag* FlagPlotting::northFlag(const Colour& colour) {
     north->setThickness(thickness_);
     north->setCrossBoundary(cross_boundary_);
     north->setOriginHeight(origin_marker_size_);
-    north->setHemisphere(Hemisphere::NORTH);
-    north->setConvention(FlagConvention::KNOTS);
+    north->setHemisphere(NORTH);
+    north->setConvention(KNOTS);
     northFlags_.insert(make_pair(colour, north));
     north->setLength(length_);
     (*origin_).prepare(*north);
@@ -115,7 +115,7 @@ void FlagPlotting::visit(LegendVisitor& legend) {
     flags->setCrossBoundary(cross_boundary_);
     (*origin_).prepare(*flags);
     flags->setOriginHeight(origin_marker_size_);
-    flags->setHemisphere(Hemisphere::NORTH);
+    flags->setHemisphere(NORTH);
     flags->setLength(length_);
 
     ostringstream text;

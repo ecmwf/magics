@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-
+   
 
 #ifndef GraphShadeWrapper_H
 #define GraphShadeWrapper_H
@@ -40,15 +40,15 @@
 
 
 #include "GraphShadeStyleWrapper.h"
-
+ 
 
 namespace magics {
 
 class MagRequest;
 
 
-
-class GraphShadeWrapper
+ 	
+class GraphShadeWrapper 
 
 {
 public:
@@ -58,28 +58,28 @@ public:
 //  --  destructor
     virtual ~GraphShadeWrapper();
     virtual void set(const MagRequest&);
-
+    
     GraphShade* me()   { return graphshade_; }
-
+   	
    	virtual GraphShade* object() { return graphshade_; }
+	
 
-
-	virtual void object(GraphShade* o) {
+	virtual void object(GraphShade* o) { 
 		// Remember to delete the previous object
 		graphshade_ = o;
 		
 
 	}
-
-
+    
+  
 
 protected:
     GraphShade* graphshade_;
 
 
 //  --  method
-	virtual void print(ostream&) const override;
-
+	virtual void print(ostream&) const;
+	
 
 private:
     string tag_;
@@ -90,3 +90,5 @@ private:
 } // namespace magics
 
 #endif
+
+

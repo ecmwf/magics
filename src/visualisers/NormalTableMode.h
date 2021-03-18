@@ -31,17 +31,17 @@ namespace magics {
 class NormalTableMode : public LookupTableMode {
 public:
     NormalTableMode();
-    virtual ~NormalTableMode() override;
-    void set(const map<string, string>& map) override  // for MagML
+    virtual ~NormalTableMode();
+    void set(const map<string, string>& map)  // for MagML
     {
         LookupTableModeAttributes::set(map);
     }
 
-    virtual void operator()(Image&, Raster&) override;
+    virtual void operator()(Image&, Raster&);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed

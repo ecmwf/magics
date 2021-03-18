@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -45,17 +45,17 @@ TableDecoderAttributes::TableDecoderAttributes():
 	y_missing_(ParameterManager::getDouble("table_y_missing_value"))
 	,
 	table_binning_(MagTranslator<string, BinningObject>().magics("table_binning"))
-	
+	 
 {
-}
+} 
 
 
 TableDecoderAttributes::~TableDecoderAttributes()
 {
-
+	
 }
 
-
+    
 void TableDecoderAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -107,12 +107,12 @@ void TableDecoderAttributes::copy(const TableDecoderAttributes& other)
 	y_missing_ = other.y_missing_;
 	table_binning_ = unique_ptr<BinningObject>(other.table_binning_->clone());
 	
-}
+} 
 
 
 bool TableDecoderAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "table")  )
 		return true;
 	if ( acceptNode(node, table_binning_) )
@@ -125,7 +125,7 @@ void TableDecoderAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "table")  )
@@ -140,7 +140,7 @@ void TableDecoderAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), table_binning_, *elt);
+		setMember(elt->name(), table_binning_, *elt); 
 		
 	}
 }
@@ -173,7 +173,7 @@ void TableDecoderAttributes::print(ostream& out)  const
 
 void TableDecoderAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"table\"";
+	out <<  "\"table\""; 
 	out << ", \"table_filename\":";
 	niceprint(out,path_);
 	out << ", \"table_delimiter\":";
@@ -215,25 +215,25 @@ void TableDecoderAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> table_filename("table_filename", "");
-static MagicsParameter<string> table_delimiter("table_delimiter", ",");
-static MagicsParameter<string> table_combine_delimiters("table_combine_delimiters", "off");
-static MagicsParameter<int> table_header_row("table_header_row", 1);
-static MagicsParameter<int> table_data_row_offset("table_data_row_offset", 1);
-static MagicsParameter<intarray> table_meta_data_rows("table_meta_data_rows", intarray());
-static MagicsParameter<string> table_x_type("table_x_type", "number");
-static MagicsParameter<string> table_y_type("table_y_type", "number");
-static MagicsParameter<string> table_variable_identifier_type("table_variable_identifier_type", "index");
-static MagicsParameter<string> table_x_variable("table_x_variable", "1");
-static MagicsParameter<string> table_y_variable("table_y_variable", "2");
-static MagicsParameter<string> table_value_variable("table_value_variable", "-1");
-static MagicsParameter<string> table_latitude_variable("table_latitude_variable", "2");
-static MagicsParameter<string> table_longitude_variable("table_longitude_variable", "1");
-static MagicsParameter<string> table_x_component_variable("table_x_component_variable", "-1");
-static MagicsParameter<string> table_y_component_variable("table_y_component_variable", "-1");
-static MagicsParameter<double> table_x_missing_value("table_x_missing_value", -21.e6);
-static MagicsParameter<double> table_y_missing_value("table_y_missing_value", -21.e6);
-static MagicsParameter<string> table_binning("table_binning", "on");
+static MagicsParameter<string> table_filename("table_filename", "", "");
+static MagicsParameter<string> table_delimiter("table_delimiter", ",", "");
+static MagicsParameter<string> table_combine_delimiters("table_combine_delimiters", "off", "");
+static MagicsParameter<int> table_header_row("table_header_row", 1, "");
+static MagicsParameter<int> table_data_row_offset("table_data_row_offset", 1, "");
+static MagicsParameter<intarray> table_meta_data_rows("table_meta_data_rows", intarray(), "");
+static MagicsParameter<string> table_x_type("table_x_type", "number", "");
+static MagicsParameter<string> table_y_type("table_y_type", "number", "");
+static MagicsParameter<string> table_variable_identifier_type("table_variable_identifier_type", "index", "");
+static MagicsParameter<string> table_x_variable("table_x_variable", "1", "");
+static MagicsParameter<string> table_y_variable("table_y_variable", "2", "");
+static MagicsParameter<string> table_value_variable("table_value_variable", "-1", "");
+static MagicsParameter<string> table_latitude_variable("table_latitude_variable", "2", "");
+static MagicsParameter<string> table_longitude_variable("table_longitude_variable", "1", "");
+static MagicsParameter<string> table_x_component_variable("table_x_component_variable", "-1", "");
+static MagicsParameter<string> table_y_component_variable("table_y_component_variable", "-1", "");
+static MagicsParameter<double> table_x_missing_value("table_x_missing_value", -21.e6, "");
+static MagicsParameter<double> table_y_missing_value("table_y_missing_value", -21.e6, "");
+static MagicsParameter<string> table_binning("table_binning", "on", ""); 
 #include "BinningObject.h"
 static SimpleObjectMaker<NoBinningObject , BinningObject> nobinning_NoBinningObject("nobinning");
 static SimpleObjectMaker<NoBinningObject , BinningObject> off_NoBinningObject("off");

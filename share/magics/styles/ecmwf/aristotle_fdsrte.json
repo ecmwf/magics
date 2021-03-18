@@ -1,0 +1,23 @@
+[
+  {
+    "eccharts_layer": "",
+    "styles": [
+      "fdsrte_1"
+    ],
+    "match": [
+      {
+        "paramId": [
+          "260546"
+        ],
+        "shortName": [
+          "fdsrte"
+        ]
+      },
+      {
+        "long_name": [
+          "Fire daily severity rating"
+        ]
+      }
+    ]
+  }
+]

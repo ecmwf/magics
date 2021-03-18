@@ -37,7 +37,7 @@ class StyleEntry;
 class ContourLibrary : public ContourLibraryAttributes {
 public:
     ContourLibrary();
-    virtual ~ContourLibrary() override;
+    virtual ~ContourLibrary();
 
     // set the meta data to be collected
     virtual void askId(MetaDataCollector&);
@@ -48,16 +48,14 @@ public:
     // se the map to set the contour!
     virtual void getStyle(MetaDataCollector&, MagDef&, StyleEntry&);
     virtual void getStyle(const string&, MagDef&) {}
-
-
-    // All in one
-    virtual StyleEntry* getStyle(Data& data, const std::string& library_path, MagDef& visdef) { return nullptr; }
+    virtual void getScaling(MetaDataCollector&, double& scaling, double& offset) {
+        scaling = 1;
+        offset  = 0;
+    }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
-
-    void setCriteria(MetaDataCollector&, const string&);
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed
@@ -138,20 +136,21 @@ public:
 class EcChartLibrary : public ContourLibrary {
 public:
     EcChartLibrary();
-    virtual ~EcChartLibrary() override;
+    virtual ~EcChartLibrary();
 
     // set the meta data to be collected
-    void askId(MetaDataCollector&) override;
+    void askId(MetaDataCollector&);
 
-    bool checkId(MetaDataCollector&, MetaDataCollector&) override { return true; }
+    bool checkId(MetaDataCollector&, MetaDataCollector&) { return true; }
+    void setCriteria(MetaDataCollector&, const string&);
 
     // set the map to set the contour!
-    void getStyle(MetaDataCollector&, MagDef&, StyleEntry&) override;
+    void getStyle(MetaDataCollector&, MagDef&, StyleEntry&);
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
     EcChartData contours_;
     EcChartSetData default_set_;
@@ -161,16 +160,19 @@ protected:
 class WebLibrary : public ContourLibrary {
 public:
     WebLibrary();
-    virtual ~WebLibrary() override;
+    virtual ~WebLibrary();
 
     // set the meta data to be collected
-    void askId(MetaDataCollector&) override;
+    void askId(MetaDataCollector&);
 
-    bool checkId(MetaDataCollector&, MetaDataCollector&) override { return false; }
+    bool checkId(MetaDataCollector&, MetaDataCollector&) { return false; }
+    void setCriteria(MetaDataCollector&, const string&);
 
     // set the map to set the contour!
-    void getStyle(MetaDataCollector&, MagDef&, StyleEntry&) override;
-    void getStyle(const string&, MagDef&) override;
+    void getStyle(MetaDataCollector&, MagDef&, StyleEntry&);
+    void getStyle(const string&, MagDef&);
+
+    void getScaling(MetaDataCollector&, double&, double&);
 
 
     static StyleLibrary* styles_;
@@ -178,7 +180,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
     string libraryPath_;
 };
@@ -187,19 +189,19 @@ protected:
 class NoContourLibrary : public ContourLibrary {
 public:
     NoContourLibrary() {}
-    virtual ~NoContourLibrary() override {}
+    virtual ~NoContourLibrary() {}
 
     // sete the meata dat to be collected
-    void askId(MetaDataCollector&) override {}
+    void askId(MetaDataCollector&) {}
 
-    bool checkId(MetaDataCollector&, MetaDataCollector&) override { return false; }
+    bool checkId(MetaDataCollector&, MetaDataCollector&) { return false; }
 
     // se the map to set the contour!
     void getStyle(MetaDataCollector&, map<string, string>&, StyleEntry&) {}
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& s) const override { s << "NoContourLibrary[]"; }
+    virtual void print(ostream&) const {}
 };
 
 template <>

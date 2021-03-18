@@ -51,7 +51,6 @@ public:
 	//  --  members:
 	string tag_;
 	string title_;
-	string file_;
 	string name_;
 	bool firstnumber_;
 	int firstvalue_;

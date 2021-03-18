@@ -34,24 +34,24 @@ namespace magics {
 class Wind : public Visdef, public WindAttributes, public ThinningMethodUI {
 public:
     Wind();
-    virtual ~Wind() override;
+    virtual ~Wind();
 
-    virtual void set(const map<string, string>& map) override { WindAttributes::set(map); }
-    virtual void set(const XmlNode& node) override { WindAttributes::set(node); }
+    virtual void set(const map<string, string>& map) { WindAttributes::set(map); }
+    virtual void set(const XmlNode& node) { WindAttributes::set(node); }
 
     // implements the Visdef interface ...
-    void operator()(Data&, BasicGraphicsObjectContainer&) override;
-    void visit(LegendVisitor&) override;
-    bool needLegend() override { return type_->needLegend(); }
-    void getReady(const LegendVisitor& legend) override {
+    void operator()(Data&, BasicGraphicsObjectContainer&);
+    void visit(LegendVisitor&);
+    bool needLegend() { return type_->needLegend(); }
+    void getReady(const LegendVisitor& legend) {
         Visdef::getReady(legend);
         type_->legendOnly(legendOnly_);
     }
-    void visit(Data& data, HistoVisitor& visitor) override;
+    void visit(Data& data, HistoVisitor& visitor);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 
 private:

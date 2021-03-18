@@ -16,29 +16,29 @@
 
 */
 
-#include "BaseDriver.h"
+#include <BaseDriver.h>
 
-#include "Arrow.h"
-#include "BinaryObject.h"
-#include "Colour.h"
-#include "Flag.h"
-#include "Image.h"
-#include "ImportObject.h"
-#include "Layer.h"
-#include "Layout.h"
-#include "PaperPoint.h"
-#include "Polyline.h"
-#include "Symbol.h"
-#include "Text.h"
+#include <Arrow.h>
+#include <BinaryObject.h>
+#include <Colour.h>
+#include <Flag.h>
+#include <Image.h>
+#include <ImportObject.h>
+#include <Layer.h>
+#include <Layout.h>
+#include <PaperPoint.h>
+#include <Polyline.h>
+#include <Symbol.h>
+#include <Text.h>
 
-#include "BaseDriverImages.h"
-#include "BaseDriverSymbols.h"
-#include "BaseDriverWind.h"
+#include <BaseDriverImages.h>
+#include <BaseDriverSymbols.h>
+#include <BaseDriverWind.h>
 
-#include "System.h"
-#include "Timer.h"
+#include <System.h>
+#include <Timer.h>
 
-#include "magics.h"
+#include "magics_windef.h"
 
 using namespace magics;
 
@@ -53,7 +53,7 @@ BaseDriver::BaseDriver() :
     currentPage_(-1),
     fileName_(""),
     currentLayer_(""),
-    currentLineType_(LineStyle::SOLID),
+    currentLineType_(M_SOLID),
     currentLineWidth_(-1),
     currentLineStyle_(1),
     currentColour_(Colour("white")),
@@ -64,7 +64,7 @@ BaseDriver::BaseDriver() :
     alphaEnabled_(false),
     applyGaussianBlur_(-1.),
     indexHatch_(0),
-    currentShading_(Shading::NONE),
+    currentShading_(M_SH_NONE),
     cmScale_(1.),
     xDeviceLength_(MagTranslator<double, double>().magics("SUPER_PAGE_X_LENGTH")),
     yDeviceLength_(MagTranslator<double, double>().magics("SUPER_PAGE_Y_LENGTH")),
@@ -80,7 +80,7 @@ BaseDriver::~BaseDriver() {
  \sa renderSimplePolygon
 */
 void BaseDriver::shade(const FillShadingProperties& properties) const {
-    currentShading_           = Shading::SOLID;
+    currentShading_           = M_SH_SOLID;
     currentShadingProperties_ = &properties;
 }
 
@@ -89,7 +89,7 @@ void BaseDriver::shade(const FillShadingProperties& properties) const {
  \sa renderSimplePolygon
 */
 void BaseDriver::shade(const HatchShadingProperties& properties) const {
-    currentShading_           = Shading::HATCH;
+    currentShading_           = M_SH_HATCH;
     currentShadingProperties_ = &properties;
 }
 
@@ -98,7 +98,7 @@ void BaseDriver::shade(const HatchShadingProperties& properties) const {
  \sa renderSimplePolygon
 */
 void BaseDriver::shade(const DotShadingProperties& properties) const {
-    currentShading_           = Shading::DOT;
+    currentShading_           = M_SH_DOT;
     currentShadingProperties_ = &properties;
 }
 
@@ -178,15 +178,8 @@ void BaseDriver::readFonts() const {
 string BaseDriver::getFileName(const string& extension, const unsigned int no) const {
     // offsetting the current page number if the users has set so
     const unsigned int no2 = (firstvalue_ >= 0) ? (no + firstvalue_ - 1) : no;
-    string ext             = "." + extension;
 
-    if (!file_.empty()) {
-        ASSERT(no <= 1);
-        ASSERT(file_.size() > ext.size() + 1);
-        ASSERT(file_.substr(file_.size() - ext.size()) == ext);
-        return file_;
-    }
-
+    string ext  = "." + extension;
     bool full   = false;
     bool legacy = false;
 
@@ -491,7 +484,7 @@ void BaseDriver::printLine(const magics::Polyline& line) const {
                         Arrow arrow;
                         arrow.copy(*line.arrowProperties());
                         arrow.setColour(line.getColour());
-                        arrow.setArrowPosition(ArrowPosition::HEAD_ONLY);
+                        arrow.setArrowPosition(M_HEAD_ONLY);
                         if ((x[i] - x[i + 3]) < 0.)
                             angle += PI;
                         const double dx = sin(angle + 1.5707963267949);
@@ -513,7 +506,7 @@ void BaseDriver::printLine(const magics::Polyline& line) const {
                         text.addText(label.getText(), font.colour(), font.size());
                         text.setBlanking(label.getBlanking());
                         text.setJustification(label.getJustification());
-                        text.setVerticalAlign(VerticalAlign::HALF);
+                        text.setVerticalAlign(MHALF);
                         text.setAngle(-setAngleY(angle));
                         text.setFont(font);
                         renderText(text);
@@ -1085,6 +1078,40 @@ void BaseDriver::redisplay(const BinaryObject& binary) const {
                     l.maxX(maxx);
                     l.maxY(maxy);
                     project(l);
+                } break;
+
+                case 'J': {
+                    MFloat x, y, w, h;
+                    ImageProperties::OriginReference r;
+                    in.read((char*)(&x), sizeof(double));
+                    in.read((char*)(&y), sizeof(double));
+                    in.read((char*)(&w), sizeof(double));
+                    in.read((char*)(&h), sizeof(double));
+                    in.read((char*)(&r), sizeof(ImageProperties::OriginReference));
+
+                    int len;
+                    in.read((char*)(&len), sizeof(int));
+                    char* tex = new char[len + 1];
+                    in.read(tex, sizeof(char) * len);
+                    tex[len] = '\0';
+                    string format(tex);
+
+                    in.read((char*)(&len), sizeof(int));
+                    char* tex2 = new char[len + 1];
+                    in.read(tex2, sizeof(char) * len);
+                    tex2[len] = '\0';
+                    string path(tex2);
+
+                    ImportObject obj;
+                      obj.setOrigin(PaperPoint(x,y));
+                      obj.setWidth(w);
+                      obj.setHeight(h);
+                      obj.setOriginReference(r);
+                      obj.setFormat(format);
+                      obj.setPath(path);
+
+                    MagLog::debug() << "BaseDriver::redisplayBinary for ImportObject is CALLED. "<<w<<"x"<<h<< std::endl;
+                    renderImage(obj);
                 } break;
 
                 case 'M': {             // Pixmap

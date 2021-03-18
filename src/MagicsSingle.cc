@@ -13,60 +13,62 @@
    API for single precision versions of Magics++
 
 */
-
-#include <vector>
-#include "magics_export.h"
+#include <math.h>
+#include <stdio.h>
+#include <iostream>
 
 extern "C" {
+#include <magics_api.h>
 
-void psetr_double(const char* namep, const double* value, int namel);
-void pset1r_double(const char* namep, const double* data, const int* dim, int namel);
-void pset2r_double(const char* namep, const double* data, const int* dim1, const int* dim2, int namel);
-void pset3r_double(const char* namep, const double* data, const int* dim1, const int* dim2, const int* dim3, int namel);
-void penqr_double(const char* namep, double* value, int namel);
 
 MAGICS_EXPORT void psetr_(char* name, float* value, int length) {
+    std::string n(name, length);
     double dval = *value;
     // Here we try to improve the conversion to double for small numbers.
     if (*value < 1.0 && *value > -1.0) {
         int val = *value * 10000000;
         dval    = val / 10000000.;
     }
-    psetr_double(name, &dval, length);
+    mag_setr(n.c_str(), dval);
 }
 
 MAGICS_EXPORT void pset1r_(char* name, float* data, int* dim, int length) {
-    std::vector<double> values;
-    int size = *dim;
-    for (int i = 0; i < size; i++) {
-        values.push_back(data[i]);
-    }
-    pset1r_double(name, values.data(), dim, length);
+    std::string n(name, length);
+    double* da = new double[*dim];
+    for (int i = 0; i < *dim; i++)
+        da[i] = (double)data[i];
+
+    mag_set1r(n.c_str(), da, *dim);
+    delete[] da;
 }
 
 MAGICS_EXPORT void pset2r_(char* name, float* data, int* dim, int* dim2, int length) {
-    std::vector<double> values;
-    int size = *dim * *dim2;
-    for (int i = 0; i < size; i++) {
-        values.push_back(data[i]);
-    }
+    std::string n(name, length);
+    const long no = (*dim) * (*dim2);
+    double* da    = new double[no];
+    for (int i = 0; i < no; i++)
+        da[i] = (double)data[i];
 
-    pset2r_double(name, values.data(), dim, dim2, length);
+    mag_set2r(n.c_str(), da, *dim, *dim2);
+    delete[] da;
 }
 
 MAGICS_EXPORT void pset3r_(char* name, float* data, int* dim, int* dim2, int* dim3, int length) {
-    std::vector<double> values;
-    int size = *dim * *dim2 * *dim3;
-    for (int i = 0; i < size; i++) {
-        values.push_back(data[i]);
-    }
+    std::string n(name, length);
+    const long no = (*dim) * (*dim2) * (*dim3);
+    double* da    = new double[no];
+    for (int i = 0; i < no; i++)
+        da[i] = (double)data[i];
 
-    pset3r_double(name, values.data(), dim, dim2, dim3, length);
+    mag_set3r(n.c_str(), da, *dim, *dim2, *dim3);
+    delete[] da;
 }
 
 MAGICS_EXPORT void penqr_(const char* name, float* value, int length) {
+    std::string n(name, length);
     double tmp;
-    penqr_double(name, &tmp, length);
+
+    mag_enqr(n.c_str(), &tmp);
     *value = float(tmp);
 }
 }

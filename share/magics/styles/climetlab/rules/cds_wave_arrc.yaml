@@ -1,7 +1,0 @@
-match:
-- paramId: '140248'
-  shortName: arrc
-- long_name: Altimeter range relative correction
-styles:
-- sh_all_fM01t0lst_grid
-

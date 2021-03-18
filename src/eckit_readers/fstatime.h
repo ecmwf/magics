@@ -29,8 +29,8 @@ public:
     TStaticTime(const short year, const short month, const short day, const short hour, const short minute = 0,
                 const short sec = 0);
 
-    virtual bool IsEqual(const TFObject& anotherTime) const override;
-    virtual bool IsLessThan(const TFObject& anotherTime) const override;
+    virtual bool IsEqual(const TFObject& anotherTime) const;
+    virtual bool IsLessThan(const TFObject& anotherTime) const;
 
     TStaticTime& operator=(const TStaticTime&);
 #ifdef METVIEW

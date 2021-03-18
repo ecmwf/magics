@@ -52,9 +52,6 @@ void ObsPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
             obs.visit(needs);
         }
         catch (std::exception&) {
-            if (MagicsSettings::strict()) {
-                throw;
-            }
             MagLog::warning() << " Magics++ has no observation template for: " << type->second << "\n"
                               << " Please contact the Graphic team.\n";
         }
@@ -80,9 +77,6 @@ void ObsPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
             }
         }
         catch (std::exception&) {
-            if (MagicsSettings::strict()) {
-                throw;
-            }
         }
     }
 }

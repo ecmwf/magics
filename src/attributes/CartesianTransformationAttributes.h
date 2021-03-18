@@ -25,8 +25,8 @@
 #define CartesianTransformationAttributes_H
 
 #include "magics.h"
-#include "XCoordinate.h"
 #include "YCoordinate.h"
+#include "XCoordinate.h"
 namespace magics {
 
 class XmlNode;

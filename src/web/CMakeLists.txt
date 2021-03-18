@@ -3,7 +3,7 @@ MagJSon.cc   ObsJSon.cc   WrepJSon.h
 MagConfig.cc    MagJSon.h    ObsJSon.h
 MagConfig.h     WrepJSon.cc
 GeoJSon.h GeoJSon.cc
-MagYaml.h MagYaml.cc
+
  )
 
 foreach( file ${_web_srcs} )

@@ -39,21 +39,21 @@ class Transformation;
 class AxisMinorTick : public AxisMinorTickAttributes {
 public:
     AxisMinorTick();
-    virtual ~AxisMinorTick() override;
+    virtual ~AxisMinorTick();
 
-    virtual void set(const XmlNode& node) override { AxisMinorTickAttributes::set(node); }
-    virtual void set(const map<string, string>& map) override { AxisMinorTickAttributes::set(map); }
-    virtual AxisMinorTick* clone() const override {
+    virtual void set(const XmlNode& node) { AxisMinorTickAttributes::set(node); }
+    virtual void set(const map<string, string>& map) { AxisMinorTickAttributes::set(map); }
+    virtual AxisMinorTick* clone() const {
         MagLog::dev() << "(const map<string, string&)---> to be checked!...\n";
         return new AxisMinorTick();
     }
 
-    virtual void vertical(const AxisItems&, const Colour&, VerticalAxisVisitor&) override;
-    virtual void horizontal(const AxisItems&, const Colour&, HorizontalAxisVisitor&) override;
+    virtual void vertical(const AxisItems&, const Colour&, VerticalAxisVisitor&);
+    virtual void horizontal(const AxisItems&, const Colour&, HorizontalAxisVisitor&);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed
@@ -72,13 +72,13 @@ private:
 class NoMinorAxisTick : public AxisMinorTick {
 public:
     NoMinorAxisTick() {}
-    ~NoMinorAxisTick() override{};
+    ~NoMinorAxisTick(){};
 
 protected:
     virtual void vertical(const AxisItems&, const Colour&, VerticalAxisVisitor&) {}
     virtual void horizontal(const AxisItems&, const Colour&, HorizontalAxisVisitor&) {}
 
-    AxisMinorTick* clone() const override { return new NoMinorAxisTick(); }
+    AxisMinorTick* clone() const { return new NoMinorAxisTick(); }
 };
 
 

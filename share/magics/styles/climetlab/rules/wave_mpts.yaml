@@ -1,9 +1,0 @@
-match:
-- paramId: '140239'
-  shortName: mpts
-- long_name: Mean period of total swell
-styles:
-- sh_all_f0t18i1_5
-- sh_grn_f0t18i1_5
-- ct_vio_i1_t1
-

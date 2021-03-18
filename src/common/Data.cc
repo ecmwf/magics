@@ -21,8 +21,6 @@
 
 
 #include "Data.h"
-#include "MagException.h"
-#include "Units.h"
 
 void Data::computeStats() {
     map<string, vector<double> >::iterator itX, itY, itV;
@@ -135,53 +133,4 @@ void DataList::next() {
 
 void DataList::add(Data* data) {
     data_.push_back(data);
-}
-
-std::string Data::getUnits() const {
-    std::ostringstream oss;
-    oss << "Data::getUnits() not implemented for " << *this;
-    throw NotImplemented(oss.str());
-}
-
-void Data::applyScaling(const std::string& target_units) {
-    ASSERT(!scaled_);
-    scaled_ = true;
-
-    double scaling = 1;
-    double offset  = 0;
-    // FIXEM: temp thing
-
-    if (target_units.empty()) {
-        // Not asked by user or contour
-        std::string dataUnits, plotUnits;
-        defaultScaling(scaling, offset, dataUnits, plotUnits);
-        if (scaling != 1 || offset != 0) {
-            applyScaling(scaling, offset);
-        }
-        return;
-    }
-
-    std::string data_units = getUnits();
-
-    if (!Units::convert(data_units, target_units, scaling, offset)) {
-        return;
-    }
-
-    if (scaling != 1 || offset != 0) {
-        applyScaling(scaling, offset);
-    }
-}
-
-
-void Data::defaultScaling(double& scaling, double& offset, std::string& dataUnits, std::string& plotUnits) {
-    scaling = 1;
-    offset  = 0;
-
-    plotUnits = dataUnits = getUnits();
-    Units::defaultScaling(scaling, offset, dataUnits, plotUnits);
-}
-
-
-void Data::applyScaling(double scaling, double offset) {
-    NOTIMP;
 }

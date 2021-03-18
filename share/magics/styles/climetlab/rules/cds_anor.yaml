@@ -1,7 +1,0 @@
-match:
-- paramId: '162'
-  shortName: anor
-- long_name: Angle of sub-gridscale orography
-styles:
-- sh_all_fM16t16lst
-

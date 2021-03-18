@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-
+   
 
 #ifndef Proj4PolarSouthWrapper_H
 #define Proj4PolarSouthWrapper_H
@@ -33,7 +33,7 @@
 #include "Proj4Projection.h"
 
 
-
+ 
 #include "Proj4ProjectionWrapper.h"
 
 
@@ -41,7 +41,7 @@
 
 
 
-
+ 
 
 namespace magics {
 
@@ -58,29 +58,29 @@ public:
 //  --  destructor
     virtual ~Proj4PolarSouthWrapper();
     virtual void set(const MagRequest&);
-
+    
     Proj4PolarSouth* me()   { return proj4polarsouth_; }
-
+   	
    	virtual Proj4PolarSouth* object() { return proj4polarsouth_; }
+	
 
-
-	virtual void object(Proj4PolarSouth* o) {
+	virtual void object(Proj4PolarSouth* o) { 
 		// Remember to delete the previous object
 		proj4polarsouth_ = o;
 		Proj4ProjectionWrapper::object(o);
 		
 
 	}
-
-
+    
+  
 
 protected:
     Proj4PolarSouth* proj4polarsouth_;
 
 
 //  --  method
-	virtual void print(ostream&) const override;
-
+	virtual void print(ostream&) const;
+	
 
 private:
     string tag_;
@@ -91,3 +91,5 @@ private:
 } // namespace magics
 
 #endif
+
+

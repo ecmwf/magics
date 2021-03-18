@@ -36,19 +36,18 @@ namespace magics {
 class TileDecoder : public Decoder, public Data, public TileDecoderAttributes {
 public:
     TileDecoder();
-    virtual ~TileDecoder() override;
+    virtual ~TileDecoder();
     // implements Decoder interface
-    void decode() override;
-    virtual void set(const XmlNode& node) override { TileDecoderAttributes::set(node); }
-    virtual void set(const map<string, string>& map) override { TileDecoderAttributes::set(map); }
+    void decode();
+    virtual void set(const XmlNode& node) { TileDecoderAttributes::set(node); }
+    virtual void set(const map<string, string>& map) { TileDecoderAttributes::set(map); }
 
-    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out,
-                          bool all) override;
+    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all);
 
-    PointsHandler& points(const Transformation& t, bool) override;
+    PointsHandler& points(const Transformation& t, bool);
 
     PointsHandler& points() { throw MethodNotYetImplemented("TileDecoder::points()"); }
-    virtual MatrixHandler& matrix() override {
+    virtual MatrixHandler& matrix() {
         decode();
         matrixHandlers_.push_back(new MatrixHandler(matrix_));
         matrixHandlers_.back()->setTile();
@@ -61,16 +60,17 @@ public:
     string positions();
     string positions_symbols();
 
-    Data* current() override;
-    Data* next() override;
+    Data* current();
+    Data* next();
 
     vector<codes_handle*> entries_;
     vector<codes_handle*>::iterator entry_;
     codes_handle* handle_;
 
+
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     void scaling_offset(codes_handle*, double&, double&);
     Matrix matrix_;
     string grid_;

@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-
+   
 
 #ifndef GribLoopWrapper_H
 #define GribLoopWrapper_H
@@ -42,15 +42,15 @@
 #include "GribAddressModeWrapper.h"
 #include "GribLoopStepWrapper.h"
 #include "WindModeWrapper.h"
-
+ 
 
 namespace magics {
 
 class MagRequest;
 
 
-
-class GribLoopWrapper
+ 	
+class GribLoopWrapper 
 
 {
 public:
@@ -60,28 +60,28 @@ public:
 //  --  destructor
     virtual ~GribLoopWrapper();
     virtual void set(const MagRequest&);
-
+    
     GribLoop* me()   { return gribloop_; }
-
+   	
    	virtual GribLoop* object() { return gribloop_; }
+	
 
-
-	virtual void object(GribLoop* o) {
+	virtual void object(GribLoop* o) { 
 		// Remember to delete the previous object
 		gribloop_ = o;
 		
 
 	}
-
-
+    
+  
 
 protected:
     GribLoop* gribloop_;
 
 
 //  --  method
-	virtual void print(ostream&) const override;
-
+	virtual void print(ostream&) const;
+	
 
 private:
     string tag_;
@@ -92,3 +92,5 @@ private:
 } // namespace magics
 
 #endif
+
+

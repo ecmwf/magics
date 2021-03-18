@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-
+   
 
 #ifndef MetgramGraphWrapper_H
 #define MetgramGraphWrapper_H
@@ -40,15 +40,15 @@
 
 
 #include "MetgramStyleWrapper.h"
-
+ 
 
 namespace magics {
 
 class MagRequest;
 
 
-
-class MetgramGraphWrapper
+ 	
+class MetgramGraphWrapper 
 
 {
 public:
@@ -58,28 +58,28 @@ public:
 //  --  destructor
     virtual ~MetgramGraphWrapper();
     virtual void set(const MagRequest&);
-
+    
     MetgramGraph* me()   { return metgramgraph_; }
-
+   	
    	virtual MetgramGraph* object() { return metgramgraph_; }
+	
 
-
-	virtual void object(MetgramGraph* o) {
+	virtual void object(MetgramGraph* o) { 
 		// Remember to delete the previous object
 		metgramgraph_ = o;
 		
 
 	}
-
-
+    
+  
 
 protected:
     MetgramGraph* metgramgraph_;
 
 
 //  --  method
-	virtual void print(ostream&) const override;
-
+	virtual void print(ostream&) const;
+	
 
 private:
     string tag_;
@@ -90,3 +90,5 @@ private:
 } // namespace magics
 
 #endif
+
+

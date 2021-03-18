@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-
+   
 
 #ifndef ImportObjectHandlerWrapper_H
 #define ImportObjectHandlerWrapper_H
@@ -39,15 +39,15 @@
 
 
 
-
+ 
 
 namespace magics {
 
 class MagRequest;
 
 
-
-class ImportObjectHandlerWrapper
+ 	
+class ImportObjectHandlerWrapper 
 
 {
 public:
@@ -57,28 +57,28 @@ public:
 //  --  destructor
     virtual ~ImportObjectHandlerWrapper();
     virtual void set(const MagRequest&);
-
+    
     ImportObjectHandler* me()   { return importobjecthandler_; }
-
+   	
    	virtual ImportObjectHandler* object() { return importobjecthandler_; }
+	
 
-
-	virtual void object(ImportObjectHandler* o) {
+	virtual void object(ImportObjectHandler* o) { 
 		// Remember to delete the previous object
 		importobjecthandler_ = o;
 		
 
 	}
-
-
+    
+  
 
 protected:
     ImportObjectHandler* importobjecthandler_;
 
 
 //  --  method
-	virtual void print(ostream&) const override;
-
+	virtual void print(ostream&) const;
+	
 
 private:
     string tag_;
@@ -89,3 +89,5 @@ private:
 } // namespace magics
 
 #endif
+
+
