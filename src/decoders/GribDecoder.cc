@@ -24,6 +24,12 @@
 
 #include <cerrno>
 
+#if defined(HAVE_METVIEW) && !defined(MAGICS_ON_WINDOWS)
+// for readlink()
+#include <unistd.h>
+#endif
+
+
 #include "Factory.h"
 #include "magics.h"
 
@@ -1857,8 +1863,10 @@ void GribDecoder::decodeRaster(const Transformation& transformation) {
     }
 }
 
+
 void GribDecoder::initInfo() {
 #if defined(HAVE_METVIEW) && !defined(MAGICS_ON_WINDOWS)
+
     if (information_.find("_datatype") == information_.end()) {
         setInfo("_datatype", "GRIB");
 
