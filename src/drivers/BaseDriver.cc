@@ -55,7 +55,6 @@ BaseDriver::BaseDriver() :
     currentLayer_(""),
     currentLineType_(LineStyle::SOLID),
     currentLineWidth_(-1),
-    currentLineStyle_(1),
     currentColour_(Colour("white")),
     coordRatioX_(1),
     coordRatioY_(1),
@@ -414,7 +413,7 @@ void BaseDriver::printLine(const magics::Polyline& line) const {
     // render line - driver specific part
     if (line.getThickness() > 0 && !(line.getColour() == Colour("NONE"))) {
         setNewColour(line.getColour());
-        currentLineStyle_ = setLineParameters(line.getLineStyle(), line.getThickness());
+        setLineParameters(line.getLineStyle(), line.getThickness());
 
         renderPolyline(n, x, y);
 

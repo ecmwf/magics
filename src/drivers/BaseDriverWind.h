@@ -104,10 +104,8 @@ MAGICS_NO_EXPORT void BaseDriver::renderWindArrow(const Arrow& arrow) const {
             xx = (pos == ArrowPosition::TAIL) ? norm : 0.5 * (norm);  // reset length
 
             // Arrow base
-            const int old_currentColourIndex = currentLineStyle_;
-            currentLineStyle_                = setLineParameters(style, thickness);
+            setLineParameters(style, thickness);
             renderPolyline2(line);
-            currentLineStyle_ = old_currentColourIndex;
         }
 
         // Arrow head
@@ -189,10 +187,8 @@ MAGICS_NO_EXPORT void BaseDriver::renderWindFlag(const Flag& flag) const {
         if (markerHeight > 0.)
             origin.push_back(PaperPoint(fla->point_));
 
-        const int old_currentColourIndex = currentLineStyle_;
-        currentLineStyle_                = setLineParameters(style, thickness);
+        setLineParameters(style, thickness);
         renderPolyline2(line);
-        //		currentLineStyle_ = old_currentColourIndex;
 
         MFloat barbFraction  = 0.;
         int i                = 0;
@@ -224,7 +220,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderWindFlag(const Flag& flag) const {
             const MFloat step = i * (0.1 * length);
 
             if (!fl) {
-                currentLineStyle_ = setLineParameters(style, thickness);
+                setLineParameters(style, thickness);
                 line.clear();
                 line.push_back(PaperPoint(-(length - step), 0.));
                 line.push_back(PaperPoint(-(length - step + dx), barbHeight * barbFraction));
@@ -246,7 +242,6 @@ MAGICS_NO_EXPORT void BaseDriver::renderWindFlag(const Flag& flag) const {
             }
             i++;
         }  // end while
-        currentLineStyle_ = old_currentColourIndex;
         ++fla;
     }  // end for
 

@@ -75,7 +75,7 @@ private:
 
     MAGICS_NO_EXPORT void setNewLineWidth(const MFloat) const override;
     MAGICS_NO_EXPORT void setNewColour(const Colour& col) const override;
-    MAGICS_NO_EXPORT int setLineParameters(const LineStyle style, const MFloat w) const override;
+    MAGICS_NO_EXPORT void setLineParameters(const LineStyle style, const MFloat w) const override;
     //	MAGICS_NO_EXPORT void printLine(const Polyline &line) const;
 
     //	MAGICS_NO_EXPORT void redisplay(const Polyline& line) const;

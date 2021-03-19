@@ -354,7 +354,6 @@ protected:
 
     mutable LineStyle currentLineType_;
     mutable MFloat currentLineWidth_;
-    mutable int currentLineStyle_;
     mutable Colour currentColour_;
 
     mutable MFloat coordRatioX_;
@@ -401,10 +400,9 @@ protected:
     virtual MAGICS_NO_EXPORT void renderSimplePolygon(const Polyline& line) const        = 0;
 #endif
     virtual void circle(const MFloat, const MFloat, const MFloat, const int) const {}
-    virtual MAGICS_NO_EXPORT int setLineParameters(const LineStyle st, const MFloat w) const {
+    virtual MAGICS_NO_EXPORT void setLineParameters(const LineStyle st, const MFloat w) const {
         currentLineType_ = st;
         setNewLineWidth(w);
-        return 0;
     }
 
     // Filling calculating methods

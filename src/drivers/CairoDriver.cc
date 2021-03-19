@@ -579,12 +579,12 @@ MAGICS_NO_EXPORT void CairoDriver::setNewLineWidth(const MFloat width) const {
   \param linestyle Object describing the line style
   \param width width of the line
 */
-MAGICS_NO_EXPORT int CairoDriver::setLineParameters(const LineStyle linestyle, const MFloat width) const {
+MAGICS_NO_EXPORT void CairoDriver::setLineParameters(const LineStyle linestyle, const MFloat width) const {
     setNewLineWidth(width);
 
 #if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 4, 0)
     if (cairo_get_dash_count(cr_) == 0 && linestyle == LineStyle::SOLID)
-        return 0;
+        return;
 #endif
     switch (linestyle) {
         case LineStyle::DASH:  // 6 on - 2 off
@@ -619,7 +619,6 @@ MAGICS_NO_EXPORT int CairoDriver::setLineParameters(const LineStyle linestyle, c
             cairo_set_dash(cr_, solid_line, 0, 0.);
         } break;
     }
-    return 0;
 }
 
 /*!

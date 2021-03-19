@@ -541,11 +541,11 @@ MAGICS_NO_EXPORT void KMLDriver::setNewLineWidth(const MFloat width) const {
   param w width of the line
 
 */
-MAGICS_NO_EXPORT int KMLDriver::setLineParameters(const LineStyle, const MFloat w) const {
+MAGICS_NO_EXPORT void KMLDriver::setLineParameters(const LineStyle, const MFloat w) const {
     setNewLineWidth(w);
 
     //	MagLog::debug() << "KMLDriver::setLineParameters needs implementing." << std::endl;
-    return 0;
+    return;
 }
 
 /*!

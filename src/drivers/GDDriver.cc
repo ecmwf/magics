@@ -383,7 +383,7 @@ MAGICS_NO_EXPORT void GDDriver::setNewColour(const Colour& colour) const {
   \param w width of the line
 
 */
-MAGICS_NO_EXPORT int GDDriver::setLineParameters(const LineStyle linestyle, const MFloat w) const {
+MAGICS_NO_EXPORT void GDDriver::setLineParameters(const LineStyle linestyle, const MFloat w) const {
     //	int width = 1;
     //	if      (w > 3.) width=static_cast<int>(w*.25);
     //	else
@@ -392,7 +392,7 @@ MAGICS_NO_EXPORT int GDDriver::setLineParameters(const LineStyle linestyle, cons
         width = 1;
 
     if (width == 1 && linestyle == M_SOLID)
-        return gdAntiAliased;
+        return;
 
     const int col = gdAntiAliased;
     gdImageSetThickness(currentImage_, width);

@@ -399,8 +399,8 @@ MAGICS_NO_EXPORT void GeoJsonDriver::setNewLineWidth(const MFloat width) const {
   param w width of the line
 
 */
-MAGICS_NO_EXPORT int GeoJsonDriver::setLineParameters(const LineStyle, const MFloat w) const {
-    return 0;
+MAGICS_NO_EXPORT void GeoJsonDriver::setLineParameters(const LineStyle, const MFloat w) const {
+    return;
 }
 
 /*!

@@ -79,7 +79,7 @@ private:
     MAGICS_NO_EXPORT void unproject() const;
 
     MAGICS_NO_EXPORT void setNewColour(const Colour& col) const;
-    MAGICS_NO_EXPORT int setLineParameters(const LineStyle style, const MFloat w) const;
+    MAGICS_NO_EXPORT void setLineParameters(const LineStyle style, const MFloat w) const;
 
     MAGICS_NO_EXPORT void renderPolyline(const int, MFloat*, MFloat*) const;
     MAGICS_NO_EXPORT void renderPolyline2(const int n, MFloat* x, MFloat* y) const;

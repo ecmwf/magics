@@ -399,10 +399,10 @@ MAGICS_NO_EXPORT void PostScriptDriver::setNewLineWidth(const MFloat width) cons
   \param w width of the line
 
 */
-MAGICS_NO_EXPORT int PostScriptDriver::setLineParameters(const LineStyle linestyle, const MFloat w) const {
+MAGICS_NO_EXPORT void PostScriptDriver::setLineParameters(const LineStyle linestyle, const MFloat w) const {
     setNewLineWidth(w);
     if (currentLineType_ == linestyle)
-        return 0;
+        return;
     currentLineType_ = linestyle;
 
     fstream* ps = getStream();
@@ -435,7 +435,7 @@ MAGICS_NO_EXPORT int PostScriptDriver::setLineParameters(const LineStyle linesty
             *ps << "[] 0 sd\n";
             break;
     }  // end switch
-    return 0;
+    return;
 }
 
 /*!

@@ -235,12 +235,11 @@ MAGICS_NO_EXPORT void BinaryDriver::setNewLineWidth(const MFloat width) const {
   \param w width of the line
 
 */
-MAGICS_NO_EXPORT int BinaryDriver::setLineParameters(const LineStyle linestyle, const MFloat w) const {
+MAGICS_NO_EXPORT void BinaryDriver::setLineParameters(const LineStyle linestyle, const MFloat w) const {
     char c = 'L';
     out_.write(&c, 1);
     out_.write((char*)(&linestyle), sizeof(LineStyle));
     out_.write((char*)(&w), sizeof(MFloat));
-    return 0;
 }
 
 #include "Arrow.h"

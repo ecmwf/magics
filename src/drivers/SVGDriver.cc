@@ -401,7 +401,7 @@ MAGICS_NO_EXPORT void SVGDriver::setNewLineWidth(const MFloat width) const {
   \param w width of the line
 
 */
-MAGICS_NO_EXPORT int SVGDriver::setLineParameters(const LineStyle linestyle, const MFloat w) const {
+MAGICS_NO_EXPORT void SVGDriver::setLineParameters(const LineStyle linestyle, const MFloat w) const {
     const MFloat widi = w * 0.5;
     currentLineType_  = linestyle;
 
@@ -425,7 +425,7 @@ MAGICS_NO_EXPORT int SVGDriver::setLineParameters(const LineStyle linestyle, con
                << 2 * widi << "\"";
 
     openGroup(stream.str());
-    return 0;
+    return;
 }
 
 

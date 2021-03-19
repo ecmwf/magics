@@ -668,10 +668,8 @@ MAGICS_NO_EXPORT void QtDriver::setNewLineWidth(const MFloat width) const {
   \param w width of the line
 
 */
-MAGICS_NO_EXPORT int QtDriver::setLineParameters(const LineStyle linestyle, const MFloat w) const {
+MAGICS_NO_EXPORT void QtDriver::setLineParameters(const LineStyle linestyle, const MFloat w) const {
     setNewLineWidth(w);
-
-    currentLineStyle_ = linestyle;
 
     if (penStyle_.contains(linestyle)) {
         currentPenStyle_ = penStyle_[linestyle];
@@ -679,8 +677,6 @@ MAGICS_NO_EXPORT int QtDriver::setLineParameters(const LineStyle linestyle, cons
     else {
         currentPenStyle_ = Qt::SolidLine;
     }
-
-    return 0;
 }
 
 /*!
