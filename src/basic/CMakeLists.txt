@@ -56,6 +56,7 @@ if ( metview )
 			basic/BasicGraphicsObject.h
 			basic/DisplayManager.h
 			basic/Layer.h
+			basic/MagicsSettings.h 
 			basic/SceneVisitor.h 
 			basic/XmlMagics.h 
 			basic/LegendVisitor.h 
