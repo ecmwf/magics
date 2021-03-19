@@ -86,7 +86,7 @@ ecbuild_add_library( TARGET    MagPlus
                      PUBLIC_DEFINITIONS
                         ${MAGICS_EXTRA_DEFINITIONS}
                      PUBLIC_LIBS
-                        ${MAGICS_EXTRA_LIBRARIES} stdc++fs
+                        ${MAGICS_EXTRA_LIBRARIES}
                         eccodes
                      PRIVATE_INCLUDES $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/clipper>
                                       ${MAGICS_PRIVATE_INCLUDE_DIRS}
@@ -194,7 +194,6 @@ endif()
 
 install( FILES magics.h                DESTINATION ${INSTALL_INCLUDE_DIR})
 install( FILES common/magics_export.h  DESTINATION ${INSTALL_INCLUDE_DIR})
-install( FILES common/magics_windef.h  DESTINATION ${INSTALL_INCLUDE_DIR})
 
 ## Add install include dirs to install interface
 foreach( target     MagPlus
