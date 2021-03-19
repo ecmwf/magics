@@ -72,10 +72,10 @@ QtDriver::QtDriver() : forceTextPen_(false) {
     currentPolylineSetItem_ = 0;
 
     penStyle_[LineStyle::DASH]       = Qt::DashLine;
-    penStyle_[M_DOT]        = Qt::DotLine;
-    penStyle_[M_CHAIN_DASH] = Qt::DashDotLine;
-    penStyle_[M_CHAIN_DOT]  = Qt::DashDotDotLine;
-    penStyle_[M_SOLID]      = Qt::SolidLine;
+    penStyle_[LineStyle::DOT]        = Qt::DotLine;
+    penStyle_[LineStyle::CHAIN_DASH] = Qt::DashDotLine;
+    penStyle_[LineStyle::CHAIN_DOT]  = Qt::DashDotDotLine;
+    penStyle_[LineStyle::SOLID]      = Qt::SolidLine;
 
     // lineWidthFactor_=0.67;
     // lineWidthFactor_=0.6;
@@ -794,7 +794,7 @@ MAGICS_NO_EXPORT void QtDriver::renderSimplePolygon(const int n, MFloat* x, MFlo
     QBrush brush(Qt::SolidPattern);
     QPen pen;
 
-    if (currentShading_ == M_SH_DOT) {
+    if (currentShading_ == Shading::DOT) {
         const DotShadingProperties* pro = (DotShadingProperties*)currentShadingProperties_;
         const int density               = (int)sqrt(pro->density_);
         if (density <= 0)
@@ -839,7 +839,7 @@ MAGICS_NO_EXPORT void QtDriver::renderSimplePolygon(const int n, MFloat* x, MFlo
             // pen.setColor(QColor(255,255,255,0));
         }
     }
-    else if (currentShading_ == M_SH_HATCH) {
+    else if (currentShading_ == Shading::HATCH) {
         const HatchShadingProperties* pro = (HatchShadingProperties*)currentShadingProperties_;
         indexHatch_                       = pro->index_;
         if (indexHatch_ < 1 || indexHatch_ > 6) {
@@ -916,7 +916,7 @@ void QtDriver::renderSimplePolygon(const Polyline& line) const {
 
     QBrush brush(Qt::SolidPattern);
     QPen pen;
-    if (currentShading_ == M_SH_DOT) {
+    if (currentShading_ == Shading::DOT) {
         const DotShadingProperties* pro = (DotShadingProperties*)currentShadingProperties_;
         const int density               = (int)sqrt(pro->density_);
         if (density <= 0)
@@ -961,7 +961,7 @@ void QtDriver::renderSimplePolygon(const Polyline& line) const {
             // pen.setColor(QColor(255,255,255,0));
         }
     }
-    else if (currentShading_ == M_SH_HATCH) {
+    else if (currentShading_ == Shading::HATCH) {
         const HatchShadingProperties* pro = (HatchShadingProperties*)currentShadingProperties_;
         indexHatch_                       = pro->index_;
         if (indexHatch_ < 1 || indexHatch_ > 6) {
@@ -1147,22 +1147,22 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
             int height = fm.height();
 
             MFloat x = 0;
-            if (horizontal == MCENTRE)
+            if (horizontal == Justification::CENTRE)
                 x = width * .5;
-            else if (horizontal == MRIGHT)
+            else if (horizontal == Justification::RIGHT)
                 x = width;
 
             MFloat y = 0.;
-            if (vertical == MBASE) {
+            if (vertical == VerticalAlign::BASE) {
                 y = height;
             }
-            else if (vertical == MTOP) {
+            else if (vertical == VerticalAlign::TOP) {
                 y = 0.;
             }
-            else if (vertical == MHALF) {
+            else if (vertical == VerticalAlign::HALF) {
                 y = height * .5;
             }
-            else if (vertical == MBOTTOM) {
+            else if (vertical == VerticalAlign::BOTTOM) {
                 y = height;
             }
 
@@ -1240,9 +1240,9 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
             // Find out text start position
             int xPos = x0;
             ;
-            if (horizontal == MCENTRE)
+            if (horizontal == Justification::CENTRE)
                 xPos -= totalWidth * .5;
-            else if (horizontal == MRIGHT)
+            else if (horizontal == Justification::RIGHT)
                 xPos -= totalWidth;
 
             // Loop for the indidual text items
@@ -1271,16 +1271,16 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
                 int height = fm.height();
 
                 MFloat y = 0.;
-                if (vertical == MBASE) {
+                if (vertical == VerticalAlign::BASE) {
                     y = height;
                 }
-                else if (vertical == MTOP) {
+                else if (vertical == VerticalAlign::TOP) {
                     y = 0.;
                 }
-                else if (vertical == MHALF) {
+                else if (vertical == VerticalAlign::HALF) {
                     y = height * .5;
                 }
-                else if (vertical == MBOTTOM) {
+                else if (vertical == VerticalAlign::BOTTOM) {
                     y = height;
                 }
 
@@ -1502,17 +1502,17 @@ MAGICS_NO_EXPORT void QtDriver::circle(const MFloat x, const MFloat y, const MFl
 
 MAGICS_NO_EXPORT void QtDriver::renderImage(const ImportObject& obj) const {
     std::string f         = obj.getFormat();
-    GraphicsFormat format = PNG;
+    GraphicsFormat format = GraphicsFormat::PNG;
     if (magCompare(f, "ps"))
         return;  // format = PS;
     else if (magCompare(f, "eps"))
         return;  // format = EPS;
     else if (magCompare(f, "gif"))
-        format = GIF;
+        format = GraphicsFormat::GIF;
     else if (magCompare(f, "jpeg") || magCompare(f, "jpg"))
-        format = JPG;
+        format = GraphicsFormat::JPG;
     else if (magCompare(f, "png"))
-        format = PNG;
+        format = GraphicsFormat::PNG;
     else if (magCompare(f, "svg"))
         return;  // format = SVG;
     else
