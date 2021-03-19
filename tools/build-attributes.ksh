@@ -1,5 +1,5 @@
 
-#!/bin/ksh
+#!/usr/bin/env bash
 src="../src/params"
 target="../src/attributes"
 list=${src}/*.xml
@@ -9,7 +9,7 @@ list=${src}/*.xml
 while getopts "h:i:a" arg; do
   case $arg in
     h)
-      echo "usage" 
+      echo "usage"
       ;;
     i)
       list=${src}/$OPTARG.xml

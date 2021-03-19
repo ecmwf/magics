@@ -317,15 +317,15 @@ public:
     double top() const override { return std::max(rowsAxis_.front(), rowsAxis_.back()); }
 
 
-    double x(double x, double) const { return x; }
-    double y(double, double y) const { return y; }
+    double x(double x, double) const override { return x; }
+    double y(double, double y) const override { return y; }
 
-    virtual int rowIndex(double r) const { return row_ind(r); }
-    virtual int columnIndex(double c) const { return column_ind(c); }
-    virtual bool akimaEnable() const { return akima_; }
+    virtual int rowIndex(double r) const override { return row_ind(r); }
+    virtual int columnIndex(double c) const override { return column_ind(c); }
+    virtual bool akimaEnable() const override { return akima_; }
     void akimaEnabled() { akima_ = true; }
     void akimaDisabled() { akima_ = false; }
-    virtual void boundRow(double r, double& row1, int& index1, double& row2, int& index2) const {
+    virtual void boundRow(double r, double& row1, int& index1, double& row2, int& index2) const override{
         index1 = this->lowerRow(r);
         row1   = this->regular_row(index1);
         index2 = this->upperRow(r);
@@ -384,7 +384,7 @@ public:
 protected:
     //! Method to print string about this class on to a stream of type ostream
     //! (virtual).
-    virtual void print(ostream& out) const {
+    virtual void print(ostream& out) const override {
         out << "Matrix<P>[";
         out << "rowsAxis=" << rowsAxis_;
         out << ", columnsAxis=" << columnsAxis_;
