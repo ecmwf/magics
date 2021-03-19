@@ -11,9 +11,10 @@
 #include "ObsJSon.h"
 #include <locale>
 #include "CustomisedPoint.h"
+#include "MagParser.h"
+#include "MagicsSettings.h"
 #include "MetaData.h"
 #include "Value.h"
-#include "JSONParser.h"
 
 using namespace magics;
 
@@ -56,6 +57,7 @@ void ObsJSon::decode() {
     Value value;
     if (!values_.empty()) {
         for (vector<string>::iterator val = values_.begin(); val != values_.end(); ++val) {
+            value = MagParser::decodeString(*val);
             ValueMap object = value.get_value<ValueMap>();
             points_.push_back(decode(object));
         }
@@ -63,9 +65,7 @@ void ObsJSon::decode() {
     }
 
     try {
-       
-        
-        Value value = JSONParser::decodeFile(path_);
+        Value value = MagParser::decodeFile(path_);
 
         
 
@@ -82,6 +82,9 @@ void ObsJSon::decode() {
         }
     }
     catch (std::exception& e) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << "Could not processed the file: " << path_ << ": " << e.what() << endl;
     }
 }

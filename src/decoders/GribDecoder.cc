@@ -22,20 +22,18 @@
 
 #include <limits>
 
-#include "Factory.h"
-#include "magics_windef.h"
-#ifndef MAGICS_ON_WINDOWS
-#include <unistd.h>
-#else
-#include <fcntl.h>
-#endif
-
 #include <cerrno>
 
+#include "Factory.h"
+#include "magics.h"
+
+
+#include <eccodes.h>
 #include "AnimationRules.h"
 #include "GribInterpretor.h"
 #include "MagDateTime.h"
 #include "MagJSon.h"
+#include "MagicsSettings.h"
 #include "MetaData.h"
 #include "TextVisitor.h"
 #include "Timer.h"
@@ -43,7 +41,6 @@
 #include "Transformation.h"
 #include "VisualAction.h"
 #include "XmlReader.h"
-#include "eccodes.h"
 
 using namespace magics;
 
@@ -162,7 +159,7 @@ long GribDecoder::getLong(const string& key, bool warnIfKeyAbsent) const {
     if (lk != lKeys_.end()) {
         return lk->second;
     }
-    assert(current_handle_);
+    ASSERT(current_handle_);
     int err = grib_get_long(current_handle_, key.c_str(), &val);
     if (err) {
         if (warnIfKeyAbsent) {
@@ -186,6 +183,7 @@ string GribDecoder::getstring(const string& key, bool warnIfKeyAbsent, bool cach
     char val[1024];
     size_t length = 1024;
 
+    ASSERT(current_handle_);
     int err = grib_get_string(current_handle_, key.c_str(), val, &length);
 
     if (err) {
@@ -211,9 +209,9 @@ string GribDecoder::getString(const string& key, bool warnIfKeyAbsent) const {
     string value;
     // otherwise we build a name...
 
-    current_handle_   = field_;
-    GribDecoder* grib = const_cast<GribDecoder*>(this);
-    value             = getstring(key, warnIfKeyAbsent, false);
+    current_handle_ = field_;
+    // GribDecoder* grib = const_cast<GribDecoder*>(this);
+    value = getstring(key, warnIfKeyAbsent, false);
 
     if (component2_) {
         current_handle_ = component2_;
@@ -235,6 +233,7 @@ double GribDecoder::getDouble(const string& key, bool warnIfKeyAbsent) const {
         return dk->second;
     }
     double val;
+    ASSERT(current_handle_);
     int err = grib_get_double(current_handle_, key.c_str(), &val);
     if (err) {
         if (warnIfKeyAbsent) {
@@ -247,6 +246,7 @@ double GribDecoder::getDouble(const string& key, bool warnIfKeyAbsent) const {
 }
 
 void GribDecoder::setDouble(const string& key, double val) const {
+    ASSERT(current_handle_);
     int err = grib_set_double(current_handle_, key.c_str(), val);
     if (err) {
         MagLog::warning() << "ecCodes: cannot find key [" << key << "]  - " << grib_get_error_message(err) << "\n";
@@ -260,7 +260,7 @@ void GribDecoder::setDouble(const string& key, double val) const {
 }
 
 void GribDecoder::scale(const string& metadata, double& scaling, double& offset) {
-    assert(false);
+    ASSERT(false);
 }
 
 bool GribDecoder::isEarthOblate() const {
@@ -272,6 +272,7 @@ bool GribDecoder::isEarthOblate() const {
     }
     return false;
 }
+
 
 Matrix* GribDecoder::colour(Matrix* matrix) {
     if (cHandle()) {
@@ -329,6 +330,9 @@ void GribDecoder::read() {
         interpretor_->scaling(*this, *matrix);
     }
     catch (NoFactoryException&) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         ostringstream msg;
         msg << "Grib Decoder - read: Representation [" << grid << "] not supported";
         MagLog::error() << msg.str() << endl;
@@ -353,8 +357,11 @@ void GribDecoder::read(const Transformation& transformation) {
         interpretor_->scaling(*this, *matrix);
     }
     catch (NoFactoryException&) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << "Grib Decoder - read: Representation [" << grid << "] not supported.\n" << std::endl;
-        ;
+        
         valid_ = false;
         throw MagicsException("Grib Decoder: Representation [] not supported.");
     }
@@ -432,6 +439,9 @@ void GribDecoder::decode2D() {
         interpretor_->keepOriginal(true);
     }
     catch (NoFactoryException&) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::warning() << "Grib Decoder: Vector cobination of representations [" << grid << "] not supported.\n"
                           << std::endl;
         ;
@@ -478,9 +488,11 @@ void GribDecoder::customisedPoints(const AutomaticThinningMethod& thinning, cons
         customisedPoints(transformation, points, xstep, ystep, 0);
     }
     catch (NoFactoryException&) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << "Grib Decoder - customisedPoints: Representation [" << grid << "] not supported.\n"
                         << std::endl;
-        ;
         throw MagicsException("Grib Decoder: Representation [] not supported.");
     }
 }
@@ -728,6 +740,7 @@ void GribDecoder::openThirdComponent() {
     colour_           = open(colour_, false);
 }
 
+
 grib_handle* GribEntryDecoder::open(grib_handle* handle, bool) {
     return handle;
 }
@@ -741,11 +754,12 @@ grib_handle* GribDecoder::open(grib_handle* grib, bool sendmsg) {
     FILE* file = fopen(file_name_.c_str(), "rb");
 
     if (!file) {
-        ostringstream error;
-        error << "file can not be opened [" << file_name_ << "] " << std::strerror(errno) << std::endl;
-        MagLog::broadcast();
+        if (MagicsSettings::strict()) {
+            throw CannotOpenFile(file_name_);
+        }
+
         valid_ = false;
-        throw MagicsException(error.str());
+        MagLog::error() << "ERROR: unable to open file '" << file_name_ << "': " << MagicsException::syserror() << endl;
         return 0;
     }
 
@@ -848,8 +862,8 @@ void GribDecoder::decodePoints() {
     int error;
 
     if (Data::dimension_ == 1) {
-        double scaling;
-        double offset;
+        double scaling    = 1;
+        double offset     = 0;
         const string grid = representation();
         double missing    = getDouble("missingValue");
         try {
@@ -859,8 +873,10 @@ void GribDecoder::decodePoints() {
             interpretor_->scaling(*this, scaling, offset);
         }
         catch (NoFactoryException&) {
+            if (MagicsSettings::strict()) {
+                throw;
+            }
             MagLog::warning() << "Grib Decoder: Representation [" << grid << "] not supported.\n" << std::endl;
-            ;
             scaling = 1;
             offset  = 0;
         }
@@ -966,7 +982,7 @@ bool GribLoop::hasMore() {
         file_ = fopen(path_.c_str(), "r");
         if (!file_) {
             MagLog::error() << "file can not be opened [" << path_ << "] " << std::strerror(errno) << std::endl;
-            throw GribFileMagException(path_, 0);
+            throw CannotOpenFile(path_);
         }
     }
 
@@ -1124,16 +1140,21 @@ public:
         const long day  = grib_.getLong("date");
         const long hour = grib_.getLong("hour");
         const long mn   = grib_.getLong("minute");
-        MagDate part1   = MagDate(day);
-        MagTime part2   = MagTime(hour, mn, 0);
-        DateTime full(part1, part2);
+        try {
+            MagDate part1 = MagDate(day);
+            MagTime part2 = MagTime(hour, mn, 0);
+            DateTime full(part1, part2);
 
-        const long type = grib_.getLong("significanceOfReferenceTime", false);
-        if (type == 2) {  //     Verifying time of forecast
-            const long step = computeStep(grib_, "stepRange");
-            full            = full + (step * -1);
+            const long type = grib_.getLong("significanceOfReferenceTime", false);
+            if (type == 2) {  //     Verifying time of forecast
+                const long step = computeStep(grib_, "stepRange");
+                full            = full + (step * -1);
+            }
+            return full.tostring(format);
         }
-        return full.tostring(format);
+        catch (MagicsException&) {
+            return "undef";
+        }
     }
 
     string startDate(const XmlNode& node) {
@@ -1145,12 +1166,16 @@ public:
         const long mn   = grib_.getLong("minute");
         const long step = computeStep(grib_, "startStep");
 
-        MagDate part1 = MagDate(day);
-        MagTime part2 = MagTime(hour, mn, 0);
-        DateTime full(part1, part2);
-        full = full + step;
-
-        return full.tostring(format);
+        try {
+            MagDate part1 = MagDate(day);
+            MagTime part2 = MagTime(hour, mn, 0);
+            DateTime full(part1, part2);
+            full = full + step;
+            return full.tostring(format);
+        }
+        catch (MagicsException&) {
+            return "undef";
+        }
     }
 
     string validDate(const XmlNode& node) {
@@ -1161,16 +1186,19 @@ public:
         const long hour = grib_.getLong("hour");
         const long mn   = grib_.getLong("minute");
         const long step = computeStep(grib_, "stepRange");  // default is in hours. Set 'stepUnits' to change.
-
-        MagDate part1 = MagDate(day);
-        MagTime part2 = MagTime(hour, mn, 0);
-        DateTime full(part1, part2);
-        const long type = grib_.getLong("significanceOfReferenceTime", false);
-        if (type != 2) {  //     Verifying time of forecast
-            full = full + step;
+        try {
+            MagDate part1 = MagDate(day);
+            MagTime part2 = MagTime(hour, mn, 0);
+            DateTime full(part1, part2);
+            const long type = grib_.getLong("significanceOfReferenceTime", false);
+            if (type != 2) {  //     Verifying time of forecast
+                full = full + step;
+            }
+            return full.tostring(format);
         }
-
-        return full.tostring(format);
+        catch (MagicsException&) {
+            return "undef";
+        }
     }
 
     string dataDate(const XmlNode& node) {
@@ -1178,13 +1206,17 @@ public:
         string format  = node.getAttribute("format");
         if (format.empty())
             return tostring(day);
+        try {
+            // Otherwise format the date
+            MagDate part1 = MagDate(day);
+            MagTime part2 = MagTime(0, 0, 0);
 
-        // Otherwise format the date
-        MagDate part1 = MagDate(day);
-        MagTime part2 = MagTime(0, 0, 0);
-
-        DateTime full(part1, part2);
-        return full.tostring(format);
+            DateTime full(part1, part2);
+            return full.tostring(format);
+        }
+        catch (MagicsException&) {
+            return "undef";
+        }
     }
 
     string endDate(const XmlNode& node) {
@@ -1195,16 +1227,20 @@ public:
         const long hour = grib_.getLong("hour");
         const long mn   = grib_.getLong("minute");
         const long step = computeStep(grib_, "endStep");
+        try {
+            MagDate part1 = MagDate(day);
+            MagTime part2 = MagTime(hour, mn, 0);
+            DateTime full(part1, part2);
+            full = full + step;
 
-        MagDate part1 = MagDate(day);
-        MagTime part2 = MagTime(hour, mn, 0);
-        DateTime full(part1, part2);
-        full = full + step;
-
-        return full.tostring(format);
+            return full.tostring(format);
+        }
+        catch (MagicsException&) {
+            return "undef";
+        }
     }
 
-    void visit(const XmlNode& node) {
+    void visit(const XmlNode& node) override {
         if (magCompare(node.name(), "grib_info")) {
             string grib  = node.getAttribute("id");
             string where = node.getAttribute("where");
@@ -1301,7 +1337,10 @@ public:
             tree.visit(*this);
         }
         catch (MagicsException& e) {
-            MagLog::debug() << e.what() << endl;
+            if (MagicsSettings::strict()) {
+                throw;
+            }
+            MagLog::error() << e.what() << endl;
         }
     }
     string str() const { return out.str(); }
@@ -1396,7 +1435,7 @@ void GribDecoder::visit(ValuesCollector& points) {
     double* y         = new double[nb];
     double* distances = new double[nb];
 
-    double scaling, offset;
+    double scaling = 1, offset = 0;
     string oriUnits, derivedUnits;
     string grid = representation();
 
@@ -1409,8 +1448,11 @@ void GribDecoder::visit(ValuesCollector& points) {
         interpretor_->scaling(*this, scaling, offset, oriUnits, derivedUnits);
     }
     catch (NoFactoryException&) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::warning() << "Grib Decoder: Representation [" << grid << "] not supported.\n" << std::endl;
-        ;
+
         scaling = 1;
         offset  = 0;
     }
@@ -1420,7 +1462,7 @@ void GribDecoder::visit(ValuesCollector& points) {
         inlons[i] = std::fmod(points[i].x(), 360.);
         if (inlons[i] < 0.)
             inlons[i] += 360.;
-        i++;
+        i++;  // FIXME: double increment
     }
 
     double missing = getDouble("missingValue");
@@ -1597,7 +1639,7 @@ void GribDecoder::visit(MetaDataCollector& step) {
                     }
                 }
                 else if (key->first == "scaling_formula" || key->first == "scaled_units") {
-                    double scaling, offset;
+                    double scaling = 1, offset = 0;
                     string oriUnits, derivedUnits;
                     string grid = representation();
                     try {
@@ -1615,9 +1657,12 @@ void GribDecoder::visit(MetaDataCollector& step) {
                         }
                     }
                     catch (NoFactoryException&) {
+                        if (MagicsSettings::strict()) {
+                            throw;
+                        }
                         MagLog::warning() << "Grib Decoder: Representation [" << grid << "] not supported.\n"
                                           << std::endl;
-                        ;
+
                         information_[key->first] = "N/A";
                     }
                 }
@@ -1650,9 +1695,13 @@ void GribDecoder::visit(MetaDataCollector& step) {
 
             if (members) {
                 name_ = helper.get("grib", "shortName") + " " + helper.get("grib", "level");
-
-                from_ = DateTime(helper.get("grib", "start-date"));
-                to_   = DateTime(helper.get("grib", "end-date"));
+                try {
+                    from_ = DateTime(helper.get("grib", "start-date"));
+                    to_   = DateTime(helper.get("grib", "end-date"));
+                }
+                catch (MagicsException& e) {
+                    MagLog::warning() << e.what() << std::endl;
+                }
             }
 
             for (map<string, string>::iterator key = step.begin(); key != step.end(); ++key) {
@@ -1668,6 +1717,9 @@ void GribDecoder::visit(MetaDataCollector& step) {
     }
 
     catch (...) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
     }
 }
 MatrixHandler& GribDecoder::direction() {
@@ -1699,6 +1751,8 @@ MatrixHandler& GribDecoder::direction() {
 
     return *(matrixHandlers_.back());
 }
+
+
 void GribDecoder::decode(const Transformation& transformation) {
     if (xComponent_ || !valid_)
         return;
@@ -1762,8 +1816,13 @@ void GribDecoder::decode() {
     name_    = helper.get("grib" + id_, "shortName") + "-" + helper.get("grib" + id_, "level");
     name_    = iconName_;
     layerId_ = name_ + file_name_;
-    from_    = DateTime(helper.get("grib" + id_, "start-date"));
-    to_      = DateTime(helper.get("grib" + id_, "end-date"));
+    try {
+        from_ = DateTime(helper.get("grib" + id_, "start-date"));
+        to_   = DateTime(helper.get("grib" + id_, "end-date"));
+    }
+    catch (MagicsException& e) {
+        MagLog::warning() << e.what() << std::endl;
+    }
 }
 
 void GribDecoder::visit(TextVisitor& title) {
@@ -1830,7 +1889,7 @@ class GribParameter : public GribInfo {
 public:
     GribParameter() {}
     ~GribParameter() {}
-    void operator()(ostream& out, const GribDecoder& grib) {
+    void operator()(ostream& out, const GribDecoder& grib) override {
         string val = grib.getString("name");
         out << val;
     }
@@ -1840,7 +1899,7 @@ class GribParamCriter : public MatchCriteria {
 public:
     GribParamCriter() {}
     ~GribParamCriter() {}
-    bool verify(const GribDecoder& grib, const string&, const string& val) {
+    bool verify(const GribDecoder& grib, const string&, const string& val) override {
         long param = grib.getLong("paramId");
         return (tostring(param) == val);
     }
@@ -1850,7 +1909,7 @@ class GribLocalCriter : public MatchCriteria {
 public:
     GribLocalCriter() {}
     ~GribLocalCriter() {}
-    bool verify(const GribDecoder& grib, const string& param, const string& val) {
+    bool verify(const GribDecoder& grib, const string& param, const string& val) override {
         string key    = param;
         string criter = grib.getstring(key);
         MagLog::debug() << "I am verifing " << param << " for a GribDecoder : " << criter << " ==  " << val << "???"
@@ -1863,7 +1922,7 @@ class GribObsDiagCriter : public MatchCriteria {
 public:
     GribObsDiagCriter() {}
     ~GribObsDiagCriter() {}
-    bool verify(const GribDecoder& grib, const string&, const string&) {
+    bool verify(const GribDecoder& grib, const string&, const string&) override {
         string param = grib.getstring("observationDiagnostic",
                                       false);  // do not warn if the key is absent
         return (param != "");
@@ -1875,7 +1934,7 @@ public:
     GribLocalDefHandler() {}
     ~GribLocalDefHandler() {}
 
-    void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) {
+    void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) override {
         ostringstream out;
         string local = grib.getstring("localDefinitionNumber");
         out << "local definition =" << local << " ";
@@ -1888,7 +1947,7 @@ public:
     GribObsDiagHandler() {}
     ~GribObsDiagHandler() {}
 
-    void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) {
+    void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) override {
         ostringstream out;
         string local = grib.getstring("observationDiagnostic");
         out << "diagnostic =" << local << " ";
@@ -1901,7 +1960,7 @@ public:
     GribObstatHandler() {}
     ~GribObstatHandler() {}
 
-    void operator()(TitleField&, vector<string>& /*title*/, const GribDecoder& grib) {}
+    void operator()(TitleField&, vector<string>& /*title*/, const GribDecoder& grib) override {}
 };
 
 class GribLocalHandler : public TitleFieldHandler {
@@ -1909,7 +1968,7 @@ public:
     GribLocalHandler(const string& local) : local_(local) {}
     ~GribLocalHandler() {}
 
-    void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) {
+    void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) override {
         ostringstream out;
         string code = grib.getstring(local_);
         out << local_ << "=" << code << " ";
@@ -1942,7 +2001,7 @@ class GribParamHandler : public TitleFieldHandler {
 public:
     GribParamHandler() {}
     ~GribParamHandler() {}
-    virtual void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) {
+    virtual void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) override {
         string param = grib.getString("name");
         title.back() += param;
     }
@@ -1952,7 +2011,7 @@ class GribKeyHandler : public TitleFieldHandler {
 public:
     GribKeyHandler() {}
     ~GribKeyHandler() {}
-    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib) {
+    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib) override {
         char x[256];
 
         string key    = field.attribute("key", "");
@@ -1968,7 +2027,7 @@ class GribBaseDateHandler : public TitleFieldHandler {
 public:
     GribBaseDateHandler() {}
     ~GribBaseDateHandler() {}
-    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib) {
+    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib) override {
         ostringstream out;
 
         long date = grib.getLong("dataDate");
@@ -1996,7 +2055,7 @@ class GribValidDateHandler : public TitleFieldHandler {
 public:
     GribValidDateHandler() {}
     ~GribValidDateHandler() {}
-    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib) {
+    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib) override {
         ostringstream out;
         long date = grib.getLong("dataDate");
         long hour = grib.getLong("hour");
@@ -2022,7 +2081,7 @@ class GribStepHandler : public TitleFieldHandler {
 public:
     GribStepHandler() {}
     ~GribStepHandler() {}
-    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib) {
+    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib) override {
         ostringstream out;
         long startstep = grib.getLong("startStep");
         long endstep   = grib.getLong("endStep");
@@ -2058,7 +2117,7 @@ public:
     ~GribLevelHandler() {}
     typedef string (GribLevelHandler::*Builder)(const string& def, const GribDecoder& grib) const;
 
-    void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) {
+    void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) override {
         ostringstream out;
 
         string level = grib.getstring("typeOfLevel");
@@ -2113,14 +2172,14 @@ class GribTimeHandler : public TitleFieldHandler {
 public:
     GribTimeHandler() {}
     ~GribTimeHandler() {}
-    void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) { title.back() += "Time? "; }
+    void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) override { title.back() += "Time? "; }
 };
 
 class GribCentreHandler : public TitleFieldHandler {
 public:
     GribCentreHandler() {}
     ~GribCentreHandler() {}
-    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib) {
+    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib) override {
         string format = field.attribute("format", "%s");
         string style  = field.attribute("style", "short");
         string centre = grib.getstring("centre");
@@ -2133,7 +2192,7 @@ class GribProductHandler : public TitleFieldHandler {
 public:
     GribProductHandler() {}
     ~GribProductHandler() {}
-    void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) {
+    void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) override {
         long type = grib.getLong("type");
 
         // GeneralDef def = TypeTable::definition(type);
@@ -2145,21 +2204,21 @@ class GribPlotTypeHandler : public TitleFieldHandler {
 public:
     GribPlotTypeHandler() {}
     ~GribPlotTypeHandler() {}
-    void operator()(TitleField&, vector<string>&, const GribDecoder&) {}
+    void operator()(TitleField&, vector<string>&, const GribDecoder&) override {}
 };
 
 class NewLineHandler : public TitleFieldHandler {
 public:
     NewLineHandler() {}
     ~NewLineHandler() {}
-    void operator()(TitleField&, vector<string>& title, const GribDecoder&) { title.push_back(""); }
+    void operator()(TitleField&, vector<string>& title, const GribDecoder&) override { title.push_back(""); }
 };
 
 class SatelliteHandler : public TitleFieldHandler {
 public:
     SatelliteHandler() {}
     ~SatelliteHandler() {}
-    void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) {
+    void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) override {
         static map<long, string> names;
         if (names.empty()) {
             names[54]  = "METEOSAT-7";
@@ -2185,7 +2244,7 @@ class ChannelHandler : public TitleFieldHandler {
 public:
     ChannelHandler() {}
     ~ChannelHandler() {}
-    void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) {
+    void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) override {
         map<long, map<long, string> > channels;
         if (channels.empty()) {
             map<long, string> l54;
@@ -2260,7 +2319,7 @@ class GribExpverHandler : public TitleFieldHandler {
 public:
     GribExpverHandler() {}
     ~GribExpverHandler() {}
-    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib) {
+    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib) override {
         if (!grib.getExpver())
             return;
         ostringstream out;
@@ -2275,14 +2334,16 @@ class GribEpsNumberInfoHandler : public TitleFieldHandler {
 public:
     GribEpsNumberInfoHandler() {}
     ~GribEpsNumberInfoHandler() {}
-    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib) { title.back() += "epsnumber?"; }
+    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib) override {
+        title.back() += "epsnumber?";
+    }
 };
 
 class GribUnitHandler : public TitleFieldHandler {
 public:
     GribUnitHandler() {}
     ~GribUnitHandler() {}
-    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib) {}
+    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib) override {}
 };
 
 double GribDecoder::uComponent(int index) {

@@ -52,12 +52,11 @@
 
 #include <stack>
 
-#include <BaseDriverAttributes.h>
-#include <Colour.h>
-#include <MagTranslator.h>
-#include <magics.h>
+#include "BaseDriverAttributes.h"
+#include "Colour.h"
+#include "MagTranslator.h"
 #include "MagicsObserver.h"
-#include "magics_windef.h"
+#include "magics.h"
 
 namespace magics {
 
@@ -204,12 +203,12 @@ struct magFont {
 class BaseDriver : public BaseDriverAttributes, public MagicsObserver {
 public:
     BaseDriver();
-    virtual ~BaseDriver();
+    virtual ~BaseDriver() override;
 
-    virtual void set(const XmlNode& node) { BaseDriverAttributes::set(node); }
+    virtual void set(const XmlNode& node) override { BaseDriverAttributes::set(node); }
     void setWidth(double width) { width_ = width; }
 
-    virtual void set(const std::map<string, string>& map) { BaseDriverAttributes::set(map); }
+    virtual void set(const std::map<string, string>& map) override { BaseDriverAttributes::set(map); }
 
     virtual void open() {}
     virtual void close() {}
@@ -245,9 +244,9 @@ public:
 
 
 #ifdef MAGICS_QT
-    virtual MAGICS_NO_EXPORT void redisplay(const PreviewLayout&) const {};
-    virtual MAGICS_NO_EXPORT void redisplay(const HistoLayout&) const {};
-    virtual MAGICS_NO_EXPORT void redisplay(const MagnifierLayout&) const {};
+    virtual MAGICS_NO_EXPORT void redisplay(const PreviewLayout&) const {}
+    virtual MAGICS_NO_EXPORT void redisplay(const HistoLayout&) const {}
+    virtual MAGICS_NO_EXPORT void redisplay(const MagnifierLayout&) const {}
 #endif
     typedef void (BaseDriver::*ModeFunction)(const SelectionMode&);
     typedef void (BaseDriver::*ControlFunction)(bool);
@@ -329,10 +328,11 @@ protected:
     string getFileName(const string& extension, const unsigned int no = 0) const;
 
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
-    virtual void startPage() const {};
-    virtual void endPage() const {};
-    virtual void setNewColour(const Colour&) const {};
+    virtual void print(ostream&) const override;
+    virtual void startPage() const {}
+    virtual void endPage() const {}
+
+    virtual void setNewColour(const Colour&) const {}
     virtual void printLine(const Polyline& line) const;
 
     virtual void renderText(const Text&) const {}
@@ -388,14 +388,14 @@ protected:
     virtual void renderFlagItem(const FlagItem&, const ComplexSymbol& symbol) const;
     virtual void renderSymbolItem(const SymbolItem&, const ComplexSymbol& symbol) const;
     virtual void renderSymbols(const Symbol& symbol) const;
-    virtual void renderPolyline(const int, MFloat*, MFloat*) const {};
-    virtual void renderPolyline2(const int, MFloat*, MFloat*) const {};
+    virtual void renderPolyline(const int, MFloat*, MFloat*) const {}
+    virtual void renderPolyline2(const int, MFloat*, MFloat*) const {}
     void renderPolyline(vector<PaperPoint>& vP) const;
     void renderPolyline2(vector<PaperPoint>& vP) const;
 
 #ifdef MAGICS_ON_WINDOWS
-    virtual MAGICS_NO_EXPORT void renderSimplePolygon(const int, MFloat*, MFloat*) const {};
-    virtual MAGICS_NO_EXPORT void renderSimplePolygon(const Polyline& line) const {};
+    virtual MAGICS_NO_EXPORT void renderSimplePolygon(const int, MFloat*, MFloat*) const {}
+    virtual MAGICS_NO_EXPORT void renderSimplePolygon(const Polyline& line) const {}
 #else
     virtual MAGICS_NO_EXPORT void renderSimplePolygon(const int, MFloat*, MFloat*) const = 0;
     virtual MAGICS_NO_EXPORT void renderSimplePolygon(const Polyline& line) const        = 0;

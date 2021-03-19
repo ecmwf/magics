@@ -16,13 +16,13 @@
 
 */
 
-#include <Image.h>
-#include <Polyline.h>
-#include <PostScriptDriver.h>
-#include <Symbol.h>
-#include <System.h>
-#include <Text.h>
+#include "PostScriptDriver.h"
 #include <iomanip>
+#include "Image.h"
+#include "Polyline.h"
+#include "Symbol.h"
+#include "System.h"
+#include "Text.h"
 
 /*! \brief function to convert between PS ISO encoding and Unicode
 
@@ -294,7 +294,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::unproject() const {
 
     fstream* ps = getStream();
     *ps << "gr\n";
-    setLineParameters(M_SOLID, 1);
+    setLineParameters(LineStyle::SOLID, 1);
     debugOutput("End layout");
 }
 
@@ -411,21 +411,21 @@ MAGICS_NO_EXPORT int PostScriptDriver::setLineParameters(const LineStyle linesty
     const int sw    = (currentLineWidth_ > 2.) ? 1 : 0;
 
     switch (currentLineType_) {
-        case M_SOLID:
+        case LineStyle::SOLID:
             *ps << "[] 0 sd\n";
             break;
-        case M_DASH:
+        case LineStyle::DASH:
             *ps << "[" << ((sw) ? 4 * width : 16) << " " << ((sw) ? 1 * width : 8) << "] 8 sd\n";
             break;
-        case M_DOT:
+        case LineStyle::DOT:
             *ps << "[" << ((sw) ? width : 4) << " " << ((sw) ? width : 8) << "] 4 sd\n";
             break;
-        case M_CHAIN_DASH:
+        case LineStyle::CHAIN_DASH:
             *ps << "[" << ((sw) ? width * 4 : 16) << " " << ((sw) ? width * 1 : 8) << " " << ((sw) ? width * 1 : 4)
                 << " " << ((sw) ? width * 1 : 8) << " "
                 << "] 0 sd\n";
             break;
-        case M_CHAIN_DOT:
+        case LineStyle::CHAIN_DOT:
             *ps << "[" << ((sw) ? width * 4 : 12) << " " << ((sw) ? width * 1 : 8) << " " << ((sw) ? width * 1 : 4)
                 << " " << ((sw) ? width * 1 : 8) << " " << ((sw) ? width * 1 : 4) << " " << ((sw) ? width * 1 : 8)
                 << " "
@@ -593,7 +593,7 @@ void PostScriptDriver::renderSimplePolygon(const magics::Polyline& line) const {
     std::fstream* ps = getStream();
     *ps << "gs\n";
 
-    if (currentShading_ == M_SH_DOT) {
+    if (currentShading_ == Shading::DOT) {
         const DotShadingProperties* pro = (DotShadingProperties*)currentShadingProperties_;
         const int density               = (int)sqrt(pro->density_);
         if (density <= 0)
@@ -632,7 +632,7 @@ void PostScriptDriver::renderSimplePolygon(const magics::Polyline& line) const {
             << ">>\n"
             << "matrix makepattern setpattern\n";
     }
-    else if (currentShading_ == M_SH_HATCH) {
+    else if (currentShading_ == Shading::HATCH) {
         const HatchShadingProperties* pro = (HatchShadingProperties*)currentShadingProperties_;
         indexHatch_                       = pro->index_;
         if (indexHatch_ < 1 || indexHatch_ > 6) {
@@ -795,7 +795,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::renderSimplePolygon(const int n, MFloat*
 
     std::fstream* ps = getStream();
 
-    if (currentShading_ == M_SH_DOT) {
+    if (currentShading_ == Shading::DOT) {
         const DotShadingProperties* pro = (DotShadingProperties*)currentShadingProperties_;
         const int density               = (int)sqrt(pro->density_);
         if (density <= 0) {
@@ -840,7 +840,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::renderSimplePolygon(const int n, MFloat*
             << ">>\n"
             << "matrix makepattern setpattern\n";
     }
-    else if (currentShading_ == M_SH_HATCH) {
+    else if (currentShading_ == Shading::HATCH) {
         const HatchShadingProperties* pro = (HatchShadingProperties*)currentShadingProperties_;
         indexHatch_                       = pro->index_;
         if (indexHatch_ < 1 || indexHatch_ > 6) {
@@ -1303,7 +1303,7 @@ void PostScriptDriver::print(ostream& out) const {
 MAGICS_NO_EXPORT void PostScriptDriver::renderSymbols(const Symbol& symbol) const {
     setNewColour(symbol.getColour());
     writeColour();
-    currentShading_         = M_SH_SOLID;
+    currentShading_         = Shading::SOLID;
     const string symbolName = symbol.getSymbol();
     const string logo       = "logo_ecmwf";
     if (symbolName.find(logo) == std::string::npos) {
@@ -1458,7 +1458,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::writePSFileHeader() const {
     *ps << "\n%%Title: " << title_ << "\n%%Creator: ";
     if (!output_creator_.empty())
         *ps << output_creator_ << " and ";
-    *ps << getMagicsVersionString() << "\n%%CreationDate: " << info.getTime() << "\n%%For: " 
+    *ps << getMagicsVersionString() << "\n%%CreationDate: " << info.getTime() << "\n%%For: "
         << info.getUserID() << "@" << info.getHostName() << "\n";
 
     MFloat dimensionX = getXDeviceLength() * 72. / 2.54;  // 72   = points / inch

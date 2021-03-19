@@ -25,8 +25,8 @@
 #define GribDecoderAttributes_H
 
 #include "magics.h"
-#include "WindMode.h"
 #include "GribAddressMode.h"
+#include "WindMode.h"
 namespace magics {
 
 class XmlNode;

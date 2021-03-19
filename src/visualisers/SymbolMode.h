@@ -47,16 +47,16 @@ class SymbolPlotting;
 class SymbolMode : public SymbolModeAttributes {
 public:
     SymbolMode();
-    virtual ~SymbolMode();
+    virtual ~SymbolMode() override;
 
     virtual SymbolMode* clone() const {
         SymbolMode* object = new SymbolMode();
         return object;
     }
 
-    virtual void set(const map<string, string>&) {}
-    virtual void set(const XmlNode&) {}
-    virtual bool accept(const string&) { return false; }
+    virtual void set(const map<string, string>&) override {}
+    virtual void set(const XmlNode&) override {}
+    virtual bool accept(const string&) override { return false; }
     virtual void toxml(ostream&, int = 0) const {}
 
     virtual bool accept(double) { return true; }
@@ -66,7 +66,7 @@ public:
     void parent(SymbolPlotting* parent) { parent_ = parent; }
 
 
-    virtual void visit(LegendVisitor&){};
+    virtual void visit(LegendVisitor&) {}
     virtual void visit(Data&, LegendVisitor& legend) { visit(legend); }
     virtual void visit(Data&, HistoVisitor&);
 
@@ -76,7 +76,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     SymbolPlotting* parent_;
     string type_;
 
@@ -98,40 +98,40 @@ private:
 class SymbolIndividualMode : public SymbolMode, public SymbolIndividualModeAttributes {
 public:
     SymbolIndividualMode();
-    virtual ~SymbolIndividualMode();
-    virtual void set(const map<string, string>& map) {
+    virtual ~SymbolIndividualMode() override;
+    virtual void set(const map<string, string>& map) override {
         SymbolMode::set(map);
         SymbolIndividualModeAttributes::set(map);
         update();
     }
-    virtual void set(const XmlNode& node) {
+    virtual void set(const XmlNode& node) override {
         SymbolMode::set(node);
         SymbolIndividualModeAttributes::set(node);
         update();
     }
 
-    virtual bool accept(const string& node) { return SymbolIndividualModeAttributes::accept(node); }
+    virtual bool accept(const string& node) override { return SymbolIndividualModeAttributes::accept(node); }
 
-    virtual SymbolMode* clone() const {
+    virtual SymbolMode* clone() const override {
         SymbolIndividualMode* object = new SymbolIndividualMode();
         // SymbolIndividualModeAttributes::copy(*this);
         return object;
     }
 
-    void adjust(double, double, bool, const Transformation&, double);
-    virtual void visit(LegendVisitor&);
-    void prepare() {
+    void adjust(double, double, bool, const Transformation&, double) override;
+    virtual void visit(LegendVisitor&) override;
+    void prepare() override {
         update();
         properties();
     }
     void update();
     void properties() const;
-    SymbolProperties operator()(double) const { return properties_; }
-    void visit(Data&, LegendVisitor&);
+    SymbolProperties operator()(double) const override { return properties_; }
+    void visit(Data&, LegendVisitor&) override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     mutable SymbolProperties properties_;
     mutable vector<string>::const_iterator current_;
 
@@ -166,34 +166,34 @@ public:
 class SymbolTableMode : public SymbolMode, public SymbolTableModeAttributes {
 public:
     SymbolTableMode();
-    virtual ~SymbolTableMode();
-    virtual void prepare();
-    virtual bool accept(double);
-    SymbolProperties operator()(double) const;
+    virtual ~SymbolTableMode() override;
+    virtual void prepare() override;
+    virtual bool accept(double) override;
+    SymbolProperties operator()(double) const override;
 
-    void set(const map<string, string>& map) {
+    void set(const map<string, string>& map) override {
         SymbolTableModeAttributes::set(map);
         SymbolMode::set(map);
         prepare();
     }
 
-    virtual void set(const XmlNode& node) {
+    virtual void set(const XmlNode& node) override {
         SymbolMode::set(node);
         SymbolTableModeAttributes::set(node);
         prepare();
     }
-    virtual bool accept(const string& node) { return SymbolTableModeAttributes::accept(node); }
+    virtual bool accept(const string& node) override { return SymbolTableModeAttributes::accept(node); }
 
-    void adjust(double, double, bool, const Transformation&, double);
+    void adjust(double, double, bool, const Transformation&, double) override;
 
-    void visit(LegendVisitor&);
-    void visit(Data&, LegendVisitor&);
-    void visit(Data&, HistoVisitor&);
+    void visit(LegendVisitor&) override;
+    void visit(Data&, LegendVisitor&) override;
+    void visit(Data&, HistoVisitor&) override;
     void buildBins(const IntervalMap<SymbolProperties>&, IntervalMap<Colour>&);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     IntervalMap<SymbolProperties> map_;
 
 private:

@@ -28,12 +28,8 @@
 #include "NetcdfMatrixInterpretor.h"
 #include "TextVisitor.h"
 #include "Tokenizer.h"
-using namespace magics;
 
-#include "magics_windef.h"
-#ifdef MAGICS_ON_WINDOWS
-#include <iterator>
-#endif
+using namespace magics;
 
 
 NetcdfMatrixInterpretor::NetcdfMatrixInterpretor() {}
@@ -134,6 +130,9 @@ bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
         MagLog::dev() << *matrix_ << "\n";
     }
     catch (MagicsException& e) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << e << "\n";
         delete matrix_;
         matrix_ = NULL;

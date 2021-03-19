@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-   
+
 
 #ifndef KMLDriverWrapper_H
 #define KMLDriverWrapper_H
@@ -33,7 +33,7 @@
 #include "KMLDriver.h"
 
 
- 
+
 #include "BaseDriverWrapper.h"
 
 
@@ -41,7 +41,7 @@
 
 
 
- 
+
 
 namespace magics {
 
@@ -58,29 +58,29 @@ public:
 //  --  destructor
     virtual ~KMLDriverWrapper();
     virtual void set(const MagRequest&);
-    
-    KMLDriver* me()   { return kmldriver_; }
-   	
-   	virtual KMLDriver* object() { return kmldriver_; }
-	
 
-	virtual void object(KMLDriver* o) { 
+    KMLDriver* me()   { return kmldriver_; }
+
+   	virtual KMLDriver* object() { return kmldriver_; }
+
+
+	virtual void object(KMLDriver* o) {
 		// Remember to delete the previous object
 		kmldriver_ = o;
 		BaseDriverWrapper::object(o);
 		
 
 	}
-    
-  
+
+
 
 protected:
     KMLDriver* kmldriver_;
 
 
 //  --  method
-	virtual void print(ostream&) const;
-	
+	virtual void print(ostream&) const override;
+
 
 private:
     string tag_;
@@ -91,5 +91,3 @@ private:
 } // namespace magics
 
 #endif
-
-

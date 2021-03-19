@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -30,17 +30,17 @@ WindAttributes::WindAttributes():
 	thinning_debug_(ParameterManager::getBool("wind_thinning_debug"))
 	,
 	type_(MagTranslator<string, WindPlotting>().magics("wind_field_type"))
-	 
+	
 {
-} 
+}
 
 
 WindAttributes::~WindAttributes()
 {
-	
+
 }
 
-    
+
 void WindAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -62,12 +62,12 @@ void WindAttributes::copy(const WindAttributes& other)
 	thinning_debug_ = other.thinning_debug_;
 	type_ = unique_ptr<WindPlotting>(other.type_->clone());
 	
-} 
+}
 
 
 bool WindAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "wind")  )
 		return true;
 	if ( acceptNode(node, type_) )
@@ -80,7 +80,7 @@ void WindAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "wind")  )
@@ -95,7 +95,7 @@ void WindAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), type_, *elt); 
+		setMember(elt->name(), type_, *elt);
 		
 	}
 }
@@ -113,7 +113,7 @@ void WindAttributes::print(ostream& out)  const
 
 void WindAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"wind\""; 
+	out <<  "\"wind\"";
 	out << ", \"wind_thinning_method\":";
 	niceprint(out,thinning_method_);
 	out << ", \"wind_thinning_factor\":";
@@ -125,13 +125,13 @@ void WindAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> wind_thinning_method("wind_thinning_method", "data", "");
-static MagicsParameter<double> wind_thinning_factor("wind_thinning_factor", 2.0, "");
-static MagicsParameter<string> wind_thinning_debug("wind_thinning_debug", "off", "");
-static MagicsParameter<string> wind_field_type("wind_field_type", "arrows", ""); 
-#include "Streamlines.h"
-#include "ArrowPlotting.h"
+static MagicsParameter<string> wind_thinning_method("wind_thinning_method", "data");
+static MagicsParameter<double> wind_thinning_factor("wind_thinning_factor", 2.0);
+static MagicsParameter<string> wind_thinning_debug("wind_thinning_debug", "off");
+static MagicsParameter<string> wind_field_type("wind_field_type", "arrows");
 #include "FlagPlotting.h"
+#include "ArrowPlotting.h"
+#include "Streamlines.h"
 static SimpleObjectMaker<FlagPlotting , WindPlotting> flags_FlagPlotting("flags");
 static SimpleObjectMaker<ArrowPlotting , WindPlotting> arrows_ArrowPlotting("arrows");
 static SimpleObjectMaker<Streamlines , WindPlotting> streamlines_Streamlines("streamlines");

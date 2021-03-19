@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -50,17 +50,17 @@ XmlSceneNodeAttributes::XmlSceneNodeAttributes():
 	border_style_(MagTranslator<string, LineStyle>().magics("scene_node_border_style")),
 	padding_colour_(MagTranslator<string, Colour>().magics("scene_node_padding_colour")),
 	page_id_(MagTranslator<string, NoPageID>().magics("scene_node_id_line"))
-	 
+	
 {
-} 
+}
 
 
 XmlSceneNodeAttributes::~XmlSceneNodeAttributes()
 {
-	
+
 }
 
-    
+
 void XmlSceneNodeAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -123,12 +123,12 @@ void XmlSceneNodeAttributes::copy(const XmlSceneNodeAttributes& other)
 	padding_colour_ = unique_ptr<Colour>(other.padding_colour_->clone());
 	page_id_ = unique_ptr<NoPageID>(other.page_id_->clone());
 	
-} 
+}
 
 
 bool XmlSceneNodeAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "page")  )
 		return true;
 	if ( acceptNode(node, page_id_) )
@@ -141,7 +141,7 @@ void XmlSceneNodeAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "page")  )
@@ -156,7 +156,7 @@ void XmlSceneNodeAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), page_id_, *elt); 
+		setMember(elt->name(), page_id_, *elt);
 		
 	}
 }
@@ -194,7 +194,7 @@ void XmlSceneNodeAttributes::print(ostream& out)  const
 
 void XmlSceneNodeAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"page\""; 
+	out <<  "\"page\"";
 	out << ", \"scene_node_bottom\":";
 	niceprint(out,bottom_);
 	out << ", \"scene_node_left\":";
@@ -246,30 +246,30 @@ void XmlSceneNodeAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> scene_node_bottom("scene_node_bottom", "0%", "");
-static MagicsParameter<string> scene_node_left("scene_node_left", "0%", "");
-static MagicsParameter<string> scene_node_width("scene_node_width", "100%", "");
-static MagicsParameter<string> scene_node_height("scene_node_height", "100%", "");
-static MagicsParameter<string> scene_node_margin_bottom("scene_node_margin_bottom", "0%", "");
-static MagicsParameter<string> scene_node_margin_left("scene_node_margin_left", "0%", "");
-static MagicsParameter<string> scene_node_margin_right("scene_node_margin_right", "0%", "");
-static MagicsParameter<string> scene_node_margin_top("scene_node_margin_top", "0%", "");
-static MagicsParameter<string> scene_node_border_bottom("scene_node_border_bottom", "1px", "");
-static MagicsParameter<string> scene_node_border_left("scene_node_border_left", "1px", "");
-static MagicsParameter<string> scene_node_border_right("scene_node_border_right", "1px", "");
-static MagicsParameter<string> scene_node_border("scene_node_border", "off", "");
-static MagicsParameter<string> scene_node_border_top("scene_node_border_top", "1px", "");
-static MagicsParameter<int> scene_node_border_thickness("scene_node_border_thickness", 1, "");
-static MagicsParameter<string> scene_node_padding_bottom("scene_node_padding_bottom", "0%", "");
-static MagicsParameter<string> scene_node_padding_left("scene_node_padding_left", "0%", "");
-static MagicsParameter<string> scene_node_padding_right("scene_node_padding_right", "0%", "");
-static MagicsParameter<string> scene_node_padding_top("scene_node_padding_top", "0%", "");
-static MagicsParameter<string> view_display("view_display", "inline", ""); 
-static MagicsParameter<string> scene_node_background_colour("scene_node_background_colour", "none", ""); 
-static MagicsParameter<string> scene_node_border_colour("scene_node_border_colour", "blue", ""); 
-static MagicsParameter<string> scene_node_border_style("scene_node_border_style", "solid", ""); 
-static MagicsParameter<string> scene_node_padding_colour("scene_node_padding_colour", "none", ""); 
-static MagicsParameter<string> scene_node_id_line("scene_node_id_line", "on", ""); 
+static MagicsParameter<string> scene_node_bottom("scene_node_bottom", "0%");
+static MagicsParameter<string> scene_node_left("scene_node_left", "0%");
+static MagicsParameter<string> scene_node_width("scene_node_width", "100%");
+static MagicsParameter<string> scene_node_height("scene_node_height", "100%");
+static MagicsParameter<string> scene_node_margin_bottom("scene_node_margin_bottom", "0%");
+static MagicsParameter<string> scene_node_margin_left("scene_node_margin_left", "0%");
+static MagicsParameter<string> scene_node_margin_right("scene_node_margin_right", "0%");
+static MagicsParameter<string> scene_node_margin_top("scene_node_margin_top", "0%");
+static MagicsParameter<string> scene_node_border_bottom("scene_node_border_bottom", "1px");
+static MagicsParameter<string> scene_node_border_left("scene_node_border_left", "1px");
+static MagicsParameter<string> scene_node_border_right("scene_node_border_right", "1px");
+static MagicsParameter<string> scene_node_border("scene_node_border", "off");
+static MagicsParameter<string> scene_node_border_top("scene_node_border_top", "1px");
+static MagicsParameter<int> scene_node_border_thickness("scene_node_border_thickness", 1);
+static MagicsParameter<string> scene_node_padding_bottom("scene_node_padding_bottom", "0%");
+static MagicsParameter<string> scene_node_padding_left("scene_node_padding_left", "0%");
+static MagicsParameter<string> scene_node_padding_right("scene_node_padding_right", "0%");
+static MagicsParameter<string> scene_node_padding_top("scene_node_padding_top", "0%");
+static MagicsParameter<string> view_display("view_display", "inline");
+static MagicsParameter<string> scene_node_background_colour("scene_node_background_colour", "none");
+static MagicsParameter<string> scene_node_border_colour("scene_node_border_colour", "blue");
+static MagicsParameter<string> scene_node_border_style("scene_node_border_style", "solid");
+static MagicsParameter<string> scene_node_padding_colour("scene_node_padding_colour", "none");
+static MagicsParameter<string> scene_node_id_line("scene_node_id_line", "on");
 #include "PageID.h"
 static SimpleObjectMaker<PageID , NoPageID> pageid_PageID("pageid");
 static SimpleObjectMaker<NoPageID , NoPageID> nopageid_NoPageID("nopageid");

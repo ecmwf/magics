@@ -37,25 +37,25 @@ class ProgressObject;
 class SymbolPlotting : public SymbolPlottingAttributes, public Visdef {
 public:
     SymbolPlotting();
-    virtual ~SymbolPlotting();
+    virtual ~SymbolPlotting() override;
 
 
     // Implements the Visualiser Interface...
 
 
-    virtual void operator()(Data&, BasicGraphicsObjectContainer&);
-    virtual void visit(Data&, LegendVisitor&);
-    bool needLegend() { return legend_; }
-    virtual void visit(Data&, HistoVisitor&);
+    virtual void operator()(Data&, BasicGraphicsObjectContainer&) override;
+    virtual void visit(Data&, LegendVisitor&) override;
+    bool needLegend() override { return legend_; }
+    virtual void visit(Data&, HistoVisitor&) override;
     void operator()(const PaperPoint&, BasicGraphicsObjectContainer&) const;
-    void getReady(const LegendVisitor& legend);
+    void getReady(const LegendVisitor& legend) override;
 
-    void set(const map<string, string>& map) { SymbolPlottingAttributes::set(map); }
-    void set(const XmlNode& node) { SymbolPlottingAttributes::set(node); }
+    void set(const map<string, string>& map) override { SymbolPlottingAttributes::set(map); }
+    void set(const XmlNode& node) override { SymbolPlottingAttributes::set(node); }
     double height(const Transformation&, double height);  // compute symbol_size!
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
     mutable map<SymbolProperties, Symbol*> symbols_;
     map<SymbolProperties, Symbol*>::iterator current_;

@@ -29,29 +29,29 @@ namespace magics {
 class MagParam {
 public:
     MagParam() {}
-    ~MagParam() {}
+    ~MagParam() override {}
 
-    virtual operator double() const { return dvalue_; }
-    virtual operator string() const { return svalue_; }
-    virtual operator int() const { return ivalue_; }
-    virtual operator long int() const { return lvalue_; }
+    virtual operator double() const override { return dvalue_; }
+    virtual operator string() const override { return svalue_; }
+    virtual operator int() const override { return ivalue_; }
+    virtual operator long int() const override { return lvalue_; }
 
-    virtual MagParam& operator=(int i) {
+    virtual MagParam& operator=(int i) override {
         ivalue_ = i;
         cout << "set int" << ivalue_ << endl;
         return *this;
     }
-    virtual MagParam& operator=(string s) {
+    virtual MagParam& operator=(string s) override {
         svalue_ = s;
         cout << "set string" << svalue_ << endl;
         return *this;
     }
-    virtual MagParam& operator=(double d) {
+    virtual MagParam& operator=(double d) override {
         dvalue_ = d;
         cout << "set double" << dvalue_ << endl;
         return *this;
     }
-    virtual MagParam& operator=(long int i) {
+    virtual MagParam& operator=(long int i) override {
         ivalue_ = i;
         cout << "set long int" << ivalue_ << endl;
         return *this;
@@ -68,7 +68,7 @@ protected:
 class MagRequest {
 public:
     MagRequest() {}
-    virtual ~MagRequest() {}
+    virtual ~MagRequest() override {}
 
 
     virtual string getVerb() const                                = 0;
@@ -88,7 +88,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const {}
+    virtual void print(ostream& s) const override { s << "MagRequest[]"; }
 
 
 private:

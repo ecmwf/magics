@@ -34,29 +34,31 @@ namespace magics {
 class MatrixTestDecoder : public Decoder, public Data {
 public:
     MatrixTestDecoder();
-    virtual ~MatrixTestDecoder();
+    virtual ~MatrixTestDecoder() override;
     // implements Decoder interface
-    void decode() {}
+    void decode() override {}
 
     virtual void set(const map<string, string>&) {}
 
-    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all) {
+    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out,
+                          bool all) override {
         NOTIMP;
     }
 
-    PointsHandler& points(const Transformation& t, bool) { NOTIMP; }
+    PointsHandler& points(const Transformation& t, bool) override { NOTIMP; }
 
 
     PointsHandler& points() { throw MethodNotYetImplemented("MatrixTestDecoder::points()"); }
-    virtual MatrixHandler& matrix() {
+    virtual MatrixHandler& matrix() override {
         decode();
         matrixHandlers_.push_back(new MatrixHandler(matrix_));
         return *(matrixHandlers_.back());
     }
 
+
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     Matrix matrix_;
 
 private:

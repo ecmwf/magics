@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -34,17 +34,17 @@ MetgramCurveAttributes::MetgramCurveAttributes():
 	style2_(MagTranslator<string, LineStyle>().magics("metgram_curve2_line_style")),
 	colour_(MagTranslator<string, Colour>().magics("metgram_curve_colour")),
 	colour2_(MagTranslator<string, Colour>().magics("metgram_curve2_colour"))
-	 
+	
 {
-} 
+}
 
 
 MetgramCurveAttributes::~MetgramCurveAttributes()
 {
-	
+
 }
 
-    
+
 void MetgramCurveAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -74,12 +74,12 @@ void MetgramCurveAttributes::copy(const MetgramCurveAttributes& other)
 	colour_ = unique_ptr<Colour>(other.colour_->clone());
 	colour2_ = unique_ptr<Colour>(other.colour2_->clone());
 	
-} 
+}
 
 
 bool MetgramCurveAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "metgraph")  )
 		return true;
 	
@@ -90,7 +90,7 @@ void MetgramCurveAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "metgraph")  )
@@ -125,7 +125,7 @@ void MetgramCurveAttributes::print(ostream& out)  const
 
 void MetgramCurveAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"metgraph\""; 
+	out <<  "\"metgraph\"";
 	out << ", \"metgram_curve_keyword\":";
 	niceprint(out,keyword1_);
 	out << ", \"metgram_curve_keyword2\":";
@@ -145,11 +145,11 @@ void MetgramCurveAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> metgram_curve_keyword("metgram_curve_keyword", "curve1", "");
-static MagicsParameter<string> metgram_curve_keyword2("metgram_curve_keyword2", "curve2", "");
-static MagicsParameter<int> metgram_curve_thickness("metgram_curve_thickness", 2, "");
-static MagicsParameter<int> metgram_curve2_thickness("metgram_curve2_thickness", 2, "");
-static MagicsParameter<string> metgram_curve_line_style("metgram_curve_line_style", "solid", ""); 
-static MagicsParameter<string> metgram_curve2_line_style("metgram_curve2_line_style", "solid", ""); 
-static MagicsParameter<string> metgram_curve_colour("metgram_curve_colour", "red", ""); 
-static MagicsParameter<string> metgram_curve2_colour("metgram_curve2_colour", "blue", ""); 
+static MagicsParameter<string> metgram_curve_keyword("metgram_curve_keyword", "curve1");
+static MagicsParameter<string> metgram_curve_keyword2("metgram_curve_keyword2", "curve2");
+static MagicsParameter<int> metgram_curve_thickness("metgram_curve_thickness", 2);
+static MagicsParameter<int> metgram_curve2_thickness("metgram_curve2_thickness", 2);
+static MagicsParameter<string> metgram_curve_line_style("metgram_curve_line_style", "solid");
+static MagicsParameter<string> metgram_curve2_line_style("metgram_curve2_line_style", "solid");
+static MagicsParameter<string> metgram_curve_colour("metgram_curve_colour", "red");
+static MagicsParameter<string> metgram_curve2_colour("metgram_curve2_colour", "blue");

@@ -8,23 +8,28 @@
  * does it submit to any jurisdiction.
  */
 
-#include "MagConfig.h"
-#include "MagExceptions.h"
-#include "MagLog.h"
-#include "MetaData.h"
-#include "magics_windef.h"
-#include "Value.h"
-#include "JSONParser.h"
+#include "magics.h"
 
-#ifndef MAGICS_ON_WINDOWS
-#include <dirent.h>
+#include "MagConfig.h"
+#include "MagException.h"
+#include "MagLog.h"
+#include "MagParser.h"
+#include "MetaData.h"
+#include "Value.h"
+
+
+#if ((defined(_MSVC_LANG) && _MSVC_LANG >= 201703L) || __cplusplus >= 201703L)
+#include <filesystem>
+namespace fs = std::filesystem;
 #else
-#include <direct.h>
-#include <io.h>
+#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
 #endif
 
-#include <Tokenizer.h>
+
 #include <cstring>
+#include "Tokenizer.h"
 
 using namespace magics;
 
@@ -34,7 +39,7 @@ MagConfigHandler::MagConfigHandler(const string& config, MagConfig& magics) {
 
 
     try {
-        Value value = JSONParser::decodeFile(config);
+        Value value = MagParser::decodeFile(config);
 
         if (value.isList()) {
             ValueList values = value.get_value<ValueList>();
@@ -48,6 +53,9 @@ MagConfigHandler::MagConfigHandler(const string& config, MagConfig& magics) {
         }
     }
     catch (std::exception& e) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << "JSON error in file: " << config << ": " << e.what() << endl;
     }
 }
@@ -181,48 +189,21 @@ void StyleLibrary::init() {
     for (auto token = paths.begin(); token != paths.end(); ++token) {
         string path = magCompare(*token, "ecmwf") ? ecmwf : *token;
 
-#ifndef MAGICS_ON_WINDOWS
-        DIR* dir = opendir(path.c_str());
-        if (!dir) {
-            ostringstream error;
-            error << "Trying to open directory " << library << ": " << strerror(errno);
-            throw FailedSystemCall(error.str());
-        }
-        struct dirent* entry = readdir(dir);
-        while (entry) {
-            if (entry->d_name[0] != '.') {
-                current_ = entry->d_name;
-                if (current_ == "styles.json")
-                    allStyles_.init(path, "styles.json");
-                else
-                    MagConfigHandler(path + "/" + current_, *this);
-            }
+        for (auto& p : fs::directory_iterator(path)) {
+            std::string full = p.path().string();
 
-
-            entry = readdir(dir);
-        }
-#else
-        struct _finddata_t fileinfo;
-        intptr_t handle = _findfirst((path + "/*").c_str(), &fileinfo);
-        if (handle == -1) {
-            ostringstream error;
-            error << "Trying to open directory " << library << ": " << strerror(errno);
-            throw FailedSystemCall(error.str());
-        }
-        else {
-            do {
-                if (fileinfo.name[0] != '.') {
-                    current_ = fileinfo.name;
-                    if (current_ == "styles.json")
+            if (p.path().extension() == ".json") {
+                try {
+                    if (p.path().filename() == "styles.json")
                         allStyles_.init(path, "styles.json");
                     else
-                        MagConfigHandler(path + "/" + current_, *this);
+                        MagConfigHandler(full, *this);
                 }
-            } while (!_findnext(handle, &fileinfo));
-
-            _findclose(handle);
+                catch (std::exception& e) {
+                    MagLog::error() << "Error processing " << full << ": " << e.what() << ", ignored." << std::endl;
+                }
+            }
         }
-#endif
     }
 }
 
@@ -454,8 +435,7 @@ void NetcdfGuess::callback(const string& name, const Value& value) {
 void DimensionGuess::init() {
 
     try {
-
-        Value value = JSONParser::decodeString(definitions_);
+        Value value = MagParser::decodeString(definitions_);
 
         ValueMap object = value.get_value<ValueMap>();
 
@@ -471,6 +451,9 @@ void DimensionGuess::init() {
         }
     }
     catch (std::exception& e) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << "JSON error in " << definitions_ << ": " << e.what() << endl;
     }
 }

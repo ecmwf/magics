@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -35,17 +35,17 @@ UserLogoPlottingAttributes::UserLogoPlottingAttributes():
 	width_(ParameterManager::getDouble("user_logo_width")),
 	height_(ParameterManager::getDouble("user_logo_height"))
 	
-	 
+	
 {
-} 
+}
 
 
 UserLogoPlottingAttributes::~UserLogoPlottingAttributes()
 {
-	
+
 }
 
-    
+
 void UserLogoPlottingAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(3);
@@ -79,12 +79,12 @@ void UserLogoPlottingAttributes::copy(const UserLogoPlottingAttributes& other)
 	width_ = other.width_;
 	height_ = other.height_;
 	
-} 
+}
 
 
 bool UserLogoPlottingAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "userlogo")  )
 		return true;
 	
@@ -95,7 +95,7 @@ void UserLogoPlottingAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "userlogo")  )
@@ -131,7 +131,7 @@ void UserLogoPlottingAttributes::print(ostream& out)  const
 
 void UserLogoPlottingAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"userlogo\""; 
+	out <<  "\"userlogo\"";
 	out << ", \"user_logo_filename\":";
 	niceprint(out,path_);
 	out << ", \"user_logo_format\":";
@@ -153,12 +153,12 @@ void UserLogoPlottingAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> user_logo_filename("user_logo_filename", "", "");
-static MagicsParameter<string> user_logo_format("user_logo_format", "PNG", "");
-static MagicsParameter<string> user_logo_position_units("user_logo_position_units", "cm", "");
-static MagicsParameter<double> user_logo_y_position("user_logo_y_position", 2.5, "");
-static MagicsParameter<double> user_logo_x_position("user_logo_x_position", 80, "");
-static MagicsParameter<string> user_logo_bottom("user_logo_bottom", "", "");
-static MagicsParameter<string> user_logo_left("user_logo_left", "", "");
-static MagicsParameter<double> user_logo_width("user_logo_width", -1, "");
-static MagicsParameter<double> user_logo_height("user_logo_height", -1, "");
+static MagicsParameter<string> user_logo_filename("user_logo_filename", "");
+static MagicsParameter<string> user_logo_format("user_logo_format", "PNG");
+static MagicsParameter<string> user_logo_position_units("user_logo_position_units", "cm");
+static MagicsParameter<double> user_logo_y_position("user_logo_y_position", 2.5);
+static MagicsParameter<double> user_logo_x_position("user_logo_x_position", 80);
+static MagicsParameter<string> user_logo_bottom("user_logo_bottom", "");
+static MagicsParameter<string> user_logo_left("user_logo_left", "");
+static MagicsParameter<double> user_logo_width("user_logo_width", -1);
+static MagicsParameter<double> user_logo_height("user_logo_height", -1);

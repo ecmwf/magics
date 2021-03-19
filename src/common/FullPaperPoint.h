@@ -29,7 +29,7 @@ class FullPaperPoint {
 public:
     FullPaperPoint(double x = 0, double y = 0, double val = 0, double z = 0) :
         x_(x), y_(y), z_(z), value_(val), colour_(val), marker_(val), size_(val) {}
-    virtual ~FullPaperPoint() {}
+    virtual ~FullPaperPoint() override {}
 
     void y(double y) { y_ = y; }
     void x(double x) { x_ = x; }
@@ -57,7 +57,7 @@ public:
     double y_;
 
 protected:
-    virtual void print(ostream& out) const {
+    virtual void print(ostream& out) const override {
         out << "FullPaperPoint[";
         out << x_ << "(x), ";
         out << y_ << "(y), ";

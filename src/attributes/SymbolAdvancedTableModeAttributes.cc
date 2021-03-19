@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -58,17 +58,17 @@ SymbolAdvancedTableModeAttributes::SymbolAdvancedTableModeAttributes():
 	text_policy_(MagTranslator<string, ListPolicy>().magics("symbol_advanced_table_text_list_policy")),
 	text_font_colour_(MagTranslator<string, Colour>().magics("symbol_advanced_table_text_font_colour")),
 	outlayer_(MagTranslator<string, NoOutLayerTechnique>().magics("symbol_advanced_table_outlayer_method"))
-	 
+	
 {
-} 
+}
 
 
 SymbolAdvancedTableModeAttributes::~SymbolAdvancedTableModeAttributes()
 {
-	
+
 }
 
-    
+
 void SymbolAdvancedTableModeAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -147,12 +147,12 @@ void SymbolAdvancedTableModeAttributes::copy(const SymbolAdvancedTableModeAttrib
 	text_font_colour_ = unique_ptr<Colour>(other.text_font_colour_->clone());
 	outlayer_ = unique_ptr<NoOutLayerTechnique>(other.outlayer_->clone());
 	
-} 
+}
 
 
 bool SymbolAdvancedTableModeAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "advanced")  )
 		return true;
 	if ( acceptNode(node, levels_) )
@@ -171,7 +171,7 @@ void SymbolAdvancedTableModeAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "advanced")  )
@@ -189,10 +189,10 @@ void SymbolAdvancedTableModeAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), levels_, *elt); 
-		setMember(elt->name(), colourMethod_, *elt); 
-		setMember(elt->name(), height_method_, *elt); 
-		setMember(elt->name(), outlayer_, *elt); 
+		setMember(elt->name(), levels_, *elt);
+		setMember(elt->name(), colourMethod_, *elt);
+		setMember(elt->name(), height_method_, *elt);
+		setMember(elt->name(), outlayer_, *elt);
 		
 	}
 }
@@ -238,7 +238,7 @@ void SymbolAdvancedTableModeAttributes::print(ostream& out)  const
 
 void SymbolAdvancedTableModeAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"advanced\""; 
+	out <<  "\"advanced\"";
 	out << ", \"symbol_advanced_table_min_value\":";
 	niceprint(out,min_);
 	out << ", \"symbol_advanced_table_max_value\":";
@@ -306,45 +306,45 @@ void SymbolAdvancedTableModeAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> symbol_advanced_table_min_value("symbol_advanced_table_min_value", -1.e21, "");
-static MagicsParameter<double> symbol_advanced_table_max_value("symbol_advanced_table_max_value", 1.e21, "");
-static MagicsParameter<int> symbol_advanced_table_level_count("symbol_advanced_table_level_count", 10, "");
-static MagicsParameter<int> symbol_advanced_table_level_tolerance("symbol_advanced_table_level_tolerance", 2, "");
-static MagicsParameter<double> symbol_advanced_table_interval("symbol_advanced_table_interval", 8.0, "");
-static MagicsParameter<double> symbol_advanced_table_reference_level("symbol_advanced_table_reference_level", 0.0, "");
-static MagicsParameter<doublearray> symbol_advanced_table_level_list("symbol_advanced_table_level_list", floatarray(), "");
-static MagicsParameter<string> symbol_advanced_table_colour_direction("symbol_advanced_table_colour_direction", "anti_clockwise", "");
-static MagicsParameter<stringarray> symbol_advanced_table_colour_list("symbol_advanced_table_colour_list", stringarray(), "");
-static MagicsParameter<intarray> symbol_advanced_table_marker_list("symbol_advanced_table_marker_list", intarray(), "");
-static MagicsParameter<stringarray> symbol_advanced_table_marker_name_list("symbol_advanced_table_marker_name_list", stringarray(), "");
-static MagicsParameter<double> symbol_advanced_table_height_max_value("symbol_advanced_table_height_max_value", 0.2, "");
-static MagicsParameter<double> symbol_advanced_table_height_min_value("symbol_advanced_table_height_min_value", 0.1, "");
-static MagicsParameter<doublearray> symbol_advanced_table_height_list("symbol_advanced_table_height_list", floatarray(), "");
-static MagicsParameter<stringarray> symbol_advanced_table_text_list("symbol_advanced_table_text_list", stringarray(), "");
-static MagicsParameter<string> symbol_advanced_table_text_font("symbol_advanced_table_text_font", "sansserif", "");
-static MagicsParameter<double> symbol_advanced_table_text_font_size("symbol_advanced_table_text_font_size", 0.25, "");
-static MagicsParameter<string> symbol_advanced_table_text_font_style("symbol_advanced_table_text_font_style", "normal", "");
-static MagicsParameter<string> symbol_advanced_table_text_display_type("symbol_advanced_table_text_display_type", "none", "");
-static MagicsParameter<double> symbol_advanced_table_outlayer_min_value("symbol_advanced_table_outlayer_min_value", -1.e21, "");
-static MagicsParameter<double> symbol_advanced_table_outlayer_max_value("symbol_advanced_table_outlayer_max_value", 1.e21, "");
-static MagicsParameter<string> symbol_advanced_table_selection_type("symbol_advanced_table_selection_type", "count", ""); 
-static MagicsParameter<string> symbol_advanced_table_colour_method("symbol_advanced_table_colour_method", "calculate", ""); 
-static MagicsParameter<string> symbol_advanced_table_max_level_colour("symbol_advanced_table_max_level_colour", "blue", ""); 
-static MagicsParameter<string> symbol_advanced_table_min_level_colour("symbol_advanced_table_min_level_colour", "red", ""); 
-static MagicsParameter<string> symbol_advanced_table_colour_list_policy("symbol_advanced_table_colour_list_policy", "lastone", ""); 
-static MagicsParameter<string> symbol_advanced_table_marker_list_policy("symbol_advanced_table_marker_list_policy", "lastone", ""); 
-static MagicsParameter<string> symbol_advanced_table_height_method("symbol_advanced_table_height_method", "list", ""); 
-static MagicsParameter<string> symbol_advanced_table_height_list_policy("symbol_advanced_table_height_list_policy", "lastone", ""); 
-static MagicsParameter<string> symbol_advanced_table_text_list_policy("symbol_advanced_table_text_list_policy", "cycle", ""); 
-static MagicsParameter<string> symbol_advanced_table_text_font_colour("symbol_advanced_table_text_font_colour", "automatic", ""); 
-static MagicsParameter<string> symbol_advanced_table_outlayer_method("symbol_advanced_table_outlayer_method", "none", ""); 
-#include "ListColourTechnique.h"
-#include "OutLayerTechnique.h"
-#include "HeightTechnique.h"
-#include "CalculateColourTechnique.h"
-#include "LevelListSelectionType.h"
-#include "IntervalSelectionType.h"
+static MagicsParameter<double> symbol_advanced_table_min_value("symbol_advanced_table_min_value", -1.e21);
+static MagicsParameter<double> symbol_advanced_table_max_value("symbol_advanced_table_max_value", 1.e21);
+static MagicsParameter<int> symbol_advanced_table_level_count("symbol_advanced_table_level_count", 10);
+static MagicsParameter<int> symbol_advanced_table_level_tolerance("symbol_advanced_table_level_tolerance", 2);
+static MagicsParameter<double> symbol_advanced_table_interval("symbol_advanced_table_interval", 8.0);
+static MagicsParameter<double> symbol_advanced_table_reference_level("symbol_advanced_table_reference_level", 0.0);
+static MagicsParameter<doublearray> symbol_advanced_table_level_list("symbol_advanced_table_level_list", floatarray());
+static MagicsParameter<string> symbol_advanced_table_colour_direction("symbol_advanced_table_colour_direction", "anti_clockwise");
+static MagicsParameter<stringarray> symbol_advanced_table_colour_list("symbol_advanced_table_colour_list", stringarray());
+static MagicsParameter<intarray> symbol_advanced_table_marker_list("symbol_advanced_table_marker_list", intarray());
+static MagicsParameter<stringarray> symbol_advanced_table_marker_name_list("symbol_advanced_table_marker_name_list", stringarray());
+static MagicsParameter<double> symbol_advanced_table_height_max_value("symbol_advanced_table_height_max_value", 0.2);
+static MagicsParameter<double> symbol_advanced_table_height_min_value("symbol_advanced_table_height_min_value", 0.1);
+static MagicsParameter<doublearray> symbol_advanced_table_height_list("symbol_advanced_table_height_list", floatarray());
+static MagicsParameter<stringarray> symbol_advanced_table_text_list("symbol_advanced_table_text_list", stringarray());
+static MagicsParameter<string> symbol_advanced_table_text_font("symbol_advanced_table_text_font", "sansserif");
+static MagicsParameter<double> symbol_advanced_table_text_font_size("symbol_advanced_table_text_font_size", 0.25);
+static MagicsParameter<string> symbol_advanced_table_text_font_style("symbol_advanced_table_text_font_style", "normal");
+static MagicsParameter<string> symbol_advanced_table_text_display_type("symbol_advanced_table_text_display_type", "none");
+static MagicsParameter<double> symbol_advanced_table_outlayer_min_value("symbol_advanced_table_outlayer_min_value", -1.e21);
+static MagicsParameter<double> symbol_advanced_table_outlayer_max_value("symbol_advanced_table_outlayer_max_value", 1.e21);
+static MagicsParameter<string> symbol_advanced_table_selection_type("symbol_advanced_table_selection_type", "count");
+static MagicsParameter<string> symbol_advanced_table_colour_method("symbol_advanced_table_colour_method", "calculate");
+static MagicsParameter<string> symbol_advanced_table_max_level_colour("symbol_advanced_table_max_level_colour", "blue");
+static MagicsParameter<string> symbol_advanced_table_min_level_colour("symbol_advanced_table_min_level_colour", "red");
+static MagicsParameter<string> symbol_advanced_table_colour_list_policy("symbol_advanced_table_colour_list_policy", "lastone");
+static MagicsParameter<string> symbol_advanced_table_marker_list_policy("symbol_advanced_table_marker_list_policy", "lastone");
+static MagicsParameter<string> symbol_advanced_table_height_method("symbol_advanced_table_height_method", "list");
+static MagicsParameter<string> symbol_advanced_table_height_list_policy("symbol_advanced_table_height_list_policy", "lastone");
+static MagicsParameter<string> symbol_advanced_table_text_list_policy("symbol_advanced_table_text_list_policy", "cycle");
+static MagicsParameter<string> symbol_advanced_table_text_font_colour("symbol_advanced_table_text_font_colour", "automatic");
+static MagicsParameter<string> symbol_advanced_table_outlayer_method("symbol_advanced_table_outlayer_method", "none");
 #include "CountSelectionType.h"
+#include "IntervalSelectionType.h"
+#include "LevelListSelectionType.h"
+#include "CalculateColourTechnique.h"
+#include "ListColourTechnique.h"
+#include "HeightTechnique.h"
+#include "OutLayerTechnique.h"
 static SimpleObjectMaker<CountSelectionType , LevelSelection> count_CountSelectionType("count");
 static SimpleObjectMaker<IntervalSelectionType , LevelSelection> interval_IntervalSelectionType("interval");
 static SimpleObjectMaker<LevelListSelectionType , LevelSelection> list_LevelListSelectionType("list");

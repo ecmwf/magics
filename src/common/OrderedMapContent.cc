@@ -10,9 +10,9 @@
 
 #include <algorithm>
 
-#include "OrderedMapContent.h"
 #include "JSON.h"
 #include "MagException.h"
+#include "OrderedMapContent.h"
 
 namespace magics {
 
@@ -52,7 +52,8 @@ Value OrderedMapContent::remove(const Value& key) {
     Value result = value_[key];
     value_.erase(key);
     auto it = std::find(keys_.begin(), keys_.end(), key);
-    if (it != keys_.end()) keys_.erase(it);
+    if (it != keys_.end())
+        keys_.erase(it);
     return result;
 }
 

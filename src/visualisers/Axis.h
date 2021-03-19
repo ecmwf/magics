@@ -39,13 +39,13 @@ class AxisItem;
 class Axis : public BasicSceneObject, public AxisAttributes {
 public:
     Axis();
-    virtual ~Axis();
+    virtual ~Axis() override;
 
-    void set(const XmlNode& node) { AxisAttributes::set(node); }
-    void set(const map<string, string>& map) { AxisAttributes::set(map); }
+    void set(const XmlNode& node) override { AxisAttributes::set(node); }
+    void set(const map<string, string>& map) override { AxisAttributes::set(map); }
 
-    void visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors);
-    void visit(TextVisitor&);
+    void visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors) override;
+    void visit(TextVisitor&) override;
 
     virtual void tick(VerticalAxisVisitor&) {}
     virtual void tick(HorizontalAxisVisitor&) {}
@@ -79,7 +79,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     void ticks(double, double, vector<double>&);
     AxisItems items_;
 
@@ -114,7 +114,7 @@ private:
 class HorizontalAxis : public Axis {
 public:
     HorizontalAxis();
-    ~HorizontalAxis() {}
+    ~HorizontalAxis() override {}
 
     template <class V>
     void build(V& visitor) {
@@ -130,7 +130,7 @@ public:
         tip(visitor);
     }
 
-    void visit(DrawingVisitor& visitor) {
+    void visit(DrawingVisitor& visitor) override {
         if (items_.empty()) {
             method_->updateX(visitor.transformation());
             method_->prepare(*this, items_);
@@ -138,16 +138,16 @@ public:
         grid(visitor);
     }
 
-    void visit(TopAxisVisitor& visitor) {
+    void visit(TopAxisVisitor& visitor) override {
         if (magCompare(position_, "top"))
             build(visitor);
     }
-    void visit(BottomAxisVisitor& visitor) {
+    void visit(BottomAxisVisitor& visitor) override {
         if (magCompare(position_, "bottom"))
             build(visitor);
     }
 
-    void set(const XmlNode& node) {
+    void set(const XmlNode& node) override {
         if (magCompare(node.name(), "horizontal_axis")) {
             XmlNode axis = node;
             axis.name("axis");
@@ -155,24 +155,24 @@ public:
         }
     }
 
-    void minortick(HorizontalAxisVisitor&);
-    void tick(HorizontalAxisVisitor&);
-    void label(HorizontalAxisVisitor&);
-    void title(HorizontalAxisVisitor&);
+    void minortick(HorizontalAxisVisitor&) override;
+    void tick(HorizontalAxisVisitor&) override;
+    void label(HorizontalAxisVisitor&) override;
+    void title(HorizontalAxisVisitor&) override;
 
-    void line(TopAxisVisitor& out) const;
-    void line(BottomAxisVisitor& out) const;
+    void line(TopAxisVisitor& out) const override;
+    void line(BottomAxisVisitor& out) const override;
 
-    void tip(TopAxisVisitor& out) const;
-    void tip(BottomAxisVisitor& out) const;
+    void tip(TopAxisVisitor& out) const override;
+    void tip(BottomAxisVisitor& out) const override;
 
-    void grid(DrawingVisitor&) const;
+    void grid(DrawingVisitor&) const override;
 };
 
 class VerticalAxis : public Axis {
 public:
     VerticalAxis();
-    ~VerticalAxis() {}
+    ~VerticalAxis() override {}
     template <class V>
     void build(V& visitor) {
         if (items_.empty()) {
@@ -186,40 +186,40 @@ public:
         minortick(visitor);
         tip(visitor);
     }
-    void visit(DrawingVisitor& visitor) {
+    void visit(DrawingVisitor& visitor) override {
         if (items_.empty()) {
             method_->updateY(visitor.transformation());
             method_->prepare(*this, items_);
         }
         grid(visitor);
     }
-    void visit(LeftAxisVisitor& visitor) {
+    void visit(LeftAxisVisitor& visitor) override {
         if (magCompare(position_, "left"))
             build(visitor);
     }
-    void visit(RightAxisVisitor& visitor) {
+    void visit(RightAxisVisitor& visitor) override {
         if (magCompare(position_, "right"))
             build(visitor);
     }
-    void set(const XmlNode& node) {
+    void set(const XmlNode& node) override {
         if (magCompare(node.name(), "vertical_axis")) {
             XmlNode axis = node;
             axis.name("axis");
             AxisAttributes::set(axis);
         }
     }
-    void tick(VerticalAxisVisitor&);
-    void minortick(VerticalAxisVisitor&);
-    void label(VerticalAxisVisitor&);
-    void title(VerticalAxisVisitor&);
+    void tick(VerticalAxisVisitor&) override;
+    void minortick(VerticalAxisVisitor&) override;
+    void label(VerticalAxisVisitor&) override;
+    void title(VerticalAxisVisitor&) override;
 
-    void line(LeftAxisVisitor& out) const;
-    void line(RightAxisVisitor& out) const;
+    void line(LeftAxisVisitor& out) const override;
+    void line(RightAxisVisitor& out) const override;
 
-    void tip(LeftAxisVisitor& out) const;
-    void tip(RightAxisVisitor& out) const;
+    void tip(LeftAxisVisitor& out) const override;
+    void tip(RightAxisVisitor& out) const override;
 
-    void grid(DrawingVisitor&) const;
+    void grid(DrawingVisitor&) const override;
 };
 
 }  // namespace magics

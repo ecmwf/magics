@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -28,17 +28,17 @@ PaletteColourTechniqueAttributes::PaletteColourTechniqueAttributes():
 	palette_(ParameterManager::getString("contour_shade_palette_name"))
 	,
 	palette_policy_(MagTranslator<string, ListPolicy>().magics("contour_shade_palette_policy"))
-	 
+	
 {
-} 
+}
 
 
 PaletteColourTechniqueAttributes::~PaletteColourTechniqueAttributes()
 {
-	
+
 }
 
-    
+
 void PaletteColourTechniqueAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -56,12 +56,12 @@ void PaletteColourTechniqueAttributes::copy(const PaletteColourTechniqueAttribut
 	palette_ = other.palette_;
 	palette_policy_ = other.palette_policy_;
 	
-} 
+}
 
 
 bool PaletteColourTechniqueAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "")  )
 		return true;
 	
@@ -72,7 +72,7 @@ void PaletteColourTechniqueAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "")  )
@@ -101,7 +101,7 @@ void PaletteColourTechniqueAttributes::print(ostream& out)  const
 
 void PaletteColourTechniqueAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"\""; 
+	out <<  "\"\"";
 	out << ", \"contour_shade_palette_name\":";
 	niceprint(out,palette_);
 	out << ", \"contour_shade_palette_policy\":";
@@ -109,5 +109,5 @@ void PaletteColourTechniqueAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> contour_shade_palette_name("contour_shade_palette_name", "", "");
-static MagicsParameter<string> contour_shade_palette_policy("contour_shade_palette_policy", "lastone", ""); 
+static MagicsParameter<string> contour_shade_palette_name("contour_shade_palette_name", "");
+static MagicsParameter<string> contour_shade_palette_policy("contour_shade_palette_policy", "lastone");

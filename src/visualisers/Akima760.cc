@@ -1241,6 +1241,7 @@ double Akima760::rgbi3p(double XI, double YI) const {
     // Calculates the z values at the output point
     rgplnl(XI, YI, INXI, INYI, ZI);
 
+    // FIXME: ZI is never set
     return ZI;
 }
 

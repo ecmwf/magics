@@ -55,33 +55,35 @@ public:
         if (title_.empty())
             title_ = code_;
     }
-    virtual ~EpsParameter() {}
+    virtual ~EpsParameter() override {}
     string height();  // return the height of the station...
     void steps(const vector<double>& steps);
-    virtual double operator()(double value, const string&) const { return (value * scaling_) + offset_; }
-    virtual double operator()(double) const { return -6; }
+    virtual double operator()(double value, const string&) const override {
+        return (value * scaling_) + offset_ override;
+    }
+    virtual double operator()(double) const override { return -6; }
     const string& code() const { return code_; }
-    virtual const string& title() const { return title_; }
-    virtual const string& xml() const { return xml_; }
+    virtual const string& title() const override { return title_; }
+    virtual const string& xml() const override { return xml_; }
     void epsHeight(double epsz) { epsz_ = epsz; }
     void deterministicHeight(double detz) { detz_ = detz; }
     void stationHeight(double height) { height_ = height; }
     void correction(bool correction) { correction_ = correction; }
     void deterministicResolution(const string& resolution) { detResolution_ = resolution; }
     void epsResolution(const string& resolution) { epsResolution_ = resolution; }
-    virtual spot_query_result* prepare(const SpotDecoder& decoder, vector<CustomisedPoint*>& out);
-    virtual void interpretResult(spot_query_result*, vector<CustomisedPoint*>&);
-    virtual void specific10(CustomisedPoint&) const;
-    virtual void specific15(CustomisedPoint&) const;
-    virtual int x(int val) const { return val; }
-    virtual string x(const string& prefix, const string& val) const;
-    virtual void setTransformation(Transformation&);
+    virtual spot_query_result* prepare(const SpotDecoder& decoder, vector<CustomisedPoint*>& out) override;
+    virtual void interpretResult(spot_query_result*, vector<CustomisedPoint*>&) override;
+    virtual void specific10(CustomisedPoint&) const override;
+    virtual void specific15(CustomisedPoint&) const override;
+    virtual int x(int val) const override { return val; }
+    virtual string x(const string& prefix, const string& val) const override;
+    virtual void setTransformation(Transformation&) override;
     void scaling(double scaling) { scaling_ = scaling; }
     void offset(double offset) { offset_ = offset; }
     void shift(double shift) { shift_ = shift; }
-    virtual void stepvalues(double step, vector<double>& xpos) { xpos.push_back(step); }
+    virtual void stepvalues(double step, vector<double>& xpos) override { xpos.push_back(step); }
     virtual void xvalues(double, vector<double>&) {}
-    virtual double plumesInterval() { NOTIMP; }
+    virtual double plumesInterval() override { NOTIMP; }
 
     void type(const string& type) { type_ = type; }
 
@@ -121,30 +123,30 @@ protected:
 class SpotDecoder : public Decoder, public Data, public PointsList {
 public:
     SpotDecoder();
-    virtual ~SpotDecoder();
+    virtual ~SpotDecoder() override;
 
     virtual void set(const map<string, string>&) {}
-    virtual void set(const XmlNode&) {}
+    virtual void set(const XmlNode&) override {}
 
-    virtual void visit(Transformation&);
-    virtual void decode() { decode(false); }
-    virtual void decode(bool);
+    virtual void visit(Transformation&) override;
+    virtual void decode() override { decode(false); }
+    virtual void decode(bool) override;
     spot_query* newQuery() const;
     spot_query* newQuery(const string&) const;
 
     void customisedPoints(const std::set<string>&, CustomisedPointsList&);
-    virtual PointsHandler& points();
+    virtual PointsHandler& points() override;
 
     void customisedPoints(const Transformation&, const std::set<string>& n, CustomisedPointsList& out, bool) {
         customisedPoints(n, out);
     }
     PointsHandler& points(const Transformation&, bool) { return points(); }
-    virtual void visit(TextVisitor&);
-    // virtual void visit(MetaData&);
+    virtual void visit(TextVisitor&) override;
+    // virtual void visit(MetaData&) override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     EpsParameter* parameter_;
 
     UserPoint grid_;
@@ -157,10 +159,10 @@ protected:
     string resolution_;
     mutable spot_config* spot_;
     vector<CustomisedPoint*> points_;
-    virtual void moreTitle(TextVisitor&) const {}
+    virtual void moreTitle(TextVisitor&) const override {}
 
 
-    string database_;
+    string database_ override;
     string station_;
     string param_;
     string param_title_;
@@ -179,12 +181,12 @@ protected:
     double threshold_;
 
 
-    virtual void set() {}
+    virtual void set() override {}
 
 
 private:
     //! Copy constructor - No copy allowed
-    SpotDecoder(const SpotDecoder&);
+    SpotDecoder(const SpotDecoder&) override;
     //! Overloaded << operator to copy - No copy allowed
     SpotDecoder& operator=(const SpotDecoder&);
 
@@ -199,17 +201,17 @@ private:
 class EpsgramDecoder : public SpotDecoder, public EpsgramDecoderAttributes {
 public:
     EpsgramDecoder();
-    virtual ~EpsgramDecoder();
+    virtual ~EpsgramDecoder() override;
 
-    virtual void set(const XmlNode& node) {
-        EpsgramDecoderAttributes::set(node);
+    virtual void set(const XmlNode& node) override {
+        EpsgramDecoderAttributes::set(node) override;
         set();
     }
-    virtual void set(const map<string, string>& map) {
-        EpsgramDecoderAttributes::set(map);
+    virtual void set(const map<string, string>& map) override {
+        EpsgramDecoderAttributes::set(map) override;
         set();
     }
-    virtual MatrixHandler& matrix();
+    virtual MatrixHandler& matrix() override;
 
 
 protected:
@@ -225,22 +227,22 @@ protected:
 class EfigramDecoder : public SpotDecoder, public EfigramDecoderAttributes {
 public:
     EfigramDecoder();
-    virtual ~EfigramDecoder();
+    virtual ~EfigramDecoder() override;
 
-    virtual void set(const map<string, string>& map) {
-        EfigramDecoderAttributes::set(map);
+    virtual void set(const map<string, string>& map) override {
+        EfigramDecoderAttributes::set(map) override;
         set();
     }
-    virtual void set(const XmlNode& node) {
-        EfigramDecoderAttributes::set(node);
+    virtual void set(const XmlNode& node) override {
+        EfigramDecoderAttributes::set(node) override;
         set();
     }
     void set();
     void visit(TextVisitor&);
     void visit(MetaDataVisitor&);
-    virtual void visit(LegendVisitor&);
+    virtual void visit(LegendVisitor&) override;
     void visit(Transformation&);
-    virtual void decode();
+    virtual void decode() override;
 
 protected:
     vector<int> efi_;

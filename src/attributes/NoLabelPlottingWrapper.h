@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-   
+
 
 #ifndef NoLabelPlottingWrapper_H
 #define NoLabelPlottingWrapper_H
@@ -39,15 +39,15 @@
 
 
 
- 
+
 
 namespace magics {
 
 class MagRequest;
 
 
- 	
-class NoLabelPlottingWrapper 
+
+class NoLabelPlottingWrapper
 
 {
 public:
@@ -57,28 +57,28 @@ public:
 //  --  destructor
     virtual ~NoLabelPlottingWrapper();
     virtual void set(const MagRequest&);
-    
-    NoLabelPlotting* me()   { return nolabelplotting_; }
-   	
-   	virtual NoLabelPlotting* object() { return nolabelplotting_; }
-	
 
-	virtual void object(NoLabelPlotting* o) { 
+    NoLabelPlotting* me()   { return nolabelplotting_; }
+
+   	virtual NoLabelPlotting* object() { return nolabelplotting_; }
+
+
+	virtual void object(NoLabelPlotting* o) {
 		// Remember to delete the previous object
 		nolabelplotting_ = o;
 		
 
 	}
-    
-  
+
+
 
 protected:
     NoLabelPlotting* nolabelplotting_;
 
 
 //  --  method
-	virtual void print(ostream&) const;
-	
+	virtual void print(ostream&) const override;
+
 
 private:
     string tag_;
@@ -89,5 +89,3 @@ private:
 } // namespace magics
 
 #endif
-
-

@@ -16,11 +16,11 @@
 
 */
 
-#include <BinaryDriver.h>
-#include <Image.h>
-#include <ImportObject.h>
-#include <Polyline.h>
-#include <Text.h>
+#include "BinaryDriver.h"
+#include "Image.h"
+#include "Polyline.h"
+#include "Text.h"
+#include "ImportObject.h"
 
 
 using namespace magics;
@@ -51,6 +51,7 @@ void BinaryDriver::open() {
     out_.open(getFileName("mgb").c_str(), ios::out | ios::binary);
     if (!out_) {
         MagLog::error() << "BinaryDriver: Error opening output stream." << endl;
+        throw CannotOpenFile(getFileName("mgb"));
     }
     else {
         const int version    = BINARY_VERSION;
@@ -242,8 +243,8 @@ MAGICS_NO_EXPORT int BinaryDriver::setLineParameters(const LineStyle linestyle, 
     return 0;
 }
 
-#include <Arrow.h>
-#include <Flag.h>
+#include "Arrow.h"
+#include "Flag.h"
 
 void BinaryDriver::renderWindArrow(const Arrow& arrow) const {
     char c = 'A';
@@ -633,7 +634,7 @@ MAGICS_NO_EXPORT bool BinaryDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1
     out_.write((char*)(&h), sizeof(int));
     out_.write((char*)(&landscape), sizeof(int));
     out_.write((char*)(pixmap), sizeof(unsigned char) * w * h * 4);
- 
+
     MagLog::debug() << "BinaryDriver::renderPixmap called: "<< w*h << std::endl;
     return true;
 }

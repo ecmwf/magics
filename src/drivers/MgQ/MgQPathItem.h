@@ -31,7 +31,7 @@ public:
     };
 
     MgQPathItem(const QPainterPath&, QGraphicsItem* parent = 0);
-    ~MgQPathItem();
+    ~MgQPathItem() override;
 
     void setBoundingRectSize(float s) { boundingRectSize_ = s; }
     QRectF boundingRect() const;

@@ -37,16 +37,16 @@ class Transformation;
 class BothValuePlotMethod : public ValuePlotMethod, public BothValuePlotMethodAttributes {
 public:
     BothValuePlotMethod() : marker_(0) {}
-    virtual ~BothValuePlotMethod() {}
-    virtual void set(const map<string, string>& map) {
+    virtual ~BothValuePlotMethod() override {}
+    virtual void set(const map<string, string>& map) override {
         BothValuePlotMethodAttributes::set(map);
         ValuePlotMethodAttributes::set(map);
     }
-    virtual void set(const XmlNode& node) {
+    virtual void set(const XmlNode& node) override {
         BothValuePlotMethodAttributes::set(node);
         ValuePlotMethodAttributes::set(node);
     }
-    virtual ValuePlotMethod* clone() const {
+    virtual ValuePlotMethod* clone() const override {
         BothValuePlotMethod* object = new BothValuePlotMethod();
         object->clone(*this);
         return object;
@@ -60,28 +60,28 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const {
+    virtual void print(ostream& out) const override {
         out << "BothValuePlotMethod[";
         BothValuePlotMethodAttributes::print(out);
         ValuePlotMethodAttributes::print(out);
         out << "]";
     }
-    void reset() { marker_ = 0; }
+    void reset() override { marker_ = 0; }
 
-    virtual void add(const PaperPoint& xy) {
-        static map<string, TextSymbol::TextPosition> poshandlers;
+    virtual void add(const PaperPoint& xy) override {
+        static map<string, TextPosition> poshandlers;
         if (poshandlers.empty()) {
-            poshandlers["none"]   = TextSymbol::M_NONE;
-            poshandlers["left"]   = TextSymbol::M_LEFT;
-            poshandlers["top"]    = TextSymbol::M_ABOVE;
-            poshandlers["bottom"] = TextSymbol::M_BELOW;
-            poshandlers["right"]  = TextSymbol::M_RIGHT;
-            poshandlers["centre"] = TextSymbol::M_CENTRE;
+            poshandlers["none"]   = TextPosition::NONE;
+            poshandlers["left"]   = TextPosition::LEFT;
+            poshandlers["top"]    = TextPosition::ABOVE;
+            poshandlers["bottom"] = TextPosition::BELOW;
+            poshandlers["right"]  = TextPosition::RIGHT;
+            poshandlers["centre"] = TextPosition::CENTRE;
         }
         if (!marker_) {
-            marker_                                             = new TextSymbol();
-            map<string, TextSymbol::TextPosition>::iterator pos = poshandlers.find(lowerCase(position_));
-            TextSymbol::TextPosition position = (pos != poshandlers.end()) ? pos->second : TextSymbol::M_ABOVE;
+            marker_                                 = new TextSymbol();
+            map<string, TextPosition>::iterator pos = poshandlers.find(lowerCase(position_));
+            TextPosition position                   = (pos != poshandlers.end()) ? pos->second : TextPosition::ABOVE;
             marker_->position(position);
             marker_->setMarker(marker_index_);
             marker_->setColour(*marker_colour_);

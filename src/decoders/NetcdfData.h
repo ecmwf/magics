@@ -34,14 +34,14 @@ class NoSuchNetcdfVariable : public MagicsException {
 public:
     NoSuchNetcdfVariable(const string& var) :
         MagicsException("Netcdf MagException:  Can not find variable ---> " + var) {
-        MagLog::warning() << what_ << "\n";
+        MagLog::warning() << what() << "\n";
     }
 };
 class NoSuchNetcdfDimension : public MagicsException {
 public:
     NoSuchNetcdfDimension(const string& dim) :
         MagicsException("Netcdf MagException :  Can not find dimension ---> " + dim) {
-        MagLog::warning() << what_ << "\n";
+        MagLog::warning() << what() << "\n";
     }
 };
 
@@ -49,7 +49,7 @@ class NoSuchNetcdfFile : public MagicsException {
 public:
     NoSuchNetcdfFile(const string& file) :
         MagicsException("Netcdf MagException: The file " + file + " does not exist or is not a valid netcdf file") {
-        MagLog::error() << what_ << "\n";
+        MagLog::error() << what() << "\n";
     }
 };
 class Netcdf;
@@ -121,7 +121,7 @@ struct NetAttribute {
     }
 };
 
-class NetVariable;
+struct NetVariable;
 
 
 template <class From, class To>
@@ -496,14 +496,25 @@ private:
 };
 
 
+#ifdef __clang__
+template <class T>
+map<nc_type, Accessor<T>*>* Accessor<T>::accessors_ = nullptr;
+#endif
+
+const char* nc_type_to_name(int);
+
+inline const char* type_name(double*) { return "double"; }
+inline const char* type_name(float*) { return "float"; }
+inline const char* type_name(long*) { return "long"; }
+inline const char* type_name(int*) { return "int"; }
+
 template <class T>
 void Accessor<T>::access(vector<T>& data, vector<size_t>& start, vector<size_t>& edges, NetVariable& var) {
     typename map<nc_type, Accessor<T>*>::const_iterator accessor = accessors_->find(var.type());
     if (accessor == accessors_->end()) {
-        MagLog::error() << "NetcdfDecoder : No accessor available for " << var.type() << endl;
-        MagLog::error() << "Throwing excpetion for  " << var.type() << endl;
-
-        throw MagicsException("No accessor available");
+        std::ostringstream oss;
+        oss << "NetcdfDecoder: no accessor from '" << nc_type_to_name(var.type()) << "' converting to '" << type_name((T*)0) << "'";
+        throw MagicsException(oss.str());
     }
 
     (*(*accessor).second)(data, start, edges, var);

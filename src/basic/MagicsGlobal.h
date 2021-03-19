@@ -43,7 +43,7 @@ public:
         global();
         singleton_->compatibility_ = c;
     }
-
+static bool strict() { return false; }
 protected:
     static MagicsGlobal* singleton_;
     static MagicsGlobal* global() {
@@ -66,6 +66,8 @@ private:
         return s;
     }
 };
+
+
 
 }  // namespace magics
 #endif

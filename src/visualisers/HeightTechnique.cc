@@ -69,7 +69,7 @@ void ListHeightTechnique::prepare(LevelSelection& levels) {
         if (level == levels.end())
             break;
         if (height == list_.end()) {
-            if (policy_ != M_LASTONE)
+            if (policy_ != ListPolicy::LASTONE)
                 height = list_.begin();
             else
                 --height;

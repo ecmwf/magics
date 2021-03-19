@@ -97,6 +97,9 @@ bool NetcdfGeopointsInterpretor::interpretAsPoints(PointsList& list, const Trans
         }
     }
     catch (MagicsException& e) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << e << "\n";
         return false;
     }
@@ -148,6 +151,9 @@ bool NetcdfGeopointsInterpretor::interpretAsPoints(PointsList& list) {
         }
     }
     catch (MagicsException& e) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << e << "\n";
         return false;
     }
@@ -271,6 +277,9 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const Transf
         }
     }
     catch (MagicsException& e) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << e << "\n";
         return false;
     }
@@ -341,6 +350,9 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const std::s
         }
     }
     catch (MagicsException& e) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << e << "\n";
         return false;
     }
@@ -380,6 +392,9 @@ void NetcdfXYpointsInterpretor::visit(Transformation& transformation) {
         }
     }
     catch (...) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
     }
 }
 
@@ -454,6 +469,9 @@ void NetcdfXYpointsInterpretor::visit(MetaDataCollector& mdc) {
             }
         }
         catch (...) {
+            if (MagicsSettings::strict()) {
+                throw;
+            }
         }
 
         mdc["statsType"] = "scalar";

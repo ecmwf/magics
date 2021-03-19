@@ -26,7 +26,9 @@
 #include "ContourLibrary.h"
 #include "Factory.h"
 #include "Layer.h"
+#include "MagicsSettings.h"
 #include "NetcdfData.h"
+
 using namespace magics;
 
 NetcdfGeoMatrixInterpretor::NetcdfGeoMatrixInterpretor() {}
@@ -63,13 +65,13 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
 
 
     if (proj4.empty()) {
-        matrix_ = new Matrix();
+        matrix_.reset(new Matrix());
         matrix_->akimaEnabled();
     }
     else {
-        matrix_ = new Proj4Matrix(proj4);
+        matrix_.reset(new Proj4Matrix(proj4));
     }
-    *matrix = matrix_;
+    *matrix = matrix_.get();
 
     if (automatic_scaling_) {
         WebLibrary settings;
@@ -135,9 +137,11 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
         matrix_->setMapsAxis();
     }
     catch (MagicsException& e) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << e << "\n";
-        delete matrix_;
-        matrix_ = NULL;
+        matrix_.reset(nullptr);
         return false;
     }
     return true;
@@ -211,6 +215,9 @@ bool NetcdfGeoMatrixInterpretor::interpretAsPoints(PointsList& list) {
         MagLog::dev() << "everything ok" << endl;
     }
     catch (MagicsException& e) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << e << "\n";
         return false;
     }
@@ -313,6 +320,9 @@ void NetcdfGeoMatrixInterpretor::customisedPoints(const Transformation& transfor
         MagLog::dev() << "everything ok" << endl;
     }
     catch (MagicsException& e) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         MagLog::error() << e << "\n";
     }
 }

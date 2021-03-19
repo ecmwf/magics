@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-   
+
 
 #ifndef SimplePolylineInputWrapper_H
 #define SimplePolylineInputWrapper_H
@@ -39,15 +39,15 @@
 
 
 
- 
+
 
 namespace magics {
 
 class MagRequest;
 
 
- 	
-class SimplePolylineInputWrapper 
+
+class SimplePolylineInputWrapper
 
 {
 public:
@@ -57,28 +57,28 @@ public:
 //  --  destructor
     virtual ~SimplePolylineInputWrapper();
     virtual void set(const MagRequest&);
-    
-    SimplePolylineInput* me()   { return simplepolylineinput_; }
-   	
-   	virtual SimplePolylineInput* object() { return simplepolylineinput_; }
-	
 
-	virtual void object(SimplePolylineInput* o) { 
+    SimplePolylineInput* me()   { return simplepolylineinput_; }
+
+   	virtual SimplePolylineInput* object() { return simplepolylineinput_; }
+
+
+	virtual void object(SimplePolylineInput* o) {
 		// Remember to delete the previous object
 		simplepolylineinput_ = o;
 		
 
 	}
-    
-  
+
+
 
 protected:
     SimplePolylineInput* simplepolylineinput_;
 
 
 //  --  method
-	virtual void print(ostream&) const;
-	
+	virtual void print(ostream&) const override;
+
 
 private:
     string tag_;
@@ -89,5 +89,3 @@ private:
 } // namespace magics
 
 #endif
-
-

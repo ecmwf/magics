@@ -52,7 +52,7 @@ class MgQPlotScene : public MgQScene {
 
 public:
     MgQPlotScene(QObject* parent = 0);
-    ~MgQPlotScene();
+    ~MgQPlotScene() override;
 
     enum PlotScaleMode
     {

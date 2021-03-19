@@ -480,6 +480,9 @@ void ClassicMtgDecoder::decode() {
         parameter_ = SimpleFactory<MetgramParameter>::create(param_);
     }
     catch (NoFactoryException& e) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         // The data do not know how to verify the criter ....
         MagLog::warning() << "Eps Data access: parameter [" << param_ << "] unknown\n";
         parameter_ = new MetgramParameter(param_, param_title_, param_);

@@ -32,27 +32,27 @@ namespace magics {
 class CalculateColourTechnique : public ColourTechnique, public CalculateColourTechniqueAttributes {
 public:
     CalculateColourTechnique();
-    virtual ~CalculateColourTechnique();
-    void set(const map<string, string>& map) { CalculateColourTechniqueAttributes::set(map); }
-    void set(const XmlNode& node) { CalculateColourTechniqueAttributes::set(node); }
-    bool accept(const string& node) { return CalculateColourTechniqueAttributes::accept(node); }
+    virtual ~CalculateColourTechnique() override;
+    void set(const map<string, string>& map) override { CalculateColourTechniqueAttributes::set(map); }
+    void set(const XmlNode& node) override { CalculateColourTechniqueAttributes::set(node); }
+    bool accept(const string& node) override { return CalculateColourTechniqueAttributes::accept(node); }
 
-    void set(const ColourTechniqueInterface&);
+    void set(const ColourTechniqueInterface&) override;
 
 
-    virtual ColourTechnique* clone() const {
+    virtual ColourTechnique* clone() const override {
         CalculateColourTechnique* object = new CalculateColourTechnique();
         object->copy(*this);
         return object;
     }
-    const Colour& getMax() const { return *max_; }
-    const Colour& getMin() const { return *min_; }
-    const string& getDirection() const { return direction_; }
+    const Colour& getMax() const override { return *max_; }
+    const Colour& getMin() const override { return *min_; }
+    const string& getDirection() const override { return direction_; }
 
 protected:
-    void set(LevelSelection&, LevelSelection&, ColourTable&, int) const;
+    void set(LevelSelection&, LevelSelection&, ColourTable&, int) const override;
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed

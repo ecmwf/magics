@@ -32,20 +32,17 @@ public:
     BadOperator(const std::string& w);
 };
 
-BadConversion::BadConversion(const std::string& w) :
-    MagicsException(std::string("Bad Conversion: ") + w) {
-    //MagicsExceptionstd::cout << what() << std::endl;
+BadConversion::BadConversion(const std::string& w) : MagicsException(std::string("Bad Conversion: ") + w) {
+    // MagicsExceptionstd::cout << what() << std::endl;
     //    std::cout << BackTrace::dump() << std::endl;
 }
 
-BadComparison::BadComparison(const std::string& w) :
-    MagicsException(std::string("Bad Comparison: ") + w) {
+BadComparison::BadComparison(const std::string& w) : MagicsException(std::string("Bad Comparison: ") + w) {
     //    std::cout << what() << std::endl;
     //    std::cout << BackTrace::dump() << std::endl;
 }
 
-BadOperator::BadOperator(const std::string& w) :
-    MagicsException(std::string("Bad operator: ") + w) {
+BadOperator::BadOperator(const std::string& w) : MagicsException(std::string("Bad operator: ") + w) {
     //    std::cout << what() << std::endl;
     //    std::cout << BackTrace::dump() << std::endl;
 }

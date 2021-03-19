@@ -21,7 +21,7 @@
 
 #include "ViewNode.h"
 
-#include <MagConfig.h>
+#include "MagConfig.h"
 
 #include "AnimationRules.h"
 #include "Dimension.h"
@@ -29,11 +29,12 @@
 #include "Layer.h"
 #include "Layout.h"
 #include "LegendVisitor.h"
-#include "MagicsGlobal.h"
+#include "MagicsSettings.h"
 #include "MetaData.h"
 #include "SceneVisitor.h"
 #include "TextVisitor.h"
 #include "Transformation.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 

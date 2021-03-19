@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-   
+
 
 #ifndef OdaXYDecoderWrapper_H
 #define OdaXYDecoderWrapper_H
@@ -40,15 +40,15 @@
 
 
 #include "BinningObjectWrapper.h"
- 
+
 
 namespace magics {
 
 class MagRequest;
 
 
- 	
-class OdaXYDecoderWrapper 
+
+class OdaXYDecoderWrapper
 
 {
 public:
@@ -58,28 +58,28 @@ public:
 //  --  destructor
     virtual ~OdaXYDecoderWrapper();
     virtual void set(const MagRequest&);
-    
-    OdaXYDecoder* me()   { return odaxydecoder_; }
-   	
-   	virtual OdaXYDecoder* object() { return odaxydecoder_; }
-	
 
-	virtual void object(OdaXYDecoder* o) { 
+    OdaXYDecoder* me()   { return odaxydecoder_; }
+
+   	virtual OdaXYDecoder* object() { return odaxydecoder_; }
+
+
+	virtual void object(OdaXYDecoder* o) {
 		// Remember to delete the previous object
 		odaxydecoder_ = o;
 		
 
 	}
-    
-  
+
+
 
 protected:
     OdaXYDecoder* odaxydecoder_;
 
 
 //  --  method
-	virtual void print(ostream&) const;
-	
+	virtual void print(ostream&) const override;
+
 
 private:
     string tag_;
@@ -90,5 +90,3 @@ private:
 } // namespace magics
 
 #endif
-
-

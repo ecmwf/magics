@@ -37,20 +37,20 @@ namespace magics {
 class HeightTableDefinition : public TableDefinitionInterface<double> {
 public:
     HeightTableDefinition() {}
-    HeightTableDefinition* clone() const { return new HeightTableDefinition(); }
-    virtual void toxml(ostream&, int) const {}
+    HeightTableDefinition* clone() const override { return new HeightTableDefinition(); }
+    virtual void toxml(ostream&, int) const override {}
 };
 
 class HeightTableDefinitionList : public HeightTableDefinition {
 public:
     HeightTableDefinitionList() { helper_ = new TableDefinitionList<double>(); }
-    HeightTableDefinition* clone() const { return new HeightTableDefinitionList(); }
+    HeightTableDefinition* clone() const override { return new HeightTableDefinitionList(); }
 };
 
 class HeightTableDefinitionCompute : public HeightTableDefinition {
 public:
     HeightTableDefinitionCompute() { helper_ = new TableDefinitionCompute<double>(); }
-    HeightTableDefinition* clone() const { return new HeightTableDefinitionCompute(); }
+    HeightTableDefinition* clone() const override { return new HeightTableDefinitionCompute(); }
 };
 
 

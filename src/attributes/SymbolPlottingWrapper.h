@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-   
+
 
 #ifndef SymbolPlottingWrapper_H
 #define SymbolPlottingWrapper_H
@@ -40,15 +40,15 @@
 
 
 #include "SymbolModeWrapper.h"
- 
+
 
 namespace magics {
 
 class MagRequest;
 
 
- 	
-class SymbolPlottingWrapper 
+
+class SymbolPlottingWrapper
 
 {
 public:
@@ -58,28 +58,28 @@ public:
 //  --  destructor
     virtual ~SymbolPlottingWrapper();
     virtual void set(const MagRequest&);
-    
-    SymbolPlotting* me()   { return symbolplotting_; }
-   	
-   	virtual SymbolPlotting* object() { return symbolplotting_; }
-	
 
-	virtual void object(SymbolPlotting* o) { 
+    SymbolPlotting* me()   { return symbolplotting_; }
+
+   	virtual SymbolPlotting* object() { return symbolplotting_; }
+
+
+	virtual void object(SymbolPlotting* o) {
 		// Remember to delete the previous object
 		symbolplotting_ = o;
 		
 
 	}
-    
-  
+
+
 
 protected:
     SymbolPlotting* symbolplotting_;
 
 
 //  --  method
-	virtual void print(ostream&) const;
-	
+	virtual void print(ostream&) const override;
+
 
 private:
     string tag_;
@@ -90,5 +90,3 @@ private:
 } // namespace magics
 
 #endif
-
-

@@ -38,25 +38,26 @@ class ValueMap;
 class ObsJSon : public ObsJSonAttributes, public Decoder, public Data, public PointsList {
 public:
     ObsJSon();
-    virtual ~ObsJSon();
+    virtual ~ObsJSon() override;
 
     void customisedPoints(const std::set<string>&, CustomisedPointsList&);
     void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&);
-    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all);
+    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out,
+                          bool all) override;
 
-    PointsHandler& points(const Transformation&, bool) { NOTIMP; }
+    PointsHandler& points(const Transformation&, bool) override { NOTIMP; }
 
-    virtual void set(const map<string, string>& map) { ObsJSonAttributes::set(map); }
-    virtual void set(const XmlNode& node) { ObsJSonAttributes::set(node); }
+    virtual void set(const map<string, string>& map) override { ObsJSonAttributes::set(map); }
+    virtual void set(const XmlNode& node) override { ObsJSonAttributes::set(node); }
 
-    void decode();
-    void getInfo(const std::set<string>&, multimap<string, string>&);
-    void visit(MetaDataVisitor&);
+    void decode() override;
+    void getInfo(const std::set<string>&, multimap<string, string>&) override;
+    void visit(MetaDataVisitor&) override;
     CustomisedPoint* decode(ValueMap&);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     vector<CustomisedPoint*> points_;
     std::set<string> types_;
     typedef void (ObsJSon::*Method)(const Value&, CustomisedPoint&);

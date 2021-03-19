@@ -18,24 +18,16 @@ namespace magics {
 
 class MagicsException : public exception {
 public:
-    MagicsException(const string& why) : what_(why) {
-        if (std::getenv("MAGICS_ABORT_EXCEPTION")) {
-            std::abort();
-        }
-    }
+    MagicsException(const string& why = "");
 
-    MagicsException() : what_("") {
-        if (std::getenv("MAGICS_ABORT_EXCEPTION")) {
-            std::abort();
-        }
-    }
+    void reason(const std::string& what) { what_ = what; }
 
-    void reason(const std::string& what) { what_= what;}
-
-    virtual const char* what() const throw() { return what_.c_str(); }
+    virtual const char* what() const throw() override { return what_.c_str(); }
     virtual ~MagicsException() throw() {}
 
-protected:
+    static std::string syserror();
+
+private:
     virtual void print(ostream& out) const { out << what_; }
     string what_;
     // -- Friends
@@ -52,20 +44,30 @@ public:
 };
 
 
+class NotSupported : public MagicsException {
+public:
+    NotSupported(const string& msg) : MagicsException(msg) {}
+};
+
+
+class NotImplemented : public MagicsException {
+public:
+    NotImplemented(const string& msg);
+};
+
 class NotYetImplemented : public MagicsException {
 public:
-    NotYetImplemented(const string& type, const string& method) :
-        MagicsException(type + " " + method + " : not yet implemented... ") {}
+    NotYetImplemented(const string& type, const string& method);
 };
 
 class MethodNotYetImplemented : public NotYetImplemented {
 public:
-    MethodNotYetImplemented(const string& method) : NotYetImplemented("Method", method) {}
+    MethodNotYetImplemented(const string& method);
 };
 
 class ParameterNotYetImplemented : public NotYetImplemented {
 public:
-    ParameterNotYetImplemented(const string& param) : NotYetImplemented("Parameter", param) {}
+    ParameterNotYetImplemented(const string& param);
 };
 
 class AssertionFailed : public MagicsException {

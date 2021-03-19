@@ -18,10 +18,11 @@
 #ifndef ParameterSet_H
 #define ParameterSet_H
 
-#include <Colour.h>
-#include <MagTranslator.h>
-#include <XmlNode.h>
-#include <magics.h>
+#include "Colour.h"
+#include "MagTranslator.h"
+#include "XmlNode.h"
+#include "magics.h"
+#include "MagicsSettings.h"
 
 void buildkeys(const vector<string>& roots, const string&, vector<string>& keys);
 void setAttribute(const vector<string>& roots, const string& name, unique_ptr<Colour>&, const map<string, string>&);
@@ -39,6 +40,9 @@ void setMember(const string& value, unique_ptr<T>& object, const XmlNode& from) 
         object = unique_ptr<T>(new_object);
     }
     catch (...) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
     }
     object->set(from);
     ;
@@ -55,6 +59,9 @@ bool acceptNode(const string& node, unique_ptr<T>& object) {
         return true;
     }
     catch (...) {
+        if (MagicsSettings::strict()) {
+            throw;
+        }
         return object->accept(node);
     }
 }

@@ -205,7 +205,7 @@ public:
     }
 
     //! Destructor
-    virtual ~TeGeomComposite() { pImpl_->detach(); }
+    virtual ~TeGeomComposite() override { pImpl_->detach(); }
 
 
     //! Copy Constructor

@@ -14,8 +14,7 @@
 
 
 #include "MvLocation.h"
-#include <math.h>
-#include "magics_windef.h"
+#include <cmath>
 
 //_____________________________________________________________________ set
 void MvLocation ::set(double aLat, double aLong) {

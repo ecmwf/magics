@@ -31,14 +31,14 @@ namespace magics {
 class TitleStringField : public TitleField {
 public:
     TitleStringField(const string& text);
-    virtual ~TitleStringField();
-    virtual string name() { return "text"; }
+    virtual ~TitleStringField() override;
+    virtual string name() override { return "text"; }
 
-    virtual void operator()(vector<string>&) const;
+    virtual void operator()(vector<string>&) const override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     string text_;
 
 private:

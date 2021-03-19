@@ -25,9 +25,9 @@
 #define GribLoopAttributes_H
 
 #include "magics.h"
+#include "GribAddressMode.h"
 #include "GribLoopStep.h"
 #include "WindMode.h"
-#include "GribAddressMode.h"
 namespace magics {
 
 class XmlNode;

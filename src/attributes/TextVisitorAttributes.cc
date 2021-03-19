@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -99,17 +99,17 @@ TextVisitorAttributes::TextVisitorAttributes():
 	justification_(MagTranslator<string, Justification>().magics("text_justification")),
 	border_line_style_(MagTranslator<string, LineStyle>().magics("text_border_line_style")),
 	border_colour_(MagTranslator<string, Colour>().magics("text_border_colour"))
-	 
+	
 {
-} 
+}
 
 
 TextVisitorAttributes::~TextVisitorAttributes()
 {
-	
+
 }
 
-    
+
 void TextVisitorAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -269,12 +269,12 @@ void TextVisitorAttributes::copy(const TextVisitorAttributes& other)
 	border_line_style_ = other.border_line_style_;
 	border_colour_ = unique_ptr<Colour>(other.border_colour_->clone());
 	
-} 
+}
 
 
 bool TextVisitorAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "text")  )
 		return true;
 	
@@ -285,7 +285,7 @@ void TextVisitorAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "text")  )
@@ -385,7 +385,7 @@ void TextVisitorAttributes::print(ostream& out)  const
 
 void TextVisitorAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"text\""; 
+	out <<  "\"text\"";
 	out << ", \"text_html\":";
 	niceprint(out,html_);
 	out << ", \"text_line_count\":";
@@ -535,76 +535,76 @@ void TextVisitorAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> text_html("text_html", "on", "");
-static MagicsParameter<int> text_line_count("text_line_count", 1, "");
-static MagicsParameter<string> text_line_1("text_line_1", "<magics_title/>", "");
-static MagicsParameter<string> text_line_2("text_line_2", "", "");
-static MagicsParameter<string> text_line_3("text_line_3", "", "");
-static MagicsParameter<string> text_line_4("text_line_4", "", "");
-static MagicsParameter<string> text_line_5("text_line_5", "", "");
-static MagicsParameter<string> text_line_6("text_line_6", "", "");
-static MagicsParameter<string> text_line_7("text_line_7", "", "");
-static MagicsParameter<string> text_line_8("text_line_8", "", "");
-static MagicsParameter<string> text_line_9("text_line_9", "", "");
-static MagicsParameter<string> text_line_10("text_line_10", "", "");
-static MagicsParameter<int> text_first_line("text_first_line", 1, "");
-static MagicsParameter<string> text_font("text_font", "helvetica", "");
-static MagicsParameter<string> text_font_style("text_font_style", "normal", "");
-static MagicsParameter<string> text_font_size("text_font_size", "0.5", "");
-static MagicsParameter<string> text_orientation("text_orientation", "horizontal", "");
-static MagicsParameter<string> text_automatic("text_automatic", "on", "");
-static MagicsParameter<stringarray> text_lines("text_lines", stringarray(), "");
-static MagicsParameter<string> text_mode("text_mode", "title", "");
-static MagicsParameter<double> text_box_x_position("text_box_x_position", -1, "");
-static MagicsParameter<double> text_box_y_position("text_box_y_position", -1, "");
-static MagicsParameter<double> text_box_x_length("text_box_x_length", -1, "");
-static MagicsParameter<double> text_box_y_length("text_box_y_length", -1, "");
-static MagicsParameter<string> text_box_blanking("text_box_blanking", "off", "");
-static MagicsParameter<string> text_border("text_border", "off", "");
-static MagicsParameter<int> text_border_thickness("text_border_thickness", 1, "");
-static MagicsParameter<string> text_character_1("text_character_1", "", "");
-static MagicsParameter<string> text_character_2("text_character_2", "", "");
-static MagicsParameter<string> text_character_3("text_character_3", "", "");
-static MagicsParameter<string> text_character_4("text_character_4", "", "");
-static MagicsParameter<string> text_character_5("text_character_5", "", "");
-static MagicsParameter<string> text_character_6("text_character_6", "", "");
-static MagicsParameter<string> text_character_7("text_character_7", "", "");
-static MagicsParameter<string> text_character_8("text_character_8", "", "");
-static MagicsParameter<string> text_character_9("text_character_9", "", "");
-static MagicsParameter<string> text_character_10("text_character_10", "", "");
-static MagicsParameter<int> text_integer_1("text_integer_1", 0, "");
-static MagicsParameter<int> text_integer_2("text_integer_2", 0, "");
-static MagicsParameter<int> text_integer_3("text_integer_3", 0, "");
-static MagicsParameter<int> text_integer_4("text_integer_4", 0, "");
-static MagicsParameter<int> text_integer_5("text_integer_5", 0, "");
-static MagicsParameter<int> text_integer_6("text_integer_6", 0, "");
-static MagicsParameter<int> text_integer_7("text_integer_7", 0, "");
-static MagicsParameter<int> text_integer_8("text_integer_8", 0, "");
-static MagicsParameter<int> text_integer_9("text_integer_9", 0, "");
-static MagicsParameter<int> text_integer_10("text_integer_10", 0, "");
-static MagicsParameter<double> text_real_1("text_real_1", 0, "");
-static MagicsParameter<double> text_real_2("text_real_2", 0, "");
-static MagicsParameter<double> text_real_3("text_real_3", 0, "");
-static MagicsParameter<double> text_real_4("text_real_4", 0, "");
-static MagicsParameter<double> text_real_5("text_real_5", 0, "");
-static MagicsParameter<double> text_real_6("text_real_6", 0, "");
-static MagicsParameter<double> text_real_7("text_real_7", 0, "");
-static MagicsParameter<double> text_real_8("text_real_8", 0, "");
-static MagicsParameter<double> text_real_9("text_real_9", 0, "");
-static MagicsParameter<double> text_real_10("text_real_10", 0, "");
-static MagicsParameter<double> text_line_height_ratio_1("text_line_height_ratio_1", 1, "");
-static MagicsParameter<double> text_line_height_ratio_2("text_line_height_ratio_2", 1, "");
-static MagicsParameter<double> text_line_height_ratio_3("text_line_height_ratio_3", 1, "");
-static MagicsParameter<double> text_line_height_ratio_4("text_line_height_ratio_4", 1, "");
-static MagicsParameter<double> text_line_height_ratio_5("text_line_height_ratio_5", 1, "");
-static MagicsParameter<double> text_line_height_ratio_6("text_line_height_ratio_6", 1, "");
-static MagicsParameter<double> text_line_height_ratio_7("text_line_height_ratio_7", 1, "");
-static MagicsParameter<double> text_line_height_ratio_8("text_line_height_ratio_8", 1, "");
-static MagicsParameter<double> text_line_height_ratio_9("text_line_height_ratio_9", 1, "");
-static MagicsParameter<double> text_line_height_ratio_10("text_line_height_ratio_10", 1, "");
-static MagicsParameter<string> text_parameter_escape_character("text_parameter_escape_character", "@", "");
-static MagicsParameter<doublearray> text_line_height_ratios("text_line_height_ratios", floatarray(), "");
-static MagicsParameter<string> text_colour("text_colour", "navy", ""); 
-static MagicsParameter<string> text_justification("text_justification", "centre", ""); 
-static MagicsParameter<string> text_border_line_style("text_border_line_style", "solid", ""); 
-static MagicsParameter<string> text_border_colour("text_border_colour", "blue", ""); 
+static MagicsParameter<string> text_html("text_html", "on");
+static MagicsParameter<int> text_line_count("text_line_count", 1);
+static MagicsParameter<string> text_line_1("text_line_1", "<magics_title/>");
+static MagicsParameter<string> text_line_2("text_line_2", "");
+static MagicsParameter<string> text_line_3("text_line_3", "");
+static MagicsParameter<string> text_line_4("text_line_4", "");
+static MagicsParameter<string> text_line_5("text_line_5", "");
+static MagicsParameter<string> text_line_6("text_line_6", "");
+static MagicsParameter<string> text_line_7("text_line_7", "");
+static MagicsParameter<string> text_line_8("text_line_8", "");
+static MagicsParameter<string> text_line_9("text_line_9", "");
+static MagicsParameter<string> text_line_10("text_line_10", "");
+static MagicsParameter<int> text_first_line("text_first_line", 1);
+static MagicsParameter<string> text_font("text_font", "helvetica");
+static MagicsParameter<string> text_font_style("text_font_style", "normal");
+static MagicsParameter<string> text_font_size("text_font_size", "0.5");
+static MagicsParameter<string> text_orientation("text_orientation", "horizontal");
+static MagicsParameter<string> text_automatic("text_automatic", "on");
+static MagicsParameter<stringarray> text_lines("text_lines", stringarray());
+static MagicsParameter<string> text_mode("text_mode", "title");
+static MagicsParameter<double> text_box_x_position("text_box_x_position", -1);
+static MagicsParameter<double> text_box_y_position("text_box_y_position", -1);
+static MagicsParameter<double> text_box_x_length("text_box_x_length", -1);
+static MagicsParameter<double> text_box_y_length("text_box_y_length", -1);
+static MagicsParameter<string> text_box_blanking("text_box_blanking", "off");
+static MagicsParameter<string> text_border("text_border", "off");
+static MagicsParameter<int> text_border_thickness("text_border_thickness", 1);
+static MagicsParameter<string> text_character_1("text_character_1", "");
+static MagicsParameter<string> text_character_2("text_character_2", "");
+static MagicsParameter<string> text_character_3("text_character_3", "");
+static MagicsParameter<string> text_character_4("text_character_4", "");
+static MagicsParameter<string> text_character_5("text_character_5", "");
+static MagicsParameter<string> text_character_6("text_character_6", "");
+static MagicsParameter<string> text_character_7("text_character_7", "");
+static MagicsParameter<string> text_character_8("text_character_8", "");
+static MagicsParameter<string> text_character_9("text_character_9", "");
+static MagicsParameter<string> text_character_10("text_character_10", "");
+static MagicsParameter<int> text_integer_1("text_integer_1", 0);
+static MagicsParameter<int> text_integer_2("text_integer_2", 0);
+static MagicsParameter<int> text_integer_3("text_integer_3", 0);
+static MagicsParameter<int> text_integer_4("text_integer_4", 0);
+static MagicsParameter<int> text_integer_5("text_integer_5", 0);
+static MagicsParameter<int> text_integer_6("text_integer_6", 0);
+static MagicsParameter<int> text_integer_7("text_integer_7", 0);
+static MagicsParameter<int> text_integer_8("text_integer_8", 0);
+static MagicsParameter<int> text_integer_9("text_integer_9", 0);
+static MagicsParameter<int> text_integer_10("text_integer_10", 0);
+static MagicsParameter<double> text_real_1("text_real_1", 0);
+static MagicsParameter<double> text_real_2("text_real_2", 0);
+static MagicsParameter<double> text_real_3("text_real_3", 0);
+static MagicsParameter<double> text_real_4("text_real_4", 0);
+static MagicsParameter<double> text_real_5("text_real_5", 0);
+static MagicsParameter<double> text_real_6("text_real_6", 0);
+static MagicsParameter<double> text_real_7("text_real_7", 0);
+static MagicsParameter<double> text_real_8("text_real_8", 0);
+static MagicsParameter<double> text_real_9("text_real_9", 0);
+static MagicsParameter<double> text_real_10("text_real_10", 0);
+static MagicsParameter<double> text_line_height_ratio_1("text_line_height_ratio_1", 1);
+static MagicsParameter<double> text_line_height_ratio_2("text_line_height_ratio_2", 1);
+static MagicsParameter<double> text_line_height_ratio_3("text_line_height_ratio_3", 1);
+static MagicsParameter<double> text_line_height_ratio_4("text_line_height_ratio_4", 1);
+static MagicsParameter<double> text_line_height_ratio_5("text_line_height_ratio_5", 1);
+static MagicsParameter<double> text_line_height_ratio_6("text_line_height_ratio_6", 1);
+static MagicsParameter<double> text_line_height_ratio_7("text_line_height_ratio_7", 1);
+static MagicsParameter<double> text_line_height_ratio_8("text_line_height_ratio_8", 1);
+static MagicsParameter<double> text_line_height_ratio_9("text_line_height_ratio_9", 1);
+static MagicsParameter<double> text_line_height_ratio_10("text_line_height_ratio_10", 1);
+static MagicsParameter<string> text_parameter_escape_character("text_parameter_escape_character", "@");
+static MagicsParameter<doublearray> text_line_height_ratios("text_line_height_ratios", floatarray());
+static MagicsParameter<string> text_colour("text_colour", "navy");
+static MagicsParameter<string> text_justification("text_justification", "centre");
+static MagicsParameter<string> text_border_line_style("text_border_line_style", "solid");
+static MagicsParameter<string> text_border_colour("text_border_colour", "blue");

@@ -26,10 +26,10 @@
 
 #include "magics.h"
 #include "LevelSelection.h"
-#include "OutLayerTechnique.h"
 #include "ColourTechnique.h"
 #include "Colour.h"
 #include "HeightTechnique.h"
+#include "OutLayerTechnique.h"
 namespace magics {
 
 class XmlNode;

@@ -37,28 +37,28 @@ class StaticLayer;
 class Coastlines : public CoastlinesAttributes, public BasicSceneObject {
 public:
     Coastlines();
-    virtual ~Coastlines();
+    virtual ~Coastlines() override;
 
 
     // New Interface!
-    void visit(DrawingVisitor& list);
-    void visit(TextVisitor&);
-    void visit(LegendVisitor&);
-    void visit(LeftAxisVisitor& list);
-    void visit(BottomAxisVisitor& list);
-    void visit(TopAxisVisitor& list);
-    void visit(RightAxisVisitor& list);
-    void visit(MetaDataCollector& list);
+    void visit(DrawingVisitor& list) override;
+    void visit(TextVisitor&) override;
+    void visit(LegendVisitor&) override;
+    void visit(LeftAxisVisitor& list) override;
+    void visit(BottomAxisVisitor& list) override;
+    void visit(TopAxisVisitor& list) override;
+    void visit(RightAxisVisitor& list) override;
+    void visit(MetaDataCollector& list) override;
 
-    void visit(PreviewVisitor& list);
-    void visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors);
-    void visit(Transformation& transformation);
-    void set(const map<string, string>& map) { CoastlinesAttributes::set(map); }
-    void set(const XmlNode& node) { CoastlinesAttributes::set(node); }
+    void visit(PreviewVisitor& list) override;
+    void visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors) override;
+    void visit(Transformation& transformation) override;
+    void set(const map<string, string>& map) override { CoastlinesAttributes::set(map); }
+    void set(const XmlNode& node) override { CoastlinesAttributes::set(node); }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     StaticLayer* layer_;
 
 private:

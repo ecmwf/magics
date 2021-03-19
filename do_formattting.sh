@@ -12,18 +12,24 @@ case "${unameOut}" in
 esac
 
 for file in $files; do
+
+    if [[ $file =~ "/build/" ]]; then
+        echo "Skipping autoformat check for file: $file"
+	continue
+    fi
+
+    if [[ $file =~ "/attributes/" ]]; then
+        echo "Skipping autoformat check for file: $file"
+	continue
+    fi
+
     if [[ $file =~ "drivers/minizip" ]]; then
         # Skip minizip because clang-format breaks this code to the point where it doesn't
         # compile.
         echo "Skipping autoformat check for file: $file"
-    else
-        ORIG=$(cat "$file")
-        # The `--style=file` argument will automatically find the .clang-format and
-        # it doesn't take a file path but just the string `file`.
-        # If .clang-format is missing the script will exit.
-        AUTO=$(clang-format --style=file --fallback-style=none "$file")
-        diff <(echo "$ORIG") <(echo "$AUTO") > /dev/null || { echo "$file is not formatted, Applying format";clang-format -i $file; }
+        continue
     fi
-done
 
-echo "Format check complete"
+    clang-format --verbose -i --sort-includes  --style=file --fallback-style=none "$file"
+
+done

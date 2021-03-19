@@ -169,7 +169,7 @@ void ObstatVisDefInfo::loadItems() {
 
 void ObstatVisDefInfo::getAttributes(MetaDataCollector& meta, map<string, string>& attributes) {
     for (vector<VisDefInfoItem*>::iterator it = items_.begin(); it != items_.end(); it++) {
-        bool found;
+        bool found = false;
         for (map<string, vector<string> >::const_iterator itK = (*it)->keys().begin(); itK != (*it)->keys().end();
              itK++) {
             string name                 = itK->first;

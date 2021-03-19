@@ -25,6 +25,6 @@ done
 for i in `ls ${list}`
 do
 echo  $i
-python xml2cc_mv.py .  $i ${target}
-python xml2cc.py .  $i ${target}
+python3 xml2cc_mv.py .  $i ${target}
+python3 xml2cc.py .  $i ${target}
 done

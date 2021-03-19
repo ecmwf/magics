@@ -8,7 +8,10 @@
  ***************************** LICENSE END *************************************/
 
 #include "TableReader.h"
+#include "MagException.h"
+#include "MagicsSettings.h"
 
+using namespace magics;
 
 void TableReader::resizeDecoders(unsigned int numNeeded) {
     // do we need to resize our list of decoders?
@@ -245,6 +248,9 @@ int TableReader::nextLineTokens(char* line, size_t sizeOfLine, vector<char*>& to
     if (f_.getline(line, sizeOfLine)) {
         // parse the line into tokens
 
+        // TODO: Use getline(std::string) instead
+        ASSERT(!f_.fail());  // The line is longer than sizeOfLine
+
         streamsize numread = f_.gcount();
 
         if ((numread >= 2) && (line[numread - 1] == '\0') &&
@@ -304,7 +310,7 @@ bool TableReader::readUserMetaData(char* line, size_t sizeOfLine, string& errorM
                 if (tokens2.size() != 2)  // should only be 2 tokens: PARAM and VALUE
                 {
                     char msg[2000];
-                    sprintf(msg, "Error parsing parameter %lu: '%s'", j + 1, tokens[j]);
+                    sprintf(msg, "Error parsing parameter %lu: '%s'", (unsigned long)(j + 1), tokens[j]);
                     errorMessage = msg;
                     return false;
                 }
@@ -366,10 +372,10 @@ bool TableReader::getMetaData(string& errorMessage) {
 
     // basic sanity checks
 
-    if (path().empty()) {
-        errorMessage = "TableReader: Path is empty - will not read.";
-        return false;
-    }
+    // if (path().empty()) {
+    //     errorMessage = "TableReader: Path is empty - will not read.";
+    //     return false;
+    // }
 
 
     // try to open the file for reading
@@ -378,6 +384,9 @@ bool TableReader::getMetaData(string& errorMessage) {
 
     if (f_.fail()) {
         errorMessage = "TableReader: Could not open table file: " + path();
+        if(MagicsSettings::strict()) {
+           throw CannotOpenFile(path());
+        }
         return false;
     }
 
@@ -550,7 +559,9 @@ bool TableReader::read(string& errorMessage) {
                 {
                     // if we are only reading one column, then it could be a missing value
                     if (decoderSets_.size() == 1) {
-                        char* empty = "";
+                        static char empty[1] = {
+                            0,
+                        };
                         tokens.push_back(empty);
                     }
 
@@ -561,7 +572,7 @@ bool TableReader::read(string& errorMessage) {
                 }
                 else  // otherwise, the disparity in numbers indicates a problem
                 {
-                    char msg[128];
+                    char msg[1024];
                     sprintf(msg, "TableReader: record %d has %u elements, but the first record has %u. Failed to read.",
                             i + 1, (unsigned int)tokens.size(), (unsigned int)decoderSets_.size());
                     errorMessage = msg;

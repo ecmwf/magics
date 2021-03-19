@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -28,17 +28,17 @@ MagicsGlobalAttributes::MagicsGlobalAttributes():
 	silent_(ParameterManager::getBool("magics_silent")),
 	compatibility_(ParameterManager::getBool("magics_backward_compatibility"))
 	
-	 
+	
 {
-} 
+}
 
 
 MagicsGlobalAttributes::~MagicsGlobalAttributes()
 {
-	
+
 }
 
-    
+
 void MagicsGlobalAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -56,12 +56,12 @@ void MagicsGlobalAttributes::copy(const MagicsGlobalAttributes& other)
 	silent_ = other.silent_;
 	compatibility_ = other.compatibility_;
 	
-} 
+}
 
 
 bool MagicsGlobalAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "")  )
 		return true;
 	
@@ -72,7 +72,7 @@ void MagicsGlobalAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "")  )
@@ -101,7 +101,7 @@ void MagicsGlobalAttributes::print(ostream& out)  const
 
 void MagicsGlobalAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"\""; 
+	out <<  "\"\"";
 	out << ", \"magics_silent\":";
 	niceprint(out,silent_);
 	out << ", \"magics_backward_compatibility\":";
@@ -109,5 +109,5 @@ void MagicsGlobalAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> magics_silent("magics_silent", "off", "");
-static MagicsParameter<string> magics_backward_compatibility("magics_backward_compatibility", "true", "");
+static MagicsParameter<string> magics_silent("magics_silent", "off");
+static MagicsParameter<string> magics_backward_compatibility("magics_backward_compatibility", "true");
