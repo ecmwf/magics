@@ -934,7 +934,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::renderText(const Text& text) const {
     fstream* ps   = getStream();
     streamsize ss = ps->precision(2);
 
-    *ps << text.getJustification() << " SHA " << text.getVerticalAlign() << " SVA ";
+    *ps << int(text.getJustification()) << " SHA " << int(text.getVerticalAlign()) << " SVA ";
 
     vector<NiceText>::const_iterator niceText    = text.textBegin();
     vector<NiceText>::const_iterator niceTextEnd = text.textEnd();
