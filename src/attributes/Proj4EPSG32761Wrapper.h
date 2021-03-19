@@ -79,7 +79,7 @@ protected:
 
 
 //  --  method
-	virtual void print(ostream&) const override;
+	virtual void print(ostream&) const;
 
 
 private:
