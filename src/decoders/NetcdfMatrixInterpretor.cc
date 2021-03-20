@@ -120,9 +120,6 @@ bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
         MagLog::debug() << "matrix_[" << matrix_->size() << ", " << scaling_ << ", " << offset_ << "\n";
 
 
-        vector<double> col;
-
-
         matrix_->setColumnsAxis(columns_);
         matrix_->setRowsAxis(rows_);
 
