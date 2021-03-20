@@ -65,8 +65,8 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
         map<string, string> first, last;
         setDimensions(dimension_, first, last);
 
-        MagLog::debug() << "data[" << matrix_->size() << ":" << *std::min_element(matrix_->begin(), matrix_->end())
-                        << ", " << offset_ << "\n";
+        // MagLog::debug() << "data[" << matrix_->size() << ":" << *std::min_element(matrix_->begin(), matrix_->end())
+        //                 << ", " << offset_ << "\n";
 
         vector<double> latm;
         vector<double> lonm;
@@ -325,11 +325,17 @@ NetcdfInterpretor* NetcdfOrcaInterpretor::guess(const NetcdfInterpretor& from) {
     // get the attribute coordinates
 
     string coordinates = netcdf.getVariable(variable).getAttribute("coordinates", string(""));
-    string latlon("lat lon");
-    coordinates = coordinates.substr(0, latlon.size());
+    Tokenizer parse(" ");
+    std::vector<std::string> bits;
+    parse(coordinates, bits);
+    bool hasLat = false;
+    bool hasLon = false;
+    for(auto& p : bits) {
+        if(p == "lat") { hasLat = true;}
+        if(p == "lon") { hasLon = true;}
+    }
 
-
-    if (coordinates == "lat lon" || coordinates == "lon lat") {
+    if (hasLat && hasLon) {
         NetcdfOrcaInterpretor* interpretor = new NetcdfOrcaInterpretor();
 
 

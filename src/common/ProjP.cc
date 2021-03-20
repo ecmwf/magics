@@ -31,7 +31,11 @@ ProjP::ProjP(const string& from, const string& to) : from_(from), to_(to), conve
     if (!context_)
         context_ = proj_context_create();
     PJ* p = proj_create_crs_to_crs(context_, from_.c_str(), to_.c_str(), NULL);
-    ASSERT(p);
+    if(!p) {
+        std::stringstream oss;
+        oss << "ProjP: cannot create crs to crs from [" << from_ << "] to [" << to_ << "]";
+        throw MagicsException(oss.str());
+    }
     converter_ = proj_normalize_for_visualization(context_, p);
 
     ASSERT(converter_);
@@ -114,7 +118,7 @@ int ProjP::revert(double& x, double& y) const {
     x = out.xy.x;
     y = out.xy.y;
 
-    
+
 
     return 0;
 }
