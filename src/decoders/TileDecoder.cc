@@ -86,7 +86,7 @@ string TileDecoder::positions_symbols() {
 bool TileDecoder::ok() {
     FILE* in = fopen(file_name_.c_str(), "rb");
     if (!in) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw CannotOpenFile(file_name_);
         }
         MagLog::error() << "ERROR: unable to open file" << file_name_ << endl;
@@ -168,7 +168,7 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
 
     FILE* in = fopen(file_name_.c_str(), "rb");
     if (!in) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw CannotOpenFile(file_name_);
         }
         MagLog::error() << "ERROR: unable to open file" << file_name_ << endl;
@@ -263,7 +263,7 @@ PointsHandler& TileDecoder::points(const Transformation& t, bool) {
 
     FILE* in = fopen(file_name_.c_str(), "rb");
     if (!in) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw CannotOpenFile(file_name_);
         }
         MagLog::error() << "ERROR: unable to open file" << file_name_ << endl;
@@ -459,7 +459,7 @@ void TileDecoder::decode() {
         int error;
         FILE* in = fopen(file_name_.c_str(), "rb");
         if (!in) {
-            if (MagicsSettings::strict()) {
+            if (MagicsGlobal::strict()) {
                 throw CannotOpenFile(file_name_);
             }
             MagLog::error() << "ERROR: unable to create handle from file" << file_name_ << endl;

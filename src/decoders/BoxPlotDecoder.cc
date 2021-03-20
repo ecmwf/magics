@@ -21,7 +21,7 @@
 
 
 #include "BoxPlotDecoder.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -78,7 +78,7 @@ void BoxPlotDecoder::getReady(const Transformation& transformation) {
             x_.push_back(transformation.x(*x));
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
     }

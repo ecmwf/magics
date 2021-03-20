@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -70,7 +70,7 @@ void CartesianTransformationWrapper::set(const MagRequest& request)
 		x_wrapper = SimpleFactory<XCoordinateWrapper>::create(x_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << x_value << "] is not a valid value for x: reset to default -> [regular]" << endl;
@@ -88,7 +88,7 @@ void CartesianTransformationWrapper::set(const MagRequest& request)
 		y_wrapper = SimpleFactory<YCoordinateWrapper>::create(y_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << y_value << "] is not a valid value for y: reset to default -> [regular]" << endl;

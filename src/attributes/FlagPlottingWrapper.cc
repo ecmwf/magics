@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -102,7 +102,7 @@ void FlagPlottingWrapper::set(const MagRequest& request)
 		calm_wrapper = SimpleFactory<CalmIndicatorWrapper>::create(calm_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << calm_value << "] is not a valid value for calm: reset to default -> [on]" << endl;
@@ -131,7 +131,7 @@ void FlagPlottingWrapper::set(const MagRequest& request)
 		origin_wrapper = SimpleFactory<OriginMarkerWrapper>::create(origin_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << origin_value << "] is not a valid value for origin: reset to default -> [circle]" << endl;

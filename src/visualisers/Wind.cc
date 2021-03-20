@@ -24,7 +24,7 @@
 #include "HistoVisitor.h"
 #include "Layout.h"
 #include "MatrixHandler.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -58,7 +58,7 @@ void Wind::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
         method = MagTranslator<string, ThinningMethod>()(this->thinning_method_);
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
     }

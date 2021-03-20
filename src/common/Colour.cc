@@ -22,7 +22,7 @@
 #include "Colour.h"
 #include "BaseParameter.h"
 #include "MagLog.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 #include "XmlNode.h"
 
 /*! \defgroup colours Colours
@@ -73,7 +73,7 @@ Colour::Colour(const string& name) : name_(lowerCase(name)), automatic_(false) {
         setColour(name);
     }
     catch (BadHslFormat& e) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         name_ = "red";
@@ -96,7 +96,7 @@ void Colour::set(const XmlNode& xml) {
         setColour(xml.data());
     }
     catch (BadHslFormat& e) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         name_ = "red";
@@ -106,7 +106,7 @@ void Colour::set(const XmlNode& xml) {
 
 void Colour::setColour(const string& name) {
     if (name.empty()) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw MagicsException("No colour name given.");
         }
         MagLog::warning() << "No colour name given. Red used.\n";
@@ -166,7 +166,7 @@ void Colour::setColour(const string& name) {
             rgb_ = (*colour).second;
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         MagLog::warning() << " Invalid colour name " << name << ". Red used.\n";

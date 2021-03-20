@@ -23,7 +23,7 @@
 #include "Factory.h"
 #include "MagException.h"
 #include "MagLog.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 #include "magics.h"
 
 

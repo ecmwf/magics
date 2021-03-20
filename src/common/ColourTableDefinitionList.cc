@@ -22,7 +22,7 @@
 
 #include "ColourTableDefinitionList.h"
 #include "XmlNode.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -52,7 +52,7 @@ void ColourTableDefinitionList::set(const XmlNode& node) {
             MagLog::dev() << "add colour---" << colour->name() << "\n";
         }
         catch (NoFactoryException& e) {
-            if (MagicsSettings::strict()) {
+            if (MagicsGlobal::strict()) {
                 throw;
             }
         }

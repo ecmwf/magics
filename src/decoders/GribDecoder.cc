@@ -39,7 +39,7 @@
 #include "GribInterpretor.h"
 #include "MagDateTime.h"
 #include "MagJSon.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 #include "MetaData.h"
 #include "TextVisitor.h"
 #include "Timer.h"
@@ -336,7 +336,7 @@ void GribDecoder::read() {
         interpretor_->scaling(*this, *matrix);
     }
     catch (NoFactoryException&) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         ostringstream msg;
@@ -363,11 +363,11 @@ void GribDecoder::read(const Transformation& transformation) {
         interpretor_->scaling(*this, *matrix);
     }
     catch (NoFactoryException&) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         MagLog::error() << "Grib Decoder - read: Representation [" << grid << "] not supported.\n" << std::endl;
-        
+
         valid_ = false;
         throw MagicsException("Grib Decoder: Representation [] not supported.");
     }
@@ -445,7 +445,7 @@ void GribDecoder::decode2D() {
         interpretor_->keepOriginal(true);
     }
     catch (NoFactoryException&) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         MagLog::warning() << "Grib Decoder: Vector cobination of representations [" << grid << "] not supported.\n"
@@ -494,7 +494,7 @@ void GribDecoder::customisedPoints(const AutomaticThinningMethod& thinning, cons
         customisedPoints(transformation, points, xstep, ystep, 0);
     }
     catch (NoFactoryException&) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         MagLog::error() << "Grib Decoder - customisedPoints: Representation [" << grid << "] not supported.\n"
@@ -760,7 +760,7 @@ grib_handle* GribDecoder::open(grib_handle* grib, bool sendmsg) {
     FILE* file = fopen(file_name_.c_str(), "rb");
 
     if (!file) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw CannotOpenFile(file_name_);
         }
 
@@ -879,7 +879,7 @@ void GribDecoder::decodePoints() {
             interpretor_->scaling(*this, scaling, offset);
         }
         catch (NoFactoryException&) {
-            if (MagicsSettings::strict()) {
+            if (MagicsGlobal::strict()) {
                 throw;
             }
             MagLog::warning() << "Grib Decoder: Representation [" << grid << "] not supported.\n" << std::endl;
@@ -1343,7 +1343,7 @@ public:
             tree.visit(*this);
         }
         catch (MagicsException& e) {
-            if (MagicsSettings::strict()) {
+            if (MagicsGlobal::strict()) {
                 throw;
             }
             MagLog::error() << e.what() << endl;
@@ -1454,7 +1454,7 @@ void GribDecoder::visit(ValuesCollector& points) {
         interpretor_->scaling(*this, scaling, offset, oriUnits, derivedUnits);
     }
     catch (NoFactoryException&) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         MagLog::warning() << "Grib Decoder: Representation [" << grid << "] not supported.\n" << std::endl;
@@ -1663,7 +1663,7 @@ void GribDecoder::visit(MetaDataCollector& step) {
                         }
                     }
                     catch (NoFactoryException&) {
-                        if (MagicsSettings::strict()) {
+                        if (MagicsGlobal::strict()) {
                             throw;
                         }
                         MagLog::warning() << "Grib Decoder: Representation [" << grid << "] not supported.\n"
@@ -1723,7 +1723,7 @@ void GribDecoder::visit(MetaDataCollector& step) {
     }
 
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
     }

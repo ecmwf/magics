@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -273,7 +273,7 @@ void LegendVisitorWrapper::set(const MagRequest& request)
 		method_wrapper = SimpleFactory<LegendMethodWrapper>::create(method_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << method_value << "] is not a valid value for method: reset to default -> [disjoint]" << endl;

@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -125,7 +125,7 @@ void IsoPlotWrapper::set(const MagRequest& request)
 		rainbowMethod_wrapper = SimpleFactory<ColourTechniqueWrapper>::create(rainbowMethod_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << rainbowMethod_value << "] is not a valid value for rainbowMethod: reset to default -> [calculate]" << endl;
@@ -171,7 +171,7 @@ void IsoPlotWrapper::set(const MagRequest& request)
 		highlight_wrapper = SimpleFactory<NoIsoHighlightWrapper>::create(highlight_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << highlight_value << "] is not a valid value for highlight: reset to default -> [on]" << endl;
@@ -189,7 +189,7 @@ void IsoPlotWrapper::set(const MagRequest& request)
 		levelSelection_wrapper = SimpleFactory<LevelSelectionWrapper>::create(levelSelection_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << levelSelection_value << "] is not a valid value for levelSelection: reset to default -> [count]" << endl;
@@ -207,7 +207,7 @@ void IsoPlotWrapper::set(const MagRequest& request)
 		label_wrapper = SimpleFactory<NoIsoLabelWrapper>::create(label_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << label_value << "] is not a valid value for label: reset to default -> [on]" << endl;
@@ -225,7 +225,7 @@ void IsoPlotWrapper::set(const MagRequest& request)
 		shading_wrapper = SimpleFactory<NoIsoShadingWrapper>::create(shading_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << shading_value << "] is not a valid value for shading: reset to default -> [off]" << endl;

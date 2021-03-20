@@ -34,7 +34,7 @@
 #include "ImportPlot.h"
 #include "InputMatrix.h"
 #include "LegendVisitor.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 #include "MapGenDecoder.h"
 #include "MetaData.h"
 #include "RootSceneNode.h"

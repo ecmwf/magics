@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -114,7 +114,7 @@ void ArrowPlottingWrapper::set(const MagRequest& request)
 		calm_wrapper = SimpleFactory<CalmIndicatorWrapper>::create(calm_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << calm_value << "] is not a valid value for calm: reset to default -> [off]" << endl;

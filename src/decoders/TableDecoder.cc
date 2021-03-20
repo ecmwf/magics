@@ -139,7 +139,7 @@ void TableDecoder::prepareGeo() {
     ok = reader.read(error);
     if (!ok) {
         MagLog::error() << error << endl;
-        if(MagicsSettings::strict()) {
+        if(MagicsGlobal::strict()) {
             throw MagicsException("TableDecoder reader error: " + error);
         }
 	return;
@@ -267,7 +267,7 @@ void TableDecoder::prepareXY() {
     ok = reader.read(error);
     if (!ok) {
         MagLog::error() << error << endl;
-	if(MagicsSettings::strict()) {
+	if(MagicsGlobal::strict()) {
            throw MagicsException("TableDecoder reader error: " + error);
 	}
         return;
@@ -447,13 +447,13 @@ void TableDecoder::visit(Transformation& transformation) {
         }
     }
     catch (std::exception& e) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         std::cout << "ERROR: TableDecoder::visit " << e.what() << endl;
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         std::cout << "ERROR: TableDecoder::visit (unknown exception)" << endl;

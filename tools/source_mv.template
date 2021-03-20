@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -124,7 +124,7 @@ void {{ object }}Wrapper::set(const MagRequest& request)
 		{{ param.member}}_wrapper = SimpleFactory<{{ param.to }}Wrapper>::create({{ param.member}}_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << {{ param.member}}_value << "] is not a valid value for {{ param.member}}: reset to default -> [{{ param.default }}]" << endl;

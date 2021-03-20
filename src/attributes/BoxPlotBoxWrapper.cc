@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -72,7 +72,7 @@ void BoxPlotBoxWrapper::set(const MagRequest& request)
 		border_wrapper = SimpleFactory<NoBoxPlotBoxBorderWrapper>::create(border_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << border_value << "] is not a valid value for border: reset to default -> [on]" << endl;
@@ -90,7 +90,7 @@ void BoxPlotBoxWrapper::set(const MagRequest& request)
 		median_wrapper = SimpleFactory<NoBoxPlotMedianWrapper>::create(median_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << median_value << "] is not a valid value for median: reset to default -> [on]" << endl;

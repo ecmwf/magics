@@ -509,14 +509,14 @@ void GeoJSon::decode() {
                 value = MagParser::decodeFile(path_);
             }
             catch (std::exception& e) {
-                if (MagicsSettings::strict()) {
+                if (MagicsGlobal::strict()) {
                     throw;
                 }
                 MagLog::error() << "JSON error in file: " << path_ << ": " << e.what() << endl;
                 return;
             }
             catch (...) {
-                if (MagicsSettings::strict()) {
+                if (MagicsGlobal::strict()) {
                     throw;
                 }
                 MagLog::error() << "GeoJSon decoder: can not read file " << path_ << endl;
@@ -526,7 +526,7 @@ void GeoJSon::decode() {
         dig(value);
     }
     catch (std::exception& e) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         MagLog::error() << "Could not processed the file: " << path_ << ": " << e.what() << endl;

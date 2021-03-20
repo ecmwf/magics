@@ -24,7 +24,7 @@
 #include "MagException.h"
 #include "TitleMetaField.h"
 #include "TitleStringField.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 #include "expat.h"
 using namespace magics;
@@ -156,7 +156,7 @@ bool TitleTemplate::verify(const GribDecoder& data) const {
                 return false;
         }
         catch (NoFactoryException& e) {  // The data do not know how to verify the criter ....
-            if (MagicsSettings::strict()) {
+            if (MagicsGlobal::strict()) {
                 throw;
             }
             MagLog::warning() << "Can Not Create the MatchCriteria for " << criter->first << "\n";

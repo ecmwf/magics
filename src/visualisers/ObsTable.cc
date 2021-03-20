@@ -25,7 +25,7 @@
 #include "Symbol.h"
 #include "Transformation.h"
 #include "expat.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 #include "ProgressObject.h"
 
@@ -109,7 +109,7 @@ void ObsTable::add(const string& tag, const map<string, string>& def) {
             current_->push_back(obs);
         }
         catch (NoFactoryException&) {
-            if (MagicsSettings::strict()) {
+            if (MagicsGlobal::strict()) {
                 throw;
             }
             // FMagLog::dev() << "can not find ObsItem for : " << tag << "\n";

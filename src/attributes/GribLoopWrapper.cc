@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -120,7 +120,7 @@ void GribLoopWrapper::set(const MagRequest& request)
 		address_mode_wrapper = SimpleFactory<GribAddressModeWrapper>::create(address_mode_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << address_mode_value << "] is not a valid value for address_mode: reset to default -> [record]" << endl;
@@ -138,7 +138,7 @@ void GribLoopWrapper::set(const MagRequest& request)
 		step_wrapper = SimpleFactory<GribLoopStepWrapper>::create(step_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << step_value << "] is not a valid value for step: reset to default -> [loopondate]" << endl;
@@ -156,7 +156,7 @@ void GribLoopWrapper::set(const MagRequest& request)
 		wind_mode_wrapper = SimpleFactory<WindModeWrapper>::create(wind_mode_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << wind_mode_value << "] is not a valid value for wind_mode: reset to default -> [uv]" << endl;

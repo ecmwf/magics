@@ -1022,7 +1022,7 @@ void WrepJSon::basic() {
         }
     }
     catch (std::exception& e) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         MagLog::error() << "Could not processed the file: " << file_ << ": " << e.what() << endl;
@@ -1084,7 +1084,7 @@ void WrepJSon::height(const Value& value) {
         height_ = value.get_value<double>();
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         MagLog::dev() << "ognore" << height_ << endl;
@@ -1130,7 +1130,7 @@ void WrepJSon::clim_step(const Value& value) {
 }
 
 void WrepJSon::time(const Value& value) {
-    
+
     MagLog::dev() << "found -> time= " << value.get_value<string>() << endl;
     time_ = value.get_value<string>();
 }

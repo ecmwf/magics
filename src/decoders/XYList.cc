@@ -20,7 +20,7 @@
 */
 
 #include "XYList.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 
 /*!
@@ -191,7 +191,7 @@ void XYList::getReady(const Transformation& transformation) {
         }
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
     }
@@ -213,7 +213,7 @@ void XYList::getReady(const Transformation& transformation) {
         }
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
     }
@@ -236,7 +236,7 @@ void XYList::getReady(const Transformation& transformation) {
         }
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
     }
@@ -258,7 +258,7 @@ void XYList::getReady(const Transformation& transformation) {
         }
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
     }
@@ -268,7 +268,7 @@ void XYList::getReady(const Transformation& transformation) {
             x_upper_.push_back(transformation.x(*x));
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
     }
@@ -277,7 +277,7 @@ void XYList::getReady(const Transformation& transformation) {
             y_upper_.push_back(transformation.y(*y));
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
     }
@@ -287,7 +287,7 @@ void XYList::getReady(const Transformation& transformation) {
             x_lower_.push_back(transformation.x(*x));
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
     }
@@ -296,7 +296,7 @@ void XYList::getReady(const Transformation& transformation) {
             y_lower_.push_back(transformation.y(*y));
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
     }
@@ -318,7 +318,7 @@ void XYList::visit(Transformation& transformation) {
         }
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
     }

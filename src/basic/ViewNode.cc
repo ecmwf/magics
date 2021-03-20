@@ -29,7 +29,7 @@
 #include "Layer.h"
 #include "Layout.h"
 #include "LegendVisitor.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 #include "MetaData.h"
 #include "SceneVisitor.h"
 #include "TextVisitor.h"

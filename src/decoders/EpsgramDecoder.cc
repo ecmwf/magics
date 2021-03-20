@@ -1206,7 +1206,7 @@ void SpotDecoder::customisedPoints(const std::set<string>&, CustomisedPointsList
         decode();
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         return;  // no data..
@@ -1236,7 +1236,7 @@ void SpotDecoder::decode(bool check) {
         parameter_ = SimpleFactory<EpsParameter>::create(param_);
     }
     catch (NoFactoryException& e) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         parameter_ = new EpsParameter(param_, param_title_, param_);
@@ -1563,7 +1563,7 @@ void EfigramDecoder::decode() {
             prefix++;
         }
         catch (...) {
-            if (MagicsSettings::strict()) {
+            if (MagicsGlobal::strict()) {
                 throw;
             }
             date_ = lastdate;
@@ -1590,7 +1590,7 @@ void EfigramDecoder::decode() {
             values.push_back(parameter_->maxx_);
         }
         catch (...) {
-            if (MagicsSettings::strict()) {
+            if (MagicsGlobal::strict()) {
                 throw;
             }
             MagLog::info() << " No Clim" << endl;
@@ -1665,7 +1665,7 @@ void EfigramDecoder::visit(TextVisitor& title) {
         decode();
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         return;
@@ -1712,7 +1712,7 @@ void SpotDecoder::visit(Transformation& transformation) {
         decode();
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         return;

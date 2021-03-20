@@ -27,7 +27,7 @@
 #include "Layer.h"
 #include "NetcdfData.h"
 #include "SciMethods.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -201,7 +201,7 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
     }
 
     catch (MagicsException& e) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         MagLog::error() << e << "\n";
@@ -248,7 +248,7 @@ bool NetcdfOrcaInterpretor::interpretAsPoints(PointsList& points) {
     }
 
     catch (MagicsException& e) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         MagLog::error() << e << "\n";
@@ -297,7 +297,7 @@ void NetcdfOrcaInterpretor::customisedPoints(const Transformation& transformatio
     }
 
     catch (MagicsException& e) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         MagLog::error() << e << "\n";

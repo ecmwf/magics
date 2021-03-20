@@ -26,7 +26,7 @@
 #include "Histogram.h"
 #include "LegendVisitor.h"
 #include "SymbolPlotting.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -206,7 +206,7 @@ bool SymbolTableMode::accept(double value) {
         return true;
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         return false;

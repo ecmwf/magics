@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -70,7 +70,7 @@ void CurveAreaWrapper::set(const MagRequest& request)
 		shade_wrapper = SimpleFactory<GraphShadeWrapper>::create(shade_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << shade_value << "] is not a valid value for shade: reset to default -> [on]" << endl;

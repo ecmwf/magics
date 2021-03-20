@@ -20,7 +20,7 @@
 */
 
 #include "GeoPointsDecoder.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 #include "SciMethods.h"
 
 using namespace magics;
@@ -333,7 +333,7 @@ void GeoPointsDecoder::decode(const Transformation& transformation) {
         in.close();
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         MagLog::error() << "Geopoints file : can not open " << path_ << endl;
@@ -388,7 +388,7 @@ void GeoPointsDecoder::decode() {
         in.close();
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         MagLog::error() << "Geopoints file : can not open " << path_ << endl;

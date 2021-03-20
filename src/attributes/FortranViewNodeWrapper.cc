@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -151,7 +151,7 @@ void FortranViewNodeWrapper::set(const MagRequest& request)
 		transformation_wrapper = SimpleFactory<TransformationWrapper>::create(transformation_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << transformation_value << "] is not a valid value for transformation: reset to default -> [cylindrical]" << endl;
@@ -185,7 +185,7 @@ void FortranViewNodeWrapper::set(const MagRequest& request)
 		preview_wrapper = SimpleFactory<NoPreviewVisitorWrapper>::create(preview_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << preview_value << "] is not a valid value for preview: reset to default -> [off]" << endl;
@@ -203,7 +203,7 @@ void FortranViewNodeWrapper::set(const MagRequest& request)
 		magnify_wrapper = SimpleFactory<NoMagnifierVisitorWrapper>::create(magnify_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << magnify_value << "] is not a valid value for magnify: reset to default -> [off]" << endl;

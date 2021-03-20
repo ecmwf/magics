@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -121,7 +121,7 @@ void WindPlottingWrapper::set(const MagRequest& request)
 		levels_wrapper = SimpleFactory<LevelSelectionWrapper>::create(levels_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << levels_value << "] is not a valid value for levels: reset to default -> [count]" << endl;
@@ -139,7 +139,7 @@ void WindPlottingWrapper::set(const MagRequest& request)
 		colourMethod_wrapper = SimpleFactory<ColourTechniqueWrapper>::create(colourMethod_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << colourMethod_value << "] is not a valid value for colourMethod: reset to default -> [calculate]" << endl;

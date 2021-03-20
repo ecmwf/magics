@@ -26,7 +26,7 @@
 #include "ContourLibrary.h"
 #include "Factory.h"
 #include "Layer.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 #include "NetcdfData.h"
 
 using namespace magics;
@@ -137,7 +137,7 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
         matrix_->setMapsAxis();
     }
     catch (MagicsException& e) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         MagLog::error() << e << "\n";
@@ -215,7 +215,7 @@ bool NetcdfGeoMatrixInterpretor::interpretAsPoints(PointsList& list) {
         MagLog::dev() << "everything ok" << endl;
     }
     catch (MagicsException& e) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         MagLog::error() << e << "\n";
@@ -320,7 +320,7 @@ void NetcdfGeoMatrixInterpretor::customisedPoints(const Transformation& transfor
         MagLog::dev() << "everything ok" << endl;
     }
     catch (MagicsException& e) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         MagLog::error() << e << "\n";

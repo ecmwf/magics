@@ -24,7 +24,7 @@
 #include "MetaData.h"
 #include "ObsTable.h"
 #include "ProgressObject.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 
 using namespace magics;
@@ -55,7 +55,7 @@ void ObsPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
             obs.visit(needs);
         }
         catch (std::exception&) {
-            if (MagicsSettings::strict()) {
+            if (MagicsGlobal::strict()) {
                 throw;
             }
             MagLog::warning() << " Magics++ has no observation template for: " << type->second << "\n"
@@ -83,7 +83,7 @@ void ObsPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
             }
         }
         catch (std::exception&) {
-            if (MagicsSettings::strict()) {
+            if (MagicsGlobal::strict()) {
                 throw;
             }
         }

@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -160,7 +160,7 @@ void SymbolAdvancedTableModeWrapper::set(const MagRequest& request)
 		levels_wrapper = SimpleFactory<LevelSelectionWrapper>::create(levels_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << levels_value << "] is not a valid value for levels: reset to default -> [count]" << endl;
@@ -178,7 +178,7 @@ void SymbolAdvancedTableModeWrapper::set(const MagRequest& request)
 		colourMethod_wrapper = SimpleFactory<ColourTechniqueWrapper>::create(colourMethod_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << colourMethod_value << "] is not a valid value for colourMethod: reset to default -> [calculate]" << endl;
@@ -218,7 +218,7 @@ void SymbolAdvancedTableModeWrapper::set(const MagRequest& request)
 		height_method_wrapper = SimpleFactory<HeightTechniqueWrapper>::create(height_method_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << height_method_value << "] is not a valid value for height_method: reset to default -> [list]" << endl;
@@ -253,7 +253,7 @@ void SymbolAdvancedTableModeWrapper::set(const MagRequest& request)
 		outlayer_wrapper = SimpleFactory<NoOutLayerTechniqueWrapper>::create(outlayer_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << outlayer_value << "] is not a valid value for outlayer: reset to default -> [none]" << endl;

@@ -64,7 +64,7 @@ void NetcdfDecoder::visit(MagnifierVisitor& magnify) {
         }
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
     }
@@ -112,7 +112,7 @@ void NetcdfDecoder::visit(ValuesCollector& values) {
         (*interpretor_).visit(values, points_);
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         valid_ = false;
@@ -125,7 +125,7 @@ void NetcdfDecoder::visit(TextVisitor& text) {
         (*interpretor_).visit(text);
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         valid_ = false;

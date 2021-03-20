@@ -24,7 +24,7 @@
 #include <limits>
 #include "Factory.h"
 #include "TextVisitor.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -103,7 +103,7 @@ void LandgramDecoder::decode() {
         tree.visit(*this);
     }
     catch (MagicsException& e) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         MagLog::debug() << e.what() << endl;

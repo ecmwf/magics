@@ -22,7 +22,7 @@
 #include "ObsDecoder.h"
 #include "CustomisedPoint.h"
 #include "Factory.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 #include "MvObs.h"
 #include "TextVisitor.h"
 #include "expat.h"
@@ -187,7 +187,7 @@ BufrIdentifiers::BufrIdentifiers(int centre) : centre_(centre) {
     FILE* in = fopen(file.str().c_str(), "r");
 
     if (!in) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw CannotOpenFile(file.str());
         }
 
@@ -196,7 +196,7 @@ BufrIdentifiers::BufrIdentifiers(int centre) : centre_(centre) {
         in = fopen(deffile.str().c_str(), "r");
         MagLog::warning() << "No definition file for [" << centre << "]: We use ECMWF definitions " << endl;
 
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw CannotOpenFile(deffile.str());
         }
     }
@@ -242,7 +242,7 @@ BufrFamily::BufrFamily(const string& centre) : centre_(centre) {
 
     FILE* in = fopen(file.str().c_str(), "r");
     if (!in) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw CannotOpenFile(file.str());
         }
         return;
@@ -634,7 +634,7 @@ void ObsDecoder::getInfo(const std::set<string>& tokens, multimap<string, string
             }
         }
         catch (NoFactoryException&) {
-            if (MagicsSettings::strict()) {
+            if (MagicsGlobal::strict()) {
                 throw;
             }
         }

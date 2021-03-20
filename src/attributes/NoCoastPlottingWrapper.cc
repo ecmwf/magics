@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -125,7 +125,7 @@ void NoCoastPlottingWrapper::set(const MagRequest& request)
 		boundaries_wrapper = SimpleFactory<NoBoundariesWrapper>::create(boundaries_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << boundaries_value << "] is not a valid value for boundaries: reset to default -> [off]" << endl;
@@ -143,7 +143,7 @@ void NoCoastPlottingWrapper::set(const MagRequest& request)
 		cities_wrapper = SimpleFactory<NoCitiesWrapper>::create(cities_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << cities_value << "] is not a valid value for cities: reset to default -> [off]" << endl;

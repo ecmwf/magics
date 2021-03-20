@@ -247,7 +247,7 @@ MAGICS_NO_EXPORT void GDDriver::endPage() const {
                 printOutputName(fileName);
             }
             else {
-                if (MagicsSettings::strict()) {
+                if (MagicsGlobal::strict()) {
                     throw CannotOpenFile(fileName);
                 }
                 MagLog::error() << "GIF: cannot open file " << fileName << "!" << endl;
@@ -264,7 +264,7 @@ MAGICS_NO_EXPORT void GDDriver::endPage() const {
                 printOutputName(fileName);
             }
             else {
-                if (MagicsSettings::strict()) {
+                if (MagicsGlobal::strict()) {
                     throw CannotOpenFile(fileName);
                 }
                 MagLog::error() << "PNG: cannot open file " << fileName << "!" << endl;
@@ -280,7 +280,7 @@ MAGICS_NO_EXPORT void GDDriver::endPage() const {
                 printOutputName(fileName);
             }
             else {
-                if (MagicsSettings::strict()) {
+                if (MagicsGlobal::strict()) {
                     throw CannotOpenFile(fileName);
                 }
                 MagLog::error() << "JPEG: cannot open file " << fileName << "!" << endl;

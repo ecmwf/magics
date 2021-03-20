@@ -93,7 +93,7 @@ void MetaDataVisitor::collectMetaData() {
     }
 
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
     }
@@ -109,7 +109,7 @@ void MetaDataVisitor::collectMetaData() {
             out.close();
         }
         catch (...) {
-            if (MagicsSettings::strict()) {
+            if (MagicsGlobal::strict()) {
                 throw;
             }
         }
@@ -134,7 +134,7 @@ void MetaDataVisitor::collectMetaData() {
             out.close();
         }
         catch (...) {
-            if (MagicsSettings::strict()) {
+            if (MagicsGlobal::strict()) {
                 throw;
             }
         }
@@ -160,7 +160,7 @@ void MetaDataVisitor::collectMetaData() {
             out.close();
         }
         catch (...) {
-            if (MagicsSettings::strict()) {
+            if (MagicsGlobal::strict()) {
                 throw;
             }
         }
@@ -181,7 +181,7 @@ void MetaDataVisitor::collectMetaData() {
             out.close();
         }
         catch (...) {
-            if (MagicsSettings::strict()) {
+            if (MagicsGlobal::strict()) {
                 throw;
             }
         }
@@ -201,7 +201,7 @@ void MetaDataVisitor::collectMetaData() {
             ofstream out(efi_.c_str());
             out << " Could not opened " << path << endl;
             out.close();
-            if (MagicsSettings::strict()) {
+            if (MagicsGlobal::strict()) {
                 throw;
             }
         }

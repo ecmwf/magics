@@ -25,7 +25,7 @@
 #include "Factory.h"
 #include "NetcdfData.h"
 #include "NetcdfVectorInterpretor.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 
 using namespace magics;
@@ -84,7 +84,7 @@ void NetcdfVectorInterpretor::customisedPoints(const Transformation& transformat
         }
     }
     catch (MagicsException& e) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         MagLog::error() << e << "\n";
@@ -140,7 +140,7 @@ void NetcdfGeoVectorInterpretor::customisedPoints(const Transformation& transfor
         }
     }
     catch (MagicsException& e) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         MagLog::error() << e << "\n";
@@ -242,7 +242,7 @@ void NetcdfGeoPolarMatrixInterpretor::customisedPoints(const Transformation&, co
         */
     }
     catch (MagicsException& e) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         MagLog::error() << e << "\n";

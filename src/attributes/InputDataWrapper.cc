@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -152,7 +152,7 @@ void InputDataWrapper::set(const MagRequest& request)
 		input_binning_wrapper = SimpleFactory<BinningObjectWrapper>::create(input_binning_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << input_binning_value << "] is not a valid value for input_binning: reset to default -> [on]" << endl;

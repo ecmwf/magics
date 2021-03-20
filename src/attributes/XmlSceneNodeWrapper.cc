@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -162,7 +162,7 @@ void XmlSceneNodeWrapper::set(const MagRequest& request)
 		page_id_wrapper = SimpleFactory<NoPageIDWrapper>::create(page_id_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << page_id_value << "] is not a valid value for page_id: reset to default -> [on]" << endl;

@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -111,7 +111,7 @@ void PageIDWrapper::set(const MagRequest& request)
 		logo_wrapper = SimpleFactory<NoLogoPlottingWrapper>::create(logo_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << logo_value << "] is not a valid value for logo: reset to default -> [on]" << endl;

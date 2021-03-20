@@ -25,7 +25,7 @@
 #include "IntervalMap.h"
 #include "Layout.h"
 #include "PointsHandler.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -59,7 +59,7 @@ void Histogram::bean(PointsHandler& points) {
             count->second++;
         }
         catch (...) {
-            if (MagicsSettings::strict()) {
+            if (MagicsGlobal::strict()) {
                 throw;
             }
             // MagLog::debug() <<  points.current().value() << " is not in range..." << endl;

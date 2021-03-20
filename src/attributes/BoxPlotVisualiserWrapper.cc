@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -70,7 +70,7 @@ void BoxPlotVisualiserWrapper::set(const MagRequest& request)
 		box_wrapper = SimpleFactory<NoBoxPlotBoxWrapper>::create(box_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << box_value << "] is not a valid value for box: reset to default -> [on]" << endl;
@@ -88,7 +88,7 @@ void BoxPlotVisualiserWrapper::set(const MagRequest& request)
 		whisker_wrapper = SimpleFactory<NoBoxPlotWhiskerWrapper>::create(whisker_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << whisker_value << "] is not a valid value for whisker: reset to default -> [line]" << endl;

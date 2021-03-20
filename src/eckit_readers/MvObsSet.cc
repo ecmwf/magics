@@ -25,7 +25,7 @@
 
 #include "MvObsSet.h"
 #include "MagException.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 #include <cerrno>
 #include <cstring>
@@ -138,7 +138,7 @@ bool MvObsSet::Open(const char* aFileName) {
     // Open bufr file
     _ecFile = fopen(aFileName, _IO_mode.c_str());
     if (!_ecFile) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw CannotOpenFile(aFileName);
         }
 

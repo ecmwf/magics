@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -101,7 +101,7 @@ void InputMatrixWrapper::set(const MagRequest& request)
 		organization_wrapper = SimpleFactory<InputMatrixInterpretorWrapper>::create(organization_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << organization_value << "] is not a valid value for organization: reset to default -> [regular]" << endl;

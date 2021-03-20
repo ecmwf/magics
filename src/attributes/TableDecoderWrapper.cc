@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -136,7 +136,7 @@ void TableDecoderWrapper::set(const MagRequest& request)
 		table_binning_wrapper = SimpleFactory<BinningObjectWrapper>::create(table_binning_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << table_binning_value << "] is not a valid value for table_binning: reset to default -> [on]" << endl;

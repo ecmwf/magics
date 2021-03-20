@@ -252,7 +252,7 @@ void InputData::getReady(const Transformation& transformation) {
             x_.push_back(transformation.x(*x));
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
     }
@@ -261,7 +261,7 @@ void InputData::getReady(const Transformation& transformation) {
             y_.push_back(transformation.y(*y));
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
     }
@@ -338,7 +338,7 @@ void InputData::visit(Transformation& transformation) {
         }
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
     }

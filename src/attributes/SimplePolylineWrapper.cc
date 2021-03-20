@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -218,7 +218,7 @@ void SimplePolylineWrapper::set(const MagRequest& request)
 		levelSelection_wrapper = SimpleFactory<LevelSelectionWrapper>::create(levelSelection_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << levelSelection_value << "] is not a valid value for levelSelection: reset to default -> [count]" << endl;
@@ -236,7 +236,7 @@ void SimplePolylineWrapper::set(const MagRequest& request)
 		colourMethod_wrapper = SimpleFactory<ColourTechniqueWrapper>::create(colourMethod_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << colourMethod_value << "] is not a valid value for colourMethod: reset to default -> [calculate]" << endl;

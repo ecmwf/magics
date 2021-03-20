@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -63,7 +63,7 @@ void GraphShadeWrapper::set(const MagRequest& request)
 		style_wrapper = SimpleFactory<GraphShadeStyleWrapper>::create(style_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << style_value << "] is not a valid value for style: reset to default -> [area_fill]" << endl;

@@ -30,7 +30,7 @@
 #include "NetcdfOrcaInterpretor.h"
 #include "NetcdfVectorInterpretor.h"
 #include "XmlReader.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -185,7 +185,7 @@ bool NetcdfInterpretor::cf_date(Netcdf& netcdf, const string& var, const string&
         if ( date.size() )
             break;
     }
-        
+
 
 
 
@@ -273,7 +273,7 @@ void NetcdfInterpretor::getAttributes(Netcdf& nc, const string& varName, string&
         }
     }
     catch (...) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
     }
@@ -331,7 +331,7 @@ void NetcdfTag::decode(const string& line) {
         tree.visit(*this);
     }
     catch (MagicsException& e) {
-        if (MagicsSettings::strict()) {
+        if (MagicsGlobal::strict()) {
             throw;
         }
         MagLog::debug() << e.what() << endl;

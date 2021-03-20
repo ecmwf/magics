@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -67,7 +67,7 @@ void CoastlinesWrapper::set(const MagRequest& request)
 		coastlines_wrapper = SimpleFactory<NoCoastPlottingWrapper>::create(coastlines_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << coastlines_value << "] is not a valid value for coastlines: reset to default -> [on]" << endl;
@@ -85,7 +85,7 @@ void CoastlinesWrapper::set(const MagRequest& request)
 		grid_wrapper = SimpleFactory<NoGridPlottingWrapper>::create(grid_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << grid_value << "] is not a valid value for grid: reset to default -> [on]" << endl;
@@ -103,7 +103,7 @@ void CoastlinesWrapper::set(const MagRequest& request)
 		label_wrapper = SimpleFactory<NoLabelPlottingWrapper>::create(label_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << label_value << "] is not a valid value for label: reset to default -> [on]" << endl;

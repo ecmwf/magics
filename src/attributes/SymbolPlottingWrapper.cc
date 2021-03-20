@@ -24,7 +24,7 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -119,7 +119,7 @@ void SymbolPlottingWrapper::set(const MagRequest& request)
 		mode_wrapper = SimpleFactory<SymbolModeWrapper>::create(mode_value);
 	}
 	 catch (NoFactoryException&) {
-		if (MagicsSettings::strict()) {
+		if (MagicsGlobal::strict()) {
             throw;
         }
 		MagLog::warning() << "[" << mode_value << "] is not a valid value for mode: reset to default -> [OFF]" << endl;
