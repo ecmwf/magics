@@ -261,6 +261,17 @@ void GribDecoder::setDouble(const string& key, double val) const {
     }
 }
 
+const DateTime& GribDecoder::from() { 
+    decode();
+    return from_;
+
+}
+const DateTime& GribDecoder::to()
+{
+    decode();
+    return to_;
+}
+
 void GribDecoder::scale(const string& metadata, double& scaling, double& offset) {
     assert(false);
 }

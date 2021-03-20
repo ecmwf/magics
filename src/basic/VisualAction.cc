@@ -244,13 +244,14 @@ void VisualAnimation::prepare() {
 
         VisualAction* action = new VisualAction();
         action->parent(this);
+
         action->data(loop_->current());
 
         for (vector<Visdef*>::iterator visdef = this->visdefs_.begin(); visdef != this->visdefs_.end(); ++visdef) {
             action->visdef(*visdef);
         }
 
-        layer_->addStep(action);
+        layer_->addStep(action, loop_->current());
 
         loop_->next();
     }
