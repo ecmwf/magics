@@ -52,6 +52,7 @@ public:
 	string tag_;
 	bool silent_;
 	bool compatibility_;
+	bool strict_;
 	 
 
 private:

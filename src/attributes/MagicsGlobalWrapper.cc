@@ -61,6 +61,10 @@ void MagicsGlobalWrapper::set(const MagRequest& request)
 		string compatibility_value = request("MAGICS_BACKWARD_COMPATIBILITY");
 		magicsglobal_->compatibility_ = MagTranslator<string, bool>()(compatibility_value);
 		}
+	if  (request.countValues("MAGICS_STRICT_MODE") ) {
+		string strict_value = request("MAGICS_STRICT_MODE");
+		magicsglobal_->strict_ = MagTranslator<string, bool>()(strict_value);
+		}
 	
 	
 }

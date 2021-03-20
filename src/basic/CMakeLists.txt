@@ -46,6 +46,8 @@ WebFormat.cc
 WebFormat.h
 XmlMagics.cc
 XmlMagics.h
+MagicsGlobal.cc
+MagicsGlobal.h
 )
 if ( metview )
 	list (APPEND metview_include
