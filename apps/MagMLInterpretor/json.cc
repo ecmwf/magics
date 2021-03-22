@@ -17,6 +17,10 @@
 #include "MetaData.h"
 #include "WebFormat.h"
 
+#ifdef  HAVE_ODB 
+#include <eckit/runtime/Main.h>
+#endif
+
 using namespace magics;
 
 namespace magml {
@@ -57,6 +61,8 @@ void catch_alarm(int) {
 }
 
 int normal_main(int argc, char** argv) {
+
+
     try {
         MetaDataVisitor::start();
         if (argc < 2) {
@@ -99,6 +105,8 @@ int normal_main(int argc, char** argv) {
 }
 
 int server_main(int argc, char** argv) {
+
+
     char line[10240];
     cout << "MAGJSON_SERVER_MODE Ready" << endl;
     for (;;) {
@@ -119,6 +127,10 @@ int server_main(int argc, char** argv) {
 }
 
 int main(int argc, char** argv) {
+#ifdef  HAVE_ODB 
+    eckit::Main::initialise(argc, argv);
+#endif
+
     if (getenv("MAGJSON_SERVER_MODE")) {
         server_main(argc, argv);
     }
