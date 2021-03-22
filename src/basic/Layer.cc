@@ -288,7 +288,8 @@ void StepLayer::addStep(BasicSceneObject* object, Data* data) {
 
     layer->metadata("valid_date", string(date));
     layer->metadata("level", tostring(level));
-    data->visit(*layer);
+    if (data)
+        data->visit(*layer);
     level += 100;
     date = date + Second(6 * 3600 * (mod % 2));
     mod++;
