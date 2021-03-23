@@ -155,14 +155,13 @@ long computeStep(const GribDecoder& grib, const string& key) {
 }
 
 long GribDecoder::getLong(const string& key, bool warnIfKeyAbsent) const {
-    if (!valid_)
+    if (!valid_ || !current_handle_ )
         return 0;
     long val;
     map<string, long>::const_iterator lk = lKeys_.find(key);
     if (lk != lKeys_.end()) {
         return lk->second;
     }
-    assert(current_handle_);
     int err = grib_get_long(current_handle_, key.c_str(), &val);
     if (err) {
         if (warnIfKeyAbsent) {
@@ -201,7 +200,7 @@ string GribDecoder::getstring(const string& key, bool warnIfKeyAbsent, bool cach
 }
 
 string GribDecoder::getString(const string& key, bool warnIfKeyAbsent) const {
-    if (!valid_)
+    if (!valid_ )
         return "";
     if (Data::dimension_ == 1) {
         current_handle_ = field_;
@@ -228,7 +227,7 @@ string GribDecoder::getString(const string& key, bool warnIfKeyAbsent) const {
 }
 
 double GribDecoder::getDouble(const string& key, bool warnIfKeyAbsent) const {
-    if (!valid_)
+    if (!valid_ || !current_handle_ )
         return 0;
     map<string, double>::const_iterator dk = dKeys_.find(key);
     if (dk != dKeys_.end()) {
@@ -247,6 +246,9 @@ double GribDecoder::getDouble(const string& key, bool warnIfKeyAbsent) const {
 }
 
 void GribDecoder::setDouble(const string& key, double val) const {
+    if (!valid_ || !current_handle_ )
+        MagLog::warning() << "ecCodes: cannot find data to set the key [" << key << "] \n";
+        
     int err = grib_set_double(current_handle_, key.c_str(), val);
     if (err) {
         MagLog::warning() << "ecCodes: cannot find key [" << key << "]  - " << grib_get_error_message(err) << "\n";
@@ -257,6 +259,17 @@ void GribDecoder::setDouble(const string& key, double val) const {
     if (err) {
         MagLog::warning() << "ecCodes: cannot find key [" << key << "]  - " << grib_get_error_message(err) << "\n";
     }
+}
+
+const DateTime& GribDecoder::from() { 
+    decode();
+    return from_;
+
+}
+const DateTime& GribDecoder::to()
+{
+    decode();
+    return to_;
 }
 
 void GribDecoder::scale(const string& metadata, double& scaling, double& offset) {
@@ -1503,9 +1516,10 @@ const LevelDescription& GribDecoder::level() {
 }
 
 void GribDecoder::ask(MetaDataCollector& meta) {
+    openField();  // just to be sure the file is opened!
     for (auto m = meta.begin(); m != meta.end(); ++m) {
         m->second = getString(m->first, false);
-        // cout << m->first << " = " << m->second << endl;
+        //cout << "ASK --> " << m->first << " = " << m->second << endl;
     }
 }
 
