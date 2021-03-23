@@ -1,0 +1,27 @@
+[
+  {
+    "eccharts_layer": "aristotle_drought_code",
+    "styles": [
+      "drought_code_1",
+      "drought_code_2"
+    ],
+    "match": [
+      {
+        "paramId": [
+          "260543",
+          "260542"
+        ],
+        "shortName": [
+          "drtcode",
+          "dufmcode"
+        ]
+      },
+      {
+        "long_name": [
+          "Drought code",
+          "Duff moisture code"
+        ]
+      }
+    ]
+  }
+]

@@ -15,7 +15,7 @@ cmake_minimum_required( VERSION 3.12 FATAL_ERROR )
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../ecbuild/cmake")
 find_package( ecbuild 3.4 REQUIRED )
 
-project( magics VERSION 4.5.3 LANGUAGES CXX )
+project( magics VERSION 4.6.0 LANGUAGES CXX )
 
 # make sure that the header files are installed into include/magics
 # note that this needs to be done before ecbuild_declare_project()
@@ -37,6 +37,11 @@ ecbuild_add_option( FEATURE CAIRO
                     DEFAULT ON
                     DESCRIPTION "cairo support[png/jpeg]"
                     REQUIRED_PACKAGES PangoCairo)
+
+ecbuild_add_option( FEATURE DOCUMENTATION
+                    DEFAULT OFF
+                    DESCRIPTION "Adding support for automatic documentation"
+                  )
 
 
 string(STRIP "${PANGOCAIRO_LIBRARIES}" PANGOCAIRO_LIBRARIES)
@@ -235,6 +240,9 @@ add_subdirectory( src )
 add_subdirectory( share )
 add_subdirectory( apps )
 add_subdirectory( test )
+if( HAVE_DOCUMENTATION )
+  add_subdirectory( docs )
+endif()
 
 
 if(NOT HAVE_EFAS)

@@ -97,8 +97,8 @@ public:
         return layerId_;
     }
     string name() const { return name_; }
-    const DateTime& from() { return from_; }
-    const DateTime& to() { return to_; }
+    const DateTime& from();
+    const DateTime& to();
 
     string title() const { return title_; }
 

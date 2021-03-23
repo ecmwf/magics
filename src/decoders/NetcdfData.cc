@@ -323,6 +323,14 @@ int NetVariable::find(const string& value) {
 
         return ::find(dval, values);
     }
+    if (t == NC_INT64) {
+        vector<int> values;
+        values.resize(getSize());
+        get(values);
+        int dval = tonumber(val);
+
+        return ::find(dval, values);
+    }
     if (t == NC_FLOAT) {
         vector<float> values;
         values.resize(getSize());
@@ -425,6 +433,7 @@ static TypedAccessor<signed char, float> byte_float_accessor(NC_BYTE);
 static TypedAccessor<short, float> short_float_accessor(NC_SHORT);
 static TypedAccessor<unsigned short, float> u_short_float_accessor(NC_USHORT);
 static TypedAccessor<int, float> int_float_accessor(NC_INT);
+static TypedAccessor<long, double> long_double_accessor(NC_INT64);
 static TypedAccessor<float, float> float_float_accessor(NC_FLOAT);
 static TypedAccessor<double, float> double_float_accessor(NC_FLOAT);
 

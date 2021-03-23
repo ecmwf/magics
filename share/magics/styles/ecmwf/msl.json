@@ -23,6 +23,10 @@
         "shortName": "msl"
       },
       {
+        "originatingCentre": "edzw",
+        "shortName": "prmsl"
+      },
+      {
         "long_name": [
           "Mean sea level pressure",
           "Sea Level Pressure",

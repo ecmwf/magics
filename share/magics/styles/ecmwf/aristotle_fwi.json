@@ -1,0 +1,24 @@
+[
+  {
+    "eccharts_layer": "aristotle_fwi",
+    "styles": [
+      "fwi_1",
+      "fwi_3"
+    ],
+    "match": [
+      {
+        "paramId": [
+          "260540"
+        ],
+        "shortName": [
+          "fwinx"
+        ]
+      },
+      {
+        "long_name": [
+          "Forest fire weather index"
+        ]
+      }
+    ]
+  }
+]

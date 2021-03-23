@@ -16,8 +16,8 @@
 
    Apr 06: update for GCC 4.0 (Stephan)
 */
-#include <ProjP.h>
 #include <proj.h>
+#include <ProjP.h>
 
 using namespace magics;
 

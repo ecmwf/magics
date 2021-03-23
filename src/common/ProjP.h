@@ -14,8 +14,10 @@
 
 #include "magics.h"
 
+#if !defined PROJ_H
 typedef struct PJconsts PJ;
 typedef struct projCtx_t PJ_CONTEXT;
+#endif
 
 
 namespace magics {
