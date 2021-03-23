@@ -84,6 +84,7 @@ XmlMagics::XmlMagics() : root_(0), gribloop_(0), geographical_(true), driversToS
     actions_["horizontal_axis"] = &XmlMagics::horizontalAxis;
     actions_["vertical_axis"]   = &XmlMagics::verticalAxis;
     actions_["coastlines"]      = &XmlMagics::coastlines;
+    actions_["zcoastlines"]      = &XmlMagics::coastlines;
     actions_["taylorgrid"]      = &XmlMagics::taylor;
     actions_["tephigrid"]       = &XmlMagics::tephigrid;
     actions_["thermo"]          = &XmlMagics::cartesian;
