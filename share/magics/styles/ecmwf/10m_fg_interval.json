@@ -22,6 +22,10 @@
                 ]
       },
       {
+        "originatingCentre": "edzw",
+        "shortName": "VMAX_10M"
+      },
+      {
         "long_name": [
                     "Instantaneous 10 metre wind gust",
                     "10 metre wind gust in the last 6 hours",

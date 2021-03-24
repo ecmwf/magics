@@ -207,7 +207,7 @@ public:
     void getReady(int) const override;
     Layer* get(int) override;
 
-    void addStep(BasicSceneObject*);
+    void addStep(BasicSceneObject*, Data*);
     vector<SingleLayer*>::iterator firstStep() { return steps_.begin(); }
     vector<SingleLayer*>::iterator endStep() { return steps_.end(); }
 

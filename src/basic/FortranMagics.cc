@@ -492,10 +492,12 @@ const char* FortranMagics::metagrib() {
     MagDef attributes;
 
     library->askId(request);
-    grib.visit(request);
+    grib.ask(request);
 
     StyleEntry style;
     library->getStyle(request, attributes, style);
+    
+     
 
     string print = getEnvVariable("MAGPLUS_DATA");
     if (print.size()) {
