@@ -55,7 +55,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed
@@ -141,7 +141,7 @@ public:
     // set the meta data to be collected
     void askId(MetaDataCollector&) override;
 
-    bool checkId(MetaDataCollector&, MetaDataCollector&) { return true; }
+    bool checkId(MetaDataCollector&, MetaDataCollector&) override { return true; }
     void setCriteria(MetaDataCollector&, const string&);
 
     // set the map to set the contour!
@@ -165,14 +165,14 @@ public:
     // set the meta data to be collected
     void askId(MetaDataCollector&) override;
 
-    bool checkId(MetaDataCollector&, MetaDataCollector&) { return false; }
+    bool checkId(MetaDataCollector&, MetaDataCollector&) override { return false; }
     void setCriteria(MetaDataCollector&, const string&);
 
     // set the map to set the contour!
-    void getStyle(MetaDataCollector&, MagDef&, StyleEntry&);
-    void getStyle(const string&, MagDef&);
+    void getStyle(MetaDataCollector&, MagDef&, StyleEntry&) override;
+    void getStyle(const string&, MagDef&) override;
 
-    void getScaling(MetaDataCollector&, double&, double&);
+    void getScaling(MetaDataCollector&, double&, double&) override;
 
 
     static StyleLibrary* styles_;
