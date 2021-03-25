@@ -18,9 +18,9 @@
 #ifndef DriverManager_H
 #define DriverManager_H
 
-#include "BaseDriver.h"
-#include "MagicsEvent.h"
-#include "magics.h"
+#include <BaseDriver.h>
+#include <MagicsEvent.h>
+#include <magics.h>
 
 namespace magics {
 

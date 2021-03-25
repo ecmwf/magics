@@ -10,8 +10,8 @@
 #ifndef MVBUFREDITION_H
 #define MVBUFREDITION_H
 
-#include <string>
 #include <vector>
+#include <string>
 
 class MvBufrEdition
 {

@@ -23,9 +23,12 @@
 #define GeoPointsDecoder_H
 
 #include "magics.h"
+#include "magics_windef.h"
+#ifdef MAGICS_ON_WINDOWS
+#define PROJ_MSVC_DLL_IMPORT 1
+#endif
 
-
-#include "ProjP.h"
+#include <ProjP.h>
 
 #include "Data.h"
 #include "GeoPointsDecoderAttributes.h"
@@ -39,13 +42,13 @@ class XmlNode;
 class GeoPointsDecoder : public GeoPointsDecoderAttributes, public Data, public Decoder, public PointsList {
 public:
     GeoPointsDecoder();
-    virtual ~GeoPointsDecoder() override;
+    virtual ~GeoPointsDecoder();
     //! Method to access the data as a list of points : Used by psymb.
 
     virtual void decode(const Transformation&);
-    virtual void decode() override;
-    void set(const map<string, string>& map) override { GeoPointsDecoderAttributes::set(map); }
-    void set(const XmlNode& node) override { GeoPointsDecoderAttributes::set(node); }
+    virtual void decode();
+    void set(const map<string, string>& map) { GeoPointsDecoderAttributes::set(map); }
+    void set(const XmlNode& node) { GeoPointsDecoderAttributes::set(node); }
 
     bool parseColumnNames(const char* line);
 
@@ -72,15 +75,13 @@ public:
 
     void polar(const string&, const Transformation&);
     void lluv(const string&, const Transformation&);
-    void initInfo() override;
-    void visit(MetaDataCollector&) override;
-    void visit(ValuesCollector&) override;
-
-    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out,
-                          bool all) override {
+    void initInfo();
+    void visit(MetaDataCollector&);
+    void visit(ValuesCollector&);
+    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all) {
         customisedPoints(t, n, out);
     }
-    PointsHandler& points(const Transformation& t, bool) override { return points(t); }
+    PointsHandler& points(const Transformation& t, bool) { return points(t); }
 
 protected:
     enum eGeoColType
@@ -97,7 +98,7 @@ protected:
 
     //! Method to print string about this class on to a stream of type ostream
     //! (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     typedef void (GeoPointsDecoder::*SimpleDecode)(const string&);
     typedef void (GeoPointsDecoder::*Decode)(const string&, const Transformation&);
     std::map<string, Decode> formats_;

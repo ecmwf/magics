@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-
+   
 
 #ifndef NoBinningObjectWrapper_H
 #define NoBinningObjectWrapper_H
@@ -33,7 +33,7 @@
 #include "BinningObject.h"
 
 
-
+ 
 #include "BinningObjectWrapper.h"
 
 
@@ -41,7 +41,7 @@
 
 
 
-
+ 
 
 namespace magics {
 
@@ -58,21 +58,21 @@ public:
 //  --  destructor
     virtual ~NoBinningObjectWrapper();
     virtual void set(const MagRequest&);
-
+    
     NoBinningObject* me()   { return nobinningobject_; }
-
+   	
    	virtual NoBinningObject* object() { return nobinningobject_; }
+	
 
-
-	virtual void object(NoBinningObject* o) {
+	virtual void object(NoBinningObject* o) { 
 		// Remember to delete the previous object
 		nobinningobject_ = o;
 		BinningObjectWrapper::object(o);
 		
 
 	}
-
-
+    
+  
 
 protected:
     NoBinningObject* nobinningobject_;
@@ -80,7 +80,7 @@ protected:
 
 //  --  method
 	virtual void print(ostream&) const;
-
+	
 
 private:
     string tag_;
@@ -91,3 +91,5 @@ private:
 } // namespace magics
 
 #endif
+
+

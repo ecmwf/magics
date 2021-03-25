@@ -35,26 +35,26 @@ class XmlNode;
 class PlotManager : public stack<BaseSceneObject*> {
 public:
     PlotManager();
-    virtual ~PlotManager() override;
+    virtual ~PlotManager();
 
     virtual void set(const map<string, string>&) {}
     virtual void set(const XmlNode&) {}
-    virtual PlotManager* clone() override { return new PlotManager(); }
+    virtual PlotManager* clone() { return new PlotManager(); }
     void toxml(ostream&, int) const {}
 
-    virtual void superpage(MagicsManager&) override;
-    virtual void page(MagicsManager&) override;
-    virtual void subpage(MagicsManager&) override;
-    virtual void check(MagicsManager&) override;
-    virtual void addpage(MagicsManager&) override;
+    virtual void superpage(MagicsManager&);
+    virtual void page(MagicsManager&);
+    virtual void subpage(MagicsManager&);
+    virtual void check(MagicsManager&);
+    virtual void addpage(MagicsManager&);
     void addNode(MagicsManager&, BaseSceneObject* object);
     void add(BaseSceneObject* object);
 
-    virtual void addRoot(MagicsManager&) override;
+    virtual void addRoot(MagicsManager&);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     bool page_;
 
 private:

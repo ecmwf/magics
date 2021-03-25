@@ -29,11 +29,11 @@ namespace magics {
 class InteractiveAction {
 public:
     InteractiveAction() {}
-    virtual ~InteractiveAction() override {}
+    virtual ~InteractiveAction() {}
 
     virtual void execute() {}  // protype to be confirmed!
 protected:
-    virtual void print(ostream& s) const override { s << "InteractiveAction[]"; }
+    virtual void print(ostream&) const {}
     friend ostream& operator<<(ostream& s, const InteractiveAction& p) {
         p.print(s);
         return s;
@@ -43,40 +43,40 @@ protected:
 class InteractiveBegin : public BasicGraphicsObject, public map<string, InteractiveAction*> {
 public:
     InteractiveBegin(Layer* layer = 0, const string& box = "");
-    ~InteractiveBegin() override {}
+    ~InteractiveBegin() {}
 
     bool reproject(const Transformation& transformation, BasicGraphicsObjectContainer& out) const;
 
-    virtual void redisplay(const BaseDriver&) const override;
+    virtual void redisplay(const BaseDriver&) const;
 
 protected:
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 };
 
 class InteractiveEnd : public BasicGraphicsObject {
 public:
     InteractiveEnd(Layer* layer = 0, const string& box = "");
-    ~InteractiveEnd() override {}
+    ~InteractiveEnd() {}
 
-    virtual void redisplay(const BaseDriver&) const override;
+    virtual void redisplay(const BaseDriver&) const;
     bool reproject(const Transformation& transformation, BasicGraphicsObjectContainer& out) const;
 
 protected:
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 };
 
 
 class InteractiveSet : public BasicGraphicsObject, public vector<BasicGraphicsObject*> {
 public:
     InteractiveSet(Layer* layer = 0, const string& box = "");
-    virtual ~InteractiveSet() override {}
+    virtual ~InteractiveSet() {}
 
-    virtual bool reproject(const Transformation&, BasicGraphicsObjectContainer&) const override;
-    virtual void redisplay(const BaseDriver&) const override;
+    virtual bool reproject(const Transformation&, BasicGraphicsObjectContainer&) const;
+    virtual void redisplay(const BaseDriver&) const;
     void addAction(const string& name, InteractiveAction* action) { begin_->insert(make_pair(name, action)); }
 
 protected:
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     Layer* layer_;
     string box_;
     mutable Label* label_;
@@ -100,25 +100,25 @@ private:
 class InteractiveLink : public InteractiveAction {
 public:
     InteractiveLink(const string& url = "http://www.ecmwf.int") : url_(url) {}
-    ~InteractiveLink() override {}
+    ~InteractiveLink() {}
     void url(const string& url) { url_ = url; }
     const string& url() const { return url_; }
 
 protected:
     string url_;
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 };
 
 class InteractiveMagnify : public InteractiveAction {
 public:
     InteractiveMagnify(float factor = 2) : factor_(factor) {}
-    ~InteractiveMagnify() override {}
+    ~InteractiveMagnify() {}
     void factor(float factor) { factor_ = factor; }
     float factor() const { return factor_; }
 
 protected:
     float factor_;
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 };
 
 

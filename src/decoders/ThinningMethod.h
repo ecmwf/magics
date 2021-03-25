@@ -80,10 +80,10 @@ private:
 class AutomaticThinningMethod : public ThinningMethod {
 public:
     AutomaticThinningMethod();
-    virtual ~AutomaticThinningMethod() override;
+    virtual ~AutomaticThinningMethod();
 
-    virtual void set(const ThinningMethodUI&) override;
-    virtual void operator()(Data&, const Transformation&, const std::set<string>&, CustomisedPointsList&) override;
+    virtual void set(const ThinningMethodUI&);
+    virtual void operator()(Data&, const Transformation&, const std::set<string>&, CustomisedPointsList&);
 
     int points() const { return nbPoints_; }
     void points(int points) { nbPoints_ = points; }
@@ -102,10 +102,10 @@ protected:
 class BasicThinningMethod : public ThinningMethod {
 public:
     BasicThinningMethod();
-    virtual ~BasicThinningMethod() override;
+    virtual ~BasicThinningMethod();
 
-    virtual void set(const ThinningMethodUI&) override;
-    virtual void operator()(Data&, const Transformation&, const std::set<string>&, CustomisedPointsList&) override;
+    virtual void set(const ThinningMethodUI&);
+    virtual void operator()(Data&, const Transformation&, const std::set<string>&, CustomisedPointsList&);
 
     int factor() const { return factor_; }
     void factor(int factor) { factor_ = factor; }

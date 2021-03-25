@@ -60,7 +60,7 @@ void AxisTip::horizontal(const Colour& colour, BottomAxisVisitor& out) const {
     font.size(height_);
     font.colour((colour_->automatic()) ? colour : *colour_);
     text->addText(text_, font);
-    text->setVerticalAlign(VerticalAlign::TOP);
+    text->setVerticalAlign(MTOP);
 
     double x = out.maxX() - (out.maxX() - out.minX()) * 0.05;
 

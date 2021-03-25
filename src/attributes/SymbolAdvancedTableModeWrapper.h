@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-
+   
 
 #ifndef SymbolAdvancedTableModeWrapper_H
 #define SymbolAdvancedTableModeWrapper_H
@@ -33,7 +33,7 @@
 #include "SymbolAdvancedTableMode.h"
 
 
-
+ 
 #include "SymbolModeWrapper.h"
 
 
@@ -45,7 +45,7 @@
 #include "ColourTechniqueWrapper.h"
 #include "HeightTechniqueWrapper.h"
 #include "NoOutLayerTechniqueWrapper.h"
-
+ 
 
 namespace magics {
 
@@ -62,21 +62,21 @@ public:
 //  --  destructor
     virtual ~SymbolAdvancedTableModeWrapper();
     virtual void set(const MagRequest&);
-
+    
     SymbolAdvancedTableMode* me()   { return symboladvancedtablemode_; }
-
+   	
    	virtual SymbolAdvancedTableMode* object() { return symboladvancedtablemode_; }
+	
 
-
-	virtual void object(SymbolAdvancedTableMode* o) {
+	virtual void object(SymbolAdvancedTableMode* o) { 
 		// Remember to delete the previous object
 		symboladvancedtablemode_ = o;
 		SymbolModeWrapper::object(o);
 		
 
 	}
-
-
+    
+  
 
 protected:
     SymbolAdvancedTableMode* symboladvancedtablemode_;
@@ -84,7 +84,7 @@ protected:
 
 //  --  method
 	virtual void print(ostream&) const;
-
+	
 
 private:
     string tag_;
@@ -95,3 +95,5 @@ private:
 } // namespace magics
 
 #endif
+
+

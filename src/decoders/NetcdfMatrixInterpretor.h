@@ -35,10 +35,10 @@ namespace magics {
 class NetcdfMatrixInterpretor : public NetcdfInterpretor {
 public:
     NetcdfMatrixInterpretor();
-    virtual ~NetcdfMatrixInterpretor() override;
+    virtual ~NetcdfMatrixInterpretor();
 
 
-    void set(const XmlNode& node) override {
+    void set(const XmlNode& node) {
         MagLog::debug() << "NetcdfMatrixInterpretor::set(params)"
                         << "\n";
         XmlNode netcdf = node;
@@ -47,7 +47,7 @@ public:
         NetcdfInterpretor::set(node);
     }
 
-    bool accept(const string& node) override {
+    bool accept(const string& node) {
         if (NetcdfInterpretorAttributes::accept(node))
             return true;
         if (magCompare(node, "matrix"))
@@ -55,7 +55,7 @@ public:
         return false;
     }
 
-    virtual NetcdfInterpretor* clone() const override {
+    virtual NetcdfInterpretor* clone() const {
         NetcdfMatrixInterpretor* object = new NetcdfMatrixInterpretor();
         object->clone(*this);
         return object;
@@ -66,21 +66,21 @@ public:
     {
         NetcdfInterpretor::copy(*this);
     }
-    virtual bool interpretAsMatrix(Matrix**) override;
-    virtual bool interpretAsPoints(PointsList& points, const Transformation&) override;
-    virtual void visit(Transformation&) override;
-    virtual void getReady(const Transformation&) override;
-    virtual void visit(MetaDataCollector&) override;
-    virtual void visit(ValuesCollector&, PointsList&) override;
+    virtual bool interpretAsMatrix(Matrix**);
+    virtual bool interpretAsPoints(PointsList& points, const Transformation&);
+    virtual void visit(Transformation&);
+    virtual void getReady(const Transformation&);
+    virtual void visit(MetaDataCollector&);
+    virtual void visit(ValuesCollector&, PointsList&);
 
-    virtual void statsData(map<string, vector<double> >&) override;
+    virtual void statsData(map<string, vector<double> >&);
     virtual bool x();
     virtual bool y();
-    void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, int thinning) override;
+    void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, int thinning);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     Matrix* matrix_;
     vector<double> columns_;
     vector<double> rows_;

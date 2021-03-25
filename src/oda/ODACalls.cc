@@ -18,7 +18,7 @@
 
 extern "C" {
 
-#include "magics_api.h"
+#include <magics_api.h>
 
 Data* calloda(const XmlNode& node) {
     OdaGeoDecoder* oda = new OdaGeoDecoder();

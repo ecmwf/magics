@@ -66,17 +66,6 @@ if( HAVE_ODB )
   list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/oda> )
 endif()
 
-
-# we may need to add stdc++fs to the link libs
-set(STDFSLIB "")
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    if (${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS "9.0.0")
-        message(STATUS "GNU compiler < 9.0.0, so adding stdc++fs to link list")
-        set(STDFSLIB "stdc++fs")
-   endif()
-endif()
-    
-
 ecbuild_add_library( TARGET    MagPlus
                      SOURCES
                         magics.h
@@ -99,7 +88,6 @@ ecbuild_add_library( TARGET    MagPlus
                      PUBLIC_LIBS
                         ${MAGICS_EXTRA_LIBRARIES}
                         eccodes
-                        ${STDFSLIB}
                      PRIVATE_INCLUDES $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/clipper>
                                       ${MAGICS_PRIVATE_INCLUDE_DIRS}
 
@@ -206,6 +194,7 @@ endif()
 
 install( FILES magics.h                DESTINATION ${INSTALL_INCLUDE_DIR})
 install( FILES common/magics_export.h  DESTINATION ${INSTALL_INCLUDE_DIR})
+install( FILES common/magics_windef.h  DESTINATION ${INSTALL_INCLUDE_DIR})
 
 ## Add install include dirs to install interface
 foreach( target     MagPlus

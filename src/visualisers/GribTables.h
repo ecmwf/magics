@@ -55,7 +55,7 @@ public:
     }
 
     GeneralDef() : code_(-1), longTitle_("unknown"), shortTitle_("unknown") {}
-    virtual ~GeneralDef() override {}
+    virtual ~GeneralDef() {}
     int code() { return code_; }
     string longTitle() const { return longTitle_; }
     string shortTitle() const { return shortTitle_; }
@@ -63,7 +63,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const override {
+    virtual void print(ostream& out) const {
         out << "GeneralDef[";
         out << "code=" << code_;
         out << ", long title=" << longTitle_;
@@ -90,7 +90,7 @@ class CentreTable : public DefinitionTable<GeneralDef> {
 public:
     CentreTable() : DefinitionTable<GeneralDef>("centre.xml", "centre") {}
 
-    virtual ~CentreTable() override {}
+    virtual ~CentreTable() {}
     static const GeneralDef& definition(int code) { return definitionInfo("centre.xml", "centre", code); }
 
 protected:
@@ -108,7 +108,7 @@ class LevelTable : public DefinitionTable<GeneralDef> {
 public:
     LevelTable() : DefinitionTable<GeneralDef>("level.xml", "level") {}
 
-    virtual ~LevelTable() override {}
+    virtual ~LevelTable() {}
     static const GeneralDef& definition(int code) { return definitionInfo("level.xml", "level", code); }
 };
 
@@ -116,14 +116,14 @@ class TypeTable : public DefinitionTable<GeneralDef> {
 public:
     TypeTable() : DefinitionTable<GeneralDef>("type.xml", "type") {}
 
-    virtual ~TypeTable() override {}
+    virtual ~TypeTable() {}
     static const GeneralDef& definition(int code) { return definitionInfo("type.xml", "type", code); }
 };
 class SatelliteTable : public DefinitionTable<GeneralDef> {
 public:
     SatelliteTable() : DefinitionTable<GeneralDef>("satellite.xml", "identifier") {}
 
-    virtual ~SatelliteTable() override {}
+    virtual ~SatelliteTable() {}
     static const GeneralDef& definition(int code) { return definitionInfo("satellite.xml", "identifier", code); }
 };
 

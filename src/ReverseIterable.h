@@ -10,7 +10,7 @@
 
 /*!
  * \file ReverseIterable.h
- * \license Apache License 2.0
+ * \copyright Apache License 2.0
  *
  *  Created on: 20 Sep 2018
  *      Author: idris

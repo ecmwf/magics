@@ -25,8 +25,8 @@
 #define InputMatrixAttributes_H
 
 #include "magics.h"
-#include "Matrix.h"
 #include "InputMatrixInterpretor.h"
+#include "Matrix.h"
 namespace magics {
 
 class XmlNode;

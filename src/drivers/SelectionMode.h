@@ -31,11 +31,11 @@ namespace magics {
 class SelectionMode : public SelectionModeAttributes {
 public:
     SelectionMode();
-    virtual ~SelectionMode() override;
+    virtual ~SelectionMode();
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed

@@ -210,7 +210,7 @@ void TephiGrid::visit(DrawingVisitor& out) {
             tephi(poly, out.layout());
             Polyline* axe = new Polyline();
             axe->setColour(Colour("black"));
-            axe->setLineStyle(LineStyle::DASH);
+            axe->setLineStyle(M_DASH);
             axe->setThickness(1);
 
             axe->push_back(PaperPoint(maxpcx, tephi.getMinPCY()));
@@ -331,7 +331,7 @@ void TephiGrid::visit(DrawingVisitor& out) {
             Colour colour = *isotherm_colour_;
             poly.setColour(colour);
             poly.setThickness(isotherm_thickness_);
-            poly.setLineStyle(LineStyle::DASH);
+            poly.setLineStyle(M_DASH);
 
             for (double p = pmin; p <= pmax; p += 10) {
                 poly.push_back(tephi(UserPoint(1000. + i, p)));
@@ -353,7 +353,7 @@ void TephiGrid::visit(DrawingVisitor& out) {
         for (std::set<double>::iterator p = isobars.begin(); p != isobars.end(); ++p) {
             Polyline poly;
             poly.setColour(*isobar_colour_);
-            poly.setLineStyle(LineStyle::DASH);
+            poly.setLineStyle(M_DASH);
             poly.setThickness(isobar_thickness_);
             poly.push_back(tephi(UserPoint(1000, *p)));
             poly.push_back(tephi(UserPoint(1100, *p)));
@@ -384,7 +384,7 @@ void TephiGrid::visit(LeftAxisVisitor& out) {
         text->setText(tostring(label->first));
         text->setFont(font);
         text->setBlanking(true);
-        text->setJustification(Justification::RIGHT);
+        text->setJustification(MRIGHT);
         text->push_back(label->second);
         out.push_back(text);
     }
@@ -400,7 +400,7 @@ void TephiGrid::visit(RightAxisVisitor& out) {
         text->setText(tostring(label->first));
         text->setFont(font);
         text->setBlanking(true);
-        text->setJustification(Justification::LEFT);
+        text->setJustification(MLEFT);
         text->push_back(label->second);
         out.push_back(text);
     }

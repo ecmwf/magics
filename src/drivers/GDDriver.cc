@@ -32,11 +32,11 @@
         saveFlag: 1:on 0:off  (PNG only) AS EARLY AS POSSIBLE!
 */
 
-#include "GDDriver.h"
-#include "Image.h"
-#include "Polyline.h"
-#include "Symbol.h"
-#include "Text.h"
+#include <GDDriver.h>
+#include <Image.h>
+#include <Polyline.h>
+#include <Symbol.h>
+#include <Text.h>
 
 #include <gdfontl.h>
 
@@ -178,11 +178,6 @@ MAGICS_NO_EXPORT void GDDriver::startPage() const {
     if (animated_ && cPage == 0) {
         string fileName = getFileName("gif", 0);
         outFile_        = fopen(fileName.c_str(), "wb");
-
-        if (!outFile_) {
-            throw CannotOpenFile(fileName);
-        }
-
         printOutputName(fileName);
 
         gdImageGifAnimBegin(currentImage_, outFile_, 1 /*global colormap*/, 0 /*infinite loop*/);
@@ -246,12 +241,8 @@ MAGICS_NO_EXPORT void GDDriver::endPage() const {
                 fclose(outFile_);
                 printOutputName(fileName);
             }
-            else {
-                if (MagicsGlobal::strict()) {
-                    throw CannotOpenFile(fileName);
-                }
+            else
                 MagLog::error() << "GIF: cannot open file " << fileName << "!" << endl;
-            }
 #endif
         }
 
@@ -263,12 +254,8 @@ MAGICS_NO_EXPORT void GDDriver::endPage() const {
                 fclose(outFile_);
                 printOutputName(fileName);
             }
-            else {
-                if (MagicsGlobal::strict()) {
-                    throw CannotOpenFile(fileName);
-                }
+            else
                 MagLog::error() << "PNG: cannot open file " << fileName << "!" << endl;
-            }
         }
 
         if (jpg_) {
@@ -279,12 +266,8 @@ MAGICS_NO_EXPORT void GDDriver::endPage() const {
                 fclose(outFile_);
                 printOutputName(fileName);
             }
-            else {
-                if (MagicsGlobal::strict()) {
-                    throw CannotOpenFile(fileName);
-                }
+            else
                 MagLog::error() << "JPEG: cannot open file " << fileName << "!" << endl;
-            }
         }
         outFile_ = 0;
     }
@@ -383,7 +366,7 @@ MAGICS_NO_EXPORT void GDDriver::setNewColour(const Colour& colour) const {
   \param w width of the line
 
 */
-MAGICS_NO_EXPORT void GDDriver::setLineParameters(const LineStyle linestyle, const MFloat w) const {
+MAGICS_NO_EXPORT int GDDriver::setLineParameters(const LineStyle linestyle, const MFloat w) const {
     //	int width = 1;
     //	if      (w > 3.) width=static_cast<int>(w*.25);
     //	else
@@ -392,7 +375,7 @@ MAGICS_NO_EXPORT void GDDriver::setLineParameters(const LineStyle linestyle, con
         width = 1;
 
     if (width == 1 && linestyle == M_SOLID)
-        return;
+        return gdAntiAliased;
 
     const int col = gdAntiAliased;
     gdImageSetThickness(currentImage_, width);

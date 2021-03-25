@@ -36,20 +36,20 @@ namespace magics {
 class FloatingNode : public BaseSceneObject {
 public:
     FloatingNode() : layout_(0) {}
-    ~FloatingNode() override {}
+    ~FloatingNode() {}
 
-    virtual void set(const map<string, string>&) override {
+    virtual void set(const map<string, string>&) {
         MagLog::warning() << "set(const map<string, string>&) not implemented for " << *this << "\n";
     }
-    virtual void set(const XmlNode&) override {
+    virtual void set(const XmlNode&) {
         MagLog::warning() << "set(const XmlNode&) not implemented for " << *this << "\n";
     }
 
     Layout& getLayout() { return *layout_; }
-    virtual void setFromFortran() override {}
+    virtual void setFromFortran() {}
 
 protected:
-    Layout* layout_ override;
+    Layout* layout_;
 };
 
 
@@ -58,15 +58,15 @@ class FrameNode;
 class RootNode : public BaseSceneObject {
 public:
     RootNode();
-    ~RootNode() override;
-    virtual void set(const map<string, string>&) override;
-    virtual void set(const XmlNode&) override;
+    ~RootNode();
+    virtual void set(const map<string, string>&);
+    virtual void set(const XmlNode&);
 
     // Ensure compatibilty width the old Magics, and fortran
-    virtual void set(const SuperPageAttributes&) override;
+    virtual void set(const SuperPageAttributes&);
 
     // Ensure compatibility with the New Magics.
-    virtual void set(const XmlPageAttributes&) override;
+    virtual void set(const XmlPageAttributes&);
 
     void prepareGraphics();
 
@@ -81,11 +81,11 @@ public:
     BaseSceneObject* newMetviewNode(const SuperPageAttributes&);
     Layout& getLayout();
     void addChild(BaseSceneObject* child);
-    virtual void clear() override;
+    virtual void clear();
 
 
 protected:
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     FrameNode* frameNode_;
     double width_;
     double height_;

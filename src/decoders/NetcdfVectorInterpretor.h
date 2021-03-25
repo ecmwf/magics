@@ -36,10 +36,10 @@ namespace magics {
 class NetcdfVectorInterpretor : public NetcdfInterpretor {
 public:
     NetcdfVectorInterpretor();
-    virtual ~NetcdfVectorInterpretor() override;
+    virtual ~NetcdfVectorInterpretor();
 
 
-    void set(const XmlNode& node) override {
+    void set(const XmlNode& node) {
         MagLog::debug() << "NetcdfVectorInterpretor::set(params)"
                         << "\n";
         XmlNode netcdf(node);
@@ -49,13 +49,13 @@ public:
         NetcdfInterpretor::set(node);
     }
 
-    bool accept(const string& node) override {
+    bool accept(const string& node) {
         if (NetcdfInterpretorAttributes::accept(node))
             return true;
         return magCompare(node, "vector");
     }
 
-    virtual NetcdfInterpretor* clone() const override {
+    virtual NetcdfInterpretor* clone() const {
         NetcdfVectorInterpretor* object = new NetcdfVectorInterpretor();
         object->clone(*this);
         return object;
@@ -66,21 +66,21 @@ public:
     {
         NetcdfInterpretor::copy(*this);
     }
-    virtual void customisedPoints(const std::set<string>&, CustomisedPointsList&) override;
-    virtual void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, int) override;
+    virtual void customisedPoints(const std::set<string>&, CustomisedPointsList&);
+    virtual void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, int);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 };
 
 class NetcdfGeoVectorInterpretor : public NetcdfInterpretor {
 public:
     NetcdfGeoVectorInterpretor();
-    virtual ~NetcdfGeoVectorInterpretor() override;
+    virtual ~NetcdfGeoVectorInterpretor();
 
 
-    void set(const XmlNode& node) override {
+    void set(const XmlNode& node) {
         MagLog::debug() << "NetcdfGeoVectorInterpretor::set(params)"
                         << "\n";
         XmlNode netcdf(node);
@@ -89,13 +89,13 @@ public:
         NetcdfInterpretor::set(node);
     }
 
-    bool accept(const string& node) override {
+    bool accept(const string& node) {
         if (NetcdfInterpretorAttributes::accept(node))
             return true;
         return magCompare(node, "geovector");
     }
     static NetcdfInterpretor* guess(const NetcdfInterpretor& from);
-    virtual NetcdfInterpretor* clone() const override {
+    virtual NetcdfInterpretor* clone() const {
         NetcdfGeoVectorInterpretor* object = new NetcdfGeoVectorInterpretor();
         object->clone(*this);
         return object;
@@ -106,11 +106,11 @@ public:
     {
         NetcdfInterpretor::copy(*this);
     }
-    virtual void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, int) override;
+    virtual void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, int);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 
     //
@@ -120,10 +120,10 @@ protected:
 class NetcdfGeoPolarMatrixInterpretor : public NetcdfInterpretor {
 public:
     NetcdfGeoPolarMatrixInterpretor();
-    virtual ~NetcdfGeoPolarMatrixInterpretor() override;
+    virtual ~NetcdfGeoPolarMatrixInterpretor();
 
 
-    void set(const XmlNode& node) override {
+    void set(const XmlNode& node) {
         MagLog::debug() << "NetcdfGeoPolarMatrixInterpretor::set(params)"
                         << "\n";
         XmlNode netcdf(node);
@@ -132,13 +132,13 @@ public:
         NetcdfInterpretor::set(node);
     }
 
-    bool accept(const string& node) override {
+    bool accept(const string& node) {
         if (NetcdfInterpretor::accept(node))
             return true;
         return magCompare(node, "geopolarvector");
     }
 
-    virtual NetcdfInterpretor* clone() const override {
+    virtual NetcdfInterpretor* clone() const {
         NetcdfGeoPolarMatrixInterpretor* object = new NetcdfGeoPolarMatrixInterpretor();
         object->clone(*this);
         return object;
@@ -153,7 +153,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 
     //

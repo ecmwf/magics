@@ -109,38 +109,37 @@ private:
 class AxisHyperItem : public AxisItem {
 public:
     AxisHyperItem(double, vector<double>&);
-    ~AxisHyperItem() override;
+    ~AxisHyperItem();
 };
 
 class AxisTickItem : public AxisItem {
 public:
     AxisTickItem(double pos, const string& format) : AxisItem(pos, format) { label_ = ""; }
-    ~AxisTickItem() override {}
-    bool isLabel() const override { return false; }
+    ~AxisTickItem() {}
+    bool isLabel() const { return false; }
 };
 
 class AxisDateItem : public AxisItem {
 public:
-    AxisDateItem(double position, const DateTime& date, int level = 0, const string& colour = "undef",
-                 double height = 0.3);
-    ~AxisDateItem() override {}
-    AxisItem* clone() const override {
+    AxisDateItem(double position, DateTime date, int level = 0, const string& colour = "undef", double height = 0.3);
+    ~AxisDateItem() {}
+    AxisItem* clone() const {
         AxisDateItem* item = new AxisDateItem(position_, date_, level_, colour_, height_);
         return item;
     }
-    const string& id() const override { return id_; }
-    void format(const string&, int) const override;
+    const string& id() const { return id_; }
+    void format(const string&, int) const;
 
     string label(const Axis&) const { return label_; }
 
-    bool sunday() const override;
-    bool runday() const override;
+    bool sunday() const;
+    bool runday() const;
 
-    bool date() const override { return true; }
-    void id(const string& id) override { id_ = id; }
+    bool date() const { return true; }
+    void id(const string& id) { id_ = id; }
 
-    bool isTick() const override { return false; }
-    bool isGrid() const override { return false; }
+    bool isTick() const { return false; }
+    bool isGrid() const { return false; }
 
 protected:
     DateTime date_;
@@ -151,11 +150,11 @@ protected:
 class AxisMinorTickItem : public AxisItem {
 public:
     AxisMinorTickItem(double pos) : AxisItem(pos, "") { label_ = ""; }
-    ~AxisMinorTickItem() override {}
-    bool isTick() const override { return false; }
-    bool isLabel() const override { return false; }
-    bool isGrid() const override { return false; }
-    bool isMinorTick() const override { return true; }
+    ~AxisMinorTickItem() {}
+    bool isTick() const { return false; }
+    bool isLabel() const { return false; }
+    bool isGrid() const { return false; }
+    bool isMinorTick() const { return true; }
 };
 
 

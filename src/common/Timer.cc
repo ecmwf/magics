@@ -20,9 +20,10 @@
 #include "Seconds.h"
 #endif
 
+#include "AutoLock.h"
 #include "MagLog.h"
+#include "Mutex.h"
 
-#include <mutex>
 namespace magics {
 
 timeval operator-(const timeval& a, const timeval& b) {
@@ -44,9 +45,7 @@ using namespace magics;
 Timer::Timer(const string& name, const string& detail) : name_(name), details_(detail), cpu_(clock()) {
     gettimeofday(&start_, 0);
 }
-
-static std::mutex lockprofiles_;
-
+static Mutex lockprofiles_;
 Timer::~Timer() {
     timeval now;
     gettimeofday(&now, 0);
@@ -73,7 +72,7 @@ Timer::~Timer() {
 
 
     {
-        std::lock_guard<std::mutex> lock(lockprofiles_);
+        AutoLock<Mutex> lock(lockprofiles_);
 
         profiles_.push_back(ProfileInfo(name_, details_, start, stop, e.str(), c.str()));
     }

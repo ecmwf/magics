@@ -37,10 +37,11 @@
 //         preprint  12 October 1994
 //--------------------------------------------------------------------
 
+#include <assert.h>
 
-#include "MvObs.h"
 #include "MvBufrEdition.h"
 #include "MvBufrElementTable.h"
+#include "MvObs.h"
 #include "MvObsSet.h"
 
 #include <fstream>
@@ -55,10 +56,8 @@ using std::string;
 #ifdef METVIEW
 #include "MvException.h"
 #else
-#include "MagException.h"
-using namespace magics;
+#include <exception>
 #endif
-
 
 //____________________________________________________________________
 //====================================================================== MvBufrOut
@@ -465,9 +464,9 @@ void MvObs::allValues(const string& keyName, std::vector<double>& vals) {
                         valArr    = new double[valLen];
                         valArrNum = valLen;
                     }
-                    ASSERT(valArr);
+                    assert(valArr);
                     codes_get_double_array(_ecH->handle(), rKeyName.c_str(), valArr, &valLen);
-                    ASSERT(_subsetNr <= static_cast<int>(valLen));
+                    assert(_subsetNr <= static_cast<int>(valLen));
                     val = valArr[_subsetNr - 1];
                     if (cacheCompressedData_) {
                         compressedData_.addDoubleData(rKeyName, valArr, valLen);
@@ -486,14 +485,14 @@ void MvObs::allValues(const string& keyName, std::vector<double>& vals) {
         std::string rKeyName = "/subsetNumber=" + toString(_subsetNr) + "/" + keyName;
 
         codes_get_size(_ecH->handle(), rKeyName.c_str(), &valLen);
-        ASSERT(!valArr);
+        assert(!valArr);
         if (valLen == 1) {
             codes_get_double(_ecH->handle(), rKeyName.c_str(), &val);
             vals.push_back((val == CODES_MISSING_DOUBLE) ? kBufrMissingValue : val);
         }
         // Array
         else {
-            ASSERT(!valArr);
+            assert(!valArr);
             valArr    = new double[valLen];
             valArrNum = valLen;
             codes_get_double_array(_ecH->handle(), rKeyName.c_str(), valArr, &valLen);
@@ -503,7 +502,7 @@ void MvObs::allValues(const string& keyName, std::vector<double>& vals) {
     }
 
     if (valArr) {
-        ASSERT(valArrNum > 0);
+        assert(valArrNum > 0);
         delete[] valArr;
     }
 }
@@ -716,9 +715,9 @@ void MvObs::allIntValues(const string& keyName, std::vector<long>& vals) {
                         valArr    = new long[valLen];
                         valArrNum = valLen;
                     }
-                    ASSERT(valArr);
+                    assert(valArr);
                     codes_get_long_array(_ecH->handle(), rKeyName.c_str(), valArr, &valLen);
-                    ASSERT(_subsetNr <= static_cast<int>(valLen));
+                    assert(_subsetNr <= static_cast<int>(valLen));
                     val = valArr[_subsetNr - 1];
                     if (cacheCompressedData_) {
                         compressedData_.addLongData(rKeyName, valArr, valLen);
@@ -736,14 +735,14 @@ void MvObs::allIntValues(const string& keyName, std::vector<long>& vals) {
         std::string rKeyName = "/subsetNumber=" + toString(_subsetNr) + "/" + keyName;
 
         codes_get_size(_ecH->handle(), rKeyName.c_str(), &valLen);
-        ASSERT(!valArr);
+        assert(!valArr);
         if (valLen == 1) {
             codes_get_long(_ecH->handle(), rKeyName.c_str(), &val);
             vals.push_back((val == CODES_MISSING_LONG) ? kBufrMissingIntValue : val);
         }
         // Array
         else {
-            ASSERT(!valArr);
+            assert(!valArr);
             valArr    = new long[valLen];
             valArrNum = valLen;
             codes_get_long_array(_ecH->handle(), rKeyName.c_str(), valArr, &valLen);
@@ -753,7 +752,7 @@ void MvObs::allIntValues(const string& keyName, std::vector<long>& vals) {
     }
 
     if (valArr) {
-        ASSERT(valArrNum > 0);
+        assert(valArrNum > 0);
         delete[] valArr;
     }
 }
@@ -958,10 +957,10 @@ void MvObs::allStringValues(const std::string& keyName, std::vector<std::string>
                     valArrNum = valLen;
                 }
 
-                ASSERT(valArr);
+                assert(valArr);
                 std::size_t sTotal = valLen * sLenArr;
                 codes_get_string_array(_ecH->handle(), rKeyName.c_str(), valArr, &sTotal);
-                ASSERT(_subsetNr <= static_cast<int>(valLen));
+                assert(_subsetNr <= static_cast<int>(valLen));
                 val = std::string(valArr[_subsetNr - 1]);
             }
             ir++;
@@ -974,14 +973,14 @@ void MvObs::allStringValues(const std::string& keyName, std::vector<std::string>
         std::string rKeyName = "/subsetNumber=" + toString(_subsetNr) + "/" + keyName;
 
         codes_get_size(_ecH->handle(), rKeyName.c_str(), &valLen);
-        ASSERT(!valArr);
+        assert(!valArr);
         if (valLen == 1) {
             codes_get_string(_ecH->handle(), rKeyName.c_str(), buf, &sLen);
             vals.push_back(std::string(buf));
         }
         // Array
         else {
-            ASSERT(!valArr);
+            assert(!valArr);
             valArr = new char*[valLen];
             for (std::size_t i = 0; i < valLen; ++i)
                 valArr[i] = new char[sLenArr];
@@ -995,7 +994,7 @@ void MvObs::allStringValues(const std::string& keyName, std::vector<std::string>
     }
 
     if (valArr) {
-        ASSERT(valArrNum > 0);
+        assert(valArrNum > 0);
         for (std::size_t i = 0; i < valArrNum; ++i)
             delete[] valArr[i];
         delete[] valArr;
@@ -1133,7 +1132,7 @@ MvObs MvObs::cloneSubset(long subset_number) {
     // Clone, unpack and extract that particular subset
     // h2 is a temporary handle; it will be deleted at the end of this function
     codes_handle* h2 = codes_handle_clone(_ecH->handle());
-    ASSERT(h2);
+    assert(h2);
     codes_set_long(h2, "skipExtraKeyAttributes", 1);
     codes_set_long(h2, "unpack", 1);
     codes_set_long(h2, "extractSubset", subset_number);
@@ -1143,7 +1142,7 @@ MvObs MvObs::cloneSubset(long subset_number) {
     size_t size = 0;
     codes_get_message(h2, &_bufferSS, &size);
     _ecHSS = codes_handle_new_from_message_copy(0, _bufferSS, size);
-    ASSERT(_ecHSS);
+    assert(_ecHSS);
     codes_set_long(_ecHSS, "unpack", 1);
 
     // Delete the temporary codes handle
@@ -1869,7 +1868,7 @@ std::string MvObs::key(const int descriptor, const int index) {
                                        _originatingSubCentre);
 
     MvBufrElementTable* tbl = MvBufrElementTable::find(_edition);
-    ASSERT(tbl);
+    assert(tbl);
 
     std::string skey = tbl->keyName(descriptor);
 

@@ -38,31 +38,31 @@ class MarkerShadingTechnique
       public MarkerShadingTechniqueAttributes {
 public:
     MarkerShadingTechnique();
-    virtual ~MarkerShadingTechnique() override;
-    virtual void set(const map<string, string>& map) override { MarkerShadingTechniqueAttributes::set(map); }
-    virtual void set(const XmlNode& node) override { MarkerShadingTechniqueAttributes::set(node); }
-    virtual ShadingTechnique* clone() const override {
+    virtual ~MarkerShadingTechnique();
+    virtual void set(const map<string, string>& map) { MarkerShadingTechniqueAttributes::set(map); }
+    virtual void set(const XmlNode& node) { MarkerShadingTechniqueAttributes::set(node); }
+    virtual ShadingTechnique* clone() const {
         MarkerShadingTechnique* object = new MarkerShadingTechnique();
         object->copy(*this);
         return object;
     }
 
-    bool accept(const string& node) override { return MarkerShadingTechniqueAttributes::accept(node); }
+    bool accept(const string& node) { return MarkerShadingTechniqueAttributes::accept(node); }
 
-    void operator()(IsoPlot*, MatrixHandler&, BasicGraphicsObjectContainer&) override;
+    void operator()(IsoPlot*, MatrixHandler&, BasicGraphicsObjectContainer&);
 
     Symbol* operator()(double);
     virtual void operator()(const PaperPoint&);
-    // virtual void operator()(MatrixHandler&, BasicGraphicsObjectContainer&) override;
-    virtual bool prepare(LevelSelection&, const ColourTechnique&) override;
-    virtual void visit(LegendVisitor&, const ColourTechnique&) override;
-    bool hasLegend() override { return true; }  // Isolien legend is not needed!
+    // virtual void operator()(MatrixHandler&, BasicGraphicsObjectContainer&);
+    virtual bool prepare(LevelSelection&, const ColourTechnique&);
+    virtual void visit(LegendVisitor&, const ColourTechnique&);
+    bool hasLegend() { return true; }  // Isolien legend is not needed!
     CellArray* array(MatrixHandler& matrix, IntervalMap<int>& range, const Transformation& transformation, int width,
-                     int height, float resolution, const string& technique) override;
+                     int height, float resolution, const string& technique);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     vector<Symbol*>::iterator current_;
     map<Interval, Symbol*> map_;
     map<Interval, Symbol*> legend_;

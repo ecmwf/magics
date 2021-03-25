@@ -34,17 +34,17 @@ namespace magics {
 class AxisTickLabelType {
 public:
     AxisTickLabelType() {}
-    virtual ~AxisTickLabelType() override {}
+    virtual ~AxisTickLabelType() {}
     virtual void set(const XmlNode&) {}
     virtual void set(const map<string, string>&) {}
-    virtual bool accept(const string&) override { return false; }
-    virtual AxisTickLabelType* clone() const override { return new AxisTickLabelType(); }
-    virtual string label(const string& label) override { return label; }
-    virtual void toxml(ostream&) const override;
+    virtual bool accept(const string&) { return false; }
+    virtual AxisTickLabelType* clone() const { return new AxisTickLabelType(); }
+    virtual string label(const string& label) { return label; }
+    virtual void toxml(ostream&) const;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed
@@ -63,38 +63,38 @@ private:
 class NumberLabelType : public AxisTickLabelType, public NumberLabelTypeAttributes {
 public:
     NumberLabelType() {}
-    virtual ~NumberLabelType() override {}
-    virtual void set(const XmlNode& node) override { NumberLabelTypeAttributes::set(node); }
-    virtual void set(const map<string, string>& map) override { NumberLabelTypeAttributes::set(map); }
+    virtual ~NumberLabelType() {}
+    virtual void set(const XmlNode& node) { NumberLabelTypeAttributes::set(node); }
+    virtual void set(const map<string, string>& map) { NumberLabelTypeAttributes::set(map); }
     bool accept(const string& node) { return NumberLabelTypeAttributes::accept(node); }
-    virtual AxisTickLabelType* clone() const override {
-        NumberLabelType* label = new NumberLabeltype();
+    virtual AxisTickLabelType* clone() const {
+        NumberLabelType* label = new NumberLabelType();
         label->copy(*this);
         return label;
     }
-    virtual string label(const string& label) override;
-    virtual void print(ostream&) const override;
-    virtual void toxml(ostream&, int) const override;
+    virtual string label(const string& label);
+    virtual void print(ostream&) const;
+    virtual void toxml(ostream&, int) const;
 };
 
 class LabelListLabelType : public AxisTickLabelType, public LabelListLabelTypeAttributes {
 public:
     LabelListLabelType();
-    virtual ~LabelListLabelType() override {}
-    virtual void set(const XmlNode& node) override {
-        LabelListLabelTypeAttributes::set(node) override;
+    virtual ~LabelListLabelType() {}
+    virtual void set(const XmlNode& node) {
+        LabelListLabelTypeAttributes::set(node);
         current_ = labels_.begin();
     }
-    virtual void set(const map<string, string>& map) override { LabelListLabelTypeAttributes::set(map); }
+    virtual void set(const map<string, string>& map) { LabelListLabelTypeAttributes::set(map); }
     bool accept(const string& node) { return LabelListLabelTypeAttributes::accept(node); }
-    virtual AxisTickLabelType* clone() const override {
-        LabelListLabelType* label = new LabelListLabeltype();
+    virtual AxisTickLabelType* clone() const {
+        LabelListLabelType* label = new LabelListLabelType();
         label->copy(*this);
         return label;
     }
-    virtual string label(const string& label) override;
-    virtual void print(ostream&) const override;
-    virtual void toxml(ostream&, int) const override;
+    virtual string label(const string& label);
+    virtual void print(ostream&) const;
+    virtual void toxml(ostream&, int) const;
     map<string, string> cache_;
 
 protected:

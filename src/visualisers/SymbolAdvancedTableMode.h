@@ -39,64 +39,64 @@ class SymbolAdvancedTableMode : public SymbolMode,
                                 public OutLayerTechniqueInterface {
 public:
     SymbolAdvancedTableMode();
-    virtual ~SymbolAdvancedTableMode() override;
-    virtual void prepare() override;
+    virtual ~SymbolAdvancedTableMode();
+    virtual void prepare();
 
     bool accept(double) const;
-    SymbolProperties operator()(double) const override;
+    SymbolProperties operator()(double) const;
 
-    void visit(Data&, LegendVisitor&) override;
-    void visit(Data&, HistoVisitor&) override;
+    void visit(Data&, LegendVisitor&);
+    void visit(Data&, HistoVisitor&);
 
 
-    void set(const map<string, string>& map) override {
+    void set(const map<string, string>& map) {
         SymbolAdvancedTableModeAttributes::set(map);
         SymbolMode::set(map);
         prepare();
     }
-    void set(const XmlNode& node) override {
+    void set(const XmlNode& node) {
         SymbolAdvancedTableModeAttributes::set(node);
         SymbolMode::set(node);
         prepare();
     }
 
 
-    virtual bool accept(const string& node) override { return SymbolAdvancedTableModeAttributes::accept(node); }
+    virtual bool accept(const string& node) { return SymbolAdvancedTableModeAttributes::accept(node); }
 
-    virtual SymbolMode* clone() const override {
+    virtual SymbolMode* clone() const {
         SymbolAdvancedTableMode* object = new SymbolAdvancedTableMode();
         object->copy(*this);
         return object;
     }
-    void adjust(double, double, bool, const Transformation&, double) override;
+    void adjust(double, double, bool, const Transformation&, double);
     void copy(const SymbolAdvancedTableMode& other) {
         SymbolAdvancedTableModeAttributes::copy(other);
         SymbolModeAttributes::copy(other);
     }
 
-    int getCount() const override { return count_; }
-    int getTolerance() const override { return tolerance_; }
-    double getReference() const override { return reference_; }
-    double getInterval() const override { return interval_; }
-    double getMin() const override { return min_; }
-    double getMax() const override { return max_; }
-    const Colour& getMinColour() const override { return *minColour_; }
-    const Colour& getMaxColour() const override { return *maxColour_; }
-    const string& getDirection() const override { return direction_; }
-    stringarray getColours() const override { return colours_; }
-    ListPolicy getPolicy() const override { return colour_policy_; }
-    floatarray getList() const override { return list_; }
-    double getMinHeight() const override { return height_min_; }
-    double getMaxHeight() const override { return height_max_; }
-    floatarray getHeights() const override { return heights_; }
-    ListPolicy getHeightPolicy() const override { return height_policy_; }
+    int getCount() const { return count_; }
+    int getTolerance() const { return tolerance_; }
+    double getReference() const { return reference_; }
+    double getInterval() const { return interval_; }
+    double getMin() const { return min_; }
+    double getMax() const { return max_; }
+    const Colour& getMinColour() const { return *minColour_; }
+    const Colour& getMaxColour() const { return *maxColour_; }
+    const string& getDirection() const { return direction_; }
+    stringarray getColours() const { return colours_; }
+    ListPolicy getPolicy() const { return colour_policy_; }
+    floatarray getList() const { return list_; }
+    double getMinHeight() const { return height_min_; }
+    double getMaxHeight() const { return height_max_; }
+    floatarray getHeights() const { return heights_; }
+    ListPolicy getHeightPolicy() const { return height_policy_; }
     int getLevels() const { return nbLevels_; }
-    float getMinOutlayer() const override { return outlayer_min_; }
-    float getMaxOutlayer() const override { return outlayer_max_; }
+    float getMinOutlayer() const { return outlayer_min_; }
+    float getMaxOutlayer() const { return outlayer_max_; }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     IntervalMap<SymbolProperties> map_;
     int nbLevels_;
 

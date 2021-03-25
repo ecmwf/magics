@@ -42,13 +42,13 @@ public:
     void longitude(double longitude) { longitude_ = longitude; }
 
     const DateTime& reference() const { return reference_; }
-    void reference(const DateTime& ref) { reference_ = ref; }
+    void reference(DateTime ref) { reference_ = ref; }
 
     const DateTime& base() const { return base_; }
-    void base(const DateTime& base) { base_ = base; }
+    void base(DateTime base) { base_ = base; }
 
     const DateTime& valid() const { return valid_; }
-    void valid(const DateTime& valid) { valid_ = valid; }
+    void valid(DateTime valid) { valid_ = valid; }
 
     double referenceStep() const { return valid_ - reference_; }
     double step() const { return valid_ - base_; }

@@ -18,8 +18,8 @@
 
 using namespace magics;
 
+#include <Symbol.h>
 #include <expat.h>
-#include "Symbol.h"
 
 
 /////////////////////////////////////////////////////
@@ -112,32 +112,32 @@ MAGICS_NO_EXPORT void BaseDriver::renderTextSymbols(const TextSymbol& symbol) co
     for (int i = 0; i < nPos; i++) {
         if (!symbol.text().at(i).empty()) {
             Text text;
-            text.setJustification(Justification::CENTRE);
-            text.setVerticalAlign(VerticalAlign::HALF);
+            text.setJustification(MCENTRE);
+            text.setVerticalAlign(MHALF);
             text.setBlanking(symbol.blanking());
 
             MFloat shiftX = 0.;
             MFloat shiftY = 0.;
 
-            // default is NONE
-            if (symbol.position() == TextPosition::NONE) {
-                //			std::cout<<"NONE"<< std::endl;
+            // default is M_NONE
+            if (symbol.position() == Symbol::M_NONE) {
+                //			std::cout<<"M_NONE"<< std::endl;
             }
-            else if (symbol.position() == TextPosition::RIGHT) {
+            else if (symbol.position() == Symbol::M_RIGHT) {
                 shiftX = convertCM(symbol.getHeight() * .5) / coordRatioX_;
-                text.setJustification(Justification::LEFT);
+                text.setJustification(MLEFT);
             }
-            else if (symbol.position() == TextPosition::LEFT) {
+            else if (symbol.position() == Symbol::M_LEFT) {
                 shiftX = -convertCM(symbol.getHeight() * .5) / coordRatioX_;
-                text.setJustification(Justification::RIGHT);
+                text.setJustification(MRIGHT);
             }
-            else if (symbol.position() == TextPosition::BELOW) {
+            else if (symbol.position() == Symbol::M_BELOW) {
                 shiftY = setY(-convertCM(symbol.getHeight() * .6) / coordRatioY_);
-                text.setVerticalAlign(VerticalAlign::TOP);
+                text.setVerticalAlign(MTOP);
             }
-            else if (symbol.position() == TextPosition::ABOVE) {
+            else if (symbol.position() == Symbol::M_ABOVE) {
                 shiftY = setY(convertCM(symbol.getHeight() * 0.8) / coordRatioY_);
-                text.setVerticalAlign(VerticalAlign::BOTTOM);
+                text.setVerticalAlign(MBOTTOM);
             }
 
             // MagLog::dev()<<"x: " << symbol[i].x()<<"  y: "<<symbol[i].y()<<"+"<< shiftY<< endl;
@@ -177,10 +177,10 @@ MAGICS_NO_EXPORT void BaseDriver::renderTextItem(const TextItem& textItem, const
     //
     //! \todo We need to decide if we need to align text in WMO symbols
     //
-    //	if(owner[0].x() > 0) text.setJustification(Justification::MRIGHT);
-    //	else if(owner[0].x() < 0) text.setJustification(Justification::MLEFT);
+    //	if(owner[0].x() > 0) text.setJustification(MRIGHT);
+    //	else if(owner[0].x() < 0) text.setJustification(MLEFT);
 
-    text.setVerticalAlign(VerticalAlign::HALF);
+    text.setVerticalAlign(MHALF);
     text.setAngle(0.);
     text.addText(textItem.text(), textItem.font());
     renderText(text);
@@ -211,7 +211,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderFlagItem(const FlagItem& flagItem, const
 
 MAGICS_NO_EXPORT void BaseDriver::renderSymbolItem(const SymbolItem& symbol, const ComplexSymbol& owner) const {
     setNewColour(symbol.colour());
-    setLineParameters(LineStyle::SOLID, 1.);  // reset line
+    setLineParameters(M_SOLID, 1.);  // reset line
     loadSymbols();
     if (sym_.empty()) {
         MagLog::error() << "BaseDriver::renderSymbols(" << symbol.symbol() << ")-> NO symbols available!" << std::endl;
@@ -329,7 +329,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderSymbols(const Symbol& symbol) const {
 
     const unsigned int si = sym.elements.size();
     setNewColour(symbol.getColour());
-    setLineParameters(LineStyle::SOLID, 1.);  // reset line
+    setLineParameters(M_SOLID, 1.);  // reset line
 
     const MFloat pX      = 1. / coordRatioX_;
     const MFloat pY      = 1. / coordRatioY_;
@@ -352,7 +352,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderSymbols(const Symbol& symbol) const {
                     circle(symbol[l].x() + cx, symbol[l].y() + cy, r, 0);
                     // We need to go back to the original values
                     setNewColour(symbol.getColour());
-                    setLineParameters(LineStyle::SOLID, 1.);
+                    setLineParameters(M_SOLID, 1.);
                 }
             }
         }
@@ -385,7 +385,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderSymbols(const Symbol& symbol) const {
                     triangle(symbol[l].x() + cx, symbol[l].y() + cy, r, 0, li);
                     // We need to go back to the original values
                     setNewColour(symbol.getColour());
-                    setLineParameters(LineStyle::SOLID, 1.);
+                    setLineParameters(M_SOLID, 1.);
                 }
             }
         }
@@ -420,7 +420,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderSymbols(const Symbol& symbol) const {
                         renderPolyline(vPP);
                         // We need to go back to the original values
                         setNewColour(symbol.getColour());
-                        setLineParameters(LineStyle::SOLID, 1.);
+                        setLineParameters(M_SOLID, 1.);
                     }
                 }
             }

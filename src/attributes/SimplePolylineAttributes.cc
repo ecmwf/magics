@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -68,17 +68,17 @@ SimplePolylineAttributes::SimplePolylineAttributes():
 	style_policy_(MagTranslator<string, ListPolicy>().magics("polyline_line_style_list_policy")),
 	thickness_policy_(MagTranslator<string, ListPolicy>().magics("polyline_thickness_list_policy")),
 	pivot_marker_colour_(MagTranslator<string, Colour>().magics("polyline_pivot_marker_colour"))
-	
+	 
 {
-}
+} 
 
 
 SimplePolylineAttributes::~SimplePolylineAttributes()
 {
-
+	
 }
 
-
+    
 void SimplePolylineAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -177,12 +177,12 @@ void SimplePolylineAttributes::copy(const SimplePolylineAttributes& other)
 	thickness_policy_ = other.thickness_policy_;
 	pivot_marker_colour_ = unique_ptr<Colour>(other.pivot_marker_colour_->clone());
 	
-}
+} 
 
 
 bool SimplePolylineAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "polyline")  )
 		return true;
 	if ( acceptNode(node, levelSelection_) )
@@ -197,7 +197,7 @@ void SimplePolylineAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "polyline")  )
@@ -213,8 +213,8 @@ void SimplePolylineAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), levelSelection_, *elt);
-		setMember(elt->name(), colourMethod_, *elt);
+		setMember(elt->name(), levelSelection_, *elt); 
+		setMember(elt->name(), colourMethod_, *elt); 
 		
 	}
 }
@@ -270,7 +270,7 @@ void SimplePolylineAttributes::print(ostream& out)  const
 
 void SimplePolylineAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"polyline\"";
+	out <<  "\"polyline\""; 
 	out << ", \"legend\":";
 	niceprint(out,legend_);
 	out << ", \"polyline_line_thickness\":";
@@ -358,53 +358,53 @@ void SimplePolylineAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> legend("legend", "off");
-static MagicsParameter<int> polyline_line_thickness("polyline_line_thickness", 1);
-static MagicsParameter<string> polyline_effect_method("polyline_effect_method", "classic");
-static MagicsParameter<int> polyline_trajectory_pivot_index("polyline_trajectory_pivot_index", -1);
-static MagicsParameter<int> polyline_trajectory_factor("polyline_trajectory_factor", -1);
-static MagicsParameter<int> polyline_level_count("polyline_level_count", 10);
-static MagicsParameter<int> polyline_level_tolerance("polyline_level_tolerance", 2);
-static MagicsParameter<double> polyline_reference_level("polyline_reference_level", 0.0);
-static MagicsParameter<double> polyline_interval("polyline_interval", 8.0);
-static MagicsParameter<doublearray> polyline_level_list("polyline_level_list", floatarray());
-static MagicsParameter<string> polyline_shade("polyline_shade", "none");
-static MagicsParameter<double> polyline_shade_max_level("polyline_shade_max_level", 1.0e+21);
-static MagicsParameter<double> polyline_shade_min_level("polyline_shade_min_level", -1.0e+21);
-static MagicsParameter<string> polyline_shade_colour_direction("polyline_shade_colour_direction", "anti_clockwise");
-static MagicsParameter<stringarray> polyline_shade_colour_list("polyline_shade_colour_list", stringarray());
-static MagicsParameter<string> polyline_priority_variable_name("polyline_priority_variable_name", "");
-static MagicsParameter<string> polyline_colour_variable_name("polyline_colour_variable_name", "");
-static MagicsParameter<stringarray> polyline_colour_list("polyline_colour_list", stringarray());
-static MagicsParameter<doublearray> polyline_colour_level_list("polyline_colour_level_list", floatarray());
-static MagicsParameter<string> polyline_line_style_variable_name("polyline_line_style_variable_name", "");
-static MagicsParameter<stringarray> polyline_line_style_list("polyline_line_style_list", stringarray());
-static MagicsParameter<doublearray> polyline_line_style_level_list("polyline_line_style_level_list", floatarray());
-static MagicsParameter<string> polyline_thickness_variable_name("polyline_thickness_variable_name", "");
-static MagicsParameter<doublearray> polyline_thickness_list("polyline_thickness_list", floatarray());
-static MagicsParameter<doublearray> polyline_thickness_level_list("polyline_thickness_level_list", floatarray());
-static MagicsParameter<string> polyline_transparency_variable_name("polyline_transparency_variable_name", "");
-static MagicsParameter<string> polyline_transparency_pivot_variable_name("polyline_transparency_pivot_variable_name", "");
-static MagicsParameter<string> polyline_pivot_marker("polyline_pivot_marker", "none");
-static MagicsParameter<string> polyline_pivot_marker_name("polyline_pivot_marker_name", "cyclone");
-static MagicsParameter<double> polyline_pivot_marker_height("polyline_pivot_marker_height", 0.4);
-static MagicsParameter<doublearray> polyline_transparency_level_list("polyline_transparency_level_list", floatarray());
-static MagicsParameter<string> polyline_legend_only("polyline_legend_only", "off");
-static MagicsParameter<string> polyline_line_colour("polyline_line_colour", "blue");
-static MagicsParameter<string> polyline_line_style("polyline_line_style", "solid");
-static MagicsParameter<string> polyline_shade_level_selection_type("polyline_shade_level_selection_type", "count");
-static MagicsParameter<string> polyline_shade_colour_method("polyline_shade_colour_method", "calculate");
-static MagicsParameter<string> polyline_shade_max_level_colour("polyline_shade_max_level_colour", "blue");
-static MagicsParameter<string> polyline_shade_min_level_colour("polyline_shade_min_level_colour", "red");
-static MagicsParameter<string> polyline_colour_list_policy("polyline_colour_list_policy", "lastone");
-static MagicsParameter<string> polyline_line_style_list_policy("polyline_line_style_list_policy", "lastone");
-static MagicsParameter<string> polyline_thickness_list_policy("polyline_thickness_list_policy", "lastone");
-static MagicsParameter<string> polyline_pivot_marker_colour("polyline_pivot_marker_colour", "black");
-#include "CountSelectionType.h"
-#include "IntervalSelectionType.h"
-#include "LevelListSelectionType.h"
-#include "CalculateColourTechnique.h"
+static MagicsParameter<string> legend("legend", "off", "");
+static MagicsParameter<int> polyline_line_thickness("polyline_line_thickness", 1, "");
+static MagicsParameter<string> polyline_effect_method("polyline_effect_method", "classic", "");
+static MagicsParameter<int> polyline_trajectory_pivot_index("polyline_trajectory_pivot_index", -1, "");
+static MagicsParameter<int> polyline_trajectory_factor("polyline_trajectory_factor", -1, "");
+static MagicsParameter<int> polyline_level_count("polyline_level_count", 10, "");
+static MagicsParameter<int> polyline_level_tolerance("polyline_level_tolerance", 2, "");
+static MagicsParameter<double> polyline_reference_level("polyline_reference_level", 0.0, "");
+static MagicsParameter<double> polyline_interval("polyline_interval", 8.0, "");
+static MagicsParameter<doublearray> polyline_level_list("polyline_level_list", floatarray(), "");
+static MagicsParameter<string> polyline_shade("polyline_shade", "none", "");
+static MagicsParameter<double> polyline_shade_max_level("polyline_shade_max_level", 1.0e+21, "");
+static MagicsParameter<double> polyline_shade_min_level("polyline_shade_min_level", -1.0e+21, "");
+static MagicsParameter<string> polyline_shade_colour_direction("polyline_shade_colour_direction", "anti_clockwise", "");
+static MagicsParameter<stringarray> polyline_shade_colour_list("polyline_shade_colour_list", stringarray(), "");
+static MagicsParameter<string> polyline_priority_variable_name("polyline_priority_variable_name", "", "");
+static MagicsParameter<string> polyline_colour_variable_name("polyline_colour_variable_name", "", "");
+static MagicsParameter<stringarray> polyline_colour_list("polyline_colour_list", stringarray(), "");
+static MagicsParameter<doublearray> polyline_colour_level_list("polyline_colour_level_list", floatarray(), "");
+static MagicsParameter<string> polyline_line_style_variable_name("polyline_line_style_variable_name", "", "");
+static MagicsParameter<stringarray> polyline_line_style_list("polyline_line_style_list", stringarray(), "");
+static MagicsParameter<doublearray> polyline_line_style_level_list("polyline_line_style_level_list", floatarray(), "");
+static MagicsParameter<string> polyline_thickness_variable_name("polyline_thickness_variable_name", "", "");
+static MagicsParameter<doublearray> polyline_thickness_list("polyline_thickness_list", floatarray(), "");
+static MagicsParameter<doublearray> polyline_thickness_level_list("polyline_thickness_level_list", floatarray(), "");
+static MagicsParameter<string> polyline_transparency_variable_name("polyline_transparency_variable_name", "", "");
+static MagicsParameter<string> polyline_transparency_pivot_variable_name("polyline_transparency_pivot_variable_name", "", "");
+static MagicsParameter<string> polyline_pivot_marker("polyline_pivot_marker", "none", "");
+static MagicsParameter<string> polyline_pivot_marker_name("polyline_pivot_marker_name", "cyclone", "");
+static MagicsParameter<double> polyline_pivot_marker_height("polyline_pivot_marker_height", 0.4, "");
+static MagicsParameter<doublearray> polyline_transparency_level_list("polyline_transparency_level_list", floatarray(), "");
+static MagicsParameter<string> polyline_legend_only("polyline_legend_only", "off", "");
+static MagicsParameter<string> polyline_line_colour("polyline_line_colour", "blue", ""); 
+static MagicsParameter<string> polyline_line_style("polyline_line_style", "solid", ""); 
+static MagicsParameter<string> polyline_shade_level_selection_type("polyline_shade_level_selection_type", "count", ""); 
+static MagicsParameter<string> polyline_shade_colour_method("polyline_shade_colour_method", "calculate", ""); 
+static MagicsParameter<string> polyline_shade_max_level_colour("polyline_shade_max_level_colour", "blue", ""); 
+static MagicsParameter<string> polyline_shade_min_level_colour("polyline_shade_min_level_colour", "red", ""); 
+static MagicsParameter<string> polyline_colour_list_policy("polyline_colour_list_policy", "lastone", ""); 
+static MagicsParameter<string> polyline_line_style_list_policy("polyline_line_style_list_policy", "lastone", ""); 
+static MagicsParameter<string> polyline_thickness_list_policy("polyline_thickness_list_policy", "lastone", ""); 
+static MagicsParameter<string> polyline_pivot_marker_colour("polyline_pivot_marker_colour", "black", ""); 
 #include "ListColourTechnique.h"
+#include "IntervalSelectionType.h"
+#include "CountSelectionType.h"
+#include "CalculateColourTechnique.h"
+#include "LevelListSelectionType.h"
 static SimpleObjectMaker<CountSelectionType , LevelSelection> count_CountSelectionType("count");
 static SimpleObjectMaker<IntervalSelectionType , LevelSelection> interval_IntervalSelectionType("interval");
 static SimpleObjectMaker<LevelListSelectionType , LevelSelection> list_LevelListSelectionType("list");

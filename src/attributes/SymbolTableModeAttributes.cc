@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -32,17 +32,17 @@ SymbolTableModeAttributes::SymbolTableModeAttributes():
 	colour_(ParameterManager::getStringArray("symbol_colour_table")),
 	height_(ParameterManager::getDoubleArray("symbol_height_table"))
 	
-	
+	 
 {
-}
+} 
 
 
 SymbolTableModeAttributes::~SymbolTableModeAttributes()
 {
-
+	
 }
 
-
+    
 void SymbolTableModeAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -68,12 +68,12 @@ void SymbolTableModeAttributes::copy(const SymbolTableModeAttributes& other)
 	colour_ = other.colour_;
 	height_ = other.height_;
 	
-}
+} 
 
 
 bool SymbolTableModeAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "table")  )
 		return true;
 	
@@ -84,7 +84,7 @@ void SymbolTableModeAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "table")  )
@@ -117,7 +117,7 @@ void SymbolTableModeAttributes::print(ostream& out)  const
 
 void SymbolTableModeAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"table\"";
+	out <<  "\"table\""; 
 	out << ", \"symbol_min_table\":";
 	niceprint(out,min_);
 	out << ", \"symbol_max_table\":";
@@ -133,9 +133,9 @@ void SymbolTableModeAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<doublearray> symbol_min_table("symbol_min_table", floatarray());
-static MagicsParameter<doublearray> symbol_max_table("symbol_max_table", floatarray());
-static MagicsParameter<intarray> symbol_marker_table("symbol_marker_table", intarray());
-static MagicsParameter<stringarray> symbol_name_table("symbol_name_table", stringarray());
-static MagicsParameter<stringarray> symbol_colour_table("symbol_colour_table", stringarray());
-static MagicsParameter<doublearray> symbol_height_table("symbol_height_table", floatarray());
+static MagicsParameter<doublearray> symbol_min_table("symbol_min_table", floatarray(), "");
+static MagicsParameter<doublearray> symbol_max_table("symbol_max_table", floatarray(), "");
+static MagicsParameter<intarray> symbol_marker_table("symbol_marker_table", intarray(), "");
+static MagicsParameter<stringarray> symbol_name_table("symbol_name_table", stringarray(), "");
+static MagicsParameter<stringarray> symbol_colour_table("symbol_colour_table", stringarray(), "");
+static MagicsParameter<doublearray> symbol_height_table("symbol_height_table", floatarray(), "");

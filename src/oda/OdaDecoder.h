@@ -42,13 +42,13 @@ public:
 class OdaGeoDecoder : public OdaGeoDecoderAttributes, public Decoder, public Data, public PointsList {
 public:
     OdaGeoDecoder();
-    virtual ~OdaGeoDecoder() override;
+    virtual ~OdaGeoDecoder();
 
     //! Decoder interface
     virtual void decode(const Transformation&);
-    virtual void decode() override;
-    virtual void set(const map<string, string>& map) override { OdaGeoDecoderAttributes::set(map); }
-    virtual void set(const XmlNode& node) override { OdaGeoDecoderAttributes::set(node); }
+    virtual void decode();
+    virtual void set(const map<string, string>& map) { OdaGeoDecoderAttributes::set(map); }
+    virtual void set(const XmlNode& node) { OdaGeoDecoderAttributes::set(node); }
 
     PointsHandler& points(const Transformation& transformation) {
         decode(transformation);
@@ -77,7 +77,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     void position(double& lat, double& lon);
 
     CustomisedPointsList customisedPoints_;
@@ -98,13 +98,13 @@ private:
 class OdaXYDecoder : public OdaXYDecoderAttributes, public Decoder, public Data, public PointsList {
 public:
     OdaXYDecoder();
-    virtual ~OdaXYDecoder() override;
+    virtual ~OdaXYDecoder();
 
     //! Decoder interface
     virtual void decode(const Transformation&);
-    virtual void decode() override;
-    virtual void set(const map<string, string>& map) override { OdaXYDecoderAttributes::set(map); }
-    virtual void set(const XmlNode& node) override { OdaXYDecoderAttributes::set(node); }
+    virtual void decode();
+    virtual void set(const map<string, string>& map) { OdaXYDecoderAttributes::set(map); }
+    virtual void set(const XmlNode& node) { OdaXYDecoderAttributes::set(node); }
     void visit(Transformation&);
     MatrixHandler& matrix();
 
@@ -136,7 +136,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     Matrix* matrix_;
 
 

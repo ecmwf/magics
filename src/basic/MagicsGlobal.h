@@ -20,27 +20,38 @@
 
 #include "MagicsGlobalAttributes.h"
 #include "magics.h"
-#include "magics_export.h"
 
 namespace magics {
 
 class MagicsGlobal : public MagicsGlobalAttributes {
 public:
-    MAGICS_EXPORT static bool silent();
-    MAGICS_EXPORT static void silent(bool s);
-    MAGICS_EXPORT static bool compatibility();
-    MAGICS_EXPORT static void compatibility(bool c);
-
-    MAGICS_EXPORT static bool strict();
-    MAGICS_EXPORT static void strict(bool c);
+    MagicsGlobal(){};
+    ~MagicsGlobal(){};
+    static bool silent() {
+        global();
+        return singleton_->silent_;
+    }
+    static void silent(bool s) {
+        global();
+        singleton_->silent_ = s;
+    }
+    static bool compatibility() {
+        global();
+        return singleton_->compatibility_;
+    }
+    static void compatibility(bool c) {
+        global();
+        singleton_->compatibility_ = c;
+    }
 
 protected:
-    MagicsGlobal(){};
-    ~MagicsGlobal() override{};
-
-    static MagicsGlobal& instance();
-
-    void print(ostream& s) const override { MagicsGlobalAttributes::print(s); }
+    static MagicsGlobal* singleton_;
+    static MagicsGlobal* global() {
+        if (!singleton_)
+            singleton_ = new MagicsGlobal();
+        return singleton_;
+    }
+    void print(ostream& s) const { MagicsGlobalAttributes::print(s); }
 
 private:
     //! Copy constructor - No copy allowed
@@ -55,8 +66,6 @@ private:
         return s;
     }
 };
-
-
 
 }  // namespace magics
 #endif

@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -29,17 +29,17 @@ BoxPlotBoxBorderAttributes::BoxPlotBoxBorderAttributes():
 	,
 	colour_(MagTranslator<string, Colour>().magics("boxplot_box_border_colour")),
 	style_(MagTranslator<string, LineStyle>().magics("boxplot_box_border_line_style"))
-	
+	 
 {
-}
+} 
 
 
 BoxPlotBoxBorderAttributes::~BoxPlotBoxBorderAttributes()
 {
-
+	
 }
 
-
+    
 void BoxPlotBoxBorderAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -60,12 +60,12 @@ void BoxPlotBoxBorderAttributes::copy(const BoxPlotBoxBorderAttributes& other)
 	colour_ = unique_ptr<Colour>(other.colour_->clone());
 	style_ = other.style_;
 	
-}
+} 
 
 
 bool BoxPlotBoxBorderAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "box_border")  )
 		return true;
 	
@@ -76,7 +76,7 @@ void BoxPlotBoxBorderAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "box_border")  )
@@ -106,7 +106,7 @@ void BoxPlotBoxBorderAttributes::print(ostream& out)  const
 
 void BoxPlotBoxBorderAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"box_border\"";
+	out <<  "\"box_border\""; 
 	out << ", \"boxplot_box_border_thickness\":";
 	niceprint(out,thickness_);
 	out << ", \"boxplot_box_border_colour\":";
@@ -116,6 +116,6 @@ void BoxPlotBoxBorderAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<int> boxplot_box_border_thickness("boxplot_box_border_thickness", 1);
-static MagicsParameter<string> boxplot_box_border_colour("boxplot_box_border_colour", "navy");
-static MagicsParameter<string> boxplot_box_border_line_style("boxplot_box_border_line_style", "solid");
+static MagicsParameter<int> boxplot_box_border_thickness("boxplot_box_border_thickness", 1, "");
+static MagicsParameter<string> boxplot_box_border_colour("boxplot_box_border_colour", "navy", ""); 
+static MagicsParameter<string> boxplot_box_border_line_style("boxplot_box_border_line_style", "solid", ""); 

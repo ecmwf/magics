@@ -108,7 +108,7 @@ void TDynamicTime ::DecodeCompareValue(const long& aCompareValue) {
     for (short y = firstYear; aValue >= 0; xYear = y++)
         aValue -= 24L * 60L * (long)DaysInYear(y);
     if (aValue < 0)
-        aValue += 24L * 60L * (long)DaysInYear(xYear);  // FIXME: xYear is never set
+        aValue += 24L * 60L * (long)DaysInYear(xYear);
 
     for (short m = 1; aValue >= 0; xMonth = m++)
         aValue -= 24L * 60L * (long)DaysInMonth(m, xYear);

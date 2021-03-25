@@ -138,7 +138,7 @@ void CartesianTransformation::aspectRatio(double& width, double& height) {
     init();
     double w = getAbsoluteMaxPCX() - getAbsoluteMinPCX();
     double h = getAbsoluteMaxPCY() - getAbsoluteMinPCY();
-    return;  // FIXME: Nothing happens here
+    return;
     if (w / h >= width / height) {
         double nh = (h / w) * width;
         if (nh <= height) {

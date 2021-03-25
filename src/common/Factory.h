@@ -55,7 +55,7 @@ template <class A, class B = A>
 class SimpleObjectMaker : public SimpleFactory<B> {
 public:
     SimpleObjectMaker(const string& name) : SimpleFactory<B>(name) {}
-    B* make() const override { return new A(); }
+    B* make() const { return new A(); }
 };
 
 

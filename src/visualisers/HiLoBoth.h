@@ -38,14 +38,14 @@ namespace magics {
 class HiLoBoth : public HiLoTechnique, public HiLoTextAttributes, public HiLoMarkerAttributes {
 public:
     HiLoBoth() : high_(0), low_(0) {}
-    virtual ~HiLoBoth() override {}
-    void set(const map<string, string>& map) override {
+    virtual ~HiLoBoth() {}
+    void set(const map<string, string>& map) {
         HiLoTechnique::set(map);
 
         HiLoTextAttributes::set(map);
         HiLoMarkerAttributes::set(map);
     }
-    void set(const XmlNode& node) override {
+    void set(const XmlNode& node) {
         HiLoTechnique::set(node);
 
         HiLoTextAttributes::set(node);
@@ -62,19 +62,19 @@ public:
         HiLoTextAttributes::copy(from);
         HiLoMarkerAttributes::copy(from);
     }
-    void clear() override {
+    void clear() {
         high_ = 0;
         low_  = 0;
     }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const override { out << "HiLoBoth"; }
-    virtual void operator()(const PaperPoint& point, HiLo& hilo) override {
+    virtual void print(ostream& out) const { out << "HiLoBoth"; }
+    virtual void operator()(const PaperPoint& point, HiLo& hilo) {
         if (!high_) {
             // Create Text List containing the position of the High
             high_ = new TextSymbol();
-            high_->position(TextPosition::ABOVE);
+            high_->position(Symbol::M_ABOVE);
             MagFont font;
             font.name("sansserif");
             font.colour(*hi_colour_);
@@ -90,7 +90,7 @@ protected:
         if (!low_) {
             // Create Text List containing the position of the High
             low_ = new TextSymbol();
-            low_->position(TextPosition::ABOVE);
+            low_->position(Symbol::M_ABOVE);
             low_->setMarker(index_);
             MagFont font;
             font.name("sansserif");

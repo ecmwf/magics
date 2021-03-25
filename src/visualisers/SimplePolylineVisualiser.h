@@ -40,37 +40,37 @@ class XmlNode;
 class SimplePolylineVisualiser : public SimplePolylineAttributes, public Visdef {
 public:
     SimplePolylineVisualiser();
-    virtual ~SimplePolylineVisualiser() override;
+    virtual ~SimplePolylineVisualiser();
 
 
-    void operator()(Data&, BasicGraphicsObjectContainer&) override;
-    void visit(Data&, LegendVisitor&) override;
-    bool needLegend() override { return legend_; }
-    int getCount() const override { return count_; }
-    int getTolerance() const override { return tolerance_; }
-    double getReference() const override { return reference_; }
-    double getInterval() const override { return interval_; }
-    doublearray getList() const override { return list_; };
-    double getMin() const override { return min_; }
-    double getMax() const override { return max_; }
+    void operator()(Data&, BasicGraphicsObjectContainer&);
+    void visit(Data&, LegendVisitor&);
+    bool needLegend() { return legend_; }
+    int getCount() const { return count_; }
+    int getTolerance() const { return tolerance_; }
+    double getReference() const { return reference_; }
+    double getInterval() const { return interval_; }
+    doublearray getList() const { return list_; };
+    double getMin() const { return min_; }
+    double getMax() const { return max_; }
 
-    const Colour& getMinColour() const override { return *minColour_; }
-    const Colour& getMaxColour() const override { return *maxColour_; }
-    const string& getDirection() const override { return direction_; }
-    stringarray getColours() const override { return colours_; }
+    const Colour& getMinColour() const { return *minColour_; }
+    const Colour& getMaxColour() const { return *maxColour_; }
+    const string& getDirection() const { return direction_; }
+    stringarray getColours() const { return colours_; }
 
-    ListPolicy getPolicy() const override { return ListPolicy::LASTONE; }
+    ListPolicy getPolicy() const { return M_LASTONE; }
     // Implements the set method ...
-    void set(const map<string, string>& map) override { SimplePolylineAttributes::set(map); }
-    void set(const XmlNode& node) override { SimplePolylineAttributes::set(node); }
+    void set(const map<string, string>& map) { SimplePolylineAttributes::set(map); }
+    void set(const XmlNode& node) { SimplePolylineAttributes::set(node); }
 
     void basic(Data&, BasicGraphicsObjectContainer&);
     void smooth(Data&, BasicGraphicsObjectContainer&);
-    void visit(LegendVisitor&) override;
+    void visit(LegendVisitor&);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     Colour colour(const CustomisedPoint&);
     LineStyle style(const CustomisedPoint&);
     double thickness(const CustomisedPoint&);

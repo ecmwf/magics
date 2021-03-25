@@ -20,7 +20,7 @@
 */
 
 #include "GeoPointsDecoder.h"
-#include "MagicsGlobal.h"
+
 #include "SciMethods.h"
 
 using namespace magics;
@@ -170,7 +170,7 @@ void GeoPointsDecoder::xyv1(const string& line) {
 
 void GeoPointsDecoder::ncols(const string& line, const Transformation& transformation) {
     std::istringstream in(line);
-    double lat = missing_, lon = missing_, date, time, level, elevation, value = missing_;
+    double lat, lon, date, time, level, elevation, value;
     string stnid;
 
     // the column order has been detected by parseColumnNames and stored in
@@ -333,9 +333,6 @@ void GeoPointsDecoder::decode(const Transformation& transformation) {
         in.close();
     }
     catch (...) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
         MagLog::error() << "Geopoints file : can not open " << path_ << endl;
     }
 }
@@ -388,9 +385,6 @@ void GeoPointsDecoder::decode() {
         in.close();
     }
     catch (...) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
         MagLog::error() << "Geopoints file : can not open " << path_ << endl;
     }
 }

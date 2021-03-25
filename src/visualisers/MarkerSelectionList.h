@@ -32,13 +32,13 @@ namespace magics {
 class MarkerSelectionList : public MarkerSelection, public MarkerSelectionListAttributes {
 public:
     MarkerSelectionList();
-    virtual ~MarkerSelectionList() override;
-    virtual void set(map<string, string> map) override { MarkerSelectionListAttributes::set(map); }
+    virtual ~MarkerSelectionList();
+    virtual void set(map<string, string> map) { MarkerSelectionListAttributes::set(map); }
     void prepare();
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed

@@ -17,9 +17,8 @@
     Changes:
 */
 
-#include "MagLog.h"
+#include <MagLog.h>
 #include <algorithm>
-#include "MagException.h"
 #include "MagicsObserver.h"
 
 using namespace magics;
@@ -28,7 +27,6 @@ MagLog MagLog::log_;
 bool MagLog::header_;
 
 namespace magics {
-
 class MagLogObserver : public ostringstream {
 public:
     MagLogObserver() : silent_(false) {}
@@ -106,6 +104,8 @@ public:
     void* data_;
     LOG callback_;
 };
+
+}  // namespace magics
 
 static MagLogObserver MYLOG;
 
@@ -365,6 +365,3 @@ void MagLog::unregisterObserver(MagicsObserver* observer) {
     if (o != log_.observers_.end())
         log_.observers_.erase(o);
 }
-
-
-}  // namespace magics

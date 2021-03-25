@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-
+   
 
 #ifndef EpsgramDecoderWrapper_H
 #define EpsgramDecoderWrapper_H
@@ -39,15 +39,15 @@
 
 
 
-
+ 
 
 namespace magics {
 
 class MagRequest;
 
 
-
-class EpsgramDecoderWrapper
+ 	
+class EpsgramDecoderWrapper 
 
 {
 public:
@@ -57,20 +57,20 @@ public:
 //  --  destructor
     virtual ~EpsgramDecoderWrapper();
     virtual void set(const MagRequest&);
-
+    
     EpsgramDecoder* me()   { return epsgramdecoder_; }
-
+   	
    	virtual EpsgramDecoder* object() { return epsgramdecoder_; }
+	
 
-
-	virtual void object(EpsgramDecoder* o) {
+	virtual void object(EpsgramDecoder* o) { 
 		// Remember to delete the previous object
 		epsgramdecoder_ = o;
 		
 
 	}
-
-
+    
+  
 
 protected:
     EpsgramDecoder* epsgramdecoder_;
@@ -78,7 +78,7 @@ protected:
 
 //  --  method
 	virtual void print(ostream&) const;
-
+	
 
 private:
     string tag_;
@@ -89,3 +89,5 @@ private:
 } // namespace magics
 
 #endif
+
+

@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-
+   
 
 #ifndef IsoPlotWrapper_H
 #define IsoPlotWrapper_H
@@ -44,15 +44,15 @@
 #include "LevelSelectionWrapper.h"
 #include "NoIsoLabelWrapper.h"
 #include "NoIsoShadingWrapper.h"
-
+ 
 
 namespace magics {
 
 class MagRequest;
 
 
-
-class IsoPlotWrapper
+ 	
+class IsoPlotWrapper 
 
 {
 public:
@@ -62,20 +62,20 @@ public:
 //  --  destructor
     virtual ~IsoPlotWrapper();
     virtual void set(const MagRequest&);
-
+    
     IsoPlot* me()   { return isoplot_; }
-
+   	
    	virtual IsoPlot* object() { return isoplot_; }
+	
 
-
-	virtual void object(IsoPlot* o) {
+	virtual void object(IsoPlot* o) { 
 		// Remember to delete the previous object
 		isoplot_ = o;
 		
 
 	}
-
-
+    
+  
 
 protected:
     IsoPlot* isoplot_;
@@ -83,7 +83,7 @@ protected:
 
 //  --  method
 	virtual void print(ostream&) const;
-
+	
 
 private:
     string tag_;
@@ -94,3 +94,5 @@ private:
 } // namespace magics
 
 #endif
+
+

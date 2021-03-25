@@ -18,10 +18,10 @@
 #include <time.h>
 #include "magics.h"
 
-#ifdef MAGICS_ON_WINDOWS
-#include "windux.h"
-#else
+#ifndef MAGICS_ON_WINDOWS
 #include <sys/time.h>
+#else
+#include "win_time.h"
 #endif
 
 

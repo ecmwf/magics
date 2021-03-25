@@ -36,20 +36,20 @@ namespace magics {
 class LevelTableDefinition : public TableDefinitionInterface<double> {
 public:
     LevelTableDefinition() {}
-    LevelTableDefinition* clone() const override { return new LevelTableDefinition(); }
-    virtual void toxml(ostream&, int) const override {}
+    LevelTableDefinition* clone() const { return new LevelTableDefinition(); }
+    virtual void toxml(ostream&, int) const {}
 };
 
 class LevelTableDefinitionList : public LevelTableDefinition {
 public:
     LevelTableDefinitionList() { helper_ = new TableDefinitionList<double>(); }
-    LevelTableDefinition* clone() const override { return new LevelTableDefinitionList(); }
+    LevelTableDefinition* clone() const { return new LevelTableDefinitionList(); }
 };
 
 class LevelTableDefinitionCompute : public LevelTableDefinition {
 public:
     LevelTableDefinitionCompute() { helper_ = new TableDefinitionCompute<double>(); }
-    LevelTableDefinition* clone() const override { return new LevelTableDefinitionCompute(); }
+    LevelTableDefinition* clone() const { return new LevelTableDefinitionCompute(); }
 };
 
 

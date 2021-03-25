@@ -23,7 +23,7 @@
 using namespace magics;
 
 
-Flag::Flag() : length_(1), convention_(FlagConvention::SI) {}
+Flag::Flag() : length_(1), convention_(SI) {}
 
 
 Flag::~Flag() {}

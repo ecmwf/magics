@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -29,17 +29,17 @@ CellShadingAttributes::CellShadingAttributes():
 	method_(ParameterManager::getString("contour_shade_cell_method")),
 	resolution_method_(ParameterManager::getString("contour_shade_cell_resolution_method"))
 	
-	
+	 
 {
-}
+} 
 
 
 CellShadingAttributes::~CellShadingAttributes()
 {
-
+	
 }
 
-
+    
 void CellShadingAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(4);
@@ -62,12 +62,12 @@ void CellShadingAttributes::copy(const CellShadingAttributes& other)
 	method_ = other.method_;
 	resolution_method_ = other.resolution_method_;
 	
-}
+} 
 
 
 bool CellShadingAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "cell_shading")  )
 		return true;
 	
@@ -78,7 +78,7 @@ void CellShadingAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "cell_shading")  )
@@ -108,7 +108,7 @@ void CellShadingAttributes::print(ostream& out)  const
 
 void CellShadingAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"cell_shading\"";
+	out <<  "\"cell_shading\""; 
 	out << ", \"contour_shade_cell_resolution\":";
 	niceprint(out,resolution_);
 	out << ", \"contour_shade_cell_method\":";
@@ -118,6 +118,6 @@ void CellShadingAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> contour_shade_cell_resolution("contour_shade_cell_resolution", 10);
-static MagicsParameter<string> contour_shade_cell_method("contour_shade_cell_method", "nearest");
-static MagicsParameter<string> contour_shade_cell_resolution_method("contour_shade_cell_resolution_method", "classic");
+static MagicsParameter<double> contour_shade_cell_resolution("contour_shade_cell_resolution", 10, "");
+static MagicsParameter<string> contour_shade_cell_method("contour_shade_cell_method", "nearest", "");
+static MagicsParameter<string> contour_shade_cell_resolution_method("contour_shade_cell_resolution_method", "classic", "");

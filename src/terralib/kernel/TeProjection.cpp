@@ -2186,8 +2186,7 @@ TeProjection* TeGetTeProjectionFromWKT(const string& wkt) {
 
     TeDatum dat = TeDatumFactory::makeFromWKT(wkt);
     vector<string> tokens;
-    char* buffer  = new char[wkt.size() + 1];
-    char* wktchar = buffer;
+    char* wktchar = new char[wkt.size()];
     strcpy(wktchar, wkt.c_str());
     bool res = tokenizeWKT((char**)&wktchar, tokens);
     delete[] wktchar;

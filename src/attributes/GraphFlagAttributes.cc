@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -28,17 +28,17 @@ GraphFlagAttributes::GraphFlagAttributes():
 	length_(ParameterManager::getDouble("graph_flag_length"))
 	,
 	colour_(MagTranslator<string, Colour>().magics("graph_flag_colour"))
-	
+	 
 {
-}
+} 
 
 
 GraphFlagAttributes::~GraphFlagAttributes()
 {
-
+	
 }
 
-
+    
 void GraphFlagAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -56,12 +56,12 @@ void GraphFlagAttributes::copy(const GraphFlagAttributes& other)
 	length_ = other.length_;
 	colour_ = unique_ptr<Colour>(other.colour_->clone());
 	
-}
+} 
 
 
 bool GraphFlagAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "flag")  )
 		return true;
 	
@@ -72,7 +72,7 @@ void GraphFlagAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "flag")  )
@@ -101,7 +101,7 @@ void GraphFlagAttributes::print(ostream& out)  const
 
 void GraphFlagAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"flag\"";
+	out <<  "\"flag\""; 
 	out << ", \"graph_flag_length\":";
 	niceprint(out,length_);
 	out << ", \"graph_flag_colour\":";
@@ -109,5 +109,5 @@ void GraphFlagAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> graph_flag_length("graph_flag_length", 0.75);
-static MagicsParameter<string> graph_flag_colour("graph_flag_colour", "black");
+static MagicsParameter<double> graph_flag_length("graph_flag_length", 0.75, "");
+static MagicsParameter<string> graph_flag_colour("graph_flag_colour", "black", ""); 

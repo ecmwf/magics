@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -27,17 +27,17 @@ using namespace magics;
 HatchGraphShadeStyleAttributes::HatchGraphShadeStyleAttributes():
 	index_(ParameterManager::getInt("graph_shade_hatch_index"))
 	
-	
+	 
 {
-}
+} 
 
 
 HatchGraphShadeStyleAttributes::~HatchGraphShadeStyleAttributes()
 {
-
+	
 }
 
-
+    
 void HatchGraphShadeStyleAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -53,12 +53,12 @@ void HatchGraphShadeStyleAttributes::copy(const HatchGraphShadeStyleAttributes& 
 {
 	index_ = other.index_;
 	
-}
+} 
 
 
 bool HatchGraphShadeStyleAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "")  )
 		return true;
 	
@@ -69,7 +69,7 @@ void HatchGraphShadeStyleAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "")  )
@@ -97,10 +97,10 @@ void HatchGraphShadeStyleAttributes::print(ostream& out)  const
 
 void HatchGraphShadeStyleAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"\"";
+	out <<  "\"\""; 
 	out << ", \"graph_shade_hatch_index\":";
 	niceprint(out,index_);
 	
 }
 
-static MagicsParameter<int> graph_shade_hatch_index("graph_shade_hatch_index", 0);
+static MagicsParameter<int> graph_shade_hatch_index("graph_shade_hatch_index", 0, "");

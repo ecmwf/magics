@@ -40,22 +40,22 @@ namespace magics {
 class BoxPlotBox : public NoBoxPlotBox, public BoxPlotBoxAttributes {
 public:
     BoxPlotBox() {}
-    virtual ~BoxPlotBox() override {}
+    virtual ~BoxPlotBox() {}
 
 
-    void set(const XmlNode& node) override { BoxPlotBoxAttributes::set(node); }
-    void set(const map<string, string>& map) override { BoxPlotBoxAttributes::set(map); }
-    bool accept(const string& node) override { return BoxPlotBoxAttributes::accept(node); }
-    BoxPlotBox* clone() const override {
+    void set(const XmlNode& node) { BoxPlotBoxAttributes::set(node); }
+    void set(const map<string, string>& map) { BoxPlotBoxAttributes::set(map); }
+    bool accept(const string& node) { return BoxPlotBoxAttributes::accept(node); }
+    BoxPlotBox* clone() const {
         MagLog::dev() << "(const map<string, string&)---> to be checked!...\n";
         return new BoxPlotBox();
     }
 
-    void operator()(BasicGraphicsObjectContainer&, const CustomisedPoint&) const override;
+    void operator()(BasicGraphicsObjectContainer&, const CustomisedPoint&) const;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& s) const override { s << "BoxPlotBox[]"; }
+    virtual void print(ostream&) const {}
 
 private:
     //! Copy constructor - No copy allowed
@@ -68,111 +68,111 @@ private:
 class BoxPlotBoxBorder : public NoBoxPlotBoxBorder, public BoxPlotBoxBorderAttributes {
 public:
     BoxPlotBoxBorder() {}
-    virtual ~BoxPlotBoxBorder() override {}
+    virtual ~BoxPlotBoxBorder() {}
 
-    virtual void set(const XmlNode& node) override { BoxPlotBoxBorderAttributes::set(node); }
-    virtual void set(const map<string, string>& map) override { BoxPlotBoxBorderAttributes::set(map); }
-    bool accept(const string& node) override { return BoxPlotBoxBorderAttributes::accept(node); }
-    virtual NoBoxPlotBoxBorder* clone() const override {
+    virtual void set(const XmlNode& node) { BoxPlotBoxBorderAttributes::set(node); }
+    virtual void set(const map<string, string>& map) { BoxPlotBoxBorderAttributes::set(map); }
+    bool accept(const string& node) { return BoxPlotBoxBorderAttributes::accept(node); }
+    virtual NoBoxPlotBoxBorder* clone() const {
         MagLog::dev() << "(const map<string, string&)---> to be checked!...\n";
         return new BoxPlotBoxBorder();
     }
 
 
-    virtual void operator()(Polyline&) const override;
+    virtual void operator()(Polyline&) const;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& s) const override { s << "BoxPlotBoxBorder[]"; }
+    virtual void print(ostream&) const {}
 };
 
 
 class BoxPlotMedian : public NoBoxPlotMedian, public BoxPlotMedianAttributes {
 public:
     BoxPlotMedian() {}
-    virtual ~BoxPlotMedian() override {}
+    virtual ~BoxPlotMedian() {}
 
-    virtual void set(const XmlNode& node) override { BoxPlotMedianAttributes::set(node); }
-    virtual void set(const map<string, string>& map) override { BoxPlotMedianAttributes::set(map); }
-    bool accept(const string& node) override { return BoxPlotMedianAttributes::accept(node); }
+    virtual void set(const XmlNode& node) { BoxPlotMedianAttributes::set(node); }
+    virtual void set(const map<string, string>& map) { BoxPlotMedianAttributes::set(map); }
+    bool accept(const string& node) { return BoxPlotMedianAttributes::accept(node); }
 
-    virtual BoxPlotMedian* clone() const override {
+    virtual BoxPlotMedian* clone() const {
         MagLog::dev() << "(const map<string, string&)---> to be checked!...\n";
         return new BoxPlotMedian();
     }
 
 
-    virtual void operator()(BasicGraphicsObjectContainer&, Polyline*) const override;
+    virtual void operator()(BasicGraphicsObjectContainer&, Polyline*) const;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& s) const override { s << "BoxPlotMedian[]"; }
+    virtual void print(ostream&) const {}
 };
 
 
 class BoxPlotWhiskerBorder : public NoBoxPlotWhiskerBorder, public BoxPlotWhiskerBorderAttributes {
 public:
     BoxPlotWhiskerBorder() {}
-    virtual ~BoxPlotWhiskerBorder() override {}
+    virtual ~BoxPlotWhiskerBorder() {}
 
-    virtual void set(const XmlNode& node) override { BoxPlotWhiskerBorderAttributes::set(node); }
-    virtual void set(const map<string, string>& map) override { BoxPlotWhiskerBorderAttributes::set(map); }
-    bool accept(const string& node) override { return BoxPlotWhiskerBorderAttributes::accept(node); }
+    virtual void set(const XmlNode& node) { BoxPlotWhiskerBorderAttributes::set(node); }
+    virtual void set(const map<string, string>& map) { BoxPlotWhiskerBorderAttributes::set(map); }
+    bool accept(const string& node) { return BoxPlotWhiskerBorderAttributes::accept(node); }
 
-    virtual NoBoxPlotWhiskerBorder* clone() const override {
+    virtual NoBoxPlotWhiskerBorder* clone() const {
         MagLog::dev() << "(const map<string, string&)---> to be checked!...\n";
         return new BoxPlotWhiskerBorder();
     }
 
-    void operator()(Polyline&) const override;
+    void operator()(Polyline&) const;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& s) const override { s << "BoxPlotWhiskerBorder[]"; }
+    virtual void print(ostream&) const {}
 };
 
 
 class BoxPlotWhiskerBox : public NoBoxPlotWhisker, public BoxPlotWhiskerBoxAttributes {
 public:
     BoxPlotWhiskerBox() {}
-    virtual ~BoxPlotWhiskerBox() override {}
+    virtual ~BoxPlotWhiskerBox() {}
 
-    virtual void set(const XmlNode& node) override { BoxPlotWhiskerBoxAttributes::set(node); }
-    virtual void set(const map<string, string>& map) override { BoxPlotWhiskerBoxAttributes::set(map); }
-    virtual BoxPlotWhiskerBox* clone() const override {
+    virtual void set(const XmlNode& node) { BoxPlotWhiskerBoxAttributes::set(node); }
+    virtual void set(const map<string, string>& map) { BoxPlotWhiskerBoxAttributes::set(map); }
+    virtual BoxPlotWhiskerBox* clone() const {
         MagLog::dev() << "(const map<string, string&)---> to be checked!...\n";
         return new BoxPlotWhiskerBox();
     }
-    bool accept(const string& node) override { return BoxPlotWhiskerBoxAttributes::accept(node); }
+    bool accept(const string& node) { return BoxPlotWhiskerBoxAttributes::accept(node); }
 
 
-    void top(BasicGraphicsObjectContainer&, const CustomisedPoint&) const override;
-    void bottom(BasicGraphicsObjectContainer&, const CustomisedPoint&) const override;
+    void top(BasicGraphicsObjectContainer&, const CustomisedPoint&) const;
+    void bottom(BasicGraphicsObjectContainer&, const CustomisedPoint&) const;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& s) const override { s << "BoxPlotWhiskerBox[]"; }
+    virtual void print(ostream&) const {}
 };
 
 class BoxPlotWhiskerLine : public NoBoxPlotWhisker, public BoxPlotWhiskerLineAttributes {
 public:
     BoxPlotWhiskerLine() {}
-    virtual ~BoxPlotWhiskerLine() override {}
+    virtual ~BoxPlotWhiskerLine() {}
 
-    virtual void set(const XmlNode& node) override { BoxPlotWhiskerLineAttributes::set(node); }
-    virtual void set(const map<string, string>& map) override { BoxPlotWhiskerLineAttributes::set(map); }
-    bool accept(const string& node) override { return BoxPlotWhiskerLineAttributes::accept(node); }
-    virtual BoxPlotWhiskerLine* clone() const override {
+    virtual void set(const XmlNode& node) { BoxPlotWhiskerLineAttributes::set(node); }
+    virtual void set(const map<string, string>& map) { BoxPlotWhiskerLineAttributes::set(map); }
+    bool accept(const string& node) { return BoxPlotWhiskerLineAttributes::accept(node); }
+    virtual BoxPlotWhiskerLine* clone() const {
         MagLog::dev() << "(const map<string, string&)---> to be checked!...\n";
         return new BoxPlotWhiskerLine();
     }
 
-    void top(BasicGraphicsObjectContainer&, const CustomisedPoint&) const override;
-    void bottom(BasicGraphicsObjectContainer&, const CustomisedPoint&) const override;
+    void top(BasicGraphicsObjectContainer&, const CustomisedPoint&) const;
+    void bottom(BasicGraphicsObjectContainer&, const CustomisedPoint&) const;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& s) const override { s << "BoxPlotWhiskerLine[]"; }
+    virtual void print(ostream&) const {}
 };
 
 

@@ -19,8 +19,8 @@
 #ifndef _MgQRootItem_H
 #define _MgQRootItem_H
 
+#include <magics.h>
 #include "MgQ.h"
-#include "magics.h"
 
 #include <QGraphicsItem>
 #include <QGraphicsScene>
@@ -28,7 +28,7 @@
 class MgQRootItem : public QGraphicsItem {
 public:
     MgQRootItem(QGraphicsItem* parent = 0) : QGraphicsItem(parent){};
-    virtual ~MgQRootItem() override{};
+    virtual ~MgQRootItem(){};
 
     int type() const { return Type; }
     QRectF boundingRect() const { return QRectF(); }

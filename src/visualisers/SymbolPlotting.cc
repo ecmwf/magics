@@ -26,7 +26,6 @@
 #include "ProgressObject.h"
 
 #include "LegendVisitor.h"
-#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -100,9 +99,6 @@ void SymbolPlotting::operator()(const PaperPoint& point, BasicGraphicsObjectCont
         symbol->push_back(point, value);
     }
     catch (...) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
     }
 }
 
@@ -190,9 +186,6 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
     }
     catch (MagicsException&) {
         // do nothing!
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
     }
 }
 

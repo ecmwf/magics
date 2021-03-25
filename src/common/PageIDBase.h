@@ -35,30 +35,28 @@ class Task;
 class PageIDBase {
 public:
     PageIDBase() {}
-    virtual ~PageIDBase() override {}
+    virtual ~PageIDBase() {}
 
-    virtual void set(const XmlNode&) override {
-        MagLog::dev() << "PageIDBase::set(const XmlNode&)---> to be checked!...\n";
-    }
-    virtual void set(const map<string, string>&) override {
+    virtual void set(const XmlNode&) { MagLog::dev() << "PageIDBase::set(const XmlNode&)---> to be checked!...\n"; }
+    virtual void set(const map<string, string>&) {
         MagLog::dev() << "PageIDBase::set(const map<string, string&)---> to be checked!...\n";
     }
-    virtual PageIDBase* clone() const override {
+    virtual PageIDBase* clone() const {
         MagLog::dev() << "PageIDBase::set(const map<string, string&)---> to be checked!...\n";
         return new PageIDBase();
     }
-    virtual void toxml(ostream&, int = 0) const override {
+    virtual void toxml(ostream&, int = 0) const {
         MagLog::dev() << "PageIDBase::virtual void toxml(ostream&, int = 0) const ---> to be checked!...\n";
     }
 
-    virtual void operator()(const ErrorReporter&, Task&) const override {
-        MagLog::dev() << "PageIDBase::operator()(const ErrorReporter&, vector<BaseGraphicsObject*>&)---> to be "
-                         "checked!...\n";
+    virtual void operator()(const ErrorReporter&, Task&) const {
+        MagLog::dev()
+            << "PageIDBase::operator()(const ErrorReporter&, vector<BaseGraphicsObject*>&)---> to be checked!...\n";
     }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const override { out << "PageIDBase\n"; }
+    virtual void print(ostream& out) const { out << "PageIDBase\n"; }
 
 private:
     //! Copy constructor - No copy allowed

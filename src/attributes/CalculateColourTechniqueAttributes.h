@@ -25,8 +25,8 @@
 #define CalculateColourTechniqueAttributes_H
 
 #include "magics.h"
-#include "ColourTableDefinitionComputeInterface.h"
 #include "Colour.h"
+#include "ColourTableDefinitionComputeInterface.h"
 namespace magics {
 
 class XmlNode;

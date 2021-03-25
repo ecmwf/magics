@@ -31,18 +31,18 @@ namespace magics {
 class GribSatelliteInterpretor : public GribInterpretor {
 public:
     GribSatelliteInterpretor();
-    virtual ~GribSatelliteInterpretor() override;
+    virtual ~GribSatelliteInterpretor();
 
-    //  virtual void interpretAsRaster(const GribDecoder&, RasterData&, const Transformation&) const override;
+    //  virtual void interpretAsRaster(const GribDecoder&, RasterData&, const Transformation&) const;
     virtual void interpretAsVectors(const GribDecoder&, Matrix&, Matrix&) const {
         throw NotYetImplemented("Satellite representation", " Vectors");
     }
-    virtual void interpretAsMatrix(GribDecoder&) const override;
+    virtual void interpretAsMatrix(GribDecoder&) const;
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed

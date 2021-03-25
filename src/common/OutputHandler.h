@@ -39,10 +39,10 @@ class DriverManager;
 class OutputHandler : public OutputHandlerAttributes {
 public:
     OutputHandler() {}
-    virtual ~OutputHandler() override;
+    virtual ~OutputHandler();
 
-    virtual void set(const XmlNode& node) override { OutputHandlerAttributes::set(node); }
-    virtual void set(const map<string, string>& map) override { OutputHandlerAttributes::set(map); }
+    virtual void set(const XmlNode& node) { OutputHandlerAttributes::set(node); }
+    virtual void set(const map<string, string>& map) { OutputHandlerAttributes::set(map); }
     virtual OutputHandler* clone() const { return new OutputHandler(); }
     virtual void toxml(ostream&, int = 0) const {
         MagLog::dev() << "OutputHandler::toxml(ostream&, int = 0)---> to be checked!...\n";
@@ -60,7 +60,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const override { out << "OutputHandler[]\n"; }
+    virtual void print(ostream& out) const { out << "OutputHandler[]\n"; }
     AutoVector<OutputFactory> factories_;
     static double lineSpacing_;
 

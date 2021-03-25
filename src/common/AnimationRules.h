@@ -42,7 +42,7 @@ class RightAxisVisitor;
 class AnimationStep : public map<Layer*, int>, public TagHandler {
 public:
     AnimationStep(AnimationRules&);
-    virtual ~AnimationStep() override;
+    virtual ~AnimationStep();
 
     void rules(vector<string>&);
     AnimationRules& rules_;
@@ -54,7 +54,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     map<string, string> label_;
     double xResolution_;
     double yResolution_;
@@ -104,53 +104,53 @@ private:
 class AsIsAnimationRules : public AnimationRules {
 public:
     AsIsAnimationRules();
-    virtual ~AsIsAnimationRules() override;
+    virtual ~AsIsAnimationRules();
 
-    void add(StepLayer&) override;
-    void rules(vector<string>&) const override;
+    void add(StepLayer&);
+    void rules(vector<string>&) const;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 };
 
 class NoOverlayAnimationRules : public AnimationRules {
 public:
     NoOverlayAnimationRules();
-    virtual ~NoOverlayAnimationRules() override;
+    virtual ~NoOverlayAnimationRules();
 
-    void add(StepLayer&) override;
-    void rules(vector<string>&) const override;
+    void add(StepLayer&);
+    void rules(vector<string>&) const;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 };
 
 
 class DateAnimationRules : public AnimationRules {
 public:
     DateAnimationRules();
-    virtual ~DateAnimationRules() override;
-    void add(StepLayer&) override;
-    void rules(vector<string>&) const override;
+    virtual ~DateAnimationRules();
+    void add(StepLayer&);
+    void rules(vector<string>&) const;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     map<DateDescription, AnimationStep*> steps_;
 };
 
 class LevelAnimationRules : public AnimationRules {
 public:
     LevelAnimationRules();
-    virtual ~LevelAnimationRules() override;
-    void add(StepLayer&) override;
-    void rules(vector<string>&) const override;
+    virtual ~LevelAnimationRules();
+    void add(StepLayer&);
+    void rules(vector<string>&) const;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     map<LevelDescription, AnimationStep*> steps_;
 };
 template <>

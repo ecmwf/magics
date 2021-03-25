@@ -21,22 +21,22 @@ namespace magics {
 class SkewtGrid : public TephiGrid {
 public:
     SkewtGrid();
-    virtual ~SkewtGrid() override;
+    virtual ~SkewtGrid();
 
     // New Interface!
-    void visit(DrawingVisitor&) override;
-    void visit(LeftAxisVisitor&) override;
-    void visit(RightAxisVisitor&) override;
-    void visit(BottomAxisVisitor&) override;
-    void visit(TopAxisVisitor&) override;
-    void visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors) override;
+    void visit(DrawingVisitor&);
+    void visit(LeftAxisVisitor&);
+    void visit(RightAxisVisitor&);
+    void visit(BottomAxisVisitor&);
+    void visit(TopAxisVisitor&);
+    void visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors);
 
-    void set(const map<string, string>& map) override { TephiGridAttributes::set(map); }
-    void set(const XmlNode& node) override { TephiGridAttributes::set(node); }
+    void set(const map<string, string>& map) { TephiGridAttributes::set(map); }
+    void set(const XmlNode& node) { TephiGridAttributes::set(node); }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     map<double, PaperPoint> tTopLabels_;
     map<double, PaperPoint> tBottomLabels_;
 

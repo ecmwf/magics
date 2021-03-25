@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -32,17 +32,17 @@ SelectionModeAttributes::SelectionModeAttributes():
 	background_colour_(MagTranslator<string, Colour>().magics("selection_mode_background_colour")),
 	line_colour_(MagTranslator<string, Colour>().magics("selection_mode_line_colour")),
 	line_style_(MagTranslator<string, LineStyle>().magics("selection_mode_line_style"))
-	
+	 
 {
-}
+} 
 
 
 SelectionModeAttributes::~SelectionModeAttributes()
 {
-
+	
 }
 
-
+    
 void SelectionModeAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -68,12 +68,12 @@ void SelectionModeAttributes::copy(const SelectionModeAttributes& other)
 	line_colour_ = unique_ptr<Colour>(other.line_colour_->clone());
 	line_style_ = other.line_style_;
 	
-}
+} 
 
 
 bool SelectionModeAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "interactive_mode")  )
 		return true;
 	
@@ -84,7 +84,7 @@ void SelectionModeAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "interactive_mode")  )
@@ -117,7 +117,7 @@ void SelectionModeAttributes::print(ostream& out)  const
 
 void SelectionModeAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"interactive_mode\"";
+	out <<  "\"interactive_mode\""; 
 	out << ", \"selection_mode_background_opacity\":";
 	niceprint(out,background_opacity_);
 	out << ", \"selection_mode_line_thickness\":";
@@ -133,9 +133,9 @@ void SelectionModeAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<int> selection_mode_background_opacity("selection_mode_background_opacity", 75);
-static MagicsParameter<int> selection_mode_line_thickness("selection_mode_line_thickness", 2);
-static MagicsParameter<int> selection_mode_object_instancies("selection_mode_object_instancies", 1);
-static MagicsParameter<string> selection_mode_background_colour("selection_mode_background_colour", "blue");
-static MagicsParameter<string> selection_mode_line_colour("selection_mode_line_colour", "blue");
-static MagicsParameter<string> selection_mode_line_style("selection_mode_line_style", "solid");
+static MagicsParameter<int> selection_mode_background_opacity("selection_mode_background_opacity", 75, "");
+static MagicsParameter<int> selection_mode_line_thickness("selection_mode_line_thickness", 2, "");
+static MagicsParameter<int> selection_mode_object_instancies("selection_mode_object_instancies", 1, "");
+static MagicsParameter<string> selection_mode_background_colour("selection_mode_background_colour", "blue", ""); 
+static MagicsParameter<string> selection_mode_line_colour("selection_mode_line_colour", "blue", ""); 
+static MagicsParameter<string> selection_mode_line_style("selection_mode_line_style", "solid", ""); 

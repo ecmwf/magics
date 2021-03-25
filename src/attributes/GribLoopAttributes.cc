@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -42,17 +42,17 @@ GribLoopAttributes::GribLoopAttributes():
 	address_mode_(MagTranslator<string, GribAddressMode>().magics("grib_file_address_mode")),
 	step_(MagTranslator<string, GribLoopStep>().magics("grib_loop_step")),
 	wind_mode_(MagTranslator<string, WindMode>().magics("grib_wind_mode"))
-	
+	 
 {
-}
+} 
 
 
 GribLoopAttributes::~GribLoopAttributes()
 {
-
+	
 }
 
-
+    
 void GribLoopAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -98,12 +98,12 @@ void GribLoopAttributes::copy(const GribLoopAttributes& other)
 	step_ = unique_ptr<GribLoopStep>(other.step_->clone());
 	wind_mode_ = unique_ptr<WindMode>(other.wind_mode_->clone());
 	
-}
+} 
 
 
 bool GribLoopAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "gribloop")  )
 		return true;
 	if ( acceptNode(node, address_mode_) )
@@ -120,7 +120,7 @@ void GribLoopAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "gribloop")  )
@@ -137,9 +137,9 @@ void GribLoopAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), address_mode_, *elt);
-		setMember(elt->name(), step_, *elt);
-		setMember(elt->name(), wind_mode_, *elt);
+		setMember(elt->name(), address_mode_, *elt); 
+		setMember(elt->name(), step_, *elt); 
+		setMember(elt->name(), wind_mode_, *elt); 
 		
 	}
 }
@@ -169,7 +169,7 @@ void GribLoopAttributes::print(ostream& out)  const
 
 void GribLoopAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"gribloop\"";
+	out <<  "\"gribloop\""; 
 	out << ", \"grib_dimension\":";
 	niceprint(out,dimension_);
 	out << ", \"grib_position_1\":";
@@ -205,25 +205,25 @@ void GribLoopAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<intarray> grib_dimension("grib_dimension", intarray());
-static MagicsParameter<longintarray> grib_position_1("grib_position_1", longintarray());
-static MagicsParameter<longintarray> grib_position_2("grib_position_2", longintarray());
-static MagicsParameter<longintarray> grib_position_colour("grib_position_colour", longintarray());
-static MagicsParameter<longintarray> grib_position("grib_position", longintarray());
-static MagicsParameter<string> grib_loop_path("grib_loop_path", "");
-static MagicsParameter<string> grib_automatic_scaling("grib_automatic_scaling", "on");
-static MagicsParameter<string> grib_automatic_derived_scaling("grib_automatic_derived_scaling", "off");
-static MagicsParameter<double> grib_scaling_factor("grib_scaling_factor", 1);
-static MagicsParameter<double> grib_scaling_offset("grib_scaling_offset", 0);
-static MagicsParameter<double> grib_interpolation_regular_resolution("grib_interpolation_regular_resolution", 0.1);
-static MagicsParameter<string> grib_interpolation_method("grib_interpolation_method", "interpolate");
-static MagicsParameter<int> grib_interpolation_method_missing_fill_count("grib_interpolation_method_missing_fill_count", 1);
-static MagicsParameter<string> grib_file_address_mode("grib_file_address_mode", "record");
-static MagicsParameter<string> grib_loop_step("grib_loop_step", "loopondate");
-static MagicsParameter<string> grib_wind_mode("grib_wind_mode", "uv");
-#include "GribAddressMode.h"
+static MagicsParameter<intarray> grib_dimension("grib_dimension", intarray(), "");
+static MagicsParameter<longintarray> grib_position_1("grib_position_1", longintarray(), "");
+static MagicsParameter<longintarray> grib_position_2("grib_position_2", longintarray(), "");
+static MagicsParameter<longintarray> grib_position_colour("grib_position_colour", longintarray(), "");
+static MagicsParameter<longintarray> grib_position("grib_position", longintarray(), "");
+static MagicsParameter<string> grib_loop_path("grib_loop_path", "", "");
+static MagicsParameter<string> grib_automatic_scaling("grib_automatic_scaling", "on", "");
+static MagicsParameter<string> grib_automatic_derived_scaling("grib_automatic_derived_scaling", "off", "");
+static MagicsParameter<double> grib_scaling_factor("grib_scaling_factor", 1, "");
+static MagicsParameter<double> grib_scaling_offset("grib_scaling_offset", 0, "");
+static MagicsParameter<double> grib_interpolation_regular_resolution("grib_interpolation_regular_resolution", 0.1, "");
+static MagicsParameter<string> grib_interpolation_method("grib_interpolation_method", "interpolate", "");
+static MagicsParameter<int> grib_interpolation_method_missing_fill_count("grib_interpolation_method_missing_fill_count", 1, "");
+static MagicsParameter<string> grib_file_address_mode("grib_file_address_mode", "record", ""); 
+static MagicsParameter<string> grib_loop_step("grib_loop_step", "loopondate", ""); 
+static MagicsParameter<string> grib_wind_mode("grib_wind_mode", "uv", ""); 
 #include "GribLoopStep.h"
 #include "WindMode.h"
+#include "GribAddressMode.h"
 static SimpleObjectMaker<GribAddressRecordMode , GribAddressMode> record_GribAddressRecordMode("record");
 static SimpleObjectMaker<GribAddressByteMode , GribAddressMode> byte_offset_GribAddressByteMode("byte_offset");
 static SimpleObjectMaker<DateGribLoopStep , GribLoopStep> loopondate_DateGribLoopStep("loopondate");

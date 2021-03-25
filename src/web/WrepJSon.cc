@@ -13,12 +13,12 @@
 #include "CustomisedPoint.h"
 #include "EfiLegendEntry.h"
 #include "IntervalMap.h"
-#include "JSON.h"
 #include "MagException.h"
-#include "MagParser.h"
 #include "MetaData.h"
 #include "TextVisitor.h"
 #include "Value.h"
+#include "JSONParser.h"
+#include "JSON.h"
 
 using namespace magics;
 
@@ -1009,7 +1009,7 @@ void WrepJSon::basic() {
 
 
     try {
-        Value value     = MagParser::decodeFile(file_);
+        Value value = JSONParser::decodeFile(file_);
         ValueMap object = value.get_value<ValueMap>();
 
         for (auto entry = object.begin(); entry != object.end(); ++entry) {
@@ -1022,9 +1022,6 @@ void WrepJSon::basic() {
         }
     }
     catch (std::exception& e) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
         MagLog::error() << "Could not processed the file: " << file_ << ": " << e.what() << endl;
         // abort();
     }
@@ -1084,9 +1081,6 @@ void WrepJSon::height(const Value& value) {
         height_ = value.get_value<double>();
     }
     catch (...) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
         MagLog::dev() << "ognore" << height_ << endl;
     }
 }
@@ -1130,7 +1124,7 @@ void WrepJSon::clim_step(const Value& value) {
 }
 
 void WrepJSon::time(const Value& value) {
-
+    
     MagLog::dev() << "found -> time= " << value.get_value<string>() << endl;
     time_ = value.get_value<string>();
 }

@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -28,17 +28,17 @@ ValuePlotAttributes::ValuePlotAttributes():
 	type_(ParameterManager::getString("contour_grid_value_type"))
 	,
 	method_(MagTranslator<string, ValuePlotMethod>().magics("contour_grid_value_plot_type"))
-	
+	 
 {
-}
+} 
 
 
 ValuePlotAttributes::~ValuePlotAttributes()
 {
-
+	
 }
 
-
+    
 void ValuePlotAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(3);
@@ -58,12 +58,12 @@ void ValuePlotAttributes::copy(const ValuePlotAttributes& other)
 	type_ = other.type_;
 	method_ = unique_ptr<ValuePlotMethod>(other.method_->clone());
 	
-}
+} 
 
 
 bool ValuePlotAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "gridvalues")  )
 		return true;
 	if ( acceptNode(node, method_) )
@@ -76,7 +76,7 @@ void ValuePlotAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "gridvalues")  )
@@ -91,7 +91,7 @@ void ValuePlotAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), method_, *elt);
+		setMember(elt->name(), method_, *elt); 
 		
 	}
 }
@@ -107,7 +107,7 @@ void ValuePlotAttributes::print(ostream& out)  const
 
 void ValuePlotAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"gridvalues\"";
+	out <<  "\"gridvalues\""; 
 	out << ", \"contour_grid_value_type\":";
 	niceprint(out,type_);
 	out << ", \"contour_grid_value_plot_type\":";
@@ -115,11 +115,11 @@ void ValuePlotAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> contour_grid_value_type("contour_grid_value_type", "normal");
-static MagicsParameter<string> contour_grid_value_plot_type("contour_grid_value_plot_type", "value");
-#include "ValuePlotMethod.h"
-#include "MarkerValuePlotMethod.h"
+static MagicsParameter<string> contour_grid_value_type("contour_grid_value_type", "normal", "");
+static MagicsParameter<string> contour_grid_value_plot_type("contour_grid_value_plot_type", "value", ""); 
 #include "BothValuePlotMethod.h"
+#include "MarkerValuePlotMethod.h"
+#include "ValuePlotMethod.h"
 static SimpleObjectMaker<ValuePlotMethod , ValuePlotMethod> value_ValuePlotMethod("value");
 static SimpleObjectMaker<MarkerValuePlotMethod , ValuePlotMethod> marker_MarkerValuePlotMethod("marker");
 static SimpleObjectMaker<BothValuePlotMethod , ValuePlotMethod> both_BothValuePlotMethod("both");

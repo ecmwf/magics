@@ -35,10 +35,10 @@ namespace magics {
 class WindPlotting : public WindPlottingAttributes, public LevelSelectionInterface, public ColourTechniqueInterface {
 public:
     WindPlotting();
-    virtual ~WindPlotting() override {}
-    virtual void set(const map<string, string>& map) override { WindPlottingAttributes::set(map); };
-    virtual void set(const XmlNode& node) override { WindPlottingAttributes::set(node); }
-    virtual bool accept(const string& key) override { return WindPlottingAttributes::accept(key); }
+    virtual ~WindPlotting() {}
+    virtual void set(const map<string, string>& map) { WindPlottingAttributes::set(map); };
+    virtual void set(const XmlNode& node) { WindPlottingAttributes::set(node); }
+    virtual bool accept(const string& key) { return WindPlottingAttributes::accept(key); }
     virtual void toxml(ostream&) {}
     virtual WindPlotting* clone() { return 0; };
     virtual void operator()(bool, const PaperPoint&, double, double, double = 0) {}
@@ -47,7 +47,7 @@ public:
     virtual void prepare(BasicGraphicsObjectContainer&) {}
     virtual void finish(BasicGraphicsObjectContainer&) {}
     virtual void visit(LegendVisitor&);
-    virtual void visit(Data&, PointsHandler&, HistoVisitor&) {}
+    virtual void visit(Data&, PointsHandler&, HistoVisitor&){};
     virtual void adjust(CustomisedPointsList&, const Transformation&);
     bool needLegend() { return legend_; }
     void legendOnly(bool legend) {
@@ -64,23 +64,23 @@ public:
     double value(double, double, double);
     double speed(double, double, double);
     double parameter(double, double, double);
-    int getCount() const override { return count_; }
-    int getTolerance() const override { return tolerance_; }
-    double getReference() const override { return reference_; }
-    double getInterval() const override { return interval_; }
-    double getMin() const override { return min_; }
-    double getMax() const override { return max_; }
-    const Colour& getMinColour() const override { return *minColour_; }
-    const Colour& getMaxColour() const override { return *maxColour_; }
-    const string& getDirection() const override { return direction_; }
-    ListPolicy getPolicy() const override { return ListPolicy::LASTONE; }
-    stringarray getColours() const override { return colours_; }
-    floatarray getList() const override { return list_; }
+    int getCount() const { return count_; }
+    int getTolerance() const { return tolerance_; }
+    double getReference() const { return reference_; }
+    double getInterval() const { return interval_; }
+    double getMin() const { return min_; }
+    double getMax() const { return max_; }
+    const Colour& getMinColour() const { return *minColour_; }
+    const Colour& getMaxColour() const { return *maxColour_; }
+    const string& getDirection() const { return direction_; }
+    ListPolicy getPolicy() const { return M_LASTONE; }
+    stringarray getColours() const { return colours_; }
+    floatarray getList() const { return list_; }
 
 protected:
     bool legendOnly_;
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const override { out << "WindPlotting"; }
+    virtual void print(ostream& out) const { out << "WindPlotting"; }
     typedef Colour& (WindPlotting::*AdvancedMethod)(Colour&, double, double, double);
     typedef double (WindPlotting::*ColouringMethod)(double, double, double);
     typedef void (WindPlotting::*MinMaxMethod)(double&, double&);

@@ -25,10 +25,10 @@
 #include "magics.h"
 
 #include "IntervalMap.h"
+#include "MutexCond.h"
 #include "Polyline.h"
+#include "Thread.h"
 
-#include <condition_variable>
-#include <mutex>
 
 namespace magics {
 
@@ -40,13 +40,11 @@ public:
     // deque<Shape*> shapes_;
 
     bool more_;
-
-    std::mutex mutex_;
-    std::condition_variable cond_;
+    MutexCond cond_;
 };
 
 
-class IsoHelper {
+class IsoHelper : public Thread {
 public:
     IsoHelper(int, vector<Polyline*>&, IsoData& data);
     void run();

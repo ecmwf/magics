@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-
+   
 
 #ifndef YLogarithmicCoordinateWrapper_H
 #define YLogarithmicCoordinateWrapper_H
@@ -33,7 +33,7 @@
 #include "Coordinate.h"
 
 
-
+ 
 #include "YCoordinateWrapper.h"
 
 
@@ -41,7 +41,7 @@
 
 
 
-
+ 
 
 namespace magics {
 
@@ -58,21 +58,21 @@ public:
 //  --  destructor
     virtual ~YLogarithmicCoordinateWrapper();
     virtual void set(const MagRequest&);
-
+    
     YLogarithmicCoordinate* me()   { return ylogarithmiccoordinate_; }
-
+   	
    	virtual YLogarithmicCoordinate* object() { return ylogarithmiccoordinate_; }
+	
 
-
-	virtual void object(YLogarithmicCoordinate* o) {
+	virtual void object(YLogarithmicCoordinate* o) { 
 		// Remember to delete the previous object
 		ylogarithmiccoordinate_ = o;
 		YCoordinateWrapper::object(o);
 		
 
 	}
-
-
+    
+  
 
 protected:
     YLogarithmicCoordinate* ylogarithmiccoordinate_;
@@ -80,7 +80,7 @@ protected:
 
 //  --  method
 	virtual void print(ostream&) const;
-
+	
 
 private:
     string tag_;
@@ -91,3 +91,5 @@ private:
 } // namespace magics
 
 #endif
+
+

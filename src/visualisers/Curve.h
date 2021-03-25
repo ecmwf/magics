@@ -38,7 +38,7 @@ class LegendEntry;
 class Curve : public CurveAttributes, public Graph {
 public:
     Curve();
-    virtual ~Curve() override;
+    virtual ~Curve();
     enum PointPosition
     {
         in,
@@ -48,20 +48,20 @@ public:
     };
 
 
-    void set(const XmlNode& node) override {
+    void set(const XmlNode& node) {
         Graph::set(node);
         CurveAttributes::set(node);
     }
 
-    void operator()(Data&, BasicGraphicsObjectContainer&) override;
-    void visit(LegendVisitor&) override;
+    void operator()(Data&, BasicGraphicsObjectContainer&);
+    void visit(LegendVisitor&);
     void set(const PaperPoint&, BasicGraphicsObjectContainer&, LegendEntry&);
 
     Polyline* newCurve(BasicGraphicsObjectContainer&) const;
     PointPosition where(const UserPoint& point) const;
 
     // Implements the set method ...
-    void set(const map<string, string>& map) override { CurveAttributes::set(map); }
+    void set(const map<string, string>& map) { CurveAttributes::set(map); }
     void symbol(vector<PaperPoint>& points, BasicGraphicsObjectContainer& out);
     void legend_symbol(PaperPoint& point, BasicGraphicsObjectContainer& task);
 
@@ -78,7 +78,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     bool missing(CustomisedPoint&) const;
     std::map<string, MissingMethod> missingMethods_;
     std::map<string, CurveMethod> curveMethods_;
@@ -108,19 +108,19 @@ private:
 class CurveArea : public Curve, public CurveAreaAttributes {
 public:
     CurveArea() {}
-    virtual ~CurveArea() override {}
-    void set(const map<string, string>& map) override {
+    virtual ~CurveArea() {}
+    void set(const map<string, string>& map) {
         CurveAttributes::set(map);
         CurveAreaAttributes::set(map);
     }
 
-    void operator()(Data&, BasicGraphicsObjectContainer&) override;
-    void legend(Polyline&) override;
+    void operator()(Data&, BasicGraphicsObjectContainer&);
+    void legend(Polyline&);
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const override {
+    virtual void print(ostream& out) const {
         out << "CurveArea";
         Curve::print(out);
     }

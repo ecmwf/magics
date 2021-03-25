@@ -53,7 +53,7 @@ class TextVisitor : public TextVisitorAttributes,
                     public map<string, vector<TextEntry*> > {
 public:
     TextVisitor();
-    virtual ~TextVisitor() override;
+    virtual ~TextVisitor();
 
     TextVisitor* clone();
     void add(const string& line, TextEntry* entry);
@@ -61,30 +61,30 @@ public:
     void addAutomaticTitle(const string&);
 
 
-    void addToTags(const string&, const string&) override;
+    void addToTags(const string&, const string&);
 
     virtual void titles(vector<string>&);
-    virtual Layout& layout() const override { return LayoutVisitor::layout(); }
+    virtual Layout& layout() const { return LayoutVisitor::layout(); }
     virtual Layout* layoutPtr() const { return LayoutVisitor::layoutPtr(); }
 
 
     map<string, vector<Text*> > texts() { return currentTexts_; }
     void visit();
-    void visit(BasicSceneObject&) override;
+    void visit(BasicSceneObject&);
     void finish(BasicGraphicsObjectContainer&);
     void update(vector<Text*>&);
     void start();
 
-    void visit(MetaDataVisitor&) override;
+    void visit(MetaDataVisitor&);
     bool positional() const { return positional_; }
-    virtual void getReady() override;
+    virtual void getReady();
     void update(const string& family, const string& definition, const string& value) {
         TagHandler::update(family, definition, value);
     }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
     virtual void decode() {}
 
@@ -95,8 +95,8 @@ protected:
     void extract(const string&, vector<KeyInfo>&);
 
 
-    void set(const map<string, string>& map) override { TextVisitorAttributes::set(map); }
-    void set(const XmlNode& node) override { TextVisitorAttributes::set(node); }
+    void set(const map<string, string>& map) { TextVisitorAttributes::set(map); }
+    void set(const XmlNode& node) { TextVisitorAttributes::set(node); }
     string label_;
     mutable vector<Text*> texts_;
     mutable map<string, vector<Text*> > currentTexts_;
@@ -113,41 +113,41 @@ private:
 class XmlTextVisitor : public TextVisitor, public XmlBasicNodeAttributes {
 public:
     XmlTextVisitor();
-    ~XmlTextVisitor() override {}
-    void set(const XmlNode&) override;
-    void getReady() override;
-    void decode() override;
+    ~XmlTextVisitor() {}
+    void set(const XmlNode&);
+    void getReady();
+    void decode();
 };
 
 class FortranTextVisitor : public TextVisitor {
 public:
     FortranTextVisitor();
-    ~FortranTextVisitor() override {}
+    ~FortranTextVisitor() {}
 
 protected:
-    void decode() override;
+    void decode();
     void interpret(string&, stringarray&);
 };
 
 class FortranAutomaticTextVisitor : public FortranTextVisitor {
 public:
     FortranAutomaticTextVisitor();
-    ~FortranAutomaticTextVisitor() override {}
-    void getReady() override;
+    ~FortranAutomaticTextVisitor() {}
+    void getReady();
 };
 
 
 class FortranPositionalTextVisitor : public FortranTextVisitor {
 public:
     FortranPositionalTextVisitor();
-    ~FortranPositionalTextVisitor() override {}
-    void getReady() override;
+    ~FortranPositionalTextVisitor() {}
+    void getReady();
 };
 /*
 class MvTextVisitor :
 {
     MvTextVisitor();
-    ~MvTextVisitor() override
+    ~MvTextVisitor()
 
 }
 */

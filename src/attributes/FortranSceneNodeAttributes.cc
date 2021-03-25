@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -40,17 +40,17 @@ FortranSceneNodeAttributes::FortranSceneNodeAttributes():
 	frame_colour_(MagTranslator<string, Colour>().magics("page_frame_colour")),
 	frame_line_style_(MagTranslator<string, LineStyle>().magics("page_frame_line_style")),
 	page_id_(MagTranslator<string, NoPageID>().magics("page_id_line"))
-	
+	 
 {
-}
+} 
 
 
 FortranSceneNodeAttributes::~FortranSceneNodeAttributes()
 {
-
+	
 }
 
-
+    
 void FortranSceneNodeAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -92,12 +92,12 @@ void FortranSceneNodeAttributes::copy(const FortranSceneNodeAttributes& other)
 	frame_line_style_ = other.frame_line_style_;
 	page_id_ = unique_ptr<NoPageID>(other.page_id_->clone());
 	
-}
+} 
 
 
 bool FortranSceneNodeAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "page")  )
 		return true;
 	if ( acceptNode(node, page_id_) )
@@ -110,7 +110,7 @@ void FortranSceneNodeAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "page")  )
@@ -125,7 +125,7 @@ void FortranSceneNodeAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), page_id_, *elt);
+		setMember(elt->name(), page_id_, *elt); 
 		
 	}
 }
@@ -153,7 +153,7 @@ void FortranSceneNodeAttributes::print(ostream& out)  const
 
 void FortranSceneNodeAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"page\"";
+	out <<  "\"page\""; 
 	out << ", \"page_x_position\":";
 	niceprint(out,x_);
 	out << ", \"page_y_position\":";
@@ -185,20 +185,20 @@ void FortranSceneNodeAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> page_x_position("page_x_position", 0);
-static MagicsParameter<double> page_y_position("page_y_position", 0);
-static MagicsParameter<double> page_x_length("page_x_length", 29.7);
-static MagicsParameter<double> page_y_length("page_y_length", 21);
-static MagicsParameter<string> page_frame("page_frame", "off");
-static MagicsParameter<int> page_frame_thickness("page_frame_thickness", 2);
-static MagicsParameter<string> layout("layout", "automatic");
-static MagicsParameter<string> plot_start("plot_start", "bottom");
-static MagicsParameter<string> plot_direction("plot_direction", "vertical");
-static MagicsParameter<string> page_theme("page_theme", "super_page_theme");
-static MagicsParameter<string> skinny_mode("skinny_mode", "off");
-static MagicsParameter<string> page_frame_colour("page_frame_colour", "charcoal");
-static MagicsParameter<string> page_frame_line_style("page_frame_line_style", "solid");
-static MagicsParameter<string> page_id_line("page_id_line", "on");
+static MagicsParameter<double> page_x_position("page_x_position", 0, "");
+static MagicsParameter<double> page_y_position("page_y_position", 0, "");
+static MagicsParameter<double> page_x_length("page_x_length", 29.7, "");
+static MagicsParameter<double> page_y_length("page_y_length", 21, "");
+static MagicsParameter<string> page_frame("page_frame", "off", "");
+static MagicsParameter<int> page_frame_thickness("page_frame_thickness", 2, "");
+static MagicsParameter<string> layout("layout", "automatic", "");
+static MagicsParameter<string> plot_start("plot_start", "bottom", "");
+static MagicsParameter<string> plot_direction("plot_direction", "vertical", "");
+static MagicsParameter<string> page_theme("page_theme", "super_page_theme", "");
+static MagicsParameter<string> skinny_mode("skinny_mode", "off", "");
+static MagicsParameter<string> page_frame_colour("page_frame_colour", "charcoal", ""); 
+static MagicsParameter<string> page_frame_line_style("page_frame_line_style", "solid", ""); 
+static MagicsParameter<string> page_id_line("page_id_line", "on", ""); 
 #include "PageID.h"
 static SimpleObjectMaker<PageID , NoPageID> on_PageID("on");
 static SimpleObjectMaker<NoPageID , NoPageID> off_NoPageID("off");

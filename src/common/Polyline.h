@@ -47,13 +47,13 @@ struct ShadingProperties {
 
 struct FillShadingProperties : public ShadingProperties {
     FillShadingProperties() {}
-    ~FillShadingProperties() override {}
-    ShadingProperties* clone() override {
+    ~FillShadingProperties() {}
+    ShadingProperties* clone() {
         FillShadingProperties* shading = new FillShadingProperties();
         return shading;
     }
-    void draw(const BaseDriver& driver) const override { driver.shade(*this); }
-    void print(ostream& out) const override {
+    void draw(const BaseDriver& driver) const { driver.shade(*this); }
+    void print(ostream& out) const {
         out << "FillShadingProperties[";
         out << "]";
     }
@@ -62,12 +62,12 @@ struct FillShadingProperties : public ShadingProperties {
 
 struct DotShadingProperties : public ShadingProperties {
     DotShadingProperties() : angle_(45), size_(0.02), density_(25) {}
-    ~DotShadingProperties() override {}
-    void draw(const BaseDriver& driver) const override { driver.shade(*this); }
+    ~DotShadingProperties() {}
+    void draw(const BaseDriver& driver) const { driver.shade(*this); }
     double angle_;
     double size_;
     double density_;
-    ShadingProperties* clone() override {
+    ShadingProperties* clone() {
         DotShadingProperties* shading = new DotShadingProperties();
 
         shading->size_    = size_;
@@ -75,7 +75,7 @@ struct DotShadingProperties : public ShadingProperties {
         return shading;
     }
 
-    void print(ostream& out) const override {
+    void print(ostream& out) const {
         out << "DotShadingProperties["
             << ", angle=" << angle_ << ", size=" << size_ << ", density=" << density_ << "]";
     }
@@ -83,12 +83,12 @@ struct DotShadingProperties : public ShadingProperties {
 
 struct HatchShadingProperties : public ShadingProperties {
     HatchShadingProperties() : index_(0), thickness_(1), density_(18) {}
-    ~HatchShadingProperties() override {}
-    void draw(const BaseDriver& driver) const override { driver.shade(*this); }
+    ~HatchShadingProperties() {}
+    void draw(const BaseDriver& driver) const { driver.shade(*this); }
     int index_;
     int thickness_;
     double density_;
-    ShadingProperties* clone() override {
+    ShadingProperties* clone() {
         HatchShadingProperties* shading = new HatchShadingProperties();
 
         shading->index_     = index_;
@@ -96,7 +96,7 @@ struct HatchShadingProperties : public ShadingProperties {
         shading->density_   = density_;
         return shading;
     }
-    void print(ostream& out) const override {
+    void print(ostream& out) const {
         out << "HatchShadingProperties[";
         out << ", thickness=" << thickness_;
         out << ", index=" << index_;
@@ -111,13 +111,13 @@ public:
     PolylineProperties() :
         thickness_(1),
         dash_length_(10),
-        style_(LineStyle::SOLID),
+        style_(M_SOLID),
         fill_(false),
         shading_(0),
         arrow_(0),
         stroke_(true),
         antialiasing_(true) {}
-    virtual ~PolylineProperties() override {
+    virtual ~PolylineProperties() {
         if (shading_)
             delete shading_;
         if (arrow_)
@@ -213,15 +213,15 @@ public:
 
 
     Polyline();
-    ~Polyline() override;
+    ~Polyline();
 
     static bool skinny_;
 
     static void skinnyMode() { skinny_ = true; }
 
     void reproject(const Transformation&);
-    bool reproject(BasicGraphicsObjectContainer& out) const override;
-    void redisplay(const BaseDriver& driver) const override;
+    bool reproject(BasicGraphicsObjectContainer& out) const;
+    void redisplay(const BaseDriver& driver) const;
 
     Colour cellColour_;
     double cellValue_;
@@ -340,7 +340,7 @@ public:
     Holes& holes();
 
 protected:
-    void print(ostream&) const override;
+    void print(ostream&) const;
 
 
 public:

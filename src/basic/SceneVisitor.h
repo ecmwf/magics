@@ -59,13 +59,13 @@ private:
 class LayoutVisitor : public SceneVisitor {
 public:
     LayoutVisitor() : layout_(0), current_(0) {}
-    ~LayoutVisitor() override {
+    ~LayoutVisitor() {
         if (layout_)
             delete layout_;
     }
     void redisplay(const BaseDriver& driver) const;
 
-    virtual void reset() {}
+    virtual void reset(){};
     virtual void set(MagnifierCollector&) {}
     virtual void newLayout() const;
 
@@ -162,31 +162,29 @@ public:
     }
 
 protected:
+    void print(ostream&) const;
     mutable Layout* layout_;
     mutable Layout* current_;
-
-    virtual void print(std::ostream& s) const override;
 };
 
 class DrawingVisitor : public LayoutVisitor {
 public:
     DrawingVisitor();
-    ~DrawingVisitor() override;
-    void visit(BasicSceneObject& object) override { object.visit(*this); }
-    void set(MagnifierCollector&) override;
+    ~DrawingVisitor();
+    void visit(BasicSceneObject& object) { object.visit(*this); }
+    void set(MagnifierCollector&);
     // Layout* execute(AnimationStep&, const Layout* visitor);
 
 protected:
-    virtual void print(std::ostream& s) const override { s << "DrawingVisitor[]"; };
 };
 class FrameVisitor : public LayoutVisitor {
 public:
     FrameVisitor();
-    ~FrameVisitor() override;
+    ~FrameVisitor();
 
     void backgroundColour(const string& colour) { background_ = colour; }
 
-    void visit(BasicSceneObject& object) override { object.visit(*this); }
+    void visit(BasicSceneObject& object) { object.visit(*this); }
     void frameIt() {
         if (current_)
             current_->frameIt();
@@ -198,13 +196,12 @@ public:
 
 protected:
     string background_;
-    virtual void print(std::ostream& s) const override { s << "FrameVisitor[]"; };
 };
 
 class HorizontalAxisVisitor : public LayoutVisitor {
 public:
     HorizontalAxisVisitor(const DrawingVisitor&);
-    ~HorizontalAxisVisitor() override;
+    ~HorizontalAxisVisitor();
     virtual void tick(double&, double&, bool);
     virtual void minortick(double&, double&, bool);
     virtual double offsetTickLabel(double, double);
@@ -213,19 +210,18 @@ public:
     virtual double offsetTitle(int);
     virtual double angleTip();
     virtual double offsetTip();
-    virtual VerticalAlign textAlignment(const string&) { return VerticalAlign::BOTTOM; }
-    virtual Justification justificationTickLabel(const string&) { return Justification::CENTRE; }
+    virtual VerticalAlign textAlignment(const string&) { return MBOTTOM; }
+    virtual Justification justificationTickLabel(const string&) { return MCENTRE; }
     virtual double percentX(double) { return 0; }
     virtual double percentY(double) { return 0; }
 
 
 protected:
-    virtual void print(std::ostream& s) const override { s << "HorizontalAxisVisitor[]"; };
 };
 class VerticalAxisVisitor : public LayoutVisitor {
 public:
     VerticalAxisVisitor(const DrawingVisitor&);
-    ~VerticalAxisVisitor() override;
+    ~VerticalAxisVisitor();
     virtual double offsetLine() { return 10; }
     virtual void tick(double&, double&, bool);
     virtual void minortick(double&, double&, bool);
@@ -237,101 +233,96 @@ public:
     virtual double angleTip();
     virtual double offsetTip();
     virtual Justification justificationTickLabel(const string&);
-    virtual VerticalAlign textAlignment(const string&) { return VerticalAlign::HALF; }
+    virtual VerticalAlign textAlignment(const string&) { return MHALF; }
     virtual double percentX(double) { return 0; }
     virtual double percentY(double) { return 0; }
 
 protected:
-    virtual void print(std::ostream& s) const override { s << "VerticalAxisVisitor[]"; };
 };
 class LeftAxisVisitor : public VerticalAxisVisitor {
 public:
     LeftAxisVisitor(const DrawingVisitor&);
-    ~LeftAxisVisitor() override;
-    void visit(BasicSceneObject& object) override { object.visit(*this); }
-    virtual Justification justificationTickLabel(const string&) override;
-    virtual void tick(double&, double&, bool) override;
-    virtual void minortick(double&, double&, bool) override;
-    virtual double offsetTickLabel(double, double) override;
-    virtual double angleTickLabel() override;
-    virtual double angleTitle() override;
-    virtual double shiftTitle(double x) override;
-    virtual double offsetTitle(int) override;
-    virtual double angleTip() override;
-    virtual double offsetTip() override;
-    virtual VerticalAlign textAlignment(const string&) override;
-    virtual double percentX(double) override;
-    virtual double percentY(double) override;
+    ~LeftAxisVisitor();
+    void visit(BasicSceneObject& object) { object.visit(*this); }
+    virtual Justification justificationTickLabel(const string&);
+    virtual void tick(double&, double&, bool);
+    virtual void minortick(double&, double&, bool);
+    virtual double offsetTickLabel(double, double);
+    virtual double angleTickLabel();
+    virtual double angleTitle();
+    virtual double shiftTitle(double x);
+    virtual double offsetTitle(int);
+    virtual double angleTip();
+    virtual double offsetTip();
+    virtual VerticalAlign textAlignment(const string&);
+    virtual double percentX(double);
+    virtual double percentY(double);
 
 protected:
-    virtual void print(std::ostream& s) const override { s << "LeftAxisVisitor[]"; };
 };
 
 class RightAxisVisitor : public VerticalAxisVisitor {
 public:
     RightAxisVisitor(const DrawingVisitor&);
-    ~RightAxisVisitor() override;
-    void visit(BasicSceneObject& object) override { object.visit(*this); }
-    virtual Justification justificationTickLabel(const string&) override;
-    virtual void tick(double&, double&, bool) override;
-    virtual void minortick(double&, double&, bool) override;
-    virtual double offsetTickLabel(double, double) override;
-    virtual double angleTickLabel() override;
-    virtual double angleTitle() override;
-    virtual double offsetTitle(int) override;
-    virtual double shiftTitle(double) override;
-    virtual double angleTip() override;
-    virtual double offsetTip() override;
-    virtual VerticalAlign textAlignment(const string&) override;
-    virtual double percentX(double) override;
-    virtual double percentY(double) override;
+    ~RightAxisVisitor();
+    void visit(BasicSceneObject& object) { object.visit(*this); }
+    virtual Justification justificationTickLabel(const string&);
+    virtual void tick(double&, double&, bool);
+    virtual void minortick(double&, double&, bool);
+    virtual double offsetTickLabel(double, double);
+    virtual double angleTickLabel();
+    virtual double angleTitle();
+    virtual double offsetTitle(int);
+    virtual double shiftTitle(double);
+    virtual double angleTip();
+    virtual double offsetTip();
+    virtual VerticalAlign textAlignment(const string&);
+    virtual double percentX(double);
+    virtual double percentY(double);
 
 protected:
-    virtual void print(std::ostream& s) const override { s << "RightAxisVisitor[]"; };
 };
 
 class TopAxisVisitor : public HorizontalAxisVisitor {
 public:
     TopAxisVisitor(const DrawingVisitor&);
-    ~TopAxisVisitor() override;
-    void visit(BasicSceneObject& object) override { object.visit(*this); }
-    virtual Justification justificationTickLabel(const string&) override;
-    virtual void tick(double&, double&, bool) override;
-    virtual void minortick(double&, double&, bool) override;
-    virtual double offsetTickLabel(double, double) override;
-    virtual double angleTickLabel() override;
-    virtual double angleTitle() override;
-    virtual double offsetTitle(int) override;
-    virtual double angleTip() override;
-    virtual double offsetTip() override;
-    virtual VerticalAlign textAlignment(const string&) override;
-    virtual double percentX(double) override;
-    virtual double percentY(double) override;
+    ~TopAxisVisitor();
+    void visit(BasicSceneObject& object) { object.visit(*this); }
+    virtual Justification justificationTickLabel(const string&);
+    virtual void tick(double&, double&, bool);
+    virtual void minortick(double&, double&, bool);
+    virtual double offsetTickLabel(double, double);
+    virtual double angleTickLabel();
+    virtual double angleTitle();
+    virtual double offsetTitle(int);
+    virtual double angleTip();
+    virtual double offsetTip();
+    virtual VerticalAlign textAlignment(const string&);
+    virtual double percentX(double);
+    virtual double percentY(double);
 
 protected:
-    virtual void print(std::ostream& s) const override { s << "TopAxisVisitor[]"; };
 };
 
 class BottomAxisVisitor : public HorizontalAxisVisitor {
 public:
     BottomAxisVisitor(const DrawingVisitor&);
-    ~BottomAxisVisitor() override;
-    void visit(BasicSceneObject& object) override { object.visit(*this); }
-    virtual void tick(double&, double&, bool) override;
-    virtual void minortick(double&, double&, bool) override;
-    virtual Justification justificationTickLabel(const string&) override;
-    virtual double offsetTickLabel(double, double) override;
-    virtual double angleTickLabel() override;
-    virtual double angleTitle() override;
-    virtual double offsetTitle(int) override;
-    virtual double angleTip() override;
-    virtual double offsetTip() override;
-    virtual VerticalAlign textAlignment(const string&) override;
-    virtual double percentX(double) override;
-    virtual double percentY(double) override;
+    ~BottomAxisVisitor();
+    void visit(BasicSceneObject& object) { object.visit(*this); }
+    virtual void tick(double&, double&, bool);
+    virtual void minortick(double&, double&, bool);
+    virtual Justification justificationTickLabel(const string&);
+    virtual double offsetTickLabel(double, double);
+    virtual double angleTickLabel();
+    virtual double angleTitle();
+    virtual double offsetTitle(int);
+    virtual double angleTip();
+    virtual double offsetTip();
+    virtual VerticalAlign textAlignment(const string&);
+    virtual double percentX(double);
+    virtual double percentY(double);
 
 protected:
-    virtual void print(std::ostream& s) const override { s << "BottomAxisVisitor[]"; };
 };
 
 }  // namespace magics

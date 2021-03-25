@@ -22,7 +22,6 @@
 
 #include "MapGenDecoder.h"
 #include "CustomisedPoint.h"
-#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -74,9 +73,6 @@ void MapGenDecoder::decode() {
         in.close();
     }
     catch (...) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
         MagLog::error() << "MapGen file : can not open " << path_ << endl;
     }
     MagLog::dev() << "Map gen file--->" << this->size() << endl;

@@ -82,24 +82,24 @@ public:
 class Cities : public NoCities, public CitiesAttributes {
 public:
     Cities();
-    virtual ~Cities() override;
+    virtual ~Cities();
 
-    virtual void set(const XmlNode& node) override { CitiesAttributes::set(node); }
+    virtual void set(const XmlNode& node) { CitiesAttributes::set(node); }
 
-    virtual void set(const map<string, string>& map) override { CitiesAttributes::set(map); }
+    virtual void set(const map<string, string>& map) { CitiesAttributes::set(map); }
 
-    bool accept(const string& node) override { return CitiesAttributes::accept(node); }
+    bool accept(const string& node) { return CitiesAttributes::accept(node); }
 
-    virtual NoCities* clone() const override {
+    virtual NoCities* clone() const {
         MagLog::dev() << "(const map<string, string&)---> to be checked!...\n";
         return new Cities();
     }
 
-    void operator()(const map<string, string>&, BasicGraphicsObjectContainer&) override;
+    void operator()(const map<string, string>&, BasicGraphicsObjectContainer&);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed

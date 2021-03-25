@@ -52,7 +52,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& s) const { s << "NoBoxPlotBox[]"; }
+    virtual void print(ostream&) const {}
     double cm_;
 
 private:
@@ -92,7 +92,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& s) const { s << "NoBoxPlotBoxBorder[]"; }
+    virtual void print(ostream&) const {}
     double cm_;
 
 private:
@@ -152,7 +152,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& s) const { s << "NoBoxPlotMedian[]"; }
+    virtual void print(ostream&) const {}
     double cm_;
 
 private:
@@ -205,7 +205,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& s) const { s << "NoBoxPlotWhisker[]"; }
+    virtual void print(ostream&) const {}
     double cm_;
 
 private:

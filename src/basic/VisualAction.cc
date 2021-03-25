@@ -43,10 +43,8 @@ VisualAction::~VisualAction() {
             delete *visdef;
         *visdef = 0;
     }
-    if (layer_) {
-        // FIXME: Double delete
-        // delete layer_;
-    }
+    if (layer_)
+        delete layer_;
 }
 
 /*!

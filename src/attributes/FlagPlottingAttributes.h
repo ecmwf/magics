@@ -25,9 +25,9 @@
 #define FlagPlottingAttributes_H
 
 #include "magics.h"
+#include "OriginMarker.h"
 #include "CalmIndicator.h"
 #include "Colour.h"
-#include "OriginMarker.h"
 namespace magics {
 
 class XmlNode;

@@ -11,8 +11,8 @@
 #include "GeoJSon.h"
 #include "BinningObject.h"
 #include "Factory.h"
-#include "MagParser.h"
 #include "Value.h"
+#include "JSONParser.h"
 
 using namespace magics;
 
@@ -502,33 +502,25 @@ void GeoJSon::decode() {
     try {
         Value value;
         if (magCompare(type_, "string")) {
-            value = MagParser::decodeString(input_);
+           value = JSONParser::decodeString(input_);
         }
         else {
             try {
-                value = MagParser::decodeFile(path_);
+                ifstream is(path_.c_str());
+                value = JSONParser::decodeFile(path_);
             }
             catch (std::exception& e) {
-                if (MagicsGlobal::strict()) {
-                    throw;
-                }
                 MagLog::error() << "JSON error in file: " << path_ << ": " << e.what() << endl;
                 return;
             }
             catch (...) {
-                if (MagicsGlobal::strict()) {
-                    throw;
-                }
                 MagLog::error() << "GeoJSon decoder: can not read file " << path_ << endl;
                 return;
             }
         }
         dig(value);
     }
-    catch (std::exception& e) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
+    catch (std::exception e) {
         MagLog::error() << "Could not processed the file: " << path_ << ": " << e.what() << endl;
         abort();
     }

@@ -60,7 +60,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const { out << "ValuePlotBase[]"; }
+    virtual void print(ostream& out) const { out << "ValuePlotBase\n"; }
 
 private:
     //! Copy constructor - No copy allowed

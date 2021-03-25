@@ -74,13 +74,13 @@ protected:
 class LocalTable : public DefinitionTable<ParamDef> {
 public:
     LocalTable(const string&);
-    virtual ~LocalTable() override;
+    virtual ~LocalTable();
     static const DefinitionTable<ParamDef>& localTable(long table, long center = -1);
     static const ParamDef& localInfo(long code, long table, long center = -1);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     void setDefinition() { definition_ = "param"; }
 
 

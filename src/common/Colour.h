@@ -23,11 +23,10 @@
 #ifndef Colour_H
 #define Colour_H
 
+#include <magics.h>
 #include <sstream>
 #include "Factory.h"
-#include "MagException.h"
 #include "MagTranslator.h"
-#include "magics.h"
 
 using std::istream;
 
@@ -43,9 +42,9 @@ class XmlNode;
 
 
 */
-struct BadRgbFormat : public MagicsException {
-    BadRgbFormat(const std::string& value) : MagicsException("BadRgbFormat: [" + value + "]") {}
-    ~BadRgbFormat() override {}
+struct BadRgbFormat {
+    BadRgbFormat() {}
+    ~BadRgbFormat() {}
 };
 
 
@@ -69,9 +68,9 @@ struct Rgb {
     friend istream& operator>>(istream& s, Rgb& p);
 };
 
-struct BadHslFormat : public MagicsException {
-    BadHslFormat(const std::string& value) : MagicsException("BadHslFormat: [" + value + "]") {}
-    ~BadHslFormat() override {}
+struct BadHslFormat {
+    BadHslFormat() {}
+    ~BadHslFormat() {}
 };
 
 struct Hsl {
@@ -141,7 +140,6 @@ public:
     bool operator<(const Colour& other) const { return name_ < other.name_; }
 
     Hsl hsl() const;
-    operator Rgb() const { return rgb_; }
 
     void setColour(const string&);
     void setColour(float, float, float, float = 1.);

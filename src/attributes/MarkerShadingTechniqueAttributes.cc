@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -31,17 +31,17 @@ MarkerShadingTechniqueAttributes::MarkerShadingTechniqueAttributes():
 	marker_(ParameterManager::getIntArray("contour_shade_marker_table")),
 	symbol_(ParameterManager::getStringArray("contour_shade_marker_name_table"))
 	
-	
+	 
 {
-}
+} 
 
 
 MarkerShadingTechniqueAttributes::~MarkerShadingTechniqueAttributes()
 {
-
+	
 }
 
-
+    
 void MarkerShadingTechniqueAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(5);
@@ -69,12 +69,12 @@ void MarkerShadingTechniqueAttributes::copy(const MarkerShadingTechniqueAttribut
 	marker_ = other.marker_;
 	symbol_ = other.symbol_;
 	
-}
+} 
 
 
 bool MarkerShadingTechniqueAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "marker")  )
 		return true;
 	
@@ -85,7 +85,7 @@ void MarkerShadingTechniqueAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "marker")  )
@@ -117,7 +117,7 @@ void MarkerShadingTechniqueAttributes::print(ostream& out)  const
 
 void MarkerShadingTechniqueAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"marker\"";
+	out <<  "\"marker\""; 
 	out << ", \"contour_shade_colour_table\":";
 	niceprint(out,colour_);
 	out << ", \"contour_shade_height_table\":";
@@ -131,8 +131,8 @@ void MarkerShadingTechniqueAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<stringarray> contour_shade_colour_table("contour_shade_colour_table", stringarray());
-static MagicsParameter<doublearray> contour_shade_height_table("contour_shade_height_table", floatarray());
-static MagicsParameter<string> contour_shade_marker_table_type("contour_shade_marker_table_type", "index");
-static MagicsParameter<intarray> contour_shade_marker_table("contour_shade_marker_table", intarray());
-static MagicsParameter<stringarray> contour_shade_marker_name_table("contour_shade_marker_name_table", stringarray());
+static MagicsParameter<stringarray> contour_shade_colour_table("contour_shade_colour_table", stringarray(), "");
+static MagicsParameter<doublearray> contour_shade_height_table("contour_shade_height_table", floatarray(), "");
+static MagicsParameter<string> contour_shade_marker_table_type("contour_shade_marker_table_type", "index", "");
+static MagicsParameter<intarray> contour_shade_marker_table("contour_shade_marker_table", intarray(), "");
+static MagicsParameter<stringarray> contour_shade_marker_name_table("contour_shade_marker_name_table", stringarray(), "");

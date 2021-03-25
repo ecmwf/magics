@@ -42,7 +42,7 @@ public:
     };
 
     MgQPolylineSetItem(QRectF&, QGraphicsItem* parent = 0);
-    ~MgQPolylineSetItem() override;
+    ~MgQPolylineSetItem();
 
     QRectF boundingRect() const;
     void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* widget = 0);

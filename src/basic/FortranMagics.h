@@ -147,10 +147,8 @@ protected:
     vector<LegendVisitor*> legends_;
     vector<BasicSceneObject*> later_;
     stack<Axis*> axis_;
-
     BasicSceneObject* axisContainer_;
     VisualAction* action_;
-
     bool empty_;
     int gribindex_;
     bool legend_todo_;

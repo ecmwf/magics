@@ -15,9 +15,9 @@ using namespace magics;
 #include "XmlMagics.h"
 #include "XmlTree.h"
 
-#include "MagParser.h"
 #include "Timer.h"
 #include "Value.h"
+#include "JSONParser.h"
 
 MagJSon::MagJSon() {
     patchs_["drivers"]    = &MagJSon::drivers;
@@ -32,13 +32,13 @@ void MagJSon::execute(const string& magml, const map<string, string>& params) {
 }
 
 void MagJSon::parse(const string& file) {
-    Value value = MagParser::decodeFile(file);
+    Value value = JSONParser::decodeFile(file);
     magics(value);
 }
 
 void MagJSon::interpret(const string& def) {
     MagLog::dev() << "interpret-->" << def << endl;
-    Value value = MagParser::decodeString(def);
+    Value value = JSONParser::decodeString(def);
 
     ValueMap object = value.get_value<ValueMap>();
     // buils the Magics XmlNode!
@@ -56,7 +56,7 @@ void ParamJSon::magics(const Value& value) {
 ParamJSon::ParamJSon(const string& param) {
     if (param.empty())
         return;
-    Value value = MagParser::decodeString(param);
+    Value value = JSONParser::decodeString(param);
     magics(value);
 }
 

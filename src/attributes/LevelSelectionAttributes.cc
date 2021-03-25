@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -30,17 +30,17 @@ LevelSelectionAttributes::LevelSelectionAttributes():
 	max_shade_(ParameterManager::getDouble("contour_shade_max_level")),
 	min_shade_(ParameterManager::getDouble("contour_shade_min_level"))
 	
-	
+	 
 {
-}
+} 
 
 
 LevelSelectionAttributes::~LevelSelectionAttributes()
 {
-
+	
 }
 
-
+    
 void LevelSelectionAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -62,12 +62,12 @@ void LevelSelectionAttributes::copy(const LevelSelectionAttributes& other)
 	max_shade_ = other.max_shade_;
 	min_shade_ = other.min_shade_;
 	
-}
+} 
 
 
 bool LevelSelectionAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "")  )
 		return true;
 	
@@ -78,7 +78,7 @@ void LevelSelectionAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "")  )
@@ -109,7 +109,7 @@ void LevelSelectionAttributes::print(ostream& out)  const
 
 void LevelSelectionAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"\"";
+	out <<  "\"\""; 
 	out << ", \"contour_max_level\":";
 	niceprint(out,max_);
 	out << ", \"contour_min_level\":";
@@ -121,7 +121,7 @@ void LevelSelectionAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> contour_max_level("contour_max_level", 1.0e+21);
-static MagicsParameter<double> contour_min_level("contour_min_level", -1.0e+21);
-static MagicsParameter<double> contour_shade_max_level("contour_shade_max_level", 1.0e+21);
-static MagicsParameter<double> contour_shade_min_level("contour_shade_min_level", -1.0e+21);
+static MagicsParameter<double> contour_max_level("contour_max_level", 1.0e+21, "");
+static MagicsParameter<double> contour_min_level("contour_min_level", -1.0e+21, "");
+static MagicsParameter<double> contour_shade_max_level("contour_shade_max_level", 1.0e+21, "");
+static MagicsParameter<double> contour_shade_min_level("contour_shade_min_level", -1.0e+21, "");

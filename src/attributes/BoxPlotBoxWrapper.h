@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-
+   
 
 #ifndef BoxPlotBoxWrapper_H
 #define BoxPlotBoxWrapper_H
@@ -41,15 +41,15 @@
 
 #include "NoBoxPlotBoxBorderWrapper.h"
 #include "NoBoxPlotMedianWrapper.h"
-
+ 
 
 namespace magics {
 
 class MagRequest;
 
 
-
-class BoxPlotBoxWrapper
+ 	
+class BoxPlotBoxWrapper 
 
 {
 public:
@@ -59,20 +59,20 @@ public:
 //  --  destructor
     virtual ~BoxPlotBoxWrapper();
     virtual void set(const MagRequest&);
-
+    
     BoxPlotBox* me()   { return boxplotbox_; }
-
+   	
    	virtual BoxPlotBox* object() { return boxplotbox_; }
+	
 
-
-	virtual void object(BoxPlotBox* o) {
+	virtual void object(BoxPlotBox* o) { 
 		// Remember to delete the previous object
 		boxplotbox_ = o;
 		
 
 	}
-
-
+    
+  
 
 protected:
     BoxPlotBox* boxplotbox_;
@@ -80,7 +80,7 @@ protected:
 
 //  --  method
 	virtual void print(ostream&) const;
-
+	
 
 private:
     string tag_;
@@ -91,3 +91,5 @@ private:
 } // namespace magics
 
 #endif
+
+

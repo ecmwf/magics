@@ -25,8 +25,8 @@
 #define BarAttributes_H
 
 #include "magics.h"
-#include "Colour.h"
 #include "GraphShade.h"
+#include "Colour.h"
 namespace magics {
 
 class XmlNode;

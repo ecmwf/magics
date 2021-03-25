@@ -305,7 +305,7 @@ void GribInterpretor::index(const GribDecoder& grib) {
 }
 
 int GribInterpretor::nearest(double lon, double lat, double& nlon, double& nlat) {
-    ASSERT(false);
+    assert(false);
     return -1;
 }
 

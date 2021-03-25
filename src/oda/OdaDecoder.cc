@@ -27,12 +27,11 @@
 #include <odc/Reader.h>
 
 
-#include "OdaDecoder.h"
 #include "Timer.h"
+#include "OdaDecoder.h"
 
 #include "SciMethods.h"
 #include "TextVisitor.h"
-
 
 
 static int getOdbColumnIndex(odc::Reader::iterator&, const string&);
@@ -98,14 +97,14 @@ void OdaGeoDecoder::decode(const Transformation& transformation) {
             int latIndex, lonIndex, valueIndex = -1;
 
             if ((latIndex = getOdbColumnIndex(it, latitude_)) == -1)
-                throw OdaMagException("Error in ODA decoder");
+                throw exception();
             if ((lonIndex = getOdbColumnIndex(it, longitude_)) == -1)
-                throw OdaMagException("Error in ODA decoder");
+                throw exception();
 
             if (value_.empty())
                 MagLog::info() << "No value is specified!" << endl;
             else if ((valueIndex = getOdbColumnIndex(it, value_)) == -1)
-                throw OdaMagException("Error in ODA decoder");
+                throw exception();
 
             MagLog::info() << "Indices: " << latIndex << " " << lonIndex << " " << valueIndex << endl;
 
@@ -190,14 +189,14 @@ void OdaGeoDecoder::decode() {
         int latIndex, lonIndex, valueIndex = -1;
 
         if ((latIndex = getOdbColumnIndex(it, latitude_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
         if ((lonIndex = getOdbColumnIndex(it, longitude_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
 
         if (value_.empty())
             MagLog::info() << "No value is specified!" << endl;
         else if ((valueIndex = getOdbColumnIndex(it, value_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
 
         MagLog::info() << "Indices: " << latIndex << " " << lonIndex << " " << valueIndex << endl;
 
@@ -303,18 +302,18 @@ void OdaGeoDecoder::customisedPoints(const std::set<string>&, CustomisedPointsLi
         int latIndex, lonIndex, valueIndex = -1, xIndex, yIndex;
 
         if ((latIndex = getOdbColumnIndex(it, latitude_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
         if ((lonIndex = getOdbColumnIndex(it, longitude_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
         if (value_.empty())
             MagLog::info() << "No value is specified!" << endl;
         else if ((valueIndex = getOdbColumnIndex(it, value_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
 
         if ((xIndex = getOdbColumnIndex(it, x_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
         if ((yIndex = getOdbColumnIndex(it, y_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
 
         MagLog::info() << "Indices: " << latIndex << " " << lonIndex << " " << valueIndex << endl;
 
@@ -398,19 +397,19 @@ void OdaGeoDecoder::customisedPoints(const Transformation& transformation, const
         int latIndex, lonIndex, valueIndex = -1, xIndex, yIndex;
 
         if ((latIndex = getOdbColumnIndex(it, latitude_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
         if ((lonIndex = getOdbColumnIndex(it, longitude_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
 
         if (value_.empty())
             MagLog::info() << "No value is specified!" << endl;
         else if ((valueIndex = getOdbColumnIndex(it, value_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
 
         if ((xIndex = getOdbColumnIndex(it, x_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
         if ((yIndex = getOdbColumnIndex(it, y_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
 
         MagLog::info() << "Indices: " << latIndex << " " << lonIndex << " " << valueIndex << endl;
 
@@ -684,15 +683,15 @@ void OdaXYDecoder::customisedPoints(const Transformation& transformation, const 
         int xIndex = -1, yIndex = -1, valueIndex = -1, xcIndex = -1, ycIndex = -1;
 
         if ((xIndex = getOdbColumnIndex(it, x_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
         if ((yIndex = getOdbColumnIndex(it, y_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
         if (!value_.empty() && (valueIndex = getOdbColumnIndex(it, value_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
         if (!x_component_.empty() && (xcIndex = getOdbColumnIndex(it, x_component_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
         if (!y_component_.empty() && (ycIndex = getOdbColumnIndex(it, y_component_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
 
         MagLog::info() << "Indices: " << xIndex << " " << yIndex << " " << valueIndex << " " << xcIndex << " "
                        << xcIndex << endl;
@@ -759,15 +758,15 @@ void OdaXYDecoder::customisedPoints(const std::set<string>&, CustomisedPointsLis
         int xIndex = -1, yIndex = -1, valueIndex = -1, xcIndex = -1, ycIndex = -1;
 
         if ((xIndex = getOdbColumnIndex(it, x_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
         if ((yIndex = getOdbColumnIndex(it, y_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
         if (!value_.empty() && (valueIndex = getOdbColumnIndex(it, value_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
         if (!x_component_.empty() && (xcIndex = getOdbColumnIndex(it, x_component_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
         if (!y_component_.empty() && (ycIndex = getOdbColumnIndex(it, y_component_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
 
         MagLog::info() << "Indices: " << xIndex << " " << yIndex << " " << valueIndex << " " << xcIndex << " "
                        << xcIndex << endl;
@@ -854,11 +853,11 @@ void OdaXYDecoder::decode(const Transformation& transformation) {
         int xIndex = -1, yIndex = -1, valueIndex = -1;
 
         if ((xIndex = getOdbColumnIndex(it, x_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
         if ((yIndex = getOdbColumnIndex(it, y_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
         if (!value_.empty() && (valueIndex = getOdbColumnIndex(it, value_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
 
         MagLog::info() << "Indices: " << xIndex << " " << yIndex << " " << valueIndex << endl;
 
@@ -915,11 +914,11 @@ void OdaXYDecoder::decode() {
         int xIndex = -1, yIndex = -1, valueIndex = -1;
 
         if ((xIndex = getOdbColumnIndex(it, x_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
         if ((yIndex = getOdbColumnIndex(it, y_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
         if (!value_.empty() && (valueIndex = getOdbColumnIndex(it, value_)) == -1)
-            throw OdaMagException("Error in ODA decoder");
+            throw exception();
 
         MagLog::info() << "Indices: " << xIndex << " " << yIndex << " " << valueIndex << endl;
 

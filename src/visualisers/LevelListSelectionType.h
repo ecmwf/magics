@@ -32,26 +32,26 @@ namespace magics {
 class LevelListSelectionType : public LevelListSelectionTypeAttributes, public LevelSelection {
 public:
     LevelListSelectionType();
-    virtual ~LevelListSelectionType() override;
+    virtual ~LevelListSelectionType();
 
 
-    void calculate(double min, double max, bool) override;
-    void set(const map<string, string>& params) override {
+    void calculate(double min, double max, bool);
+    void set(const map<string, string>& params) {
         LevelListSelectionTypeAttributes::set(params);
         LevelSelection::set(params);
     }
-    void set(const XmlNode& node) override {
+    void set(const XmlNode& node) {
         LevelListSelectionTypeAttributes::set(node);
         LevelSelection::set(node);
     }
-    void set(const LevelSelectionInterface& from) override { list_ = from.getList(); }
-    virtual LevelSelection* clone() const override {
+    void set(const LevelSelectionInterface& from) { list_ = from.getList(); }
+    virtual LevelSelection* clone() const {
         LevelListSelectionType* object = new LevelListSelectionType();
         object->copy(*this);
         return object;
     }
 
-    double reference(int) const override { return empty() ? -9999 : front(); }
+    double reference(int) const { return empty() ? -9999 : front(); }
 
     void copy(const LevelListSelectionType& from) {
         LevelListSelectionTypeAttributes::copy(from);
@@ -60,7 +60,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed

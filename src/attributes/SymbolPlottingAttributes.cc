@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -45,17 +45,17 @@ SymbolPlottingAttributes::SymbolPlottingAttributes():
 	outline_style_(MagTranslator<string, LineStyle>().magics("symbol_outline_style")),
 	connect_colour_(MagTranslator<string, Colour>().magics("symbol_connect_line_colour")),
 	connect_style_(MagTranslator<string, LineStyle>().magics("symbol_connect_line_style"))
-	
+	 
 {
-}
+} 
 
 
 SymbolPlottingAttributes::~SymbolPlottingAttributes()
 {
-
+	
 }
 
-
+    
 void SymbolPlottingAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -107,12 +107,12 @@ void SymbolPlottingAttributes::copy(const SymbolPlottingAttributes& other)
 	connect_colour_ = unique_ptr<Colour>(other.connect_colour_->clone());
 	connect_style_ = other.connect_style_;
 	
-}
+} 
 
 
 bool SymbolPlottingAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "symbol")  )
 		return true;
 	if ( acceptNode(node, mode_) )
@@ -125,7 +125,7 @@ void SymbolPlottingAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "symbol")  )
@@ -140,7 +140,7 @@ void SymbolPlottingAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), mode_, *elt);
+		setMember(elt->name(), mode_, *elt); 
 		
 	}
 }
@@ -173,7 +173,7 @@ void SymbolPlottingAttributes::print(ostream& out)  const
 
 void SymbolPlottingAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"symbol\"";
+	out <<  "\"symbol\""; 
 	out << ", \"legend\":";
 	niceprint(out,legend_);
 	out << ", \"symbol_scaling_method\":";
@@ -215,27 +215,27 @@ void SymbolPlottingAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> legend("legend", "off");
-static MagicsParameter<string> symbol_scaling_method("symbol_scaling_method", "off");
-static MagicsParameter<double> symbol_scaling_level_0_height("symbol_scaling_level_0_height", 0.1);
-static MagicsParameter<double> symbol_scaling_factor("symbol_scaling_factor", 4.);
-static MagicsParameter<string> symbol_type("symbol_type", "number");
-static MagicsParameter<string> symbol_marker_mode("symbol_marker_mode", "index");
-static MagicsParameter<string> symbol_format("symbol_format", "(automatic)");
-static MagicsParameter<string> symbol_text_blanking("symbol_text_blanking", "off");
-static MagicsParameter<string> symbol_outline("symbol_outline", "off");
-static MagicsParameter<int> symbol_outline_thickness("symbol_outline_thickness", 1);
-static MagicsParameter<string> symbol_connect_line("symbol_connect_line", "off");
-static MagicsParameter<string> symbol_connect_automatic_line_colour("symbol_connect_automatic_line_colour", "on");
-static MagicsParameter<int> symbol_connect_line_thickness("symbol_connect_line_thickness", 1);
-static MagicsParameter<string> symbol_legend_only("symbol_legend_only", "off");
-static MagicsParameter<string> symbol_table_mode("symbol_table_mode", "OFF");
-static MagicsParameter<string> symbol_outline_colour("symbol_outline_colour", "black");
-static MagicsParameter<string> symbol_outline_style("symbol_outline_style", "solid");
-static MagicsParameter<string> symbol_connect_line_colour("symbol_connect_line_colour", "black");
-static MagicsParameter<string> symbol_connect_line_style("symbol_connect_line_style", "solid");
-#include "SymbolMode.h"
+static MagicsParameter<string> legend("legend", "off", "");
+static MagicsParameter<string> symbol_scaling_method("symbol_scaling_method", "off", "");
+static MagicsParameter<double> symbol_scaling_level_0_height("symbol_scaling_level_0_height", 0.1, "");
+static MagicsParameter<double> symbol_scaling_factor("symbol_scaling_factor", 4., "");
+static MagicsParameter<string> symbol_type("symbol_type", "number", "");
+static MagicsParameter<string> symbol_marker_mode("symbol_marker_mode", "index", "");
+static MagicsParameter<string> symbol_format("symbol_format", "(automatic)", "");
+static MagicsParameter<string> symbol_text_blanking("symbol_text_blanking", "off", "");
+static MagicsParameter<string> symbol_outline("symbol_outline", "off", "");
+static MagicsParameter<int> symbol_outline_thickness("symbol_outline_thickness", 1, "");
+static MagicsParameter<string> symbol_connect_line("symbol_connect_line", "off", "");
+static MagicsParameter<string> symbol_connect_automatic_line_colour("symbol_connect_automatic_line_colour", "on", "");
+static MagicsParameter<int> symbol_connect_line_thickness("symbol_connect_line_thickness", 1, "");
+static MagicsParameter<string> symbol_legend_only("symbol_legend_only", "off", "");
+static MagicsParameter<string> symbol_table_mode("symbol_table_mode", "OFF", ""); 
+static MagicsParameter<string> symbol_outline_colour("symbol_outline_colour", "black", ""); 
+static MagicsParameter<string> symbol_outline_style("symbol_outline_style", "solid", ""); 
+static MagicsParameter<string> symbol_connect_line_colour("symbol_connect_line_colour", "black", ""); 
+static MagicsParameter<string> symbol_connect_line_style("symbol_connect_line_style", "solid", ""); 
 #include "SymbolAdvancedTableMode.h"
+#include "SymbolMode.h"
 static SimpleObjectMaker<SymbolIndividualMode , SymbolMode> individual_SymbolIndividualMode("individual");
 static SimpleObjectMaker<SymbolIndividualMode , SymbolMode> off_SymbolIndividualMode("off");
 static SimpleObjectMaker<SymbolAdvancedTableMode , SymbolMode> advanced_SymbolAdvancedTableMode("advanced");

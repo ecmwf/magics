@@ -29,30 +29,28 @@ map<string, SimpleFactory<B>*>* SimpleFactory<B>::map_ = 0;
 
 template <class B>
 SimpleFactory<B>::SimpleFactory(const string& name) : name_(lowerCase(name)) {
-    if (!map_) {
+    if (!map_)
         map_ = new map<string, SimpleFactory<B>*>();
-    }
-    // This happens in the automatically gerenated files
-    // if(map_->find(name_) != map_->end()) {
-    //     std::cerr << "SimpleFactory: duplicate factory name: " + name_ << std::endl;
-    // }
     (*map_)[name_] = this;
 }
 
 
 template <class B>
 SimpleFactory<B>::~SimpleFactory() {
-    ASSERT(map_);
-    map_->erase(name_);
+    if (map_) {
+        delete map_;
+        map_ = 0;
+    }
 }
 
 template <class B>
 B* SimpleFactory<B>::create(const string& name) {
     SimpleFactory<B>* maker = get(name);
-    ASSERT(maker);
-
-    B* object = (*maker).make();
-    return object;
+    if (maker) {
+        B* object = (*maker).make();
+        return object;
+    }
+    throw NoFactoryException(name);
 }
 
 
@@ -60,14 +58,8 @@ template <class B>
 SimpleFactory<B>* SimpleFactory<B>::get(const string& name) {
     ASSERT(map_);
     typename map<string, SimpleFactory<B>*>::iterator maker = (*map_).find(lowerCase(name));
-    if (maker != (*map_).end()) {
+    if (maker != (*map_).end())
         return (*maker).second;
-    }
-
-    MagLog::error() << "No factory named [" << name << "], values:" << std::endl;
-    for (auto k = map_->begin(); k != map_->end(); ++k) {
-        MagLog::error() << "  " << (*k).first << std::endl;
-    }
 
     throw NoFactoryException(name);
 }

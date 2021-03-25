@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -47,17 +47,17 @@ EpsPlumeAttributes::EpsPlumeAttributes():
 	control_line_style_(MagTranslator<string, LineStyle>().magics("eps_plume_control_line_style")),
 	median_line_colour_(MagTranslator<string, Colour>().magics("eps_plume_median_line_colour")),
 	median_line_style_(MagTranslator<string, LineStyle>().magics("eps_plume_median_line_style"))
-	
+	 
 {
-}
+} 
 
 
 EpsPlumeAttributes::~EpsPlumeAttributes()
 {
-
+	
 }
 
-
+    
 void EpsPlumeAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -114,12 +114,12 @@ void EpsPlumeAttributes::copy(const EpsPlumeAttributes& other)
 	median_line_colour_ = unique_ptr<Colour>(other.median_line_colour_->clone());
 	median_line_style_ = other.median_line_style_;
 	
-}
+} 
 
 
 bool EpsPlumeAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "epsplume")  )
 		return true;
 	
@@ -130,7 +130,7 @@ void EpsPlumeAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "epsplume")  )
@@ -178,7 +178,7 @@ void EpsPlumeAttributes::print(ostream& out)  const
 
 void EpsPlumeAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"epsplume\"";
+	out <<  "\"epsplume\""; 
 	out << ", \"eps_plume_method\":";
 	niceprint(out,method_);
 	out << ", \"eps_plume_legend\":";
@@ -224,24 +224,24 @@ void EpsPlumeAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> eps_plume_method("eps_plume_method", "time_serie");
-static MagicsParameter<string> eps_plume_legend("eps_plume_legend", "on");
-static MagicsParameter<string> eps_plume_members("eps_plume_members", "on");
-static MagicsParameter<int> eps_plume_line_thickness("eps_plume_line_thickness", 1);
-static MagicsParameter<string> eps_plume_forecast("eps_plume_forecast", "on");
-static MagicsParameter<int> eps_plume_forecast_line_thickness("eps_plume_forecast_line_thickness", 5);
-static MagicsParameter<string> eps_plume_control("eps_plume_control", "on");
-static MagicsParameter<int> eps_plume_control_line_thickness("eps_plume_control_line_thickness", 5);
-static MagicsParameter<string> eps_plume_median("eps_plume_median", "off");
-static MagicsParameter<int> eps_plume_median_line_thickness("eps_plume_median_line_thickness", 5);
-static MagicsParameter<string> eps_plume_shading("eps_plume_shading", "off");
-static MagicsParameter<doublearray> eps_plume_shading_level_list("eps_plume_shading_level_list", floatarray());
-static MagicsParameter<stringarray> eps_plume_shading_colour_list("eps_plume_shading_colour_list", stringarray());
-static MagicsParameter<string> eps_plume_line_colour("eps_plume_line_colour", "magenta");
-static MagicsParameter<string> eps_plume_line_style("eps_plume_line_style", "solid");
-static MagicsParameter<string> eps_plume_forecast_line_colour("eps_plume_forecast_line_colour", "cyan");
-static MagicsParameter<string> eps_plume_forecast_line_style("eps_plume_forecast_line_style", "dash");
-static MagicsParameter<string> eps_plume_control_line_colour("eps_plume_control_line_colour", "cyan");
-static MagicsParameter<string> eps_plume_control_line_style("eps_plume_control_line_style", "solid");
-static MagicsParameter<string> eps_plume_median_line_colour("eps_plume_median_line_colour", "cyan");
-static MagicsParameter<string> eps_plume_median_line_style("eps_plume_median_line_style", "solid");
+static MagicsParameter<string> eps_plume_method("eps_plume_method", "time_serie", "");
+static MagicsParameter<string> eps_plume_legend("eps_plume_legend", "on", "");
+static MagicsParameter<string> eps_plume_members("eps_plume_members", "on", "");
+static MagicsParameter<int> eps_plume_line_thickness("eps_plume_line_thickness", 1, "");
+static MagicsParameter<string> eps_plume_forecast("eps_plume_forecast", "on", "");
+static MagicsParameter<int> eps_plume_forecast_line_thickness("eps_plume_forecast_line_thickness", 5, "");
+static MagicsParameter<string> eps_plume_control("eps_plume_control", "on", "");
+static MagicsParameter<int> eps_plume_control_line_thickness("eps_plume_control_line_thickness", 5, "");
+static MagicsParameter<string> eps_plume_median("eps_plume_median", "off", "");
+static MagicsParameter<int> eps_plume_median_line_thickness("eps_plume_median_line_thickness", 5, "");
+static MagicsParameter<string> eps_plume_shading("eps_plume_shading", "off", "");
+static MagicsParameter<doublearray> eps_plume_shading_level_list("eps_plume_shading_level_list", floatarray(), "");
+static MagicsParameter<stringarray> eps_plume_shading_colour_list("eps_plume_shading_colour_list", stringarray(), "");
+static MagicsParameter<string> eps_plume_line_colour("eps_plume_line_colour", "magenta", ""); 
+static MagicsParameter<string> eps_plume_line_style("eps_plume_line_style", "solid", ""); 
+static MagicsParameter<string> eps_plume_forecast_line_colour("eps_plume_forecast_line_colour", "cyan", ""); 
+static MagicsParameter<string> eps_plume_forecast_line_style("eps_plume_forecast_line_style", "dash", ""); 
+static MagicsParameter<string> eps_plume_control_line_colour("eps_plume_control_line_colour", "cyan", ""); 
+static MagicsParameter<string> eps_plume_control_line_style("eps_plume_control_line_style", "solid", ""); 
+static MagicsParameter<string> eps_plume_median_line_colour("eps_plume_median_line_colour", "cyan", ""); 
+static MagicsParameter<string> eps_plume_median_line_style("eps_plume_median_line_style", "solid", ""); 

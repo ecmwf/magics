@@ -29,7 +29,7 @@ template <class P>
 class Push {
 public:
     Push(Polyline& poly) : poly_(poly) {}
-    ~Push() override {}
+    ~Push() {}
     void operator()(P& point) { poly_.push_back(point); }
 
 protected:
@@ -56,7 +56,7 @@ template <class P>
 class Empty {
 public:
     Empty() {}
-    ~Empty() override {}
+    ~Empty() {}
     bool operator()(const Polyline* poly) {
         if (poly->empty()) {
             delete poly;
@@ -77,7 +77,7 @@ public:
         top_    = std::max(transformation_.getMinPCY(), transformation_.getMaxPCY());
         bottom_ = std::min(transformation_.getMinPCY(), transformation_.getMaxPCY());
     }
-    ~Clipper() override {}
+    ~Clipper() {}
 
     void feed(C& out) {
         for (vector<Polyline*>::iterator line = helper_.begin(); line != helper_.end(); ++line) {

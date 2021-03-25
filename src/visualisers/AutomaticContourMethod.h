@@ -36,11 +36,11 @@ namespace magics {
 class AutomaticContourMethod : public ContourMethod {
 public:
     AutomaticContourMethod() {}
-    virtual ~AutomaticContourMethod() override {}
+    virtual ~AutomaticContourMethod() {}
     ContourMethod* clone() { return new AutomaticContourMethod(); }
-    virtual bool accept(const string& node) override { return magCompare(node, "automatic"); }
+    virtual bool accept(const string& node) { return magCompare(node, "automatic"); }
 
-    virtual MatrixHandler* handler(const AbstractMatrix& matrix, const BasicGraphicsObjectContainer& owner) override {
+    virtual MatrixHandler* handler(const AbstractMatrix& matrix, const BasicGraphicsObjectContainer& owner) {
         // this is the ideal number of points per cm on the paper
         const double fDesiredPointsPerCm = 5.0;
 
@@ -226,7 +226,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const override {
+    virtual void print(ostream& out) const {
         out << "AutomaticContourMethod"
             << "\n";
     }

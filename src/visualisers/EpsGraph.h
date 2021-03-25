@@ -49,21 +49,21 @@ class XmlNode;
 class EpsGraph : public EpsGraphAttributes, public Visdef {
 public:
     EpsGraph();
-    virtual ~EpsGraph() override;
+    virtual ~EpsGraph();
 
 
-    virtual void operator()(Data&, BasicGraphicsObjectContainer&) override;
-    virtual void visit(LegendVisitor&) override;
-    bool needLegend() override { return legend_; }
+    virtual void operator()(Data&, BasicGraphicsObjectContainer&);
+    virtual void visit(LegendVisitor&);
+    bool needLegend() { return legend_; }
 
     // Implements the set method ...
-    void set(const map<string, string>& map) override { EpsGraphAttributes::set(map); }
-    void set(const XmlNode& node) override { EpsGraphAttributes::set(node); }
+    void set(const map<string, string>& map) { EpsGraphAttributes::set(map); }
+    void set(const XmlNode& node) { EpsGraphAttributes::set(node); }
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     double resolution_;
     bool forecast_;
     bool control_;
@@ -93,19 +93,19 @@ private:
 class EpsLight : public Visdef {
 public:
     EpsLight() {}
-    virtual ~EpsLight() override {}
+    virtual ~EpsLight() {}
     // Implements the set method ...
     void set(const map<string, string>& map) {}
     void set(const XmlNode&) {}
 
 
-    void operator()(Data&, BasicGraphicsObjectContainer&) override;
-    void visit(LegendVisitor&) override;
+    void operator()(Data&, BasicGraphicsObjectContainer&);
+    void visit(LegendVisitor&);
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 
 private:
@@ -126,19 +126,19 @@ private:
 class CapeBox : public CapeBoxAttributes, public Visdef {
 public:
     CapeBox() {}
-    virtual ~CapeBox() override {}
+    virtual ~CapeBox() {}
     // Implements the set method ...
-    void set(const map<string, string>& map) override { CapeBoxAttributes::set(map); }
-    void set(const XmlNode& node) override { CapeBoxAttributes::set(node); }
+    void set(const map<string, string>& map) { CapeBoxAttributes::set(map); }
+    void set(const XmlNode& node) { CapeBoxAttributes::set(node); }
 
 
-    void operator()(Data&, BasicGraphicsObjectContainer&) override;
-    void visit(LegendVisitor&) override;
+    void operator()(Data&, BasicGraphicsObjectContainer&);
+    void visit(LegendVisitor&);
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     void box(CustomisedPoint&, BasicGraphicsObjectContainer& visitor);
     int cape0_;
 
@@ -161,19 +161,19 @@ private:
 class EpsWind : public Visdef, public EpsWindAttributes {
 public:
     EpsWind() {}
-    virtual ~EpsWind() override {}
+    virtual ~EpsWind() {}
     // Implements the set method ...
-    void set(const map<string, string>& map) override { EpsWindAttributes::set(map); }
-    void set(const XmlNode& node) override { EpsWindAttributes::set(node); }
+    void set(const map<string, string>& map) { EpsWindAttributes::set(map); }
+    void set(const XmlNode& node) { EpsWindAttributes::set(node); }
 
 
-    virtual void operator()(Data&, BasicGraphicsObjectContainer&) override;
-    virtual void visit(LegendVisitor&) override;
+    virtual void operator()(Data&, BasicGraphicsObjectContainer&);
+    virtual void visit(LegendVisitor&);
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     void triangle(const pair<string, float>& direction, CustomisedPoint& point, BasicGraphicsObjectContainer& visitor,
                   double pos, double max);
 
@@ -195,19 +195,19 @@ private:
 class EpsCloud : public Visdef, public EpsCloudAttributes {
 public:
     EpsCloud() {}
-    virtual ~EpsCloud() override {}
+    virtual ~EpsCloud() {}
     // Implements the set method ...
-    void set(const map<string, string>& map) override { EpsCloudAttributes::set(map); }
-    void set(const XmlNode& node) override { EpsCloudAttributes::set(node); }
+    void set(const map<string, string>& map) { EpsCloudAttributes::set(map); }
+    void set(const XmlNode& node) { EpsCloudAttributes::set(node); }
 
 
-    virtual void operator()(Data&, BasicGraphicsObjectContainer&) override;
-    virtual void visit(LegendVisitor&) override;
+    virtual void operator()(Data&, BasicGraphicsObjectContainer&);
+    virtual void visit(LegendVisitor&);
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     void triangle(const pair<string, float>& direction, CustomisedPoint& point, BasicGraphicsObjectContainer& visitor,
                   double pos);
 
@@ -228,19 +228,19 @@ private:
 class EpsBar : public Visdef, public EpsCloudAttributes {
 public:
     EpsBar() {}
-    virtual ~EpsBar() override {}
+    virtual ~EpsBar() {}
     // Implements the set method ...
-    void set(const map<string, string>& map) override { EpsCloudAttributes::set(map); }
-    void set(const XmlNode& node) override { EpsCloudAttributes::set(node); }
+    void set(const map<string, string>& map) { EpsCloudAttributes::set(map); }
+    void set(const XmlNode& node) { EpsCloudAttributes::set(node); }
 
 
-    virtual void operator()(Data&, BasicGraphicsObjectContainer&) override;
-    virtual void visit(LegendVisitor&) override;
+    virtual void operator()(Data&, BasicGraphicsObjectContainer&);
+    virtual void visit(LegendVisitor&);
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 
 private:
@@ -260,17 +260,17 @@ private:
 class EpsWave : public Visdef {
 public:
     EpsWave() {}
-    virtual ~EpsWave() override {}
+    virtual ~EpsWave() {}
     // Implements the set method ...
     void set(const map<string, string>&) {}  // EpsWindAttributes::set(map); }
     void set(const XmlNode&) {}              // EpsWindAttributes::set(node); }
 
-    virtual void operator()(Data&, BasicGraphicsObjectContainer&) override;
-    virtual void visit(LegendVisitor&) override;
+    virtual void operator()(Data&, BasicGraphicsObjectContainer&);
+    virtual void visit(LegendVisitor&);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed
@@ -290,17 +290,17 @@ private:
 class EfiGraph : public Visdef, public EfiGraphAttributes {
 public:
     EfiGraph();
-    virtual ~EfiGraph() override;
+    virtual ~EfiGraph();
 
-    void set(const XmlNode& node) override { EfiGraphAttributes::set(node); }
-    void set(const map<string, string>& map) override { EfiGraphAttributes::set(map); }
+    void set(const XmlNode& node) { EfiGraphAttributes::set(node); }
+    void set(const map<string, string>& map) { EfiGraphAttributes::set(map); }
 
-    virtual void operator()(Data&, BasicGraphicsObjectContainer&) override;
-    virtual void visit(LegendVisitor&) override;
+    virtual void operator()(Data&, BasicGraphicsObjectContainer&);
+    virtual void visit(LegendVisitor&);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override { /*EfiGraphAttributes::print(out);*/
+    virtual void print(ostream&) const { /*EfiGraphAttributes::print(out);*/
     }
 
 
@@ -321,18 +321,18 @@ private:
 class CdfGraph : public Visdef, public CdfGraphAttributes {
 public:
     CdfGraph();
-    virtual ~CdfGraph() override;
+    virtual ~CdfGraph();
 
-    void set(const XmlNode& node) override { CdfGraphAttributes::set(node); }
-    void set(const map<string, string>& map) override { CdfGraphAttributes::set(map); }
+    void set(const XmlNode& node) { CdfGraphAttributes::set(node); }
+    void set(const map<string, string>& map) { CdfGraphAttributes::set(map); }
 
-    virtual void operator()(Data&, BasicGraphicsObjectContainer&) override;
-    virtual void visit(LegendVisitor&) override;
+    virtual void operator()(Data&, BasicGraphicsObjectContainer&);
+    virtual void visit(LegendVisitor&);
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override { /*EfiGraphAttributes::print(out);*/
+    virtual void print(ostream&) const { /*EfiGraphAttributes::print(out);*/
     }
     vector<string> legends_;
     vector<string> usedColours_;
@@ -363,19 +363,18 @@ private:
 class EpsShade : public Visdef, public EpsShadeAttributes {
 public:
     EpsShade();
-    virtual ~EpsShade() override;
+    virtual ~EpsShade();
 
-    void set(const XmlNode& node) override { EpsShadeAttributes::set(node); }
-    void set(const map<string, string>& map) override { EpsShadeAttributes::set(map); }
+    void set(const XmlNode& node) { EpsShadeAttributes::set(node); }
+    void set(const map<string, string>& map) { EpsShadeAttributes::set(map); }
 
-    virtual void operator()(Data&, BasicGraphicsObjectContainer&) override;
-    virtual void visit(LegendVisitor&) override;
+    virtual void operator()(Data&, BasicGraphicsObjectContainer&);
+    virtual void visit(LegendVisitor&);
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& s) const override {
-        // EfiGraphAttributes::print(s);
+    virtual void print(ostream&) const { /*EfiGraphAttributes::print(out);*/
     }
 
 
@@ -396,17 +395,17 @@ private:
 class EpsDirection : public Visdef, public EpsDirectionAttributes {
 public:
     EpsDirection() {}
-    virtual ~EpsDirection() override {}
+    virtual ~EpsDirection() {}
 
-    void set(const XmlNode& node) override { EpsDirectionAttributes::set(node); }
-    void set(const map<string, string>& map) override { EpsDirectionAttributes::set(map); }
+    void set(const XmlNode& node) { EpsDirectionAttributes::set(node); }
+    void set(const map<string, string>& map) { EpsDirectionAttributes::set(map); }
 
-    virtual void operator()(Data&, BasicGraphicsObjectContainer&) override;
+    virtual void operator()(Data&, BasicGraphicsObjectContainer&);
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const override { EpsDirectionAttributes::print(out); }
+    virtual void print(ostream& out) const { EpsDirectionAttributes::print(out); }
 
 
 private:
@@ -419,18 +418,18 @@ private:
 class EpsPlume : public Visdef, public EpsPlumeAttributes {
 public:
     EpsPlume();
-    virtual ~EpsPlume() override {}
+    virtual ~EpsPlume() {}
 
-    void set(const XmlNode& node) override { EpsPlumeAttributes::set(node); }
-    void set(const map<string, string>& map) override { EpsPlumeAttributes::set(map); }
+    void set(const XmlNode& node) { EpsPlumeAttributes::set(node); }
+    void set(const map<string, string>& map) { EpsPlumeAttributes::set(map); }
 
-    virtual void operator()(Data&, BasicGraphicsObjectContainer&) override;
-    void visit(LegendVisitor&) override;
+    virtual void operator()(Data&, BasicGraphicsObjectContainer&);
+    void visit(LegendVisitor&);
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const override { EpsPlumeAttributes::print(out); }
+    virtual void print(ostream& out) const { EpsPlumeAttributes::print(out); }
     typedef void (EpsPlume::*Method)(Data&, BasicGraphicsObjectContainer&);
 
     std::map<string, Method> methods_;

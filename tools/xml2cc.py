@@ -5,7 +5,7 @@ from xml.sax import make_parser
 from datetime import date
 
 import sys
-import os
+
 
 class ObjectHandler(ContentHandler):
 
@@ -122,7 +122,7 @@ class ObjectHandler(ContentHandler):
 
         param = self.parameters["factory"][-1]
         name = attrs.get("xml")
-        if name is not None:
+        if name != None:
             param["options"].append(
                 {
                     "key": attrs.get("xml"),
@@ -135,7 +135,7 @@ class ObjectHandler(ContentHandler):
 
         if attrs.get("fortran") != attrs.get("xml"):
             name = attrs.get("fortran")
-            if name is not None:
+            if name != None:
                 param["options"].append(
                     {
                         "key": attrs.get("fortran"),
@@ -170,56 +170,33 @@ saxparser.parse(datasource)
 
 with open("%s/source.template" % toolssource, "r") as source:
     template = jinja2.Template(source.read())
-
-path = "%s/%sAttributes.cc" % (destination, object.name)
-old = None
-
-if os.path.exists(path):
-    with open(path) as f:
-        old = f.read()
-
-new = template.render(
-    object=object.name,
-    string_parameters=object.parameters["basic"],
-    factory_parameters=object.parameters["factory"],
-    include=object.include,
-    include_options=object.include_options,
-    date=object.generated,
-    tags=object.tags,
-    tag=object.tags[0],
-    prefix=object.prefix,
-)
-
-if old != new:
-    with open(path, "wt") as out:
-        print("CHANGED:", path)
-        out.write(new)
-
-
+with open("%s/%sAttributes.cc" % (destination, object.name), "wt") as out:
+    out.write(
+        template.render(
+            object=object.name,
+            string_parameters=object.parameters["basic"],
+            factory_parameters=object.parameters["factory"],
+            include=object.include,
+            include_options=object.include_options,
+            date=object.generated,
+            tags=object.tags,
+            tag=object.tags[0],
+            prefix=object.prefix,
+        )
+    )
 with open("%s/header.template" % (toolssource), "r") as source:
     template = jinja2.Template(source.read())
-
-path = "%s/%sAttributes.h" % (destination, object.name)
-old = None
-
-
-if os.path.exists(path):
-    with open(path) as f:
-        old = f.read()
-
-new = template.render(
-    object=object.name,
-    string_parameters=object.parameters["basic"],
-    factory_parameters=object.parameters["factory"],
-    include=object.include,
-    include_options=object.include_options,
-    implements=object.implements,
-    date=object.generated,
-    tags=object.tags,
-    prefix=object.prefix,
-)
-
-if old != new:
-    with open(path, "wt") as out:
-        print("CHANGED:", path)
-        out.write(new)
+with open("%s/%sAttributes.h" % (destination, object.name), "wt") as out:
+    out.write(
+        template.render(
+            object=object.name,
+            string_parameters=object.parameters["basic"],
+            factory_parameters=object.parameters["factory"],
+            include=object.include,
+            include_options=object.include_options,
+            implements=object.implements,
+            date=object.generated,
+            tags=object.tags,
+            prefix=object.prefix,
+        )
+    )

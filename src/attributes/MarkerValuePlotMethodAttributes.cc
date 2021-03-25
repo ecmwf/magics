@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -30,17 +30,17 @@ MarkerValuePlotMethodAttributes::MarkerValuePlotMethodAttributes():
 	marker_index_(ParameterManager::getInt("contour_grid_value_marker_index"))
 	,
 	marker_colour_(MagTranslator<string, Colour>().magics("contour_grid_value_marker_colour"))
-	
+	 
 {
-}
+} 
 
 
 MarkerValuePlotMethodAttributes::~MarkerValuePlotMethodAttributes()
 {
-
+	
 }
 
-
+    
 void MarkerValuePlotMethodAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(3);
@@ -64,12 +64,12 @@ void MarkerValuePlotMethodAttributes::copy(const MarkerValuePlotMethodAttributes
 	marker_index_ = other.marker_index_;
 	marker_colour_ = unique_ptr<Colour>(other.marker_colour_->clone());
 	
-}
+} 
 
 
 bool MarkerValuePlotMethodAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "marker")  )
 		return true;
 	
@@ -80,7 +80,7 @@ void MarkerValuePlotMethodAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "marker")  )
@@ -111,7 +111,7 @@ void MarkerValuePlotMethodAttributes::print(ostream& out)  const
 
 void MarkerValuePlotMethodAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"marker\"";
+	out <<  "\"marker\""; 
 	out << ", \"contour_grid_value_marker_height\":";
 	niceprint(out,marker_height_);
 	out << ", \"contour_grid_value_marker_qual\":";
@@ -123,7 +123,7 @@ void MarkerValuePlotMethodAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> contour_grid_value_marker_height("contour_grid_value_marker_height", 0.25);
-static MagicsParameter<string> contour_grid_value_marker_qual("contour_grid_value_marker_qual", "low");
-static MagicsParameter<int> contour_grid_value_marker_index("contour_grid_value_marker_index", 3);
-static MagicsParameter<string> contour_grid_value_marker_colour("contour_grid_value_marker_colour", "red");
+static MagicsParameter<double> contour_grid_value_marker_height("contour_grid_value_marker_height", 0.25, "");
+static MagicsParameter<string> contour_grid_value_marker_qual("contour_grid_value_marker_qual", "low", "");
+static MagicsParameter<int> contour_grid_value_marker_index("contour_grid_value_marker_index", 3, "");
+static MagicsParameter<string> contour_grid_value_marker_colour("contour_grid_value_marker_colour", "red", ""); 

@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -37,17 +37,17 @@ InputMatrixAttributes::InputMatrixAttributes():
 	organization_(MagTranslator<string, InputMatrixInterpretor>().magics("input_field_organization")),
 	wind_speed_(MagTranslator<Matrix, Matrix>().magics("input_wind_speed")),
 	wind_direction_(MagTranslator<Matrix, Matrix>().magics("input_wind_direction"))
-	
+	 
 {
-}
+} 
 
 
 InputMatrixAttributes::~InputMatrixAttributes()
 {
-
+	
 }
 
-
+    
 void InputMatrixAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -83,12 +83,12 @@ void InputMatrixAttributes::copy(const InputMatrixAttributes& other)
 	wind_speed_ = other.wind_speed_;
 	wind_direction_ = other.wind_direction_;
 	
-}
+} 
 
 
 bool InputMatrixAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "matrix")  )
 		return true;
 	if ( acceptNode(node, organization_) )
@@ -101,7 +101,7 @@ void InputMatrixAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "matrix")  )
@@ -116,7 +116,7 @@ void InputMatrixAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), organization_, *elt);
+		setMember(elt->name(), organization_, *elt); 
 		
 	}
 }
@@ -141,7 +141,7 @@ void InputMatrixAttributes::print(ostream& out)  const
 
 void InputMatrixAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"matrix\"";
+	out <<  "\"matrix\""; 
 	out << ", \"input_simple_field\":";
 	niceprint(out,simple_field_);
 	out << ", \"input_metadata\":";
@@ -167,17 +167,17 @@ void InputMatrixAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> input_simple_field("input_simple_field", "off");
-static MagicsParameter<string> input_metadata("input_metadata", "{}");
-static MagicsParameter<string> input_field_subpage_mapping("input_field_subpage_mapping", "upper_left");
-static MagicsParameter<double> input_field_suppress_below("input_field_suppress_below", -1.0e+21);
-static MagicsParameter<double> input_field_suppress_above("input_field_suppress_above", 1.0e+21);
-static MagicsParameter<Matrix> input_field("input_field", Matrix());
-static MagicsParameter<Matrix> input_wind_u_component("input_wind_u_component", Matrix());
-static MagicsParameter<Matrix> input_wind_v_component("input_wind_v_component", Matrix());
-static MagicsParameter<string> input_field_organization("input_field_organization", "regular");
-static MagicsParameter<Matrix> input_wind_speed("input_wind_speed", Matrix());
-static MagicsParameter<Matrix> input_wind_direction("input_wind_direction", Matrix());
+static MagicsParameter<string> input_simple_field("input_simple_field", "off", "");
+static MagicsParameter<string> input_metadata("input_metadata", "{}", "");
+static MagicsParameter<string> input_field_subpage_mapping("input_field_subpage_mapping", "upper_left", "");
+static MagicsParameter<double> input_field_suppress_below("input_field_suppress_below", -1.0e+21, "");
+static MagicsParameter<double> input_field_suppress_above("input_field_suppress_above", 1.0e+21, "");
+static MagicsParameter<Matrix> input_field("input_field", Matrix(), ""); 
+static MagicsParameter<Matrix> input_wind_u_component("input_wind_u_component", Matrix(), ""); 
+static MagicsParameter<Matrix> input_wind_v_component("input_wind_v_component", Matrix(), ""); 
+static MagicsParameter<string> input_field_organization("input_field_organization", "regular", ""); 
+static MagicsParameter<Matrix> input_wind_speed("input_wind_speed", Matrix(), ""); 
+static MagicsParameter<Matrix> input_wind_direction("input_wind_direction", Matrix(), ""); 
 #include "InputMatrixInterpretor.h"
 static SimpleObjectMaker<InputMatrixRegularInterpretor , InputMatrixInterpretor> gaussian_InputMatrixRegularInterpretor("gaussian");
 static SimpleObjectMaker<InputMatrixRegularInterpretor , InputMatrixInterpretor> regular_InputMatrixRegularInterpretor("regular");

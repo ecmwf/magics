@@ -31,17 +31,17 @@ namespace magics {
 class TitleMetaField : public TitleField {
 public:
     TitleMetaField(const string&);
-    virtual ~TitleMetaField() override;
+    virtual ~TitleMetaField();
 
-    virtual string name() override { return token_; }
+    virtual string name() { return token_; }
 
 
-    virtual void operator()(vector<string>&) const override;
+    virtual void operator()(vector<string>&) const;
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     string token_;
 
 
