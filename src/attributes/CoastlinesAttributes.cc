@@ -70,6 +70,8 @@ bool CoastlinesAttributes::accept(const string& node)
 	
 	if ( magCompare(node, "coastlines")  )
 		return true;
+	if ( magCompare(node, "zcoastlines")  )
+		return true;
 	if ( acceptNode(node, coastlines_) )
 		return true;
 	if ( acceptNode(node, grid_) )
@@ -88,6 +90,8 @@ void CoastlinesAttributes::set(const XmlNode& node)
 		return;
 
 	if ( magCompare(node.name(), "coastlines")  )
+		apply = true;
+	if ( magCompare(node.name(), "zcoastlines")  )
 		apply = true;
 	
 
