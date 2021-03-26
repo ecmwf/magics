@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 GeoPointsDecoderWrapper::GeoPointsDecoderWrapper(): geopointsdecoder_(new GeoPointsDecoder())
+
 
 {
 

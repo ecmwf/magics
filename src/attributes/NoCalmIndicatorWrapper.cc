@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NoCalmIndicatorWrapper::NoCalmIndicatorWrapper(): nocalmindicator_(new NoCalmIndicator())
+
 
 {
 

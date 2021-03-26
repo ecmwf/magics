@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 BoxPlotWhiskerBoxWrapper::BoxPlotWhiskerBoxWrapper(): boxplotwhiskerbox_(new BoxPlotWhiskerBox())
+
 
 {
 

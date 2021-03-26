@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 MetgramCurveWrapper::MetgramCurveWrapper(): metgramcurve_(new MetgramCurve())
+
 
 {
 

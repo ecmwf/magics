@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 ValuePlotBaseWrapper::ValuePlotBaseWrapper(): valueplotbase_(new ValuePlotBase())
+
 
 {
 

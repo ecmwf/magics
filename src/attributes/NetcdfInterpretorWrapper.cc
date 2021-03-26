@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NetcdfInterpretorWrapper::NetcdfInterpretorWrapper(): netcdfinterpretor_(new NetcdfInterpretor())
+
 
 {
 
@@ -124,7 +126,9 @@ void NetcdfInterpretorWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("NETCDF_FIELD_AUTOMATIC_SCALING") ) {
 		string automatic_scaling_value = request("NETCDF_FIELD_AUTOMATIC_SCALING");
+		
 		netcdfinterpretor_->automatic_scaling_ = MagTranslator<string, bool>()(automatic_scaling_value);
+		
 		}
 	if  (request.countValues("NETCDF_FIELD_SCALING_FACTOR") ) {
 		double scaling_value = request("NETCDF_FIELD_SCALING_FACTOR");

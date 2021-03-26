@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 Proj4EfasWrapper::Proj4EfasWrapper(): proj4efas_(new Proj4Efas())
+
 
 {
 

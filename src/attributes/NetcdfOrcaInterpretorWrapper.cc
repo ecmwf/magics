@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NetcdfOrcaInterpretorWrapper::NetcdfOrcaInterpretorWrapper(): netcdforcainterpretor_(new NetcdfOrcaInterpretor())
+
 
 {
 

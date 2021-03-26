@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 YCoordinateWrapper::YCoordinateWrapper(): ycoordinate_(new YCoordinate())
+
 
 {
 

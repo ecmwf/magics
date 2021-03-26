@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 XLogarithmicCoordinateWrapper::XLogarithmicCoordinateWrapper(): xlogarithmiccoordinate_(new XLogarithmicCoordinate())
+
 
 {
 
@@ -70,7 +72,9 @@ void XLogarithmicCoordinateWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("X_AUTOMATIC_REVERSE") ) {
 		string reverse_value = request("X_AUTOMATIC_REVERSE");
+		
 		xlogarithmiccoordinate_->reverse_ = MagTranslator<string, bool>()(reverse_value);
+		
 		}
 	
 	

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 EpsXmlInputWrapper::EpsXmlInputWrapper(): epsxmlinput_(new EpsXmlInput())
+
 
 {
 
@@ -63,11 +65,15 @@ void EpsXmlInputWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("EPSXML_LONG_TITLE") ) {
 		string long_title_value = request("EPSXML_LONG_TITLE");
+		
 		epsxmlinput_->long_title_ = MagTranslator<string, bool>()(long_title_value);
+		
 		}
 	if  (request.countValues("EPSXML_TITLE") ) {
 		string short_title_value = request("EPSXML_TITLE");
+		
 		epsxmlinput_->short_title_ = MagTranslator<string, bool>()(short_title_value);
+		
 		}
 	
 	

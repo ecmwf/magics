@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 Proj4EPSG32661Wrapper::Proj4EPSG32661Wrapper(): proj4epsg32661_(new Proj4EPSG32661())
+
 
 {
 

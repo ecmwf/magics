@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 WrepRootNodeWrapper::WrepRootNodeWrapper(): wreprootnode_(new WrepRootNode())
+
 
 {
 

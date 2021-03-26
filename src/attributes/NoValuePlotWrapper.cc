@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NoValuePlotWrapper::NoValuePlotWrapper(): novalueplot_(new NoValuePlot())
+
 
 {
 

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 IsoShadingWrapper::IsoShadingWrapper(): isoshading_(new IsoShading())
+
 
 {
 

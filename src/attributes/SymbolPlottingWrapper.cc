@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 SymbolPlottingWrapper::SymbolPlottingWrapper(): symbolplotting_(new SymbolPlotting())
+
 
 {
 
@@ -55,11 +57,15 @@ void SymbolPlottingWrapper::set(const MagRequest& request)
 
 	if  (request.countValues("LEGEND") ) {
 		string legend_value = request("LEGEND");
+		
 		symbolplotting_->legend_ = MagTranslator<string, bool>()(legend_value);
+		
 		}
 	if  (request.countValues("SYMBOL_SCALING_METHOD") ) {
 		string scaling_method_value = request("SYMBOL_SCALING_METHOD");
+		
 		symbolplotting_->scaling_method_ = MagTranslator<string, bool>()(scaling_method_value);
+		
 		}
 	if  (request.countValues("SYMBOL_SCALING_LEVEL_0_HEIGHT") ) {
 		double scaling_level_0_value = request("SYMBOL_SCALING_LEVEL_0_HEIGHT");
@@ -83,11 +89,15 @@ void SymbolPlottingWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("SYMBOL_TEXT_BLANKING") ) {
 		string text_blanking_value = request("SYMBOL_TEXT_BLANKING");
+		
 		symbolplotting_->text_blanking_ = MagTranslator<string, bool>()(text_blanking_value);
+		
 		}
 	if  (request.countValues("SYMBOL_OUTLINE") ) {
 		string outline_value = request("SYMBOL_OUTLINE");
+		
 		symbolplotting_->outline_ = MagTranslator<string, bool>()(outline_value);
+		
 		}
 	if  (request.countValues("SYMBOL_OUTLINE_THICKNESS") ) {
 		int outline_thickness_value = request("SYMBOL_OUTLINE_THICKNESS");
@@ -95,11 +105,15 @@ void SymbolPlottingWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("SYMBOL_CONNECT_LINE") ) {
 		string connect_value = request("SYMBOL_CONNECT_LINE");
+		
 		symbolplotting_->connect_ = MagTranslator<string, bool>()(connect_value);
+		
 		}
 	if  (request.countValues("SYMBOL_CONNECT_AUTOMATIC_LINE_COLOUR") ) {
 		string automatic_connect_colour_value = request("SYMBOL_CONNECT_AUTOMATIC_LINE_COLOUR");
+		
 		symbolplotting_->automatic_connect_colour_ = MagTranslator<string, bool>()(automatic_connect_colour_value);
+		
 		}
 	if  (request.countValues("SYMBOL_CONNECT_LINE_THICKNESS") ) {
 		int connect_thickness_value = request("SYMBOL_CONNECT_LINE_THICKNESS");
@@ -107,7 +121,9 @@ void SymbolPlottingWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("SYMBOL_LEGEND_ONLY") ) {
 		string legend_only_value = request("SYMBOL_LEGEND_ONLY");
+		
 		symbolplotting_->legend_only_ = MagTranslator<string, bool>()(legend_only_value);
+		
 		}
 	
 	

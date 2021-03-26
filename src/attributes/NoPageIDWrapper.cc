@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NoPageIDWrapper::NoPageIDWrapper(): nopageid_(new NoPageID())
+
 
 {
 

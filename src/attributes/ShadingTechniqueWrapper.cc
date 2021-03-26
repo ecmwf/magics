@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 ShadingTechniqueWrapper::ShadingTechniqueWrapper(): shadingtechnique_(new ShadingTechnique())
+
 
 {
 

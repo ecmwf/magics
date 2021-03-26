@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 CairoDriverWrapper::CairoDriverWrapper(): cairodriver_(new CairoDriver())
+
 
 {
 

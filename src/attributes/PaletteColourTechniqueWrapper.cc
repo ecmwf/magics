@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 PaletteColourTechniqueWrapper::PaletteColourTechniqueWrapper(): palettecolourtechnique_(new PaletteColourTechnique())
+
 
 {
 

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 XDateCoordinateWrapper::XDateCoordinateWrapper(): xdatecoordinate_(new XDateCoordinate())
+
 
 {
 
@@ -70,7 +72,9 @@ void XDateCoordinateWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("X_AUTOMATIC_REVERSE") ) {
 		string reverse_value = request("X_AUTOMATIC_REVERSE");
+		
 		xdatecoordinate_->reverse_ = MagTranslator<string, bool>()(reverse_value);
+		
 		}
 	
 	

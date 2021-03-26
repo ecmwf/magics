@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 TileDecoderWrapper::TileDecoderWrapper(): tiledecoder_(new TileDecoder())
+
 
 {
 
@@ -63,7 +65,9 @@ void TileDecoderWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("GRIB_LOOP") ) {
 		string loop_value = request("GRIB_LOOP");
+		
 		tiledecoder_->loop_ = MagTranslator<string, bool>()(loop_value);
+		
 		}
 	if  (request.countValues("GRIB_TILE_Z") ) {
 		int z_value = request("GRIB_TILE_Z");
@@ -79,7 +83,9 @@ void TileDecoderWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("GRIB_AUTOMATIC_SCALING") ) {
 		string scaling_value = request("GRIB_AUTOMATIC_SCALING");
+		
 		tiledecoder_->scaling_ = MagTranslator<string, bool>()(scaling_value);
+		
 		}
 	if  (request.countValues("GRIB_SCALING_FACTOR") ) {
 		double scaling_factor_value = request("GRIB_SCALING_FACTOR");

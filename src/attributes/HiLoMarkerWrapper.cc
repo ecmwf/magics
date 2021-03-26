@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 HiLoMarkerWrapper::HiLoMarkerWrapper(): hilomarker_(new HiLoMarker())
+
 
 {
 

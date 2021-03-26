@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NoIsoHighlightWrapper::NoIsoHighlightWrapper(): noisohighlight_(new NoIsoHighlight())
+
 
 {
 

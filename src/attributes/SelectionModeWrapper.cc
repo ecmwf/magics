@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 SelectionModeWrapper::SelectionModeWrapper(): selectionmode_(new SelectionMode())
+
 
 {
 

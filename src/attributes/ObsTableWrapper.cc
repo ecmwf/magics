@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 ObsTableWrapper::ObsTableWrapper(): obstable_(new ObsTable())
+
 
 {
 

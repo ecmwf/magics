@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 HatchPolyShadingMethodWrapper::HatchPolyShadingMethodWrapper(): hatchpolyshadingmethod_(new HatchPolyShadingMethod())
+
 
 {
 

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 ClassicMtgDecoderWrapper::ClassicMtgDecoderWrapper(): classicmtgdecoder_(new ClassicMtgDecoder())
+
 
 {
 
@@ -91,7 +93,9 @@ void ClassicMtgDecoderWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("METGRAM_LONG_TITLE") ) {
 		string long_title_value = request("METGRAM_LONG_TITLE");
+		
 		classicmtgdecoder_->long_title_ = MagTranslator<string, bool>()(long_title_value);
+		
 		}
 	if  (request.countValues("METGRAM_STATION_NAME") ) {
 		string station_value = request("METGRAM_STATION_NAME");
@@ -103,7 +107,9 @@ void ClassicMtgDecoderWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("METGRAM_TEMPERATURE_CORRECTION") ) {
 		string correction_value = request("METGRAM_TEMPERATURE_CORRECTION");
+		
 		classicmtgdecoder_->correction_ = MagTranslator<string, bool>()(correction_value);
+		
 		}
 	
 	

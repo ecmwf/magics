@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 HiLoBothWrapper::HiLoBothWrapper(): hiloboth_(new HiLoBoth())
+
 
 {
 

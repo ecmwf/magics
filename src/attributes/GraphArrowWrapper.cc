@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 GraphArrowWrapper::GraphArrowWrapper(): grapharrow_(new GraphArrow())
+
 
 {
 

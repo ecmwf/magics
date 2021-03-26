@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 ShapeDecoderWrapper::ShapeDecoderWrapper(): shapedecoder_(new ShapeDecoder())
+
 
 {
 

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 FortranViewNodeWrapper::FortranViewNodeWrapper(): fortranviewnode_(new FortranViewNode())
+
 
 {
 
@@ -71,7 +73,9 @@ void FortranViewNodeWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("SUBPAGE_MAP_LIBRARY_AREA") ) {
 		string predefined_value = request("SUBPAGE_MAP_LIBRARY_AREA");
+		
 		fortranviewnode_->predefined_ = MagTranslator<string, bool>()(predefined_value);
+		
 		}
 	if  (request.countValues("SUBPAGE_MAP_AREA_NAME") ) {
 		string predefined_name_value = request("SUBPAGE_MAP_AREA_NAME");
@@ -103,11 +107,15 @@ void FortranViewNodeWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("SUBPAGE_CLIPPING") ) {
 		string clipping_value = request("SUBPAGE_CLIPPING");
+		
 		fortranviewnode_->clipping_ = MagTranslator<string, bool>()(clipping_value);
+		
 		}
 	if  (request.countValues("SUBPAGE_FRAME") ) {
 		string frame_value = request("SUBPAGE_FRAME");
+		
 		fortranviewnode_->frame_ = MagTranslator<string, bool>()(frame_value);
+		
 		}
 	if  (request.countValues("SUBPAGE_FRAME_THICKNESS") ) {
 		int frame_thickness_value = request("SUBPAGE_FRAME_THICKNESS");
@@ -139,7 +147,9 @@ void FortranViewNodeWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("AUTOMATIC_TITLE") ) {
 		string title_value = request("AUTOMATIC_TITLE");
+		
 		fortranviewnode_->title_ = MagTranslator<string, bool>()(title_value);
+		
 		}
 	
 	

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 Proj4LambertWrapper::Proj4LambertWrapper(): proj4lambert_(new Proj4Lambert())
+
 
 {
 

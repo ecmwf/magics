@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 GraphPlottingWrapper::GraphPlottingWrapper(): graphplotting_(new GraphPlotting())
+
 
 {
 
@@ -55,7 +57,9 @@ void GraphPlottingWrapper::set(const MagRequest& request)
 
 	if  (request.countValues("LEGEND") ) {
 		string legend_value = request("LEGEND");
+		
 		graphplotting_->legend_ = MagTranslator<string, bool>()(legend_value);
+		
 		}
 	if  (request.countValues("LEGEND_USER_TEXT") ) {
 		string legend_text_value = request("LEGEND_USER_TEXT");

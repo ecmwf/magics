@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NoOriginMarkerWrapper::NoOriginMarkerWrapper(): nooriginmarker_(new NoOriginMarker())
+
 
 {
 

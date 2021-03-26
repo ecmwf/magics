@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 GraphShadeStyleWrapper::GraphShadeStyleWrapper(): graphshadestyle_(new GraphShadeStyle())
+
 
 {
 

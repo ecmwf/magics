@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 EpsWindWrapper::EpsWindWrapper(): epswind_(new EpsWind())
+
 
 {
 
@@ -59,7 +61,9 @@ void EpsWindWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("LEGEND") ) {
 		string legend_value = request("LEGEND");
+		
 		epswind_->legend_ = MagTranslator<string, bool>()(legend_value);
+		
 		}
 	
 	if  (request.countValues("EPS_ROSE_WIND_COLOUR") ) {

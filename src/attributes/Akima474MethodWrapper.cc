@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 Akima474MethodWrapper::Akima474MethodWrapper(): akima474method_(new Akima474Method())
+
 
 {
 

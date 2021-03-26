@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 TextVisitorWrapper::TextVisitorWrapper(): textvisitor_(new TextVisitor())
+
 
 {
 
@@ -115,7 +117,9 @@ void TextVisitorWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("TEXT_AUTOMATIC") ) {
 		string automatic_value = request("TEXT_AUTOMATIC");
+		
 		textvisitor_->automatic_ = MagTranslator<string, bool>()(automatic_value);
+		
 		}
 	stringarray  lines_value;
 	for (int i = 0; i < request.countValues("TEXT_LINES"); i++)
@@ -144,11 +148,15 @@ void TextVisitorWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("TEXT_BOX_BLANKING") ) {
 		string blanking_value = request("TEXT_BOX_BLANKING");
+		
 		textvisitor_->blanking_ = MagTranslator<string, bool>()(blanking_value);
+		
 		}
 	if  (request.countValues("TEXT_BORDER") ) {
 		string border_value = request("TEXT_BORDER");
+		
 		textvisitor_->border_ = MagTranslator<string, bool>()(border_value);
+		
 		}
 	if  (request.countValues("TEXT_BORDER_THICKNESS") ) {
 		int border_thickness_value = request("TEXT_BORDER_THICKNESS");

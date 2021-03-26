@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 KMLDriverWrapper::KMLDriverWrapper(): kmldriver_(new KMLDriver())
+
 
 {
 
@@ -62,7 +64,9 @@ void KMLDriverWrapper::set(const MagRequest& request)
 
 	if  (request.countValues("KML_KMZ") ) {
 		string kmz_value = request("KML_KMZ");
+		
 		kmldriver_->kmz_ = MagTranslator<string, bool>()(kmz_value);
+		
 		}
 	if  (request.countValues("KML_DESCRIPTION") ) {
 		string description_value = request("KML_DESCRIPTION");
@@ -102,7 +106,9 @@ void KMLDriverWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("KML_COASTLINES") ) {
 		string coastlines_value = request("KML_COASTLINES");
+		
 		kmldriver_->coastlines_ = MagTranslator<string, bool>()(coastlines_value);
+		
 		}
 	
 	

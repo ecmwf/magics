@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 BinningObjectWrapper::BinningObjectWrapper(): binningobject_(new BinningObject())
+
 
 {
 

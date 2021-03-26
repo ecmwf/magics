@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NoBinningObjectWrapper::NoBinningObjectWrapper(): nobinningobject_(new NoBinningObject())
+
 
 {
 

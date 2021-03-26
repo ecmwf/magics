@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 XmlViewNodeWrapper::XmlViewNodeWrapper(): xmlviewnode_(new XmlViewNode())
+
 
 {
 

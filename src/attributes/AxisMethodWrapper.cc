@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 AxisMethodWrapper::AxisMethodWrapper(): axismethod_(new AxisMethod())
+
 
 {
 

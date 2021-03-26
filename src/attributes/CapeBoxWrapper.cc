@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 CapeBoxWrapper::CapeBoxWrapper(): capebox_(new CapeBox())
+
 
 {
 

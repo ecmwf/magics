@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 ValuePlotMethodWrapper::ValuePlotMethodWrapper(): valueplotmethod_(new ValuePlotMethod())
+
 
 {
 

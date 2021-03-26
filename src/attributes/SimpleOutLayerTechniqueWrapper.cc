@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 SimpleOutLayerTechniqueWrapper::SimpleOutLayerTechniqueWrapper(): simpleoutlayertechnique_(new SimpleOutLayerTechnique())
+
 
 {
 

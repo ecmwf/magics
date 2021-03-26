@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 TitleTemplateWrapper::TitleTemplateWrapper(): titletemplate_(new TitleTemplate())
+
 
 {
 

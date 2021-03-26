@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 EpsCloudWrapper::EpsCloudWrapper(): epscloud_(new EpsCloud())
+
 
 {
 

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 HistogramLegendMethodWrapper::HistogramLegendMethodWrapper(): histogramlegendmethod_(new HistogramLegendMethod())
+
 
 {
 
@@ -66,11 +68,15 @@ void HistogramLegendMethodWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("LEGEND_HISTOGRAM_BORDER") ) {
 		string histo_border_value = request("LEGEND_HISTOGRAM_BORDER");
+		
 		histogramlegendmethod_->histo_border_ = MagTranslator<string, bool>()(histo_border_value);
+		
 		}
 	if  (request.countValues("LEGEND_HISTOGRAM_MEAN_VALUE") ) {
 		string histo_mean_value = request("LEGEND_HISTOGRAM_MEAN_VALUE");
+		
 		histogramlegendmethod_->histo_mean_ = MagTranslator<string, bool>()(histo_mean_value);
+		
 		}
 	if  (request.countValues("LEGEND_HISTOGRAM_MEAN_VALUE_MARKER") ) {
 		int histo_mean_marker_value = request("LEGEND_HISTOGRAM_MEAN_VALUE_MARKER");
@@ -82,7 +88,9 @@ void HistogramLegendMethodWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("LEGEND_HISTOGRAM_MAX_VALUE") ) {
 		string histo_max_value = request("LEGEND_HISTOGRAM_MAX_VALUE");
+		
 		histogramlegendmethod_->histo_max_ = MagTranslator<string, bool>()(histo_max_value);
+		
 		}
 	if  (request.countValues("LEGEND_HISTOGRAM_GRID_THICKNESS") ) {
 		int histo_grid_thickness_value = request("LEGEND_HISTOGRAM_GRID_THICKNESS");

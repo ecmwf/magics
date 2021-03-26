@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NetcdfMatrixInterpretorWrapper::NetcdfMatrixInterpretorWrapper(): netcdfmatrixinterpretor_(new NetcdfMatrixInterpretor())
+
 
 {
 

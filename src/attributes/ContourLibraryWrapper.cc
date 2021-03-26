@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 ContourLibraryWrapper::ContourLibraryWrapper(): contourlibrary_(new ContourLibrary())
+
 
 {
 

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 ListColourTechniqueWrapper::ListColourTechniqueWrapper(): listcolourtechnique_(new ListColourTechnique())
+
 
 {
 

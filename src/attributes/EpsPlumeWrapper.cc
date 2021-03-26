@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 EpsPlumeWrapper::EpsPlumeWrapper(): epsplume_(new EpsPlume())
+
 
 {
 
@@ -59,11 +61,15 @@ void EpsPlumeWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("EPS_PLUME_LEGEND") ) {
 		string legend_value = request("EPS_PLUME_LEGEND");
+		
 		epsplume_->legend_ = MagTranslator<string, bool>()(legend_value);
+		
 		}
 	if  (request.countValues("EPS_PLUME_MEMBERS") ) {
 		string line_value = request("EPS_PLUME_MEMBERS");
+		
 		epsplume_->line_ = MagTranslator<string, bool>()(line_value);
+		
 		}
 	if  (request.countValues("EPS_PLUME_LINE_THICKNESS") ) {
 		int line_thickness_value = request("EPS_PLUME_LINE_THICKNESS");
@@ -71,7 +77,9 @@ void EpsPlumeWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("EPS_PLUME_FORECAST") ) {
 		string forecast_value = request("EPS_PLUME_FORECAST");
+		
 		epsplume_->forecast_ = MagTranslator<string, bool>()(forecast_value);
+		
 		}
 	if  (request.countValues("EPS_PLUME_FORECAST_LINE_THICKNESS") ) {
 		int forecast_line_thickness_value = request("EPS_PLUME_FORECAST_LINE_THICKNESS");
@@ -79,7 +87,9 @@ void EpsPlumeWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("EPS_PLUME_CONTROL") ) {
 		string control_value = request("EPS_PLUME_CONTROL");
+		
 		epsplume_->control_ = MagTranslator<string, bool>()(control_value);
+		
 		}
 	if  (request.countValues("EPS_PLUME_CONTROL_LINE_THICKNESS") ) {
 		int control_line_thickness_value = request("EPS_PLUME_CONTROL_LINE_THICKNESS");
@@ -87,7 +97,9 @@ void EpsPlumeWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("EPS_PLUME_MEDIAN") ) {
 		string median_value = request("EPS_PLUME_MEDIAN");
+		
 		epsplume_->median_ = MagTranslator<string, bool>()(median_value);
+		
 		}
 	if  (request.countValues("EPS_PLUME_MEDIAN_LINE_THICKNESS") ) {
 		int median_line_thickness_value = request("EPS_PLUME_MEDIAN_LINE_THICKNESS");
@@ -95,7 +107,9 @@ void EpsPlumeWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("EPS_PLUME_SHADING") ) {
 		string shading_value = request("EPS_PLUME_SHADING");
+		
 		epsplume_->shading_ = MagTranslator<string, bool>()(shading_value);
+		
 		}
 	doublearray  shading_levels_value;
 	for (int i = 0; i < request.countValues("EPS_PLUME_SHADING_LEVEL_LIST"); i++)

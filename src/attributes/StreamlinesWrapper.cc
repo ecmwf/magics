@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 StreamlinesWrapper::StreamlinesWrapper(): streamlines_(new Streamlines())
+
 
 {
 

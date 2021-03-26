@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 Proj4MercatorWrapper::Proj4MercatorWrapper(): proj4mercator_(new Proj4Mercator())
+
 
 {
 

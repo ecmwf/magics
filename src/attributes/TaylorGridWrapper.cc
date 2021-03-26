@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 TaylorGridWrapper::TaylorGridWrapper(): taylorgrid_(new TaylorGrid())
+
 
 {
 
@@ -79,7 +81,9 @@ void TaylorGridWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("TAYLOR_PRIMARY_LABEL") ) {
 		string primary_label_value = request("TAYLOR_PRIMARY_LABEL");
+		
 		taylorgrid_->primary_label_ = MagTranslator<string, bool>()(primary_label_value);
+		
 		}
 	if  (request.countValues("TAYLOR_PRIMARY_LABEL_HEIGHT") ) {
 		double primary_label_height_value = request("TAYLOR_PRIMARY_LABEL_HEIGHT");
@@ -87,7 +91,9 @@ void TaylorGridWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("TAYLOR_SECONDARY_GRID") ) {
 		string secondary_grid_value = request("TAYLOR_SECONDARY_GRID");
+		
 		taylorgrid_->secondary_grid_ = MagTranslator<string, bool>()(secondary_grid_value);
+		
 		}
 	if  (request.countValues("TAYLOR_SECONDARY_GRID_REFERENCE") ) {
 		double secondary_reference_value = request("TAYLOR_SECONDARY_GRID_REFERENCE");
@@ -103,7 +109,9 @@ void TaylorGridWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("TAYLOR_SECONDARY_LABEL") ) {
 		string secondary_label_value = request("TAYLOR_SECONDARY_LABEL");
+		
 		taylorgrid_->secondary_label_ = MagTranslator<string, bool>()(secondary_label_value);
+		
 		}
 	if  (request.countValues("TAYLOR_SECONDARY_LABEL_HEIGHT") ) {
 		double secondary_label_height_value = request("TAYLOR_SECONDARY_LABEL_HEIGHT");

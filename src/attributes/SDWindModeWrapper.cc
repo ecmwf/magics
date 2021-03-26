@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 SDWindModeWrapper::SDWindModeWrapper(): sdwindmode_(new SDWindMode())
+
 
 {
 

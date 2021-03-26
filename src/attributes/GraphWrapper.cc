@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 GraphWrapper::GraphWrapper(): graph_(new Graph())
+
 
 {
 

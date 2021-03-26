@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 Proj4GeosWrapper::Proj4GeosWrapper(): proj4geos_(new Proj4Geos())
+
 
 {
 

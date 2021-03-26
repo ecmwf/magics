@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 GribLoopWrapper::GribLoopWrapper(): gribloop_(new GribLoop())
+
 
 {
 
@@ -84,11 +86,15 @@ void GribLoopWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("GRIB_AUTOMATIC_SCALING") ) {
 		string scaling_value = request("GRIB_AUTOMATIC_SCALING");
+		
 		gribloop_->scaling_ = MagTranslator<string, bool>()(scaling_value);
+		
 		}
 	if  (request.countValues("GRIB_AUTOMATIC_DERIVED_SCALING") ) {
 		string derived_scaling_value = request("GRIB_AUTOMATIC_DERIVED_SCALING");
+		
 		gribloop_->derived_scaling_ = MagTranslator<string, bool>()(derived_scaling_value);
+		
 		}
 	if  (request.countValues("GRIB_SCALING_FACTOR") ) {
 		double scaling_factor_value = request("GRIB_SCALING_FACTOR");

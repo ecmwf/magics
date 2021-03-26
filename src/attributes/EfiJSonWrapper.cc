@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 EfiJSonWrapper::EfiJSonWrapper(): efijson_(new EfiJSon())
+
 
 {
 
@@ -59,15 +61,21 @@ void EfiJSonWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("EFI_LONG_TITLE") ) {
 		string long_title_value = request("EFI_LONG_TITLE");
+		
 		efijson_->long_title_ = MagTranslator<string, bool>()(long_title_value);
+		
 		}
 	if  (request.countValues("EFI_TITLE") ) {
 		string title_value = request("EFI_TITLE");
+		
 		efijson_->title_ = MagTranslator<string, bool>()(title_value);
+		
 		}
 	if  (request.countValues("EFI_LEGEND") ) {
 		string legend_value = request("EFI_LEGEND");
+		
 		efijson_->legend_ = MagTranslator<string, bool>()(legend_value);
+		
 		}
 	stringarray  legend_colours_value;
 	for (int i = 0; i < request.countValues("EFI_LEGEND_COLOUR_LIST"); i++)

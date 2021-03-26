@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 PostScriptDriverWrapper::PostScriptDriverWrapper(): postscriptdriver_(new PostScriptDriver())
+
 
 {
 
@@ -70,7 +72,9 @@ void PostScriptDriverWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("OUTPUT_PS_SPLIT") ) {
 		string split_value = request("OUTPUT_PS_SPLIT");
+		
 		postscriptdriver_->split_ = MagTranslator<string, bool>()(split_value);
+		
 		}
 	
 	

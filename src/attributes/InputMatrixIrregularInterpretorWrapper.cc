@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 InputMatrixIrregularInterpretorWrapper::InputMatrixIrregularInterpretorWrapper(): inputmatrixirregularinterpretor_(new InputMatrixIrregularInterpretor())
+
 
 {
 

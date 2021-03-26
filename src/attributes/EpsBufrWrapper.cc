@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 EpsBufrWrapper::EpsBufrWrapper(): epsbufr_(new EpsBufr())
+
 
 {
 
@@ -67,11 +69,15 @@ void EpsBufrWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("EPSBUFR_INFORMATION") ) {
 		string information_value = request("EPSBUFR_INFORMATION");
+		
 		epsbufr_->information_ = MagTranslator<string, bool>()(information_value);
+		
 		}
 	if  (request.countValues("EPSBUFR_SHORT_TITLE") ) {
 		string short_title_value = request("EPSBUFR_SHORT_TITLE");
+		
 		epsbufr_->short_title_ = MagTranslator<string, bool>()(short_title_value);
+		
 		}
 	if  (request.countValues("EPSBUFR_PARAMETER_DESCRIPTOR") ) {
 		int param_descriptor_value = request("EPSBUFR_PARAMETER_DESCRIPTOR");
@@ -83,7 +89,9 @@ void EpsBufrWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("EPSBUFR_ACCUMULATED_PARAMETER") ) {
 		string accumulated_value = request("EPSBUFR_ACCUMULATED_PARAMETER");
+		
 		epsbufr_->accumulated_ = MagTranslator<string, bool>()(accumulated_value);
+		
 		}
 	if  (request.countValues("EPSBUFR_STATION_NAME") ) {
 		string station_name_value = request("EPSBUFR_STATION_NAME");

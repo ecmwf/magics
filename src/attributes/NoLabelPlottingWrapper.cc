@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NoLabelPlottingWrapper::NoLabelPlottingWrapper(): nolabelplotting_(new NoLabelPlotting())
+
 
 {
 

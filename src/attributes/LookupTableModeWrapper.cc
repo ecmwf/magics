@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 LookupTableModeWrapper::LookupTableModeWrapper(): lookuptablemode_(new LookupTableMode())
+
 
 {
 

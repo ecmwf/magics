@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 FlagPlottingWrapper::FlagPlottingWrapper(): flagplotting_(new FlagPlotting())
+
 
 {
 
@@ -70,7 +72,9 @@ void FlagPlottingWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("WIND_FLAG_CROSS_BOUNDARY") ) {
 		string cross_boundary_value = request("WIND_FLAG_CROSS_BOUNDARY");
+		
 		flagplotting_->cross_boundary_ = MagTranslator<string, bool>()(cross_boundary_value);
+		
 		}
 	if  (request.countValues("WIND_FLAG_LENGTH") ) {
 		double length_value = request("WIND_FLAG_LENGTH");

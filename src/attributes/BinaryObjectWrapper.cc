@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 BinaryObjectWrapper::BinaryObjectWrapper(): binaryobject_(new BinaryObject())
+
 
 {
 

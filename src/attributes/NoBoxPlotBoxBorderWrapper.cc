@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NoBoxPlotBoxBorderWrapper::NoBoxPlotBoxBorderWrapper(): noboxplotboxborder_(new NoBoxPlotBoxBorder())
+
 
 {
 

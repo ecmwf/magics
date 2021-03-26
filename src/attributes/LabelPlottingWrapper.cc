@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 LabelPlottingWrapper::LabelPlottingWrapper(): labelplotting_(new LabelPlotting())
+
 
 {
 
@@ -74,7 +76,9 @@ void LabelPlottingWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("MAP_LABEL_BLANKING") ) {
 		string blanking_value = request("MAP_LABEL_BLANKING");
+		
 		labelplotting_->blanking_ = MagTranslator<string, bool>()(blanking_value);
+		
 		}
 	if  (request.countValues("MAP_LABEL_LATITUDE_FREQUENCY") ) {
 		int latFrequency_value = request("MAP_LABEL_LATITUDE_FREQUENCY");
@@ -86,19 +90,27 @@ void LabelPlottingWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("MAP_LABEL_LEFT") ) {
 		string left_value = request("MAP_LABEL_LEFT");
+		
 		labelplotting_->left_ = MagTranslator<string, bool>()(left_value);
+		
 		}
 	if  (request.countValues("MAP_LABEL_RIGHT") ) {
 		string right_value = request("MAP_LABEL_RIGHT");
+		
 		labelplotting_->right_ = MagTranslator<string, bool>()(right_value);
+		
 		}
 	if  (request.countValues("MAP_LABEL_TOP") ) {
 		string top_value = request("MAP_LABEL_TOP");
+		
 		labelplotting_->top_ = MagTranslator<string, bool>()(top_value);
+		
 		}
 	if  (request.countValues("MAP_LABEL_BOTTOM") ) {
 		string bottom_value = request("MAP_LABEL_BOTTOM");
+		
 		labelplotting_->bottom_ = MagTranslator<string, bool>()(bottom_value);
+		
 		}
 	
 	if  (request.countValues("MAP_LABEL_COLOUR") ) {

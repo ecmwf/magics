@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 WindPlottingWrapper::WindPlottingWrapper(): windplotting_(new WindPlotting())
+
 
 {
 
@@ -55,11 +57,15 @@ void WindPlottingWrapper::set(const MagRequest& request)
 
 	if  (request.countValues("LEGEND") ) {
 		string legend_value = request("LEGEND");
+		
 		windplotting_->legend_ = MagTranslator<string, bool>()(legend_value);
+		
 		}
 	if  (request.countValues("WIND_LEGEND_ONLY") ) {
 		string legend_only_value = request("WIND_LEGEND_ONLY");
+		
 		windplotting_->legend_only_ = MagTranslator<string, bool>()(legend_only_value);
+		
 		}
 	if  (request.countValues("WIND_LEGEND_TEXT") ) {
 		string legend_text_value = request("WIND_LEGEND_TEXT");

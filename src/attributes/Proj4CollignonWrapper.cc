@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 Proj4CollignonWrapper::Proj4CollignonWrapper(): proj4collignon_(new Proj4Collignon())
+
 
 {
 

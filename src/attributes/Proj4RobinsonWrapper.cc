@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 Proj4RobinsonWrapper::Proj4RobinsonWrapper(): proj4robinson_(new Proj4Robinson())
+
 
 {
 

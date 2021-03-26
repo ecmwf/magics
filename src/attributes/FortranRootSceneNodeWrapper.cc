@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 FortranRootSceneNodeWrapper::FortranRootSceneNodeWrapper(): fortranrootscenenode_(new FortranRootSceneNode())
+
 
 {
 
@@ -63,7 +65,9 @@ void FortranRootSceneNodeWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("SUPER_PAGE_FRAME") ) {
 		string frame_value = request("SUPER_PAGE_FRAME");
+		
 		fortranrootscenenode_->frame_ = MagTranslator<string, bool>()(frame_value);
+		
 		}
 	if  (request.countValues("SUPER_PAGE_THEME") ) {
 		string theme_value = request("SUPER_PAGE_THEME");
@@ -87,11 +91,15 @@ void FortranRootSceneNodeWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("LEGEND") ) {
 		string legend_value = request("LEGEND");
+		
 		fortranrootscenenode_->legend_ = MagTranslator<string, bool>()(legend_value);
+		
 		}
 	if  (request.countValues("MAGICS_SILENT") ) {
 		string silent_value = request("MAGICS_SILENT");
+		
 		fortranrootscenenode_->silent_ = MagTranslator<string, bool>()(silent_value);
+		
 		}
 	
 	if  (request.countValues("SUPER_PAGE_FRAME_COLOUR") ) {

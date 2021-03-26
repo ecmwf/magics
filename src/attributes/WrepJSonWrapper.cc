@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 WrepJSonWrapper::WrepJSonWrapper(): wrepjson_(new WrepJSon())
+
 
 {
 
@@ -63,11 +65,15 @@ void WrepJSonWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("WREPJSON_TITLE") ) {
 		string title_value = request("WREPJSON_TITLE");
+		
 		wrepjson_->title_ = MagTranslator<string, bool>()(title_value);
+		
 		}
 	if  (request.countValues("WREPJSON_POSITION_INFORMATION") ) {
 		string position_info_value = request("WREPJSON_POSITION_INFORMATION");
+		
 		wrepjson_->position_info_ = MagTranslator<string, bool>()(position_info_value);
+		
 		}
 	if  (request.countValues("WREPJSON_PRODUCT_INFORMATION") ) {
 		string product_info_value = request("WREPJSON_PRODUCT_INFORMATION");
@@ -87,7 +93,9 @@ void WrepJSonWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("WREPJSON_INFORMATION") ) {
 		string information_value = request("WREPJSON_INFORMATION");
+		
 		wrepjson_->information_ = MagTranslator<string, bool>()(information_value);
+		
 		}
 	if  (request.countValues("WREPJSON_KEYWORD") ) {
 		string keyword_value = request("WREPJSON_KEYWORD");
@@ -140,7 +148,9 @@ void WrepJSonWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("WREPJSON_TEMPERATURE_CORRECTION") ) {
 		string correction_value = request("WREPJSON_TEMPERATURE_CORRECTION");
+		
 		wrepjson_->correction_ = MagTranslator<string, bool>()(correction_value);
+		
 		}
 	if  (request.countValues("WREPJSON_MISSING_VALUE") ) {
 		double missing_value_value = request("WREPJSON_MISSING_VALUE");
@@ -157,11 +167,15 @@ void WrepJSonWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("WREPJSON_HODOGRAPH_GRID") ) {
 		string hodograph_grid_value = request("WREPJSON_HODOGRAPH_GRID");
+		
 		wrepjson_->hodograph_grid_ = MagTranslator<string, bool>()(hodograph_grid_value);
+		
 		}
 	if  (request.countValues("WREPJSON_HODOGRAPH_TEPHI") ) {
 		string hodograph_tephi_value = request("WREPJSON_HODOGRAPH_TEPHI");
+		
 		wrepjson_->hodograph_tephi_ = MagTranslator<string, bool>()(hodograph_tephi_value);
+		
 		}
 	if  (request.countValues("WREPJSON_HODOGRAPH_MEMBER") ) {
 		int hodograph_member_value = request("WREPJSON_HODOGRAPH_MEMBER");

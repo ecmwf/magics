@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 HistogramWrapper::HistogramWrapper(): histogram_(new Histogram())
+
 
 {
 

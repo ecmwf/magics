@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 EmagramGridWrapper::EmagramGridWrapper(): emagramgrid_(new EmagramGrid())
+
 
 {
 

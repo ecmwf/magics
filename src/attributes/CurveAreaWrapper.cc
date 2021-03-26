@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 CurveAreaWrapper::CurveAreaWrapper(): curvearea_(new CurveArea())
+
 
 {
 

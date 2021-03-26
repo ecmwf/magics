@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 XmlRootNodeWrapper::XmlRootNodeWrapper(): xmlrootnode_(new XmlRootNode())
+
 
 {
 
@@ -71,7 +73,9 @@ void XmlRootNodeWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("ROOT_NODE_FRAME") ) {
 		string border_value = request("ROOT_NODE_FRAME");
+		
 		xmlrootnode_->border_ = MagTranslator<string, bool>()(border_value);
+		
 		}
 	if  (request.countValues("ROOT_NODE_FRAME_THICKNESS") ) {
 		int border_thickness_value = request("ROOT_NODE_FRAME_THICKNESS");

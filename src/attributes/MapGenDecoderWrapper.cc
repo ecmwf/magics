@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 MapGenDecoderWrapper::MapGenDecoderWrapper(): mapgendecoder_(new MapGenDecoder())
+
 
 {
 

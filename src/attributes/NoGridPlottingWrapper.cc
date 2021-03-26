@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NoGridPlottingWrapper::NoGridPlottingWrapper(): nogridplotting_(new NoGridPlotting())
+
 
 {
 

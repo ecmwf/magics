@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 CellShadingWrapper::CellShadingWrapper(): cellshading_(new CellShading())
+
 
 {
 

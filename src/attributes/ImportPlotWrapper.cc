@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 ImportPlotWrapper::ImportPlotWrapper(): importplot_(new ImportPlot())
+
 
 {
 

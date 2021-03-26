@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 UserLogoPlottingWrapper::UserLogoPlottingWrapper(): userlogoplotting_(new UserLogoPlotting())
+
 
 {
 

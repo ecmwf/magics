@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 TableDecoderWrapper::TableDecoderWrapper(): tabledecoder_(new TableDecoder())
+
 
 {
 
@@ -63,7 +65,9 @@ void TableDecoderWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("TABLE_COMBINE_DELIMITERS") ) {
 		string combine_delimiters_value = request("TABLE_COMBINE_DELIMITERS");
+		
 		tabledecoder_->combine_delimiters_ = MagTranslator<string, bool>()(combine_delimiters_value);
+		
 		}
 	if  (request.countValues("TABLE_HEADER_ROW") ) {
 		int header_row_value = request("TABLE_HEADER_ROW");

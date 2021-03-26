@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 Proj4PolarNorthWrapper::Proj4PolarNorthWrapper(): proj4polarnorth_(new Proj4PolarNorth())
+
 
 {
 

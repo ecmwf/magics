@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 HiLoNumberWrapper::HiLoNumberWrapper(): hilonumber_(new HiLoNumber())
+
 
 {
 

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 OdaXYDecoderWrapper::OdaXYDecoderWrapper(): odaxydecoder_(new OdaXYDecoder())
+
 
 {
 

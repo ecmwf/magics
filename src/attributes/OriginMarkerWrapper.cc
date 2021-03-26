@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 OriginMarkerWrapper::OriginMarkerWrapper(): originmarker_(new OriginMarker())
+
 
 {
 

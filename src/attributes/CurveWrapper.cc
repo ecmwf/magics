@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 CurveWrapper::CurveWrapper(): curve_(new Curve())
+
 
 {
 
@@ -62,7 +64,9 @@ void CurveWrapper::set(const MagRequest& request)
 
 	if  (request.countValues("GRAPH_LINE") ) {
 		string line_value = request("GRAPH_LINE");
+		
 		curve_->line_ = MagTranslator<string, bool>()(line_value);
+		
 		}
 	if  (request.countValues("GRAPH_LINE_THICKNESS") ) {
 		int thickness_value = request("GRAPH_LINE_THICKNESS");
@@ -70,7 +74,9 @@ void CurveWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("GRAPH_SYMBOL") ) {
 		string symbol_value = request("GRAPH_SYMBOL");
+		
 		curve_->symbol_ = MagTranslator<string, bool>()(symbol_value);
+		
 		}
 	if  (request.countValues("GRAPH_SYMBOL_MARKER_INDEX") ) {
 		int symbol_marker_value = request("GRAPH_SYMBOL_MARKER_INDEX");
@@ -82,7 +88,9 @@ void CurveWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("GRAPH_SYMBOL_OUTLINE") ) {
 		string outline_value = request("GRAPH_SYMBOL_OUTLINE");
+		
 		curve_->outline_ = MagTranslator<string, bool>()(outline_value);
+		
 		}
 	if  (request.countValues("GRAPH_SYMBOL_OUTLINE_THICKNESS") ) {
 		int outline_thickness_value = request("GRAPH_SYMBOL_OUTLINE_THICKNESS");

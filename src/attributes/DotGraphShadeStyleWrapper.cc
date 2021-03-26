@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 DotGraphShadeStyleWrapper::DotGraphShadeStyleWrapper(): dotgraphshadestyle_(new DotGraphShadeStyle())
+
 
 {
 

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 XmlBasicNodeWrapper::XmlBasicNodeWrapper(): xmlbasicnode_(new XmlBasicNode())
+
 
 {
 
@@ -55,7 +57,9 @@ void XmlBasicNodeWrapper::set(const MagRequest& request)
 
 	if  (request.countValues("VIEW_STANDALONE") ) {
 		string standalone_value = request("VIEW_STANDALONE");
+		
 		xmlbasicnode_->standalone_ = MagTranslator<string, bool>()(standalone_value);
+		
 		}
 	if  (request.countValues("VIEW_STANDALONE_FILE_NAME") ) {
 		string standalone_path_value = request("VIEW_STANDALONE_FILE_NAME");
@@ -123,11 +127,15 @@ void XmlBasicNodeWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("VIEW_BORDER") ) {
 		string border_value = request("VIEW_BORDER");
+		
 		xmlbasicnode_->border_ = MagTranslator<string, bool>()(border_value);
+		
 		}
 	if  (request.countValues("VIEW_BLANKING") ) {
 		string blanking_value = request("VIEW_BLANKING");
+		
 		xmlbasicnode_->blanking_ = MagTranslator<string, bool>()(blanking_value);
+		
 		}
 	if  (request.countValues("VIEW_BORDER_THICKNESS") ) {
 		int border_thickness_value = request("VIEW_BORDER_THICKNESS");

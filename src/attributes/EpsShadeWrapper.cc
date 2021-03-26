@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 EpsShadeWrapper::EpsShadeWrapper(): epsshade_(new EpsShade())
+
 
 {
 

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 LevelListSelectionTypeWrapper::LevelListSelectionTypeWrapper(): levellistselectiontype_(new LevelListSelectionType())
+
 
 {
 

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 SymbolTableModeWrapper::SymbolTableModeWrapper(): symboltablemode_(new SymbolTableMode())
+
 
 {
 

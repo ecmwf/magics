@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 SVGDriverWrapper::SVGDriverWrapper(): svgdriver_(new SVGDriver())
+
 
 {
 
@@ -74,11 +76,15 @@ void SVGDriverWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("OUTPUT_SVG_USE_EXTERNAL_FILES") ) {
 		string external_value = request("OUTPUT_SVG_USE_EXTERNAL_FILES");
+		
 		svgdriver_->external_ = MagTranslator<string, bool>()(external_value);
+		
 		}
 	if  (request.countValues("OUTPUT_SVG_FIX_SIZE") ) {
 		string fixSize_value = request("OUTPUT_SVG_FIX_SIZE");
+		
 		svgdriver_->fixSize_ = MagTranslator<string, bool>()(fixSize_value);
+		
 		}
 	
 	

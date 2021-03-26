@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 SymbolAdvancedTableModeWrapper::SymbolAdvancedTableModeWrapper(): symboladvancedtablemode_(new SymbolAdvancedTableMode())
+
 
 {
 

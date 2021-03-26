@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 Proj4Meteosat0Wrapper::Proj4Meteosat0Wrapper(): proj4meteosat0_(new Proj4Meteosat0())
+
 
 {
 

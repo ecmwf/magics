@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 MetgramFlagsWrapper::MetgramFlagsWrapper(): metgramflags_(new MetgramFlags())
+
 
 {
 

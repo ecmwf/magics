@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 EquidistantTableModeWrapper::EquidistantTableModeWrapper(): equidistanttablemode_(new EquidistantTableMode())
+
 
 {
 

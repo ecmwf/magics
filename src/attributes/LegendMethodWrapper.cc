@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 LegendMethodWrapper::LegendMethodWrapper(): legendmethod_(new LegendMethod())
+
 
 {
 

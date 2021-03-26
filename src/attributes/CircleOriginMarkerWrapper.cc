@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 CircleOriginMarkerWrapper::CircleOriginMarkerWrapper(): circleoriginmarker_(new CircleOriginMarker())
+
 
 {
 

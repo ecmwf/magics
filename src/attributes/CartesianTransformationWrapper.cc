@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 CartesianTransformationWrapper::CartesianTransformationWrapper(): cartesiantransformation_(new CartesianTransformation())
+
 
 {
 

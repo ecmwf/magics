@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 GridShadingWrapper::GridShadingWrapper(): gridshading_(new GridShading())
+
 
 {
 

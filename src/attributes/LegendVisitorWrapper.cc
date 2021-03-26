@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 LegendVisitorWrapper::LegendVisitorWrapper(): legendvisitor_(new LegendVisitor())
+
 
 {
 
@@ -55,7 +57,9 @@ void LegendVisitorWrapper::set(const MagRequest& request)
 
 	if  (request.countValues("LEGEND_TITLE") ) {
 		string title_value = request("LEGEND_TITLE");
+		
 		legendvisitor_->title_ = MagTranslator<string, bool>()(title_value);
+		
 		}
 	if  (request.countValues("LEGEND_TITLE_TEXT") ) {
 		string title_text_value = request("LEGEND_TITLE_TEXT");
@@ -79,7 +83,9 @@ void LegendVisitorWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("LEGEND_USER_MINIMUM") ) {
 		string use_min_value = request("LEGEND_USER_MINIMUM");
+		
 		legendvisitor_->use_min_ = MagTranslator<string, bool>()(use_min_value);
+		
 		}
 	if  (request.countValues("LEGEND_USER_MINIMUM_TEXT") ) {
 		string use_min_text_value = request("LEGEND_USER_MINIMUM_TEXT");
@@ -87,7 +93,9 @@ void LegendVisitorWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("LEGEND_USER_MAXIMUM") ) {
 		string use_max_value = request("LEGEND_USER_MAXIMUM");
+		
 		legendvisitor_->use_max_ = MagTranslator<string, bool>()(use_max_value);
+		
 		}
 	if  (request.countValues("LEGEND_USER_MAXIMUM_TEXT") ) {
 		string use_max_text_value = request("LEGEND_USER_MAXIMUM_TEXT");
@@ -221,11 +229,15 @@ void LegendVisitorWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("LEGEND_BOX_BLANKING") ) {
 		string blanking_value = request("LEGEND_BOX_BLANKING");
+		
 		legendvisitor_->blanking_ = MagTranslator<string, bool>()(blanking_value);
+		
 		}
 	if  (request.countValues("LEGEND_BORDER") ) {
 		string border_value = request("LEGEND_BORDER");
+		
 		legendvisitor_->border_ = MagTranslator<string, bool>()(border_value);
+		
 		}
 	if  (request.countValues("LEGEND_BORDER_THICKNESS") ) {
 		int border_thickness_value = request("LEGEND_BORDER_THICKNESS");
@@ -233,11 +245,15 @@ void LegendVisitorWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("LEGEND_WREP") ) {
 		string wrep_value = request("LEGEND_WREP");
+		
 		legendvisitor_->wrep_ = MagTranslator<string, bool>()(wrep_value);
+		
 		}
 	if  (request.countValues("LEGEND_ONLY") ) {
 		string only_value = request("LEGEND_ONLY");
+		
 		legendvisitor_->only_ = MagTranslator<string, bool>()(only_value);
+		
 		}
 	if  (request.countValues("LEGEND_ENTRY_TEXT_WIDTH") ) {
 		double text_width_value = request("LEGEND_ENTRY_TEXT_WIDTH");
@@ -245,7 +261,9 @@ void LegendVisitorWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("LEGEND_ENTRY_BORDER") ) {
 		string entry_border_value = request("LEGEND_ENTRY_BORDER");
+		
 		legendvisitor_->entry_border_ = MagTranslator<string, bool>()(entry_border_value);
+		
 		}
 	
 	if  (request.countValues("LEGEND_TEXT_COLOUR") ) {

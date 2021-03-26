@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 MarkerValuePlotMethodWrapper::MarkerValuePlotMethodWrapper(): markervalueplotmethod_(new MarkerValuePlotMethod())
+
 
 {
 

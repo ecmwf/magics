@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 CountSelectionTypeWrapper::CountSelectionTypeWrapper(): countselectiontype_(new CountSelectionType())
+
 
 {
 

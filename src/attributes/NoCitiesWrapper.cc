@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NoCitiesWrapper::NoCitiesWrapper(): nocities_(new NoCities())
+
 
 {
 

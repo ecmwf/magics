@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NoPreviewVisitorWrapper::NoPreviewVisitorWrapper(): nopreviewvisitor_(new NoPreviewVisitor())
+
 
 {
 
