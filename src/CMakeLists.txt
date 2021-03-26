@@ -179,6 +179,7 @@ if( metview )
             XmlBasicNodeAttributes.h
             LookupTableModeAttributes.h
             FixedTableModeAttributes.h
+            MagicsGlobalAttributes.h
    )
    if(qt)
      list(APPEND attributes_include QtDriverAttributes.h)

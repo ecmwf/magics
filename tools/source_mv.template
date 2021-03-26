@@ -31,7 +31,11 @@ using namespace magics;
 {%if abstract %}
 {{ object }}Wrapper::{{ object }}Wrapper(): {{ object | lower }}_(0)
 {% else %}
+{%if static_methods %}
+{{ object }}Wrapper::{{ object }}Wrapper()
+{% else %}
 {{ object }}Wrapper::{{ object }}Wrapper(): {{ object | lower }}_(new {{ object }}())
+{% endif %}
 {% endif %}
 {
 
@@ -96,7 +100,11 @@ void {{ object }}Wrapper::set(const MagRequest& request)
 		{%if param.from  == param.to  -%}
 		{{ object | lower }}_->{{ param.member}}_ = {{ param.member}}_value;
 		{% else  -%}
+        {%if static_methods %}
+		{{ object }}::{{ param.member}}(MagTranslator<{{ param.from}}, {{ param.to }}>()({{ param.member}}_value));
+        {% else %}
 		{{ object | lower }}_->{{ param.member}}_ = MagTranslator<{{ param.from}}, {{ param.to }}>()({{ param.member}}_value);
+		{% endif %}
 		{% endif -%}
 	}
 	{% endif -%}

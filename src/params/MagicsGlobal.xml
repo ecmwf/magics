@@ -7,7 +7,7 @@ granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
 <magics>
-      <class name="MagicsGlobal" directory="common" action="pnew">
+      <class name="MagicsGlobal" directory="common" action="pnew" static_methods="yes">
             <parameter member="silent"
                   to="bool"
                   default="off"
