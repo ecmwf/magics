@@ -127,7 +127,14 @@ void CairoDriver::setupNewSurface() const {
 #if CAIRO_HAS_PDF_SURFACE
         fileName_ = getFileName("pdf");
         surface_  = cairo_pdf_surface_create(fileName_.c_str(), dimensionXglobal_, dimensionYglobal_);
-
+#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 6, 0)
+        cairo_pdf_surface_set_metadata(surface_, CAIRO_PDF_METADATA_TITLE, title_.c_str());
+        const SystemInfo info;
+        cairo_pdf_surface_set_metadata(surface_, CAIRO_PDF_METADATA_AUTHOR, info.getUserID().c_str());
+        const string creator = output_creator_ + " " + getMagicsVersionString();
+        cairo_pdf_surface_set_metadata(surface_, CAIRO_PDF_METADATA_CREATOR, creator.c_str());
+//        cairo_pdf_surface_set_metadata(surface_, CAIRO_PDF_METADATA_KEYWORDS, <string with tags for Intraplots>;        
+#endif
 #else
         MagLog::error() << "CairoDriver: PDF output NOT supported! Enable PDF support in your Cairo installation."
                         << std::endl;
