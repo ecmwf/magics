@@ -26,6 +26,7 @@ using namespace magics;
 
 BaseDriverAttributes::BaseDriverAttributes():
 	title_(ParameterManager::getString("output_title")),
+	file_(ParameterManager::getString("output_file")),
 	name_(ParameterManager::getString("output_name")),
 	firstnumber_(ParameterManager::getBool("output_name_first_page_number")),
 	firstvalue_(ParameterManager::getInt("output_name_first_page_number_value")),
@@ -60,6 +61,7 @@ void BaseDriverAttributes::set(const std::map<string, string>& params)
 	prefix[i++] = "output";
 	
 	setAttribute(prefix, "output_title", title_, params);
+	setAttribute(prefix, "output_file", file_, params);
 	setAttribute(prefix, "output_name", name_, params);
 	setAttribute(prefix, "output_name_first_page_number", firstnumber_, params);
 	setAttribute(prefix, "output_name_first_page_number_value", firstvalue_, params);
@@ -82,6 +84,7 @@ void BaseDriverAttributes::set(const std::map<string, string>& params)
 void BaseDriverAttributes::copy(const BaseDriverAttributes& other)
 {
 	title_ = other.title_;
+	file_ = other.file_;
 	name_ = other.name_;
 	firstnumber_ = other.firstnumber_;
 	firstvalue_ = other.firstvalue_;
@@ -136,6 +139,7 @@ void BaseDriverAttributes::print(ostream& out)  const
 {
 	out << "Attributes[";
 	out << " title = " <<  title_;
+	out << " file = " <<  file_;
 	out << " name = " <<  name_;
 	out << " firstnumber = " <<  firstnumber_;
 	out << " firstvalue = " <<  firstvalue_;
@@ -160,6 +164,8 @@ void BaseDriverAttributes::toxml(ostream& out)  const
 	out <<  "\"driver\"";
 	out << ", \"output_title\":";
 	niceprint(out,title_);
+	out << ", \"output_file\":";
+	niceprint(out,file_);
 	out << ", \"output_name\":";
 	niceprint(out,name_);
 	out << ", \"output_name_first_page_number\":";
@@ -194,6 +200,7 @@ void BaseDriverAttributes::toxml(ostream& out)  const
 }
 
 static MagicsParameter<string> output_title("output_title", "Magics plot");
+static MagicsParameter<string> output_file("output_file", "");
 static MagicsParameter<string> output_name("output_name", "");
 static MagicsParameter<string> output_name_first_page_number("output_name_first_page_number", "on");
 static MagicsParameter<int> output_name_first_page_number_value("output_name_first_page_number_value", 1);

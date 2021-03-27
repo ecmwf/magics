@@ -57,6 +57,10 @@ void BaseDriverWrapper::set(const MagRequest& request)
 		string title_value = request("OUTPUT_TITLE");
 		basedriver_->title_ = title_value;
 		}
+	if  (request.countValues("OUTPUT_FILE") ) {
+		string file_value = request("OUTPUT_FILE");
+		basedriver_->file_ = file_value;
+		}
 	if  (request.countValues("OUTPUT_NAME") ) {
 		string name_value = request("OUTPUT_NAME");
 		basedriver_->name_ = name_value;
