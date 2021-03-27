@@ -1957,8 +1957,9 @@ public:
     void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) override {
         ostringstream out;
         string local = grib.getstring("localDefinitionNumber");
-        out << "local definition =" << local << " ";
+        out << "local definition =" << local;
         title.back() += out.str();
+        title.back() += " ";
     }
 };
 
@@ -1970,8 +1971,9 @@ public:
     void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) override {
         ostringstream out;
         string local = grib.getstring("observationDiagnostic");
-        out << "diagnostic =" << local << " ";
+        out << "diagnostic =" << local;
         title.back() += out.str();
+        title.back() += " ";
     }
 };
 
@@ -1993,6 +1995,7 @@ public:
         string code = grib.getstring(local_);
         out << local_ << "=" << code << " ";
         title.back() += out.str();
+        title.back() += " ";
     }
 
 protected:
@@ -2024,6 +2027,7 @@ public:
     virtual void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) override {
         string param = grib.getString("name");
         title.back() += param;
+        title.back() += " ";
     }
 };
 
@@ -2038,8 +2042,8 @@ public:
         string value  = grib.getString(key);
         string format = field.attribute("format", "%s");
         sprintf(x, format.c_str(), value.c_str());
-
         title.back() += string(x);
+        title.back() += " ";
     }
 };
 
@@ -2066,8 +2070,8 @@ public:
         }
 
         string format = field.attribute("format", "%A %d %B %Y at %H%M UTC");
-
         title.back() += full.tostring(format);
+        title.back() += " ";
     }
 };
 
@@ -2092,8 +2096,8 @@ public:
         }
 
         string format = field.attribute("format", "%A %d %B %Y %H%M UTC");
-
         title.back() += full.tostring(format);
+        title.back() += " ";
     }
 };
 
@@ -2108,8 +2112,9 @@ public:
 
         if (startstep != endstep) {
             ostringstream step;
-            step << "from t+" << startstep << " to t+" << endstep;
+            step << "from t+" << startstep << "to t+" << endstep;
             title.back() += step.str();
+            title.back() += " ";
             return;
         }
 
@@ -2118,6 +2123,7 @@ public:
         string format = field.attribute("format", "t+%s");
         out << SimpleStringFormat(step.str(), format);
         title.back() += out.str();
+        title.back() += " ";
     }
 };
 
@@ -2144,11 +2150,11 @@ public:
 
         map<string, GribLevelHandler::Builder>::iterator help = map_.find(level);
         if (help != map_.end())
-            out << (this->*help->second)(level, grib) << " ";
+            out << (this->*help->second)(level, grib);
         else
-            out << level << " ";
-
+            out << level;
         title.back() += out.str();
+        title.back() += " ";
     }
 
 protected:
@@ -2182,7 +2188,7 @@ protected:
     string hybrid(const string&, const GribDecoder& grib) const {
         ostringstream out;
         long level = grib.getLong("level");
-        out << "Model level " << level;
+        out << "Model level" << level;
         return out.str();
     }
 };
@@ -2203,8 +2209,8 @@ public:
         string format = field.attribute("format", "%s");
         string style  = field.attribute("style", "short");
         string centre = grib.getstring("centre");
-
         title.back() += centre;
+        title.back() += " ";
     }
 };
 
@@ -2252,11 +2258,12 @@ public:
 
         long ident                      = grib.getLong("ident");
         map<long, string>::iterator sat = names.find(ident);
-
+        
         if (sat != names.end())
             title.back() += sat->second;
         else
             title.back() += "satellite identifier " + tostring(ident);
+        title.back() += " ";
     }
 };
 
@@ -2319,19 +2326,23 @@ public:
         long ident = grib.getLong("ident");
         long band  = grib.getLong("channel");
 
+
         map<long, map<long, string> >::iterator sat = channels.find(ident);
 
         if (sat == channels.end()) {
             title.back() += "channel " + tostring(band);
+            title.back() += " ";
             return;
         }
         map<long, string>::iterator channel = sat->second.find(band);
         if (channel == sat->second.end()) {
             title.back() += "channel " + tostring(band);
+            title.back() += " ";
             return;
         }
 
         title.back() += channel->second;
+        title.back() += " ";
     }
 };
 
@@ -2342,6 +2353,7 @@ public:
     void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib) override {
         if (!grib.getExpver())
             return;
+        title.back() += " ";
         ostringstream out;
         string expver = grib.getstring("mars.experimentVersionNumber");
         string format = field.attribute("format", "Expver=%s");
@@ -2355,6 +2367,7 @@ public:
     GribEpsNumberInfoHandler() {}
     ~GribEpsNumberInfoHandler() {}
     void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib) override {
+        title.back() += " ";
         title.back() += "epsnumber?";
     }
 };
