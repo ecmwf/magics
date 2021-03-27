@@ -1931,7 +1931,7 @@ public:
     ~GribLocalCriter() {}
     bool verify(const GribDecoder& grib, const string& param, const string& val) override {
         string key    = param;
-        string criter = grib.getstring(key);
+        string criter = grib.getstring(key, false);
         MagLog::debug() << "I am verifing " << param << " for a GribDecoder : " << criter << " ==  " << val << "???"
                         << "\n";
         return (criter == val);
@@ -2359,6 +2359,14 @@ public:
     }
 };
 
+class GribIgnoreHandler : public TitleFieldHandler {
+public:
+    GribIgnoreHandler() {}
+    ~GribIgnoreHandler() {}
+    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib) override {
+    }
+};
+
 class GribUnitHandler : public TitleFieldHandler {
 public:
     GribUnitHandler() {}
@@ -2407,6 +2415,7 @@ static SimpleObjectMaker<GribValidDateHandler, TitleFieldHandler> gribvaliddateh
 static SimpleObjectMaker<GribStepHandler, TitleFieldHandler> gribstephandler("step");
 static SimpleObjectMaker<GribEpsNumberInfoHandler, TitleFieldHandler> gribepsnumberhandler("eps_number_info");
 
+
 static SimpleObjectMaker<GribTimeHandler, TitleFieldHandler> gribTimehandler("time");
 static SimpleObjectMaker<GribLevelHandler, TitleFieldHandler> gribLevelhandler("level");
 static SimpleObjectMaker<NewLineHandler, TitleFieldHandler> newlinehandler("newline");
@@ -2424,6 +2433,7 @@ static SimpleObjectMaker<GribPlotTypeHandler, TitleFieldHandler> gribplottypehan
 static SimpleObjectMaker<SatelliteHandler, TitleFieldHandler> satellitehandler("satellite");
 static SimpleObjectMaker<ChannelHandler, TitleFieldHandler> channelhandler("channel");
 static SimpleObjectMaker<GribBaseDateHandler, TitleFieldHandler> datehandler("date");
+static SimpleObjectMaker<GribIgnoreHandler, TitleFieldHandler> texthandler("text");
 
 static SimpleObjectMaker<GribObsDiagCriter, MatchCriteria> gribobsdiagriter("observationDiagnostic");
 static SimpleObjectMaker<GribObsDiagHandler, TitleFieldHandler> gribobsdiaghandler("observationDiagnostic");
