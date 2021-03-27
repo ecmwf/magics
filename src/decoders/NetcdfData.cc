@@ -190,7 +190,7 @@ void NetDimension::last(const string& val) {
 
 
 NetVariable::NetVariable(const string& name, int id, Netcdf* parent, const string& method) :
-    name_(name), id_(id), parent_(parent) {
+    name_(name), id_(id), parent_(parent), missing_(std::numeric_limits<double>::max()) {
     netcdf_ = parent_->file();
     int num_dims;
     nc_inq_varndims(netcdf_, id_, &num_dims);
@@ -297,7 +297,7 @@ int NetVariable::find(const string& value) {
     // First , is the variable a time variable:
 
     string val = value;
-   
+
     try {
         val = interpretTime(value);
     }
@@ -357,7 +357,7 @@ int NetVariable::find(const string& value) {
         for ( int i = 0; i < dims[0]; i++ ) {
             char text[256];
             nc_get_var_text(netcdf_, id_, text);
-            if (string(text) ==  val)       
+            if (string(text) ==  val)
                 return i;
 
         }
@@ -372,7 +372,7 @@ int NetVariable::find(const string& value) {
             if (string(values[i]) == val)
                 return i;
         }
-        
+
     }
 
     return 0;
@@ -380,11 +380,24 @@ int NetVariable::find(const string& value) {
 
 
 double NetVariable::getDefaultMissing() {
-    if (type() == NC_DOUBLE)
-        return NC_FILL_DOUBLE;
-    if (type() == NC_BYTE)
-        return NC_FILL_BYTE;
+    int t = type();
+    switch(t) {
+        case NC_CHAR: return NC_FILL_CHAR; break;
+        case NC_BYTE: return NC_FILL_BYTE; break;
+        case NC_UBYTE: return NC_FILL_UBYTE; break;
+        case NC_INT: return NC_FILL_INT; break;
+        case NC_UINT: return NC_FILL_UINT; break;
+        case NC_SHORT: return NC_FILL_SHORT; break;
+        case NC_USHORT: return NC_FILL_USHORT; break;
+        case NC_INT64: return NC_FILL_INT64; break;
+        case NC_UINT64: return NC_FILL_UINT64; break;
+        case NC_FLOAT: return NC_FILL_FLOAT; break;
+        case NC_DOUBLE: return NC_FILL_DOUBLE; break;
+    }
+
+    MagLog::warning() << "NetVariable: No default missing value defined for " << nc_type_to_name(t) << std::endl;
     return NC_FILL_FLOAT;
+
 }
 
 
@@ -449,14 +462,18 @@ namespace magics {
 const char* nc_type_to_name(int n) {
 
     switch (n) {
-        case NC_UBYTE: return "NC_UBYTE"; break;
+        case NC_CHAR: return "NC_CHAR"; break;
         case NC_BYTE: return "NC_BYTE"; break;
+        case NC_UBYTE: return "NC_UBYTE"; break;
+        case NC_INT: return "NC_INT"; break;
+        case NC_UINT: return "NC_UINT"; break;
         case NC_SHORT: return "NC_SHORT"; break;
         case NC_USHORT: return "NC_USHORT"; break;
-        case NC_INT: return "NC_INT"; break;
+        case NC_INT64: return "NC_INT64"; break;
+        case NC_UINT64: return "NC_UINT64"; break;
         case NC_FLOAT: return "NC_FLOAT"; break;
         case NC_DOUBLE: return "NC_DOUBLE"; break;
-        case NC_INT64: return "NC_INT64"; break;
+        case NC_STRING: return "NC_STRING"; break;
     }
 
     static char unknown[20];

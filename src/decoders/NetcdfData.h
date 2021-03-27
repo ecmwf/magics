@@ -206,22 +206,22 @@ struct NetVariable {
     }
 
     void setFirstPoint(const string& name, const string& first) {
-        
+
         map<string, NetDimension>::iterator dim = dimensions_.find(name);
         if (dim == dimensions_.end())
             return;
          (*dim).second.first(first);
-        
-       
+
+
     }
 
     void setLastPoint(const string& name, const string& last) {
-        
+
         map<string, NetDimension>::iterator d = dimensions_.find(name);
         if (d == dimensions_.end())
             return;
         (*d).second.last(last);
-        
+
     }
 
     size_t getSize(const vector<size_t>& dims) {
@@ -291,7 +291,7 @@ struct NetVariable {
 
     template <class T>
     T getAttribute(const string& name, T def) {
-        T val;
+        T val = def;
         map<string, NetAttribute>::iterator attr = attributes_.find(name);
         if (attr == attributes_.end())
             return def;
@@ -346,13 +346,13 @@ struct NetVariable {
             if ( dim->second.index_ < nb-2)
                 dim->second.dim_ = 1;
 
-        
+
         auto dim = dimensions_.begin();
         for (int i = 0; i < nb-2; ++i) {
             dim->second.dim_ = 1;
             dim++;
         }
-         
+
     }
     void default1D() {
          int nb = dimensions_.size();
@@ -409,7 +409,7 @@ public:
     }
 
     int getDimension(const string& name) {
-        
+
         map<string, NetDimension>::iterator dim = dimensions_.find(name);
         if (dim == dimensions_.end()) {
             MagLog::error() << name << " : do not find such dimension\n" << endl;
@@ -436,7 +436,7 @@ public:
     }
     template <class T>
     T getAttribute(const string& name, T def) {
-        T val;
+        T val = def;
         map<string, NetAttribute>::iterator attr = attributes_.find(name);
         if (attr == attributes_.end())
             return def;

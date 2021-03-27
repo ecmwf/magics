@@ -64,10 +64,6 @@ SimpleFactory<B>* SimpleFactory<B>::get(const string& name) {
         return (*maker).second;
     }
 
-    if(MagicsGlobal::strict()) {
-        
-    }
-
     MagLog::error() << "No factory named [" << name << "], values:" << std::endl;
     for (auto k = map_->begin(); k != map_->end(); ++k) {
         MagLog::error() << "  " << (*k).first << std::endl;
