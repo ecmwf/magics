@@ -9,17 +9,20 @@
  */
 
 
-#include <cstring>
 #include <ostream>
+#include <cstring>
 
 #include "JSON.h"
-#include "StringContent.h"
 #include "Translator.h"
+#include "StringContent.h"
+
 
 
 namespace magics {
 
 //----------------------------------------------------------------------------------------------------------------------
+
+
 
 
 StringContent::StringContent(const std::string& s) : value_(s) {}

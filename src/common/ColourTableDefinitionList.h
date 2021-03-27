@@ -35,12 +35,12 @@ class LevelSelection;
 class ColourTableDefinitionList : public ColourTableDefinition {
 public:
     ColourTableDefinitionList();
-    virtual ~ColourTableDefinitionList() override;
+    virtual ~ColourTableDefinitionList();
     void set(const ColourTableDefinitionListInterface&);
-    void set(const XmlNode&) override;
-    void set(ColourTable&, int) override;
+    void set(const XmlNode&);
+    void set(ColourTable&, int);
 
-    ColourTableDefinition* clone() const override {
+    ColourTableDefinition* clone() const {
         ColourTableDefinitionList* object = new ColourTableDefinitionList();
         object->colours_                  = colours_;
         return object;
@@ -48,7 +48,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     mutable stringarray colours_;
     mutable ListPolicy policy_;
 

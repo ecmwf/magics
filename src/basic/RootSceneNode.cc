@@ -320,7 +320,6 @@ BasicSceneNode* RootScenePage::newNode(BasicPositionalObject* node) {
 
     root_->setPage(page);
 
-    ASSERT(node);
     node->orphan();
     (*(page->manager_))(page, node);
 
@@ -329,7 +328,6 @@ BasicSceneNode* RootScenePage::newNode(BasicPositionalObject* node) {
 
 
 BasicSceneNode* RootSceneNode::clone() {
-    // FIXME: call newNode(NULL) will fail, see above
     current_->newNode(0);
 
     return current_;

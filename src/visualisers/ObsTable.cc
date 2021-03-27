@@ -25,7 +25,6 @@
 #include "Symbol.h"
 #include "Transformation.h"
 #include "expat.h"
-#include "MagicsGlobal.h"
 
 #include "ProgressObject.h"
 
@@ -60,9 +59,8 @@ ObsTable::ObsTable() {
     // FMagLog::dev() << "Load observation templates --->" << filename << endl;
     FILE* in = fopen(filename.c_str(), "r");
 
-    if (!in) {
+    if (!in)
         throw CannotOpenFile(filename);
-    }
 
     do {
         size_t len = fread(buf, 1, sizeof(buf), in);
@@ -109,9 +107,6 @@ void ObsTable::add(const string& tag, const map<string, string>& def) {
             current_->push_back(obs);
         }
         catch (NoFactoryException&) {
-            if (MagicsGlobal::strict()) {
-                throw;
-            }
             // FMagLog::dev() << "can not find ObsItem for : " << tag << "\n";
             cout << "can not find ObsItem for : " << tag << "\n";
         }

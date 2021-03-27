@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -35,17 +35,17 @@ LandgramBoxAttributes::LandgramBoxAttributes():
 	top2_colour_(MagTranslator<string, Colour>().magics("landgram_top_box2_colour")),
 	bottom1_colour_(MagTranslator<string, Colour>().magics("landgram_bottom_box1_colour")),
 	bottom2_colour_(MagTranslator<string, Colour>().magics("landgram_bottom_box2_colour"))
-	
+	 
 {
-}
+} 
 
 
 LandgramBoxAttributes::~LandgramBoxAttributes()
 {
-
+	
 }
 
-
+    
 void LandgramBoxAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -77,12 +77,12 @@ void LandgramBoxAttributes::copy(const LandgramBoxAttributes& other)
 	bottom1_colour_ = unique_ptr<Colour>(other.bottom1_colour_->clone());
 	bottom2_colour_ = unique_ptr<Colour>(other.bottom2_colour_->clone());
 	
-}
+} 
 
 
 bool LandgramBoxAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "landgrambox")  )
 		return true;
 	
@@ -93,7 +93,7 @@ void LandgramBoxAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "landgrambox")  )
@@ -129,7 +129,7 @@ void LandgramBoxAttributes::print(ostream& out)  const
 
 void LandgramBoxAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"landgrambox\"";
+	out <<  "\"landgrambox\""; 
 	out << ", \"landgram_width\":";
 	niceprint(out,width_);
 	out << ", \"landgram_top_box1_shading\":";
@@ -151,12 +151,12 @@ void LandgramBoxAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> landgram_width("landgram_width", 6);
-static MagicsParameter<string> landgram_top_box1_shading("landgram_top_box1_shading", "solid");
-static MagicsParameter<string> landgram_top_box2_shading("landgram_top_box2_shading", "dot");
-static MagicsParameter<string> landgram_bottom_box1_shading("landgram_bottom_box1_shading", "solid");
-static MagicsParameter<string> landgram_bottom_box2_shading("landgram_bottom_box2_shading", "dot");
-static MagicsParameter<string> landgram_top_box1_colour("landgram_top_box1_colour", "evergreen");
-static MagicsParameter<string> landgram_top_box2_colour("landgram_top_box2_colour", "evergreen");
-static MagicsParameter<string> landgram_bottom_box1_colour("landgram_bottom_box1_colour", "evergreen");
-static MagicsParameter<string> landgram_bottom_box2_colour("landgram_bottom_box2_colour", "evergreen");
+static MagicsParameter<double> landgram_width("landgram_width", 6, "");
+static MagicsParameter<string> landgram_top_box1_shading("landgram_top_box1_shading", "solid", "");
+static MagicsParameter<string> landgram_top_box2_shading("landgram_top_box2_shading", "dot", "");
+static MagicsParameter<string> landgram_bottom_box1_shading("landgram_bottom_box1_shading", "solid", "");
+static MagicsParameter<string> landgram_bottom_box2_shading("landgram_bottom_box2_shading", "dot", "");
+static MagicsParameter<string> landgram_top_box1_colour("landgram_top_box1_colour", "evergreen", ""); 
+static MagicsParameter<string> landgram_top_box2_colour("landgram_top_box2_colour", "evergreen", ""); 
+static MagicsParameter<string> landgram_bottom_box1_colour("landgram_bottom_box1_colour", "evergreen", ""); 
+static MagicsParameter<string> landgram_bottom_box2_colour("landgram_bottom_box2_colour", "evergreen", ""); 

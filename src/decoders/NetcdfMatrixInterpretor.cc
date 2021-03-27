@@ -28,8 +28,12 @@
 #include "NetcdfMatrixInterpretor.h"
 #include "TextVisitor.h"
 #include "Tokenizer.h"
-
 using namespace magics;
+
+#include "magics_windef.h"
+#ifdef MAGICS_ON_WINDOWS
+#include <iterator>
+#endif
 
 
 NetcdfMatrixInterpretor::NetcdfMatrixInterpretor() {}
@@ -62,7 +66,7 @@ bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
         x();
         y();
         // get the data ...
-
+       
         //netcdf.setDefault2D(field_);
         map<string, string> first, last;
         setDimensions(dimension_, first, last);
@@ -96,7 +100,7 @@ bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
             // for (auto d = rows.begin(); d != rows.end(); ++d)
             //     cout << *d << " " ;
             // cout << endl;
-
+            
             setDimensions(dims, first, last);
             vector<double> data;
             //cout << "GET DATA " << field_ << endl;
@@ -106,7 +110,7 @@ bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
             for (vector<double>::iterator d = data.begin(); d != data.end(); d++) {
                 matrix_->push_back(*d);
             }
-
+            
         }
 
 
@@ -120,6 +124,9 @@ bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
         MagLog::debug() << "matrix_[" << matrix_->size() << ", " << scaling_ << ", " << offset_ << "\n";
 
 
+        vector<double> col;
+
+
         matrix_->setColumnsAxis(columns_);
         matrix_->setRowsAxis(rows_);
 
@@ -127,9 +134,6 @@ bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
         MagLog::dev() << *matrix_ << "\n";
     }
     catch (MagicsException& e) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
         MagLog::error() << e << "\n";
         delete matrix_;
         matrix_ = NULL;

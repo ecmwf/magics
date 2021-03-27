@@ -22,7 +22,6 @@
 
 #include "ColourTableDefinitionList.h"
 #include "XmlNode.h"
-#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -52,9 +51,6 @@ void ColourTableDefinitionList::set(const XmlNode& node) {
             MagLog::dev() << "add colour---" << colour->name() << "\n";
         }
         catch (NoFactoryException& e) {
-            if (MagicsGlobal::strict()) {
-                throw;
-            }
         }
     }
 }
@@ -76,7 +72,7 @@ void ColourTableDefinitionList::set(ColourTable& table, int nb) {
     // We need nb-1 colours!
     for (int i = 0; i < nb - 1; i++) {
         if (colour == colours_.end()) {
-            if (policy_ == ListPolicy::LASTONE)
+            if (policy_ == M_LASTONE)
                 table.push_back(Colour(colours_.back()));
             else {
                 colour = colours_.begin();

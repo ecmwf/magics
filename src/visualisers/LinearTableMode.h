@@ -31,21 +31,21 @@ namespace magics {
 class LinearTableMode : public LookupTableMode {
 public:
     LinearTableMode();
-    virtual ~LinearTableMode() override;
-    void set(const XmlNode& node) override  // for MagML
+    virtual ~LinearTableMode();
+    void set(const XmlNode& node)  // for MagML
     {
         LookupTableModeAttributes::set(node);
     }
-    void set(const map<string, string>& map) override  // for MagML
+    void set(const map<string, string>& map)  // for MagML
     {
         LookupTableModeAttributes::set(map);
     }
 
-    virtual void operator()(Image&, Raster&) override;
+    virtual void operator()(Image&, Raster&);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed

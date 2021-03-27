@@ -66,7 +66,7 @@ protected:
 class ObsTable : public map<string, ObsTemplate*>, public ObsTableAttributes {
 public:
     ObsTable();
-    virtual ~ObsTable() override;
+    virtual ~ObsTable();
 
     void add(const string&, const map<string, string>&);
 
@@ -89,7 +89,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     ObsTemplate* current_;
     double rows_;
     double columns_;

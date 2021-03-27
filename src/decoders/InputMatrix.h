@@ -33,14 +33,14 @@ namespace magics {
 class InputMatrix : public Data, public InputMatrixAttributes {
 public:
     InputMatrix();
-    virtual ~InputMatrix() override;
+    virtual ~InputMatrix();
 
-    virtual void set(const map<string, string>& map) override { InputMatrixAttributes::set(map); }
-    virtual void set(const XmlNode& node) override { InputMatrixAttributes::set(node); }
+    virtual void set(const map<string, string>& map) { InputMatrixAttributes::set(map); }
+    virtual void set(const XmlNode& node) { InputMatrixAttributes::set(node); }
 
-    void getReady(const Transformation& transformation) override;
+    void getReady(const Transformation& transformation);
 
-    virtual MatrixHandler& matrix() override;
+    virtual MatrixHandler& matrix();
     virtual MatrixHandler& xComponent();
     virtual MatrixHandler& yComponent();
     void prepareComponents();
@@ -48,23 +48,23 @@ public:
     virtual PointsHandler& points(const Transformation&);
 
     void customisedPoints(const BasicThinningMethod&, const Transformation&, const std::set<string>&,
-                          CustomisedPointsList&) override;
-    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out,
-                          bool all) override {}
-    PointsHandler& points(const Transformation& t, bool) override { return points(t); }
+                          CustomisedPointsList&);
+    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all) {}
+    PointsHandler& points(const Transformation& t, bool) { return points(t); }
     void scaling(double&, double&) const;
+
     bool defined() {
         return !field_.empty() || ((!u_component_.empty() && !u_component_.empty()) ||
                                    (!wind_speed_.empty() && !wind_direction_.empty()) || simple_field_);
     }
     void filter(Matrix&);
-    void release() override;
-    void visit(MetaDataCollector&) override;
+    void release();
+    void visit(MetaDataCollector&);
     void metadata(MetaDataCollector&) const;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     Matrix* matrix_;
     Matrix* u_;
     Matrix* v_;

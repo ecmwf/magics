@@ -34,8 +34,8 @@ namespace magics {
 class HiLoText : public HiLoTechnique, public HiLoTextAttributes {
 public:
     HiLoText() : high_(0), low_(0) {}
-    virtual ~HiLoText() override {}
-    void operator()(const PaperPoint& point, HiLo& hilo) override {
+    virtual ~HiLoText() {}
+    void operator()(const PaperPoint& point, HiLo& hilo) {
         if (!high_) {
             // Create Text List containing the position of the High
             high_ = new Text();
@@ -61,11 +61,11 @@ public:
             MagLog::warning() << "high/low information not set in point-> the point is ignored"
                               << "\n";
     }
-    void clear() override {
+    void clear() {
         high_ = 0;
         low_  = 0;
     }
-    void set(const map<string, string>& map) override {
+    void set(const map<string, string>& map) {
         HiLoTechnique::set(map);
         HiLoTextAttributes::set(map);
     }
@@ -73,7 +73,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const override { out << "HiLoText"; }
+    virtual void print(ostream& out) const { out << "HiLoText"; }
     Text* high_;
     Text* low_;
 

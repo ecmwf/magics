@@ -35,13 +35,13 @@ namespace magics {
 class Histogram : public Visdef, public HistogramAttributes, public LevelSelectionInterface {
 public:
     Histogram();
-    virtual ~Histogram() override;
+    virtual ~Histogram();
 
-    void operator()(Data&, BasicGraphicsObjectContainer&) override { NOTIMP; }
-    void visit(LegendVisitor& legend) override;
+    void operator()(Data&, BasicGraphicsObjectContainer&) { NOTIMP; }
+    void visit(LegendVisitor& legend);
     // Implements the set method ...
-    void set(const map<string, string>& map) override { HistogramAttributes::set(map); }
-    void set(const XmlNode& node) override { HistogramAttributes::set(node); }
+    void set(const map<string, string>& map) { HistogramAttributes::set(map); }
+    void set(const XmlNode& node) { HistogramAttributes::set(node); }
 
     void visit(const IntervalMap<Colour>&, Data&, PointsHandler& data, HistoVisitor& parent);
 
@@ -54,14 +54,14 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
-    int getCount() const override { return count_; }
-    int getTolerance() const override { return tolerance_; }
-    double getReference() const override { return reference_; }
-    double getInterval() const override { return interval_; }
-    double getMin() const override { return min_; }
-    double getMax() const override { return max_; }
-    floatarray getList() const override { return list_; }
+    virtual void print(ostream&) const;
+    int getCount() const { return count_; }
+    int getTolerance() const { return tolerance_; }
+    double getReference() const { return reference_; }
+    double getInterval() const { return interval_; }
+    double getMin() const { return min_; }
+    double getMax() const { return max_; }
+    floatarray getList() const { return list_; }
 
     IntervalMap<int> counter_;
 

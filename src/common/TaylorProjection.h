@@ -19,9 +19,9 @@
 #ifndef _TaylorProjection_H
 #define _TaylorProjection_H
 
-#include "TaylorProjectionAttributes.h"
-#include "Transformation.h"
-#include "XmlNode.h"
+#include <TaylorProjectionAttributes.h>
+#include <Transformation.h>
+#include <XmlNode.h>
 
 namespace magics {
 
@@ -35,24 +35,24 @@ namespace magics {
 class TaylorProjection : public Transformation, public TaylorProjectionAttributes {
 public:
     TaylorProjection();
-    ~TaylorProjection() override;
+    ~TaylorProjection();
 
     /*!
       \brief sets  from an XML node
     */
-    void set(const XmlNode& node) override {
+    void set(const XmlNode& node) {
         Transformation::set(node);
         TaylorProjectionAttributes::set(node);
     }
     /*!
       \brief sets  from a map
     */
-    void set(const map<string, string>& map) override {
+    void set(const map<string, string>& map) {
         Transformation::set(map);
         TaylorProjectionAttributes::set(map);
     }
 
-    virtual Transformation* clone() const override {
+    virtual Transformation* clone() const {
         TaylorProjection* transformation = new TaylorProjection();
         transformation->copy(*this);
         return transformation;
@@ -61,52 +61,52 @@ public:
     /*!
     \\brief Initialise the projection
     */
-    virtual void init() override;
-    virtual void cleanPCEnveloppe() override;
+    virtual void init();
+    virtual void cleanPCEnveloppe();
     /*!
     \\brief
     */
-    virtual PaperPoint operator()(const UserPoint&) const override;
+    virtual PaperPoint operator()(const UserPoint&) const;
     /*!
     \\brief
     */
 
-    virtual PaperPoint operator()(const PaperPoint&) const override;
+    virtual PaperPoint operator()(const PaperPoint&) const;
     /*!
     \\brief
     */
-    virtual void revert(const PaperPoint&, UserPoint&) const override;
+    virtual void revert(const PaperPoint&, UserPoint&) const;
 
 
     /*!
     \\brief Does the projection needs the coastalines to be shifted!
     */
-    virtual bool needShiftedCoastlines() const override;
+    virtual bool needShiftedCoastlines() const;
     /*!
     \\brief set the aspect ratio!
     */
-    virtual void aspectRatio(double&, double&) override;
+    virtual void aspectRatio(double&, double&);
     /*!
     \\brief set the bounding box!
     */
-    virtual void boundingBox(double&, double&, double&, double&) const override;
+    virtual void boundingBox(double&, double&, double&, double&) const;
 
     /*!
     \\brief return the xmin in user coordinates!
     */
-    virtual double getMinX() const override;
+    virtual double getMinX() const;
     /*!
     \\brief return the ymin in user coordinates!
     */
-    virtual double getMinY() const override;
+    virtual double getMinY() const;
     /*!
     \\brief return the xmax in user coordinates!
     */
-    virtual double getMaxX() const override;
+    virtual double getMaxX() const;
     /*!
     \\brief return the ymax in user coordinates!
     */
-    virtual double getMaxY() const override;
+    virtual double getMaxY() const;
     /*!
     \\brief set the xmin in user coordinates!
     */
@@ -126,28 +126,28 @@ public:
     /*!
     \\brief return the xmin in projection coordinates!
     */
-    virtual double getMinPCX() const override;
+    virtual double getMinPCX() const;
     /*!
     \\brief return the ymin in projection coordinates!
     */
-    virtual double getMinPCY() const override;
+    virtual double getMinPCY() const;
     /*!
     \\brief return the xmax in projection coordinates!
     */
-    virtual double getMaxPCX() const override;
+    virtual double getMaxPCX() const;
     /*!
     \\brief return the ymax in projection coordinates!
     */
-    virtual double getMaxPCY() const override;
+    virtual double getMaxPCY() const;
 
-    virtual Polyline& getPCBoundingBox() const override;
-    virtual Polyline& getUserBoundingBox() const override;
+    virtual Polyline& getPCBoundingBox() const;
+    virtual Polyline& getUserBoundingBox() const;
 
-    virtual void setDefinition(const string&) override;
+    virtual void setDefinition(const string&);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed

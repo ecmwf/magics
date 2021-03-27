@@ -35,20 +35,20 @@ class GeoObject;
 class GeoJSon : public Data, public PointsList, public GeoJSonAttributes {
 public:
     GeoJSon();
-    virtual ~GeoJSon() override;
+    virtual ~GeoJSon();
 
     typedef void (GeoJSon::*Method)(const Value&);
 
     map<string, Method> methods_;
 
     void points(const Transformation&, vector<UserPoint>&);
-    void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, bool) override;
-    PointsHandler& points(const Transformation&, bool) override;
-    MatrixHandler& matrix() override;
+    void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, bool);
+    PointsHandler& points(const Transformation&, bool);
+    MatrixHandler& matrix();
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     void decode();
     void dig(const Value&);
     void coordinates(const Value&);

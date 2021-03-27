@@ -61,7 +61,7 @@ void AxisGrid::vertical(const AxisItems& ticks, DrawingVisitor& out) const {
         if (pos == reference_level_) {
             Colour colour = !reference_colour_->automatic() ? *reference_colour_ : *colour_;
             grid->setColour(colour);
-            grid->setLineStyle(Shading::SOLID);
+            grid->setLineStyle(M_SOLID);
             grid->setThickness(reference_thickness_);
         }
         else {

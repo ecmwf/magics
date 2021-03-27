@@ -33,16 +33,16 @@ namespace magics {
 class MarkerValuePlotMethod : public ValuePlotMethod, public MarkerValuePlotMethodAttributes {
 public:
     MarkerValuePlotMethod() : marker_(0) {}
-    virtual ~MarkerValuePlotMethod() override {}
-    virtual void set(const map<string, string>& map) override {
+    virtual ~MarkerValuePlotMethod() {}
+    virtual void set(const map<string, string>& map) {
         ValuePlotMethodAttributes::set(map);
         MarkerValuePlotMethodAttributes::set(map);
     }
-    virtual void set(const XmlNode& node) override {
+    virtual void set(const XmlNode& node) {
         ValuePlotMethodAttributes::set(node);
         MarkerValuePlotMethodAttributes::set(node);
     }
-    virtual ValuePlotMethod* clone() const override {
+    virtual ValuePlotMethod* clone() const {
         MarkerValuePlotMethod* object = new MarkerValuePlotMethod();
         object->clone(*this);
         return object;
@@ -56,13 +56,13 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const override {
+    virtual void print(ostream& out) const {
         out << "MarkerValuePlotMethod[";
         MarkerValuePlotMethodAttributes::print(out);
         out << "]";
     }
-    void reset() override { marker_ = 0; }
-    virtual void add(const PaperPoint& xy) override {
+    void reset() { marker_ = 0; }
+    virtual void add(const PaperPoint& xy) {
         if (!marker_) {
             marker_ = new Symbol();
             marker_->setMarker(marker_index_);

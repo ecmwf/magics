@@ -40,7 +40,6 @@ Contour::~Contour() {
         delete (styleInfo_);
 }
 
-
 /*!
  Class information are given to the output-stream.
 */

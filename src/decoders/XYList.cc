@@ -20,7 +20,6 @@
 */
 
 #include "XYList.h"
-#include "MagicsGlobal.h"
 
 
 /*!
@@ -191,9 +190,6 @@ void XYList::getReady(const Transformation& transformation) {
         }
     }
     catch (...) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
     }
     try {
         // Fisrt create the x_date if base date and offset are used!
@@ -213,9 +209,6 @@ void XYList::getReady(const Transformation& transformation) {
         }
     }
     catch (...) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
     }
 
     try {
@@ -236,9 +229,6 @@ void XYList::getReady(const Transformation& transformation) {
         }
     }
     catch (...) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
     }
     try {
         // Fisrt create the x_date if base date and offset are used!
@@ -258,9 +248,6 @@ void XYList::getReady(const Transformation& transformation) {
         }
     }
     catch (...) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
     }
 
     try {
@@ -268,18 +255,12 @@ void XYList::getReady(const Transformation& transformation) {
             x_upper_.push_back(transformation.x(*x));
     }
     catch (...) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
     }
     try {
         for (vector<string>::const_iterator y = y_upper_date_.begin(); y != y_upper_date_.end(); ++y)
             y_upper_.push_back(transformation.y(*y));
     }
     catch (...) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
     }
 
     try {
@@ -287,18 +268,12 @@ void XYList::getReady(const Transformation& transformation) {
             x_lower_.push_back(transformation.x(*x));
     }
     catch (...) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
     }
     try {
         for (vector<string>::const_iterator y = y_lower_date_.begin(); y != y_lower_date_.end(); ++y)
             y_lower_.push_back(transformation.y(*y));
     }
     catch (...) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
     }
 }
 
@@ -318,9 +293,6 @@ void XYList::visit(Transformation& transformation) {
         }
     }
     catch (...) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
     }
 }
 

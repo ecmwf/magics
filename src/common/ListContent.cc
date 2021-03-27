@@ -11,7 +11,7 @@
 
 #include "ListContent.h"
 #include "JSON.h"
-#include "MagException.h"
+#include <MagException.h>
 
 #include <iostream>
 

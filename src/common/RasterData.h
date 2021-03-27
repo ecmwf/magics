@@ -78,7 +78,7 @@ private:
 class RasterData : public Raster {
 public:
     RasterData() {}
-    virtual ~RasterData() override {}
+    virtual ~RasterData() {}
 
     TeProjection& getProjection() { return *projection_; }
 
@@ -99,7 +99,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& s) const override { s << "RasterData[]"; }
+    virtual void print(ostream&) const {}
     TeProjection* projection_;
     double x_;
     double y_;

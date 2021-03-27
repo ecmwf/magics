@@ -33,12 +33,12 @@ template <class T>
 class TableDefinitionCompute : public TableDefinition<T> {
 public:
     TableDefinitionCompute() {}
-    virtual ~TableDefinitionCompute() override {}
+    virtual ~TableDefinitionCompute() {}
     void set(const TableDefinitionComputeInterface<T>&);
     void set(const XmlNode&);
     void adjust(T min, T max);
 
-    TableDefinition<T>* clone() const override {
+    TableDefinition<T>* clone() const {
         TableDefinitionCompute<T>* object = new TableDefinitionCompute<T>();
         // What to do with the values!
         std::copy(this->begin(), this->end(), object->begin());
@@ -47,7 +47,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& s) const override { s << "TableDefinitionCompute<T>[]"; }
+    virtual void print(ostream&) const {}
     int count_;
 
 private:

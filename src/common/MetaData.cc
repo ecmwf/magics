@@ -22,9 +22,7 @@
 #include "MetaData.h"
 #include "Timer.h"
 
-#ifdef MAGICS_ON_WINDOWS
-#include "windux.h"
-#else
+#ifndef MAGICS_ON_WINDOWS
 #include <sys/resource.h>
 #include <sys/time.h>
 #endif
@@ -93,9 +91,6 @@ void MetaDataVisitor::collectMetaData() {
     }
 
     catch (...) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
     }
 
     if (!wms_file_.empty() && styles_.size()) {
@@ -109,9 +104,6 @@ void MetaDataVisitor::collectMetaData() {
             out.close();
         }
         catch (...) {
-            if (MagicsGlobal::strict()) {
-                throw;
-            }
         }
     }
     if (!javascript_.empty()) {
@@ -134,9 +126,6 @@ void MetaDataVisitor::collectMetaData() {
             out.close();
         }
         catch (...) {
-            if (MagicsGlobal::strict()) {
-                throw;
-            }
         }
     }
 
@@ -160,9 +149,6 @@ void MetaDataVisitor::collectMetaData() {
             out.close();
         }
         catch (...) {
-            if (MagicsGlobal::strict()) {
-                throw;
-            }
         }
     }
 
@@ -181,9 +167,6 @@ void MetaDataVisitor::collectMetaData() {
             out.close();
         }
         catch (...) {
-            if (MagicsGlobal::strict()) {
-                throw;
-            }
         }
     }
     if (!efi_.empty()) {
@@ -201,9 +184,6 @@ void MetaDataVisitor::collectMetaData() {
             ofstream out(efi_.c_str());
             out << " Could not opened " << path << endl;
             out.close();
-            if (MagicsGlobal::strict()) {
-                throw;
-            }
         }
     }
 }

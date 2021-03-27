@@ -39,20 +39,20 @@ class PaperPoint;
 class GraphShadeStyle : public GraphShadeStyleAttributes {
 public:
     GraphShadeStyle();
-    virtual ~GraphShadeStyle() override;
+    virtual ~GraphShadeStyle();
 
-    virtual void set(const XmlNode& node) override { GraphShadeStyleAttributes::set(node); }
-    virtual void set(const map<string, string>& map) override { GraphShadeStyleAttributes::set(map); }
+    virtual void set(const XmlNode& node) { GraphShadeStyleAttributes::set(node); }
+    virtual void set(const map<string, string>& map) { GraphShadeStyleAttributes::set(map); }
     virtual GraphShadeStyle* clone() const {
         MagLog::dev() << "(const map<string, string&)---> to be checked!...\n";
         return new GraphShadeStyle();
     }
-    // virtual void operator()(Polyline*, BasicGraphicsObjectContainer&) ;
+    // virtual void operator()(Polyline*, BasicGraphicsObjectContainer&);
     virtual void operator()(Polyline&);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed
@@ -71,51 +71,51 @@ private:
 class DotGraphShadeStyle : public GraphShadeStyle, public DotGraphShadeStyleAttributes {
 public:
     DotGraphShadeStyle() {}
-    virtual ~DotGraphShadeStyle() override {}
+    virtual ~DotGraphShadeStyle() {}
 
-    virtual void set(const XmlNode& node) override {
+    virtual void set(const XmlNode& node) {
         GraphShadeStyle::set(node);
         DotGraphShadeStyleAttributes::set(node);
     }
-    virtual void set(const map<string, string>& map) override {
+    virtual void set(const map<string, string>& map) {
         GraphShadeStyle::set(map);
         DotGraphShadeStyleAttributes::set(map);
     }
-    virtual GraphShadeStyle* clone() const override {
+    virtual GraphShadeStyle* clone() const {
         MagLog::dev() << "(const map<string, string&)---> to be checked!...\n";
         return new DotGraphShadeStyle();
     }
     // void operator()(Polyline*, BasicGraphicsObjectContainer&);
-    virtual void operator()(Polyline&) override;
+    virtual void operator()(Polyline&);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 };
 
 class HatchGraphShadeStyle : public GraphShadeStyle, public HatchGraphShadeStyleAttributes {
 public:
     HatchGraphShadeStyle() {}
-    virtual ~HatchGraphShadeStyle() override {}
+    virtual ~HatchGraphShadeStyle() {}
 
-    virtual void set(const XmlNode& node) override {
+    virtual void set(const XmlNode& node) {
         GraphShadeStyle::set(node);
         HatchGraphShadeStyleAttributes::set(node);
     }
-    virtual void set(const map<string, string>& map) override {
+    virtual void set(const map<string, string>& map) {
         GraphShadeStyle::set(map);
         HatchGraphShadeStyleAttributes::set(map);
     }
-    virtual GraphShadeStyle* clone() const override {
+    virtual GraphShadeStyle* clone() const {
         MagLog::dev() << "(const map<string, string&)---> to be checked!...\n";
         return new HatchGraphShadeStyle();
     }
     // void operator()(Polyline*, BasicGraphicsObjectContainer&);
-    void operator()(Polyline&) override;
+    void operator()(Polyline&);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 };
 
 

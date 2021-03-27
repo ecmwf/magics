@@ -294,7 +294,7 @@ void HorizontalAxis::label(HorizontalAxisVisitor& axis) {
 
         text->setText(label);
         text->setJustification(justification);
-        text->setVerticalAlign(VerticalAlign::BOTTOM);
+        text->setVerticalAlign(MBOTTOM);
         text->setAngle(angle);
 
         text->push_back(point);
@@ -389,7 +389,7 @@ void VerticalAxis::label(VerticalAxisVisitor& axis) {
         text->setFont(font);
         text->setText(label);
         text->setJustification(justification);
-        text->setVerticalAlign(VerticalAlign::HALF);
+        text->setVerticalAlign(MHALF);
         text->push_back(point);
         axis.push_back(text);
     }
@@ -690,7 +690,7 @@ void HorizontalAxis::tip(BottomAxisVisitor& out) const {
     font.colour((tip_colour_->automatic()) ? *label_colour_ : *tip_colour_);
     text->setFont(font);
     text->setText(tip_text_);
-    text->setVerticalAlign(VerticalAlign::TOP);
+    text->setVerticalAlign(MTOP);
 
     double x = out.maxX() - (out.maxX() - out.minX()) * 0.05;
 

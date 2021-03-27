@@ -24,78 +24,81 @@ namespace magics {
 //----------------------------------------------------------------------------------------------------------------------
 
 class DoubleContent : public Content {
+
 protected:
-    // -- Constructor
 
-    DoubleContent(double);
+// -- Constructor
 
-    // -- Destructor
+        DoubleContent(double);
 
-    virtual ~DoubleContent() override;
+// -- Destructor
 
-    // -- Overridden methods
+        virtual ~DoubleContent();
 
-    // -- From Content
-    virtual int compare(const Content& other) const override;
+// -- Overridden methods
 
-    virtual void value(bool& n) const override { Content::value(n); }
-    virtual void value(long long& n) const override;
-    virtual void value(double& n) const override;
-    virtual void value(std::string& n) const override;
-    virtual void value(ValueList& n) const override { Content::value(n); }
-    virtual void value(ValueMap& n) const override { Content::value(n); }
+	// -- From Content
+        virtual int compare(const Content& other) const;
 
-    virtual int compareBool(const BoolContent&) const override { return -1; }
-    virtual int compareNumber(const NumberContent&) const override;
-    virtual int compareDouble(const DoubleContent&) const override;
-    virtual int compareString(const StringContent&) const override { return 1; }
-    virtual int compareNil(const NilContent&) const override { return 1; }
-    virtual int compareList(const ListContent&) const override { return 1; }
-    virtual int compareMap(const MapContent&) const override { return 1; }
-    virtual int compareOrderedMap(const OrderedMapContent&) const override { return 1; }
+        virtual void value(bool& n)        const { Content::value(n); }
+        virtual void value(long long& n)   const { Content::value(n); }
+        virtual void value(double& n)      const;
+        virtual void value(std::string& n) const;
+        virtual void value(ValueList& n)   const { Content::value(n); }
+        virtual void value(ValueMap& n)    const { Content::value(n); }
 
-
-    virtual Content* add(const Content&) const override;
-    virtual Content* sub(const Content&) const override;
-    virtual Content* mul(const Content&) const override;
-    virtual Content* div(const Content&) const override;
-    virtual Content* mod(const Content&) const override;
-
-    virtual Content* addDouble(const DoubleContent&) const override;
-    virtual Content* subDouble(const DoubleContent&) const override;
-    virtual Content* mulDouble(const DoubleContent&) const override;
-    virtual Content* divDouble(const DoubleContent&) const override;
+        virtual int  compareBool(const BoolContent&)            const {return -1; }
+        virtual int  compareNumber(const NumberContent&)        const;
+        virtual int  compareDouble(const DoubleContent&)        const;
+        virtual int  compareString(const StringContent&)        const {return 1; }
+        virtual int  compareNil(const NilContent&)              const {return 1; }
+        virtual int  compareList(const ListContent&)            const {return 1; }
+        virtual int  compareMap(const MapContent&)              const {return 1; }
+        virtual int  compareOrderedMap(const OrderedMapContent&) const { return 1; }
 
 
-    virtual Value negate() const override;
+        virtual Content* add(const Content&) const;
+        virtual Content* sub(const Content&) const;
+        virtual Content* mul(const Content&) const;
+        virtual Content* div(const Content&) const;
+        virtual Content* mod(const Content&) const;
 
-    //        virtual Content* addNumber(const NumberContent&) const override;
-    //        virtual Content* subNumber(const NumberContent&) const override;
-    //        virtual Content* mulNumber(const NumberContent&) const override;
-    //        virtual Content* divNumber(const NumberContent&) const override;
+        virtual Content* addDouble(const DoubleContent&) const;
+        virtual Content* subDouble(const DoubleContent&) const;
+        virtual Content* mulDouble(const DoubleContent&) const;
+        virtual Content* divDouble(const DoubleContent&) const;
 
-    virtual void print(std::ostream&) const override;
-    virtual void json(JSON&) const override;
-    virtual std::string typeName() const override { return "Double"; }
-    virtual bool isDouble() const override { return true; }
-    virtual Content* clone() const override;
-    virtual void dump(std::ostream& out, size_t depth, bool indent = true) const override;
+
+        virtual Value negate() const;
+
+//        virtual Content* addNumber(const NumberContent&) const;
+//        virtual Content* subNumber(const NumberContent&) const;
+//        virtual Content* mulNumber(const NumberContent&) const;
+//        virtual Content* divNumber(const NumberContent&) const;
+
+        virtual void    print(std::ostream&) const;
+        virtual void   json(JSON&)      const;
+        virtual std::string  typeName()      const { return "Double"; }
+        virtual bool    isDouble()      const { return true; }
+        virtual Content* clone() const;
+        virtual void    dump(std::ostream& out, size_t depth, bool indent=true) const;
 
 private:
-    DoubleContent(const DoubleContent&);
-    DoubleContent& operator=(const DoubleContent&);
 
-    // -- Members
+        DoubleContent(const DoubleContent&);
+        DoubleContent& operator=(const DoubleContent&);
 
-    double value_;
+// -- Members
 
-    friend class Value;
-    friend class NumberContent;
+        double value_;
+
+        friend class Value;
+        friend class NumberContent;
 };
 
 
 //----------------------------------------------------------------------------------------------------------------------
 
-}  // namespace magics
+} // namespace magics
 
 #endif

@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -37,17 +37,17 @@ PageIDAttributes::PageIDAttributes():
 	,
 	colour_(MagTranslator<string, Colour>().magics("page_id_line_colour")),
 	logo_(MagTranslator<string, NoLogoPlotting>().magics("page_id_line_logo_plot"))
-	
+	 
 {
-}
+} 
 
 
 PageIDAttributes::~PageIDAttributes()
 {
-
+	
 }
 
-
+    
 void PageIDAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -84,12 +84,12 @@ void PageIDAttributes::copy(const PageIDAttributes& other)
 	colour_ = unique_ptr<Colour>(other.colour_->clone());
 	logo_ = unique_ptr<NoLogoPlotting>(other.logo_->clone());
 	
-}
+} 
 
 
 bool PageIDAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "pageid")  )
 		return true;
 	if ( acceptNode(node, logo_) )
@@ -102,7 +102,7 @@ void PageIDAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "pageid")  )
@@ -117,7 +117,7 @@ void PageIDAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), logo_, *elt);
+		setMember(elt->name(), logo_, *elt); 
 		
 	}
 }
@@ -142,7 +142,7 @@ void PageIDAttributes::print(ostream& out)  const
 
 void PageIDAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"pageid\"";
+	out <<  "\"pageid\""; 
 	out << ", \"page_id_line_height\":";
 	niceprint(out,height_);
 	out << ", \"page_id_line_magics\":";
@@ -168,17 +168,17 @@ void PageIDAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> page_id_line_height("page_id_line_height", 0.25);
-static MagicsParameter<string> page_id_line_magics("page_id_line_magics", "on");
-static MagicsParameter<string> page_id_line_user_text("page_id_line_user_text", "");
-static MagicsParameter<string> page_id_line_system_plot("page_id_line_system_plot", "on");
-static MagicsParameter<string> page_id_line_date_plot("page_id_line_date_plot", "on");
-static MagicsParameter<string> page_id_line_errors_plot("page_id_line_errors_plot", "on");
-static MagicsParameter<string> page_id_line_user_text_plot("page_id_line_user_text_plot", "on");
-static MagicsParameter<string> page_id_line_font("page_id_line_font", "sansserif");
-static MagicsParameter<string> page_id_line_font_style("page_id_line_font_style", "normal");
-static MagicsParameter<string> page_id_line_colour("page_id_line_colour", "ecmwf_blue");
-static MagicsParameter<string> page_id_line_logo_plot("page_id_line_logo_plot", "on");
+static MagicsParameter<double> page_id_line_height("page_id_line_height", 0.25, "");
+static MagicsParameter<string> page_id_line_magics("page_id_line_magics", "on", "");
+static MagicsParameter<string> page_id_line_user_text("page_id_line_user_text", "", "");
+static MagicsParameter<string> page_id_line_system_plot("page_id_line_system_plot", "on", "");
+static MagicsParameter<string> page_id_line_date_plot("page_id_line_date_plot", "on", "");
+static MagicsParameter<string> page_id_line_errors_plot("page_id_line_errors_plot", "on", "");
+static MagicsParameter<string> page_id_line_user_text_plot("page_id_line_user_text_plot", "on", "");
+static MagicsParameter<string> page_id_line_font("page_id_line_font", "sansserif", "");
+static MagicsParameter<string> page_id_line_font_style("page_id_line_font_style", "normal", "");
+static MagicsParameter<string> page_id_line_colour("page_id_line_colour", "ecmwf_blue", ""); 
+static MagicsParameter<string> page_id_line_logo_plot("page_id_line_logo_plot", "on", ""); 
 #include "LogoPlotting.h"
 static SimpleObjectMaker<LogoPlotting , NoLogoPlotting> logo_LogoPlotting("logo");
 static SimpleObjectMaker<LogoPlotting , NoLogoPlotting> on_LogoPlotting("on");

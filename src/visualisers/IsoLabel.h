@@ -63,20 +63,20 @@ protected:
 class IsoLabel : public NoIsoLabel, public map<double, double>, public IsoLabelAttributes {
 public:
     IsoLabel();
-    virtual ~IsoLabel() override;
+    virtual ~IsoLabel();
 
-    virtual IsoLabel* clone() const override {
+    virtual IsoLabel* clone() const {
         IsoLabel* object = new IsoLabel();
         object->copy(*this);
         return object;
     }
-    virtual void set(const map<string, string>& map) override { IsoLabelAttributes::set(map); }
-    virtual void set(const XmlNode& node) override { IsoLabelAttributes::set(node); }
+    virtual void set(const map<string, string>& map) { IsoLabelAttributes::set(map); }
+    virtual void set(const XmlNode& node) { IsoLabelAttributes::set(node); }
 
-    virtual bool accept(const string& verb) override { return IsoLabelAttributes::accept(verb); }
-    virtual void operator()(Polyline&, double) const override;
-    virtual bool label() override { return true; }
-    virtual void prepare(LevelSelection& levels, const string& colour) override {
+    virtual bool accept(const string& verb) { return IsoLabelAttributes::accept(verb); }
+    virtual void operator()(Polyline&, double) const;
+    virtual bool label() { return true; }
+    virtual void prepare(LevelSelection& levels, const string& colour) {
         //        int label = 0;
 
 
@@ -90,7 +90,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
     typedef string (IsoLabel::*Method)(double) const;
     std::map<string, Method> methods_;

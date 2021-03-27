@@ -21,38 +21,37 @@
 
 #include "FortranMagics.h"
 
+#include "Coastlines.h"
+#include "LegendVisitor.h"
+#include "MagicsGlobal.h"
+#include "RootSceneNode.h"
+#include "SceneNode.h"
+#include "TextVisitor.h"
+#include "Timer.h"
+#include "ViewNode.h"
+#include "VisualAction.h"
+#include "GribDecoder.h"
 #include "Axis.h"
 #include "BoxPlotDecoder.h"
 #include "BoxPlotVisualiser.h"
-#include "Coastlines.h"
 #include "Contour.h"
 #include "GeoPointsDecoder.h"
 #include "GraphPlotting.h"
-#include "GribDecoder.h"
 #include "ImportAction.h"
 #include "ImportObjectHandler.h"
 #include "ImportPlot.h"
 #include "InputMatrix.h"
-#include "LegendVisitor.h"
-#include "MagicsGlobal.h"
 #include "MapGenDecoder.h"
 #include "MetaData.h"
-#include "RootSceneNode.h"
-#include "SceneNode.h"
 #include "SimplePolylineInput.h"
 #include "SimplePolylineVisualiser.h"
 #include "SymbolInput.h"
 #include "SymbolPlotting.h"
 #include "TaylorGrid.h"
-#include "TextVisitor.h"
-#include "Timer.h"
 #include "TitleTemplate.h"
 #include "UserPoint.h"
-#include "ViewNode.h"
-#include "VisualAction.h"
 #include "Wind.h"
 #include "XYList.h"
-#include "MagicsGlobal.h"
 
 #ifdef HAVE_NETCDF
 #include "NetcdfDecoder.h"
@@ -71,7 +70,6 @@ FortranMagics::FortranMagics() :
     drivers_(0),
     output_(0),
     action_(0),
-    root_(0),
     empty_(true),
     gribindex_(0),
     legend_todo_(false),
@@ -378,10 +376,10 @@ void FortranMagics::actions() {
         Action action = actions_.top();
         (this->*action)();
         actions_.pop();
-
+        
         empty_ = false;
     }
-
+   
 }
 
 void FortranMagics::pcoast() {
@@ -435,7 +433,7 @@ void FortranMagics::ptest() {
 void FortranMagics::finish() {
     if (!empty_) {
         actions();  // The flag to force the generation of the plot has been set!
-
+        
     }
 
     if (!axisContainer_)
@@ -978,8 +976,8 @@ void FortranMagics::epsshading() {
 }
 
 void FortranMagics::paxis() {
-
-
+   
+   
     try {
         string orientation;
 
@@ -990,18 +988,18 @@ void FortranMagics::paxis() {
             MagLog::dev() << *vaxis << "\n";
             if (axisContainer_)
                 axisContainer_->push_back(vaxis);
-            else
+            else 
                 axis_.push(vaxis);
-
+            
         }
         else {
             Axis* haxis = new HorizontalAxis();
             MagLog::dev() << *haxis << "\n";
             if (axisContainer_)
                 axisContainer_->push_back(haxis);
-            else
+            else 
                 axis_.push(haxis);
-
+            
         }
     }
     catch (MagicsException& e) {
@@ -1067,3 +1065,4 @@ void FortranMagics::pboxplot() {
 }
 
 FortranMagics* FortranMagics::singleton_ = 0;
+MagicsGlobal* MagicsGlobal::singleton_   = 0;

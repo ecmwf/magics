@@ -72,12 +72,12 @@ private:
 class AutomaticAxisControl : public AxisControl {
 public:
     AutomaticAxisControl() {}
-    ~AutomaticAxisControl() override {}
+    ~AutomaticAxisControl() {}
 
 protected:
-    virtual AxisControl* clone() const override { return new AutomaticAxisControl(); }
-    virtual void vertical(Layout&, Transformation&, AxisMethod&) override;
-    virtual void horizontal(Layout&, Transformation&, AxisMethod&) override;
+    virtual AxisControl* clone() const { return new AutomaticAxisControl(); }
+    virtual void vertical(Layout&, Transformation&, AxisMethod&);
+    virtual void horizontal(Layout&, Transformation&, AxisMethod&);
 };
 
 template <>

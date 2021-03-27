@@ -30,7 +30,6 @@
 #include "NetcdfOrcaInterpretor.h"
 #include "NetcdfVectorInterpretor.h"
 #include "XmlReader.h"
-#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -145,7 +144,7 @@ bool NetcdfInterpretor::reference_date(Netcdf& netcdf, const string& var, const 
 
     double missing_value = netcdf.getMissing(var, missing_attribute_);
     string date          = netcdf.getVariableAttribute(var, "reference_date", string(""));
-
+    
     if (date.empty())
         return false;
     originals.reserve(coords.size());
@@ -167,7 +166,7 @@ bool NetcdfInterpretor::cf_date(Netcdf& netcdf, const string& var, const string&
     // Step 1 : try to find a attribute long_name = time
     // Step 2 : Parse the attribute  units : days since date
 
-
+    
     static map<string, double> factors;
     if (factors.empty()) {
         factors["hours"] = 3600;
@@ -179,39 +178,42 @@ bool NetcdfInterpretor::cf_date(Netcdf& netcdf, const string& var, const string&
 
     string date;
     for ( auto t = times.begin(); t != times.end(); ++t) {
-
+        
         date = netcdf.getVariableAttribute(var, *t , string(""));
-
-        if ( date.size() )
+        
+        if ( date.size() ) 
             break;
     }
+        
 
-
-
-
-
+    
+    
     if (date.empty())
         return false;
     if (date != "time" && date != "date and time")
         return false;
 
-
+   
 
     string units = netcdf.getVariableAttribute(var, "units", string(""));
     if (units.empty())
-        return false;
+        return false;   
     originals.reserve(coords.size());
     for (vector<double>::iterator c = coords.begin(); c != coords.end(); ++c)
         originals.push_back(*c);
 
-
+    
     // Now we parse the string !
     vector<string> tokens;
     Tokenizer tokenizer(" ");
     tokenizer(units, tokens);
 
-    basedate = tokens[2];
 
+
+    
+
+    basedate = tokens[2];
+    
     double diff;
     map<string, double>::const_iterator factor = factors.find(tokens[0]);
     if (refdate.empty()) {
@@ -273,9 +275,6 @@ void NetcdfInterpretor::getAttributes(Netcdf& nc, const string& varName, string&
         }
     }
     catch (...) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
     }
 }
 
@@ -331,9 +330,6 @@ void NetcdfTag::decode(const string& line) {
         tree.visit(*this);
     }
     catch (MagicsException& e) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
         MagLog::debug() << e.what() << endl;
     }
 }

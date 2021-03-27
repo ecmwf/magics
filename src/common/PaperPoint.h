@@ -40,7 +40,7 @@ public:
         low_(false),
         missing_(missing),
         border_(border) {}
-
+    //~PaperPoint() {}
     PaperPoint() : x_(0), y_(0), value_(0), name_(""), high_(false), low_(false), missing_(false), border_(false) {}
 
     void y(double y) { y_ = y; }

@@ -25,8 +25,8 @@
 #define PageIDAttributes_H
 
 #include "magics.h"
-#include "Colour.h"
 #include "LogoPlotting.h"
+#include "Colour.h"
 namespace magics {
 
 class XmlNode;

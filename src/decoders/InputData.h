@@ -36,26 +36,27 @@ namespace magics {
 class InputData : public Data, public InputDataAttributes, public PointsList {
 public:
     InputData() : matrix_(0) {}
-    virtual ~InputData() override {}
+    virtual ~InputData() {}
 
     void prepare();
 
-    void set(const map<string, string>& map) override { InputDataAttributes::set(map); }
-    void set(const XmlNode& node) override { InputDataAttributes::set(node); }
-    void visit(Transformation& transformation) override;
+    void set(const map<string, string>& map) { InputDataAttributes::set(map); }
+    void set(const XmlNode& node) { InputDataAttributes::set(node); }
+    void visit(Transformation& transformation);
 
 
-    MatrixHandler& matrix() override;
-    virtual PointsHandler& points(const Transformation&, bool) override;
-    void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, bool) override;
+    MatrixHandler& matrix();
+    virtual PointsHandler& points(const Transformation&, bool);
+    void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, bool);
     void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&);
     void customisedPoints(const std::set<string>&, CustomisedPointsList&);
-    void getReady(const Transformation&) override;
-    void visit(ValuesCollector&) override;
+    void getReady(const Transformation&);
+    void visit(ValuesCollector&);
+
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     void dateSetting(vector<string>&, vector<double>&, DateTime&, bool);
     void numberSetting(vector<double>&, vector<double>&);
 

@@ -81,13 +81,13 @@ double distance(CustomisedPoint* pp1, CustomisedPoint* pp2) {
 
 
 void Cities::operator()(const map<string, string>&, BasicGraphicsObjectContainer& task) {
-    static map<string, TextPosition> positions;
+    static map<string, Symbol::TextPosition> positions;
 
     if (positions.empty()) {
-        positions["above"] = TextPosition::ABOVE;
-        positions["below"] = TextPosition::BELOW;
-        positions["right"] = TextPosition::RIGHT;
-        positions["left"]  = TextPosition::LEFT;
+        positions["above"] = Symbol::M_ABOVE;
+        positions["below"] = Symbol::M_BELOW;
+        positions["right"] = Symbol::M_RIGHT;
+        positions["left"]  = Symbol::M_LEFT;
     }
 
     if (magCompare(unit_, "percent")) {
@@ -99,9 +99,9 @@ void Cities::operator()(const map<string, string>&, BasicGraphicsObjectContainer
 
     position_ = lowerCase(position_);
 
-    map<string, TextPosition>::iterator pos = positions.find(position_);
+    map<string, Symbol::TextPosition>::iterator pos = positions.find(position_);
 
-    TextPosition position = (pos != positions.end()) ? pos->second : TextPosition::ABOVE;
+    Symbol::TextPosition position = (pos != positions.end()) ? pos->second : Symbol::M_ABOVE;
 
     string cities = buildConfigPath("10m", "ne_10m_populated_places_simple");
     std::set<string> need;

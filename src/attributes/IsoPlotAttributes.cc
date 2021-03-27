@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -50,17 +50,17 @@ IsoPlotAttributes::IsoPlotAttributes():
 	levelSelection_(MagTranslator<string, LevelSelection>().magics("contour_level_selection_type")),
 	label_(MagTranslator<string, NoIsoLabel>().magics("contour_label")),
 	shading_(MagTranslator<string, NoIsoShading>().magics("contour_shade"))
-	
+	 
 {
-}
+} 
 
 
 IsoPlotAttributes::~IsoPlotAttributes()
 {
-
+	
 }
 
-
+    
 void IsoPlotAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -123,12 +123,12 @@ void IsoPlotAttributes::copy(const IsoPlotAttributes& other)
 	label_ = unique_ptr<NoIsoLabel>(other.label_->clone());
 	shading_ = unique_ptr<NoIsoShading>(other.shading_->clone());
 	
-}
+} 
 
 
 bool IsoPlotAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "isoline")  )
 		return true;
 	if ( acceptNode(node, rainbowMethod_) )
@@ -149,7 +149,7 @@ void IsoPlotAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "isoline")  )
@@ -168,11 +168,11 @@ void IsoPlotAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), rainbowMethod_, *elt);
-		setMember(elt->name(), highlight_, *elt);
-		setMember(elt->name(), levelSelection_, *elt);
-		setMember(elt->name(), label_, *elt);
-		setMember(elt->name(), shading_, *elt);
+		setMember(elt->name(), rainbowMethod_, *elt); 
+		setMember(elt->name(), highlight_, *elt); 
+		setMember(elt->name(), levelSelection_, *elt); 
+		setMember(elt->name(), label_, *elt); 
+		setMember(elt->name(), shading_, *elt); 
 		
 	}
 }
@@ -210,7 +210,7 @@ void IsoPlotAttributes::print(ostream& out)  const
 
 void IsoPlotAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"isoline\"";
+	out <<  "\"isoline\""; 
 	out << ", \"contour_special_legend\":";
 	niceprint(out,legend_special_);
 	out << ", \"contour_threads\":";
@@ -262,35 +262,35 @@ void IsoPlotAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> contour_special_legend("contour_special_legend", "");
-static MagicsParameter<int> contour_threads("contour_threads", 4);
-static MagicsParameter<double> contour_internal_reduction_factor("contour_internal_reduction_factor", 4);
-static MagicsParameter<string> contour_internal_technique("contour_internal_technique", "interpolate");
-static MagicsParameter<string> contour_legend_text("contour_legend_text", " ");
-static MagicsParameter<int> contour_line_thickness("contour_line_thickness", 1);
-static MagicsParameter<string> contour_line_colour_rainbow("contour_line_colour_rainbow", "off");
-static MagicsParameter<string> contour_line_colour_rainbow_direction("contour_line_colour_rainbow_direction", "anti_clockwise");
-static MagicsParameter<stringarray> contour_line_colour_rainbow_colour_list("contour_line_colour_rainbow_colour_list", stringarray());
-static MagicsParameter<intarray> contour_line_thickness_rainbow_list("contour_line_thickness_rainbow_list", intarray());
-static MagicsParameter<stringarray> contour_line_style_rainbow_list("contour_line_style_rainbow_list", stringarray());
-static MagicsParameter<string> contour_legend_only("contour_legend_only", "off");
-static MagicsParameter<string> contour_line_style("contour_line_style", "solid");
-static MagicsParameter<string> contour_line_colour("contour_line_colour", "blue");
-static MagicsParameter<string> contour_line_colour_rainbow_method("contour_line_colour_rainbow_method", "calculate");
-static MagicsParameter<string> contour_line_colour_rainbow_max_level_colour("contour_line_colour_rainbow_max_level_colour", "blue");
-static MagicsParameter<string> contour_line_colour_rainbow_min_level_colour("contour_line_colour_rainbow_min_level_colour", "red");
-static MagicsParameter<string> contour_line_colour_rainbow_colour_list_policy("contour_line_colour_rainbow_colour_list_policy", "lastone");
-static MagicsParameter<string> contour_line_thickness_rainbow_list_policy("contour_line_thickness_rainbow_list_policy", "lastone");
-static MagicsParameter<string> contour_line_style_rainbow_list_policy("contour_line_style_rainbow_list_policy", "lastone");
-static MagicsParameter<string> contour_highlight("contour_highlight", "on");
-static MagicsParameter<string> contour_level_selection_type("contour_level_selection_type", "count");
-static MagicsParameter<string> contour_label("contour_label", "on");
-static MagicsParameter<string> contour_shade("contour_shade", "off");
-#include "IsoHighlight.h"
-#include "CountSelectionType.h"
-#include "IntervalSelectionType.h"
-#include "LevelListSelectionType.h"
+static MagicsParameter<string> contour_special_legend("contour_special_legend", "", "");
+static MagicsParameter<int> contour_threads("contour_threads", 4, "");
+static MagicsParameter<double> contour_internal_reduction_factor("contour_internal_reduction_factor", 4, "");
+static MagicsParameter<string> contour_internal_technique("contour_internal_technique", "interpolate", "");
+static MagicsParameter<string> contour_legend_text("contour_legend_text", " ", "");
+static MagicsParameter<int> contour_line_thickness("contour_line_thickness", 1, "");
+static MagicsParameter<string> contour_line_colour_rainbow("contour_line_colour_rainbow", "off", "");
+static MagicsParameter<string> contour_line_colour_rainbow_direction("contour_line_colour_rainbow_direction", "anti_clockwise", "");
+static MagicsParameter<stringarray> contour_line_colour_rainbow_colour_list("contour_line_colour_rainbow_colour_list", stringarray(), "");
+static MagicsParameter<intarray> contour_line_thickness_rainbow_list("contour_line_thickness_rainbow_list", intarray(), "");
+static MagicsParameter<stringarray> contour_line_style_rainbow_list("contour_line_style_rainbow_list", stringarray(), "");
+static MagicsParameter<string> contour_legend_only("contour_legend_only", "off", "");
+static MagicsParameter<string> contour_line_style("contour_line_style", "solid", ""); 
+static MagicsParameter<string> contour_line_colour("contour_line_colour", "blue", ""); 
+static MagicsParameter<string> contour_line_colour_rainbow_method("contour_line_colour_rainbow_method", "calculate", ""); 
+static MagicsParameter<string> contour_line_colour_rainbow_max_level_colour("contour_line_colour_rainbow_max_level_colour", "blue", ""); 
+static MagicsParameter<string> contour_line_colour_rainbow_min_level_colour("contour_line_colour_rainbow_min_level_colour", "red", ""); 
+static MagicsParameter<string> contour_line_colour_rainbow_colour_list_policy("contour_line_colour_rainbow_colour_list_policy", "lastone", ""); 
+static MagicsParameter<string> contour_line_thickness_rainbow_list_policy("contour_line_thickness_rainbow_list_policy", "lastone", ""); 
+static MagicsParameter<string> contour_line_style_rainbow_list_policy("contour_line_style_rainbow_list_policy", "lastone", ""); 
+static MagicsParameter<string> contour_highlight("contour_highlight", "on", ""); 
+static MagicsParameter<string> contour_level_selection_type("contour_level_selection_type", "count", ""); 
+static MagicsParameter<string> contour_label("contour_label", "on", ""); 
+static MagicsParameter<string> contour_shade("contour_shade", "off", ""); 
 #include "IsoLabel.h"
+#include "IsoHighlight.h"
+#include "LevelListSelectionType.h"
+#include "IntervalSelectionType.h"
+#include "CountSelectionType.h"
 #include "IsoShading.h"
 static SimpleObjectMaker<IsoHighlight , NoIsoHighlight> highlight_IsoHighlight("highlight");
 static SimpleObjectMaker<IsoHighlight , NoIsoHighlight> on_IsoHighlight("on");

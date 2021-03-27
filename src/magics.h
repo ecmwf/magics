@@ -12,7 +12,7 @@
 
   \brief This file contains all global definition for the MagPlus library.
   \author Meteorological Visualisation Section, ECMWF
-  \license Apache License 2.0
+  \copyright Apache License 2.0
 
   Started: January 2004
 
@@ -20,7 +20,7 @@
 
 */
 
-/*! \mainpage
+/*! \mainpage 
 
  \section intro What is Magics?
 
@@ -34,7 +34,7 @@
 
  Before installation you have to compile Magics. To do so, simply
  unpack the tarball in an appropiate directory and run <i>cmake ..</i>
- followed by <i>make</i>.
+ followed by <i>make</i>. 
 
  To install type <i>make install</i>. Depending on the
  choosen installation directory you need root permission.
@@ -79,7 +79,9 @@
 #define magicsplusplus_H
 
 #include <magics_config.h>
-
+#if defined(MAGICS_AIX_XLC)
+#include <unistd.h>  // for AIX
+#endif
 #include <climits>
 
 #include "magics_export.h"
@@ -123,16 +125,14 @@ using std::vector;
 
 using std::exception;
 
-// #include <cassert>
+#include <cassert>
 #include <cmath>
 
-// #include "magics_windef.h"
-#if defined(_WIN32) && defined(_MSC_VER)
-#define MAGICS_ON_WINDOWS
+#include "magics_windef.h"
+
+#ifdef MAGICS_ON_WINDOWS
 #include <io.h>
-inline int strcasecmp(const char* a, const char* b) {
-    return _stricmp(a, b);
-}
+#define strcasecmp _stricmp
 #endif
 
 /*! \namespace magics
@@ -189,97 +189,69 @@ typedef magvector<long int> longintarray;
 typedef magvector<double> doublearray;
 typedef magvector<double> floatarray;
 
-enum class LineStyle
+enum LineStyle
 {
-    SOLID,
-    DASH,
-    DOT,
-    CHAIN_DASH,
-    CHAIN_DOT
+    M_SOLID,
+    M_DASH,
+    M_DOT,
+    M_CHAIN_DASH,
+    M_CHAIN_DOT
 };
-
-std::ostream& operator<<(ostream& s, LineStyle);
-
-enum class Hemisphere
+enum Hemisphere
 {
     NORTH,
     SOUTH
 };
-
-std::ostream& operator<<(ostream& s, Hemisphere);
-
-enum class Justification
+enum Justification
 {
-    LEFT,
-    CENTRE,
-    RIGHT
+    MLEFT,
+    MCENTRE,
+    MRIGHT
 };
-
-std::ostream& operator<<(ostream& s, Justification);
-
-enum class Position
+enum Position
 {
-    AUTOMATIC,
-    TOP,
-    BOTTOM,
-    LEFT,
-    RIGHT
+    M_AUTOMATIC,
+    M_TOP,
+    M_BOTTOM,
+    M_LEFT,
+    M_RIGHT
 };
-
-std::ostream& operator<<(ostream& s, Position);
-
-enum class VerticalAlign
+enum VerticalAlign
 {
-    NORMAL,
-    TOP,
-    CAP,
-    HALF,
-    BASE,
-    BOTTOM
+    MNORMAL,
+    MTOP,
+    MCAP,
+    MHALF,
+    MBASE,
+    MBOTTOM
 };
-
-std::ostream& operator<<(ostream& s, VerticalAlign);
-
-
-enum class Shading
+enum Shading
 {
-    NONE,
-    SOLID,
-    HATCH,
-    DOT
+    M_SH_NONE,
+    M_SH_SOLID,
+    M_SH_HATCH,
+    M_SH_DOT
 };
-
-std::ostream& operator<<(ostream& s, Shading);
-
-enum class ArrowPosition
+enum ArrowPosition
 {
-    TAIL,
-    CENTRE,
-    HEAD_ONLY
+    M_TAIL,
+    M_CENTRE,
+    M_HEAD_ONLY
 };
-
-std::ostream& operator<<(ostream& s, ArrowPosition);
-
-enum class DisplayType
+enum DisplayType
 {
-    ABSOLUTE,
-    INLINE,
-    BLOCK,
-    NONE,
-    HIDDEN
+    M_DT_ABSOLUTE,
+    M_DT_INLINE,
+    M_DT_BLOCK,
+    M_DT_NONE,
+    M_DT_HIDDEN
 };
-
-std::ostream& operator<<(ostream& s, DisplayType);
-
-enum class ListPolicy
+enum ListPolicy
 {
-    LASTONE,
-    CYCLE
+    M_LASTONE,
+    M_CYCLE
 };
-
-std::ostream& operator<<(ostream& s, ListPolicy);
-
-enum class GraphicsFormat
+enum GraphicsFormat
 {
     PS,
     EPS,
@@ -296,20 +268,15 @@ enum class GraphicsFormat
     QT,
     GEOJSON
 };
-
-std::ostream& operator<<(ostream& s, GraphicsFormat);
-
-enum class AxisAutomaticSetting
+enum AxisAutomaticSetting
 {
-    OFF,
-    BOTH,
-    MIN_ONLY,
-    MAX_ONLY
+    m_off,
+    m_both,
+    m_min_only,
+    m_max_only
 };
 
-std::ostream& operator<<(ostream& s, AxisAutomaticSetting);
-
-static /*const*/ double EPSILON = 1.25e-10;
+static double EPSILON = 1.25e-10;
 
 template <class T>
 inline MAGICS_NO_EXPORT T abs(const T a) {
@@ -419,5 +386,4 @@ inline string tostring(const T& in) {
 }
 
 }  // namespace magics
-
 #endif

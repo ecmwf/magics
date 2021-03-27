@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -30,17 +30,17 @@ InputMatrixIrregularInterpretorAttributes::InputMatrixIrregularInterpretorAttrib
 	longitudes_(MagTranslator<Matrix, Matrix>().magics("input_field_longitudes")),
 	y_(MagTranslator<Matrix, Matrix>().magics("input_field_y_coordinates")),
 	x_(MagTranslator<Matrix, Matrix>().magics("input_field_x_coordinates"))
-	
+	 
 {
-}
+} 
 
 
 InputMatrixIrregularInterpretorAttributes::~InputMatrixIrregularInterpretorAttributes()
 {
-
+	
 }
 
-
+    
 void InputMatrixIrregularInterpretorAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -62,12 +62,12 @@ void InputMatrixIrregularInterpretorAttributes::copy(const InputMatrixIrregularI
 	y_ = other.y_;
 	x_ = other.x_;
 	
-}
+} 
 
 
 bool InputMatrixIrregularInterpretorAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "")  )
 		return true;
 	
@@ -78,7 +78,7 @@ void InputMatrixIrregularInterpretorAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "")  )
@@ -109,7 +109,7 @@ void InputMatrixIrregularInterpretorAttributes::print(ostream& out)  const
 
 void InputMatrixIrregularInterpretorAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"\"";
+	out <<  "\"\""; 
 	out << ", \"input_field_latitudes\":";
 	niceprint(out, latitudes_);
 	out << ", \"input_field_longitudes\":";
@@ -121,7 +121,7 @@ void InputMatrixIrregularInterpretorAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<Matrix> input_field_latitudes("input_field_latitudes", Matrix());
-static MagicsParameter<Matrix> input_field_longitudes("input_field_longitudes", Matrix());
-static MagicsParameter<Matrix> input_field_y_coordinates("input_field_y_coordinates", Matrix());
-static MagicsParameter<Matrix> input_field_x_coordinates("input_field_x_coordinates", Matrix());
+static MagicsParameter<Matrix> input_field_latitudes("input_field_latitudes", Matrix(), ""); 
+static MagicsParameter<Matrix> input_field_longitudes("input_field_longitudes", Matrix(), ""); 
+static MagicsParameter<Matrix> input_field_y_coordinates("input_field_y_coordinates", Matrix(), ""); 
+static MagicsParameter<Matrix> input_field_x_coordinates("input_field_x_coordinates", Matrix(), ""); 

@@ -89,29 +89,29 @@ protected:
 class StartPage : public BasicGraphicsObject {
 public:
     StartPage() {}
-    virtual ~StartPage() override {}
-    void redisplay(const BaseDriver& driver) const override;
+    virtual ~StartPage() {}
+    void redisplay(const BaseDriver& driver) const;
 };
 
 
 class EndPage : public BasicGraphicsObject {
 public:
     EndPage() {}
-    virtual ~EndPage() override {}
-    void redisplay(const BaseDriver& driver) const override;
+    virtual ~EndPage() {}
+    void redisplay(const BaseDriver& driver) const;
 };
 
 
 class Layout : public BasicGraphicsObjectContainer {
 public:
     Layout();
-    virtual ~Layout() override;
+    virtual ~Layout();
 
     virtual Layout* clone() const;
     virtual Layout* newLayout() const { return new Layout(); }
 
-    bool reproject(BasicGraphicsObjectContainer&) const override;
-    void redisplay(const BaseDriver& driver) const override;
+    bool reproject(BasicGraphicsObjectContainer&) const;
+    void redisplay(const BaseDriver& driver) const;
     void redisplay(AnimationStep&, const BaseDriver& driver);
 
     double x() const { return x_; }             // percentage of the parent
@@ -122,8 +122,8 @@ public:
     void x(double x) { x_ = x; }
     void y(double y) { y_ = y; }
 
-    double absoluteWidth(double) override;
-    double absoluteHeight(double) override;
+    double absoluteWidth(double);
+    double absoluteHeight(double);
 
 
     void width(double width) { width_ = width; }
@@ -134,13 +134,13 @@ public:
     DisplayType display() const { return display_; }
 
     /* Methods needed to calculate the percentage when unit in cm!*/
-    double absoluteX() const;                // absolute position from the root
-    double absoluteY() const override;       // absolute position from the root
-    double absoluteWidth() const override;   // absolute position from the root
-    double absoluteHeight() const override;  // absolute position from the root
+    double absoluteX() const;       // absolute position from the root
+    double absoluteY() const;       // absolute position from the root
+    double absoluteWidth() const;   // absolute position from the root
+    double absoluteHeight() const;  // absolute position from the root
 
-    bool buildTree(const Layout&, unsigned int, const BaseDriver&) const override;
-    void release() override;  // Release the graphical objects!
+    bool buildTree(const Layout&, unsigned int, const BaseDriver&) const;
+    void release();  // Release the graphical objects!
 
     virtual Layout* execute(AnimationStep& step, const Layout* visitor);
 
@@ -168,7 +168,7 @@ public:
         driverInfos_.push_back(DriverInfo(x, y, width, height));
     }
 
-    void getDriverInfo(double& x, double& y, double& width, double& height) override {
+    void getDriverInfo(double& x, double& y, double& width, double& height) {
         if (!driverInfos_.empty()) {
             x      = driverInfos_.front().x_;
             y      = driverInfos_.front().y_;
@@ -216,7 +216,7 @@ public:
     void animationRules(AnimationRules* rules) { animationRules_ = rules; }
     AnimationRules* animationRules() const { return animationRules_; }
 
-    const Transformation& transformation() const override {
+    const Transformation& transformation() const {
         ASSERT(transformation_);
         return *transformation_;
     }
@@ -238,7 +238,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
     BasicSceneObject* owner_;
     AnimationRules* animationRules_;  // will be deleted in the destructor!
@@ -290,48 +290,48 @@ private:
 class PreviewLayout : public Layout {
 public:
     PreviewLayout();
-    virtual ~PreviewLayout() override;
-    void redisplay(const BaseDriver& driver) const override;
+    virtual ~PreviewLayout();
+    void redisplay(const BaseDriver& driver) const;
 };
 class LegendLayout : public Layout {
 public:
     LegendLayout();
-    virtual ~LegendLayout() override;
-    void redisplay(const BaseDriver& driver) const override;
+    virtual ~LegendLayout();
+    void redisplay(const BaseDriver& driver) const;
 };
 class HistoLayout : public Layout {
 public:
     HistoLayout();
-    virtual ~HistoLayout() override;
-    void redisplay(const BaseDriver& driver) const override;
+    virtual ~HistoLayout();
+    void redisplay(const BaseDriver& driver) const;
 };
 
 class SceneLayout : public Layout {
 public:
     SceneLayout();
-    virtual ~SceneLayout() override;
-    void redisplay(const BaseDriver& driver) const override;
+    virtual ~SceneLayout();
+    void redisplay(const BaseDriver& driver) const;
 };
 
 
 class MagnifierLayout : public Layout {
 public:
     MagnifierLayout();
-    virtual ~MagnifierLayout() override;
-    void redisplay(const BaseDriver& driver) const override;
+    virtual ~MagnifierLayout();
+    void redisplay(const BaseDriver& driver) const;
     virtual void redisplay(const BaseDriver&, vector<PaperPoint>&, float, float) const {}
 };
 
 class RootLayout : public Layout {
 public:
     RootLayout(double width, double height);
-    virtual ~RootLayout() override;
-    double absoluteWidth() const override { return absoluteWidth_; }
-    double absoluteHeight() const override { return absoluteHeight_; }
-    bool childOfRoot() const override { return false; }
-    void redisplay(const BaseDriver& driver) const override;
+    virtual ~RootLayout();
+    double absoluteWidth() const { return absoluteWidth_; }
+    double absoluteHeight() const { return absoluteHeight_; }
+    bool childOfRoot() const { return false; }
+    void redisplay(const BaseDriver& driver) const;
 
-    virtual void resize(double width, double height) override {
+    virtual void resize(double width, double height) {
         absoluteWidth_  = width;
         absoluteHeight_ = height;
     }
@@ -343,8 +343,8 @@ protected:
 class BasicLayout : public Layout {
 public:
     BasicLayout();
-    virtual ~BasicLayout() override;
-    bool buildTree(const Layout&, unsigned int, const BaseDriver&) const override;
+    virtual ~BasicLayout();
+    bool buildTree(const Layout&, unsigned int, const BaseDriver&) const;
 };
 class LayoutVisitor;
 

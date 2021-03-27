@@ -44,29 +44,28 @@ class EpsXmlInput : public Decoder,
                     public XmlNodeVisitor {
 public:
     EpsXmlInput();
-    virtual ~EpsXmlInput() override;
+    virtual ~EpsXmlInput();
 
-    virtual void set(const map<string, string>& map) override { EpsXmlInputAttributes::set(map); }
-    virtual void set(const XmlNode& node) override { EpsXmlInputAttributes::set(node); }
+    virtual void set(const map<string, string>& map) { EpsXmlInputAttributes::set(map); }
+    virtual void set(const XmlNode& node) { EpsXmlInputAttributes::set(node); }
 
-    virtual void visit(Transformation&) override;
-    void visit(const XmlNode& node) override;
+    virtual void visit(Transformation&);
+    void visit(const XmlNode& node);
 
-    virtual void decode() override;
+    virtual void decode();
 
     void customisedPoints(const std::set<string>&, CustomisedPointsList&);
-    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out,
-                          bool all) override {
+    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all) {
         customisedPoints(n, out);
     }
-    PointsHandler& points(const Transformation& t, bool) override { NOTIMP; }
+    PointsHandler& points(const Transformation& t, bool) { NOTIMP; }
 
-    virtual void visit(TextVisitor&) override;
-    virtual void visit(MetaDataVisitor&) override;
+    virtual void visit(TextVisitor&);
+    virtual void visit(MetaDataVisitor&);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     DateTime base_;
     vector<CustomisedPoint*> points_;
     double minstep_;

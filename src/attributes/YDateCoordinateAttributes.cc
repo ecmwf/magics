@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -30,17 +30,17 @@ YDateCoordinateAttributes::YDateCoordinateAttributes():
 	reverse_(ParameterManager::getBool("subpage_y_automatic_reverse"))
 	,
 	automatic_(MagTranslator<string, AxisAutomaticSetting>().magics("subpage_y_automatic"))
-	
+	 
 {
-}
+} 
 
 
 YDateCoordinateAttributes::~YDateCoordinateAttributes()
 {
-
+	
 }
 
-
+    
 void YDateCoordinateAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(3);
@@ -64,12 +64,12 @@ void YDateCoordinateAttributes::copy(const YDateCoordinateAttributes& other)
 	reverse_ = other.reverse_;
 	automatic_ = other.automatic_;
 	
-}
+} 
 
 
 bool YDateCoordinateAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "y_date")  )
 		return true;
 	
@@ -80,7 +80,7 @@ void YDateCoordinateAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "y_date")  )
@@ -111,7 +111,7 @@ void YDateCoordinateAttributes::print(ostream& out)  const
 
 void YDateCoordinateAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"y_date\"";
+	out <<  "\"y_date\""; 
 	out << ", \"subpage_y_date_min\":";
 	niceprint(out,date_min_);
 	out << ", \"subpage_y_date_max\":";
@@ -123,7 +123,7 @@ void YDateCoordinateAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> subpage_y_date_min("subpage_y_date_min", "");
-static MagicsParameter<string> subpage_y_date_max("subpage_y_date_max", "");
-static MagicsParameter<string> subpage_y_automatic_reverse("subpage_y_automatic_reverse", "off");
-static MagicsParameter<string> subpage_y_automatic("subpage_y_automatic", "off");
+static MagicsParameter<string> subpage_y_date_min("subpage_y_date_min", "", "");
+static MagicsParameter<string> subpage_y_date_max("subpage_y_date_max", "", "");
+static MagicsParameter<string> subpage_y_automatic_reverse("subpage_y_automatic_reverse", "off", "");
+static MagicsParameter<string> subpage_y_automatic("subpage_y_automatic", "off", ""); 

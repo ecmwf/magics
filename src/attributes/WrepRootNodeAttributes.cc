@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -29,17 +29,17 @@ WrepRootNodeAttributes::WrepRootNodeAttributes():
 	pixel_height_(ParameterManager::getDouble("wrep_node_height")),
 	anchor_(ParameterManager::getString("wrep_node_mapping_anchor"))
 	
-	
+	 
 {
-}
+} 
 
 
 WrepRootNodeAttributes::~WrepRootNodeAttributes()
 {
-
+	
 }
 
-
+    
 void WrepRootNodeAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -59,12 +59,12 @@ void WrepRootNodeAttributes::copy(const WrepRootNodeAttributes& other)
 	pixel_height_ = other.pixel_height_;
 	anchor_ = other.anchor_;
 	
-}
+} 
 
 
 bool WrepRootNodeAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "magics")  )
 		return true;
 	
@@ -75,7 +75,7 @@ void WrepRootNodeAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "magics")  )
@@ -105,7 +105,7 @@ void WrepRootNodeAttributes::print(ostream& out)  const
 
 void WrepRootNodeAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"magics\"";
+	out <<  "\"magics\""; 
 	out << ", \"wrep_node_width\":";
 	niceprint(out,pixel_width_);
 	out << ", \"wrep_node_height\":";
@@ -115,6 +115,6 @@ void WrepRootNodeAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> wrep_node_width("wrep_node_width", 800);
-static MagicsParameter<double> wrep_node_height("wrep_node_height", 400);
-static MagicsParameter<string> wrep_node_mapping_anchor("wrep_node_mapping_anchor", "centre");
+static MagicsParameter<double> wrep_node_width("wrep_node_width", 800, "");
+static MagicsParameter<double> wrep_node_height("wrep_node_height", 400, "");
+static MagicsParameter<string> wrep_node_mapping_anchor("wrep_node_mapping_anchor", "centre", "");

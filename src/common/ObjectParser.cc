@@ -13,8 +13,8 @@
 /// @author Tiago Quintino
 /// @date   Jun 2012
 
-#include <codecvt>
 #include <locale>
+#include <codecvt>
 
 #include "ObjectParser.h"
 #include "Translator.h"
@@ -54,25 +54,25 @@ Value ObjectParser::parseNumber() {
     }
 
     switch (c) {
-        case '0':
-            s += c;
-            break;
-        case '1':
-        case '2':
-        case '3':
-        case '4':
-        case '5':
-        case '6':
-        case '7':
-        case '8':
-        case '9':
-            s += c;
-            while (isdigit(peek())) {
-                s += next();
-            }
-            break;
-        default:
-            throw StreamParser::Error(std::string("ObjectParser::parseNumber invalid char '") + c + "'");
+    case '0':
+        s += c;
+        break;
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+        s += c;
+        while (isdigit(peek())) {
+            s += next();
+        }
+        break;
+    default:
+        throw StreamParser::Error(std::string("ObjectParser::parseNumber invalid char '") + c + "'");
     }
 
     if (peek() == '.') {
@@ -123,16 +123,20 @@ Value ObjectParser::parseNumber() {
 
 static std::string utf8(uint32_t code) {
     std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> conv;
-    return conv.to_bytes(char32_t(code));
+    return conv.to_bytes( char32_t(code));
 }
 
 std::string ObjectParser::unicode() {
+
     std::string tmp;
 
-    while (true) {
+    while(true) {
         char c = peek();
 
-        if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F')) {
+        if ( (c >= '0' && c <= '9') ||
+             (c >= 'a' && c <= 'f') ||
+             (c >= 'A' && c <= 'F')
+            ) {
             consume(c);
             tmp += c;
         }
@@ -152,9 +156,6 @@ std::string ObjectParser::unicode() {
 }
 
 Value ObjectParser::parseString(char quote) {
-    bool save = comments_;
-    comments_ = false;
-
     consume(quote);
     std::string s;
     for (;;) {
@@ -163,61 +164,52 @@ Value ObjectParser::parseString(char quote) {
         if (c == '\\') {
             c = next(true);
             switch (c) {
-                case '\\':
-                    s += '\\';
-                    break;
 
-                case '/':
-                    s += '/';
-                    break;
+            case '\\':
+                s += '\\';
+                break;
 
-                case 'b':
-                    s += '\b';
-                    break;
+            case '/':
+                s += '/';
+                break;
 
-                case 'f':
-                    s += '\f';
-                    break;
+            case 'b':
+                s += '\b';
+                break;
 
-                case 'n':
-                    s += '\n';
-                    break;
+            case 'f':
+                s += '\f';
+                break;
 
-                case 'r':
-                    s += '\r';
-                    break;
+            case 'n':
+                s += '\n';
+                break;
 
-                case 't':
-                    s += '\t';
-                    break;
+            case 'r':
+                s += '\r';
+                break;
 
-                case 'u':
-                    s += unicode();
-                    break;
+            case 't':
+                s += '\t';
+                break;
 
-                default:
-                    if (c == quote) {
-                        s += c;
-                    }
-                    else {
-                        comments_ = save;
-                        throw StreamParser::Error(std::string("ObjectParser::parseString invalid escaped char '") + c +
-                                                  "'");
-                    }
-                    break;
+            case 'u':
+                s += unicode();
+                break;
+
+            default:
+                if (c == quote) {
+                    s += c;
+                }
+                else {
+                    throw StreamParser::Error(std::string("ObjectParser::parseString invalid escaped char '") + c +
+                                              "'");
+                }
+                break;
             }
         }
         else {
             if (c == quote) {
-                if (yaml_ && quote == '\'') {
-                    if (peek() == '\'') {
-                        consume('\'');
-                        s += c;
-                        continue;
-                    }
-                }
-
-                comments_ = save;
                 return Value(s);
             }
             s += c;
@@ -226,6 +218,7 @@ Value ObjectParser::parseString(char quote) {
 }
 
 static void set_(ValueMap& m, ValueList& l, const Value& k, const Value& v) {
+
     if (m.find(k) == m.end()) {
         l.push_back(k);
     }
@@ -253,6 +246,7 @@ Value ObjectParser::parseObject() {
     ValueList l;
 
     for (;;) {
+
         parseKeyValue(m, l);
 
         char c = peek();
@@ -276,6 +270,7 @@ Value ObjectParser::parseArray() {
 
     ValueList l;
     for (;;) {
+
         l.push_back(parseValue());
 
         char c = peek();
@@ -293,58 +288,59 @@ Value ObjectParser::parseArray() {
 Value ObjectParser::parseJSON() {
     char c = peek();
     switch (c) {
-        case 't':
-            return parseTrue();
-        case 'f':
-            return parseFalse();
-        case 'n':
-            return parseNull();
-        case '{':
-            return parseObject();
-        case '[':
-            return parseArray();
-        case '\"':
-            return parseString();
 
-        case '-':
-            return parseNumber();
-        case '0':
-            return parseNumber();
-        case '1':
-            return parseNumber();
-        case '2':
-            return parseNumber();
-        case '3':
-            return parseNumber();
-        case '4':
-            return parseNumber();
-        case '5':
-            return parseNumber();
-        case '6':
-            return parseNumber();
-        case '7':
-            return parseNumber();
-        case '8':
-            return parseNumber();
-        case '9':
-            return parseNumber();
+    case 't':
+        return parseTrue();
+    case 'f':
+        return parseFalse();
+    case 'n':
+        return parseNull();
+    case '{':
+        return parseObject();
+    case '[':
+        return parseArray();
+    case '\"':
+        return parseString();
 
-        default: {
-            std::ostringstream oss;
-            oss << parserName() << " ObjectParser::parseValue unexpected char ";
-            if (isprint(c) && !isspace(c)) {
-                oss << "'" << c << "'";
-            }
-            else {
-                oss << int(c);
-            }
-            throw StreamParser::Error(oss.str());
+    case '-':
+        return parseNumber();
+    case '0':
+        return parseNumber();
+    case '1':
+        return parseNumber();
+    case '2':
+        return parseNumber();
+    case '3':
+        return parseNumber();
+    case '4':
+        return parseNumber();
+    case '5':
+        return parseNumber();
+    case '6':
+        return parseNumber();
+    case '7':
+        return parseNumber();
+    case '8':
+        return parseNumber();
+    case '9':
+        return parseNumber();
+
+    default: {
+        std::ostringstream oss;
+        oss << parserName() << " ObjectParser::parseValue unexpected char ";
+        if (isprint(c) && !isspace(c)) {
+            oss << "'" << c << "'";
         }
+        else {
+            oss << int(c);
+        }
+        throw StreamParser::Error(oss.str());
+    }
     }
 }
 
 
-ObjectParser::ObjectParser(std::istream& in, bool comments, bool yaml) : StreamParser(in, comments), yaml_(yaml) {}
+ObjectParser::ObjectParser(std::istream& in, bool comments) : StreamParser(in, comments) {}
 
 Value ObjectParser::parse() {
     Value v = parseValue();

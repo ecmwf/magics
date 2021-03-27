@@ -25,18 +25,18 @@ class BaseDriver;
 class ProgressObject : public BasicGraphicsObject {
 public:
     ProgressObject(const string& progress) : progress_(progress) {}
-    virtual ~ProgressObject() override {}
+    virtual ~ProgressObject() {}
 
     bool reproject(const Transformation&, BasicGraphicsObjectContainer& out) const {
         out.push_back(const_cast<ProgressObject*>(this));
         return true;  // remove thee obect from tthe in list!
     }
-    void redisplay(const BaseDriver& driver) const override;
+    void redisplay(const BaseDriver& driver) const;
 
     string getText() const { return progress_; }
 
 protected:
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     string progress_;
 
 private:
@@ -53,12 +53,12 @@ private:
 class ClearObject : public BasicGraphicsObject {
 public:
     ClearObject() {}
-    virtual ~ClearObject() override {}
+    virtual ~ClearObject() {}
 
-    void redisplay(const BaseDriver& driver) const override;
+    void redisplay(const BaseDriver& driver) const;
 
 protected:
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 };
 }  // namespace magics
 #endif

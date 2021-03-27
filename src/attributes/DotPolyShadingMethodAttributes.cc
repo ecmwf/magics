@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -29,17 +29,17 @@ DotPolyShadingMethodAttributes::DotPolyShadingMethodAttributes():
 	max_density_(ParameterManager::getDouble("contour_shade_max_level_density")),
 	min_density_(ParameterManager::getDouble("contour_shade_min_level_density"))
 	
-	
+	 
 {
-}
+} 
 
 
 DotPolyShadingMethodAttributes::~DotPolyShadingMethodAttributes()
 {
-
+	
 }
 
-
+    
 void DotPolyShadingMethodAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(5);
@@ -63,12 +63,12 @@ void DotPolyShadingMethodAttributes::copy(const DotPolyShadingMethodAttributes& 
 	max_density_ = other.max_density_;
 	min_density_ = other.min_density_;
 	
-}
+} 
 
 
 bool DotPolyShadingMethodAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "dot")  )
 		return true;
 	
@@ -79,7 +79,7 @@ void DotPolyShadingMethodAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "dot")  )
@@ -109,7 +109,7 @@ void DotPolyShadingMethodAttributes::print(ostream& out)  const
 
 void DotPolyShadingMethodAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"dot\"";
+	out <<  "\"dot\""; 
 	out << ", \"contour_shade_dot_size\":";
 	niceprint(out,size_);
 	out << ", \"contour_shade_max_level_density\":";
@@ -119,6 +119,6 @@ void DotPolyShadingMethodAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> contour_shade_dot_size("contour_shade_dot_size", 0.02);
-static MagicsParameter<double> contour_shade_max_level_density("contour_shade_max_level_density", 50.0);
-static MagicsParameter<double> contour_shade_min_level_density("contour_shade_min_level_density", 1.0);
+static MagicsParameter<double> contour_shade_dot_size("contour_shade_dot_size", 0.02, "");
+static MagicsParameter<double> contour_shade_max_level_density("contour_shade_max_level_density", 50.0, "");
+static MagicsParameter<double> contour_shade_min_level_density("contour_shade_min_level_density", 1.0, "");

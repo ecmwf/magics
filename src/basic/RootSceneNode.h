@@ -38,20 +38,20 @@ class RootScenePage : public BasicSceneNode {
 public:
     RootScenePage();
     RootScenePage(double, double);
-    ~RootScenePage() override;
+    ~RootScenePage();
 
-    BasicSceneNode* clone() override { return (width_) ? new RootScenePage(width_, height_) : new RootScenePage(); }
+    BasicSceneNode* clone() { return (width_) ? new RootScenePage(width_, height_) : new RootScenePage(); }
     virtual RootScenePage* newPage() { return (width_) ? new RootScenePage(width_, height_) : new RootScenePage(); }
-    void visit(BasicGraphicsObjectContainer& tree) override {
+    void visit(BasicGraphicsObjectContainer& tree) {
         tree.push_back(new StartPage());
         BasicSceneNode::visit(tree);
         tree.push_back(new EndPage());
     }
-    BasicSceneNode* newNode(BasicPositionalObject*) override;
+    BasicSceneNode* newNode(BasicPositionalObject*);
     void root(RootSceneNode* root) { root_ = root; }
-    BasicGraphicsObject* visualise() override;
+    BasicGraphicsObject* visualise();
     void resize(double width, double height);
-    void release() override;
+    void release();
 
 protected:
     RootSceneNode* root_;
@@ -61,51 +61,51 @@ protected:
 class MvRootScenePage : public RootScenePage {
 public:
     MvRootScenePage();
-    ~MvRootScenePage() override;
+    ~MvRootScenePage();
 
-    RootScenePage* newPage() override { return new MvRootScenePage(); }
-    void visit(BasicGraphicsObjectContainer& tree) override {
+    RootScenePage* newPage() { return new MvRootScenePage(); }
+    void visit(BasicGraphicsObjectContainer& tree) {
         MagLog::dev() << "visit(BasicGraphicsObjectContainer::MvRootScenePage" << endl;
         BasicSceneNode::visit(tree);
     }
-    void getReady() override;
+    void getReady();
 };
 class RootSceneNode : public BasicSceneNode {
 public:
     RootSceneNode();
 
-    virtual ~RootSceneNode() override;
+    virtual ~RootSceneNode();
     virtual void setPage(RootScenePage* node);
 
 
-    double absoluteWidth() const override { return absoluteWidth_; }
-    double absoluteHeight() const override { return absoluteHeight_; }
-    virtual void absoluteRootWidth(double width) override {
+    double absoluteWidth() const { return absoluteWidth_; }
+    double absoluteHeight() const { return absoluteHeight_; }
+    virtual void absoluteRootWidth(double width) {
         scale_ = width / absoluteWidth_;
         if (scale_ < 1)
             scale_ = 1;
         absoluteWidth_ = width;
     }
-    void absoluteRootHeight(double height) override { absoluteHeight_ = height; }
+    void absoluteRootHeight(double height) { absoluteHeight_ = height; }
     double scalingFactor() const { return scale_; }  // For Magml and wrep ...
-    virtual BasicSceneNode* clone() override;
+    virtual BasicSceneNode* clone();
     BasicGraphicsObject* root();
-    virtual void getReady() override {}
-    void execute() override;
-    BasicGraphicsObject* visualise() override;
+    virtual void getReady() {}
+    void execute();
+    BasicGraphicsObject* visualise();
     BasicGraphicsObject* close();
     void setPage(Layout&);
-    void release() override;
+    void release();
     void newpage() { current_->newpage(); }
-    BasicSceneNode* insert(BasicPositionalObject*) override;
+    BasicSceneNode* insert(BasicPositionalObject*);
 
-    virtual int rootWidthResolution() const override { return widthResolution_; }
-    virtual int rootHeightResolution() const override { return heightResolution_; }
+    virtual int rootWidthResolution() const { return widthResolution_; }
+    virtual int rootHeightResolution() const { return heightResolution_; }
     // void push_back(BasicSceneObject* item);
 
-    virtual void text(TextVisitor*) override {}
-    virtual void legend(LegendVisitor*) override {}
-    virtual MagicsMode mode() override { return mode_; }
+    virtual void text(TextVisitor*) {}
+    virtual void legend(LegendVisitor*) {}
+    virtual MagicsMode mode() { return mode_; }
     void mode(MagicsMode mode) { mode_ = mode; }
     BasicSceneObject* current() { return current_; }
     bool needStartPage();
@@ -113,7 +113,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     double absoluteWidth_;
     double absoluteHeight_;
 
@@ -146,66 +146,66 @@ private:
 class FortranRootSceneNode : public RootSceneNode, public FortranRootSceneNodeAttributes {
 public:
     FortranRootSceneNode();
-    ~FortranRootSceneNode() override;
-    void getReady() override;
-    BasicSceneNode* clone() override;
-    virtual void setPage(RootScenePage* node) override;
-    string theme() const override { return theme_; }
+    ~FortranRootSceneNode();
+    void getReady();
+    BasicSceneNode* clone();
+    virtual void setPage(RootScenePage* node);
+    string theme() const { return theme_; }
 
 
 protected:
-    void print(ostream&) const override;
+    void print(ostream&) const;
 };
 
 class MvRootSceneNode : public RootSceneNode, public FortranRootSceneNodeAttributes {
 public:
     MvRootSceneNode();
-    ~MvRootSceneNode() override;
-    void getReady() override;
+    ~MvRootSceneNode();
+    void getReady();
 
 protected:
-    void print(ostream&) const override;
+    void print(ostream&) const;
 };
 
 class XmlRootSceneNode : public RootSceneNode, public XmlRootNodeAttributes {
 public:
     XmlRootSceneNode();
-    ~XmlRootSceneNode() override;
+    ~XmlRootSceneNode();
 
-    void set(const map<string, string>& map) override { XmlRootNodeAttributes::set(map); }
+    void set(const map<string, string>& map) { XmlRootNodeAttributes::set(map); }
 
-    void set(const XmlNode& node) override { XmlRootNodeAttributes::set(node); }
+    void set(const XmlNode& node) { XmlRootNodeAttributes::set(node); }
 
-    void getReady() override;
+    void getReady();
 
 protected:
-    void print(ostream&) const override;
+    void print(ostream&) const;
 };
 
 class WrepRootSceneNode : public XmlRootSceneNode, public WrepRootNodeAttributes {
 public:
     WrepRootSceneNode();
-    ~WrepRootSceneNode() override;
+    ~WrepRootSceneNode();
 
-    void set(const map<string, string>& map) override { WrepRootNodeAttributes::set(map); }
+    void set(const map<string, string>& map) { WrepRootNodeAttributes::set(map); }
 
-    void set(const XmlNode& node) override { WrepRootNodeAttributes::set(node); }
+    void set(const XmlNode& node) { WrepRootNodeAttributes::set(node); }
 
-    void absoluteRootWidth(double width) override;
-    void getReady() override;
+    void absoluteRootWidth(double width);
+    void getReady();
 
 protected:
-    void print(ostream&) const override;
+    void print(ostream&) const;
 };
 class LegacyRootSceneNode : public WrepRootSceneNode {
 public:
     LegacyRootSceneNode();
-    ~LegacyRootSceneNode() override;
-    void absoluteRootWidth(double width) override;
-    void getReady() override;
+    ~LegacyRootSceneNode();
+    void absoluteRootWidth(double width);
+    void getReady();
 
 protected:
-    void print(ostream&) const override;
+    void print(ostream&) const;
 };
 
 }  // namespace magics

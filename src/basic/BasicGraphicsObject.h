@@ -106,7 +106,7 @@ private:
 class BasicGraphicsObjectContainer : public BasicGraphicsObject {
 public:
     BasicGraphicsObjectContainer() {}
-    virtual ~BasicGraphicsObjectContainer() override;
+    virtual ~BasicGraphicsObjectContainer();
 
     void push_back(BasicGraphicsObject* object) {
         object->check();  // here we make sure that the object is not in 2 containres!
@@ -120,8 +120,8 @@ public:
     }
 
     void clear();
-    bool buildTree(const Layout&, unsigned int, const BaseDriver&) const override;
-    void release() override;
+    bool buildTree(const Layout&, unsigned int, const BaseDriver&) const;
+    void release();
     void remove(BasicGraphicsObject* object) {
         objects_.erase(std::remove(objects_.begin(), objects_.end(), object), objects_.end());
     }
@@ -177,7 +177,7 @@ public:
     }
 
 protected:
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     vector<BasicGraphicsObject*> objects_;
     vector<BasicGraphicsObject*> last_;
 };

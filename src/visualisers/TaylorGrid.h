@@ -32,20 +32,20 @@ namespace magics {
 class TaylorGrid : public BasicSceneObject, public TaylorGridAttributes {
 public:
     TaylorGrid();
-    virtual ~TaylorGrid() override;
+    virtual ~TaylorGrid();
 
     // New Interface!
-    void visit(DrawingVisitor& list) override;
+    void visit(DrawingVisitor& list);
     void secondary(DrawingVisitor& list);
-    void visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors) override;
+    void visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors);
 
 
-    void set(const map<string, string>& map) override { TaylorGridAttributes::set(map); }
-    void set(const XmlNode& node) override { TaylorGridAttributes::set(node); }
+    void set(const map<string, string>& map) { TaylorGridAttributes::set(map); }
+    void set(const XmlNode& node) { TaylorGridAttributes::set(node); }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     void list(double ref, double inc, std::set<double>& out) const;
 
 private:

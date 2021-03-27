@@ -21,11 +21,9 @@
 
 
 #include "LandgramDecoder.h"
+#include <TextVisitor.h>
 #include <limits>
 #include "Factory.h"
-#include "TextVisitor.h"
-#include "MagicsGlobal.h"
-
 using namespace magics;
 
 LandgramDecoder::LandgramDecoder() : first_(0) {
@@ -103,9 +101,6 @@ void LandgramDecoder::decode() {
         tree.visit(*this);
     }
     catch (MagicsException& e) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
         MagLog::debug() << e.what() << endl;
     }
 

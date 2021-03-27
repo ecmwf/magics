@@ -57,11 +57,10 @@ public:
     const vector<string>& keys() { return keys_; }
     string type() { return type_; }
 
-    // virtual vector<string> visDefFile(MvKeyProfile*,int)   {return QStringList() ;}
-    // virtual MvRequest visDefRequest(MvKeyProfile*,int)   {return MvRequest() ;}
+    // virtual vector<string> visDefFile(MvKeyProfile*,int) {return QStringList();}
+    // virtual MvRequest visDefRequest(MvKeyProfile*,int) {return MvRequest();}
 
-    virtual void getAttributes(MetaDataCollector&, map<string, string>&) {}
-
+    virtual void getAttributes(MetaDataCollector&, map<string, string>&){};
 
     bool isLoaded() { return loaded_; }
     void clear();
@@ -89,7 +88,7 @@ protected:
 {
 public:
     MvQVisDefInfo(string,DataType);
-    ~MvQVisDefInfo () override {};
+    ~MvQVisDefInfo() {};
 
     QStringList visDefFile(MvKeyProfile*,int);
     void loadItems();
@@ -99,11 +98,11 @@ public:
 class ObstatVisDefInfo : public VisDefInfoBase {
 public:
     ObstatVisDefInfo(string, DataType);
-    ~ObstatVisDefInfo() override{};
+    ~ObstatVisDefInfo(){};
 
-    void getAttributes(MetaDataCollector&, map<string, string>&) override;
-    void loadItems() override;
-    void saveItems() override{};
+    void getAttributes(MetaDataCollector&, map<string, string>&);
+    void loadItems();
+    void saveItems(){};
 
 protected:
     string removeZerosFromNumber(string);

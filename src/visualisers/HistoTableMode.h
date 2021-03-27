@@ -32,10 +32,10 @@ namespace magics {
 class HistoTableMode : public HistoMode, public HistoTableModeAttributes {
 public:
     HistoTableMode();
-    virtual ~HistoTableMode() override;
+    virtual ~HistoTableMode();
     void set(const map<string, string>& map) { HistoTableModeAttributes::set(map); }
     void set(const XmlNode& node) { HistoTableModeAttributes::set(node); }
-    HistoMode* clone() const override {
+    HistoMode* clone() const {
         HistoTableMode* object;
         object->copy(*this);
         return object;
@@ -43,7 +43,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed

@@ -9,14 +9,12 @@
  * does it submit to any jurisdiction.
  */
 
-#include "MagClipper.h"
-#include "Polyline.h"
-
-#include "clipper.hpp"
+#include <MagClipper.h>
+#include <Polyline.h>
 
 using namespace magics;
 
-const double scale_ = 1e7;
+double scale_ = 1e7;
 
 void convert(const deque<PaperPoint>& in, ClipperLib::Path& out, bool print = false) {
     out.reserve(in.size());
@@ -24,9 +22,9 @@ void convert(const deque<PaperPoint>& in, ClipperLib::Path& out, bool print = fa
         cout << " -----------start---------------------------" << endl;
     for (auto pt = in.begin(); pt != in.end(); ++pt) {
         if (print)
-            cout << "     subj.push_back(MyPoint(" << ClipperLib::cInt(pt->x_ * scale_) << ", "
-                 << ClipperLib::cInt(pt->y_ * scale_) << ").get());" << endl;
-        out.push_back(ClipperLib::IntPoint(ClipperLib::cInt(pt->x_ * scale_), ClipperLib::cInt(pt->y_ * scale_)));
+            cout << "     subj.push_back(MyPoint(" << long(pt->x_ * scale_) << ", " << long(pt->y_ * scale_)
+                 << ").get());" << endl;
+        out.push_back(ClipperLib::IntPoint(long(pt->x_ * scale_), long(pt->y_ * scale_)));
     }
     int orientation = ClipperLib::Orientation(out);
     if (print)

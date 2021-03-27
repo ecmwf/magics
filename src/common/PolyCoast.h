@@ -31,7 +31,7 @@ namespace magics {
 class PolyCoast : public Polyline {
 public:
     PolyCoast() : level_(0), greenwich_(0), area_(0) { this->winding_ = -1; }
-    ~PolyCoast() override {}
+    ~PolyCoast() {}
 
     virtual PolyCoast* clone() const {
         PolyCoast* poly = new PolyCoast();

@@ -10,9 +10,9 @@
 #ifndef MVBUFRELEMENTTABLE_H
 #define MVBUFRELEMENTTABLE_H
 
-#include <map>
 #include <string>
 #include <vector>
+#include <map>
 
 class MvBufrEdition;
 

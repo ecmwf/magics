@@ -34,17 +34,17 @@ public:
     ColourTableDefinitionCompute();
 
     ColourTableDefinitionCompute(const string& min, const string& max, const string& method, const string& direction);
-    virtual ~ColourTableDefinitionCompute() override;
+    virtual ~ColourTableDefinitionCompute();
     void set(const ColourTableDefinitionComputeInterface&);
-    void set(const XmlNode&) override;
-    ColourTableDefinition* clone() const override {
+    void set(const XmlNode&);
+    ColourTableDefinition* clone() const {
         ColourTableDefinitionCompute* object = new ColourTableDefinitionCompute();
         object->minColour_                   = minColour_;
         object->maxColour_                   = maxColour_;
         object->direction_                   = direction_;
         return object;
     }
-    void set(ColourTable&, int) override;
+    void set(ColourTable&, int);
 
     typedef void (ColourTableDefinitionCompute::*ComputeFunction)(ColourTable&, int);
 
@@ -59,7 +59,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     Colour minColour_;
     Colour maxColour_;
     string direction_;

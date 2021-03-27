@@ -20,11 +20,14 @@
 */
 
 #include "IsoHelper.h"
+#include "AutoLock.h"
 #include "Timer.h"
-
 using namespace magics;
 
+#include "magics_windef.h"
+#ifdef MAGICS_ON_WINDOWS
 #include <iterator>
+#endif
 
 
 IsoHelper::IsoHelper(int n, vector<magics::Polyline*>& lines, IsoData& segments) :
@@ -82,7 +85,7 @@ void IsoHelper::print(ostream& out) const {
     out << "]";
 }
 
-static std::mutex locklines_;
+static Mutex locklines_;
 
 void IsoHelper::run() {
     deque<std::pair<double, pair<std::pair<double, double>, pair<double, double> > > > todo;
@@ -90,9 +93,9 @@ void IsoHelper::run() {
 
     while (true) {
         {  // Block
-            std::unique_lock<std::mutex> lock(data_.mutex_);
+            AutoLock<MutexCond> lock(data_.cond_);
             while (data_.more_ && data_.segments_.size() < 2000)
-                data_.cond_.wait(lock);
+                data_.cond_.wait();
 
             if (!data_.more_ && data_.segments_.empty()) {
                 for (map<double, vector<magics::Polyline*> >::iterator level = helpers_.begin();
@@ -101,7 +104,7 @@ void IsoHelper::run() {
                          ++line)
 
                         if (!(*line)->empty()) {
-                            std::lock_guard<std::mutex> locklines(locklines_);
+                            AutoLock<Mutex> locklines(locklines_);
                             lines_.push_back(*line);
                         }
 
@@ -109,7 +112,7 @@ void IsoHelper::run() {
                 return;
             }
             {
-                std::lock_guard<std::mutex> locklines(locklines_);
+                AutoLock<Mutex> locklines(locklines_);
                 // Deal with the segments
                 if (data_.segments_.size() > 2000 || !data_.more_) {
                     todo.clear();
@@ -117,11 +120,11 @@ void IsoHelper::run() {
                     data_.segments_.clear();
                 }
             }
-            data_.cond_.notify_one();
+            data_.cond_.signal();
         }
 
         {
-            std::lock_guard<std::mutex> locklines(locklines_);
+            AutoLock<Mutex> locklines(locklines_);
             for (deque<std::pair<double, pair<std::pair<double, double>, pair<double, double> > > >::iterator x =
                      todo.begin();
                  x != todo.end(); ++x) {

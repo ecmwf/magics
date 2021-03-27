@@ -22,6 +22,10 @@
 #include "InputData.h"
 #include "SciMethods.h"
 
+#include "magics_windef.h"
+#ifdef MAGICS_ON_WINDOWS
+#include <iterator>
+#endif
 
 /*!
  Class information are given to the output-stream.
@@ -252,18 +256,12 @@ void InputData::getReady(const Transformation& transformation) {
             x_.push_back(transformation.x(*x));
     }
     catch (...) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
     }
     try {
         for (vector<string>::const_iterator y = date_y_.begin(); y != date_y_.end(); ++y)
             y_.push_back(transformation.y(*y));
     }
     catch (...) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
     }
 }
 pair<double, double> adjust(double min, double max) {
@@ -338,9 +336,6 @@ void InputData::visit(Transformation& transformation) {
         }
     }
     catch (...) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
     }
 }
 

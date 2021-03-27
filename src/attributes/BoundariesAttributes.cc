@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -38,17 +38,17 @@ BoundariesAttributes::BoundariesAttributes():
 	disputed_colour_(MagTranslator<string, Colour>().magics("map_disputed_boundaries_colour")),
 	administrative_style_(MagTranslator<string, LineStyle>().magics("map_administrative_boundaries_style")),
 	administrative_colour_(MagTranslator<string, Colour>().magics("map_administrative_boundaries_colour"))
-	
+	 
 {
-}
+} 
 
 
 BoundariesAttributes::~BoundariesAttributes()
 {
-
+	
 }
 
-
+    
 void BoundariesAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(3);
@@ -88,12 +88,12 @@ void BoundariesAttributes::copy(const BoundariesAttributes& other)
 	administrative_style_ = other.administrative_style_;
 	administrative_colour_ = unique_ptr<Colour>(other.administrative_colour_->clone());
 	
-}
+} 
 
 
 bool BoundariesAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "boundaries")  )
 		return true;
 	
@@ -104,7 +104,7 @@ void BoundariesAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "boundaries")  )
@@ -143,7 +143,7 @@ void BoundariesAttributes::print(ostream& out)  const
 
 void BoundariesAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"boundaries\"";
+	out <<  "\"boundaries\""; 
 	out << ", \"map_boundaries_thickness\":";
 	niceprint(out,thickness_);
 	out << ", \"map_disputed_boundaries\":";
@@ -171,15 +171,15 @@ void BoundariesAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<int> map_boundaries_thickness("map_boundaries_thickness", 1);
-static MagicsParameter<string> map_disputed_boundaries("map_disputed_boundaries", "on");
-static MagicsParameter<int> map_disputed_boundaries_thickness("map_disputed_boundaries_thickness", 1);
-static MagicsParameter<string> map_administrative_boundaries("map_administrative_boundaries", "off");
-static MagicsParameter<stringarray> map_administrative_boundaries_countries_list("map_administrative_boundaries_countries_list", stringarray());
-static MagicsParameter<int> map_administrative_boundaries_thickness("map_administrative_boundaries_thickness", 1);
-static MagicsParameter<string> map_boundaries_style("map_boundaries_style", "solid");
-static MagicsParameter<string> map_boundaries_colour("map_boundaries_colour", "grey");
-static MagicsParameter<string> map_disputed_boundaries_style("map_disputed_boundaries_style", "dash");
-static MagicsParameter<string> map_disputed_boundaries_colour("map_disputed_boundaries_colour", "automatic");
-static MagicsParameter<string> map_administrative_boundaries_style("map_administrative_boundaries_style", "dash");
-static MagicsParameter<string> map_administrative_boundaries_colour("map_administrative_boundaries_colour", "automatic");
+static MagicsParameter<int> map_boundaries_thickness("map_boundaries_thickness", 1, "");
+static MagicsParameter<string> map_disputed_boundaries("map_disputed_boundaries", "on", "");
+static MagicsParameter<int> map_disputed_boundaries_thickness("map_disputed_boundaries_thickness", 1, "");
+static MagicsParameter<string> map_administrative_boundaries("map_administrative_boundaries", "off", "");
+static MagicsParameter<stringarray> map_administrative_boundaries_countries_list("map_administrative_boundaries_countries_list", stringarray(), "");
+static MagicsParameter<int> map_administrative_boundaries_thickness("map_administrative_boundaries_thickness", 1, "");
+static MagicsParameter<string> map_boundaries_style("map_boundaries_style", "solid", ""); 
+static MagicsParameter<string> map_boundaries_colour("map_boundaries_colour", "grey", ""); 
+static MagicsParameter<string> map_disputed_boundaries_style("map_disputed_boundaries_style", "dash", ""); 
+static MagicsParameter<string> map_disputed_boundaries_colour("map_disputed_boundaries_colour", "automatic", ""); 
+static MagicsParameter<string> map_administrative_boundaries_style("map_administrative_boundaries_style", "dash", ""); 
+static MagicsParameter<string> map_administrative_boundaries_colour("map_administrative_boundaries_colour", "automatic", ""); 

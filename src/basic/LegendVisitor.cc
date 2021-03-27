@@ -272,7 +272,7 @@ void LegendVisitor::build() {
         legend->setFont(font);
         legend->setText(text);
         legend->setAngle((orientation_ / 180.) * 3.14);
-        (*legend).setVerticalAlign(orientation_ ? VerticalAlign::BOTTOM : VerticalAlign::HALF);
+        (*legend).setVerticalAlign(orientation_ ? MBOTTOM : MHALF);
 
         if (text == "ignore")
             continue;
@@ -306,8 +306,8 @@ void LegendVisitor::horizontal() {
     legend_->setCoordinates(0, nb * 2, rows + 1, 0);
 
     if (title_) {
-        if (title_position_ == Position::AUTOMATIC)
-            title_position_ = Position::TOP;
+        if (title_position_ == M_AUTOMATIC)
+            title_position_ = M_TOP;
         (this->*titleBuilders_[title_position_])();
     }
 
@@ -346,8 +346,8 @@ void LegendVisitor::vertical() {
 
     legend_->setCoordinates(0, nb, 0.5, rows + 0.5);
     if (title_) {
-        if (title_position_ == Position::AUTOMATIC)
-            title_position_ = Position::LEFT;
+        if (title_position_ == M_AUTOMATIC)
+            title_position_ = M_LEFT;
         (this->*titleBuilders_[title_position_])();
     }
 
@@ -371,7 +371,7 @@ void LegendVisitor::topTitle() {
     double height  = (100 / (100 - title_ratio_)) * (maxy - miny);
     double newmaxy = miny + height;
 
-    titleJustification_ = Justification::CENTRE;
+    titleJustification_ = MCENTRE;
     titleAngle_         = 0;
     titlePosition_      = PaperPoint((maxx - minx) / 2, (newmaxy + maxy) / 2);
 
@@ -388,7 +388,7 @@ void LegendVisitor::bottomTitle() {
 
     titlePosition_      = PaperPoint((maxx - minx) / 2, (newminy + miny) / 2);
     titleAngle_         = 0;
-    titleJustification_ = Justification::CENTRE;
+    titleJustification_ = MCENTRE;
 
     legend_->minY(newminy);
 }
@@ -406,9 +406,9 @@ void LegendVisitor::rightTitle() {
     float factor = column ? 0.25 : 0.15;
     // Special adjustement for the web ( PDF creation)
     // titlePosition_ = Paperoint(maxx+ (newmaxx-maxx)*factor, (maxy - miny)/2);
-    // titleJustification_ = ( column ) ?  Justification::CENTRE : Justification::RIGHT;
+    // titleJustification_ = ( column ) ?  MCENTRE : MRIGHT;
     titlePosition_      = PaperPoint(maxx + (newmaxx - maxx) * factor, (maxy + 3 * miny) / 4);
-    titleJustification_ = Justification::LEFT;
+    titleJustification_ = MLEFT;
 
     legend_->maxX(newmaxx);
 }
@@ -420,7 +420,7 @@ void LegendVisitor::leftTitle() {
 
     bool column = (legend_->absoluteWidth() < legend_->absoluteHeight());
 
-    titleJustification_ = (column) ? Justification::CENTRE : Justification::RIGHT;
+    titleJustification_ = (column) ? MCENTRE : MRIGHT;
     float factor        = (column) ? 0.25 : 0.15;
     titleAngle_         = (column) ? magics::PI * 1.5 : 0;
 
@@ -438,10 +438,10 @@ void LegendVisitor::grid() {
     }
 
     if (titleBuilders_.empty()) {
-        titleBuilders_[Position::TOP]    = &LegendVisitor::topTitle;
-        titleBuilders_[Position::BOTTOM] = &LegendVisitor::bottomTitle;
-        titleBuilders_[Position::LEFT]   = &LegendVisitor::leftTitle;
-        titleBuilders_[Position::RIGHT]  = &LegendVisitor::rightTitle;
+        titleBuilders_[M_TOP]    = &LegendVisitor::topTitle;
+        titleBuilders_[M_BOTTOM] = &LegendVisitor::bottomTitle;
+        titleBuilders_[M_LEFT]   = &LegendVisitor::leftTitle;
+        titleBuilders_[M_RIGHT]  = &LegendVisitor::rightTitle;
     }
 
     if (magCompare(direction_, "automatic")) {
@@ -562,7 +562,7 @@ void ArrowEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& l
     Text* text = new Text();
     text->addText(label_, font_);
     text->push_back(leftTextBox(point));
-    text->setJustification(Justification::LEFT);
+    text->setJustification(MLEFT);
     legend.push_back(text);
     LegendVisitor::addLegendInfo("legend_entry_text", label_);
     LegendVisitor::addLegendInfo("legend_entry_type", "arrow");
@@ -577,7 +577,7 @@ void ArrowEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer
     Text* text = new Text();
     text->addText(label_, font_);
     text->push_back(pos);
-    text->setJustification(Justification::LEFT);
+    text->setJustification(MLEFT);
     legend.push_back(text);
 
     pos.y_ -= 0.2;
@@ -586,6 +586,7 @@ void ArrowEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer
     LegendVisitor::addLegendInfo("legend_entry_text", label_);
     LegendVisitor::addLegendInfo("legend_entry_type", "arrow");
     LegendVisitor::addLegendInfo("legend_entry_colour", arrow_->getColour().name());
+    
 }
 
 void FlagEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
@@ -607,7 +608,7 @@ void FlagEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& le
     Text* text = new Text();
     text->addText(label_, font_);
     text->push_back(leftTextBox(point));
-    text->setJustification(Justification::LEFT);
+    text->setJustification(MLEFT);
     legend.push_back(text);
     LegendVisitor::addLegendInfo("legend_entry_text", label_);
     LegendVisitor::addLegendInfo("legend_entry_type", "flag");
@@ -623,7 +624,7 @@ void FlagEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer&
     Text* text = new Text();
     text->addText(label_, font_);
     text->push_back(pos);
-    text->setJustification(Justification::LEFT);
+    text->setJustification(MLEFT);
     legend.push_back(text);
 
     LegendVisitor::addLegendInfo("legend_entry_text", label_);
@@ -700,9 +701,9 @@ void LegendEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContaine
 
     Text* from = new Text();
     Text* to   = new Text();
-    from->setVerticalAlign(VerticalAlign::HALF);
+    from->setVerticalAlign(MHALF);
 
-    to->setVerticalAlign(VerticalAlign::HALF);
+    to->setVerticalAlign(MHALF);
     from->addText(top.str(), font_);
 
     to->addText(bottom.str(), font_);
@@ -749,7 +750,7 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
     if (text_) {
         Text* from = new Text();
         from->push_back(PaperPoint(x - width, y - height - 0.25));
-        from->setVerticalAlign(VerticalAlign::BOTTOM);
+        from->setVerticalAlign(MBOTTOM);
         from->setAngle(angle_);
         legend.push_back(from);
 
@@ -773,7 +774,7 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
     if (last_) {
         Text* to = new Text();
         to->setAngle(angle_);
-        to->setVerticalAlign(VerticalAlign::BOTTOM);
+        to->setVerticalAlign(MBOTTOM);
         to->push_back(PaperPoint(x + width, y - height - 0.25));
         legend.push_back(to);
         if (automatic_) {
@@ -863,7 +864,7 @@ void BoxEntry::rowHisto(const PaperPoint& point, BasicGraphicsObjectContainer& l
     if (text_) {
         Text* from = new Text();
         from->push_back(PaperPoint(x - width, y + 1.3));
-        from->setVerticalAlign(VerticalAlign::TOP);
+        from->setVerticalAlign(MTOP);
         from->setAngle(angle_);
         legend.push_back(from);
 
@@ -875,7 +876,7 @@ void BoxEntry::rowHisto(const PaperPoint& point, BasicGraphicsObjectContainer& l
         else
             from->addText(userText_, font_);
         Polyline* tick = new Polyline();
-        tick->setLineStyle(LineStyle::SOLID);
+        tick->setLineStyle(M_SOLID);
         tick->setColour(Colour("black"));
         tick->push_back(PaperPoint(x - width, y + 1.1));
         tick->push_back(PaperPoint(x - width, y + 0.85));
@@ -884,7 +885,7 @@ void BoxEntry::rowHisto(const PaperPoint& point, BasicGraphicsObjectContainer& l
     if (last_) {
         Text* to = new Text();
         to->setAngle(angle_);
-        to->setVerticalAlign(VerticalAlign::TOP);
+        to->setVerticalAlign(MTOP);
         to->push_back(PaperPoint(x + width, y + 1.3));
         legend.push_back(to);
         if (automatic_) {
@@ -903,7 +904,7 @@ void BoxEntry::rowHisto(const PaperPoint& point, BasicGraphicsObjectContainer& l
         axe->push_back(PaperPoint(x + width, y + 0.8));
         legend.push_back(axe);
         Polyline* tick = new Polyline();
-        tick->setLineStyle(LineStyle::SOLID);
+        tick->setLineStyle(M_SOLID);
         tick->setColour(Colour("black"));
         tick->push_back(PaperPoint(x + width, y + 1.1));
         tick->push_back(PaperPoint(x + width, y + 0.85));
@@ -912,8 +913,8 @@ void BoxEntry::rowHisto(const PaperPoint& point, BasicGraphicsObjectContainer& l
     if (first_) {
         Text* to = new Text();
         to->setAngle(angle_);
-        to->setVerticalAlign(VerticalAlign::BOTTOM);
-        to->setJustification(Justification::RIGHT);
+        to->setVerticalAlign(MBOTTOM);
+        to->setJustification(MRIGHT);
         to->push_back(PaperPoint(x - width, y - 0.2));
         legend.push_back(to);
         if (userText_.empty() && histogram_->max() && automatic_) {
@@ -975,7 +976,7 @@ void BoxEntry::rowHisto(const PaperPoint& point, BasicGraphicsObjectContainer& l
 
     Polyline* topline = new Polyline();
     topline->setColour(box_->getFillColour());
-    topline->setLineStyle(LineStyle::DASH);
+    topline->setLineStyle(M_DASH);
     topline->push_back(PaperPoint(x - width, y - 0.2));
     topline->push_back(PaperPoint(x + width, y - 0.2));
 
@@ -1017,8 +1018,8 @@ void BoxEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& 
 
     if (text_) {
         Text* from = new Text();
-        from->setJustification(Justification::LEFT);
-        from->setVerticalAlign(VerticalAlign::HALF);
+        from->setJustification(MLEFT);
+        from->setVerticalAlign(MHALF);
         if (automatic_) {
             if (!userMin_) {
                 ostringstream bottom;
@@ -1045,8 +1046,8 @@ void BoxEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& 
     }
     if (last_) {
         Text* to = new Text();
-        to->setVerticalAlign(VerticalAlign::HALF);
-        to->setJustification(Justification::LEFT);
+        to->setVerticalAlign(MHALF);
+        to->setJustification(MLEFT);
         to->setAngle(angle_);
 
         if (automatic_) {
@@ -1126,8 +1127,8 @@ void BoxEntry::columnHisto(const PaperPoint& point, BasicGraphicsObjectContainer
 
     if (text_) {
         Text* from = new Text();
-        from->setJustification(Justification::LEFT);
-        from->setVerticalAlign(VerticalAlign::HALF);
+        from->setJustification(MLEFT);
+        from->setVerticalAlign(MHALF);
         if (userText_.empty() || last_) {
             ostringstream bottom;
             bottom << MagicsFormat(format_, from_);
@@ -1143,8 +1144,8 @@ void BoxEntry::columnHisto(const PaperPoint& point, BasicGraphicsObjectContainer
     }
     if (last_) {
         Text* to = new Text();
-        to->setVerticalAlign(VerticalAlign::HALF);
-        to->setJustification(Justification::LEFT);
+        to->setVerticalAlign(MHALF);
+        to->setJustification(MLEFT);
         to->setAngle(angle_);
         if (userText_.empty()) {
             ostringstream top, bottom;
@@ -1399,7 +1400,7 @@ void SimpleSymbolEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectConta
     if (text_) {
         Text* from = new Text();
         from->push_back(PaperPoint(x - width, y - height - 0.25));
-        from->setVerticalAlign(VerticalAlign::BOTTOM);
+        from->setVerticalAlign(MBOTTOM);
         from->setAngle(angle_);
         legend.push_back(from);
         if (userText_.empty() || last_) {
@@ -1413,7 +1414,7 @@ void SimpleSymbolEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectConta
     if (last_) {
         Text* to = new Text();
         to->setAngle(angle_);
-        to->setVerticalAlign(VerticalAlign::BOTTOM);
+        to->setVerticalAlign(MBOTTOM);
         to->push_back(PaperPoint(x + width, y - height - 0.25));
         legend.push_back(to);
         if (userText_.empty()) {
@@ -1457,8 +1458,8 @@ void SimpleSymbolEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectCo
 
     if (text_) {
         Text* from = new Text();
-        from->setJustification(Justification::LEFT);
-        from->setVerticalAlign(VerticalAlign::HALF);
+        from->setJustification(MLEFT);
+        from->setVerticalAlign(MHALF);
         if (userText_.empty() || last_) {
             ostringstream bottom;
             bottom << MagicsFormat(format_, from_);
@@ -1474,8 +1475,8 @@ void SimpleSymbolEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectCo
     }
     if (last_) {
         Text* to = new Text();
-        to->setVerticalAlign(VerticalAlign::HALF);
-        to->setJustification(Justification::LEFT);
+        to->setVerticalAlign(MHALF);
+        to->setJustification(MLEFT);
         to->setAngle(angle_);
         if (userText_.empty()) {
             ostringstream top, bottom;
@@ -1511,6 +1512,7 @@ void LegendVisitor::visit(MetaDataVisitor& visitor) {
         out << c1 << "\"" << entry.first << "\":\"" << entry.second << "\"";
         c1 = ",";
     }
+
 
 
     out << c1 << "\"legend_entries\" : [";

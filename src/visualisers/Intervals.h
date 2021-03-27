@@ -45,14 +45,14 @@ struct Interval {
 class Intervals : public vector<Interval> {
 public:
     Intervals(const doublearray&);
-    virtual ~Intervals() override;
+    virtual ~Intervals();
     double find(double val) const;
     void set(const doublearray&);
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed

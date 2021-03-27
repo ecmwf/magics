@@ -32,19 +32,19 @@ namespace magics {
 class ImageListColourTechnique : public ImageListColourTechniqueAttributes, public ColourTableDefinitionList {
 public:
     ImageListColourTechnique() {}
-    virtual ~ImageListColourTechnique() override {}
+    virtual ~ImageListColourTechnique() {}
 
     void prepare() { ColourTableDefinitionList::set(*this); }
     void set(const map<string, string>& map) { ImageListColourTechniqueAttributes::set(map); }
     void set(const XmlNode& node) { ImageListColourTechniqueAttributes::set(node); }
     bool accept(const string& node) { return ImageListColourTechniqueAttributes::accept(node); }
 
-    virtual stringarray getValues() const override { return values_; }
-    virtual ListPolicy getPolicy() const override { return M_LASTONE; }
+    virtual stringarray getValues() const { return values_; }
+    virtual ListPolicy getPolicy() const { return M_LASTONE; }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const override { out << "ImageListColourTechnique[]"; }
+    virtual void print(ostream& out) const { out << "ImageListColourTechnique[]"; }
 
 private:
     //! Copy constructor - No copy allowed

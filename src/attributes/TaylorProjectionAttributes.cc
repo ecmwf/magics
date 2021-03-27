@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -28,17 +28,17 @@ TaylorProjectionAttributes::TaylorProjectionAttributes():
 	min_(ParameterManager::getDouble("taylor_standard_deviation_min")),
 	max_(ParameterManager::getDouble("taylor_standard_deviation_max"))
 	
-	
+	 
 {
-}
+} 
 
 
 TaylorProjectionAttributes::~TaylorProjectionAttributes()
 {
-
+	
 }
 
-
+    
 void TaylorProjectionAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(3);
@@ -58,12 +58,12 @@ void TaylorProjectionAttributes::copy(const TaylorProjectionAttributes& other)
 	min_ = other.min_;
 	max_ = other.max_;
 	
-}
+} 
 
 
 bool TaylorProjectionAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "taylor")  )
 		return true;
 	
@@ -74,7 +74,7 @@ void TaylorProjectionAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "taylor")  )
@@ -103,7 +103,7 @@ void TaylorProjectionAttributes::print(ostream& out)  const
 
 void TaylorProjectionAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"taylor\"";
+	out <<  "\"taylor\""; 
 	out << ", \"taylor_standard_deviation_min\":";
 	niceprint(out,min_);
 	out << ", \"taylor_standard_deviation_max\":";
@@ -111,5 +111,5 @@ void TaylorProjectionAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> taylor_standard_deviation_min("taylor_standard_deviation_min", 0);
-static MagicsParameter<double> taylor_standard_deviation_max("taylor_standard_deviation_max", 1);
+static MagicsParameter<double> taylor_standard_deviation_min("taylor_standard_deviation_min", 0, "");
+static MagicsParameter<double> taylor_standard_deviation_max("taylor_standard_deviation_max", 1, "");

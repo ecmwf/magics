@@ -32,9 +32,9 @@ namespace magics {
 class Flag : public Arrow {
 public:
     Flag();
-    ~Flag() override;
+    ~Flag();
 
-    void redisplay(const BaseDriver& driver) const override { driver.redisplay(*this); }
+    void redisplay(const BaseDriver& driver) const { driver.redisplay(*this); }
 
     double getLength() const { return length_; }
     void setLength(double length) { length_ = length; }
@@ -50,7 +50,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream.
-    void print(ostream&) const override;
+    void print(ostream&) const;
     double length_;
     FlagConvention convention_;
 

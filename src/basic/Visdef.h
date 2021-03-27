@@ -42,7 +42,7 @@ class LegendVisitor;
 class Visdef : public MetviewIcon {
 public:
     Visdef() {}
-    virtual ~Visdef() override {}
+    virtual ~Visdef() {}
 
 
     virtual void operator()(Data&, BasicGraphicsObjectContainer&) = 0;
@@ -52,7 +52,7 @@ public:
     virtual void visit(MetaDataVisitor&) {}
     virtual void visit(TopAxisVisitor&) {}
     virtual void visit(Transformation&, Data&) {}
-    virtual void visit(Layer& layer) override { MetviewIcon::visit(layer); }
+    virtual void visit(Layer& layer) { MetviewIcon::visit(layer); }
     virtual void beanInfo(IntervalMap<Colour>&) { NOTIMP; }
     virtual bool needLegend() { return false; }
     virtual void getReady(const LegendVisitor& legend);
@@ -60,7 +60,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const override { out << "visdef"; }
+    virtual void print(ostream& out) const { out << "visdef"; }
 
     bool legendOnly_;
     string theme_;

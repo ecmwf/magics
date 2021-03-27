@@ -65,8 +65,7 @@ public:
     virtual bool accept(const string&) { return false; }
     virtual ColourTechnique* clone() const { return new ColourTechnique(); }
     void toxml(ostream&) const {}
-    virtual void set(const ColourTechniqueInterface&) {}
-
+    virtual void set(const ColourTechniqueInterface&){};
 
     Colour operator()(double) const;
     Colour left(double) const;
@@ -112,24 +111,24 @@ private:
 class PaletteColourTechnique : public ColourTechnique, public PaletteColourTechniqueAttributes {
 public:
     PaletteColourTechnique();
-    virtual ~PaletteColourTechnique() override;
-    void set(const map<string, string>& map) override { PaletteColourTechniqueAttributes::set(map); }
-    void set(const XmlNode& node) override { PaletteColourTechniqueAttributes::set(node); }
-    bool accept(const string& node) override { return PaletteColourTechniqueAttributes::accept(node); }
+    virtual ~PaletteColourTechnique();
+    void set(const map<string, string>& map) { PaletteColourTechniqueAttributes::set(map); }
+    void set(const XmlNode& node) { PaletteColourTechniqueAttributes::set(node); }
+    bool accept(const string& node) { return PaletteColourTechniqueAttributes::accept(node); }
 
-    void set(const ColourTechniqueInterface&) override;
+    void set(const ColourTechniqueInterface&);
 
 
-    virtual ColourTechnique* clone() const override {
+    virtual ColourTechnique* clone() const {
         PaletteColourTechnique* object = new PaletteColourTechnique();
         object->copy(*this);
         return object;
     }
 
 protected:
-    void set(LevelSelection&, LevelSelection&, ColourTable&, int) const override;
+    void set(LevelSelection&, LevelSelection&, ColourTable&, int) const;
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed

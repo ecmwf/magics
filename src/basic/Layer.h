@@ -42,11 +42,11 @@ class Layer : public BasicGraphicsObjectContainer {
 public:
     Layer();
     Layer(BasicSceneObject*);
-    virtual ~Layer() override;
-    void print(ostream& out) const override;
+    virtual ~Layer();
+    void print(ostream& out) const;
     void parent(SceneLayer* layer) { parent_ = layer; }
     SceneLayer* parent() const { return parent_; }
-    virtual void redisplay(const BaseDriver& driver) const override;
+    virtual void redisplay(const BaseDriver& driver) const;
     virtual void execute(const BaseDriver&) const;
     virtual void execute(int, const BaseDriver&, const Layout&) const;
     virtual void getInfo(int, const BaseDriver&) const {}
@@ -128,11 +128,11 @@ public:
     }
 
     // void setInfo(const string& name, const string& value) { information_[name]=value; }
-    // virtual const map<string, string>& getInfos(bool =false) const  override { return information_ ; }
+    // virtual const map<string, string>& getInfos(bool =false) const { return information_; }
 
     LayerState state() { return state_; }
     void state(LayerState state) { state_ = state; }
-    virtual void release() override;
+    virtual void release();
 
 protected:
     bool visibility_;
@@ -166,24 +166,24 @@ class StepLayer;
 class SingleLayer : public Layer {
 public:
     SingleLayer(StepLayer*, BasicSceneObject*);
-    ~SingleLayer() override;
+    ~SingleLayer();
 
-    void print(ostream& out) const override;
-    void redisplay(const BaseDriver& driver) const override;
-    void execute(const BaseDriver&) const override;
-    void getReady() const override;
+    void print(ostream& out) const;
+    void redisplay(const BaseDriver& driver) const;
+    void execute(const BaseDriver&) const;
+    void getReady() const;
     void set(LayoutVisitor*) const;
-    void collect(MetaDataCollector&) override;
-    void collect(ValuesCollector&) override;
-    void collect(DataIndexCollector&) override;
+    void collect(MetaDataCollector&);
+    void collect(ValuesCollector&);
+    void collect(DataIndexCollector&);
     // const map<string, string>& getInfos(bool collect=false) const;
-    void magnify(const BaseDriver&, float xres, float yres) override;
-    void histogram(const BaseDriver&, const string&, const string&) override;
-    void update(const Layout&) override;
-    Layer* baseLayer() override;
+    void magnify(const BaseDriver&, float xres, float yres);
+    void histogram(const BaseDriver&, const string&, const string&);
+    void update(const Layout&);
+    Layer* baseLayer();
     LevelDescription& dataLevel() const;
     DateDescription& timeStamp() const;
-    void release() override;
+    void release();
 
 
 protected:
@@ -197,15 +197,15 @@ protected:
 class StepLayer : public Layer {
 public:
     StepLayer();
-    ~StepLayer() override;
-    void print(ostream& out) const override;
-    int size() override;
-    void redisplay(const BaseDriver& driver) const override;
-    void newLayer(const BaseDriver& driver) override;
-    void closeLayer(const BaseDriver& driver) override;
-    void execute(int, const BaseDriver&, const Layout&) const override;
-    void getReady(int) const override;
-    Layer* get(int) override;
+    ~StepLayer();
+    void print(ostream& out) const;
+    int size();
+    void redisplay(const BaseDriver& driver) const;
+    void newLayer(const BaseDriver& driver);
+    void closeLayer(const BaseDriver& driver);
+    void execute(int, const BaseDriver&, const Layout&) const;
+    void getReady(int) const;
+    Layer* get(int);
 
     void addStep(BasicSceneObject*, Data*);
     vector<SingleLayer*>::iterator firstStep() { return steps_.begin(); }
@@ -229,25 +229,25 @@ public:
     StaticLayer();
     StaticLayer(BasicSceneObject*);
     StaticLayer(const Layout&);
-    ~StaticLayer() override;
-    void print(ostream& out) const override;
+    ~StaticLayer();
+    void print(ostream& out) const;
 
-    void redisplay(const BaseDriver& driver) const override;
-    void newLayer(const BaseDriver& driver) override;
-    void closeLayer(const BaseDriver& driver) override;
+    void redisplay(const BaseDriver& driver) const;
+    void newLayer(const BaseDriver& driver);
+    void closeLayer(const BaseDriver& driver);
 
-    void histogram(const BaseDriver& driver, const string&, const string&) override;
-    void update(const Layout&) override;
+    void histogram(const BaseDriver& driver, const string&, const string&);
+    void update(const Layout&);
 
-    void execute(const BaseDriver&) const override;
-    void getReady() const override;
-    Layer* get() override { return this; }
+    void execute(const BaseDriver&) const;
+    void getReady() const;
+    Layer* get() { return this; }
     void clean();
     void set(LayoutVisitor*);
     void add(BasicGraphicsObject*);
-    void collect(MetaDataCollector&) override;
-    void collect(ValuesCollector&) override;
-    void collect(DataIndexCollector&) override;
+    void collect(MetaDataCollector&);
+    void collect(ValuesCollector&);
+    void collect(DataIndexCollector&);
 
 
 protected:
@@ -263,36 +263,33 @@ class NoDataLayer : public StaticLayer {
 public:
     NoDataLayer() {}
     NoDataLayer(BasicSceneObject*);
-    ~NoDataLayer() override;
+    ~NoDataLayer();
 
-    void redisplay(const BaseDriver&) const override;
-    void getReady() const override {}
-    void print(ostream& s) const override { s << "NoDataLayer"; }
+    void redisplay(const BaseDriver&) const;
+    void getReady() const {}
 };
 
 
 class TextLayer : public StepLayer {
 public:
     TextLayer() {}
-    ~TextLayer() override {}
-    void getReady() const override;
-    void getReady(int i) const override { Layer::getReady(i); }
-    void execute(const BaseDriver&) const override;
+    ~TextLayer() {}
+    void getReady() const;
+    void getReady(int i) const { Layer::getReady(i); }
+    void execute(const BaseDriver&) const;
     void execute(int, const BaseDriver&) const;
-    void getInfo(int, const BaseDriver&) const override;
+    void getInfo(int, const BaseDriver&) const;
     void collectText(vector<TextVisitor*>&, LegendVisitor*);  // update the text informations!
-    void print(ostream& s) const override { s << "TextLayer"; }
 };
 
 class LegendLayer : public StepLayer {
 public:
     LegendLayer() {}
-    ~LegendLayer() override {}
-    void getReady() const override;
-    void execute(const BaseDriver&) const override;
+    ~LegendLayer() {}
+    void getReady() const;
+    void execute(const BaseDriver&) const;
     void execute(int, const BaseDriver&) const;
-    void getInfo(int, const BaseDriver&) const override;
-    void print(ostream& s) const override { s << "LegendLayer"; }
+    void getInfo(int, const BaseDriver&) const;
 };
 /*
  * A SceneLayer is attach to a SceneNode...
@@ -302,8 +299,8 @@ public:
 class SceneLayer : public BasicGraphicsObjectContainer {
 public:
     SceneLayer();
-    ~SceneLayer() override;
-    void print(ostream& out) const override;
+    ~SceneLayer();
+    void print(ostream& out) const;
     // Number of frames in the serie!
     int numberOfSteps() const;
     void rules(AnimationRules* rules) { rules_ = rules; }
@@ -321,7 +318,7 @@ public:
 
     void getReady(int) const;
 
-    bool buildTree(const Layout&, unsigned int, const BaseDriver&) const override;
+    bool buildTree(const Layout&, unsigned int, const BaseDriver&) const;
 
     vector<Layer*>::iterator beginLayer() const;
     vector<Layer*>::iterator endLayer() const;
@@ -330,7 +327,7 @@ public:
     vector<Layer*>::iterator endLayer(int) const;
 
     vector<Layer*>& prepare(int) const;
-    void redisplay(const BaseDriver& driver) const override;
+    void redisplay(const BaseDriver& driver) const;
     void redisplayAll(const BaseDriver& driver) const;
     void add(Layer*);
     Layout* layoutPtr() {
@@ -408,7 +405,7 @@ public:
     double distance() const { return distance_; }
     void setScaledValue(double d) { scaledValue_ = d; }
     double scaledValue() const { return scaledValue_; }
-    bool missing() const { return missing_; }
+    bool missing() { return missing_; }
     void setMissing(bool b) { missing_ = b; }
     int index() const { return index_; }
     virtual void visit(ValuesCollectorVisitor& visitor) { visitor.visit(*this); }
@@ -435,7 +432,7 @@ public:
     ValuesCollectorUVData(double x, double y, double u, double v, double distance, int index = -1) :
         ValuesCollectorData(x, y, 0, distance, index), xComponent_(u), yComponent_(v) {}
 
-    virtual void visit(ValuesCollectorVisitor& visitor) override { visitor.visit(*this); }
+    virtual void visit(ValuesCollectorVisitor& visitor) { visitor.visit(*this); }
 
     double xComponent() const { return xComponent_; }
     double yComponent() const { return yComponent_; }
@@ -443,7 +440,7 @@ public:
     double scaledYComponent() const { return scaledYComponent_; }
 
 protected:
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     double xComponent_;
     double yComponent_;
     double scaledXComponent_;
@@ -454,14 +451,14 @@ class ValuesCollectorSDData : public ValuesCollectorData {
 public:
     ValuesCollectorSDData(double x, double y, double s, double d, double distance, int index = -1) :
         ValuesCollectorData(x, y, 0, distance, index), speed_(s), direction_(d) {}
-    virtual void visit(ValuesCollectorVisitor& visitor) override { visitor.visit(*this); }
+    virtual void visit(ValuesCollectorVisitor& visitor) { visitor.visit(*this); }
     double speed() const { return speed_; }
     double direction() const { return direction_; }
     double scaledSpeed() const { return scaledSpeed_; }
     double scaledDirection() const { return scaledDirection_; }
 
 protected:
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     double speed_;
     double direction_;
     double scaledSpeed_;

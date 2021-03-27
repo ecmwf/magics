@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-
+   
 
 #ifndef Proj4LambertNorthAtlanticWrapper_H
 #define Proj4LambertNorthAtlanticWrapper_H
@@ -33,7 +33,7 @@
 #include "Proj4Projection.h"
 
 
-
+ 
 #include "Proj4ProjectionWrapper.h"
 
 
@@ -41,7 +41,7 @@
 
 
 
-
+ 
 
 namespace magics {
 
@@ -58,21 +58,21 @@ public:
 //  --  destructor
     virtual ~Proj4LambertNorthAtlanticWrapper();
     virtual void set(const MagRequest&);
-
+    
     Proj4LambertNorthAtlantic* me()   { return proj4lambertnorthatlantic_; }
-
+   	
    	virtual Proj4LambertNorthAtlantic* object() { return proj4lambertnorthatlantic_; }
+	
 
-
-	virtual void object(Proj4LambertNorthAtlantic* o) {
+	virtual void object(Proj4LambertNorthAtlantic* o) { 
 		// Remember to delete the previous object
 		proj4lambertnorthatlantic_ = o;
 		Proj4ProjectionWrapper::object(o);
 		
 
 	}
-
-
+    
+  
 
 protected:
     Proj4LambertNorthAtlantic* proj4lambertnorthatlantic_;
@@ -80,7 +80,7 @@ protected:
 
 //  --  method
 	virtual void print(ostream&) const;
-
+	
 
 private:
     string tag_;
@@ -91,3 +91,5 @@ private:
 } // namespace magics
 
 #endif
+
+

@@ -17,7 +17,7 @@
 class TFObject {
 public:
     TFObject(void);
-    virtual ~TFObject();
+    virtual ~TFObject(void);
 
     virtual bool IsEqual(const TFObject&) const = 0;
 

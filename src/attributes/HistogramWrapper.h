@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-
+   
 
 #ifndef HistogramWrapper_H
 #define HistogramWrapper_H
@@ -40,15 +40,15 @@
 
 
 #include "LevelSelectionWrapper.h"
-
+ 
 
 namespace magics {
 
 class MagRequest;
 
 
-
-class HistogramWrapper
+ 	
+class HistogramWrapper 
 
 {
 public:
@@ -58,20 +58,20 @@ public:
 //  --  destructor
     virtual ~HistogramWrapper();
     virtual void set(const MagRequest&);
-
+    
     Histogram* me()   { return histogram_; }
-
+   	
    	virtual Histogram* object() { return histogram_; }
+	
 
-
-	virtual void object(Histogram* o) {
+	virtual void object(Histogram* o) { 
 		// Remember to delete the previous object
 		histogram_ = o;
 		
 
 	}
-
-
+    
+  
 
 protected:
     Histogram* histogram_;
@@ -79,7 +79,7 @@ protected:
 
 //  --  method
 	virtual void print(ostream&) const;
-
+	
 
 private:
     string tag_;
@@ -90,3 +90,5 @@ private:
 } // namespace magics
 
 #endif
+
+

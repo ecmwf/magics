@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -30,17 +30,17 @@ YRegularCoordinateAttributes::YRegularCoordinateAttributes():
 	reverse_(ParameterManager::getBool("subpage_y_automatic_reverse"))
 	,
 	automatic_(MagTranslator<string, AxisAutomaticSetting>().magics("subpage_y_automatic"))
-	
+	 
 {
-}
+} 
 
 
 YRegularCoordinateAttributes::~YRegularCoordinateAttributes()
 {
-
+	
 }
 
-
+    
 void YRegularCoordinateAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -63,12 +63,12 @@ void YRegularCoordinateAttributes::copy(const YRegularCoordinateAttributes& othe
 	reverse_ = other.reverse_;
 	automatic_ = other.automatic_;
 	
-}
+} 
 
 
 bool YRegularCoordinateAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "y_regular")  )
 		return true;
 	
@@ -79,7 +79,7 @@ void YRegularCoordinateAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "y_regular")  )
@@ -110,7 +110,7 @@ void YRegularCoordinateAttributes::print(ostream& out)  const
 
 void YRegularCoordinateAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"y_regular\"";
+	out <<  "\"y_regular\""; 
 	out << ", \"subpage_y_min\":";
 	niceprint(out,min_);
 	out << ", \"subpage_y_max\":";
@@ -122,7 +122,7 @@ void YRegularCoordinateAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> subpage_y_min("subpage_y_min", 0);
-static MagicsParameter<double> subpage_y_max("subpage_y_max", 100);
-static MagicsParameter<string> subpage_y_automatic_reverse("subpage_y_automatic_reverse", "off");
-static MagicsParameter<string> subpage_y_automatic("subpage_y_automatic", "off");
+static MagicsParameter<double> subpage_y_min("subpage_y_min", 0, "");
+static MagicsParameter<double> subpage_y_max("subpage_y_max", 100, "");
+static MagicsParameter<string> subpage_y_automatic_reverse("subpage_y_automatic_reverse", "off", "");
+static MagicsParameter<string> subpage_y_automatic("subpage_y_automatic", "off", ""); 

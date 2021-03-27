@@ -31,7 +31,7 @@ public:
     };
 
     MgQSceneCacheItem(QPixmap*, QGraphicsItem* parent = 0);
-    ~MgQSceneCacheItem() override;
+    ~MgQSceneCacheItem();
 
     QRectF boundingRect() const;
     void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* widget = 0);

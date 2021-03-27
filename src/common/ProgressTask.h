@@ -23,10 +23,10 @@ namespace magics {
 class ProgressTask : public Task {
 public:
     ProgressTask();
-    virtual ~ProgressTask() override;
+    virtual ~ProgressTask();
 
 protected:
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     // No copy allowed

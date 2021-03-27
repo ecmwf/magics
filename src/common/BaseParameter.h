@@ -23,9 +23,9 @@
 #define BaseParameter_H
 
 
+#include <PaperPoint.h>
 #include "MagException.h"
 #include "Matrix.h"
-#include "PaperPoint.h"
 #include "magics.h"
 
 #ifdef LATER
@@ -34,7 +34,7 @@ typedef grib_handle* GribHandlePtr;
 #endif
 
 
-#include "MagLog.h"
+#include <MagLog.h>
 
 
 namespace magics {
@@ -130,38 +130,7 @@ public:
     string getType(ArrowPosition) const { return "ArrowPosition"; }
     string getType(Matrix) const { return "2DMatrix"; }
 
-    static Justification justification(const std::string&);
-    static const std::string& justification(const Justification&);
-
-    static LineStyle lineStyle(const std::string&);
-    static const std::string& lineStyle(const LineStyle&);
-
-    static Position position(const std::string&);
-    static const std::string& position(const Position&);
-
-    static ListPolicy listPolicy(const std::string&);
-    static const std::string& listPolicy(const ListPolicy&);
-
-    static AxisAutomaticSetting axisAutomaticSetting(const std::string&);
-    static const std::string& axisAutomaticSetting(const AxisAutomaticSetting&);
-
-    static DisplayType displayType(const std::string&);
-    static const std::string& displayType(const DisplayType&);
-
-    static GraphicsFormat graphicsFormat(const std::string&);
-    static const std::string& graphicsFormat(const GraphicsFormat&);
-
-    static Hemisphere hemisphere(const std::string&);
-    static const std::string& hemisphere(const Hemisphere&);
-
-    static ArrowPosition arrowPosition(const std::string&);
-    static const std::string& arrowPosition(const ArrowPosition&);
-
-    static VerticalAlign verticalAlign(const std::string&);
-    static const std::string& verticalAlign(const VerticalAlign&);
-
     virtual string type() const = 0;
-
 protected:
     virtual void print(ostream&) const;
     string name_;

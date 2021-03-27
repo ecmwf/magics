@@ -31,24 +31,24 @@ namespace magics {
 class ListColourTechnique : public ColourTechnique, public ListColourTechniqueAttributes {
 public:
     ListColourTechnique();
-    virtual ~ListColourTechnique() override;
-    void set(const map<string, string>& map) override { ListColourTechniqueAttributes::set(map); }
-    void set(const XmlNode& node) override { ListColourTechniqueAttributes::set(node); }
-    bool accept(const string& node) override { return ListColourTechniqueAttributes::accept(node); }
+    virtual ~ListColourTechnique();
+    void set(const map<string, string>& map) { ListColourTechniqueAttributes::set(map); }
+    void set(const XmlNode& node) { ListColourTechniqueAttributes::set(node); }
+    bool accept(const string& node) { return ListColourTechniqueAttributes::accept(node); }
 
-    virtual ColourTechnique* clone() const override {
+    virtual ColourTechnique* clone() const {
         ListColourTechnique* object = new ListColourTechnique();
         object->copy(*this);
         return object;
     }
 
-    virtual void set(LevelSelection&, LevelSelection&, ColourTable&, int) const override;
-    void set(const ColourTechniqueInterface&) override;
-    stringarray getValues() const override { return values_; }
+    virtual void set(LevelSelection&, LevelSelection&, ColourTable&, int) const;
+    void set(const ColourTechniqueInterface&);
+    stringarray getValues() const { return values_; }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 
 private:

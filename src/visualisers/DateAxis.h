@@ -32,13 +32,13 @@ namespace magics {
 class DateAxisMethod : public AxisMethod, public DateAxisMethodAttributes {
 public:
     DateAxisMethod();
-    virtual ~DateAxisMethod() override;
+    virtual ~DateAxisMethod();
 
-    virtual void set(const map<string, string>& map) override {
+    virtual void set(const map<string, string>& map) {
         AxisMethod::set(map);
         DateAxisMethodAttributes::set(map);
     }
-    virtual void set(const XmlNode& node) override {
+    virtual void set(const XmlNode& node) {
         AxisMethod::set(node);
         DateAxisMethodAttributes::set(node);
     }
@@ -46,15 +46,15 @@ public:
     virtual double getMax() const;
 
 
-    void prepare(const Axis&, AxisItems&) override;
+    void prepare(const Axis&, AxisItems&);
 
-    void updateX(const Transformation&) override;
-    void updateY(const Transformation&) override;
+    void updateX(const Transformation&);
+    void updateY(const Transformation&);
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     void update() const;
     mutable DateTime from_;
     mutable DateTime to_;
@@ -96,18 +96,18 @@ private:
 class HyperAxis : public AxisMethod {
 public:
     HyperAxis();
-    virtual ~HyperAxis() override;
+    virtual ~HyperAxis();
 
-    void set(const map<string, string>& map) override {}
-    void set(const XmlNode& node) override {}
+    void set(const map<string, string>& map) {}
+    void set(const XmlNode& node) {}
 
     void prepare(double, double, AxisItems&) const;
-    void updateX(const Transformation&) override;
-    void updateY(const Transformation&) override;
+    void updateX(const Transformation&);
+    void updateY(const Transformation&);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
     void update() const;
 
 

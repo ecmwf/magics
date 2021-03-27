@@ -26,15 +26,13 @@
 
 using namespace magics;
 
-Coastlines::Coastlines() : layer_(0) {
+Coastlines::Coastlines() {
     setInfo("_datatype", "Coastlines");
 }
 
 Coastlines::~Coastlines() {
-    if (layer_) {
-        // FIME: Double delete
-        // delete layer_;
-    }
+    if (layer_)
+        delete layer_;
 }
 
 /*!
@@ -104,7 +102,6 @@ void Coastlines::visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors) {
     else
 #endif
     {
-        ASSERT(!layer_);
         // First we create the layer!
         // and push It to the parent layer!
         layer_ = new NoDataLayer(this);

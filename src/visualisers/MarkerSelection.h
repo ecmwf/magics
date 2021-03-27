@@ -35,18 +35,18 @@ class XmlNode;
 class MarkerSelection : public FloatSelection {
 public:
     MarkerSelection();
-    virtual ~MarkerSelection() override;
+    virtual ~MarkerSelection();
     virtual void set(const map<string, string>&) {}
     virtual void set(const XmlNode&) {}
     virtual void toxml(ostream&, int) const {}
-    virtual MarkerSelection* clone() const override {
-        MarkerSelection* object = new MarkerSelection() override;
+    virtual MarkerSelection* clone() const {
+        MarkerSelection* object = new MarkerSelection();
         return object;
     }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed

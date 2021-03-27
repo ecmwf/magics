@@ -22,12 +22,5 @@ does it submit to any jurisdiction.
                   name="magics_backward_compatibility">
                   <documentation>Turn on/off</documentation>
             </parameter>
-            <parameter member="strict"
-                  to="bool"
-                  default="false"
-                  from="string"
-                  name="magics_strict_mode">
-                  <documentation>Turn on/off</documentation>
-            </parameter>
       </class>
 </magics>

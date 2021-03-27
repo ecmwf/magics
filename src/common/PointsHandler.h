@@ -33,15 +33,15 @@ namespace magics {
 class PointsHandler : public AbstractPoints {
 public:
     PointsHandler(AbstractPoints& handler) : handler_(handler) {}
-    virtual ~PointsHandler() override {}
+    virtual ~PointsHandler() {}
     //! Method to set the current position to the first point.(abstract)
-    virtual void setToFirst() override { handler_.setToFirst(); }
+    virtual void setToFirst() { handler_.setToFirst(); }
     //! Method to test the end of collection.
-    virtual bool more() override { return handler_.more(); }
+    virtual bool more() { return handler_.more(); }
     //! Method to return the current value
-    virtual const UserPoint& current() override { return handler_.current(); }
+    virtual const UserPoint& current() { return handler_.current(); }
     //! Method to advance
-    virtual void advance() override { handler_.advance(); }
+    virtual void advance() { handler_.advance(); }
     virtual bool empty() {
         handler_.setToFirst();
         return handler_.more() == false;
@@ -49,7 +49,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const override { out << "PointsHandler on " << handler_; }
+    virtual void print(ostream& out) const { out << "PointsHandler on " << handler_; }
     AbstractPoints& handler_;
 
 private:
@@ -70,11 +70,11 @@ class BatchPointsHandler : public PointsHandler {
 public:
     BatchPointsHandler(AbstractPoints& handler, int count) :
         PointsHandler(handler), count_(count), more_(0), last_(false) {}
-    virtual ~BatchPointsHandler() override {}
+    virtual ~BatchPointsHandler() {}
     //! Method to set the current position to the first point.(abstract)
-    virtual void setToFirst() override {}
+    virtual void setToFirst() {}
     //! Method to test the end of collection.
-    virtual bool more() override {
+    virtual bool more() {
         if (last_) {
             last_ = false;
             return false;
@@ -87,15 +87,13 @@ public:
         return true;
     }
     //! Method to return the current value
-    virtual const UserPoint& current() override { return this->handler_.current(); }
+    virtual const UserPoint& current() { return this->handler_.current(); }
     //! Method to advance
-    virtual void advance() override { this->handler_.advance(); }
+    virtual void advance() { this->handler_.advance(); }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const override {
-        out << "BatchPointsHandler(" << count_ << "items) on " << this->handler_;
-    }
+    virtual void print(ostream& out) const { out << "BatchPointsHandler(" << count_ << "items) on " << this->handler_; }
 
     int count_;
     mutable int more_;
@@ -120,23 +118,23 @@ class BoxPointsHandler : public PointsHandler {
 public:
     BoxPointsHandler(AbstractPoints& handler, const Transformation& transformation, bool filter) :
         PointsHandler(handler), transformation_(transformation), filter_(filter) {}
-    virtual ~BoxPointsHandler() override {}
+    virtual ~BoxPointsHandler() {}
 
     //! Method to set the current position to the first point.(abstract)
-    virtual void setToFirst() override;
+    virtual void setToFirst();
 
     //! Method to test the end of collection.
-    virtual bool more() override { return more_; }
+    virtual bool more() { return more_; }
 
     //! Method to return the current value
-    virtual UserPoint& current() override { return current_; }
+    virtual UserPoint& current() { return current_; }
 
     //! Method to advance
-    virtual void advance() override;
+    virtual void advance();
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const override { out << "BocPointsHandler() on " << this->handler_; }
+    virtual void print(ostream& out) const { out << "BocPointsHandler() on " << this->handler_; }
 
     const Transformation& transformation_;
     mutable std::stack<UserPoint> duplicates_;
@@ -150,23 +148,23 @@ class ThinningPointsHandler : public PointsHandler {
 public:
     ThinningPointsHandler(AbstractPoints& handler, int xfreq, int yfreq) :
         PointsHandler(handler), xfreq_(xfreq), yfreq_(yfreq) {}
-    virtual ~ThinningPointsHandler() override {}
+    virtual ~ThinningPointsHandler() {}
 
     //! Method to set the current position to the first point.(abstract)
-    virtual void setToFirst() override;
+    virtual void setToFirst();
 
     //! Method to test the end of collection.
-    virtual bool more() override { return more_; }
+    virtual bool more() { return more_; }
 
     //! Method to return the current value
-    virtual const UserPoint& current() override { return current_; }
+    virtual const UserPoint& current() { return current_; }
 
     //! Method to advance
-    virtual void advance() override;
+    virtual void advance();
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const override { out << "BocPointsHandler() on " << this->handler_; }
+    virtual void print(ostream& out) const { out << "BocPointsHandler() on " << this->handler_; }
 
     mutable int xfreq_;
     mutable int yfreq_;

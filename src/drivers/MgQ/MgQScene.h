@@ -27,7 +27,7 @@ class MgQScene : public QGraphicsScene {
 public:
     MgQScene(QObject* parent = 0);
     MgQScene(MgQRootItem*, QObject* parent = 0);
-    ~MgQScene() override;
+    ~MgQScene();
 
     void renderContents(QPainter*, const QRectF&, const QRectF&);
     void renderContents(QPainter*, const QStyleOptionGraphicsItem*, const QRectF&, const QRectF&,

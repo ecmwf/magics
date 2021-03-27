@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -29,17 +29,17 @@ BoxPlotMedianAttributes::BoxPlotMedianAttributes():
 	,
 	colour_(MagTranslator<string, Colour>().magics("boxplot_median_colour")),
 	style_(MagTranslator<string, LineStyle>().magics("boxplot_median_line_style"))
-	
+	 
 {
-}
+} 
 
 
 BoxPlotMedianAttributes::~BoxPlotMedianAttributes()
 {
-
+	
 }
 
-
+    
 void BoxPlotMedianAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -60,12 +60,12 @@ void BoxPlotMedianAttributes::copy(const BoxPlotMedianAttributes& other)
 	colour_ = unique_ptr<Colour>(other.colour_->clone());
 	style_ = other.style_;
 	
-}
+} 
 
 
 bool BoxPlotMedianAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "median")  )
 		return true;
 	
@@ -76,7 +76,7 @@ void BoxPlotMedianAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "median")  )
@@ -106,7 +106,7 @@ void BoxPlotMedianAttributes::print(ostream& out)  const
 
 void BoxPlotMedianAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"median\"";
+	out <<  "\"median\""; 
 	out << ", \"boxplot_median_thickness\":";
 	niceprint(out,thickness_);
 	out << ", \"boxplot_median_colour\":";
@@ -116,6 +116,6 @@ void BoxPlotMedianAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<int> boxplot_median_thickness("boxplot_median_thickness", 3);
-static MagicsParameter<string> boxplot_median_colour("boxplot_median_colour", "navy");
-static MagicsParameter<string> boxplot_median_line_style("boxplot_median_line_style", "solid");
+static MagicsParameter<int> boxplot_median_thickness("boxplot_median_thickness", 3, "");
+static MagicsParameter<string> boxplot_median_colour("boxplot_median_colour", "navy", ""); 
+static MagicsParameter<string> boxplot_median_line_style("boxplot_median_line_style", "solid", ""); 

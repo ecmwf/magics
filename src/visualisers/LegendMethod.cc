@@ -42,7 +42,7 @@ void LegendMethod::row(LegendEntry& entry, double x, double y, Text& legend, Bas
     PaperPoint middle(x, y);
     entry.set(middle, task);
 
-    legend.setJustification(Justification::LEFT);
+    legend.setJustification(MLEFT);
     legend.push_back(entry.leftTextBox(middle));  // WE attach the text on the rigth of the sumbol!
 }
 
@@ -50,7 +50,7 @@ void LegendMethod::column(LegendEntry& entry, double x, double y, Text& legend, 
     PaperPoint middle(x, y);
     entry.set(middle, task);
 
-    legend.setJustification(Justification::LEFT);
+    legend.setJustification(MLEFT);
     legend.push_back(entry.leftTextBox(middle));  // WE attach the text on the rigth of the sumbol!
 }
 

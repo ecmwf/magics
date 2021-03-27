@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -35,17 +35,17 @@ HiLoAttributes::HiLoAttributes():
 	,
 	type_(MagTranslator<string, HiLoTechnique>().magics("contour_hilo_type")),
 	marker_(MagTranslator<string, HiLoMarkerBase>().magics("contour_hilo_marker"))
-	
+	 
 {
-}
+} 
 
 
 HiLoAttributes::~HiLoAttributes()
 {
-
+	
 }
 
-
+    
 void HiLoAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -78,12 +78,12 @@ void HiLoAttributes::copy(const HiLoAttributes& other)
 	type_ = unique_ptr<HiLoTechnique>(other.type_->clone());
 	marker_ = unique_ptr<HiLoMarkerBase>(other.marker_->clone());
 	
-}
+} 
 
 
 bool HiLoAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "hilo")  )
 		return true;
 	if ( acceptNode(node, type_) )
@@ -98,7 +98,7 @@ void HiLoAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "hilo")  )
@@ -114,8 +114,8 @@ void HiLoAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), type_, *elt);
-		setMember(elt->name(), marker_, *elt);
+		setMember(elt->name(), type_, *elt); 
+		setMember(elt->name(), marker_, *elt); 
 		
 	}
 }
@@ -138,7 +138,7 @@ void HiLoAttributes::print(ostream& out)  const
 
 void HiLoAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"hilo\"";
+	out <<  "\"hilo\""; 
 	out << ", \"contour_hilo_window_size\":";
 	niceprint(out,window_size_);
 	out << ", \"contour_hilo_max_value\":";
@@ -160,19 +160,19 @@ void HiLoAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<int> contour_hilo_window_size("contour_hilo_window_size", 3);
-static MagicsParameter<double> contour_hilo_max_value("contour_hilo_max_value", 1.0e+21);
-static MagicsParameter<double> contour_hilo_min_value("contour_hilo_min_value", -1.0e+21);
-static MagicsParameter<double> contour_hi_max_value("contour_hi_max_value", 1.0e+21);
-static MagicsParameter<double> contour_hi_min_value("contour_hi_min_value", -1.0e+21);
-static MagicsParameter<double> contour_lo_max_value("contour_lo_max_value", 1.0e+21);
-static MagicsParameter<double> contour_lo_min_value("contour_lo_min_value", -1.0e+21);
-static MagicsParameter<string> contour_hilo_type("contour_hilo_type", "text");
-static MagicsParameter<string> contour_hilo_marker("contour_hilo_marker", "off");
-#include "HiLoText.h"
+static MagicsParameter<int> contour_hilo_window_size("contour_hilo_window_size", 3, "");
+static MagicsParameter<double> contour_hilo_max_value("contour_hilo_max_value", 1.0e+21, "");
+static MagicsParameter<double> contour_hilo_min_value("contour_hilo_min_value", -1.0e+21, "");
+static MagicsParameter<double> contour_hi_max_value("contour_hi_max_value", 1.0e+21, "");
+static MagicsParameter<double> contour_hi_min_value("contour_hi_min_value", -1.0e+21, "");
+static MagicsParameter<double> contour_lo_max_value("contour_lo_max_value", 1.0e+21, "");
+static MagicsParameter<double> contour_lo_min_value("contour_lo_min_value", -1.0e+21, "");
+static MagicsParameter<string> contour_hilo_type("contour_hilo_type", "text", ""); 
+static MagicsParameter<string> contour_hilo_marker("contour_hilo_marker", "off", ""); 
 #include "HiLoNumber.h"
-#include "HiLoBoth.h"
 #include "HiLoMarker.h"
+#include "HiLoText.h"
+#include "HiLoBoth.h"
 static SimpleObjectMaker<HiLoText , HiLoTechnique> text_HiLoText("text");
 static SimpleObjectMaker<HiLoNumber , HiLoTechnique> number_HiLoNumber("number");
 static SimpleObjectMaker<HiLoBoth , HiLoTechnique> both_HiLoBoth("both");

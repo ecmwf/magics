@@ -100,7 +100,7 @@ void ObsWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
 
 
     if (point.latitude() < 0)
-        flag->setHemisphere(Hemisphere::SOUTH);
+        flag->setHemisphere(SOUTH);
     symbol.add(flag);
 }
 void ObsCloudAndWind::setOrigins() {
@@ -198,7 +198,7 @@ void ObsCloudAndWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) 
 
 
     if (point.latitude() < 0)
-        flag->setHemisphere(Hemisphere::SOUTH);
+        flag->setHemisphere(SOUTH);
     symbol.add(flag);
 }
 

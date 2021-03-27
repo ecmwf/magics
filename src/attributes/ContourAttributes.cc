@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -37,17 +37,17 @@ ContourAttributes::ContourAttributes():
 	method_(MagTranslator<string, ContourMethod>().magics("contour_method")),
 	hilo_(MagTranslator<string, HiLoBase>().magics("contour_hilo")),
 	grid_(MagTranslator<string, ValuePlotBase>().magics("contour_grid_value_plot"))
-	
+	 
 {
-}
+} 
 
 
 ContourAttributes::~ContourAttributes()
 {
-
+	
 }
 
-
+    
 void ContourAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -83,12 +83,12 @@ void ContourAttributes::copy(const ContourAttributes& other)
 	hilo_ = unique_ptr<HiLoBase>(other.hilo_->clone());
 	grid_ = unique_ptr<ValuePlotBase>(other.grid_->clone());
 	
-}
+} 
 
 
 bool ContourAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "contour")  )
 		return true;
 	if ( acceptNode(node, contour_) )
@@ -107,7 +107,7 @@ void ContourAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "contour")  )
@@ -125,10 +125,10 @@ void ContourAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), contour_, *elt);
-		setMember(elt->name(), method_, *elt);
-		setMember(elt->name(), hilo_, *elt);
-		setMember(elt->name(), grid_, *elt);
+		setMember(elt->name(), contour_, *elt); 
+		setMember(elt->name(), method_, *elt); 
+		setMember(elt->name(), hilo_, *elt); 
+		setMember(elt->name(), grid_, *elt); 
 		
 	}
 }
@@ -153,7 +153,7 @@ void ContourAttributes::print(ostream& out)  const
 
 void ContourAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"contour\"";
+	out <<  "\"contour\""; 
 	out << ", \"legend\":";
 	niceprint(out,legend_);
 	out << ", \"contour_interpolation_floor\":";
@@ -179,24 +179,24 @@ void ContourAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> legend("legend", "off");
-static MagicsParameter<double> contour_interpolation_floor("contour_interpolation_floor", -INT_MAX);
-static MagicsParameter<double> contour_interpolation_ceiling("contour_interpolation_ceiling", INT_MAX);
-static MagicsParameter<string> contour_automatic_setting("contour_automatic_setting", "off");
-static MagicsParameter<string> contour_style_name("contour_style_name", "");
-static MagicsParameter<string> contour_metadata_only("contour_metadata_only", "off");
-static MagicsParameter<string> contour_automatic_library_path("contour_automatic_library_path", "");
-static MagicsParameter<string> contour("contour", "on");
-static MagicsParameter<string> contour_method("contour_method", "automatic");
-static MagicsParameter<string> contour_hilo("contour_hilo", "off");
-static MagicsParameter<string> contour_grid_value_plot("contour_grid_value_plot", "off");
+static MagicsParameter<string> legend("legend", "off", "");
+static MagicsParameter<double> contour_interpolation_floor("contour_interpolation_floor", -INT_MAX, "");
+static MagicsParameter<double> contour_interpolation_ceiling("contour_interpolation_ceiling", INT_MAX, "");
+static MagicsParameter<string> contour_automatic_setting("contour_automatic_setting", "off", "");
+static MagicsParameter<string> contour_style_name("contour_style_name", "", "");
+static MagicsParameter<string> contour_metadata_only("contour_metadata_only", "off", "");
+static MagicsParameter<string> contour_automatic_library_path("contour_automatic_library_path", "", "");
+static MagicsParameter<string> contour("contour", "on", ""); 
+static MagicsParameter<string> contour_method("contour_method", "automatic", ""); 
+static MagicsParameter<string> contour_hilo("contour_hilo", "off", ""); 
+static MagicsParameter<string> contour_grid_value_plot("contour_grid_value_plot", "off", ""); 
 #include "IsoPlot.h"
-#include "AutomaticContourMethod.h"
+#include "HiLo.h"
+#include "Akima474Method.h"
 #include "ContourMethod.h"
 #include "Akima760Method.h"
-#include "Akima474Method.h"
-#include "HiLo.h"
 #include "ValuePlot.h"
+#include "AutomaticContourMethod.h"
 static SimpleObjectMaker<IsoPlot , IsoPlot> isoline_IsoPlot("isoline");
 static SimpleObjectMaker<IsoPlot , IsoPlot> on_IsoPlot("on");
 static SimpleObjectMaker<NoIsoPlot , IsoPlot> noisoline_NoIsoPlot("noisoline");

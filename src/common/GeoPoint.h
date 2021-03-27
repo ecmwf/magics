@@ -47,7 +47,7 @@ public:
         low_(false),
         missing_(false),
         border_(false) {}
-    virtual ~UserPoint() override {}
+    virtual ~UserPoint() {}
 
     void latitude(double lat) { y_ = lat; }
     void longitude(double lon) { x_ = lon; }
@@ -175,7 +175,7 @@ public:
     }
 
 protected:
-    virtual void print(ostream& out) const override {
+    virtual void print(ostream& out) const {
         out << "UserPoint[";
         out << x_ << "(lon), ";
         out << y_ << "(lat), ";

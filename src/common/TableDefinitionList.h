@@ -34,11 +34,11 @@ template <class T>
 class TableDefinitionList : public TableDefinition<T> {
 public:
     TableDefinitionList() {}
-    virtual ~TableDefinitionList() override {}
+    virtual ~TableDefinitionList() {}
     void set(const TableDefinitionListInterface<T>&);
     void set(const XmlNode&);
 
-    TableDefinition<T>* clone() const override {
+    TableDefinition<T>* clone() const {
         TableDefinitionList<T>* object = new TableDefinitionList();
         // What to do with the values!
         std::copy(this->begin(), this->end(), object->begin());
@@ -47,7 +47,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& s) const override { s << "TableDefinitionList<T>[]"; }
+    virtual void print(ostream&) const {}
 
 private:
     //! Copy constructor - No copy allowed

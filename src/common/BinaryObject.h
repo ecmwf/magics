@@ -36,13 +36,13 @@ class SceneLayer;
 class BinaryObject : public BasicGraphicsObject, public BasicSceneObject, public BinaryObjectAttributes {
 public:
     BinaryObject();
-    virtual ~BinaryObject() override;
-    void redisplay(const BaseDriver&) const override;
+    virtual ~BinaryObject();
+    void redisplay(const BaseDriver&) const;
 
-    void visit(SceneLayer&) override;
+    void visit(SceneLayer&);
 
-    void set(const map<string, string>& map) override { BinaryObjectAttributes::set(map); }
-    void set(const XmlNode& node) override { BinaryObjectAttributes::set(node); }
+    void set(const map<string, string>& map) { BinaryObjectAttributes::set(map); }
+    void set(const XmlNode& node) { BinaryObjectAttributes::set(node); }
     const string& getPath() const { return path_; }
 
 
@@ -55,7 +55,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed

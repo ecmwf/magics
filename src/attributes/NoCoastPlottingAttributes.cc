@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -49,17 +49,17 @@ NoCoastPlottingAttributes::NoCoastPlottingAttributes():
 	efas_colour_(MagTranslator<string, Colour>().magics("map_efas_colour")),
 	user_layer_style_(MagTranslator<string, LineStyle>().magics("map_user_layer_style")),
 	user_layer_colour_(MagTranslator<string, Colour>().magics("map_user_layer_colour"))
-	
+	 
 {
-}
+} 
 
 
 NoCoastPlottingAttributes::~NoCoastPlottingAttributes()
 {
-
+	
 }
 
-
+    
 void NoCoastPlottingAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -120,12 +120,12 @@ void NoCoastPlottingAttributes::copy(const NoCoastPlottingAttributes& other)
 	user_layer_style_ = other.user_layer_style_;
 	user_layer_colour_ = unique_ptr<Colour>(other.user_layer_colour_->clone());
 	
-}
+} 
 
 
 bool NoCoastPlottingAttributes::accept(const string& node)
-{
-
+{	
+	
 	if ( magCompare(node, "coast")  )
 		return true;
 	if ( acceptNode(node, boundaries_) )
@@ -140,7 +140,7 @@ void NoCoastPlottingAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false )
+	if ( this->accept(node.name()) == false ) 
 		return;
 
 	if ( magCompare(node.name(), "coast")  )
@@ -156,8 +156,8 @@ void NoCoastPlottingAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), boundaries_, *elt);
-		setMember(elt->name(), cities_, *elt);
+		setMember(elt->name(), boundaries_, *elt); 
+		setMember(elt->name(), cities_, *elt); 
 		
 	}
 }
@@ -194,7 +194,7 @@ void NoCoastPlottingAttributes::print(ostream& out)  const
 
 void NoCoastPlottingAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"coast\"";
+	out <<  "\"coast\""; 
 	out << ", \"map_coastline_resolution\":";
 	niceprint(out,resolution_);
 	out << ", \"map_coastline_land_shade\":";
@@ -244,29 +244,29 @@ void NoCoastPlottingAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> map_coastline_resolution("map_coastline_resolution", "automatic");
-static MagicsParameter<string> map_coastline_land_shade("map_coastline_land_shade", "off");
-static MagicsParameter<string> map_coastline_sea_shade("map_coastline_sea_shade", "off");
-static MagicsParameter<string> map_preview("map_preview", "off");
-static MagicsParameter<string> map_rivers("map_rivers", "off");
-static MagicsParameter<int> map_rivers_thickness("map_rivers_thickness", 1);
-static MagicsParameter<string> map_efas("map_efas", "off");
-static MagicsParameter<string> map_efas_domain("map_efas_domain", "current");
-static MagicsParameter<int> map_efas_thickness("map_efas_thickness", 1);
-static MagicsParameter<string> map_user_layer("map_user_layer", "off");
-static MagicsParameter<string> map_user_layer_name("map_user_layer_name", "");
-static MagicsParameter<string> map_user_layer_projection("map_user_layer_projection", "");
-static MagicsParameter<int> map_user_layer_thickness("map_user_layer_thickness", 1);
-static MagicsParameter<string> map_coastline_land_shade_colour("map_coastline_land_shade_colour", "green");
-static MagicsParameter<string> map_coastline_sea_shade_colour("map_coastline_sea_shade_colour", "blue");
-static MagicsParameter<string> map_boundaries("map_boundaries", "off");
-static MagicsParameter<string> map_cities("map_cities", "off");
-static MagicsParameter<string> map_rivers_style("map_rivers_style", "solid");
-static MagicsParameter<string> map_rivers_colour("map_rivers_colour", "blue");
-static MagicsParameter<string> map_efas_style("map_efas_style", "solid");
-static MagicsParameter<string> map_efas_colour("map_efas_colour", "blue");
-static MagicsParameter<string> map_user_layer_style("map_user_layer_style", "solid");
-static MagicsParameter<string> map_user_layer_colour("map_user_layer_colour", "blue");
+static MagicsParameter<string> map_coastline_resolution("map_coastline_resolution", "automatic", "");
+static MagicsParameter<string> map_coastline_land_shade("map_coastline_land_shade", "off", "");
+static MagicsParameter<string> map_coastline_sea_shade("map_coastline_sea_shade", "off", "");
+static MagicsParameter<string> map_preview("map_preview", "off", "");
+static MagicsParameter<string> map_rivers("map_rivers", "off", "");
+static MagicsParameter<int> map_rivers_thickness("map_rivers_thickness", 1, "");
+static MagicsParameter<string> map_efas("map_efas", "off", "");
+static MagicsParameter<string> map_efas_domain("map_efas_domain", "current", "");
+static MagicsParameter<int> map_efas_thickness("map_efas_thickness", 1, "");
+static MagicsParameter<string> map_user_layer("map_user_layer", "off", "");
+static MagicsParameter<string> map_user_layer_name("map_user_layer_name", "", "");
+static MagicsParameter<string> map_user_layer_projection("map_user_layer_projection", "", "");
+static MagicsParameter<int> map_user_layer_thickness("map_user_layer_thickness", 1, "");
+static MagicsParameter<string> map_coastline_land_shade_colour("map_coastline_land_shade_colour", "green", ""); 
+static MagicsParameter<string> map_coastline_sea_shade_colour("map_coastline_sea_shade_colour", "blue", ""); 
+static MagicsParameter<string> map_boundaries("map_boundaries", "off", ""); 
+static MagicsParameter<string> map_cities("map_cities", "off", ""); 
+static MagicsParameter<string> map_rivers_style("map_rivers_style", "solid", ""); 
+static MagicsParameter<string> map_rivers_colour("map_rivers_colour", "blue", ""); 
+static MagicsParameter<string> map_efas_style("map_efas_style", "solid", ""); 
+static MagicsParameter<string> map_efas_colour("map_efas_colour", "blue", ""); 
+static MagicsParameter<string> map_user_layer_style("map_user_layer_style", "solid", ""); 
+static MagicsParameter<string> map_user_layer_colour("map_user_layer_colour", "blue", ""); 
 #include "Boundaries.h"
 static SimpleObjectMaker<Boundaries , NoBoundaries> boundaries_Boundaries("boundaries");
 static SimpleObjectMaker<Boundaries , NoBoundaries> on_Boundaries("on");

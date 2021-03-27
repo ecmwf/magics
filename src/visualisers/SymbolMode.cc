@@ -26,7 +26,6 @@
 #include "Histogram.h"
 #include "LegendVisitor.h"
 #include "SymbolPlotting.h"
-#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -64,25 +63,25 @@ void SymbolIndividualMode::update() {
 }
 
 void SymbolIndividualMode::properties() const {
-    static map<string, TextPosition> texthandlers;
+    static map<string, TextSymbol::TextPosition> texthandlers;
     if (texthandlers.empty()) {
-        texthandlers["none"]   = TextPosition::NONE;
-        texthandlers["left"]   = TextPosition::LEFT;
-        texthandlers["top"]    = TextPosition::ABOVE;
-        texthandlers["bottom"] = TextPosition::BELOW;
-        texthandlers["right"]  = TextPosition::RIGHT;
-        texthandlers["centre"] = TextPosition::CENTRE;
+        texthandlers["none"]   = TextSymbol::M_NONE;
+        texthandlers["left"]   = TextSymbol::M_LEFT;
+        texthandlers["top"]    = TextSymbol::M_ABOVE;
+        texthandlers["bottom"] = TextSymbol::M_BELOW;
+        texthandlers["right"]  = TextSymbol::M_RIGHT;
+        texthandlers["centre"] = TextSymbol::M_CENTRE;
     }
-    TextPosition position;
+    TextSymbol::TextPosition position;
     if (magCompare(type_, "number")) {
-        position            = TextPosition::NONE;
+        position            = TextSymbol::M_NONE;
         properties_.colour_ = *colour_;
         properties_.height_ = height_;
     }
     else {
-        string type                             = lowerCase(text_position_);
-        map<string, TextPosition>::iterator pos = texthandlers.find(type);
-        position                                = (pos != texthandlers.end()) ? pos->second : TextPosition::ABOVE;
+        string type                                         = lowerCase(text_position_);
+        map<string, TextSymbol::TextPosition>::iterator pos = texthandlers.find(type);
+        position = (pos != texthandlers.end()) ? pos->second : TextSymbol::M_ABOVE;
         if (magCompare(type_, "text")) {
             properties_.height_ = 0.01;  // make a very small symbol
             properties_.colour_ = Colour("none");
@@ -206,9 +205,6 @@ bool SymbolTableMode::accept(double value) {
         return true;
     }
     catch (...) {
-        if (MagicsGlobal::strict()) {
-            throw;
-        }
         return false;
     }
 }

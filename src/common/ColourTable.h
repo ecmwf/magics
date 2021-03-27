@@ -66,7 +66,7 @@ class ColourTable : public magvector<ColourTableEntry> {
 public:
     typedef magvector<ColourTableEntry>::const_iterator ColourIterator;
     ColourTable();
-    virtual ~ColourTable() override;
+    virtual ~ColourTable();
     virtual void prepare();
 
     // void visit(LegendEntryList&) const;
@@ -74,7 +74,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const override;
+    virtual void print(ostream&) const;
 
 private:
     // -- Friends
