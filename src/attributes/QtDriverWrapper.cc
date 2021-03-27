@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 QtDriverWrapper::QtDriverWrapper(): qtdriver_(new QtDriver())
+
 
 {
 

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 SimplePolylineInputWrapper::SimplePolylineInputWrapper(): simplepolylineinput_(new SimplePolylineInput())
+
 
 {
 

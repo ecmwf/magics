@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 SymbolModeWrapper::SymbolModeWrapper(): symbolmode_(new SymbolMode())
+
 
 {
 

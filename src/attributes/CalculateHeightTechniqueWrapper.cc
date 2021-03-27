@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 CalculateHeightTechniqueWrapper::CalculateHeightTechniqueWrapper(): calculateheighttechnique_(new CalculateHeightTechnique())
+
 
 {
 

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 IsoHighlightWrapper::IsoHighlightWrapper(): isohighlight_(new IsoHighlight())
+
 
 {
 

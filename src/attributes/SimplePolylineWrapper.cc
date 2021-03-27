@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 SimplePolylineWrapper::SimplePolylineWrapper(): simplepolyline_(new SimplePolyline())
+
 
 {
 
@@ -62,7 +64,9 @@ void SimplePolylineWrapper::set(const MagRequest& request)
 
 	if  (request.countValues("LEGEND") ) {
 		string legend_value = request("LEGEND");
+		
 		simplepolyline_->legend_ = MagTranslator<string, bool>()(legend_value);
+		
 		}
 	if  (request.countValues("POLYLINE_LINE_THICKNESS") ) {
 		int thickness_value = request("POLYLINE_LINE_THICKNESS");
@@ -103,7 +107,9 @@ void SimplePolylineWrapper::set(const MagRequest& request)
 		simplepolyline_->list_ = list_value;
 	if  (request.countValues("POLYLINE_SHADE") ) {
 		string shade_value = request("POLYLINE_SHADE");
+		
 		simplepolyline_->shade_ = MagTranslator<string, bool>()(shade_value);
+		
 		}
 	if  (request.countValues("POLYLINE_SHADE_MAX_LEVEL") ) {
 		double max_value = request("POLYLINE_SHADE_MAX_LEVEL");
@@ -195,7 +201,9 @@ void SimplePolylineWrapper::set(const MagRequest& request)
 		simplepolyline_->transparency_level_list_ = transparency_level_list_value;
 	if  (request.countValues("POLYLINE_LEGEND_ONLY") ) {
 		string legend_only_value = request("POLYLINE_LEGEND_ONLY");
+		
 		simplepolyline_->legend_only_ = MagTranslator<string, bool>()(legend_only_value);
+		
 		}
 	
 	if  (request.countValues("POLYLINE_LINE_COLOUR") ) {

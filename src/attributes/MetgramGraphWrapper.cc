@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 MetgramGraphWrapper::MetgramGraphWrapper(): metgramgraph_(new MetgramGraph())
+
 
 {
 

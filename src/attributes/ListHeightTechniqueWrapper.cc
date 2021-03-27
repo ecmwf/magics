@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 ListHeightTechniqueWrapper::ListHeightTechniqueWrapper(): listheighttechnique_(new ListHeightTechnique())
+
 
 {
 

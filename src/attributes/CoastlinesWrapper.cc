@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 CoastlinesWrapper::CoastlinesWrapper(): coastlines_(new Coastlines())
+
 
 {
 

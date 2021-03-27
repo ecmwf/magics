@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 UVWindModeWrapper::UVWindModeWrapper(): uvwindmode_(new UVWindMode())
+
 
 {
 

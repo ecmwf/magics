@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NoLogoPlottingWrapper::NoLogoPlottingWrapper(): nologoplotting_(new NoLogoPlotting())
+
 
 {
 

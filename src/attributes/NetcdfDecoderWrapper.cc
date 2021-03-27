@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NetcdfDecoderWrapper::NetcdfDecoderWrapper(): netcdfdecoder_(new NetcdfDecoder())
+
 
 {
 

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 EfiDataDecoderWrapper::EfiDataDecoderWrapper(): efidatadecoder_(new EfiDataDecoder())
+
 
 {
 

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 EmagramWrapper::EmagramWrapper(): emagram_(new Emagram())
+
 
 {
 
@@ -66,11 +68,15 @@ void EmagramWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("SUBPAGE_X_AUTOMATIC") ) {
 		string x_automatic_value = request("SUBPAGE_X_AUTOMATIC");
+		
 		emagram_->x_automatic_ = MagTranslator<string, bool>()(x_automatic_value);
+		
 		}
 	if  (request.countValues("SUBPAGE_Y_AUTOMATIC") ) {
 		string y_automatic_value = request("SUBPAGE_Y_AUTOMATIC");
+		
 		emagram_->y_automatic_ = MagTranslator<string, bool>()(y_automatic_value);
+		
 		}
 	if  (request.countValues("X_MAX") ) {
 		double x_max_value = request("X_MAX");

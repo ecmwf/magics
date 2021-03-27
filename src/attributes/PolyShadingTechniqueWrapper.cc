@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 PolyShadingTechniqueWrapper::PolyShadingTechniqueWrapper(): polyshadingtechnique_(new PolyShadingTechnique())
+
 
 {
 

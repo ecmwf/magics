@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 ObsJSonWrapper::ObsJSonWrapper(): obsjson_(new ObsJSon())
+
 
 {
 

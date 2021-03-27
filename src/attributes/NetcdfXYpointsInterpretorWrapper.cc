@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NetcdfXYpointsInterpretorWrapper::NetcdfXYpointsInterpretorWrapper(): netcdfxypointsinterpretor_(new NetcdfXYpointsInterpretor())
+
 
 {
 

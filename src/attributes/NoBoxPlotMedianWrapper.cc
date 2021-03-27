@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NoBoxPlotMedianWrapper::NoBoxPlotMedianWrapper(): noboxplotmedian_(new NoBoxPlotMedian())
+
 
 {
 

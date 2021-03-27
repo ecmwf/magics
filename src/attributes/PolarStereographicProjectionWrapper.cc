@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 PolarStereographicProjectionWrapper::PolarStereographicProjectionWrapper(): polarstereographicprojection_(new PolarStereographicProjection())
+
 
 {
 

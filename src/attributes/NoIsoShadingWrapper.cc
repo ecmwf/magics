@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NoIsoShadingWrapper::NoIsoShadingWrapper(): noisoshading_(new NoIsoShading())
+
 
 {
 

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 IsoPlotWrapper::IsoPlotWrapper(): isoplot_(new IsoPlot())
+
 
 {
 
@@ -79,7 +81,9 @@ void IsoPlotWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("CONTOUR_LINE_COLOUR_RAINBOW") ) {
 		string rainbow_value = request("CONTOUR_LINE_COLOUR_RAINBOW");
+		
 		isoplot_->rainbow_ = MagTranslator<string, bool>()(rainbow_value);
+		
 		}
 	if  (request.countValues("CONTOUR_LINE_COLOUR_RAINBOW_DIRECTION") ) {
 		string rainbowDirection_value = request("CONTOUR_LINE_COLOUR_RAINBOW_DIRECTION");
@@ -102,7 +106,9 @@ void IsoPlotWrapper::set(const MagRequest& request)
 		isoplot_->rainbowStyleList_ = rainbowStyleList_value;
 	if  (request.countValues("CONTOUR_LEGEND_ONLY") ) {
 		string legend_only_value = request("CONTOUR_LEGEND_ONLY");
+		
 		isoplot_->legend_only_ = MagTranslator<string, bool>()(legend_only_value);
+		
 		}
 	
 	

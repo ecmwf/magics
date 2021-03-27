@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NoIsoPlotWrapper::NoIsoPlotWrapper(): noisoplot_(new NoIsoPlot())
+
 
 {
 

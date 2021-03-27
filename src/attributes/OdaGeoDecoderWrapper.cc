@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 OdaGeoDecoderWrapper::OdaGeoDecoderWrapper(): odageodecoder_(new OdaGeoDecoder())
+
 
 {
 

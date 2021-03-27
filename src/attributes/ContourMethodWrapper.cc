@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 ContourMethodWrapper::ContourMethodWrapper(): contourmethod_(new ContourMethod())
+
 
 {
 

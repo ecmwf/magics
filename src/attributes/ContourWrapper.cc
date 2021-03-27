@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 ContourWrapper::ContourWrapper(): contour_(new Contour())
+
 
 {
 
@@ -55,7 +57,9 @@ void ContourWrapper::set(const MagRequest& request)
 
 	if  (request.countValues("LEGEND") ) {
 		string legend_value = request("LEGEND");
+		
 		contour_->legend_ = MagTranslator<string, bool>()(legend_value);
+		
 		}
 	if  (request.countValues("CONTOUR_INTERPOLATION_FLOOR") ) {
 		double floor_value = request("CONTOUR_INTERPOLATION_FLOOR");
@@ -75,7 +79,9 @@ void ContourWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("CONTOUR_METADATA_ONLY") ) {
 		string metadata_only_value = request("CONTOUR_METADATA_ONLY");
+		
 		contour_->metadata_only_ = MagTranslator<string, bool>()(metadata_only_value);
+		
 		}
 	if  (request.countValues("CONTOUR_AUTOMATIC_LIBRARY_PATH") ) {
 		string library_path_value = request("CONTOUR_AUTOMATIC_LIBRARY_PATH");

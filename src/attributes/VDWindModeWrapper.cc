@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 VDWindModeWrapper::VDWindModeWrapper(): vdwindmode_(new VDWindMode())
+
 
 {
 

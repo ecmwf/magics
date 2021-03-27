@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 GeoRectangularProjectionWrapper::GeoRectangularProjectionWrapper(): georectangularprojection_(new GeoRectangularProjection())
+
 
 {
 

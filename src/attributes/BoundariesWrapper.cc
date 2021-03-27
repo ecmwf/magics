@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 BoundariesWrapper::BoundariesWrapper(): boundaries_(new Boundaries())
+
 
 {
 
@@ -66,7 +68,9 @@ void BoundariesWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("MAP_DISPUTED_BOUNDARIES") ) {
 		string disputed_value = request("MAP_DISPUTED_BOUNDARIES");
+		
 		boundaries_->disputed_ = MagTranslator<string, bool>()(disputed_value);
+		
 		}
 	if  (request.countValues("MAP_DISPUTED_BOUNDARIES_THICKNESS") ) {
 		int disputed_thickness_value = request("MAP_DISPUTED_BOUNDARIES_THICKNESS");
@@ -74,7 +78,9 @@ void BoundariesWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("MAP_ADMINISTRATIVE_BOUNDARIES") ) {
 		string admistrative_value = request("MAP_ADMINISTRATIVE_BOUNDARIES");
+		
 		boundaries_->admistrative_ = MagTranslator<string, bool>()(admistrative_value);
+		
 		}
 	stringarray  administrative_list_value;
 	for (int i = 0; i < request.countValues("MAP_ADMINISTRATIVE_BOUNDARIES_COUNTRIES_LIST"); i++)

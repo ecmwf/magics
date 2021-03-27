@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 DumpShadingWrapper::DumpShadingWrapper(): dumpshading_(new DumpShading())
+
 
 {
 

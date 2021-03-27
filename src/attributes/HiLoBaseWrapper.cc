@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 HiLoBaseWrapper::HiLoBaseWrapper(): hilobase_(new HiLoBase())
+
 
 {
 

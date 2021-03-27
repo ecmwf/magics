@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 Proj4GoogleWrapper::Proj4GoogleWrapper(): proj4google_(new Proj4Google())
+
 
 {
 

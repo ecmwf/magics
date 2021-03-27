@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NoOutLayerTechniqueWrapper::NoOutLayerTechniqueWrapper(): nooutlayertechnique_(new NoOutLayerTechnique())
+
 
 {
 

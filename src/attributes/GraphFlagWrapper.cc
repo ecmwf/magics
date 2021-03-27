@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 GraphFlagWrapper::GraphFlagWrapper(): graphflag_(new GraphFlag())
+
 
 {
 

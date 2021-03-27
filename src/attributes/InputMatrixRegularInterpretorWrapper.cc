@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 InputMatrixRegularInterpretorWrapper::InputMatrixRegularInterpretorWrapper(): inputmatrixregularinterpretor_(new InputMatrixRegularInterpretor())
+
 
 {
 

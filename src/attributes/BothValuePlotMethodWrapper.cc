@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 BothValuePlotMethodWrapper::BothValuePlotMethodWrapper(): bothvalueplotmethod_(new BothValuePlotMethod())
+
 
 {
 

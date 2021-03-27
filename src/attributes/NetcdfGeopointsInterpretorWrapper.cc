@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NetcdfGeopointsInterpretorWrapper::NetcdfGeopointsInterpretorWrapper(): netcdfgeopointsinterpretor_(new NetcdfGeopointsInterpretor())
+
 
 {
 

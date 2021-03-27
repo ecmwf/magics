@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NetcdfGuessInterpretorWrapper::NetcdfGuessInterpretorWrapper(): netcdfguessinterpretor_(new NetcdfGuessInterpretor())
+
 
 {
 

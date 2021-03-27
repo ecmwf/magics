@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 DotPolyShadingMethodWrapper::DotPolyShadingMethodWrapper(): dotpolyshadingmethod_(new DotPolyShadingMethod())
+
 
 {
 

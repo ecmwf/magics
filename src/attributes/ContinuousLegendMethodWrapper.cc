@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 ContinuousLegendMethodWrapper::ContinuousLegendMethodWrapper(): continuouslegendmethod_(new ContinuousLegendMethod())
+
 
 {
 

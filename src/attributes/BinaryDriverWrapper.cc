@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 BinaryDriverWrapper::BinaryDriverWrapper(): binarydriver_(new BinaryDriver())
+
 
 {
 

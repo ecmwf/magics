@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 Proj4AutomaticWrapper::Proj4AutomaticWrapper(): proj4automatic_(new Proj4Automatic())
+
 
 {
 

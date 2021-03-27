@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 EpsGraphWrapper::EpsGraphWrapper(): epsgraph_(new EpsGraph())
+
 
 {
 
@@ -104,7 +106,9 @@ void EpsGraphWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("EPS_WHISKER") ) {
 		string whisker_value = request("EPS_WHISKER");
+		
 		epsgraph_->whisker_ = MagTranslator<string, bool>()(whisker_value);
+		
 		}
 	if  (request.countValues("EPS_LEGEND_RESOLUTION") ) {
 		string legend_resolution_value = request("EPS_LEGEND_RESOLUTION");
@@ -124,7 +128,9 @@ void EpsGraphWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("EPS_DETERMINISTIC") ) {
 		string deterministic_value = request("EPS_DETERMINISTIC");
+		
 		epsgraph_->deterministic_ = MagTranslator<string, bool>()(deterministic_value);
+		
 		}
 	if  (request.countValues("EPS_DETERMINISTIC_LINE_THICKNESS") ) {
 		int deterministic_thickness_value = request("EPS_DETERMINISTIC_LINE_THICKNESS");
@@ -136,7 +142,9 @@ void EpsGraphWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("EPS_CONTROL") ) {
 		string control_value = request("EPS_CONTROL");
+		
 		epsgraph_->control_ = MagTranslator<string, bool>()(control_value);
+		
 		}
 	if  (request.countValues("EPS_CONTROL_LINE_THICKNESS") ) {
 		int control_thickness_value = request("EPS_CONTROL_LINE_THICKNESS");
@@ -148,11 +156,15 @@ void EpsGraphWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("LEGEND") ) {
 		string legend_value = request("LEGEND");
+		
 		epsgraph_->legend_ = MagTranslator<string, bool>()(legend_value);
+		
 		}
 	if  (request.countValues("EPS_GREY_LEGEND") ) {
 		string grey_legend_value = request("EPS_GREY_LEGEND");
+		
 		epsgraph_->grey_legend_ = MagTranslator<string, bool>()(grey_legend_value);
+		
 		}
 	
 	if  (request.countValues("EPS_FONT_COLOUR") ) {

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 ObsPlottingWrapper::ObsPlottingWrapper(): obsplotting_(new ObsPlotting())
+
 
 {
 
@@ -67,87 +69,129 @@ void ObsPlottingWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("OBS_PRESENT_WEATHER") ) {
 		string present_ww_visible_value = request("OBS_PRESENT_WEATHER");
+		
 		obsplotting_->present_ww_visible_ = MagTranslator<string, bool>()(present_ww_visible_value);
+		
 		}
 	if  (request.countValues("OBS_PRESSURE") ) {
 		string pressure_visible_value = request("OBS_PRESSURE");
+		
 		obsplotting_->pressure_visible_ = MagTranslator<string, bool>()(pressure_visible_value);
+		
 		}
 	if  (request.countValues("OBS_UPPER_AIR_PRESSURE") ) {
 		string upper_air_visible_value = request("OBS_UPPER_AIR_PRESSURE");
+		
 		obsplotting_->upper_air_visible_ = MagTranslator<string, bool>()(upper_air_visible_value);
+		
 		}
 	if  (request.countValues("OBS_PRESSURE_TENDENCY") ) {
 		string pressure_tendency_visible_value = request("OBS_PRESSURE_TENDENCY");
+		
 		obsplotting_->pressure_tendency_visible_ = MagTranslator<string, bool>()(pressure_tendency_visible_value);
+		
 		}
 	if  (request.countValues("OBS_STATION_RING") ) {
 		string station_ring_visible_value = request("OBS_STATION_RING");
+		
 		obsplotting_->station_ring_visible_ = MagTranslator<string, bool>()(station_ring_visible_value);
+		
 		}
 	if  (request.countValues("OBS_TEMPERATURE") ) {
 		string temperature_visible_value = request("OBS_TEMPERATURE");
+		
 		obsplotting_->temperature_visible_ = MagTranslator<string, bool>()(temperature_visible_value);
+		
 		}
 	if  (request.countValues("OBS_THICKNESS") ) {
 		string thickness_visible_value = request("OBS_THICKNESS");
+		
 		obsplotting_->thickness_visible_ = MagTranslator<string, bool>()(thickness_visible_value);
+		
 		}
 	if  (request.countValues("OBS_HEIGHT") ) {
 		string height_visible_value = request("OBS_HEIGHT");
+		
 		obsplotting_->height_visible_ = MagTranslator<string, bool>()(height_visible_value);
+		
 		}
 	if  (request.countValues("OBS_IDENTIFICATION") ) {
 		string identifier_visible_value = request("OBS_IDENTIFICATION");
+		
 		obsplotting_->identifier_visible_ = MagTranslator<string, bool>()(identifier_visible_value);
+		
 		}
 	if  (request.countValues("OBS_CLOUD") ) {
 		string cloud_visible_value = request("OBS_CLOUD");
+		
 		obsplotting_->cloud_visible_ = MagTranslator<string, bool>()(cloud_visible_value);
+		
 		}
 	if  (request.countValues("OBS_LOW_CLOUD") ) {
 		string low_value = request("OBS_LOW_CLOUD");
+		
 		obsplotting_->low_ = MagTranslator<string, bool>()(low_value);
+		
 		}
 	if  (request.countValues("OBS_MEDIUM_CLOUD") ) {
 		string medium_value = request("OBS_MEDIUM_CLOUD");
+		
 		obsplotting_->medium_ = MagTranslator<string, bool>()(medium_value);
+		
 		}
 	if  (request.countValues("OBS_HIGH_CLOUD") ) {
 		string high_value = request("OBS_HIGH_CLOUD");
+		
 		obsplotting_->high_ = MagTranslator<string, bool>()(high_value);
+		
 		}
 	if  (request.countValues("OBS_DEWPOINT") ) {
 		string dewpoint_visible_value = request("OBS_DEWPOINT");
+		
 		obsplotting_->dewpoint_visible_ = MagTranslator<string, bool>()(dewpoint_visible_value);
+		
 		}
 	if  (request.countValues("OBS_SEA_TEMPERATURE") ) {
 		string sea_temperature_visible_value = request("OBS_SEA_TEMPERATURE");
+		
 		obsplotting_->sea_temperature_visible_ = MagTranslator<string, bool>()(sea_temperature_visible_value);
+		
 		}
 	if  (request.countValues("OBS_WAVES") ) {
 		string waves_visible_value = request("OBS_WAVES");
+		
 		obsplotting_->waves_visible_ = MagTranslator<string, bool>()(waves_visible_value);
+		
 		}
 	if  (request.countValues("OBS_PAST_WEATHER") ) {
 		string past_ww_visible_value = request("OBS_PAST_WEATHER");
+		
 		obsplotting_->past_ww_visible_ = MagTranslator<string, bool>()(past_ww_visible_value);
+		
 		}
 	if  (request.countValues("OBS_TIME") ) {
 		string time_plot_visible_value = request("OBS_TIME");
+		
 		obsplotting_->time_plot_visible_ = MagTranslator<string, bool>()(time_plot_visible_value);
+		
 		}
 	if  (request.countValues("OBS_VISIBILITY") ) {
 		string visibility_visible_value = request("OBS_VISIBILITY");
+		
 		obsplotting_->visibility_visible_ = MagTranslator<string, bool>()(visibility_visible_value);
+		
 		}
 	if  (request.countValues("OBS_WIND") ) {
 		string wind_visible_value = request("OBS_WIND");
+		
 		obsplotting_->wind_visible_ = MagTranslator<string, bool>()(wind_visible_value);
+		
 		}
 	if  (request.countValues("OBS_WIND_PROJECTED") ) {
 		string wind_projected_value = request("OBS_WIND_PROJECTED");
+		
 		obsplotting_->wind_projected_ = MagTranslator<string, bool>()(wind_projected_value);
+		
 		}
 	
 	if  (request.countValues("OBS_COLOUR") ) {

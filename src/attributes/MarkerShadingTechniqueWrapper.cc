@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 MarkerShadingTechniqueWrapper::MarkerShadingTechniqueWrapper(): markershadingtechnique_(new MarkerShadingTechnique())
+
 
 {
 

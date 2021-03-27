@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 MagnifierVisitorWrapper::MagnifierVisitorWrapper(): magnifiervisitor_(new MagnifierVisitor())
+
 
 {
 

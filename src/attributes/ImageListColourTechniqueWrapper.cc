@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 ImageListColourTechniqueWrapper::ImageListColourTechniqueWrapper(): imagelistcolourtechnique_(new ImageListColourTechnique())
+
 
 {
 

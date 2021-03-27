@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 BoxPlotDecoderWrapper::BoxPlotDecoderWrapper(): boxplotdecoder_(new BoxPlotDecoder())
+
 
 {
 

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 EpsgramDecoderWrapper::EpsgramDecoderWrapper(): epsgramdecoder_(new EpsgramDecoder())
+
 
 {
 
@@ -108,19 +110,27 @@ void EpsgramDecoderWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("EPS_LONG_TITLE") ) {
 		string long_title_value = request("EPS_LONG_TITLE");
+		
 		epsgramdecoder_->long_title_ = MagTranslator<string, bool>()(long_title_value);
+		
 		}
 	if  (request.countValues("EPS_LONG_TITLE_STATION") ) {
 		string long_title_station_value = request("EPS_LONG_TITLE_STATION");
+		
 		epsgramdecoder_->long_title_station_ = MagTranslator<string, bool>()(long_title_station_value);
+		
 		}
 	if  (request.countValues("EPS_LONG_TITLE_HEIGHT") ) {
 		string long_title_height_value = request("EPS_LONG_TITLE_HEIGHT");
+		
 		epsgramdecoder_->long_title_height_ = MagTranslator<string, bool>()(long_title_height_value);
+		
 		}
 	if  (request.countValues("EPS_LONG_TITLE_POINT") ) {
 		string long_title_point_value = request("EPS_LONG_TITLE_POINT");
+		
 		epsgramdecoder_->long_title_point_ = MagTranslator<string, bool>()(long_title_point_value);
+		
 		}
 	if  (request.countValues("EPS_STATION_NAME") ) {
 		string station_value = request("EPS_STATION_NAME");
@@ -132,7 +142,9 @@ void EpsgramDecoderWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("EPS_TEMPERATURE_CORRECTION") ) {
 		string correction_value = request("EPS_TEMPERATURE_CORRECTION");
+		
 		epsgramdecoder_->correction_ = MagTranslator<string, bool>()(correction_value);
+		
 		}
 	if  (request.countValues("EPS_Y_AXIS_PERCENTILE") ) {
 		double percentile_value = request("EPS_Y_AXIS_PERCENTILE");

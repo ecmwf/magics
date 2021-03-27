@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 XCoordinateWrapper::XCoordinateWrapper(): xcoordinate_(new XCoordinate())
+
 
 {
 

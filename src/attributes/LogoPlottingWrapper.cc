@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 LogoPlottingWrapper::LogoPlottingWrapper(): logoplotting_(new LogoPlotting())
+
 
 {
 

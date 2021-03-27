@@ -32,6 +32,7 @@ class ObjectHandler(ContentHandler):
     include = {}
     include_options = {}
     inherits = ""
+    static_methods = ""
     top = ""
     metview_default = ""
     implements = []
@@ -63,6 +64,8 @@ class ObjectHandler(ContentHandler):
         if "inherits" in attrs.keys():
             self.inherits = attrs.get("inherits")
         self.abstract = "abstract" in attrs.keys()
+        if "static_methods" in attrs.keys():
+            self.static_methods = attrs.get("static_methods")
         if "top" in attrs.keys():
             self.top = attrs.get("top")
 
@@ -222,6 +225,7 @@ new = template.render(
     metview_default=object.metview_default,
     abstract=object.abstract,
     inherit=object.inherits,
+    static_methods=object.static_methods,
     prefix=object.prefix,
 )
 

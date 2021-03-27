@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 LogarithmicAxisMethodWrapper::LogarithmicAxisMethodWrapper(): logarithmicaxismethod_(new LogarithmicAxisMethod())
+
 
 {
 

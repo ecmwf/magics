@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 GradientsColourTechniqueWrapper::GradientsColourTechniqueWrapper(): gradientscolourtechnique_(new GradientsColourTechnique())
+
 
 {
 

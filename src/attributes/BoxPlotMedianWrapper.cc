@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 BoxPlotMedianWrapper::BoxPlotMedianWrapper(): boxplotmedian_(new BoxPlotMedian())
+
 
 {
 

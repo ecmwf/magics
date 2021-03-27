@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 MetaDataWrapper::MetaDataWrapper(): metadata_(new MetaData())
+
 
 {
 

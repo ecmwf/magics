@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 TaylorProjectionWrapper::TaylorProjectionWrapper(): taylorprojection_(new TaylorProjection())
+
 
 {
 

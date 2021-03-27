@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 HyperAxisMethodWrapper::HyperAxisMethodWrapper(): hyperaxismethod_(new HyperAxisMethod())
+
 
 {
 

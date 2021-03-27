@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 EpsDirectionWrapper::EpsDirectionWrapper(): epsdirection_(new EpsDirection())
+
 
 {
 

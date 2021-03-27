@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 DateAxisMethodWrapper::DateAxisMethodWrapper(): dateaxismethod_(new DateAxisMethod())
+
 
 {
 
@@ -66,7 +68,9 @@ void DateAxisMethodWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("AXIS_YEARS_LABEL") ) {
 		string years_value = request("AXIS_YEARS_LABEL");
+		
 		dateaxismethod_->years_ = MagTranslator<string, bool>()(years_value);
+		
 		}
 	if  (request.countValues("AXIS_YEARS_LABEL_FONT") ) {
 		string year_font_value = request("AXIS_YEARS_LABEL_FONT");
@@ -82,7 +86,9 @@ void DateAxisMethodWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("AXIS_MONTHS_LABEL") ) {
 		string months_value = request("AXIS_MONTHS_LABEL");
+		
 		dateaxismethod_->months_ = MagTranslator<string, bool>()(months_value);
+		
 		}
 	if  (request.countValues("AXIS_MONTHS_LABEL_COMPOSITION") ) {
 		string month_composition_value = request("AXIS_MONTHS_LABEL_COMPOSITION");
@@ -126,7 +132,9 @@ void DateAxisMethodWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("AXIS_HOURS_LABEL") ) {
 		string hours_value = request("AXIS_HOURS_LABEL");
+		
 		dateaxismethod_->hours_ = MagTranslator<string, bool>()(hours_value);
+		
 		}
 	if  (request.countValues("AXIS_HOURS_LABEL_FONT") ) {
 		string hour_font_value = request("AXIS_HOURS_LABEL_FONT");

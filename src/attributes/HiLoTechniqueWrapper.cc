@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 HiLoTechniqueWrapper::HiLoTechniqueWrapper(): hilotechnique_(new HiLoTechnique())
+
 
 {
 

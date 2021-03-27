@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NoCoastPlottingWrapper::NoCoastPlottingWrapper(): nocoastplotting_(new NoCoastPlotting())
+
 
 {
 
@@ -59,15 +61,21 @@ void NoCoastPlottingWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("MAP_COASTLINE_LAND_SHADE") ) {
 		string land_value = request("MAP_COASTLINE_LAND_SHADE");
+		
 		nocoastplotting_->land_ = MagTranslator<string, bool>()(land_value);
+		
 		}
 	if  (request.countValues("MAP_COASTLINE_SEA_SHADE") ) {
 		string sea_value = request("MAP_COASTLINE_SEA_SHADE");
+		
 		nocoastplotting_->sea_ = MagTranslator<string, bool>()(sea_value);
+		
 		}
 	if  (request.countValues("MAP_PREVIEW") ) {
 		string preview_value = request("MAP_PREVIEW");
+		
 		nocoastplotting_->preview_ = MagTranslator<string, bool>()(preview_value);
+		
 		}
 	if  (request.countValues("MAP_RIVERS") ) {
 		string rivers_value = request("MAP_RIVERS");

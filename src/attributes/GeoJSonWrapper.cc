@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 GeoJSonWrapper::GeoJSonWrapper(): geojson_(new GeoJSon())
+
 
 {
 

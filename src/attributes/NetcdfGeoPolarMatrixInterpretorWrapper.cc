@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NetcdfGeoPolarMatrixInterpretorWrapper::NetcdfGeoPolarMatrixInterpretorWrapper(): netcdfgeopolarmatrixinterpretor_(new NetcdfGeoPolarMatrixInterpretor())
+
 
 {
 

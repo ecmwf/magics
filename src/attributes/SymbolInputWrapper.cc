@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 SymbolInputWrapper::SymbolInputWrapper(): symbolinput_(new SymbolInput())
+
 
 {
 

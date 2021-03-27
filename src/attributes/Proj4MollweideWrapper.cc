@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 Proj4MollweideWrapper::Proj4MollweideWrapper(): proj4mollweide_(new Proj4Mollweide())
+
 
 {
 

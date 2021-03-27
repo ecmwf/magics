@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 EfiGraphWrapper::EfiGraphWrapper(): efigraph_(new EfiGraph())
+
 
 {
 

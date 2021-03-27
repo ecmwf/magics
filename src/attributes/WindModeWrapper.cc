@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 WindModeWrapper::WindModeWrapper(): windmode_(new WindMode())
+
 
 {
 

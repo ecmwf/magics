@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 IntervalSelectionTypeWrapper::IntervalSelectionTypeWrapper(): intervalselectiontype_(new IntervalSelectionType())
+
 
 {
 

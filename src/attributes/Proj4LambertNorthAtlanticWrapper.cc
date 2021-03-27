@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 Proj4LambertNorthAtlanticWrapper::Proj4LambertNorthAtlanticWrapper(): proj4lambertnorthatlantic_(new Proj4LambertNorthAtlantic())
+
 
 {
 

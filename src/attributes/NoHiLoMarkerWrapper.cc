@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NoHiLoMarkerWrapper::NoHiLoMarkerWrapper(): nohilomarker_(new NoHiLoMarker())
+
 
 {
 

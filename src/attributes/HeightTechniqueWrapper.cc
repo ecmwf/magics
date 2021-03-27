@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 HeightTechniqueWrapper::HeightTechniqueWrapper(): heighttechnique_(new HeightTechnique())
+
 
 {
 

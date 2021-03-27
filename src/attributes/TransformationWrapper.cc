@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 TransformationWrapper::TransformationWrapper(): transformation_(new Transformation())
+
 
 {
 

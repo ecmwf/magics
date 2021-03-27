@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 FixedTableModeWrapper::FixedTableModeWrapper(): fixedtablemode_(new FixedTableMode())
+
 
 {
 

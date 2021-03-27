@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 Proj4ProjectionWrapper::Proj4ProjectionWrapper(): proj4projection_(new Proj4Projection())
+
 
 {
 

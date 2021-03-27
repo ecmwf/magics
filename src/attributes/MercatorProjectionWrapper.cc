@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 MercatorProjectionWrapper::MercatorProjectionWrapper(): mercatorprojection_(new MercatorProjection())
+
 
 {
 

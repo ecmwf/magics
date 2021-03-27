@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 InputMatrixWrapper::InputMatrixWrapper(): inputmatrix_(new InputMatrix())
+
 
 {
 
@@ -55,7 +57,9 @@ void InputMatrixWrapper::set(const MagRequest& request)
 
 	if  (request.countValues("INPUT_SIMPLE_FIELD") ) {
 		string simple_field_value = request("INPUT_SIMPLE_FIELD");
+		
 		inputmatrix_->simple_field_ = MagTranslator<string, bool>()(simple_field_value);
+		
 		}
 	if  (request.countValues("INPUT_METADATA") ) {
 		string metadata_value = request("INPUT_METADATA");

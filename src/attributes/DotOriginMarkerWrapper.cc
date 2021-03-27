@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 DotOriginMarkerWrapper::DotOriginMarkerWrapper(): dotoriginmarker_(new DotOriginMarker())
+
 
 {
 

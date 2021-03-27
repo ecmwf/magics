@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 XYListWrapper::XYListWrapper(): xylist_(new XYList())
+
 
 {
 

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 WindWrapper::WindWrapper(): wind_(new Wind())
+
 
 {
 
@@ -63,7 +65,9 @@ void WindWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("WIND_THINNING_DEBUG") ) {
 		string thinning_debug_value = request("WIND_THINNING_DEBUG");
+		
 		wind_->thinning_debug_ = MagTranslator<string, bool>()(thinning_debug_value);
+		
 		}
 	
 	

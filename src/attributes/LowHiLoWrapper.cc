@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 LowHiLoWrapper::LowHiLoWrapper(): lowhilo_(new LowHiLo())
+
 
 {
 

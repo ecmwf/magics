@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 XmlSceneNodeWrapper::XmlSceneNodeWrapper(): xmlscenenode_(new XmlSceneNode())
+
 
 {
 
@@ -99,7 +101,9 @@ void XmlSceneNodeWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("SCENE_NODE_BORDER") ) {
 		string border_value = request("SCENE_NODE_BORDER");
+		
 		xmlscenenode_->border_ = MagTranslator<string, bool>()(border_value);
+		
 		}
 	if  (request.countValues("SCENE_NODE_BORDER_TOP") ) {
 		string border_top_value = request("SCENE_NODE_BORDER_TOP");

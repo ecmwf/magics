@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 GribAddressByteModeWrapper::GribAddressByteModeWrapper(): gribaddressbytemode_(new GribAddressByteMode())
+
 
 {
 

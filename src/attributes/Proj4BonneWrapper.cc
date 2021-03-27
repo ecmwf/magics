@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 Proj4BonneWrapper::Proj4BonneWrapper(): proj4bonne_(new Proj4Bonne())
+
 
 {
 

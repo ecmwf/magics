@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 CitiesWrapper::CitiesWrapper(): cities_(new Cities())
+
 
 {
 
@@ -74,7 +76,9 @@ void CitiesWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("MAP_CITIES_TEXT_BLANKING") ) {
 		string blanking_value = request("MAP_CITIES_TEXT_BLANKING");
+		
 		cities_->blanking_ = MagTranslator<string, bool>()(blanking_value);
+		
 		}
 	if  (request.countValues("MAP_CITIES_FONT_SIZE") ) {
 		double font_size_value = request("MAP_CITIES_FONT_SIZE");

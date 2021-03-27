@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 IsoLabelWrapper::IsoLabelWrapper(): isolabel_(new IsoLabel())
+
 
 {
 
@@ -78,7 +80,9 @@ void IsoLabelWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("CONTOUR_LABEL_BLANKING") ) {
 		string blanking_value = request("CONTOUR_LABEL_BLANKING");
+		
 		isolabel_->blanking_ = MagTranslator<string, bool>()(blanking_value);
+		
 		}
 	if  (request.countValues("CONTOUR_LABEL_FONT") ) {
 		string font_value = request("CONTOUR_LABEL_FONT");

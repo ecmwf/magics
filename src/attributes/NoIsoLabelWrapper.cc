@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NoIsoLabelWrapper::NoIsoLabelWrapper(): noisolabel_(new NoIsoLabel())
+
 
 {
 

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 ObsStatDecoderWrapper::ObsStatDecoderWrapper(): obsstatdecoder_(new ObsStatDecoder())
+
 
 {
 

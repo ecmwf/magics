@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 BoxPlotVisualiserWrapper::BoxPlotVisualiserWrapper(): boxplotvisualiser_(new BoxPlotVisualiser())
+
 
 {
 

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
-MagicsGlobalWrapper::MagicsGlobalWrapper(): magicsglobal_(new MagicsGlobal())
+
+MagicsGlobalWrapper::MagicsGlobalWrapper()
+
 
 {
 
@@ -55,15 +57,21 @@ void MagicsGlobalWrapper::set(const MagRequest& request)
 
 	if  (request.countValues("MAGICS_SILENT") ) {
 		string silent_value = request("MAGICS_SILENT");
-		magicsglobal_->silent_ = MagTranslator<string, bool>()(silent_value);
+		
+		MagicsGlobal::silent(MagTranslator<string, bool>()(silent_value));
+        
 		}
 	if  (request.countValues("MAGICS_BACKWARD_COMPATIBILITY") ) {
 		string compatibility_value = request("MAGICS_BACKWARD_COMPATIBILITY");
-		magicsglobal_->compatibility_ = MagTranslator<string, bool>()(compatibility_value);
+		
+		MagicsGlobal::compatibility(MagTranslator<string, bool>()(compatibility_value));
+        
 		}
 	if  (request.countValues("MAGICS_STRICT_MODE") ) {
 		string strict_value = request("MAGICS_STRICT_MODE");
-		magicsglobal_->strict_ = MagTranslator<string, bool>()(strict_value);
+		
+		MagicsGlobal::strict(MagTranslator<string, bool>()(strict_value));
+        
 		}
 	
 	

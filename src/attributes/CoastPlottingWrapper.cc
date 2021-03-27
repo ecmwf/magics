@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 CoastPlottingWrapper::CoastPlottingWrapper(): coastplotting_(new CoastPlotting())
+
 
 {
 

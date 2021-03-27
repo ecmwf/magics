@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 YRegularCoordinateWrapper::YRegularCoordinateWrapper(): yregularcoordinate_(new YRegularCoordinate())
+
 
 {
 
@@ -70,7 +72,9 @@ void YRegularCoordinateWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("Y_AUTOMATIC_REVERSE") ) {
 		string reverse_value = request("Y_AUTOMATIC_REVERSE");
+		
 		yregularcoordinate_->reverse_ = MagTranslator<string, bool>()(reverse_value);
+		
 		}
 	
 	

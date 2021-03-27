@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 HighHiLoWrapper::HighHiLoWrapper(): highhilo_(new HighHiLo())
+
 
 {
 

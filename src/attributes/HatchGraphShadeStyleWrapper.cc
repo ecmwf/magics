@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 HatchGraphShadeStyleWrapper::HatchGraphShadeStyleWrapper(): hatchgraphshadestyle_(new HatchGraphShadeStyle())
+
 
 {
 

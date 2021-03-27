@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NoGraphShadeWrapper::NoGraphShadeWrapper(): nographshade_(new NoGraphShade())
+
 
 {
 

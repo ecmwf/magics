@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 PreviewVisitorWrapper::PreviewVisitorWrapper(): previewvisitor_(new PreviewVisitor())
+
 
 {
 

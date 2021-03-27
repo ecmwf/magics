@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 NoBoundariesWrapper::NoBoundariesWrapper(): noboundaries_(new NoBoundaries())
+
 
 {
 

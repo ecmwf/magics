@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 CalmIndicatorWrapper::CalmIndicatorWrapper(): calmindicator_(new CalmIndicator())
+
 
 {
 

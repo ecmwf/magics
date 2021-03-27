@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 AxisWrapper::AxisWrapper(): axis_(new Axis())
+
 
 {
 
@@ -63,7 +65,9 @@ void AxisWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("AXIS_LINE") ) {
 		string line_value = request("AXIS_LINE");
+		
 		axis_->line_ = MagTranslator<string, bool>()(line_value);
+		
 		}
 	if  (request.countValues("AXIS_LINE_THICKNESS") ) {
 		int line_thickness_value = request("AXIS_LINE_THICKNESS");
@@ -71,7 +75,9 @@ void AxisWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("AXIS_GRID") ) {
 		string grid_value = request("AXIS_GRID");
+		
 		axis_->grid_ = MagTranslator<string, bool>()(grid_value);
+		
 		}
 	if  (request.countValues("AXIS_GRID_THICKNESS") ) {
 		int grid_thickness_value = request("AXIS_GRID_THICKNESS");
@@ -79,7 +85,9 @@ void AxisWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("AXIS_MINOR_GRID") ) {
 		string minor_grid_value = request("AXIS_MINOR_GRID");
+		
 		axis_->minor_grid_ = MagTranslator<string, bool>()(minor_grid_value);
+		
 		}
 	if  (request.countValues("AXIS_MINOR_GRID_THICKNESS") ) {
 		int minor_grid_thickness_value = request("AXIS_MINOR_GRID_THICKNESS");
@@ -95,7 +103,9 @@ void AxisWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("AXIS_TITLE") ) {
 		string title_value = request("AXIS_TITLE");
+		
 		axis_->title_ = MagTranslator<string, bool>()(title_value);
+		
 		}
 	if  (request.countValues("AXIS_TITLE_TEXT") ) {
 		string title_text_value = request("AXIS_TITLE_TEXT");
@@ -123,7 +133,9 @@ void AxisWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("AXIS_TICK") ) {
 		string tick_value = request("AXIS_TICK");
+		
 		axis_->tick_ = MagTranslator<string, bool>()(tick_value);
+		
 		}
 	if  (request.countValues("AXIS_TICK_INTERVAL") ) {
 		double interval_value = request("AXIS_TICK_INTERVAL");
@@ -148,7 +160,9 @@ void AxisWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("AXIS_TICK_LABEL") ) {
 		string label_value = request("AXIS_TICK_LABEL");
+		
 		axis_->label_ = MagTranslator<string, bool>()(label_value);
+		
 		}
 	if  (request.countValues("AXIS_TICK_LABEL_TYPE") ) {
 		string label_type_value = request("AXIS_TICK_LABEL_TYPE");
@@ -160,11 +174,15 @@ void AxisWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("AXIS_TICK_LABEL_FIRST") ) {
 		string label_first_value = request("AXIS_TICK_LABEL_FIRST");
+		
 		axis_->label_first_ = MagTranslator<string, bool>()(label_first_value);
+		
 		}
 	if  (request.countValues("AXIS_TICK_LABEL_LAST") ) {
 		string label_last_value = request("AXIS_TICK_LABEL_LAST");
+		
 		axis_->label_last_ = MagTranslator<string, bool>()(label_last_value);
+		
 		}
 	if  (request.countValues("AXIS_TICK_LABEL_POSITION") ) {
 		string label_position_value = request("AXIS_TICK_LABEL_POSITION");
@@ -197,7 +215,9 @@ void AxisWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("AXIS_MINOR_TICK") ) {
 		string minor_tick_value = request("AXIS_MINOR_TICK");
+		
 		axis_->minor_tick_ = MagTranslator<string, bool>()(minor_tick_value);
+		
 		}
 	if  (request.countValues("AXIS_MINOR_TICK_COUNT") ) {
 		int minor_tick_count_value = request("AXIS_MINOR_TICK_COUNT");
@@ -209,7 +229,9 @@ void AxisWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("AXIS_TIP_TITLE") ) {
 		string tip_value = request("AXIS_TIP_TITLE");
+		
 		axis_->tip_ = MagTranslator<string, bool>()(tip_value);
+		
 		}
 	if  (request.countValues("AXIS_TIP_TITLE_TEXT") ) {
 		string tip_text_value = request("AXIS_TIP_TITLE_TEXT");

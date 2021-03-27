@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 InputDataWrapper::InputDataWrapper(): inputdata_(new InputData())
+
 
 {
 
@@ -140,7 +142,9 @@ void InputDataWrapper::set(const MagRequest& request)
 		inputdata_->y_component_ = y_component_value;
 	if  (request.countValues("INPUT_AUTOMATIC") ) {
 		string input_automatic_value = request("INPUT_AUTOMATIC");
+		
 		inputdata_->input_automatic_ = MagTranslator<string, bool>()(input_automatic_value);
+		
 		}
 	
 	

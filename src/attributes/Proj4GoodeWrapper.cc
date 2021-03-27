@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 Proj4GoodeWrapper::Proj4GoodeWrapper(): proj4goode_(new Proj4Goode())
+
 
 {
 

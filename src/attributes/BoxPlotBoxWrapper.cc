@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 BoxPlotBoxWrapper::BoxPlotBoxWrapper(): boxplotbox_(new BoxPlotBox())
+
 
 {
 

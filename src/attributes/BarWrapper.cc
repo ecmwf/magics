@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 BarWrapper::BarWrapper(): bar_(new Bar())
+
 
 {
 
@@ -78,7 +80,9 @@ void BarWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("GRAPH_BAR_CLIPPING") ) {
 		string clipping_value = request("GRAPH_BAR_CLIPPING");
+		
 		bar_->clipping_ = MagTranslator<string, bool>()(clipping_value);
+		
 		}
 	stringarray  annotation_value;
 	for (int i = 0; i < request.countValues("GRAPH_BAR_ANNOTATION"); i++)

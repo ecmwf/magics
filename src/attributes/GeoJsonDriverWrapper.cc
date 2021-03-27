@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 GeoJsonDriverWrapper::GeoJsonDriverWrapper(): geojsondriver_(new GeoJsonDriver())
+
 
 {
 
@@ -62,7 +64,9 @@ void GeoJsonDriverWrapper::set(const MagRequest& request)
 
 	if  (request.countValues("GEOJSON_ZIP") ) {
 		string zip_value = request("GEOJSON_ZIP");
+		
 		geojsondriver_->zip_ = MagTranslator<string, bool>()(zip_value);
+		
 		}
 	if  (request.countValues("GEOJSON_DESCRIPTION") ) {
 		string description_value = request("GEOJSON_DESCRIPTION");
@@ -78,7 +82,9 @@ void GeoJsonDriverWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("GEOJSON_COASTLINES") ) {
 		string coastlines_value = request("GEOJSON_COASTLINES");
+		
 		geojsondriver_->coastlines_ = MagTranslator<string, bool>()(coastlines_value);
+		
 		}
 	
 	

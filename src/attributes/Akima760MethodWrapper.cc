@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 Akima760MethodWrapper::Akima760MethodWrapper(): akima760method_(new Akima760Method())
+
 
 {
 

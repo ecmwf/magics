@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 OutputHandlerWrapper::OutputHandlerWrapper(): outputhandler_(new OutputHandler())
+
 
 {
 

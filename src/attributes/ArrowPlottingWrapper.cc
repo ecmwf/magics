@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 ArrowPlottingWrapper::ArrowPlottingWrapper(): arrowplotting_(new ArrowPlotting())
+
 
 {
 

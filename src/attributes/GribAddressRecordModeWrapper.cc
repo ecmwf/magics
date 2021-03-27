@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 GribAddressRecordModeWrapper::GribAddressRecordModeWrapper(): gribaddressrecordmode_(new GribAddressRecordMode())
+
 
 {
 

@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 TephiGridWrapper::TephiGridWrapper(): tephigrid_(new TephiGrid())
+
 
 {
 
@@ -59,7 +61,9 @@ void TephiGridWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("THERMO_ISOTHERM_GRID") ) {
 		string isotherm_value = request("THERMO_ISOTHERM_GRID");
+		
 		tephigrid_->isotherm_ = MagTranslator<string, bool>()(isotherm_value);
+		
 		}
 	if  (request.countValues("THERMO_ISOTHERM_THICKNESS") ) {
 		int isotherm_thickness_value = request("THERMO_ISOTHERM_THICKNESS");
@@ -95,7 +99,9 @@ void TephiGridWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("THERMO_ISOBAR_GRID") ) {
 		string isobar_value = request("THERMO_ISOBAR_GRID");
+		
 		tephigrid_->isobar_ = MagTranslator<string, bool>()(isobar_value);
+		
 		}
 	if  (request.countValues("THERMO_ISOBAR_THICKNESS") ) {
 		int isobar_thickness_value = request("THERMO_ISOBAR_THICKNESS");
@@ -127,7 +133,9 @@ void TephiGridWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("THERMO_DRY_ADIABATIC_GRID") ) {
 		string dry_adiabatic_value = request("THERMO_DRY_ADIABATIC_GRID");
+		
 		tephigrid_->dry_adiabatic_ = MagTranslator<string, bool>()(dry_adiabatic_value);
+		
 		}
 	if  (request.countValues("THERMO_DRY_ADIABATIC_THICKNESS") ) {
 		int dry_adiabatic_thickness_value = request("THERMO_DRY_ADIABATIC_THICKNESS");
@@ -159,7 +167,9 @@ void TephiGridWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("THERMO_SATURATED_ADIABATIC_GRID") ) {
 		string saturated_adiabatic_value = request("THERMO_SATURATED_ADIABATIC_GRID");
+		
 		tephigrid_->saturated_adiabatic_ = MagTranslator<string, bool>()(saturated_adiabatic_value);
+		
 		}
 	if  (request.countValues("THERMO_SATURATED_ADIABATIC_THICKNESS") ) {
 		int saturated_adiabatic_thickness_value = request("THERMO_SATURATED_ADIABATIC_THICKNESS");
@@ -191,7 +201,9 @@ void TephiGridWrapper::set(const MagRequest& request)
 		}
 	if  (request.countValues("THERMO_MIXING_RATIO_GRID") ) {
 		string mixing_ratio_value = request("THERMO_MIXING_RATIO_GRID");
+		
 		tephigrid_->mixing_ratio_ = MagTranslator<string, bool>()(mixing_ratio_value);
+		
 		}
 	if  (request.countValues("THERMO_MIXING_RATIO_THICKNESS") ) {
 		int mixing_ratio_thickness_value = request("THERMO_MIXING_RATIO_THICKNESS");

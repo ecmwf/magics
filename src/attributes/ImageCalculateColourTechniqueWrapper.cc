@@ -29,7 +29,9 @@
 using namespace magics;
 
 
+
 ImageCalculateColourTechniqueWrapper::ImageCalculateColourTechniqueWrapper(): imagecalculatecolourtechnique_(new ImageCalculateColourTechnique())
+
 
 {
 
