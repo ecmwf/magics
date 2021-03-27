@@ -2258,7 +2258,7 @@ public:
 
         long ident                      = grib.getLong("ident");
         map<long, string>::iterator sat = names.find(ident);
-        
+
         if (sat != names.end())
             title.back() += sat->second;
         else

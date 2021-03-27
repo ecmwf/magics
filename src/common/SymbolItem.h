@@ -63,9 +63,9 @@ private:
 class SymbolItem : public GraphicsItem {
 public:
     SymbolItem() {}
-    ~SymbolItem() {}
+    ~SymbolItem() override {}
 
-    void redisplay(const ComplexSymbol&, const BaseDriver&);
+    void redisplay(const ComplexSymbol&, const BaseDriver&) override;
 
     double height() const { return height_; }
     void height(double height) { height_ = height; }
@@ -77,7 +77,7 @@ public:
     void colour(const Colour& colour) { colour_ = colour; }
 
 protected:
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     double height_;
     string symbol_;
     Colour colour_;
@@ -85,9 +85,9 @@ protected:
 class TextItem : public GraphicsItem {
 public:
     TextItem() {}
-    ~TextItem() {}
+    ~TextItem() override {}
 
-    void redisplay(const ComplexSymbol&, const BaseDriver&);
+    void redisplay(const ComplexSymbol&, const BaseDriver&) override;
 
     const string& text() const { return text_; }
     void text(const string& text) { text_ = text; }
@@ -99,7 +99,7 @@ public:
     void justification(const Justification& justification) { justification_ = justification; }
 
 protected:
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     string text_;
     MagFont font_;
     Justification justification_;
@@ -107,9 +107,9 @@ protected:
 class FlagItem : public GraphicsItem, public ArrowProperties {
 public:
     FlagItem() {}
-    ~FlagItem() {}
+    ~FlagItem() override {}
 
-    void redisplay(const ComplexSymbol&, const BaseDriver&);
+    void redisplay(const ComplexSymbol&, const BaseDriver&) override;
 
     double length() const { return length_; }
     void length(double length) { length_ = length; }
@@ -126,7 +126,7 @@ public:
     FlagConvention convention() const { return convention_; }
 
 protected:
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     double length_;
     FlagConvention convention_;
     double speed_;

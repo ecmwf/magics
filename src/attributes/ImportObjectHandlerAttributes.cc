@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -33,17 +33,17 @@ ImportObjectHandlerAttributes::ImportObjectHandlerAttributes():
 	import_width_(ParameterManager::getDouble("import_width")),
 	import_height_(ParameterManager::getDouble("import_height"))
 	
-	 
+	
 {
-} 
+}
 
 
 ImportObjectHandlerAttributes::~ImportObjectHandlerAttributes()
 {
-	
+
 }
 
-    
+
 void ImportObjectHandlerAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -71,12 +71,12 @@ void ImportObjectHandlerAttributes::copy(const ImportObjectHandlerAttributes& ot
 	import_width_ = other.import_width_;
 	import_height_ = other.import_height_;
 	
-} 
+}
 
 
 bool ImportObjectHandlerAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "import")  )
 		return true;
 	
@@ -87,7 +87,7 @@ void ImportObjectHandlerAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "import")  )
@@ -121,7 +121,7 @@ void ImportObjectHandlerAttributes::print(ostream& out)  const
 
 void ImportObjectHandlerAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"import\""; 
+	out <<  "\"import\"";
 	out << ", \"import_file_name\":";
 	niceprint(out,path_);
 	out << ", \"import_format\":";
@@ -139,10 +139,10 @@ void ImportObjectHandlerAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> import_file_name("import_file_name", "", "");
-static MagicsParameter<string> import_format("import_format", "png", "");
-static MagicsParameter<string> import_overlay("import_overlay", "on", "");
-static MagicsParameter<double> import_x_position("import_x_position", 0, "");
-static MagicsParameter<double> import_y_position("import_y_position", 0, "");
-static MagicsParameter<double> import_width("import_width", -1, "");
-static MagicsParameter<double> import_height("import_height", -1, "");
+static MagicsParameter<string> import_file_name("import_file_name", "");
+static MagicsParameter<string> import_format("import_format", "png");
+static MagicsParameter<string> import_overlay("import_overlay", "on");
+static MagicsParameter<double> import_x_position("import_x_position", 0);
+static MagicsParameter<double> import_y_position("import_y_position", 0);
+static MagicsParameter<double> import_width("import_width", -1);
+static MagicsParameter<double> import_height("import_height", -1);

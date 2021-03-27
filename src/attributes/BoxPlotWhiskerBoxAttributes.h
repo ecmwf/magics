@@ -25,8 +25,8 @@
 #define BoxPlotWhiskerBoxAttributes_H
 
 #include "magics.h"
-#include "BoxPlotBasicItem.h"
 #include "Colour.h"
+#include "BoxPlotBasicItem.h"
 namespace magics {
 
 class XmlNode;

@@ -58,7 +58,7 @@ void ImportObjectHandler::visit(SceneLayer& tree, vector<LayoutVisitor*>&) {
     layout_->width(adjustDimension(import_width_, 100., BasicPositionalObject::absoluteWidth()));
     layout_->height(adjustDimension(import_height_, 100., BasicPositionalObject::absoluteHeight()));
 
-    // layout_->frame(true, true, Colour("blue"), M_DOT, 3);
+    // layout_->frame(true, true, Colour("blue"), LineStyle::DOT, 3);
     // layout_->frameIt();
 
     ImportObject* object = new ImportObject();

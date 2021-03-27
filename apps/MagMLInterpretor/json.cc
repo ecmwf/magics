@@ -8,7 +8,8 @@
  * does it submit to any jurisdiction.
  */
 
-#include "magics_windef.h"
+#include "magics.h"
+
 #ifndef MAGICS_ON_WINDOWS
 #include <unistd.h>
 #endif
@@ -17,7 +18,7 @@
 #include "MetaData.h"
 #include "WebFormat.h"
 
-#ifdef  HAVE_ODB 
+#ifdef  HAVE_ODB
 #include <eckit/runtime/Main.h>
 #endif
 
@@ -91,14 +92,14 @@ int normal_main(int argc, char** argv) {
                 alarm(0);
 #endif
             }
-            catch ( MagicsException& e ) {
-                std::cout << argv[0] << " FAILED to dispatch JSON file!" << e << endl;
+            catch (MagicsException& e) {
+                std::cout << argv[0] << " FAILED to dispatch JSON file! " << e.what() << endl;
                 exit(1);
             }
         }
     }
     catch (MagicsException& e) {
-        std::cout << "MagJson: Catch Exception " << e << endl;
+        std::cout << "MagJson: Catch Exception " << e.what() << endl;
         exit(1);
     }
     return 0;
@@ -127,7 +128,7 @@ int server_main(int argc, char** argv) {
 }
 
 int main(int argc, char** argv) {
-#ifdef  HAVE_ODB 
+#ifdef  HAVE_ODB
     eckit::Main::initialise(argc, argv);
 #endif
 

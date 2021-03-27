@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -27,17 +27,17 @@ using namespace magics;
 GraphShadeStyleAttributes::GraphShadeStyleAttributes():
 	
 	colour_(MagTranslator<string, Colour>().magics("graph_shade_colour"))
-	 
+	
 {
-} 
+}
 
 
 GraphShadeStyleAttributes::~GraphShadeStyleAttributes()
 {
-	
+
 }
 
-    
+
 void GraphShadeStyleAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -53,12 +53,12 @@ void GraphShadeStyleAttributes::copy(const GraphShadeStyleAttributes& other)
 {
 	colour_ = unique_ptr<Colour>(other.colour_->clone());
 	
-} 
+}
 
 
 bool GraphShadeStyleAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "")  )
 		return true;
 	
@@ -69,7 +69,7 @@ void GraphShadeStyleAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "")  )
@@ -97,10 +97,10 @@ void GraphShadeStyleAttributes::print(ostream& out)  const
 
 void GraphShadeStyleAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"\""; 
+	out <<  "\"\"";
 	out << ", \"graph_shade_colour\":";
 	niceprint(out, *colour_);
 	
 }
 
-static MagicsParameter<string> graph_shade_colour("graph_shade_colour", "blue", ""); 
+static MagicsParameter<string> graph_shade_colour("graph_shade_colour", "blue");

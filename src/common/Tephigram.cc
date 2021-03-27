@@ -16,10 +16,10 @@
 
 */
 
-#include <Polyline.h>
-#include <Tephigram.h>
+#include "Tephigram.h"
 #include "MagClipper.h"
 #include "MagJSon.h"
+#include "Polyline.h"
 #include "SciMethods.h"
 
 using namespace magics;

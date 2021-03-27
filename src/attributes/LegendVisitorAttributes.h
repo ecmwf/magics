@@ -25,8 +25,8 @@
 #define LegendVisitorAttributes_H
 
 #include "magics.h"
-#include "LegendMethod.h"
 #include "Colour.h"
+#include "LegendMethod.h"
 namespace magics {
 
 class XmlNode;

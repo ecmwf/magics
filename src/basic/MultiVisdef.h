@@ -31,24 +31,24 @@ namespace magics {
 class MultiVisdef : public Visdef {
 public:
     MultiVisdef();
-    virtual ~MultiVisdef();
+    virtual ~MultiVisdef() override;
     vector<Visdef*>* oneDimension() { return &one_d_; }
     vector<Visdef*>* twoDimension() { return &two_d_; }
 
-    virtual void operator()(Data&, BasicGraphicsObjectContainer&);
-    virtual void visit(LegendVisitor&);
-    virtual void visit(Data&, LegendVisitor& legend);
-    virtual void visit(Data&, HistoVisitor&);
-    virtual void visit(MetaDataVisitor&);
-    virtual void visit(TopAxisVisitor&);
-    virtual void visit(Transformation&, Data&);
-    virtual void visit(Layer& layer);
-    virtual void beanInfo(IntervalMap<Colour>&);
-    bool needLegend();
+    virtual void operator()(Data&, BasicGraphicsObjectContainer&) override;
+    virtual void visit(LegendVisitor&) override;
+    virtual void visit(Data&, LegendVisitor& legend) override;
+    virtual void visit(Data&, HistoVisitor&) override;
+    virtual void visit(MetaDataVisitor&) override;
+    virtual void visit(TopAxisVisitor&) override;
+    virtual void visit(Transformation&, Data&) override;
+    virtual void visit(Layer& layer) override;
+    virtual void beanInfo(IntervalMap<Colour>&) override;
+    bool needLegend() override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     vector<Visdef*> one_d_;
     vector<Visdef*> two_d_;
 

@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -37,17 +37,17 @@ EfiGraphAttributes::EfiGraphAttributes():
 	normal_colour_(MagTranslator<string, Colour>().magics("efi_normal_colour")),
 	normal_style_(MagTranslator<string, LineStyle>().magics("efi_normal_line_style")),
 	font_colour_(MagTranslator<string, Colour>().magics("efi_font_colour"))
-	 
+	
 {
-} 
+}
 
 
 EfiGraphAttributes::~EfiGraphAttributes()
 {
-	
+
 }
 
-    
+
 void EfiGraphAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -83,12 +83,12 @@ void EfiGraphAttributes::copy(const EfiGraphAttributes& other)
 	normal_style_ = other.normal_style_;
 	font_colour_ = unique_ptr<Colour>(other.font_colour_->clone());
 	
-} 
+}
 
 
 bool EfiGraphAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "efigraph")  )
 		return true;
 	
@@ -99,7 +99,7 @@ void EfiGraphAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "efigraph")  )
@@ -137,7 +137,7 @@ void EfiGraphAttributes::print(ostream& out)  const
 
 void EfiGraphAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"efigraph\""; 
+	out <<  "\"efigraph\"";
 	out << ", \"efi_box_colour_array\":";
 	niceprint(out,box_colour_);
 	out << ", \"efi_box_border_thickness\":";
@@ -163,14 +163,14 @@ void EfiGraphAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<stringarray> efi_box_colour_array("efi_box_colour_array", stringarray(), "");
-static MagicsParameter<int> efi_box_border_thickness("efi_box_border_thickness", 1, "");
-static MagicsParameter<int> efi_normal_thickness("efi_normal_thickness", 4, "");
-static MagicsParameter<string> efi_font("efi_font", "sansserif", "");
-static MagicsParameter<double> efi_font_size("efi_font_size", 0.25, "");
-static MagicsParameter<string> efi_font_style("efi_font_style", "", "");
-static MagicsParameter<string> efi_box_border_colour("efi_box_border_colour", "black", ""); 
-static MagicsParameter<string> efi_box_border_line_style("efi_box_border_line_style", "solid", ""); 
-static MagicsParameter<string> efi_normal_colour("efi_normal_colour", "black", ""); 
-static MagicsParameter<string> efi_normal_line_style("efi_normal_line_style", "solid", ""); 
-static MagicsParameter<string> efi_font_colour("efi_font_colour", "black", ""); 
+static MagicsParameter<stringarray> efi_box_colour_array("efi_box_colour_array", stringarray());
+static MagicsParameter<int> efi_box_border_thickness("efi_box_border_thickness", 1);
+static MagicsParameter<int> efi_normal_thickness("efi_normal_thickness", 4);
+static MagicsParameter<string> efi_font("efi_font", "sansserif");
+static MagicsParameter<double> efi_font_size("efi_font_size", 0.25);
+static MagicsParameter<string> efi_font_style("efi_font_style", "");
+static MagicsParameter<string> efi_box_border_colour("efi_box_border_colour", "black");
+static MagicsParameter<string> efi_box_border_line_style("efi_box_border_line_style", "solid");
+static MagicsParameter<string> efi_normal_colour("efi_normal_colour", "black");
+static MagicsParameter<string> efi_normal_line_style("efi_normal_line_style", "solid");
+static MagicsParameter<string> efi_font_colour("efi_font_colour", "black");

@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -27,17 +27,17 @@ using namespace magics;
 EpsWaveAttributes::EpsWaveAttributes():
 	colour_(ParameterManager::getStringArray("eps_rose_wave_colour"))
 	
-	 
+	
 {
-} 
+}
 
 
 EpsWaveAttributes::~EpsWaveAttributes()
 {
-	
+
 }
 
-    
+
 void EpsWaveAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -54,12 +54,12 @@ void EpsWaveAttributes::copy(const EpsWaveAttributes& other)
 {
 	colour_ = other.colour_;
 	
-} 
+}
 
 
 bool EpsWaveAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "epswave")  )
 		return true;
 	
@@ -70,7 +70,7 @@ void EpsWaveAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "epswave")  )
@@ -98,10 +98,10 @@ void EpsWaveAttributes::print(ostream& out)  const
 
 void EpsWaveAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"epswave\""; 
+	out <<  "\"epswave\"";
 	out << ", \"eps_rose_wave_colour\":";
 	niceprint(out,colour_);
 	
 }
 
-static MagicsParameter<stringarray> eps_rose_wave_colour("eps_rose_wave_colour", stringarray(), "");
+static MagicsParameter<stringarray> eps_rose_wave_colour("eps_rose_wave_colour", stringarray());

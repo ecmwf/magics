@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -55,17 +55,17 @@ XmlBasicNodeAttributes::XmlBasicNodeAttributes():
 	border_colour_(MagTranslator<string, Colour>().magics("view_border_colour")),
 	border_style_(MagTranslator<string, LineStyle>().magics("view_border_style")),
 	padding_colour_(MagTranslator<string, Colour>().magics("view_padding_colour"))
-	 
+	
 {
-} 
+}
 
 
 XmlBasicNodeAttributes::~XmlBasicNodeAttributes()
 {
-	
+
 }
 
-    
+
 void XmlBasicNodeAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -137,12 +137,12 @@ void XmlBasicNodeAttributes::copy(const XmlBasicNodeAttributes& other)
 	border_style_ = other.border_style_;
 	padding_colour_ = unique_ptr<Colour>(other.padding_colour_->clone());
 	
-} 
+}
 
 
 bool XmlBasicNodeAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "view")  )
 		return true;
 	
@@ -153,7 +153,7 @@ void XmlBasicNodeAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "view")  )
@@ -209,7 +209,7 @@ void XmlBasicNodeAttributes::print(ostream& out)  const
 
 void XmlBasicNodeAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"view\""; 
+	out <<  "\"view\"";
 	out << ", \"view_standalone\":";
 	niceprint(out,standalone_);
 	out << ", \"view_standalone_file_name\":";
@@ -271,32 +271,32 @@ void XmlBasicNodeAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> view_standalone("view_standalone", "off", "");
-static MagicsParameter<string> view_standalone_file_name("view_standalone_file_name", "", "");
-static MagicsParameter<string> view_standalone_format("view_standalone_format", "png", "");
-static MagicsParameter<double> view_standalone_width("view_standalone_width", 128, "");
-static MagicsParameter<double> view_standalone_height("view_standalone_height", 64, "");
-static MagicsParameter<string> view_bottom("view_bottom", "0%", "");
-static MagicsParameter<string> view_left("view_left", "0%", "");
-static MagicsParameter<string> view_width("view_width", "100%", "");
-static MagicsParameter<string> view_height("view_height", "100%", "");
-static MagicsParameter<string> view_margin_bottom("view_margin_bottom", "undef", "");
-static MagicsParameter<string> view_margin_left("view_margin_left", "undef", "");
-static MagicsParameter<string> view_margin_right("view_margin_right", "undef", "");
-static MagicsParameter<string> view_margin_top("view_margin_top", "undef", "");
-static MagicsParameter<string> view_border_bottom("view_border_bottom", "1px", "");
-static MagicsParameter<string> view_border_left("view_border_left", "1px", "");
-static MagicsParameter<string> view_border_right("view_border_right", "1px", "");
-static MagicsParameter<string> view_border_top("view_border_top", "1px", "");
-static MagicsParameter<string> view_border("view_border", "on", "");
-static MagicsParameter<string> view_blanking("view_blanking", "on", "");
-static MagicsParameter<int> view_border_thickness("view_border_thickness", 1, "");
-static MagicsParameter<string> view_padding_bottom("view_padding_bottom", "0%", "");
-static MagicsParameter<string> view_padding_left("view_padding_left", "0%", "");
-static MagicsParameter<string> view_padding_right("view_padding_right", "0%", "");
-static MagicsParameter<string> view_padding_top("view_padding_top", "0%", "");
-static MagicsParameter<string> view_display("view_display", "inline", ""); 
-static MagicsParameter<string> view_background_colour("view_background_colour", "none", ""); 
-static MagicsParameter<string> view_border_colour("view_border_colour", "tan", ""); 
-static MagicsParameter<string> view_border_style("view_border_style", "solid", ""); 
-static MagicsParameter<string> view_padding_colour("view_padding_colour", "none", ""); 
+static MagicsParameter<string> view_standalone("view_standalone", "off");
+static MagicsParameter<string> view_standalone_file_name("view_standalone_file_name", "");
+static MagicsParameter<string> view_standalone_format("view_standalone_format", "png");
+static MagicsParameter<double> view_standalone_width("view_standalone_width", 128);
+static MagicsParameter<double> view_standalone_height("view_standalone_height", 64);
+static MagicsParameter<string> view_bottom("view_bottom", "0%");
+static MagicsParameter<string> view_left("view_left", "0%");
+static MagicsParameter<string> view_width("view_width", "100%");
+static MagicsParameter<string> view_height("view_height", "100%");
+static MagicsParameter<string> view_margin_bottom("view_margin_bottom", "undef");
+static MagicsParameter<string> view_margin_left("view_margin_left", "undef");
+static MagicsParameter<string> view_margin_right("view_margin_right", "undef");
+static MagicsParameter<string> view_margin_top("view_margin_top", "undef");
+static MagicsParameter<string> view_border_bottom("view_border_bottom", "1px");
+static MagicsParameter<string> view_border_left("view_border_left", "1px");
+static MagicsParameter<string> view_border_right("view_border_right", "1px");
+static MagicsParameter<string> view_border_top("view_border_top", "1px");
+static MagicsParameter<string> view_border("view_border", "on");
+static MagicsParameter<string> view_blanking("view_blanking", "on");
+static MagicsParameter<int> view_border_thickness("view_border_thickness", 1);
+static MagicsParameter<string> view_padding_bottom("view_padding_bottom", "0%");
+static MagicsParameter<string> view_padding_left("view_padding_left", "0%");
+static MagicsParameter<string> view_padding_right("view_padding_right", "0%");
+static MagicsParameter<string> view_padding_top("view_padding_top", "0%");
+static MagicsParameter<string> view_display("view_display", "inline");
+static MagicsParameter<string> view_background_colour("view_background_colour", "none");
+static MagicsParameter<string> view_border_colour("view_border_colour", "tan");
+static MagicsParameter<string> view_border_style("view_border_style", "solid");
+static MagicsParameter<string> view_padding_colour("view_padding_colour", "none");

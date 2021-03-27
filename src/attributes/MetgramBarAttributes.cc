@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -28,17 +28,17 @@ MetgramBarAttributes::MetgramBarAttributes():
 	keyword_(ParameterManager::getString("metgram_bar_keyword"))
 	,
 	colour_(MagTranslator<string, Colour>().magics("metgram_bar_colour"))
-	 
+	
 {
-} 
+}
 
 
 MetgramBarAttributes::~MetgramBarAttributes()
 {
-	
+
 }
 
-    
+
 void MetgramBarAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -56,12 +56,12 @@ void MetgramBarAttributes::copy(const MetgramBarAttributes& other)
 	keyword_ = other.keyword_;
 	colour_ = unique_ptr<Colour>(other.colour_->clone());
 	
-} 
+}
 
 
 bool MetgramBarAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "metgraph")  )
 		return true;
 	
@@ -72,7 +72,7 @@ void MetgramBarAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "metgraph")  )
@@ -101,7 +101,7 @@ void MetgramBarAttributes::print(ostream& out)  const
 
 void MetgramBarAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"metgraph\""; 
+	out <<  "\"metgraph\"";
 	out << ", \"metgram_bar_keyword\":";
 	niceprint(out,keyword_);
 	out << ", \"metgram_bar_colour\":";
@@ -109,5 +109,5 @@ void MetgramBarAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> metgram_bar_keyword("metgram_bar_keyword", "curve1", "");
-static MagicsParameter<string> metgram_bar_colour("metgram_bar_colour", "blue", ""); 
+static MagicsParameter<string> metgram_bar_keyword("metgram_bar_keyword", "curve1");
+static MagicsParameter<string> metgram_bar_colour("metgram_bar_colour", "blue");

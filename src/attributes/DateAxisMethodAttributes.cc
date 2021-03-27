@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -51,17 +51,17 @@ DateAxisMethodAttributes::DateAxisMethodAttributes():
 	day_colour_(MagTranslator<string, Colour>().magics("axis_days_label_colour")),
 	sunday_colour_(MagTranslator<string, Colour>().magics("axis_days_sunday_label_colour")),
 	hour_colour_(MagTranslator<string, Colour>().magics("axis_hours_label_colour"))
-	 
+	
 {
-} 
+}
 
 
 DateAxisMethodAttributes::~DateAxisMethodAttributes()
 {
-	
+
 }
 
-    
+
 void DateAxisMethodAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -126,12 +126,12 @@ void DateAxisMethodAttributes::copy(const DateAxisMethodAttributes& other)
 	sunday_colour_ = unique_ptr<Colour>(other.sunday_colour_->clone());
 	hour_colour_ = unique_ptr<Colour>(other.hour_colour_->clone());
 	
-} 
+}
 
 
 bool DateAxisMethodAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "date")  )
 		return true;
 	
@@ -142,7 +142,7 @@ void DateAxisMethodAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "date")  )
@@ -194,7 +194,7 @@ void DateAxisMethodAttributes::print(ostream& out)  const
 
 void DateAxisMethodAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"date\""; 
+	out <<  "\"date\"";
 	out << ", \"axis_date_type\":";
 	niceprint(out,method_);
 	out << ", \"axis_years_label\":";
@@ -248,28 +248,28 @@ void DateAxisMethodAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> axis_date_type("axis_date_type", "days", "");
-static MagicsParameter<string> axis_years_label("axis_years_label", "on", "");
-static MagicsParameter<string> axis_years_label_font("axis_years_label_font", "sansserif", "");
-static MagicsParameter<string> axis_years_label_font_style("axis_years_label_font_style", "normal", "");
-static MagicsParameter<double> axis_years_label_height("axis_years_label_height", 0.2, "");
-static MagicsParameter<string> axis_months_label("axis_months_label", "on", "");
-static MagicsParameter<string> axis_months_label_composition("axis_months_label_composition", "three", "");
-static MagicsParameter<string> axis_months_label_font("axis_months_label_font", "sansserif", "");
-static MagicsParameter<string> axis_months_label_font_style("axis_months_label_font_style", "normal", "");
-static MagicsParameter<double> axis_months_label_height("axis_months_label_height", 0.2, "");
-static MagicsParameter<string> axis_days_label("axis_days_label", "both", "");
-static MagicsParameter<string> axis_days_label_composition("axis_days_label_composition", "three", "");
-static MagicsParameter<int> axis_days_label_position("axis_days_label_position", 12, "");
-static MagicsParameter<string> axis_days_label_font("axis_days_label_font", "sansserif", "");
-static MagicsParameter<string> axis_days_label_font_style("axis_days_label_font_style", "normal", "");
-static MagicsParameter<double> axis_days_label_height("axis_days_label_height", 0.2, "");
-static MagicsParameter<string> axis_hours_label("axis_hours_label", "off", "");
-static MagicsParameter<string> axis_hours_label_font("axis_hours_label_font", "sansserif", "");
-static MagicsParameter<string> axis_hours_label_font_style("axis_hours_label_font_style", "normal", "");
-static MagicsParameter<double> axis_hours_label_height("axis_hours_label_height", 0.2, "");
-static MagicsParameter<string> axis_years_label_colour("axis_years_label_colour", "automatic", ""); 
-static MagicsParameter<string> axis_months_label_colour("axis_months_label_colour", "automatic", ""); 
-static MagicsParameter<string> axis_days_label_colour("axis_days_label_colour", "black", ""); 
-static MagicsParameter<string> axis_days_sunday_label_colour("axis_days_sunday_label_colour", "red", ""); 
-static MagicsParameter<string> axis_hours_label_colour("axis_hours_label_colour", "black", ""); 
+static MagicsParameter<string> axis_date_type("axis_date_type", "days");
+static MagicsParameter<string> axis_years_label("axis_years_label", "on");
+static MagicsParameter<string> axis_years_label_font("axis_years_label_font", "sansserif");
+static MagicsParameter<string> axis_years_label_font_style("axis_years_label_font_style", "normal");
+static MagicsParameter<double> axis_years_label_height("axis_years_label_height", 0.2);
+static MagicsParameter<string> axis_months_label("axis_months_label", "on");
+static MagicsParameter<string> axis_months_label_composition("axis_months_label_composition", "three");
+static MagicsParameter<string> axis_months_label_font("axis_months_label_font", "sansserif");
+static MagicsParameter<string> axis_months_label_font_style("axis_months_label_font_style", "normal");
+static MagicsParameter<double> axis_months_label_height("axis_months_label_height", 0.2);
+static MagicsParameter<string> axis_days_label("axis_days_label", "both");
+static MagicsParameter<string> axis_days_label_composition("axis_days_label_composition", "three");
+static MagicsParameter<int> axis_days_label_position("axis_days_label_position", 12);
+static MagicsParameter<string> axis_days_label_font("axis_days_label_font", "sansserif");
+static MagicsParameter<string> axis_days_label_font_style("axis_days_label_font_style", "normal");
+static MagicsParameter<double> axis_days_label_height("axis_days_label_height", 0.2);
+static MagicsParameter<string> axis_hours_label("axis_hours_label", "off");
+static MagicsParameter<string> axis_hours_label_font("axis_hours_label_font", "sansserif");
+static MagicsParameter<string> axis_hours_label_font_style("axis_hours_label_font_style", "normal");
+static MagicsParameter<double> axis_hours_label_height("axis_hours_label_height", 0.2);
+static MagicsParameter<string> axis_years_label_colour("axis_years_label_colour", "automatic");
+static MagicsParameter<string> axis_months_label_colour("axis_months_label_colour", "automatic");
+static MagicsParameter<string> axis_days_label_colour("axis_days_label_colour", "black");
+static MagicsParameter<string> axis_days_sunday_label_colour("axis_days_sunday_label_colour", "red");
+static MagicsParameter<string> axis_hours_label_colour("axis_hours_label_colour", "black");

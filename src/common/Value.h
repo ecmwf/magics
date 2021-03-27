@@ -149,7 +149,7 @@ public:
     Value operator-(const Value&) const;
     Value& operator-=(const Value&);
 
-    Value operator*(const Value&)const;
+    Value operator*(const Value&) const;
     Value& operator*=(const Value&);
 
     Value operator/(const Value&) const;
@@ -248,6 +248,6 @@ private:  // methods
 //----------------------------------------------------------------------------------------------------------------------
 
 
-}  // namespace eckit
+}  // namespace magics
 
 #endif

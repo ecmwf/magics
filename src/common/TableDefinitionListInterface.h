@@ -31,12 +31,12 @@ template <class T>
 class TableDefinitionListInterface {
 public:
     TableDefinitionListInterface() {}
-    virtual ~TableDefinitionListInterface() {}
+    virtual ~TableDefinitionListInterface() override {}
     virtual vector<T> getValues() const = 0;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const {}
+    virtual void print(ostream& s) const override { s << "TableDefinitionListInterface<T>[]"; }
 
 private:
     //! Copy constructor - No copy allowed

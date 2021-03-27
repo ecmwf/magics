@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-   
+
 
 #ifndef CitiesWrapper_H
 #define CitiesWrapper_H
@@ -33,7 +33,7 @@
 #include "Cities.h"
 
 
- 
+
 #include "NoCitiesWrapper.h"
 
 
@@ -41,7 +41,7 @@
 
 
 
- 
+
 
 namespace magics {
 
@@ -58,21 +58,21 @@ public:
 //  --  destructor
     virtual ~CitiesWrapper();
     virtual void set(const MagRequest&);
-    
-    Cities* me()   { return cities_; }
-   	
-   	virtual Cities* object() { return cities_; }
-	
 
-	virtual void object(Cities* o) { 
+    Cities* me()   { return cities_; }
+
+   	virtual Cities* object() { return cities_; }
+
+
+	virtual void object(Cities* o) {
 		// Remember to delete the previous object
 		cities_ = o;
 		NoCitiesWrapper::object(o);
 		
 
 	}
-    
-  
+
+
 
 protected:
     Cities* cities_;
@@ -80,7 +80,7 @@ protected:
 
 //  --  method
 	virtual void print(ostream&) const;
-	
+
 
 private:
     string tag_;
@@ -91,5 +91,3 @@ private:
 } // namespace magics
 
 #endif
-
-

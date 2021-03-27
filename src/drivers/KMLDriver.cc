@@ -16,16 +16,16 @@
 
 */
 
-#include <Arrow.h>
-#include <Flag.h>
-#include <Image.h>
-#include <KMLDriver.h>
-#include <Layer.h>
-#include <Polyline.h>
-#include <Symbol.h>
-#include <Text.h>
+#include "KMLDriver.h"
+#include "Arrow.h"
+#include "Flag.h"
+#include "Image.h"
+#include "Layer.h"
+#include "Polyline.h"
+#include "Symbol.h"
+#include "Text.h"
 
-#include "magics_windef.h"
+#include "magics.h"
 
 //! For generating KMZ files
 extern "C" {
@@ -34,7 +34,7 @@ extern "C" {
 #define MAXFILENAME 256
 #define WRITEBUFFERSIZE 16384
 #include <fcntl.h>  // open
-#include <cstdio>   // BUFSIZ
+#include <cstdio>  // BUFSIZ
 
 #ifndef MAGICS_ON_WINDOWS
 #include <unistd.h>
@@ -47,8 +47,8 @@ extern "C" {
 #endif
 
 #ifdef HAVE_CAIRO
-#include <CairoDriver.h>
 #include <cairo.h>
+#include "CairoDriver.h"
 #endif
 
 using namespace magics;
@@ -541,11 +541,11 @@ MAGICS_NO_EXPORT void KMLDriver::setNewLineWidth(const MFloat width) const {
   param w width of the line
 
 */
-MAGICS_NO_EXPORT int KMLDriver::setLineParameters(const LineStyle, const MFloat w) const {
+MAGICS_NO_EXPORT void KMLDriver::setLineParameters(const LineStyle, const MFloat w) const {
     setNewLineWidth(w);
 
     //	MagLog::debug() << "KMLDriver::setLineParameters needs implementing." << std::endl;
-    return 0;
+    return;
 }
 
 /*!

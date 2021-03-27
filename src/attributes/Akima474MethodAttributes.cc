@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -28,17 +28,17 @@ Akima474MethodAttributes::Akima474MethodAttributes():
 	resolutionX_(ParameterManager::getDouble("contour_akima_x_resolution")),
 	resolutionY_(ParameterManager::getDouble("contour_akima_y_resolution"))
 	
-	 
+	
 {
-} 
+}
 
 
 Akima474MethodAttributes::~Akima474MethodAttributes()
 {
-	
+
 }
 
-    
+
 void Akima474MethodAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -56,12 +56,12 @@ void Akima474MethodAttributes::copy(const Akima474MethodAttributes& other)
 	resolutionX_ = other.resolutionX_;
 	resolutionY_ = other.resolutionY_;
 	
-} 
+}
 
 
 bool Akima474MethodAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "akima474")  )
 		return true;
 	
@@ -72,7 +72,7 @@ void Akima474MethodAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "akima474")  )
@@ -101,7 +101,7 @@ void Akima474MethodAttributes::print(ostream& out)  const
 
 void Akima474MethodAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"akima474\""; 
+	out <<  "\"akima474\"";
 	out << ", \"contour_akima_x_resolution\":";
 	niceprint(out,resolutionX_);
 	out << ", \"contour_akima_y_resolution\":";
@@ -109,5 +109,5 @@ void Akima474MethodAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> contour_akima_x_resolution("contour_akima_x_resolution", 1.5, "");
-static MagicsParameter<double> contour_akima_y_resolution("contour_akima_y_resolution", 1.5, "");
+static MagicsParameter<double> contour_akima_x_resolution("contour_akima_x_resolution", 1.5);
+static MagicsParameter<double> contour_akima_y_resolution("contour_akima_y_resolution", 1.5);

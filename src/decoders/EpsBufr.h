@@ -39,29 +39,31 @@ namespace magics {
 class EpsBufr : public Decoder, public Data, public PointsList, public EpsBufrAttributes {
 public:
     EpsBufr();
-    virtual ~EpsBufr();
+    virtual ~EpsBufr() override;
 
-    virtual void set(const map<string, string>& map) { EpsBufrAttributes::set(map); }
-    virtual void set(const XmlNode& node) { EpsBufrAttributes::set(node); }
+    virtual void set(const map<string, string>& map) override { EpsBufrAttributes::set(map); }
+    virtual void set(const XmlNode& node) override { EpsBufrAttributes::set(node); }
 
-    virtual void visit(Transformation&);
+    virtual void visit(Transformation&) override;
     void visit(const XmlNode& node);
 
-    virtual void decode();
+    virtual void decode() override;
 
     void customisedPoints(const std::set<string>&, CustomisedPointsList&);
     virtual PointsHandler& points();
-    virtual void visit(TextVisitor&);
-    virtual void visit(MetaDataVisitor&);
-    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool) {
+    virtual void visit(TextVisitor&) override;
+    virtual void visit(MetaDataVisitor&) override;
+    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out,
+                          bool) override {
         customisedPoints(n, out);
     }
 
-    PointsHandler& points(const Transformation&, bool) { return points(); }
+    PointsHandler& points(const Transformation&, bool) override { return points(); }
+
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     DateTime base_;
     vector<CustomisedPoint*> points_;
     double minstep_;

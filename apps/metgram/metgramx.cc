@@ -10,10 +10,10 @@
 
 #include <iostream>
 
-#include <ParameterManager.h>
-#include <XmlMagics.h>
+#include "ParameterManager.h"
+#include "XmlMagics.h"
 
-#include <XmlReader.h>
+#include "XmlReader.h"
 
 using namespace std;
 using namespace magics;
@@ -140,9 +140,7 @@ public:
                 def << INT_MAX;
 
                 string meta = node.getAttribute("metafile");
-#ifdef MAGICS_AIX_XLC
-                meta = "";
-#endif
+
                 meta = (meta.empty()) ? "nometada" : "meta path=\'" + meta + "\'";
 
                 MagLog::dev() << "Meta-->" << meta;

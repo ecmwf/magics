@@ -53,7 +53,7 @@ class MagicsSingleton : public MagicsSingletonAttributes {
         magics_    = new MagicsManager();
         output_.set(*magics_);
     }
-    ~MagicsSingleton() { MagLog::debug() << "Delete MagicsSingleton\n"; }
+    ~MagicsSingleton() override { MagLog::debug() << "Delete MagicsSingleton\n"; }
     static MagicsSingleton* singleton_;
 
 public:

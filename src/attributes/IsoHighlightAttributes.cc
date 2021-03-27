@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -31,17 +31,17 @@ IsoHighlightAttributes::IsoHighlightAttributes():
 	,
 	style_(MagTranslator<string, LineStyle>().magics("contour_highlight_style")),
 	colour_(MagTranslator<string, Colour>().magics("contour_highlight_colour"))
-	 
+	
 {
-} 
+}
 
 
 IsoHighlightAttributes::~IsoHighlightAttributes()
 {
-	
+
 }
 
-    
+
 void IsoHighlightAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(3);
@@ -67,12 +67,12 @@ void IsoHighlightAttributes::copy(const IsoHighlightAttributes& other)
 	style_ = other.style_;
 	colour_ = unique_ptr<Colour>(other.colour_->clone());
 	
-} 
+}
 
 
 bool IsoHighlightAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "highlight")  )
 		return true;
 	
@@ -83,7 +83,7 @@ void IsoHighlightAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "highlight")  )
@@ -115,7 +115,7 @@ void IsoHighlightAttributes::print(ostream& out)  const
 
 void IsoHighlightAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"highlight\""; 
+	out <<  "\"highlight\"";
 	out << ", \"contour_reference_level\":";
 	niceprint(out,reference_);
 	out << ", \"contour_highlight_thickness\":";
@@ -129,8 +129,8 @@ void IsoHighlightAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> contour_reference_level("contour_reference_level", 0.0, "");
-static MagicsParameter<int> contour_highlight_thickness("contour_highlight_thickness", 3, "");
-static MagicsParameter<int> contour_highlight_frequency("contour_highlight_frequency", 4, "");
-static MagicsParameter<string> contour_highlight_style("contour_highlight_style", "solid", ""); 
-static MagicsParameter<string> contour_highlight_colour("contour_highlight_colour", "blue", ""); 
+static MagicsParameter<double> contour_reference_level("contour_reference_level", 0.0);
+static MagicsParameter<int> contour_highlight_thickness("contour_highlight_thickness", 3);
+static MagicsParameter<int> contour_highlight_frequency("contour_highlight_frequency", 4);
+static MagicsParameter<string> contour_highlight_style("contour_highlight_style", "solid");
+static MagicsParameter<string> contour_highlight_colour("contour_highlight_colour", "blue");

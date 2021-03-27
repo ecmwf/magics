@@ -19,7 +19,7 @@
 #ifndef _MgQHistoItem_H
 #define _MgQHistoItem_H
 
-#include <magics.h>
+#include "magics.h"
 
 #include "MgQ.h"
 
@@ -31,7 +31,7 @@ public:
     };
 
     MgQHistoItem();
-    ~MgQHistoItem();
+    ~MgQHistoItem() override;
     QPixmap pixmap() { return pixmap_; }
     void setPixmap(QPixmap p, QSize s) {
         pixmap_              = p;

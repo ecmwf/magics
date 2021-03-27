@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -31,17 +31,17 @@ ObsDecoderAttributes::ObsDecoderAttributes():
 	tolerance_(ParameterManager::getInt("obs_level_tolerance")),
 	types_(ParameterManager::getStringArray("obs_type_list"))
 	
-	 
+	
 {
-} 
+}
 
 
 ObsDecoderAttributes::~ObsDecoderAttributes()
 {
-	
+
 }
 
-    
+
 void ObsDecoderAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -65,12 +65,12 @@ void ObsDecoderAttributes::copy(const ObsDecoderAttributes& other)
 	tolerance_ = other.tolerance_;
 	types_ = other.types_;
 	
-} 
+}
 
 
 bool ObsDecoderAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "bufr")  )
 		return true;
 	
@@ -81,7 +81,7 @@ void ObsDecoderAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "bufr")  )
@@ -113,7 +113,7 @@ void ObsDecoderAttributes::print(ostream& out)  const
 
 void ObsDecoderAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"bufr\""; 
+	out <<  "\"bufr\"";
 	out << ", \"obs_input_file_name\":";
 	niceprint(out,file_name_);
 	out << ", \"obs_level\":";
@@ -127,8 +127,8 @@ void ObsDecoderAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> obs_input_file_name("obs_input_file_name", "", "");
-static MagicsParameter<int> obs_level("obs_level", 500, "");
-static MagicsParameter<int> obs_level_2("obs_level_2", 1000, "");
-static MagicsParameter<int> obs_level_tolerance("obs_level_tolerance", 0, "");
-static MagicsParameter<stringarray> obs_type_list("obs_type_list", stringarray(), "");
+static MagicsParameter<string> obs_input_file_name("obs_input_file_name", "");
+static MagicsParameter<int> obs_level("obs_level", 500);
+static MagicsParameter<int> obs_level_2("obs_level_2", 1000);
+static MagicsParameter<int> obs_level_tolerance("obs_level_tolerance", 0);
+static MagicsParameter<stringarray> obs_type_list("obs_type_list", stringarray());

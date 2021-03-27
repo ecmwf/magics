@@ -22,6 +22,7 @@
 #include "ObsDecoder.h"
 #include "CustomisedPoint.h"
 #include "Factory.h"
+#include "MagicsGlobal.h"
 #include "MvObs.h"
 #include "TextVisitor.h"
 #include "expat.h"
@@ -184,11 +185,20 @@ BufrIdentifiers::BufrIdentifiers(int centre) : centre_(centre) {
     XML_SetElementHandler(parser, startElement, endElement);
 
     FILE* in = fopen(file.str().c_str(), "r");
+
     if (!in) {
+        if (MagicsGlobal::strict()) {
+            throw CannotOpenFile(file.str());
+        }
+
         // Open the default template for 98!
         // and send a big warning!
         in = fopen(deffile.str().c_str(), "r");
         MagLog::warning() << "No definition file for [" << centre << "]: We use ECMWF definitions " << endl;
+
+        if (MagicsGlobal::strict()) {
+            throw CannotOpenFile(deffile.str());
+        }
     }
 
     do {
@@ -231,8 +241,12 @@ BufrFamily::BufrFamily(const string& centre) : centre_(centre) {
     XML_SetCharacterDataHandler(parser, character);
 
     FILE* in = fopen(file.str().c_str(), "r");
-    if (!in)
+    if (!in) {
+        if (MagicsGlobal::strict()) {
+            throw CannotOpenFile(file.str());
+        }
         return;
+    }
 
     do {
         size_t len = fread(buf, 1, sizeof(buf), in);
@@ -620,6 +634,9 @@ void ObsDecoder::getInfo(const std::set<string>& tokens, multimap<string, string
             }
         }
         catch (NoFactoryException&) {
+            if (MagicsGlobal::strict()) {
+                throw;
+            }
         }
 
         for (std::set<string>::const_iterator no = noduplicate.begin(); no != noduplicate.end(); ++no) {

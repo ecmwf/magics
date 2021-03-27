@@ -32,22 +32,22 @@ namespace magics {
 class IntervalSelectionType : public IntervalSelectionTypeAttributes, public LevelSelection {
 public:
     IntervalSelectionType();
-    virtual ~IntervalSelectionType();
-    void set(const map<string, string>& params) {
+    virtual ~IntervalSelectionType() override;
+    void set(const map<string, string>& params) override {
         IntervalSelectionTypeAttributes::set(params);
         LevelSelection::set(params);
     }
-    void set(const XmlNode& node) {
+    void set(const XmlNode& node) override {
         IntervalSelectionTypeAttributes::set(node);
         LevelSelection::set(node);
     }
-    void set(const LevelSelectionInterface& from) {
+    void set(const LevelSelectionInterface& from) override {
         reference_ = from.getReference();
         interval_  = from.getInterval();
         min_       = from.getMin();
         max_       = from.getMax();
     }
-    virtual LevelSelection* clone() const {
+    virtual LevelSelection* clone() const override {
         IntervalSelectionType* object = new IntervalSelectionType();
         object->copy(*this);
         return object;
@@ -57,12 +57,12 @@ public:
         LevelSelection::copy(from);
     }
 
-    void calculate(double min, double max, bool);
-    double reference(int) const;
+    void calculate(double min, double max, bool) override;
+    double reference(int) const override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed

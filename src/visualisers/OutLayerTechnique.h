@@ -74,7 +74,7 @@ private:
 class SimpleOutLayerTechnique : public NoOutLayerTechnique {
 public:
     SimpleOutLayerTechnique();
-    virtual ~SimpleOutLayerTechnique();
+    virtual ~SimpleOutLayerTechnique() override;
 };
 
 

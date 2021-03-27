@@ -48,12 +48,14 @@ list( APPEND _common_srcs
 	MagicsFormat.h
 	CartesianTransformation.h
 	Dimension.cc
-	XCoordinate.h YCoordinate.h marsmachine.h linux.h aix.h
-	Thread.h MutexCond.h Mutex.h AutoLock.h ThreadControler.h Task.h MagExceptions.h ThreadSingleton.h
+	XCoordinate.h YCoordinate.h
+	MagException.h
 	DataStats.h SciMethods.h Tephigram.cc  Tephigram.h Skewt.cc  Skewt.h Emagram.cc Emagram.h
 
 # sources
-	Data.cc Matrix.cc MagicsCalls.cc Static.cc DriverStatic.cc MagLog.cc Colour.cc Transformation.cc MagException.cc
+	Data.cc Matrix.cc MagicsCalls.cc 
+	Static.cc DriverStatic.cc 
+	MagLog.cc Colour.cc Transformation.cc MagException.cc
 	BaseParameter.cc ParameterManager.cc
 	Tokenizer.cc Timer.cc Seconds.cc Label.cc MagClipper.cc
 	ArrowProperties.cc
@@ -69,8 +71,7 @@ list( APPEND _common_srcs
 	LogoPlotting.cc
 	PageID.cc AnimationRules.cc Layout.cc SymbolItem.cc Symbol.cc Polyline.cc
 	Text.cc Flag.cc
-	Mutex.cc MutexCond.cc Thread.cc MagExceptions.cc AutoLocker.cc
-	ThreadControler.cc Task.cc
+	MagException.cc
 	DataStats.cc SciMethods.cc BasePointsHandler.cc PointsHandler.cc ProgressObject.cc
 
 # projection
@@ -99,10 +100,16 @@ list( APPEND _common_srcs
 	NumberContent.cc NumberContent.h
 	Content.cc Content.h
 	Counted.cc Counted.h
+
+
+	MagParser.cc MagParser.h
+	YAMLParser.cc YAMLParser.h
+	MagRegex.cc MagRegex.h
  )
 
 if( EC_OS_NAME MATCHES "windows" )
-	list( APPEND _common_srcs win_time.h win_time.cc magics_windows.h magics_windows.cc )
+#	list( APPEND _common_srcs win_time.h win_time.cc magics_windows.h magics_windows.cc )
+	list( APPEND _common_srcs win_time.h win_time.cc)
 endif()
 
 list( APPEND _common_templates

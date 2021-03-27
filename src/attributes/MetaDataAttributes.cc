@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -33,17 +33,17 @@ MetaDataAttributes::MetaDataAttributes():
 	efi_(ParameterManager::getString("efi_path")),
 	efi_template_(ParameterManager::getString("efi_template"))
 	
-	 
+	
 {
-} 
+}
 
 
 MetaDataAttributes::~MetaDataAttributes()
 {
-	
+
 }
 
-    
+
 void MetaDataAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -71,12 +71,12 @@ void MetaDataAttributes::copy(const MetaDataAttributes& other)
 	efi_ = other.efi_;
 	efi_template_ = other.efi_template_;
 	
-} 
+}
 
 
 bool MetaDataAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "meta")  )
 		return true;
 	
@@ -87,7 +87,7 @@ void MetaDataAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "meta")  )
@@ -121,7 +121,7 @@ void MetaDataAttributes::print(ostream& out)  const
 
 void MetaDataAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"meta\""; 
+	out <<  "\"meta\"";
 	out << ", \"metadata_path\":";
 	niceprint(out,path_);
 	out << ", \"javascript_path\":";
@@ -139,10 +139,10 @@ void MetaDataAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> metadata_path("metadata_path", "", "");
-static MagicsParameter<string> javascript_path("javascript_path", "", "");
-static MagicsParameter<string> profile_path("profile_path", "", "");
-static MagicsParameter<string> world_file_path("world_file_path", "", "");
-static MagicsParameter<string> metadata_wms_file("metadata_wms_file", "", "");
-static MagicsParameter<string> efi_path("efi_path", "", "");
-static MagicsParameter<string> efi_template("efi_template", "efi_template.js", "");
+static MagicsParameter<string> metadata_path("metadata_path", "");
+static MagicsParameter<string> javascript_path("javascript_path", "");
+static MagicsParameter<string> profile_path("profile_path", "");
+static MagicsParameter<string> world_file_path("world_file_path", "");
+static MagicsParameter<string> metadata_wms_file("metadata_wms_file", "");
+static MagicsParameter<string> efi_path("efi_path", "");
+static MagicsParameter<string> efi_template("efi_template", "efi_template.js");

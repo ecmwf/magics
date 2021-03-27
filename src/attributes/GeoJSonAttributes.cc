@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -30,17 +30,17 @@ GeoJSonAttributes::GeoJSonAttributes():
 	input_(ParameterManager::getString("geojson_input")),
 	binning_resolution_(ParameterManager::getDouble("geojson_binning_grid_resolution"))
 	
-	 
+	
 {
-} 
+}
 
 
 GeoJSonAttributes::~GeoJSonAttributes()
 {
-	
+
 }
 
-    
+
 void GeoJSonAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -62,12 +62,12 @@ void GeoJSonAttributes::copy(const GeoJSonAttributes& other)
 	input_ = other.input_;
 	binning_resolution_ = other.binning_resolution_;
 	
-} 
+}
 
 
 bool GeoJSonAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "geojson")  )
 		return true;
 	
@@ -78,7 +78,7 @@ void GeoJSonAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "geojson")  )
@@ -109,7 +109,7 @@ void GeoJSonAttributes::print(ostream& out)  const
 
 void GeoJSonAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"geojson\""; 
+	out <<  "\"geojson\"";
 	out << ", \"geojson_input_type\":";
 	niceprint(out,type_);
 	out << ", \"geojson_input_filename\":";
@@ -121,7 +121,7 @@ void GeoJSonAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> geojson_input_type("geojson_input_type", "file", "");
-static MagicsParameter<string> geojson_input_filename("geojson_input_filename", "", "");
-static MagicsParameter<string> geojson_input("geojson_input", "{}", "");
-static MagicsParameter<double> geojson_binning_grid_resolution("geojson_binning_grid_resolution", 1., "");
+static MagicsParameter<string> geojson_input_type("geojson_input_type", "file");
+static MagicsParameter<string> geojson_input_filename("geojson_input_filename", "");
+static MagicsParameter<string> geojson_input("geojson_input", "{}");
+static MagicsParameter<double> geojson_binning_grid_resolution("geojson_binning_grid_resolution", 1.);

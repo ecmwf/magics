@@ -75,7 +75,7 @@ public:
     MagML() {}
     ~MagML() {}
 
-    void execute(const string&, const map<string, string>&);
+    void execute(const string&, const map<string, string>&) override;
 
 protected:
     void print(ostream&) const {}
@@ -89,12 +89,14 @@ public:
 
     MAGICS_EXPORT static void magml(const string&);
     MAGICS_EXPORT static void json(const string&);
-    MAGICS_EXPORT static void set(const string& param, const string& value) { web_.insert(make_pair(param, value)); }
-    MAGICS_EXPORT static map<string, string>& parameters() { return web_; }
+    MAGICS_EXPORT static void set(const string& param, const string& value) {
+        instance().insert(make_pair(param, value));
+    }
+    MAGICS_EXPORT static map<string, string>& parameters() { return instance(); }
 
 
 protected:
-    MAGICS_EXPORT static WebInterpretor web_;
+    MAGICS_EXPORT static WebInterpretor& instance();
 };
 
 }  // namespace magics

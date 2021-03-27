@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -84,17 +84,17 @@ TephiGridAttributes::TephiGridAttributes():
 	mixing_ratio_colour_(MagTranslator<string, Colour>().magics("thermo_mixing_ratio_colour")),
 	mixing_ratio_style_(MagTranslator<string, LineStyle>().magics("thermo_mixing_ratio_style")),
 	mixing_ratio_label_colour_(MagTranslator<string, Colour>().magics("thermo_mixing_ratio_label_colour"))
-	 
+	
 {
-} 
+}
 
 
 TephiGridAttributes::~TephiGridAttributes()
 {
-	
+
 }
 
-    
+
 void TephiGridAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -224,12 +224,12 @@ void TephiGridAttributes::copy(const TephiGridAttributes& other)
 	mixing_ratio_style_ = other.mixing_ratio_style_;
 	mixing_ratio_label_colour_ = unique_ptr<Colour>(other.mixing_ratio_label_colour_->clone());
 	
-} 
+}
 
 
 bool TephiGridAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "tephigrid")  )
 		return true;
 	
@@ -240,7 +240,7 @@ void TephiGridAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "tephigrid")  )
@@ -325,7 +325,7 @@ void TephiGridAttributes::print(ostream& out)  const
 
 void TephiGridAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"tephigrid\""; 
+	out <<  "\"tephigrid\"";
 	out << ", \"thermo_annotation_width\":";
 	niceprint(out,annotation_width_);
 	out << ", \"thermo_isotherm_grid\":";
@@ -445,61 +445,61 @@ void TephiGridAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> thermo_annotation_width("thermo_annotation_width", 25, "");
-static MagicsParameter<string> thermo_isotherm_grid("thermo_isotherm_grid", "on", "");
-static MagicsParameter<int> thermo_isotherm_thickness("thermo_isotherm_thickness", 1, "");
-static MagicsParameter<double> thermo_isotherm_interval("thermo_isotherm_interval", 10, "");
-static MagicsParameter<double> thermo_isotherm_reference("thermo_isotherm_reference", 0, "");
-static MagicsParameter<int> thermo_isotherm_reference_thickness("thermo_isotherm_reference_thickness", 2, "");
-static MagicsParameter<string> thermo_isotherm_label_font("thermo_isotherm_label_font", "helvetica", "");
-static MagicsParameter<string> thermo_isotherm_label_font_style("thermo_isotherm_label_font_style", "normal", "");
-static MagicsParameter<double> thermo_isotherm_label_font_size("thermo_isotherm_label_font_size", 0.3, "");
-static MagicsParameter<int> thermo_isotherm_label_frequency("thermo_isotherm_label_frequency", 1, "");
-static MagicsParameter<string> thermo_isobar_grid("thermo_isobar_grid", "on", "");
-static MagicsParameter<int> thermo_isobar_thickness("thermo_isobar_thickness", 2, "");
-static MagicsParameter<double> thermo_isobar_interval("thermo_isobar_interval", 100, "");
-static MagicsParameter<double> thermo_isobar_reference("thermo_isobar_reference", 1000, "");
-static MagicsParameter<string> thermo_isobar_label_font("thermo_isobar_label_font", "helvetica", "");
-static MagicsParameter<string> thermo_isobar_label_font_style("thermo_isobar_label_font_style", "normal", "");
-static MagicsParameter<double> thermo_isobar_label_font_size("thermo_isobar_label_font_size", 0.3, "");
-static MagicsParameter<int> thermo_isobar_label_frequency("thermo_isobar_label_frequency", 1, "");
-static MagicsParameter<string> thermo_dry_adiabatic_grid("thermo_dry_adiabatic_grid", "on", "");
-static MagicsParameter<int> thermo_dry_adiabatic_thickness("thermo_dry_adiabatic_thickness", 1, "");
-static MagicsParameter<double> thermo_dry_adiabatic_interval("thermo_dry_adiabatic_interval", 10, "");
-static MagicsParameter<double> thermo_dry_adiabatic_reference("thermo_dry_adiabatic_reference", 0, "");
-static MagicsParameter<string> thermo_dry_adiabatic_label_font("thermo_dry_adiabatic_label_font", "helvetica", "");
-static MagicsParameter<string> thermo_dry_adiabatic_label_font_style("thermo_dry_adiabatic_label_font_style", "normal", "");
-static MagicsParameter<double> thermo_dry_adiabatic_label_font_size("thermo_dry_adiabatic_label_font_size", 0.3, "");
-static MagicsParameter<int> thermo_dry_adiabatic_label_frequency("thermo_dry_adiabatic_label_frequency", 1, "");
-static MagicsParameter<string> thermo_saturated_adiabatic_grid("thermo_saturated_adiabatic_grid", "on", "");
-static MagicsParameter<int> thermo_saturated_adiabatic_thickness("thermo_saturated_adiabatic_thickness", 2, "");
-static MagicsParameter<double> thermo_saturated_adiabatic_interval("thermo_saturated_adiabatic_interval", 5, "");
-static MagicsParameter<double> thermo_saturated_adiabatic_reference("thermo_saturated_adiabatic_reference", 0, "");
-static MagicsParameter<string> thermo_saturated_adiabatic_label_font("thermo_saturated_adiabatic_label_font", "helvetica", "");
-static MagicsParameter<string> thermo_saturated_adiabatic_label_font_style("thermo_saturated_adiabatic_label_font_style", "normal", "");
-static MagicsParameter<double> thermo_saturated_adiabatic_label_font_size("thermo_saturated_adiabatic_label_font_size", 0.3, "");
-static MagicsParameter<int> thermo_saturated_adiabatic_label_frequency("thermo_saturated_adiabatic_label_frequency", 1, "");
-static MagicsParameter<string> thermo_mixing_ratio_grid("thermo_mixing_ratio_grid", "on", "");
-static MagicsParameter<int> thermo_mixing_ratio_thickness("thermo_mixing_ratio_thickness", 1, "");
-static MagicsParameter<int> thermo_mixing_ratio_frequency("thermo_mixing_ratio_frequency", 1, "");
-static MagicsParameter<string> thermo_mixing_ratio_label_font("thermo_mixing_ratio_label_font", "helvetica", "");
-static MagicsParameter<string> thermo_mixing_ratio_label_font_style("thermo_mixing_ratio_label_font_style", "normal", "");
-static MagicsParameter<double> thermo_mixing_ratio_label_font_size("thermo_mixing_ratio_label_font_size", 0.3, "");
-static MagicsParameter<int> thermo_mixing_ratio_label_frequency("thermo_mixing_ratio_label_frequency", 1, "");
-static MagicsParameter<string> thermo_isotherm_colour("thermo_isotherm_colour", "charcoal", ""); 
-static MagicsParameter<string> thermo_isotherm_style("thermo_isotherm_style", "solid", ""); 
-static MagicsParameter<string> thermo_isotherm_reference_colour("thermo_isotherm_reference_colour", "red", ""); 
-static MagicsParameter<string> thermo_isotherm_reference_style("thermo_isotherm_reference_style", "solid", ""); 
-static MagicsParameter<string> thermo_isotherm_label_colour("thermo_isotherm_label_colour", "charcoal", ""); 
-static MagicsParameter<string> thermo_isobar_colour("thermo_isobar_colour", "evergreen", ""); 
-static MagicsParameter<string> thermo_isobar_style("thermo_isobar_style", "solid", ""); 
-static MagicsParameter<string> thermo_isobar_label_colour("thermo_isobar_label_colour", "evergreen", ""); 
-static MagicsParameter<string> thermo_dry_adiabatic_colour("thermo_dry_adiabatic_colour", "charcoal", ""); 
-static MagicsParameter<string> thermo_dry_adiabatic_style("thermo_dry_adiabatic_style", "solid", ""); 
-static MagicsParameter<string> thermo_dry_adiabatic_label_colour("thermo_dry_adiabatic_label_colour", "charcoal", ""); 
-static MagicsParameter<string> thermo_saturated_adiabatic_colour("thermo_saturated_adiabatic_colour", "charcoal", ""); 
-static MagicsParameter<string> thermo_saturated_adiabatic_style("thermo_saturated_adiabatic_style", "solid", ""); 
-static MagicsParameter<string> thermo_saturated_adiabatic_label_colour("thermo_saturated_adiabatic_label_colour", "charcoal", ""); 
-static MagicsParameter<string> thermo_mixing_ratio_colour("thermo_mixing_ratio_colour", "purple", ""); 
-static MagicsParameter<string> thermo_mixing_ratio_style("thermo_mixing_ratio_style", "dash", ""); 
-static MagicsParameter<string> thermo_mixing_ratio_label_colour("thermo_mixing_ratio_label_colour", "purple", ""); 
+static MagicsParameter<double> thermo_annotation_width("thermo_annotation_width", 25);
+static MagicsParameter<string> thermo_isotherm_grid("thermo_isotherm_grid", "on");
+static MagicsParameter<int> thermo_isotherm_thickness("thermo_isotherm_thickness", 1);
+static MagicsParameter<double> thermo_isotherm_interval("thermo_isotherm_interval", 10);
+static MagicsParameter<double> thermo_isotherm_reference("thermo_isotherm_reference", 0);
+static MagicsParameter<int> thermo_isotherm_reference_thickness("thermo_isotherm_reference_thickness", 2);
+static MagicsParameter<string> thermo_isotherm_label_font("thermo_isotherm_label_font", "helvetica");
+static MagicsParameter<string> thermo_isotherm_label_font_style("thermo_isotherm_label_font_style", "normal");
+static MagicsParameter<double> thermo_isotherm_label_font_size("thermo_isotherm_label_font_size", 0.3);
+static MagicsParameter<int> thermo_isotherm_label_frequency("thermo_isotherm_label_frequency", 1);
+static MagicsParameter<string> thermo_isobar_grid("thermo_isobar_grid", "on");
+static MagicsParameter<int> thermo_isobar_thickness("thermo_isobar_thickness", 2);
+static MagicsParameter<double> thermo_isobar_interval("thermo_isobar_interval", 100);
+static MagicsParameter<double> thermo_isobar_reference("thermo_isobar_reference", 1000);
+static MagicsParameter<string> thermo_isobar_label_font("thermo_isobar_label_font", "helvetica");
+static MagicsParameter<string> thermo_isobar_label_font_style("thermo_isobar_label_font_style", "normal");
+static MagicsParameter<double> thermo_isobar_label_font_size("thermo_isobar_label_font_size", 0.3);
+static MagicsParameter<int> thermo_isobar_label_frequency("thermo_isobar_label_frequency", 1);
+static MagicsParameter<string> thermo_dry_adiabatic_grid("thermo_dry_adiabatic_grid", "on");
+static MagicsParameter<int> thermo_dry_adiabatic_thickness("thermo_dry_adiabatic_thickness", 1);
+static MagicsParameter<double> thermo_dry_adiabatic_interval("thermo_dry_adiabatic_interval", 10);
+static MagicsParameter<double> thermo_dry_adiabatic_reference("thermo_dry_adiabatic_reference", 0);
+static MagicsParameter<string> thermo_dry_adiabatic_label_font("thermo_dry_adiabatic_label_font", "helvetica");
+static MagicsParameter<string> thermo_dry_adiabatic_label_font_style("thermo_dry_adiabatic_label_font_style", "normal");
+static MagicsParameter<double> thermo_dry_adiabatic_label_font_size("thermo_dry_adiabatic_label_font_size", 0.3);
+static MagicsParameter<int> thermo_dry_adiabatic_label_frequency("thermo_dry_adiabatic_label_frequency", 1);
+static MagicsParameter<string> thermo_saturated_adiabatic_grid("thermo_saturated_adiabatic_grid", "on");
+static MagicsParameter<int> thermo_saturated_adiabatic_thickness("thermo_saturated_adiabatic_thickness", 2);
+static MagicsParameter<double> thermo_saturated_adiabatic_interval("thermo_saturated_adiabatic_interval", 5);
+static MagicsParameter<double> thermo_saturated_adiabatic_reference("thermo_saturated_adiabatic_reference", 0);
+static MagicsParameter<string> thermo_saturated_adiabatic_label_font("thermo_saturated_adiabatic_label_font", "helvetica");
+static MagicsParameter<string> thermo_saturated_adiabatic_label_font_style("thermo_saturated_adiabatic_label_font_style", "normal");
+static MagicsParameter<double> thermo_saturated_adiabatic_label_font_size("thermo_saturated_adiabatic_label_font_size", 0.3);
+static MagicsParameter<int> thermo_saturated_adiabatic_label_frequency("thermo_saturated_adiabatic_label_frequency", 1);
+static MagicsParameter<string> thermo_mixing_ratio_grid("thermo_mixing_ratio_grid", "on");
+static MagicsParameter<int> thermo_mixing_ratio_thickness("thermo_mixing_ratio_thickness", 1);
+static MagicsParameter<int> thermo_mixing_ratio_frequency("thermo_mixing_ratio_frequency", 1);
+static MagicsParameter<string> thermo_mixing_ratio_label_font("thermo_mixing_ratio_label_font", "helvetica");
+static MagicsParameter<string> thermo_mixing_ratio_label_font_style("thermo_mixing_ratio_label_font_style", "normal");
+static MagicsParameter<double> thermo_mixing_ratio_label_font_size("thermo_mixing_ratio_label_font_size", 0.3);
+static MagicsParameter<int> thermo_mixing_ratio_label_frequency("thermo_mixing_ratio_label_frequency", 1);
+static MagicsParameter<string> thermo_isotherm_colour("thermo_isotherm_colour", "charcoal");
+static MagicsParameter<string> thermo_isotherm_style("thermo_isotherm_style", "solid");
+static MagicsParameter<string> thermo_isotherm_reference_colour("thermo_isotherm_reference_colour", "red");
+static MagicsParameter<string> thermo_isotherm_reference_style("thermo_isotherm_reference_style", "solid");
+static MagicsParameter<string> thermo_isotherm_label_colour("thermo_isotherm_label_colour", "charcoal");
+static MagicsParameter<string> thermo_isobar_colour("thermo_isobar_colour", "evergreen");
+static MagicsParameter<string> thermo_isobar_style("thermo_isobar_style", "solid");
+static MagicsParameter<string> thermo_isobar_label_colour("thermo_isobar_label_colour", "evergreen");
+static MagicsParameter<string> thermo_dry_adiabatic_colour("thermo_dry_adiabatic_colour", "charcoal");
+static MagicsParameter<string> thermo_dry_adiabatic_style("thermo_dry_adiabatic_style", "solid");
+static MagicsParameter<string> thermo_dry_adiabatic_label_colour("thermo_dry_adiabatic_label_colour", "charcoal");
+static MagicsParameter<string> thermo_saturated_adiabatic_colour("thermo_saturated_adiabatic_colour", "charcoal");
+static MagicsParameter<string> thermo_saturated_adiabatic_style("thermo_saturated_adiabatic_style", "solid");
+static MagicsParameter<string> thermo_saturated_adiabatic_label_colour("thermo_saturated_adiabatic_label_colour", "charcoal");
+static MagicsParameter<string> thermo_mixing_ratio_colour("thermo_mixing_ratio_colour", "purple");
+static MagicsParameter<string> thermo_mixing_ratio_style("thermo_mixing_ratio_style", "dash");
+static MagicsParameter<string> thermo_mixing_ratio_label_colour("thermo_mixing_ratio_label_colour", "purple");

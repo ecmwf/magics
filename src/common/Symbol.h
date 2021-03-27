@@ -30,22 +30,22 @@
 
 namespace magics {
 
+enum class TextPosition
+{
+    NONE,
+    BELOW,
+    ABOVE,
+    LEFT,
+    RIGHT,
+    CENTRE
+};
 
 class Symbol : public BasicGraphicsObject, public vector<PaperPoint> {
 public:
-    enum TextPosition
-    {
-        M_NONE,
-        M_BELOW,
-        M_ABOVE,
-        M_LEFT,
-        M_RIGHT,
-        M_CENTRE
-    };
     Symbol();
-    virtual ~Symbol();
+    virtual ~Symbol() override;
 
-    void redisplay(const BaseDriver& driver) const;
+    void redisplay(const BaseDriver& driver) const override;
 
     void setMarker(int m) {
         marker_ = m;
@@ -106,7 +106,7 @@ public:
 
 
 protected:
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     Polyline boundingbox_;
 
 private:
@@ -136,10 +136,10 @@ private:
 
 class TextSymbol : public Symbol {
 public:
-    TextSymbol() : position_(M_BELOW), blanking_(false) {}
-    ~TextSymbol() {}
+    TextSymbol() : position_(TextPosition::BELOW), blanking_(false) {}
+    ~TextSymbol() override {}
 
-    void push_back(const PaperPoint& point, const string& text) {
+    void push_back(const PaperPoint& point, const string& text) override {
         Symbol::push_back(point);
         if (text == "_FORCE_EMPTY_TEXT_") {
             texts_.push_back("");
@@ -150,7 +150,7 @@ public:
     }
 
     void text(const vector<string>& text) { texts_ = text; }
-    void redisplay(const BaseDriver& driver) const;
+    void redisplay(const BaseDriver& driver) const override;
 
     vector<string>::const_iterator textBegin() const { return texts_.begin(); }
     vector<string>::const_iterator textEnd() const { return texts_.end(); }
@@ -175,8 +175,8 @@ protected:
 class ImageSymbol : public Symbol {
 public:
     ImageSymbol(const string& path, const string& format) : path_(path), format_(format) {}
-    ~ImageSymbol() {}
-    void redisplay(const BaseDriver& driver) const;
+    ~ImageSymbol() override {}
+    void redisplay(const BaseDriver& driver) const override;
 
     void set(double width, double height, bool by_reference) {
         width_  = width;
@@ -194,10 +194,10 @@ protected:
 class SimpleTextSymbol : public TextSymbol {
 public:
     SimpleTextSymbol(const string& text) : text_(text) {}
-    ~SimpleTextSymbol() {}
+    ~SimpleTextSymbol() override {}
 
     void push_back(const PaperPoint& point) { TextSymbol::push_back(point, text_); }
-    void push_back(const PaperPoint& point, const string&) { TextSymbol::push_back(point, text_); }
+    void push_back(const PaperPoint& point, const string&) override { TextSymbol::push_back(point, text_); }
 
 protected:
     string text_;
@@ -208,9 +208,9 @@ class ComplexSymbol : public Symbol {
 public:
     ComplexSymbol() : rows_(1), columns_(1) {}
     ComplexSymbol(int rows, int columns) : rows_(rows), columns_(columns) {}
-    ~ComplexSymbol() {}
+    ~ComplexSymbol() override {}
 
-    void redisplay(const BaseDriver& driver) const {
+    void redisplay(const BaseDriver& driver) const override {
         MagLog::dev() << "Redisplay -->" << *this << endl;
         driver.redisplay(*this);
     }
@@ -218,7 +218,7 @@ public:
     AutoVectorIterable<GraphicsItem> items() const { return AutoVectorIterable<GraphicsItem>(items_); }
 
 protected:
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     AutoVector<GraphicsItem> items_;
     int rows_;
     int columns_;
@@ -231,7 +231,7 @@ struct SymbolProperties {
     string label_;
     MagFont font_;
     bool blanking_;
-    Symbol::TextPosition position_;
+    TextPosition position_;
     vector<string> text_;
 
     bool outline_;
@@ -257,7 +257,7 @@ struct SymbolProperties {
     SymbolProperties();
 
     void setSymbol(const string& symbol, int marker);
-    void position(Symbol::TextPosition position) { position_ = position; }
+    void position(TextPosition position) { position_ = position; }
 
     virtual ~SymbolProperties() {}
     bool operator<(const SymbolProperties& other) const {

@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -29,17 +29,17 @@ GraphPlottingAttributes::GraphPlottingAttributes():
 	legend_text_(ParameterManager::getString("legend_user_text"))
 	,
 	type_(MagTranslator<string, Graph>().magics("graph_type"))
-	 
+	
 {
-} 
+}
 
 
 GraphPlottingAttributes::~GraphPlottingAttributes()
 {
-	
+
 }
 
-    
+
 void GraphPlottingAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -59,12 +59,12 @@ void GraphPlottingAttributes::copy(const GraphPlottingAttributes& other)
 	legend_text_ = other.legend_text_;
 	type_ = unique_ptr<Graph>(other.type_->clone());
 	
-} 
+}
 
 
 bool GraphPlottingAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "graph")  )
 		return true;
 	if ( acceptNode(node, type_) )
@@ -77,7 +77,7 @@ void GraphPlottingAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "graph")  )
@@ -92,7 +92,7 @@ void GraphPlottingAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), type_, *elt); 
+		setMember(elt->name(), type_, *elt);
 		
 	}
 }
@@ -109,7 +109,7 @@ void GraphPlottingAttributes::print(ostream& out)  const
 
 void GraphPlottingAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"graph\""; 
+	out <<  "\"graph\"";
 	out << ", \"legend\":";
 	niceprint(out,legend_);
 	out << ", \"legend_user_text\":";
@@ -119,9 +119,9 @@ void GraphPlottingAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> legend("legend", "off", "");
-static MagicsParameter<string> legend_user_text("legend_user_text", "", "");
-static MagicsParameter<string> graph_type("graph_type", "curve", ""); 
+static MagicsParameter<string> legend("legend", "off");
+static MagicsParameter<string> legend_user_text("legend_user_text", "");
+static MagicsParameter<string> graph_type("graph_type", "curve");
 #include "Curve.h"
 #include "Bar.h"
 static SimpleObjectMaker<Curve , Graph> curve_Curve("curve");

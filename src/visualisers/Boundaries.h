@@ -82,24 +82,24 @@ public:
 class Boundaries : public NoBoundaries, public BoundariesAttributes {
 public:
     Boundaries();
-    virtual ~Boundaries();
+    virtual ~Boundaries() override;
 
-    virtual void set(const XmlNode& node) { BoundariesAttributes::set(node); }
+    virtual void set(const XmlNode& node) override { BoundariesAttributes::set(node); }
 
-    virtual void set(const map<string, string>& map) { BoundariesAttributes::set(map); }
+    virtual void set(const map<string, string>& map) override { BoundariesAttributes::set(map); }
 
-    bool accept(const string& node) { return BoundariesAttributes::accept(node); }
+    bool accept(const string& node) override { return BoundariesAttributes::accept(node); }
 
-    virtual NoBoundaries* clone() const {
+    virtual NoBoundaries* clone() const override {
         MagLog::dev() << "(const map<string, string&)---> to be checked!...\n";
         return new Boundaries();
     }
 
-    void operator()(const map<string, string>&, BasicGraphicsObjectContainer&);
+    void operator()(const map<string, string>&, BasicGraphicsObjectContainer&) override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed

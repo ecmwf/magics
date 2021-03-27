@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -49,17 +49,17 @@ TaylorGridAttributes::TaylorGridAttributes():
 	secondary_colour_(MagTranslator<string, Colour>().magics("taylor_secondary_grid_line_colour")),
 	secondary_style_(MagTranslator<string, LineStyle>().magics("taylor_secondary_grid_line_style")),
 	secondary_label_colour_(MagTranslator<string, Colour>().magics("taylor_secondary_label_colour"))
-	 
+	
 {
-} 
+}
 
 
 TaylorGridAttributes::~TaylorGridAttributes()
 {
-	
+
 }
 
-    
+
 void TaylorGridAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -120,12 +120,12 @@ void TaylorGridAttributes::copy(const TaylorGridAttributes& other)
 	secondary_style_ = other.secondary_style_;
 	secondary_label_colour_ = unique_ptr<Colour>(other.secondary_label_colour_->clone());
 	
-} 
+}
 
 
 bool TaylorGridAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "taylorgrid")  )
 		return true;
 	
@@ -136,7 +136,7 @@ void TaylorGridAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "taylorgrid")  )
@@ -186,7 +186,7 @@ void TaylorGridAttributes::print(ostream& out)  const
 
 void TaylorGridAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"taylorgrid\""; 
+	out <<  "\"taylorgrid\"";
 	out << ", \"taylor_label\":";
 	niceprint(out,label_);
 	out << ", \"taylor_label_height\":";
@@ -236,26 +236,26 @@ void TaylorGridAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> taylor_label("taylor_label", "Correlation", "");
-static MagicsParameter<double> taylor_label_height("taylor_label_height", 0.35, "");
-static MagicsParameter<double> taylor_primary_grid_increment("taylor_primary_grid_increment", 0.5, "");
-static MagicsParameter<int> taylor_primary_grid_line_thickness("taylor_primary_grid_line_thickness", 1, "");
-static MagicsParameter<double> taylor_primary_grid_reference("taylor_primary_grid_reference", 0.5, "");
-static MagicsParameter<int> taylor_reference_line_thickness("taylor_reference_line_thickness", 2, "");
-static MagicsParameter<string> taylor_primary_label("taylor_primary_label", "on", "");
-static MagicsParameter<double> taylor_primary_label_height("taylor_primary_label_height", 0.35, "");
-static MagicsParameter<string> taylor_secondary_grid("taylor_secondary_grid", "off", "");
-static MagicsParameter<double> taylor_secondary_grid_reference("taylor_secondary_grid_reference", 0.5, "");
-static MagicsParameter<double> taylor_secondary_grid_increment("taylor_secondary_grid_increment", 0.5, "");
-static MagicsParameter<int> taylor_secondary_grid_line_thickness("taylor_secondary_grid_line_thickness", 1, "");
-static MagicsParameter<string> taylor_secondary_label("taylor_secondary_label", "on", "");
-static MagicsParameter<double> taylor_secondary_label_height("taylor_secondary_label_height", 0.35, "");
-static MagicsParameter<string> taylor_label_colour("taylor_label_colour", "navy", ""); 
-static MagicsParameter<string> taylor_primary_grid_line_colour("taylor_primary_grid_line_colour", "navy", ""); 
-static MagicsParameter<string> taylor_primary_grid_line_style("taylor_primary_grid_line_style", "solid", ""); 
-static MagicsParameter<string> taylor_reference_line_colour("taylor_reference_line_colour", "navy", ""); 
-static MagicsParameter<string> taylor_reference_line_style("taylor_reference_line_style", "solid", ""); 
-static MagicsParameter<string> taylor_primary_label_colour("taylor_primary_label_colour", "navy", ""); 
-static MagicsParameter<string> taylor_secondary_grid_line_colour("taylor_secondary_grid_line_colour", "navy", ""); 
-static MagicsParameter<string> taylor_secondary_grid_line_style("taylor_secondary_grid_line_style", "solid", ""); 
-static MagicsParameter<string> taylor_secondary_label_colour("taylor_secondary_label_colour", "navy", ""); 
+static MagicsParameter<string> taylor_label("taylor_label", "Correlation");
+static MagicsParameter<double> taylor_label_height("taylor_label_height", 0.35);
+static MagicsParameter<double> taylor_primary_grid_increment("taylor_primary_grid_increment", 0.5);
+static MagicsParameter<int> taylor_primary_grid_line_thickness("taylor_primary_grid_line_thickness", 1);
+static MagicsParameter<double> taylor_primary_grid_reference("taylor_primary_grid_reference", 0.5);
+static MagicsParameter<int> taylor_reference_line_thickness("taylor_reference_line_thickness", 2);
+static MagicsParameter<string> taylor_primary_label("taylor_primary_label", "on");
+static MagicsParameter<double> taylor_primary_label_height("taylor_primary_label_height", 0.35);
+static MagicsParameter<string> taylor_secondary_grid("taylor_secondary_grid", "off");
+static MagicsParameter<double> taylor_secondary_grid_reference("taylor_secondary_grid_reference", 0.5);
+static MagicsParameter<double> taylor_secondary_grid_increment("taylor_secondary_grid_increment", 0.5);
+static MagicsParameter<int> taylor_secondary_grid_line_thickness("taylor_secondary_grid_line_thickness", 1);
+static MagicsParameter<string> taylor_secondary_label("taylor_secondary_label", "on");
+static MagicsParameter<double> taylor_secondary_label_height("taylor_secondary_label_height", 0.35);
+static MagicsParameter<string> taylor_label_colour("taylor_label_colour", "navy");
+static MagicsParameter<string> taylor_primary_grid_line_colour("taylor_primary_grid_line_colour", "navy");
+static MagicsParameter<string> taylor_primary_grid_line_style("taylor_primary_grid_line_style", "solid");
+static MagicsParameter<string> taylor_reference_line_colour("taylor_reference_line_colour", "navy");
+static MagicsParameter<string> taylor_reference_line_style("taylor_reference_line_style", "solid");
+static MagicsParameter<string> taylor_primary_label_colour("taylor_primary_label_colour", "navy");
+static MagicsParameter<string> taylor_secondary_grid_line_colour("taylor_secondary_grid_line_colour", "navy");
+static MagicsParameter<string> taylor_secondary_grid_line_style("taylor_secondary_grid_line_style", "solid");
+static MagicsParameter<string> taylor_secondary_label_colour("taylor_secondary_label_colour", "navy");

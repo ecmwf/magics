@@ -74,12 +74,12 @@ void MetgramBar::operator()(CustomisedPointsList& points, BasicGraphicsObjectCon
 
     Polyline* first = new Polyline();
     first->setColour(Colour("blue"));
-    first->setLineStyle(M_DASH);
+    first->setLineStyle(LineStyle::DASH);
 
     visitor.push_back(first);
     Polyline* last = new Polyline();
     last->setColour(Colour("blue"));
-    last->setLineStyle(M_DASH);
+    last->setLineStyle(LineStyle::DASH);
 
     visitor.push_back(last);
 

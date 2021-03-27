@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -32,17 +32,17 @@ SymbolInputAttributes::SymbolInputAttributes():
 	value_(ParameterManager::getDoubleArray("symbol_input_number_list")),
 	position_(ParameterManager::getString("symbol_position_mode"))
 	
-	 
+	
 {
-} 
+}
 
 
 SymbolInputAttributes::~SymbolInputAttributes()
 {
-	
+
 }
 
-    
+
 void SymbolInputAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -69,12 +69,12 @@ void SymbolInputAttributes::copy(const SymbolInputAttributes& other)
 	value_ = other.value_;
 	position_ = other.position_;
 	
-} 
+}
 
 
 bool SymbolInputAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "input")  )
 		return true;
 	
@@ -85,7 +85,7 @@ void SymbolInputAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "input")  )
@@ -118,7 +118,7 @@ void SymbolInputAttributes::print(ostream& out)  const
 
 void SymbolInputAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"input\""; 
+	out <<  "\"input\"";
 	out << ", \"symbol_input_x_position\":";
 	niceprint(out,x_);
 	out << ", \"symbol_input_y_position\":";
@@ -134,9 +134,9 @@ void SymbolInputAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<doublearray> symbol_input_x_position("symbol_input_x_position", floatarray(), "");
-static MagicsParameter<doublearray> symbol_input_y_position("symbol_input_y_position", floatarray(), "");
-static MagicsParameter<doublearray> symbol_input_wind_speed("symbol_input_wind_speed", floatarray(), "");
-static MagicsParameter<doublearray> symbol_input_wind_direction("symbol_input_wind_direction", floatarray(), "");
-static MagicsParameter<doublearray> symbol_input_number_list("symbol_input_number_list", floatarray(), "");
-static MagicsParameter<string> symbol_position_mode("symbol_position_mode", "geographic", "");
+static MagicsParameter<doublearray> symbol_input_x_position("symbol_input_x_position", floatarray());
+static MagicsParameter<doublearray> symbol_input_y_position("symbol_input_y_position", floatarray());
+static MagicsParameter<doublearray> symbol_input_wind_speed("symbol_input_wind_speed", floatarray());
+static MagicsParameter<doublearray> symbol_input_wind_direction("symbol_input_wind_direction", floatarray());
+static MagicsParameter<doublearray> symbol_input_number_list("symbol_input_number_list", floatarray());
+static MagicsParameter<string> symbol_position_mode("symbol_position_mode", "geographic");

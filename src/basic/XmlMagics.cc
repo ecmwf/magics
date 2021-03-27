@@ -16,25 +16,26 @@
 
 */
 
+#include <iomanip>
 
-#include "XmlMagics.h"
 #include "MagException.h"
 #include "Timer.h"
+#include "XmlMagics.h"
 #include "XmlReader.h"
 
 #include "BinaryObject.h"
 #include "Coastlines.h"
-#include "RootSceneNode.h"
-#include "SceneNode.h"
-#include "TaylorGrid.h"
-#include "TephiGrid.h"
-#include "ViewNode.h"
-#include "GribDecoder.h"
 #include "Contour.h"
 #include "EpsXmlInput.h"
 #include "GeoJSon.h"
+#include "GribDecoder.h"
+#include "RootSceneNode.h"
+#include "SceneNode.h"
 #include "SymbolPlotting.h"
 #include "TableDecoder.h"
+#include "TaylorGrid.h"
+#include "TephiGrid.h"
+#include "ViewNode.h"
 #include "VisualAction.h"
 #include "Wind.h"
 #include "WrepJSon.h"

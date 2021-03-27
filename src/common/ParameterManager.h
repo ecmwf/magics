@@ -19,11 +19,12 @@
 #ifndef ParameterManager_H
 #define ParameterManager_H
 
-#include <BaseParameter.h>
-#include <Factory.h>
-#include <MagException.h>
-#include <MagLog.h>
-#include <magics.h>
+#include "BaseParameter.h"
+#include "Factory.h"
+#include "MagException.h"
+#include "MagLog.h"
+#include "MagicsGlobal.h"
+#include "magics.h"
 
 
 namespace magics {

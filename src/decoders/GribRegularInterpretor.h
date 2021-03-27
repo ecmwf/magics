@@ -31,19 +31,19 @@ namespace magics {
 class GribRegularInterpretor : public GribInterpretor {
 public:
     GribRegularInterpretor();
-    virtual ~GribRegularInterpretor();
+    virtual ~GribRegularInterpretor() override;
 
-    void interpretAsMatrix(GribDecoder&) const;
-    virtual double XResolution(const GribDecoder& grib) const { return longitudeIncrement(grib); }
-    void interpretAsMatrix(GribDecoder&, const Transformation&) const;
-    virtual void interpretAsRaster(const GribDecoder&, RasterData&, const Transformation&) const;
+    void interpretAsMatrix(GribDecoder&) const override;
+    virtual double XResolution(const GribDecoder& grib) const override { return longitudeIncrement(grib); }
+    void interpretAsMatrix(GribDecoder&, const Transformation&) const override;
+    virtual void interpretAsRaster(const GribDecoder&, RasterData&, const Transformation&) const override;
     virtual void latitudes(const GribDecoder&, vector<double>&) const;
     virtual double longitudeIncrement(const GribDecoder&) const;
-    void index(const GribDecoder& grib);
+    void index(const GribDecoder& grib) override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 
 private:
@@ -63,17 +63,17 @@ private:
 class GribReducedGaussianInterpretor : public GribInterpretor {
 public:
     GribReducedGaussianInterpretor() {}
-    virtual ~GribReducedGaussianInterpretor() {}
+    virtual ~GribReducedGaussianInterpretor() override {}
 
-    virtual double XResolution(const GribDecoder& grib) const;
-    void interpretAsMatrix(GribDecoder&) const;
-    void interpretAsMatrix(GribDecoder&, const Transformation&) const;
-    void interpretAsRaster(const GribDecoder&, RasterData&, const Transformation&) const;
-    void index(const GribDecoder& grib);
+    virtual double XResolution(const GribDecoder& grib) const override;
+    void interpretAsMatrix(GribDecoder&) const override;
+    void interpretAsMatrix(GribDecoder&, const Transformation&) const override;
+    void interpretAsRaster(const GribDecoder&, RasterData&, const Transformation&) const override;
+    void index(const GribDecoder& grib) override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed
@@ -92,14 +92,14 @@ private:
 class GribReducedLatLonInterpretor : public GribInterpretor {
 public:
     GribReducedLatLonInterpretor() {}
-    virtual ~GribReducedLatLonInterpretor() {}
+    virtual ~GribReducedLatLonInterpretor() override {}
 
-    void interpretAsMatrix(GribDecoder&) const;
-    virtual double XResolution(const GribDecoder& grib) const;
+    void interpretAsMatrix(GribDecoder&) const override;
+    virtual double XResolution(const GribDecoder& grib) const override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed
@@ -118,19 +118,20 @@ private:
 class GribRotatedInterpretor : public GribRegularInterpretor {
 public:
     GribRotatedInterpretor() : original_(false) {}
-    virtual ~GribRotatedInterpretor() {}
+    virtual ~GribRotatedInterpretor() override {}
 
     std::pair<double, double> unrotate(double lat, double lon) const;
     std::pair<double, double> rotate(double lat, double lon) const;
-    PaperPoint reference(const GribDecoder&, const Transformation&);
-    void raw(GribDecoder&, const Transformation&, const string&, map<double, map<double, CustomisedPoint*> >&) const;
-    void keepOriginal(bool original) { original_ = original; }
-    void interpretAsMatrix(GribDecoder&) const;
-    void interpret2D(double&, double&, double&, double&) const;
+    PaperPoint reference(const GribDecoder&, const Transformation&) override;
+    void raw(GribDecoder&, const Transformation&, const string&,
+             map<double, map<double, CustomisedPoint*> >&) const override;
+    void keepOriginal(bool original) override { original_ = original; }
+    void interpretAsMatrix(GribDecoder&) const override;
+    void interpret2D(double&, double&, double&, double&) const override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     mutable double southPoleLat_;
     mutable double southPoleLon_;
     mutable double angle_;
@@ -142,16 +143,16 @@ protected:
 class GribLambertAzimutalInterpretor : public GribRegularInterpretor {
 public:
     GribLambertAzimutalInterpretor() {}
-    virtual ~GribLambertAzimutalInterpretor() {}
+    virtual ~GribLambertAzimutalInterpretor() override {}
 
     UserPoint unrotate(double lat, double lon) const;
-    void interpretAsMatrix(GribDecoder&) const;
-    PaperPoint reference(const GribDecoder&, const Transformation&);
-    double XResolution(const GribDecoder& grib) const;
+    void interpretAsMatrix(GribDecoder&) const override;
+    PaperPoint reference(const GribDecoder&, const Transformation&) override;
+    double XResolution(const GribDecoder& grib) const override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     mutable double standardParallel_;
     mutable double centralLongitude_;
 };
@@ -159,50 +160,50 @@ protected:
 class GribLambertInterpretor : public GribLambertAzimutalInterpretor {
 public:
     GribLambertInterpretor() {}
-    virtual ~GribLambertInterpretor() {}
+    virtual ~GribLambertInterpretor() override {}
 
 
-    void interpretAsMatrix(GribDecoder&) const;
+    void interpretAsMatrix(GribDecoder&) const override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 };
 
 
 class GribPolarStereoInterpretor : public GribRegularInterpretor {
 public:
     GribPolarStereoInterpretor() {}
-    virtual ~GribPolarStereoInterpretor() {}
+    virtual ~GribPolarStereoInterpretor() override {}
 
 
-    void interpretAsMatrix(GribDecoder&) const;
+    void interpretAsMatrix(GribDecoder&) const override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 };
 
 class GribProjInterpretor : public GribRegularInterpretor {
 public:
     GribProjInterpretor() {}
-    virtual ~GribProjInterpretor() {}
+    virtual ~GribProjInterpretor() override {}
 
 
-    void interpretAsMatrix(GribDecoder&) const;
+    void interpretAsMatrix(GribDecoder&) const override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 };
 
 
 class GribRegularGaussianInterpretor : public GribRegularInterpretor {
 public:
     GribRegularGaussianInterpretor() {}
-    virtual ~GribRegularGaussianInterpretor() {}
+    virtual ~GribRegularGaussianInterpretor() override {}
 
-    void latitudes(const GribDecoder&, vector<double>&) const;
+    void latitudes(const GribDecoder&, vector<double>&) const override;
 
 protected:
 };

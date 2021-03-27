@@ -32,24 +32,24 @@ namespace magics {
 class GradientsColourTechnique : public ColourTechnique, public GradientsColourTechniqueAttributes {
 public:
     GradientsColourTechnique();
-    virtual ~GradientsColourTechnique();
-    void set(const map<string, string>& map) { GradientsColourTechniqueAttributes::set(map); }
-    void set(const XmlNode& node) { GradientsColourTechniqueAttributes::set(node); }
-    bool accept(const string& node) { return GradientsColourTechniqueAttributes::accept(node); }
+    virtual ~GradientsColourTechnique() override;
+    void set(const map<string, string>& map) override { GradientsColourTechniqueAttributes::set(map); }
+    void set(const XmlNode& node) override { GradientsColourTechniqueAttributes::set(node); }
+    bool accept(const string& node) override { return GradientsColourTechniqueAttributes::accept(node); }
 
-    void set(const ColourTechniqueInterface&);
+    void set(const ColourTechniqueInterface&) override;
 
 
-    virtual ColourTechnique* clone() const {
+    virtual ColourTechnique* clone() const override {
         GradientsColourTechnique* object = new GradientsColourTechnique();
         object->copy(*this);
         return object;
     }
 
 protected:
-    void set(LevelSelection&, LevelSelection&, ColourTable&, int) const;
+    void set(LevelSelection&, LevelSelection&, ColourTable&, int) const override;
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed
