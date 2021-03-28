@@ -1957,7 +1957,7 @@ public:
     void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) override {
         ostringstream out;
         string local = grib.getstring("localDefinitionNumber");
-        out << "local definition =" << local;
+        out << "local definition =" << local << " ";
         title.back() += out.str();
         title.back() += " ";
     }
@@ -1971,7 +1971,7 @@ public:
     void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) override {
         ostringstream out;
         string local = grib.getstring("observationDiagnostic");
-        out << "diagnostic =" << local;
+        out << "diagnostic =" << local << " ";
         title.back() += out.str();
         title.back() += " ";
     }
@@ -2042,6 +2042,7 @@ public:
         string value  = grib.getString(key);
         string format = field.attribute("format", "%s");
         sprintf(x, format.c_str(), value.c_str());
+
         title.back() += string(x);
         title.back() += " ";
     }
@@ -2070,6 +2071,7 @@ public:
         }
 
         string format = field.attribute("format", "%A %d %B %Y at %H%M UTC");
+
         title.back() += full.tostring(format);
         title.back() += " ";
     }
@@ -2096,6 +2098,7 @@ public:
         }
 
         string format = field.attribute("format", "%A %d %B %Y %H%M UTC");
+
         title.back() += full.tostring(format);
         title.back() += " ";
     }
@@ -2112,7 +2115,7 @@ public:
 
         if (startstep != endstep) {
             ostringstream step;
-            step << "from t+" << startstep << "to t+" << endstep;
+            step << "from t+" << startstep << " to t+" << endstep;
             title.back() += step.str();
             title.back() += " ";
             return;
@@ -2150,9 +2153,10 @@ public:
 
         map<string, GribLevelHandler::Builder>::iterator help = map_.find(level);
         if (help != map_.end())
-            out << (this->*help->second)(level, grib);
+            out << (this->*help->second)(level, grib) << " ";
         else
-            out << level;
+            out << level << " ";
+
         title.back() += out.str();
         title.back() += " ";
     }
@@ -2188,7 +2192,7 @@ protected:
     string hybrid(const string&, const GribDecoder& grib) const {
         ostringstream out;
         long level = grib.getLong("level");
-        out << "Model level" << level;
+        out << "Model level " << level;
         return out.str();
     }
 };
@@ -2209,6 +2213,7 @@ public:
         string format = field.attribute("format", "%s");
         string style  = field.attribute("style", "short");
         string centre = grib.getstring("centre");
+
         title.back() += centre;
         title.back() += " ";
     }
@@ -2258,7 +2263,7 @@ public:
 
         long ident                      = grib.getLong("ident");
         map<long, string>::iterator sat = names.find(ident);
-        
+
         if (sat != names.end())
             title.back() += sat->second;
         else

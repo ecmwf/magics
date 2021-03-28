@@ -42,7 +42,7 @@ foreach( file ${metview_xmls} )
 #add_custom_command( magics_params DEPENDS ${magics_params_srcs} ${metview_wrappers_srcs} )
 
 ###############################################################################
-
+add_subdirectory( api )
 add_subdirectory( common )
 add_subdirectory( basic )
 add_subdirectory( web )
@@ -92,6 +92,7 @@ ecbuild_add_library( TARGET    MagPlus
                         ${clipper_srcs}
                         ${terralib_srcs}
                         ${odb_srcs}
+                        ${api_srcs}
                      TEMPLATES
                         ${common_templates}
                      PUBLIC_DEFINITIONS
@@ -108,6 +109,7 @@ ecbuild_add_library( TARGET    MagPlus
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/attributes>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/basic>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/api>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/common>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/drivers>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/decoders>
