@@ -61,6 +61,10 @@ void InputMatrixWrapper::set(const MagRequest& request)
 		inputmatrix_->simple_field_ = MagTranslator<string, bool>()(simple_field_value);
 		
 		}
+	if  (request.countValues("INPUT_FIELD_UNITS") ) {
+		string units_value = request("INPUT_FIELD_UNITS");
+		inputmatrix_->units_ = units_value;
+		}
 	if  (request.countValues("INPUT_METADATA") ) {
 		string metadata_value = request("INPUT_METADATA");
 		inputmatrix_->metadata_ = metadata_value;

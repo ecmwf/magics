@@ -55,6 +55,8 @@ public:
 	//  --  members:
 	string tag_;
 	bool legend_;
+	string description_;
+	string title_;
 	double floor_;
 	double ceiling_;
 	string setting_;

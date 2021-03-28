@@ -26,6 +26,8 @@ using namespace magics;
 
 ContourAttributes::ContourAttributes():
 	legend_(ParameterManager::getBool("legend")),
+	description_(ParameterManager::getString("contour_description")),
+	title_(ParameterManager::getString("contour_title")),
 	floor_(ParameterManager::getDouble("contour_interpolation_floor")),
 	ceiling_(ParameterManager::getDouble("contour_interpolation_ceiling")),
 	setting_(ParameterManager::getString("contour_automatic_setting")),
@@ -55,6 +57,8 @@ void ContourAttributes::set(const std::map<string, string>& params)
 	prefix[i++] = "contour";
 	
 	setAttribute(prefix, "legend", legend_, params);
+	setAttribute(prefix, "contour_description", description_, params);
+	setAttribute(prefix, "contour_title", title_, params);
 	setAttribute(prefix, "contour_interpolation_floor", floor_, params);
 	setAttribute(prefix, "contour_interpolation_ceiling", ceiling_, params);
 	setAttribute(prefix, "contour_automatic_setting", setting_, params);
@@ -72,6 +76,8 @@ void ContourAttributes::set(const std::map<string, string>& params)
 void ContourAttributes::copy(const ContourAttributes& other)
 {
 	legend_ = other.legend_;
+	description_ = other.description_;
+	title_ = other.title_;
 	floor_ = other.floor_;
 	ceiling_ = other.ceiling_;
 	setting_ = other.setting_;
@@ -137,6 +143,8 @@ void ContourAttributes::print(ostream& out)  const
 {
 	out << "Attributes[";
 	out << " legend = " <<  legend_;
+	out << " description = " <<  description_;
+	out << " title = " <<  title_;
 	out << " floor = " <<  floor_;
 	out << " ceiling = " <<  ceiling_;
 	out << " setting = " <<  setting_;
@@ -156,6 +164,10 @@ void ContourAttributes::toxml(ostream& out)  const
 	out <<  "\"contour\"";
 	out << ", \"legend\":";
 	niceprint(out,legend_);
+	out << ", \"contour_description\":";
+	niceprint(out,description_);
+	out << ", \"contour_title\":";
+	niceprint(out,title_);
 	out << ", \"contour_interpolation_floor\":";
 	niceprint(out,floor_);
 	out << ", \"contour_interpolation_ceiling\":";
@@ -180,6 +192,8 @@ void ContourAttributes::toxml(ostream& out)  const
 }
 
 static MagicsParameter<string> legend("legend", "off");
+static MagicsParameter<string> contour_description("contour_description", "");
+static MagicsParameter<string> contour_title("contour_title", "");
 static MagicsParameter<double> contour_interpolation_floor("contour_interpolation_floor", -INT_MAX);
 static MagicsParameter<double> contour_interpolation_ceiling("contour_interpolation_ceiling", INT_MAX);
 static MagicsParameter<string> contour_automatic_setting("contour_automatic_setting", "off");

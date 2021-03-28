@@ -61,6 +61,14 @@ void ContourWrapper::set(const MagRequest& request)
 		contour_->legend_ = MagTranslator<string, bool>()(legend_value);
 		
 		}
+	if  (request.countValues("CONTOUR_DESCRIPTION") ) {
+		string description_value = request("CONTOUR_DESCRIPTION");
+		contour_->description_ = description_value;
+		}
+	if  (request.countValues("CONTOUR_TITLE") ) {
+		string title_value = request("CONTOUR_TITLE");
+		contour_->title_ = title_value;
+		}
 	if  (request.countValues("CONTOUR_INTERPOLATION_FLOOR") ) {
 		double floor_value = request("CONTOUR_INTERPOLATION_FLOOR");
 		contour_->floor_ = floor_value;

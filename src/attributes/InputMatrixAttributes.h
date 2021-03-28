@@ -53,6 +53,7 @@ public:
 	//  --  members:
 	string tag_;
 	bool simple_field_;
+	string units_;
 	string metadata_;
 	string mapping_;
 	double suppress_below_;

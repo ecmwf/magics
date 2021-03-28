@@ -26,6 +26,7 @@ using namespace magics;
 
 InputMatrixAttributes::InputMatrixAttributes():
 	simple_field_(ParameterManager::getBool("input_simple_field")),
+	units_(ParameterManager::getString("input_field_units")),
 	metadata_(ParameterManager::getString("input_metadata")),
 	mapping_(ParameterManager::getString("input_field_subpage_mapping")),
 	suppress_below_(ParameterManager::getDouble("input_field_suppress_below")),
@@ -55,6 +56,7 @@ void InputMatrixAttributes::set(const std::map<string, string>& params)
 	prefix[i++] = "input";
 	
 	setAttribute(prefix, "input_simple_field", simple_field_, params);
+	setAttribute(prefix, "input_field_units", units_, params);
 	setAttribute(prefix, "input_metadata", metadata_, params);
 	setAttribute(prefix, "input_field_subpage_mapping", mapping_, params);
 	setAttribute(prefix, "input_field_suppress_below", suppress_below_, params);
@@ -72,6 +74,7 @@ void InputMatrixAttributes::set(const std::map<string, string>& params)
 void InputMatrixAttributes::copy(const InputMatrixAttributes& other)
 {
 	simple_field_ = other.simple_field_;
+	units_ = other.units_;
 	metadata_ = other.metadata_;
 	mapping_ = other.mapping_;
 	suppress_below_ = other.suppress_below_;
@@ -125,6 +128,7 @@ void InputMatrixAttributes::print(ostream& out)  const
 {
 	out << "Attributes[";
 	out << " simple_field = " <<  simple_field_;
+	out << " units = " <<  units_;
 	out << " metadata = " <<  metadata_;
 	out << " mapping = " <<  mapping_;
 	out << " suppress_below = " <<  suppress_below_;
@@ -144,6 +148,8 @@ void InputMatrixAttributes::toxml(ostream& out)  const
 	out <<  "\"matrix\"";
 	out << ", \"input_simple_field\":";
 	niceprint(out,simple_field_);
+	out << ", \"input_field_units\":";
+	niceprint(out,units_);
 	out << ", \"input_metadata\":";
 	niceprint(out,metadata_);
 	out << ", \"input_field_subpage_mapping\":";
@@ -168,6 +174,7 @@ void InputMatrixAttributes::toxml(ostream& out)  const
 }
 
 static MagicsParameter<string> input_simple_field("input_simple_field", "off");
+static MagicsParameter<string> input_field_units("input_field_units", "");
 static MagicsParameter<string> input_metadata("input_metadata", "{}");
 static MagicsParameter<string> input_field_subpage_mapping("input_field_subpage_mapping", "upper_left");
 static MagicsParameter<double> input_field_suppress_below("input_field_suppress_below", -1.0e+21);

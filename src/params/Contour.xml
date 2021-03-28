@@ -44,6 +44,20 @@ does it submit to any jurisdiction.
 			<option xml="isoline" fortran="on" include="IsoPlot.h" name="IsoPlot"></option>
 			<option xml="noisoline" fortran="off" include="IsoPlot.h" name="NoIsoPlot"></option>
 		</parameter>
+		<parameter member="description"
+			to="string"
+			default=""
+			from="string"
+			name="contour_description">
+			<documentation>Description of the contouring, use in contour libraries</documentation>
+		</parameter>
+		<parameter member="title"
+			to="string"
+			default=""
+			from="string"
+			name="contour_title">
+			<documentation>Title of the contouring, use in contour libraries</documentation>
+		</parameter>
 		<parameter member="method"
 			to="ContourMethod"
 			default="automatic"

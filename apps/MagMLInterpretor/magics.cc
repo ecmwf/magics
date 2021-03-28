@@ -10,17 +10,78 @@
 
 #include "MagYaml.h"
 #include "MagicsGlobal.h"
+#include "MagLog.h"
+
+
 using namespace magics;
 
+static void usage() {
+    std::cerr << "Usage: magics [--nostrict] [--silent] [--debug] [--compatibility] file1.yaml [file2.yaml ...]"
+              << std::endl;
+}
 int main(int argc, char** argv) {
-    // MagicsGlobal::strict(true);
+    MagicsGlobal::strict(true);
+
+    int n = 1;
+    for (; n < argc; n++) {
+        if (argv[n][0] != '-') {
+            break;
+        }
+
+        std::string a(argv[n]);
+
+        if (a == "--") {
+            n++;
+            break;
+        }
+
+        if (a == "--nostrict") {
+            MagicsGlobal::strict(false);
+            continue;
+        }
+
+        if (a == "--compatibility") {
+            MagicsGlobal::compatibility(true);
+            continue;
+        }
+
+        if (a == "--silent") {
+            MagicsGlobal::silent(true);
+            continue;
+        }
+
+        if (a == "--debug") {
+            MagLog::debugMessage(true);
+            continue;
+        }
+
+         if (a == "--dev") {
+            MagLog::devMessage(true);
+            continue;
+        }
+
+        if (a == "--profiling") {
+            MagLog::profilingMessage(true);
+            continue;
+        }
+
+        std::cerr << "Unkown option '" << a << "'" << std::endl;
+        usage();
+        return 1;
+    }
+
+    if (n == argc) {
+        usage();
+        return 1;
+    }
 
     try {
-        for (int i = 1; i < argc; i++) {
-            MagYaml::execute(argv[i]);
+        for (; n < argc; n++) {
+            MagYaml::execute(argv[n]);
         }
     }
     catch (std::exception& e) {
+        std::cerr << "Magics: input file: " << argv[n] << std::endl;
         std::cerr << "Magics: terminated with exception: " << e.what() << std::endl;
         return 1;
     }
