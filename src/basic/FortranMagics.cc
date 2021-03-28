@@ -111,6 +111,8 @@ void FortranMagics::print(ostream& out) const {
 
 void FortranMagics::popen() {
     MagLog::info() << "popen()" << endl;
+
+
     if (getEnvVariable("MAGPLUS_QUIET").empty() && !MagicsGlobal::silent()) {
         MagLog::userInfo() << "----------------------------------------------------"
                               "--------------\n";
@@ -547,11 +549,14 @@ const char* FortranMagics::detect(const string& data, const string& dim) {
     DimensionGuess json(data);
 
     NetcdfGuess guesser;
-    static string empty, result;
+    static string empty;
+    static string result;
+
     auto checks = guesser.guess_.find(dim);
-    if (checks == guesser.guess_.end())
+    if (checks == guesser.guess_.end()) {
         return empty.c_str();
-    result = "";
+    }
+    result.clear();
 
     for (auto check = checks->second.begin(); check != checks->second.end(); ++check) {
         vector<string> values = check->second;
@@ -594,6 +599,8 @@ const char* FortranMagics::metanetcdf() {
     static string temp;
     temp = out.str();
     return temp.c_str();
+#else
+    return 0;
 #endif
 }
 
@@ -1005,6 +1012,10 @@ void FortranMagics::paxis() {
         }
     }
     catch (MagicsException& e) {
+        if (MagicsGlobal::strict()) {
+            throw;
+        }
+
         MagLog::error() << e << "\n";
     }
     empty_ = false;  // Force the generation of the plot!
