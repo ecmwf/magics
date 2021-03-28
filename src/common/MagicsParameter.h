@@ -20,37 +20,35 @@
 #ifndef MagicsParameter_H
 #define MagicsParameter_H
 
-#include <BaseParameter.h>
-#include <MagLog.h>
-#include <magics.h>
+#include "BaseParameter.h"
+#include "MagLog.h"
+#include "magics.h"
 
 namespace magics {
 
 template <class T>
 class MagicsParameter : public BaseParameter {
 public:
-    MagicsParameter(const string& name, const T& def, const string& migration = "") :
-        BaseParameter(name), default_(def), global_(def), local_(def), migration_(migration) {}
+    MagicsParameter(const string& name, const T& def) : BaseParameter(name), default_(def), value_(def) {}
 
-    ~MagicsParameter() {}
+    ~MagicsParameter() override {}
 
-    void get(T& value) const { value = local_; }
-    void reset() { global_ = local_ = default_; }
+    void get(T& value) const override { value = value_; }
+    void reset() override { value_ = default_; }
 
-    BaseParameter* clone() { return new MagicsParameter<T>(this->name_, this->default_); }
+    BaseParameter* clone() override {
+        return new MagicsParameter<T>(this->name_, this->default_);
+    }  // FIXME: default or value?
 
-    string type() const { return getType(default_); }
+    string type() const override { return getType(default_); }
 
-    void set(const T& value) { global_ = local_ = value; }
-    void setLocal(const BaseParameter* from) { from->get(local_); }
-    void resetLocal() { local_ = global_; }
+    void set(const T& value) override { value_ = value; }
 
 protected:
-    void print(ostream& out) const { out << name_ << "[" << global_ << ", " << local_ << ", " << default_ << "]"; }
+    void print(ostream& out) const override { out << name_ << "[" << value_ << ", " << default_ << "]"; }
+
     T default_;
-    T global_;
-    T local_;
-    string migration_;
+    T value_;
 
 private:
     // No copy allowed

@@ -70,10 +70,7 @@ endif()
 # we may need to add stdc++fs to the link libs
 set(STDFSLIB "")
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-   #  if (${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS "9.0.0")
-      #   message(STATUS "GNU compiler < 9.0.0, so adding stdc++fs to link list")
-        set(STDFSLIB "stdc++fs")
-   # endif()
+	set(STDFSLIB "stdc++fs")
 endif()
 
 

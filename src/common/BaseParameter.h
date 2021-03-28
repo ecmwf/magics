@@ -41,9 +41,7 @@ namespace magics {
 
 class MistmatchType : public MagicsException {
 public:
-    MistmatchType(const string& name, const string& type, const string& wait) :
-        MagicsException("Parameter " + name + ": type mismatch -> type received \"" + type + "\", expected type \"" +
-                        wait + "\" - setting ignored!") {}
+    MistmatchType(const string& name, const string& type, const string& wait);
 };
 
 
@@ -51,84 +49,71 @@ class BaseParameter {
 public:
     BaseParameter(const string& name);
     virtual ~BaseParameter();
-    virtual void reset()                        = 0;
-    virtual void setLocal(const BaseParameter*) = 0;
-    virtual void resetLocal()                   = 0;
-    virtual BaseParameter* clone()              = 0;
+    virtual void reset()           = 0;
+    virtual BaseParameter* clone() = 0;
     const string& name() const { return name_; }
 
-    virtual void set(const double&) { throw MistmatchType(name_, "real", type()); }
-    virtual void setLocal(const double&) { throw MistmatchType(name_, "real", type()); }
-    virtual void get(double&) const { throw MistmatchType(name_, "real", type()); }
+    virtual void set(const double&);
+    virtual void get(double&) const;
 
-    virtual void set(bool) { throw MistmatchType(name_, "bool", type()); }
-    virtual void setLocal(bool) { throw MistmatchType(name_, "bool", type()); }
-    virtual void get(bool&) const { throw MistmatchType(name_, "bool", type()); }
+    virtual void set(const bool&);
+    virtual void get(bool&) const;
 
-    virtual void set(const magvector<double>&) { throw MistmatchType(name_, "array of reals", type()); }
-    virtual void setLocal(const magvector<double>&) { throw MistmatchType(name_, "array of reals", type()); }
-    virtual void get(magvector<double>&) const { throw MistmatchType(name_, "array of reals", type()); }
+    virtual void set(const magvector<double>&);
+    virtual void get(magvector<double>&) const;
 
-    virtual void set(const int&) { throw MistmatchType(name_, "integer", type()); }
-    virtual void setLocal(const int&) { throw MistmatchType(name_, "integer", type()); }
-    virtual void get(int&) const { throw MistmatchType(name_, "integer", type()); }
+    virtual void set(const int&);
+    virtual void get(int&) const;
 
-    virtual void set(const magvector<int>&) { throw MistmatchType(name_, "integer", type()); }
-    virtual void setLocal(const magvector<int>&) { throw MistmatchType(name_, "integer", type()); }
-    virtual void get(magvector<int>&) const { throw MistmatchType(name_, "integer", type()); }
+    virtual void set(const magvector<int>&);
+    virtual void get(magvector<int>&) const;
 
-    virtual void set(const magvector<long int>&) { throw MistmatchType(name_, "long integer", type()); }
-    virtual void setLocal(const magvector<long int>&) { throw MistmatchType(name_, "long integer", type()); }
-    virtual void get(magvector<long int>&) const { throw MistmatchType(name_, "long integer", type()); }
+    virtual void set(const magvector<long int>&);
+    virtual void get(magvector<long int>&) const;
 
-    virtual void set(const string&) { throw MistmatchType(name_, "string", type()); }
-    virtual void setLocal(const string&) { throw MistmatchType(name_, "string", type()); }
-    virtual void get(string&) const { throw MistmatchType(name_, "string", type()); }
+    virtual void set(const string&);
+    virtual void get(string&) const;
+    virtual void set(const char*);
 
-    virtual void set(const magvector<string>&) { throw MistmatchType(name_, "stringarray", type()); }
-    virtual void setLocal(const magvector<string>&) { throw MistmatchType(name_, "stringarray", type()); }
-    virtual void get(magvector<string>&) const { throw MistmatchType(name_, "stringarray", type()); }
+    virtual void set(const magvector<string>&);
+    virtual void get(magvector<string>&) const;
 
-    virtual void set(LineStyle) { throw MistmatchType(name_, "LineStyle", type()); }
-    virtual void setLocal(LineStyle) { throw MistmatchType(name_, "LineStyle", type()); }
-    virtual void get(LineStyle&) const { throw MistmatchType(name_, "LineStyle", type()); }
+    virtual void set(const LineStyle&);
+    virtual void get(LineStyle&) const;
 
-    virtual void set(DisplayType) { throw MistmatchType(name_, "LineStyle", type()); }
-    virtual void setLocal(DisplayType) { throw MistmatchType(name_, "LineStyle", type()); }
-    virtual void get(DisplayType&) const { throw MistmatchType(name_, "LineStyle", type()); }
+    virtual void set(const DisplayType&);
+    virtual void get(DisplayType&) const;
 
-    virtual void set(Justification) { throw MistmatchType(name_, "Justification", type()); }
-    virtual void setLocal(Justification) { throw MistmatchType(name_, "LineStyle", type()); }
-    virtual void get(Justification&) const { throw MistmatchType(name_, "Justification", type()); }
+    virtual void set(const Justification&);
+    virtual void get(Justification&) const;
 
-    virtual void set(ListPolicy) { throw MistmatchType(name_, "ListPolicy", type()); }
-    virtual void setLocal(ListPolicy) { throw MistmatchType(name_, "LineStyle", type()); }
-    virtual void get(ListPolicy&) const { throw MistmatchType(name_, "ListPolicy", type()); }
+    virtual void set(const ListPolicy&);
+    virtual void get(ListPolicy&) const;
 
-    virtual void set(AxisAutomaticSetting) { throw MistmatchType(name_, "AxisAutomaticSetting", type()); }
-    virtual void setLocal(AxisAutomaticSetting) { throw MistmatchType(name_, "AxisAutomaticSetting", type()); }
-    virtual void get(AxisAutomaticSetting&) const { throw MistmatchType(name_, "AxisAutomaticSetting", type()); }
+    virtual void set(const AxisAutomaticSetting&);
+    virtual void get(AxisAutomaticSetting&) const;
 
-    virtual void set(ArrowPosition) { throw MistmatchType(name_, "ArrowPosition", type()); }
-    virtual void setLocal(ArrowPosition) { throw MistmatchType(name_, "ArrowPosition", type()); }
-    virtual void get(ArrowPosition&) const { throw MistmatchType(name_, "ArrowPosition", type()); }
+    virtual void set(const ArrowPosition&);
+    virtual void get(ArrowPosition&) const;
 
-    virtual void set(const Matrix&) { throw MistmatchType(name_, "Matrix", type()); }
-    virtual void setLocal(const Matrix&) { throw MistmatchType(name_, "Matrix", type()); }
-    virtual void get(Matrix&) const { throw MistmatchType(name_, "Matrix", type()); }
+    virtual void set(const Matrix&);
+    virtual void get(Matrix&) const;
 
-    string getType(const string&) const { return "string"; }
-    string getType(const int&) const { return "integer"; }
-    string getType(const double&) const { return "real"; }
-    string getType(const magvector<string>&) const { return "array of string"; }
-    string getType(const magvector<int>&) const { return "array of integer"; }
-    string getType(const magvector<long int>&) const { return "array of long integer"; }
-    string getType(const magvector<double>&) const { return "array of real"; }
-    string getType(LineStyle) const { return "LineStyle"; }
-    string getType(AxisAutomaticSetting) const { return "AxisAutomaticSetting"; }
-    string getType(Justification) const { return "Justification"; }
-    string getType(ArrowPosition) const { return "ArrowPosition"; }
-    string getType(Matrix) const { return "2DMatrix"; }
+    string getType(const string&) const;
+    string getType(const int&) const;
+    string getType(const double&) const;
+    string getType(const magvector<string>&) const;
+    string getType(const magvector<int>&) const;
+    string getType(const magvector<long int>&) const;
+    string getType(const magvector<double>&) const;
+
+    string getType(const ListPolicy&) const;
+    string getType(const LineStyle&) const;
+    string getType(const AxisAutomaticSetting&) const;
+    string getType(const Justification&) const;
+    string getType(const ArrowPosition&) const;
+    string getType(const Matrix&) const;
+    string getType(const DisplayType&) const;
 
     static Justification justification(const std::string&);
     static const std::string& justification(const Justification&);
