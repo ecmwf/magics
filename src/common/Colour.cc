@@ -382,7 +382,7 @@ void Colour::init() {
     colours_["white"]            = Rgb(1.0000, 1.0000, 1.0000);
     colours_["undefined"]        = Rgb(-1., -1., -1.);
 
-#if 1
+#if 0
     // CSS colours
     colours_["aliceblue"]            = Colour("#F0F8FF");
     colours_["antiquewhite"]         = Colour("#FAEBD7");
