@@ -64,9 +64,9 @@ SimpleFactory<B>* SimpleFactory<B>::get(const string& name) {
         return (*maker).second;
     }
 
-    MagLog::error() << "No factory named [" << name << "], values:" << std::endl;
+    MagLog::debug() << "No factory named [" << name << "], values:" << std::endl;
     for (auto k = map_->begin(); k != map_->end(); ++k) {
-        MagLog::error() << "  " << (*k).first << std::endl;
+        MagLog::debug() << "  " << (*k).first << std::endl;
     }
 
     throw NoFactoryException(name);
