@@ -248,3 +248,16 @@ void InputMatrix::customisedPoints(const BasicThinningMethod& thinning, const Tr
     delete inx;
     delete iny;
 }
+
+std::string InputMatrix::getUnits() const {
+    ParamJSon data = ParamJSon(metadata_);
+    auto j         = data.find("units");
+    if (j != data.end()) {
+        if (units_ != "") {
+            ASSERT(units_ == (*j).second);
+        }
+        return (*j).second;
+    }
+
+    return units_;
+}

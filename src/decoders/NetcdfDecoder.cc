@@ -132,6 +132,17 @@ void NetcdfDecoder::visit(TextVisitor& text) {
     }
 }
 
+string NetcdfDecoder::getUnits() const {
+    MetaDataCollector collector;
+    collector["units"] = "";
+    MetaDataAttribute attribute;
+    attribute.setSource(MetaDataAttribute::GribApiSource);
+    collector.setAttribute("units", attribute);
+    // FIXME: make visit() const
+    const_cast<NetcdfDecoder*>(this)->visit(collector);
+    return collector["units"];
+}
+
 PointsHandler& NetcdfDecoder::points(const Transformation& transformation, bool all) {
     PointsList points;
     valid_ = (*interpretor_).interpretAsPoints(points, transformation);

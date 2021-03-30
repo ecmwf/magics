@@ -1881,3 +1881,7 @@ PointsHandler& WrepJSon::points(const Transformation& transformation, bool) {
     pointsHandlers_.push_back(new PointsHandler(list_));
     return *pointsHandlers_.back();
 }
+
+std::string WrepJSon::getUnits() const {
+    return "";
+}

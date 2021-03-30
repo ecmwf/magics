@@ -23,8 +23,8 @@
 #include "ContourLibrary.h"
 #include "Layer.h"
 #include "MetaData.h"
-#include "VisDefInfo.h"
 #include "Value.h"
+#include "VisDefInfo.h"
 
 using namespace magics;
 

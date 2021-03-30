@@ -123,6 +123,13 @@ does it submit to any jurisdiction.
 			to="string">
 			<documentation>Users can give their own directory to setup the automatic library of contours</documentation>
 		</parameter>
+		<parameter from="string"
+			name="contour_units"
+			default=""
+			member="units"
+			to="string">
+			<documentation>Units used to define contour attributes</documentation>
+		</parameter>
 		<parameter member="hilo"
 			to="HiLoBase"
 			default="off"

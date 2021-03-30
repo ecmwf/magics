@@ -95,6 +95,10 @@ void ContourWrapper::set(const MagRequest& request)
 		string library_path_value = request("CONTOUR_AUTOMATIC_LIBRARY_PATH");
 		contour_->library_path_ = library_path_value;
 		}
+	if  (request.countValues("CONTOUR_UNITS") ) {
+		string units_value = request("CONTOUR_UNITS");
+		contour_->units_ = units_value;
+		}
 	
 	
 		string contour_value = request.countValues("CONTOUR") ?  (string) request("CONTOUR") : "on";

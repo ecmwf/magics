@@ -33,7 +33,8 @@ ContourAttributes::ContourAttributes():
 	setting_(ParameterManager::getString("contour_automatic_setting")),
 	predefined_(ParameterManager::getString("contour_style_name")),
 	metadata_only_(ParameterManager::getBool("contour_metadata_only")),
-	library_path_(ParameterManager::getString("contour_automatic_library_path"))
+	library_path_(ParameterManager::getString("contour_automatic_library_path")),
+	units_(ParameterManager::getString("contour_units"))
 	,
 	contour_(MagTranslator<string, IsoPlot>().magics("contour")),
 	method_(MagTranslator<string, ContourMethod>().magics("contour_method")),
@@ -65,6 +66,7 @@ void ContourAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "contour_style_name", predefined_, params);
 	setAttribute(prefix, "contour_metadata_only", metadata_only_, params);
 	setAttribute(prefix, "contour_automatic_library_path", library_path_, params);
+	setAttribute(prefix, "contour_units", units_, params);
 	
 	setMember(prefix, "contour", contour_, params);
 	setMember(prefix, "contour_method", method_, params);
@@ -84,6 +86,7 @@ void ContourAttributes::copy(const ContourAttributes& other)
 	predefined_ = other.predefined_;
 	metadata_only_ = other.metadata_only_;
 	library_path_ = other.library_path_;
+	units_ = other.units_;
 	contour_ = unique_ptr<IsoPlot>(other.contour_->clone());
 	method_ = unique_ptr<ContourMethod>(other.method_->clone());
 	hilo_ = unique_ptr<HiLoBase>(other.hilo_->clone());
@@ -151,6 +154,7 @@ void ContourAttributes::print(ostream& out)  const
 	out << " predefined = " <<  predefined_;
 	out << " metadata_only = " <<  metadata_only_;
 	out << " library_path = " <<  library_path_;
+	out << " units = " <<  units_;
 	out << " contour = " <<  *contour_;
 	out << " method = " <<  *method_;
 	out << " hilo = " <<  *hilo_;
@@ -180,6 +184,8 @@ void ContourAttributes::toxml(ostream& out)  const
 	niceprint(out,metadata_only_);
 	out << ", \"contour_automatic_library_path\":";
 	niceprint(out,library_path_);
+	out << ", \"contour_units\":";
+	niceprint(out,units_);
 	out << ", \"contour\":";
 	contour_->toxml(out);
 	out << ", \"contour_method\":";
@@ -200,6 +206,7 @@ static MagicsParameter<string> contour_automatic_setting("contour_automatic_sett
 static MagicsParameter<string> contour_style_name("contour_style_name", "");
 static MagicsParameter<string> contour_metadata_only("contour_metadata_only", "off");
 static MagicsParameter<string> contour_automatic_library_path("contour_automatic_library_path", "");
+static MagicsParameter<string> contour_units("contour_units", "");
 static MagicsParameter<string> contour("contour", "on");
 static MagicsParameter<string> contour_method("contour_method", "automatic");
 static MagicsParameter<string> contour_hilo("contour_hilo", "off");
