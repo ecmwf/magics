@@ -68,11 +68,11 @@ endif()
 
 
 # we may need to add stdc++fs to the link libs
+# GNU and Clang need this, but AppleClang does not
 set(STDFSLIB "")
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 	set(STDFSLIB "stdc++fs")
 endif()
-
 
 ecbuild_add_library( TARGET    MagPlus
                      SOURCES
