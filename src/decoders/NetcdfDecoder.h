@@ -98,6 +98,8 @@ public:
     void visit(ValuesCollector&) override;
     void visit(TextVisitor&) override;
 
+    string getUnits() const override;
+
 
 protected:
     //! Method to print string about this class on to a stream of type ostream

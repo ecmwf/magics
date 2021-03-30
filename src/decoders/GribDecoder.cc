@@ -529,11 +529,6 @@ grib_handle* GribDecoder::cHandle(string& name) {
     return colour_;
 }
 
-bool compare(const pair<double, double>& pt1, const pair<double, double>& pt2) {
-    if (pt1.second != pt2.second)
-        return false;
-    return pt1.second < pt2.second;
-}
 
 void GribDecoder::newPoint(const Transformation& transformation, double lat, double lon, double uc, double vc,
                            double cc, vector<CustomisedPoint*>& points, double grid) {
@@ -1567,6 +1562,10 @@ void GribDecoder::ask(MetaDataCollector& meta) {
         m->second = getString(m->first, false);
         //cout << "ASK --> " << m->first << " = " << m->second << endl;
     }
+}
+
+string GribDecoder::getUnits() const {
+    return getString("units");
 }
 
 void GribDecoder::visit(MetaDataVisitor& meta) {

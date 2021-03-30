@@ -63,6 +63,7 @@ public:
 	string predefined_;
 	bool metadata_only_;
 	string library_path_;
+	string units_;
 	unique_ptr<IsoPlot> contour_;
 	unique_ptr<ContourMethod> method_;
 	unique_ptr<HiLoBase> hilo_;

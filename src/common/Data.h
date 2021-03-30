@@ -141,6 +141,8 @@ public:
     virtual void initInfo() override { MetviewIcon::initInfo(); }
     string legend() { return legend_; }
 
+    virtual std::string getUnits() const;
+
     // Information needed fron layer management!
     virtual string layerId() { return (layerId_.empty()) ? iconName_ + "/ " + iconClass_ : layerId_; }
     virtual string name() { return (iconName_.empty()) ? name_ : iconName_; }
