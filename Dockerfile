@@ -210,6 +210,7 @@ RUN set -ex \
 # Copy Python run-time and ECMWF softwate.
 COPY --from=build /usr/local/share/eccodes/ /usr/local/share/eccodes/
 COPY --from=build /usr/local/share/magics/ /usr/local/share/magics/
+COPY --from=build /usr/local/share/proj/ /usr/local/share/proj/
 COPY --from=build /usr/local/bin/ /usr/local/bin/
 COPY --from=build /usr/local/lib/ /usr/local/lib/
 
