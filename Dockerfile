@@ -2,7 +2,7 @@
 # for Magics
 
 # Build image
-FROM python:3.7.7-slim-buster as build
+FROM python:3.7.10-slim-buster as build
 
 RUN set -ex \
     && apt-get update
@@ -95,7 +95,7 @@ RUN set -ex \
     && pip install -r /root/requirements.txt
 
 # Install ecbuild
-ARG ECBUILD_VERSION=2019.07.1
+ARG ECBUILD_VERSION=2021.03.0
 RUN set -eux \
     && mkdir -p /src/ \
     && cd /src \
@@ -110,7 +110,7 @@ RUN set -eux \
 
 # Install eccodes
 # requires ecbuild
-ARG ECCODES_VERSION=2.14.0
+ARG ECCODES_VERSION=2021.03.0
 RUN set -eux \
     && wget https://confluence.ecmwf.int/download/attachments/45757960/eccodes-${ECCODES_VERSION}-Source.tar.gz?api=v2 --output-document=eccodes.tar.gz \
     && tar -xf eccodes.tar.gz \
@@ -145,7 +145,7 @@ RUN set -ex \
 #
 # Run-time image.
 #
-FROM debian:stable-slim
+FROM python:3.7.10-slim-buster
 
 # Install run-time depencencies.
 # Delete resources after installation
