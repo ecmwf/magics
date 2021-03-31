@@ -13,12 +13,14 @@
         "paramId": [
                     "228029",
                     "228028",
-                    "123"
+                    "123",
+                    "49"
                 ],
         "shortName": [
                     "i10fg",
                     "10fg6",
-                    "10fg3"
+                    "10fg3",
+                    "10fg"
                 ]
       },
       {
@@ -34,7 +36,8 @@
         "long_name": [
                     "Instantaneous 10 metre wind gust",
                     "10 metre wind gust in the last 6 hours",
-                    "10 metre wind gust in the last 3 hours"
+                    "10 metre wind gust in the last 3 hours",
+                    "10 metre wind gust since previous post-processing"
                 ]
       }
     ]
