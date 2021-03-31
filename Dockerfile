@@ -112,10 +112,11 @@ RUN set -eux \
 # requires ecbuild
 ARG ECCODES_VERSION=2021.03.0
 RUN set -eux \
-    && wget https://confluence.ecmwf.int/download/attachments/45757960/eccodes-${ECCODES_VERSION}-Source.tar.gz?api=v2 --output-document=eccodes.tar.gz \
-    && tar -xf eccodes.tar.gz \
     && mkdir -p /src/ \
-    && mv eccodes-${ECCODES_VERSION}-Source /src/eccodes \
+    && cd /src \
+    && git clone https://github.com/ecmwf/eccodes.git \
+    && cd eccodes \
+    && git checkout ${ECCODES_VERSION} \
     && mkdir -p /build/eccodes \
     && cd /build/eccodes \
     && /usr/local/bin/ecbuild /src/eccodes -DECMWF_GIT=https -DCMAKE_BUILD_TYPE=Release \
