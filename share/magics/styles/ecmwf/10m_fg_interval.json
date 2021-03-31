@@ -26,6 +26,11 @@
         "shortName": "VMAX_10M"
       },
       {
+        "centre": "219",
+        "shortName": "gust",
+        "paramId":"260065"
+      },
+      {
         "long_name": [
                     "Instantaneous 10 metre wind gust",
                     "10 metre wind gust in the last 6 hours",

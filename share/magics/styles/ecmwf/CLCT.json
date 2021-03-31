@@ -1,0 +1,19 @@
+[
+  {
+    "eccharts_layer": "",
+    "styles": [
+      "transparency_grey_f0t100"
+    ],
+    "match": [
+      {
+        "originatingCentre": "edzw",
+        "shortName": "CLCT"
+      },
+      {
+        "originatingCentre": "edzw",
+        "shortName": "CLCH",
+        "paramId": "500050"
+      }
+    ]
+  }
+]
