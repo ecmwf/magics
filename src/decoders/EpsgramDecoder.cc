@@ -22,10 +22,10 @@
 
 #include "EpsgramDecoder.h"
 #include "CustomisedPoint.h"
-#include "MagDateTime.h"
 #include "EfiLegendEntry.h"
 #include "IntervalMap.h"
 #include "LegendVisitor.h"
+#include "MagDateTime.h"
 #include "MetaData.h"
 #include "TextVisitor.h"
 #include "XmlReader.h"
@@ -1228,21 +1228,14 @@ void SpotDecoder::decode(bool check) {
         }
     }
 
-#ifdef MAGICS_EXCEPTION
+
     try {
         parameter_ = SimpleFactory<EpsParameter>::create(param_);
     }
     catch (NoFactoryException& e) {
         parameter_ = new EpsParameter(param_, param_title_, param_);
     }
-#else
-    parameter_ = SimpleFactory<EpsParameter>::create(param_);
-    if (!parameter_) {
-        // The data do not know how to verify the criter ....
-        MagLog::warning() << "Eps Data access: parameter [" << param_ << "] unknown\n";
-        return;
-    }
-#endif
+
     parameter_->scaling(scaling_);
     parameter_->offset(offset_);
     parameter_->shift(shift_);

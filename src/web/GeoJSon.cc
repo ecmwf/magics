@@ -11,10 +11,10 @@
 #include "GeoJSon.h"
 #include "BinningObject.h"
 #include "Factory.h"
-
+#include "Value.h"
+#include "JSONParser.h"
 
 using namespace magics;
-using namespace json_spirit;
 
 namespace magics {
 
@@ -29,11 +29,12 @@ public:
         index_++;
     }
     virtual ~GeoObject() {}
-    virtual void decode(const json_spirit::Value& value) {}
-    void properties(const json_spirit::Value& value) {
-        Object object = value.get_value<Object>();
-        for (vector<Pair>::const_iterator entry = object.begin(); entry != object.end(); ++entry) {
-            properties_.insert(make_pair(entry->name_, entry->value_.get_value<string>()));
+    string convert(const Value&);
+    virtual void decode(const Value& value) {}
+    void properties(const Value& value) {
+        ValueMap object = value.get_value<ValueMap>();
+        for (auto entry = object.begin(); entry != object.end(); ++entry) {
+            properties_.insert(make_pair(entry->first, convert(entry->second)));
         }
     }
     string name_;
@@ -108,7 +109,6 @@ public:
     }
     bool shift_;
     virtual void print() {
-        // cout << name_ << "-->" << objects_.size() << endl;
         for (vector<GeoObject*>::iterator o = objects_.begin(); o != objects_.end(); ++o)
             (*o)->print();
     }
@@ -158,7 +158,7 @@ public:
             return GeoObject::shift(needs, out);
 
         boundingBox(min, max);
-        // cout << min << "--->" << max << endl;
+
         if (max <= -180)
             GeoObject::shift(needs, out, 360);
 
@@ -192,8 +192,8 @@ public:
         if (max < lon_)
             max = lon_;
     }
-    virtual void decode(const json_spirit::Value& value) {
-        Array point = value.get_value<Array>();
+    virtual void decode(const Value& value) {
+        ValueList point = value.get_value<ValueList>();
         lon_        = point[0].get_value<double>();
         lat_        = point[1].get_value<double>();
     }
@@ -254,19 +254,19 @@ public:
         name_ = n.str();
     }
     virtual ~MultiLineString() {}
-    virtual void decode(const json_spirit::Value& value) {
-        Array lines = value.get_value<Array>();
+    virtual void decode(const Value& value) {
+        ValueList lines = value.get_value<ValueList>();
         for (unsigned int i = 0; i < lines.size(); i++) {
             lines_.push_back(vector<pair<double, double> >());
-            Array line = lines[i].get_value<Array>();
+            ValueList line = lines[i].get_value<ValueList>();
             for (unsigned int pt = 0; pt < line.size(); pt++) {
-                Array point = line[pt].get_value<Array>();
+                ValueList point = line[pt].get_value<ValueList>();
                 lines_.back().push_back(make_pair(point[0].get_value<double>(), point[1].get_value<double>()));
             }
         }
     }
     vector<vector<pair<double, double> > > lines_;
-    void create(PointsList& out) {
+    void create(PointsList& out, const string& ref) {
         double value = tonumber(getProperty("value", "0"));
         string name  = getProperty("name");
         for (vector<vector<pair<double, double> > >::iterator line = lines_.begin(); line != lines_.end(); ++line) {
@@ -290,11 +290,115 @@ public:
     }
 };
 
+class MultiPolygon : public GeoObject {
+public:
+    MultiPolygon() {
+        ostringstream n;
+        n << "GeoPoint_" << index_;
+        name_ = n.str();
+    }
+    virtual ~MultiPolygon() {}
+    virtual void decode(const Value& value) {
+        ValueList multi = value.get_value<ValueList>();
+
+        for (unsigned int m = 0; m < multi.size(); m++) {
+            ValueList alines = multi[m].get_value<ValueList>();
+
+            for (unsigned int i = 0; i < alines.size(); i++) {
+                ValueList line = alines[i].get_value<ValueList>();
+                lines_.push_back(vector<pair<double, double> >());
+                lines_.back().reserve(line.size());
+
+                for (unsigned int pt = 0; pt < line.size(); pt++) {
+                    ValueList point = line[pt].get_value<ValueList>();
+                    lines_.back().push_back(make_pair(point[0].get_value<double>(), point[1].get_value<double>()));
+                }
+            }
+        }
+    }
+    vector<vector<pair<double, double> > > lines_;
+    void create(PointsList& out, const string& ref) {
+        double value = tonumber(getProperty("value", "0"));
+        string name  = getProperty("name");
+        for (vector<vector<pair<double, double> > >::iterator line = lines_.begin(); line != lines_.end(); ++line) {
+            for (vector<pair<double, double> >::iterator point = line->begin(); point != line->end(); ++point) {
+                UserPoint* upoint = new UserPoint(point->first, point->second, value, false, false, name);
+
+                out.push_back(upoint);
+            }
+            out.push_back(new UserPoint(0, 0, 0, true));
+        }
+    }
+    void shift(PointsList& out) {
+        // double value = tonumber(getProperty("value", "0"));
+        // string name  = getProperty("name");
+        // for (vector<vector<pair<double, double> > >::iterator line = lines_.begin(); line != lines_.end(); ++line) {
+        //     for (vector<pair<double, double> >::iterator point = line->begin(); point != line->end(); ++point) {
+        //         UserPoint* upoint = new UserPoint(point->first, point->second, value, false, false, name);
+        //         out.push_back(upoint);
+        //     }
+        //     out.push_back(new UserPoint(0, 0, 0, true));
+        // }
+    }
+};
+class MagPolygon : public GeoObject {
+public:
+    MagPolygon() {
+        ostringstream n;
+        n << "GeoPoint_" << index_;
+        name_ = n.str();
+    }
+    virtual ~MagPolygon() {}
+    virtual void decode(const Value& value) {
+        ValueList alines = value.get_value<ValueList>();
+        // WE take the first one for the first trial!
+        // The next one are the holes !
+
+        for (unsigned int i = 0; i < alines.size(); i++) {
+            ValueList line = alines[i].get_value<ValueList>();
+
+            lines_.push_back(vector<pair<double, double> >());
+            lines_.back().reserve(line.size());
+            for (unsigned int pt = 0; pt < line.size(); pt++) {
+                ValueList point = line[pt].get_value<ValueList>();
+                lines_.back().push_back(make_pair(point[0].get_value<double>(), point[1].get_value<double>()));
+            }
+        }
+    }
+    vector<vector<pair<double, double> > > lines_;
+    void create(PointsList& out, const string& ref) {
+        double value = tonumber(getProperty("value", "0"));
+        string name  = getProperty("name");
+        for (vector<vector<pair<double, double> > >::iterator line = lines_.begin(); line != lines_.end(); ++line) {
+            for (vector<pair<double, double> >::iterator point = line->begin(); point != line->end(); ++point) {
+                UserPoint* upoint = new UserPoint(point->first, point->second, value, false, false, name);
+
+                out.push_back(upoint);
+            }
+            out.push_back(new UserPoint(0, 0, 0, true));
+        }
+    }
+    void shift(PointsList& out) {
+        // double value = tonumber(getProperty("value", "0"));
+        // string name  = getProperty("name");
+        // for (vector<vector<pair<double, double> > >::iterator line = lines_.begin(); line != lines_.end(); ++line) {
+        //     for (vector<pair<double, double> >::iterator point = line->begin(); point != line->end(); ++point) {
+        //         UserPoint* upoint = new UserPoint(point->first, point->second, value, false, false, name);
+        //         out.push_back(upoint);
+        //     }
+        //     out.push_back(new UserPoint(0, 0, 0, true));
+        // }
+    }
+};  // namespace magics
+
 }  // namespace magics
 static SimpleObjectMaker<GeoPoint, GeoObject> Point("Point");
 static SimpleObjectMaker<GeoFeature, GeoObject> FeatureCollection("FeatureCollection");
 static SimpleObjectMaker<GeoObject> Feature("Feature");
 static SimpleObjectMaker<MultiLineString, GeoObject> MultiLineString("MultiLineString");
+static SimpleObjectMaker<MultiPolygon, GeoObject> MultiPolygon("MultiPolygon");
+static SimpleObjectMaker<MagPolygon, GeoObject> MagPolygon("Polygon");
+
 
 GeoJSon::GeoJSon() : current_(0), parent_(0), matrix_(0) {
     methods_["coordinates"] = &GeoJSon::coordinates;
@@ -305,6 +409,14 @@ GeoJSon::GeoJSon() : current_(0), parent_(0), matrix_(0) {
 }
 
 GeoJSon::~GeoJSon() {}
+
+string GeoObject::convert(const Value& value) {
+    if(value.isString() || value.isNumber() || value.isDouble()) {
+        std::string s(value);
+        return s;
+    }
+    return "";
+}
 
 MatrixHandler& GeoJSon::matrix() {
     if (!matrix_) {
@@ -329,34 +441,34 @@ void GeoJSon::print(ostream& out) const {
     GeoJSonAttributes::print(out);
     out << "]";
 }
-void GeoJSon::coordinates(const json_spirit::Value& value) {
+void GeoJSon::coordinates(const Value& value) {
     ASSERT(current_);
     current_->decode(value);
 }
-void GeoJSon::properties(const json_spirit::Value& value) {
+void GeoJSon::properties(const Value& value) {
     ASSERT(current_);
     current_->properties(value);
 }
-void GeoJSon::features(const json_spirit::Value& value) {
-    Array features = value.get_value<Array>();
+void GeoJSon::features(const Value& value) {
+    ValueList features = value.get_value<ValueList>();
     for (unsigned int i = 0; i < features.size(); i++) {
         dig(features[i]);
     }
 }
-void GeoJSon::geometry(const json_spirit::Value& value) {
+void GeoJSon::geometry(const Value& value) {
     dig(value);
 }
 
-string GeoJSon::find(json_spirit::Object& object, const string& name) {
-    for (vector<Pair>::const_iterator entry = object.begin(); entry != object.end(); ++entry) {
-        if (entry->name_ == name)
-            return entry->value_.get_value<string>();
+string GeoJSon::find(ValueMap& object, const string& name) {
+    for (auto entry = object.begin(); entry != object.end(); ++entry) {
+        if (entry->first == name)
+            return entry->second.get_value<string>();
     }
     return "";
 }
 
-void GeoJSon::dig(const json_spirit::Value& value) {
-    Object object = value.get_value<Object>();
+void GeoJSon::dig(const Value& value) {
+    ValueMap object = value.get_value<ValueMap>();
 
     // Find the type :
     string type = find(object, "type");
@@ -370,17 +482,17 @@ void GeoJSon::dig(const json_spirit::Value& value) {
         if (!parent_)
             parent_ = current_;
     }
-    for (vector<Pair>::const_iterator entry = object.begin(); entry != object.end(); ++entry) {
-        map<string, Method>::iterator method = methods_.find(entry->name_);
+    for (auto entry = object.begin(); entry != object.end(); ++entry) {
+        map<string, Method>::iterator method = methods_.find(entry->first);
 
         if (method != methods_.end()) {
-            ((this->*method->second)(entry->value_));
+            ((this->*method->second)(entry->second));
         }
     }
     current_ = previous;
 }
 
-void GeoJSon::type(const json_spirit::Value& value) {}
+void GeoJSon::type(const Value& value) {}
 
 void GeoJSon::decode() {
     if (points_.size())
@@ -388,14 +500,23 @@ void GeoJSon::decode() {
     points_.clear();
 
     try {
-        json_spirit::Value value;
+        Value value;
         if (magCompare(type_, "string")) {
-            istringstream is(input_);
-            json_spirit::read_or_throw(is, value);
+           value = JSONParser::decodeString(input_);
         }
         else {
-            ifstream is(path_.c_str());
-            json_spirit::read_or_throw(is, value);
+            try {
+                ifstream is(path_.c_str());
+                value = JSONParser::decodeFile(path_);
+            }
+            catch (std::exception& e) {
+                MagLog::error() << "JSON error in file: " << path_ << ": " << e.what() << endl;
+                return;
+            }
+            catch (...) {
+                MagLog::error() << "GeoJSon decoder: can not read file " << path_ << endl;
+                return;
+            }
         }
         dig(value);
     }

@@ -464,8 +464,7 @@ public:
 class EpsControl : public LegendEntry {
 public:
     EpsControl(const string& model, double resolution, const string& type, double height) :
-        LegendEntry(" "),
-        legend_size_(height) {
+        LegendEntry(" "), legend_size_(height) {
         ostringstream title;
         // carefull here this text is depending of the resolution!
         MagLog::dev() << "EpsControl=>resolution" << resolution << endl;
@@ -498,8 +497,7 @@ protected:
 class EpsForecast : public LegendEntry {
 public:
     EpsForecast(const string& model, double resolution, const string& type, double height) :
-        LegendEntry(" "),
-        legend_size_(height) {
+        LegendEntry(" "), legend_size_(height) {
         MagLog::dev() << "EpsForecsat=>resolution" << resolution << endl;
         ostringstream title;
         int km = maground(40000 / (4 * (resolution + 1)));
@@ -1000,6 +998,10 @@ void EpsLight::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
         lights[epsmin] = 0;
         lights[eps10]  = 0.20;
         lights[eps25]  = 0.50;
+        lights[eps50]  = 1.;
+        lights[eps75]  = 0.50;
+        lights[eps90]  = 0.25;
+        lights[epsmax] = 0.;
 
 
         float y      = 1.;
@@ -1357,7 +1359,6 @@ void EpsWind::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
         // InteractiveSet* iset = new InteractiveSet();
         // iset->addAction("onmouseover", new InteractiveMagnify(4));
         vector<double> values;
-        double scale = 0;
 
 
         for (map<string, float>::const_iterator direction = directions.begin(); direction != directions.end();
@@ -1372,7 +1373,7 @@ void EpsWind::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
         grid->setColour(Colour("grey"));
         grid->setThickness(2);
         grid->setLineStyle(M_DOT);
-        scale       = 200;
+
         double l100 = 12 * 3600;
         for (float angle = 0; angle <= 2; angle += 0.1)
             grid->push_back(PaperPoint(x + (l100 * cos(3.14 * angle)), l100 * sin(3.14 * angle)));
@@ -1733,14 +1734,15 @@ void CdfGraph::setMedium(const string& base) {
     for (int i = 0; i <= 100; i++) {
         ostringstream key;
         key << base << "_" << i;
-
         keys_.push_back(make_pair(key.str(), i));
     }
 }
 void CdfGraph::setExtended(const string& base) {
     keys_.clear();
     static vector<pair<string, double>> values = {
-        {"min", 0}, {"ten", 10}, {"twenty_five", 25}, {"fifty", 50}, {"seventy_five", 75}, {"ninety", 90}, {"max", 99}};
+        {"min", 0},          {"one", 1},           {"two", 2},          {"five", 5},          {"ten", 10},
+        {"twenty_five", 25}, {"fifty", 50},        {"median", 50},      {"seventy_five", 75}, {"ninety", 90},
+        {"ninety_five", 95}, {"ninety_eight", 98}, {"ninety_nine", 99}, {"max", 100}};
     for (auto& val : values) {
         ostringstream key;
         key << base << "_" << val.first;
@@ -1750,6 +1752,10 @@ void CdfGraph::setExtended(const string& base) {
 
 
 void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
+    map<string, int> legend_range  = {{"medium", 24}, {"extended", 168}};
+    map<string, int> legend_offset = {{"medium", 12}, {"extended", 0}};
+
+    setters_["extended"] = &CdfGraph::setExtended;
     CustomisedPointsList points;
     std::set<string> request;
     const Transformation& transformation = visitor.transformation();
@@ -1794,7 +1800,8 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
         }
     }
 
-    visitor.push_back(efi);
+
+    transformation(*efi, visitor);
 
 
     magics::Polyline* box = new magics::Polyline();
@@ -1818,7 +1825,7 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
     vector<string>::iterator style  = style_.begin();
     vector<int>::iterator thickness = thickness_.begin();
 
-    vector<BasicGraphicsObject*> sorter;
+    vector<Polyline*> sorter;
     int step = 1;
     while (icolour != colour_.end()) {
         Colour colour(*icolour);
@@ -1828,11 +1835,27 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
         efi->setColour(colour);
         efi->setLineStyle(MagTranslator<string, LineStyle>()(*style));
         efi->setThickness(*thickness);
-        ++thickness;
-        ++style;
+
         ostringstream helper;
         helper << step << "_";
+        auto l = legend_range.find(type_);
+        int range;
+        if (l != legend_range.end()) {
+            range = l->second;
+        }
+        else {
+            MagLog::warning() << " Can nt find information for legend for the type " << type_ << endl;
+        }
+        int offset;
+        auto o = legend_offset.find(type_);
+        if (o != legend_offset.end()) {
+            offset = o->second;
+        }
+        else {
+            MagLog::warning() << " Can nt find information for legend for the type " << type_ << endl;
+        }
         (this->*setter->second)(tostring(step));
+        string legend;
         for (const auto& point : points) {
             for (auto key = keys_.begin(); key != keys_.end(); ++key) {
                 map<string, double>::const_iterator step = point->find(key->first);
@@ -1844,16 +1867,29 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
 
             ostringstream key;
             key << step << "_step";
-            map<string, double>::const_iterator info = point->find(key.str());
-            int s                                    = info->second;
-            ostringstream legend;
-            legend << "t+ [" << s - 24 << "-" << s << "h] ";
-            legend_.push_back(legend.str());
+            auto info = point->find(key.str());
+            int s     = info->second;
+
+            ostringstream l;
+            l << "t+ [" << s + offset - range << "-" << s + offset << "h] ";
+            legend = l.str();
+
+            info           = point->find("clim_step");
+            climateLegend_ = "M-Climate t+?:? : unknow step";
+            if (info != point->end()) {
+                int cs = info->second;
+                ostringstream cl;
+                cl << "M-Climate t+ [" << cs + offset - range << "-" << cs + offset << "h] ";
+                climateLegend_ = cl.str();
+            }
         }
 
         if (!efi->empty()) {
+            legends_.push_back(legend);
             sorter.push_back(efi);
             usedColours_.push_back(*icolour);
+            usedStyle_.push_back(*style);
+            usedThickness_.push_back(*thickness);
         }
         else
             delete efi;
@@ -1861,55 +1897,56 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
 
         // go to next step!
         ++icolour;
+        ++thickness;
+        ++style;
         step++;
     }
 
     // Here we revert the curve to have the fisrt plotted last!
-    for (vector<BasicGraphicsObject*>::reverse_iterator object = sorter.rbegin(); object != sorter.rend(); ++object)
-        visitor.push_back(*object);
-
-    // visitor.push_back(box);
-    // visitor.push_back(mint);
-    // visitor.push_back(maxt);
+    for (auto object = sorter.rbegin(); object != sorter.rend(); ++object)
+        transformation(**object, visitor);
 }
 
 
-void CdfGraph::visit(LegendVisitor& legend)
+void CdfGraph::visit(LegendVisitor& legend) {
+    // magics::Polyline* line = new magics::Polyline();
 
-{
-    magics::Polyline* line = new magics::Polyline();
+    // line->setColour(Colour("black"));
 
-    line->setColour(Colour("black"));
+    // line->setThickness(4);
+    // legend.add(new LineEntry("", line));
+    if (!legend_)
+        return;
+    map<string, string> legends = {{"medium", "Climate t+[24-48h]"}, {"extended", climateLegend_}};
 
-    line->setThickness(4);
-    legend.add(new LineEntry("", line));
-    return;
 
-    vector<string>::reverse_iterator style  = style_.rbegin();
-    vector<int>::reverse_iterator thickness = thickness_.rbegin();
-    vector<string>::reverse_iterator text   = legend_.rbegin();
+    vector<string>::reverse_iterator style  = usedStyle_.rbegin();
+    vector<int>::reverse_iterator thickness = usedThickness_.rbegin();
+    vector<string>::reverse_iterator text   = legends_.rbegin();
 
 
     for (vector<string>::reverse_iterator colour = usedColours_.rbegin(); colour != usedColours_.rend(); ++colour) {
         magics::Polyline* efi = new magics::Polyline();
         efi->setColour(Colour(*colour));
-
-
         efi->setLineStyle(MagTranslator<string, LineStyle>()(*style));
         efi->setThickness(*thickness);
-        LineEntry* entry = new LineEntry(*text, efi);
+        CdfEntry* entry = new CdfEntry(*text, efi);
 
         legend.add(entry);
+
+
         ++thickness;
         ++style;
         ++text;
     }
     magics::Polyline* efi = new magics::Polyline();
     efi->setColour(*clim_colour_);
+
     efi->setLineStyle(clim_style_);
     efi->setThickness(clim_thickness_);
-    LineEntry* entry = new LineEntry("Climate t+[24-48h]", efi);
 
+
+    CdfEntry* entry = new CdfEntry(legends[type_], efi);
     legend.add(entry);
 }
 
@@ -2414,8 +2451,6 @@ void EpsPlume::visit(LegendVisitor& legend) {
     if (shading_) {
         for (vector<Colour>::iterator entry = shading_legend_.begin(); entry != shading_legend_.end(); ++entry) {
             magics::Polyline* box = new magics::Polyline();
-
-
             box->setShading(new FillShadingProperties());
             box->setFillColour(*entry);
             box->setFilled(true);

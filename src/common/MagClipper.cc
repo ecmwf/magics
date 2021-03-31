@@ -14,7 +14,7 @@
 
 using namespace magics;
 
-double scale_ = 100000;
+double scale_ = 1e7;
 
 void convert(const deque<PaperPoint>& in, ClipperLib::Path& out, bool print = false) {
     out.reserve(in.size());
@@ -189,7 +189,7 @@ void MagClipper::add(const Polyline& subject, const Polyline& clip, vector<Polyl
         clipper.Execute(ClipperLib::ctUnion, solution, ClipperLib::pftNonZero, ClipperLib::pftNonZero);
     }
     catch (...) {
-        cout << "ADD ARRIOR " << endl;
+        MagLog::warning() << "Clipping warning " << endl;
     }
     for (auto path = solution.begin(); path != solution.end(); ++path) {
         Polyline* poly = new Polyline();

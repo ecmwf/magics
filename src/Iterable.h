@@ -10,7 +10,7 @@
 
 /*!
  * \file Iterable.h
- * \license Apache License 2.0
+ * \copyright Apache License 2.0
  *
  *  Created on: 17 Sep 2018
  *      Author: idris

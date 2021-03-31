@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file GeoPointsDecoder.h
@@ -23,17 +23,16 @@
 #define GeoPointsDecoder_H
 
 #include "magics.h"
-
 #include "magics_windef.h"
 #ifdef MAGICS_ON_WINDOWS
 #define PROJ_MSVC_DLL_IMPORT 1
 #endif
 
-#define ACCEPT_USE_OF_DEPRECATED_PROJ_API_H 1
-#include <proj_api.h>
+#include <ProjP.h>
+
 #include "Data.h"
-#include "MagicsDecoder.h"
 #include "GeoPointsDecoderAttributes.h"
+#include "MagicsDecoder.h"
 #include "UserPoint.h"
 
 namespace magics {
@@ -91,12 +90,14 @@ protected:
         eGeoColLat,
         eGeoColLon,
         eGeoColLevel,
+        eGeoColElevation,
         eGeoColDate,
         eGeoColTime,
         eGeoColValue
     };
 
-    //! Method to print string about this class on to a stream of type ostream (virtual).
+    //! Method to print string about this class on to a stream of type ostream
+    //! (virtual).
     virtual void print(ostream&) const;
     typedef void (GeoPointsDecoder::*SimpleDecode)(const string&);
     typedef void (GeoPointsDecoder::*Decode)(const string&, const Transformation&);
@@ -104,8 +105,8 @@ protected:
     std::map<string, SimpleDecode> simple_formats_;
     vector<CustomisedPoint*> customisedPoints_;
     vector<eGeoColType> colTypes_;  // used only for NCOLS formatted geopoints
-    projPJ proj4_;
-    projPJ latlon_;
+    LatLonProjP helper_;
+
     bool useProj4_;
     size_t ncoordcols_;
     static const std::map<std::string, eGeoColType>& coordColMap();

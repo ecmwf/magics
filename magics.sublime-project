@@ -9,15 +9,32 @@
 			"file_regex": "([/\\w\\-\\.]+):(\\d+):(\\d+:)?",
 			"name": "Build",
 			"working_dir": "${project_path}/../../build/magics-develop/debug"
+		},
+		{
+			"file_regex": "([/\\w\\-\\.]+):(\\d+):(\\d+:)?",
+			"name": "magics",
+			"shell_cmd": "make",
+			"syntax": "Packages/CMakeBuilder/Syntax/Make.sublime-syntax",
+			"variants":
+			[
+				{
+					"name": "clean",
+					"shell_cmd": "make clean"
+				}
+			],
+			"working_dir": "${project_path}/../../build/magics"
+		},
+		{
+			"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+			"name": "Anaconda Python Builder",
+			"selector": "source.python",
+			"shell_cmd": "\"python3\" -u \"$file\""
 		}
 	],
 	"folders":
 	[
 		{
 			"path": "."
-		},
-		{
-			"path": "/Users/sylvie/build/magics"
 		}
 	],
 	"settings":
@@ -25,6 +42,14 @@
 		"ClangFormat":
 		{
 			"format_on_save": true
+		},
+		"cmake":
+		{
+			"build_folder": "${project_path}/../../build/magics",
+			"command_line_overrides":
+			{
+				"DEVELOPER_MODE": 1
+			}
 		}
 	}
 }

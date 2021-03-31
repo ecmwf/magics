@@ -26,14 +26,7 @@ using namespace magics;
 
 
 AutomaticPlotManager::AutomaticPlotManager() :
-    x_(-1),
-    y_(-1),
-    pageX_(-1),
-    pageY_(-1),
-    pwidth_(0),
-    pheight_(0),
-    swidth_(0),
-    sheight_(0) {}
+    x_(-1), y_(-1), pageX_(-1), pageY_(-1), pwidth_(0), pheight_(0), swidth_(0), sheight_(0) {}
 
 
 AutomaticPlotManager::~AutomaticPlotManager() {}

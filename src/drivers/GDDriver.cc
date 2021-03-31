@@ -848,7 +848,7 @@ MAGICS_NO_EXPORT void GDDriver::circle(const MFloat x, const MFloat y, const MFl
 
 */
 MAGICS_NO_EXPORT bool GDDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
-                                             unsigned char* pixmap, int, bool alpha) const {
+                                             unsigned char* pixmap, int, bool alpha, bool) const {
     unsigned char* p = pixmap;
     const float dx   = (x1 - x0) / w;
     const float dy   = (y1 - y0) / h;

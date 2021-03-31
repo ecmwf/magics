@@ -71,12 +71,7 @@ template <class C>
 class Clipper {
 public:
     Clipper(const Transformation& transformation) :
-        lastX_(INT_MIN),
-        lastY_(INT_MIN),
-        lastIn_(false),
-        current_(0),
-        transformation_(transformation),
-        missing_(true) {
+        lastX_(INT_MIN), lastY_(INT_MIN), lastIn_(false), current_(0), transformation_(transformation), missing_(true) {
         left_   = std::min(transformation_.getMinPCX(), transformation_.getMaxPCX());
         right_  = std::max(transformation_.getMinPCX(), transformation_.getMaxPCX());
         top_    = std::max(transformation_.getMinPCY(), transformation_.getMaxPCY());

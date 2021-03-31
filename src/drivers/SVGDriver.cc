@@ -104,7 +104,7 @@ MAGICS_NO_EXPORT void SVGDriver::startPage() const {
     if (!pFile_) {
         MagLog::error() << " SVGDriver --> Cannot write output file to what was specified: " << fileName_ << endl;
         MagLog::error() << "";
-        throw NoSuchFileException("Error opening SVG output file!");
+        throw CannotOpenFile(filename);
     }
 
     svg_output_resource_list_.push_back(filename);
@@ -229,7 +229,7 @@ MAGICS_NO_EXPORT void SVGDriver::project(const magics::Layout& layout) const {
 
     pFile_ << "<g";
     if (!layout.name().empty())
-        pFile_ << " id=\"" << layout.name() << "\"";
+        pFile_ << " id=\"" << layout.name() << "\" inkscape:label=\""<< layout.name() <<"\"";
     if (!zero(x_set) || !zero(y_set))
         pFile_ << " transform=\"translate(" << x_set << "," << setY(y_set) << ")\"";
 
@@ -989,33 +989,31 @@ MAGICS_NO_EXPORT void SVGDriver::circle(const MFloat x, const MFloat y, const MF
 
 */
 MAGICS_NO_EXPORT bool SVGDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
-                                              unsigned char* pixmap, int, bool) const {
+                                              unsigned char* pixmap, int, bool alpha, bool) const {
     unsigned char* p = pixmap;
     const MFloat dx  = (x1 - x0) / w;
-    const MFloat dy  = -(y1 - y0) / h;  // Minus needed for Y axis correction
+    const MFloat dy  = (y1 - y0) / h;  // Minus needed for Y axis correction
 
-    const MFloat X0 = x0;
-    const MFloat Y0 = y0;
+    //debugOutput("Pixmap - START");
+    pFile_ << "<g pointer-events=\"none\" inkscape:label=\"pixmap\">\n";
 
-    debugOutput("Pixmap - START");
-    pFile_ << "<g pointer-events=\"none\" >\n";
-
-    for (int i = h - 1; i >= 0; i--) {
-        for (int j = 0; j < w; x0 += dx, j++) {
+    int a = 255;
+    for (int i = 0; i < h; i++) {
+        for (int j = 0; j < w; j++) {
             const int r = (int)*(p++);
             const int g = (int)*(p++);
             const int b = (int)*(p++);
-            if (r * g * b > 0.) {
-                const int x0 = static_cast<int>(X0 + (j * dx));
-                const int y0 = static_cast<int>(Y0 + (i * dy));
-                pFile_ << " <rect x=\"" << x0 << "\" y=\"" << setY(y0) << "\" width=\"" << dx << "\" height=\"" << dy
+            if(alpha) a = (int)*(p++);
+
+            if (r + g + b > 0.) {
+                const int x = static_cast<int>(x0 + (j * dx));
+                const int y = static_cast<int>(y0 + (i * dy));
+                pFile_ << " <rect x=\"" << x << "\" y=\"" << y << "\" width=\"" << dx << "\" height=\"" << dy
                        << "\""
-                       << " fill=\"rgb(" << r << "," << g << "," << b << ")\" "
-                       << "stroke=\"none\" />\n";
+                       << " fill=\"rgba(" << r << "," << g << "," << b << "," << float(a)/255. <<")\" "
+                       << "stroke=\"rgba(" << r << "," << g << "," << b << "," << float(a)/255. <<")\" />\n";
             }
         }
-        x0 = X0;
-        y0 += dy;
     }
     pFile_ << "</g>\n";
     debugOutput("Pixmap - END");

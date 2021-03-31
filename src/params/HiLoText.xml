@@ -1,29 +1,46 @@
-<magics>
-<class inherits="HiLoTechnique" xmltag="text" name="HiLoText" directory="visualisers" prefix="contour" action="pcont">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
-   	<documentation>
+<magics>
+	<class inherits="HiLoTechnique"
+		xmltag="text"
+		name="HiLoText"
+		directory="visualisers"
+		prefix="contour"
+		action="pcont"
+		python="mcont">
+		<documentation>
    This object is reponsible for plotting the HI/Lo as text.
-   	</documentation>
-   	<parameter xml="hi_text" from="string" name="contour_hi_text" default="H" member="hi_text" to="string">
-         		<documentation> Text to represent local maxima 		</documentation>
-         		<release>Magics++0.1		</release>
-  	</parameter>
-
-  	<parameter xml="lo_text" from="string" name="contour_lo_text" default="L" member="lo_text" to="string">
-         		<documentation> Text to represent local minima 		</documentation>
-         		<release>Magics++0.1		</release>
-  	</parameter>
-   	<parameter member="blanking" to="bool" default="off" from="string" name="contour_hilo_blanking">
-         		<documentation> Blank around highs and lows (ON/OFF)		</documentation>         
-         		<release>Magics++2.6		</release>
-  	</parameter>
-</class></magics>
+		</documentation>
+		<parameter xml="hi_text"
+			from="string"
+			name="contour_hi_text"
+			default="H"
+			member="hi_text"
+			to="string">
+			<documentation>Text to represent local maxima</documentation>
+			<release>Magics++0.1</release>
+		</parameter>
+		<parameter xml="lo_text"
+			from="string"
+			name="contour_lo_text"
+			default="L"
+			member="lo_text"
+			to="string">
+			<documentation>Text to represent local minima</documentation>
+			
+		</parameter>
+		<parameter member="blanking"
+			to="bool"
+			default="off"
+			from="string"
+			name="contour_hilo_blanking">
+			<documentation>Blank around highs and lows </documentation>
+		</parameter>
+	</class>
+</magics>

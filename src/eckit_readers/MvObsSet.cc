@@ -30,18 +30,8 @@
 #include <cstring>
 #include <iostream>
 
-
-#ifdef MV_BUFRDC_TEST
-#ifndef METVIEW
-#include "grib_api.h"
-long _readbufr(FILE* f, char* b, long* l)  // from mars/tools.c
-{
-    size_t len = *l;
-    long e     = wmo_read_any_from_file(f, (unsigned char*)b, &len);
-    *l         = len;
-    return e;
-}
-#endif
+#ifdef METVIEW_PREPBUFR
+#include "MvPrepBufrPrep.h"
 #endif
 
 int MAX_MESSAGE_LENGTH = 32000;  // e maybe delete in the future
@@ -57,7 +47,6 @@ static std::string WRITE("w");  // I/O mode
 MvObsSet::MvObsSet(const char* aName) :
     _unpacked(false),
     _msgCount(0),
-    _ecH(NULL),
     _minTime(2247, 6, 20),
     _maxTime(1799, 12, 31),
     useSkipExtraAttributes_(true),
@@ -70,7 +59,6 @@ MvObsSet::MvObsSet(const char* aName) :
 MvObsSet::MvObsSet(const char* aName, const char* aMode) :
     _unpacked(false),
     _msgCount(0),
-    _ecH(NULL),
     _minTime(2247, 6, 20),
     _maxTime(1799, 12, 31),
     useSkipExtraAttributes_(true),
@@ -82,11 +70,7 @@ MvObsSet::MvObsSet(const char* aName, const char* aMode) :
 //____________________________________________________________________
 #ifdef METVIEW
 MvObsSet::MvObsSet(MvRequest& aRequest, const char* aMode) :
-    _unpacked(false),
-    _msgCount(0),
-    _ecH(NULL),
-    _minTime(2247, 6, 20),
-    _maxTime(1799, 12, 31) {
+    _unpacked(false), _msgCount(0), _minTime(2247, 6, 20), _maxTime(1799, 12, 31) {
     _IO_mode          = aMode;
     const char* aName = 0;
     aRequest.getValue(aName, "PATH");
@@ -98,17 +82,6 @@ MvObsSet::MvObsSet(MvRequest& aRequest, const char* aMode) :
 MvObsSet::~MvObsSet() {
     close();
 
-#ifdef MV_BUFRDC_TEST
-    delete[] _message;
-    _message = 0;
-
-// FAMI VERY IMPORTANT *****************************
-// The code below was commented out because it was crashing
-// Revise it later
-//   if( _bufrOut )
-//      delete _bufrOut;
-#endif
-
 #ifdef METVIEW_PREPBUFR
     if (_prepBufr) {
         delete _prepBufr;
@@ -119,11 +92,6 @@ MvObsSet::~MvObsSet() {
 
 //____________________________________________________________________
 void MvObsSet::_init(const char* aName) {
-#ifdef MV_BUFRDC_TEST
-    _bufrFile = 0;
-    _msgLen   = 0;
-#endif
-
     _ecFile       = 0;
     _obsCount     = -1;
     _msgNumber    = -1;
@@ -144,37 +112,10 @@ void MvObsSet::_init(const char* aName) {
     // Check if output file is BUFR and if PREPBUFR support is available
     if (_IO_mode == WRITE)  // should be two classes!!!!!!! (but this a working one...)
     {
-#ifdef MV_BUFRDC_TEST
-        _message = 0;
-        _bufrOut = new MvBufrOut(MAX_MESSAGE_LENGTH, this);
-#else
         _bufrOut = new MvBufrOut(this);
-#endif
     }
     else {
-#ifdef MV_BUFRDC_TEST
-        _message = new char[MAX_MESSAGE_LENGTH];
-#endif
         _bufrOut = 0;
-
-        /*  FAMI20171005 removed PrepBUFR code
-              // Testing if PrepBUFR file
-        #ifdef METVIEW_PREPBUFR
-              _firstObs = next();     //-- check if PrepBUFR file (contains BUFR tables)
-              _isPrepBufrFile = ( _firstObs.messageType() == cMSG_TYPE_BUFR_TABLES );
-              rewind();
-
-              //  1) test if PrepBUFR tables have already been extracted: MV_PREPBUFR_TABLES_EXTRACTED
-              //  2) extract only if not yet extracted
-              if( _isPrepBufrFile && ! getenv("MV_PREPBUFR_TABLES_EXTRACTED") )
-              {
-                 prepBufrFile();
-                 putenv((char*)("MV_PREPBUFR_TABLES_EXTRACTED=YES"));
-              }
-        #else
-              cout << "MvObsSet::_init - PrepBUFR support NOT available!!!!" << endl;
-        #endif
-        */ //FAMI20171005
     }
 
     return;
@@ -182,26 +123,14 @@ void MvObsSet::_init(const char* aName) {
 
 //____________________________________________________________________ setSubsetMax
 void MvObsSet::setSubsetMax(int subsetMax) {
-// FAMI20171016 - I think ecCodes does not need this function (_maxNrSubsets).
-//               If this is the case delete it later.
-#ifdef MV_BUFRDC_TEST
-    _bufrOut->setSubsetCount(subsetMax);
-#endif
+    // I think ecCodes does not need this function (_maxNrSubsets).
+    //               If this is the case delete it later.
 }
 
 //____________________________________________________________________ Open
 bool MvObsSet::Open(const char* aFileName) {
     _msgCount  = 0;
     _msgNumber = 0;
-
-#ifdef MV_BUFRDC_TEST
-    if (_IO_mode == WRITE) {
-        string fn = aFileName + string("_bufrdc");
-        _bufrFile = fopen(fn.c_str(), _IO_mode.c_str());
-    }
-    else
-        _bufrFile = fopen(aFileName, _IO_mode.c_str());
-#endif
 
     // Open bufr file
     _ecFile = fopen(aFileName, _IO_mode.c_str());
@@ -217,21 +146,14 @@ bool MvObsSet::Open(const char* aFileName) {
 bool MvObsSet::close() {
     long myReturnValue = -1;
     if (_ecFile) {
-#ifdef MV_BUFRDC_TEST
-        if (_IO_mode == WRITE && _bufrOut->_outState == kBufrOut_dataInBuffers)
-            _bufrOut->encode();
-
-        fclose(_bufrFile);
-        _bufrFile = 0;
-#endif
-
         myReturnValue = fclose(_ecFile);
         _ecFile       = 0;
 
         // Clean eccodes handler
-        if (_ecH) {
-            codes_handle_delete(_ecH);
-            _ecH = 0;
+        if (_ecH && _ecH->handle()) {
+            codes_handle_delete(_ecH->handle());
+            _ecH->clear();
+            _ecH.reset();
         }
     }
 
@@ -243,14 +165,11 @@ bool MvObsSet::close() {
 void MvObsSet::rewind() {
     _msgNumber = 0;
     if (_ecFile) {
-#ifdef MV_BUFRDC_TEST
-        ::rewind(_bufrFile);
-#endif
-
         // Clean previous handler
-        if (_ecH) {
-            codes_handle_delete(_ecH);
-            _ecH = 0;
+        if (_ecH && _ecH->handle()) {
+            codes_handle_delete(_ecH->handle());
+            _ecH->clear();
+            _ecH.reset();
         }
         ::rewind(_ecFile);  // execute C command 'rewind'!
     }
@@ -261,31 +180,31 @@ void MvObsSet::rewind() {
 // msgCnt indexed from one!!!!
 MvObs MvObsSet::gotoMessage(long offset, int msgCnt) {
     if (!_ecFile)
-        return MvObs(NULL);  // nothing if file not ok
+        return MvObs();  // nothing if file not ok
 
     if (_IO_mode == WRITE)
-        return MvObs(NULL);  // no next when writing !
+        return MvObs();  // no next when writing !
 
     // Clean previous handler
-    if (_ecH) {
-        codes_handle_delete(_ecH);
-        _ecH = 0;
+    if (_ecH && _ecH->handle()) {
+        codes_handle_delete(_ecH->handle());
+        _ecH->clear();
+        _ecH.reset();
     }
 
     _msgNumber = msgCnt;
 
     fseek(_ecFile, offset, SEEK_SET);
 
-    int err = 0;
-    _ecH    = codes_handle_new_from_file(NULL, _ecFile, PRODUCT_BUFR, &err);
-    if (_ecH != NULL || err != CODES_SUCCESS) {
-        if (_ecH == NULL) {
+    int err          = 0;
+    codes_handle* ch = codes_handle_new_from_file(NULL, _ecFile, PRODUCT_BUFR, &err);
+    _ecH             = std::make_shared<MvEccHandle>(ch);
+    if (ch || err != CODES_SUCCESS) {
+        if (!ch) {
             std::cout << "Failed reading next BUFR msg: unable to create handle for message = " << _msgNumber
                       << std::endl;
-            codes_handle_delete(_ecH);
-            _ecH          = 0;
             _IO_buffer_OK = false;
-            return MvObs(NULL);
+            return MvObs();
         }
 
         // Expand all the descriptors i.e. unpack the data values
@@ -296,7 +215,8 @@ MvObs MvObsSet::gotoMessage(long offset, int msgCnt) {
         _IO_buffer_OK = true;
     }
 
-    return MvObs(&_ecH, 1, _unpacked, useSkipExtraAttributes_, cacheCompressedData_);  // subset number = 1
+    // subset number = 1
+    return MvObs(_ecH, 1, _unpacked, cacheCompressedData_);
 }
 
 //__________________________________________________________________ next
@@ -305,123 +225,30 @@ MvObs MvObsSet::gotoMessage(long offset, int msgCnt) {
 //------------------------------------------------
 MvObs MvObsSet::next(bool unpack) {
     if (!_ecFile)
-        return MvObs(NULL);  // nothing if file not ok
+        return MvObs();  // nothing if file not ok
 
     if (_IO_mode == WRITE)
-        return MvObs(NULL);  // no next when writing !
+        return MvObs();  // no next when writing !
 
     _msgNumber++;
 
-// e Analyse the PREPBufr code inside the loop.
-#ifdef MV_BUFRDC_TEST
-    const int EOF_STATUS    = -1;
-    bool readAnotherMessage = true;
-    _msgLen                 = MAX_MESSAGE_LENGTH;
-    long lastPos            = ftell(_bufrFile);
-    long myError            = _readbufr(_bufrFile, _message, &_msgLen);
-
-    while (readAnotherMessage) {
-        readAnotherMessage = false;  // might be set to true in the PREPBufr part
-
-        if (myError == -3)  // Bufr too small
-        {
-            // Go back to previous and allocate memory
-            fseek(_bufrFile, lastPos, SEEK_SET);
-            delete[] _message;
-            MAX_MESSAGE_LENGTH = _msgLen + 8;
-            _message           = new char[MAX_MESSAGE_LENGTH];
-            _msgLen            = MAX_MESSAGE_LENGTH;
-
-            if (!_message) {
-                cerr << "MvObsSet::next: Cannot allocate memory for next BUFR message" << endl;
-                _msgLen = MAX_MESSAGE_LENGTH = 0;
-                _IO_buffer_OK                = false;
-                return MvObs(NULL);
-            }
-            else {
-                cout << "MvObsSet::next: Allocated more memory for BUFR msg" << endl;
-                myError = _readbufr(_bufrFile, _message, &_msgLen);
-            }
-        }
-
-        if (myError) {
-            if (myError != EOF_STATUS) {
-                cerr << "MvObsSet::next: Failed reading next BUFR msg, returned status=" << myError << endl;
-            }
-            _IO_buffer_OK = false;
-            break;
-        }
-
-#ifdef METVIEW_PREPBUFR
-        //--
-        //-- NCEP PrepBUFR files may contain msgs with ZERO subsets!!!
-        //-- 'bufrex' cannot handle such illegal msgs, if so we must skip it
-        //--
-        MvBufr tmpBufr(_message, _msgLen, _msgNumber);  //-- make BUFR octets into an object
-        if (tmpBufr.subsetCount() == 0) {
-            std::ostringstream os;
-            os << "Original BUFR msg " << _msgNumber << " has ZERO subsets - ignoring (not counting) this illegal msg!"
-               << ends;
-
-            cout << os.str() << endl;
-
-            //-- get next msg and cross your fingers it fits into current _message array
-            _msgLen            = MAX_MESSAGE_LENGTH;
-            myError            = _readbufr(_bufrFile, _message, &_msgLen);
-            lastPos            = ftell(_bufrFile);
-            readAnotherMessage = true;
-
-            //_msgNumber++;
-        }
-#endif
-    }
-#endif
-
-// e analyse this code related to PrepBufr. It was inside the BUFRDC loop above
-#if 0
-#ifdef METVIEW_PREPBUFR
-      //--
-      //-- NCEP PrepBUFR files may contain msgs with ZERO subsets!!!
-      //-- 'bufrex' cannot handle such illegal msgs, if so we must skip it
-      //--
-      MvBufr tmpBufr( _message, _msgLen, _msgNumber  ); //-- make BUFR octets into an object
-      if( tmpBufr.subsetCount() == 0 )
-      {
-         std::ostringstream os;
-         os << "Original BUFR msg " << _msgNumber
-            << " has ZERO subsets - ignoring (not counting) this illegal msg!"
-            << ends;
-
-         cout << os.str() << endl;
-
-         //-- get next msg and cross your fingers it fits into current _message array
-         _msgLen = MAX_MESSAGE_LENGTH;
-         myError = _readbufr( _bufrFile, _message, &_msgLen );
-         lastPos = ftell(_bufrFile);
-         readAnotherMessage = true;
-
-         //_msgNumber++;
-      }
-#endif
-#endif
-
     // Clean previous handler
-    if (_ecH) {
-        codes_handle_delete(_ecH);
-        _ecH = 0;
+    if (_ecH && _ecH->handle()) {
+        codes_handle_delete(_ecH->handle());
+        _ecH->clear();
+        _ecH.reset();
     }
 
     // Get next message
-    int err = 0;
-    _ecH    = codes_handle_new_from_file(NULL, _ecFile, PRODUCT_BUFR, &err);
-    if (_ecH != NULL || err != CODES_SUCCESS) {
-        if (_ecH == NULL) {
+    int err          = 0;
+    codes_handle* ch = codes_handle_new_from_file(NULL, _ecFile, PRODUCT_BUFR, &err);
+    _ecH             = std::make_shared<MvEccHandle>(ch);
+    if (ch || err != CODES_SUCCESS) {
+        if (!ch) {
             std::cout << "Failed reading next BUFR msg: unable to create handle for message = " << _msgNumber
                       << std::endl;
-            codes_handle_delete(_ecH);
-            _ecH          = 0;
             _IO_buffer_OK = false;
-            return MvObs(NULL);
+            return MvObs();
         }
 
         // Expand all the descriptors i.e. unpack the data values
@@ -431,15 +258,12 @@ MvObs MvObsSet::next(bool unpack) {
 
         _IO_buffer_OK = true;
 
-#ifdef MV_BUFRDC_TEST
-        return MvObs(new MvBufr(_message, _msgLen, _msgNumber), 1, &_ecH);
-#else
-        return MvObs(&_ecH, 1, _unpacked, useSkipExtraAttributes_, cacheCompressedData_);  // subset number = 1
-#endif
+        // subset number = 1
+        return MvObs(_ecH, 1, _unpacked, cacheCompressedData_);
     }
 
     _IO_buffer_OK = false;
-    return MvObs(NULL);
+    return MvObs();
 }
 
 
@@ -453,20 +277,6 @@ void MvObsSet::add(MvObs& anObs) {
 }
 
 //____________________________________________________________________ write
-#ifdef MV_BUFRDC_TEST
-bool MvObsSet::write(const char* aMsg, int aMsgLen) {
-    if (_IO_mode != WRITE)
-        return false;
-
-    fwrite(aMsg, sizeof(char), aMsgLen, _bufrFile);
-
-    // FAMI20171017 remove this line temporarily, because the ecCodes write command
-    // below is also increasing the message count
-    // FAMI20171017   _msgNumber++;
-    return true;
-}
-#endif
-
 bool MvObsSet::write(const void* aMsg, const size_t aMsgLen) {
     if (_IO_mode != WRITE)
         return false;
@@ -482,11 +292,6 @@ bool MvObsSet::write(const void* aMsg, const size_t aMsgLen) {
 }
 
 bool MvObsSet::write(MvObs& anObs) {
-#ifdef MV_BUFRDC_TEST
-    if (_bufrOut)
-        _bufrOut->write_bufrdc(anObs);
-#endif
-
     // Clone the input handle
     codes_handle* clone_handle = codes_handle_clone(anObs.getHandle());
     if (clone_handle == NULL) {
@@ -515,11 +320,6 @@ bool MvObsSet::write(MvObs& anObs) {
 }
 
 bool MvObsSet::writeCompressed(MvObs* obs) {
-#ifdef MV_BUFRDC_TEST
-    if (_bufrOut)
-        _bufrOut->write_bufrdc(obs);
-#endif
-
     assert(obs);
 
     if (!obs->compressData())
@@ -532,6 +332,7 @@ bool MvObsSet::writeCompressed(MvObs* obs) {
         return false;
     }
 
+    codes_set_long(cloneH, "skipExtraKeyAttributes", 1);
     codes_set_long(cloneH, "unpack", 1);
     codes_set_long(cloneH, "extractSubset", obs->subsetNumber());
     codes_set_long(cloneH, "doExtractSubsets", 1);
@@ -577,6 +378,7 @@ bool MvObsSet::writeCompressed(MvObs* obs, const std::vector<int>& subsetVec) {
     for (size_t i = 0; i < subsetVec.size(); i++)
         subsetArr[i] = subsetVec[i];
 
+    codes_set_long(cloneH, "skipExtraKeyAttributes", 1);
     codes_set_long(cloneH, "unpack", 1);
     codes_set_long_array(cloneH, "extractSubsetList", subsetArr, arrSize);
     codes_set_long(cloneH, "doExtractSubsets", 1);
@@ -669,26 +471,6 @@ int MvObsSet::obsCount() {
     fseek(_ecFile, myOriginalFilePos, SEEK_SET);
 
     return _obsCount;
-
-// e code using BUFRDC
-#if 0
-   if( _obsCount < 1 )
-   {
-      if( _bufrFile )
-      {
-         long myOriginalFilePos = ftell( _bufrFile );
-	 rewind();
-
-         _obsCount = 0;
-	 MvObs oneBufrMsg;
-         while( ( oneBufrMsg = next() ) )
-	    _obsCount += oneBufrMsg._bufrIn->subsetCount();
-
-	 fseek( _bufrFile, myOriginalFilePos, SEEK_SET );
-      }
-   }
-   return _obsCount;
-#endif
 }
 
 //_________________________________________________________ searchMinMaxTime
@@ -700,25 +482,6 @@ void MvObsSet::searchMinMaxTime() {
     if (_minMaxDone)
         return;
 
-#ifdef MV_BUFRDC_TEST
-    if (_bufrFile) {
-        long myOriginalFilePos = ftell(_bufrFile);
-        rewind();
-
-        TDynamicTime msgTime;
-        MvObs myObs;
-        while ((myObs = next())) {
-            msgTime = myObs.msgTime();
-            if (msgTime > _maxTime)
-                _maxTime = msgTime;
-            if (msgTime < _minTime)
-                _minTime = msgTime;
-        }
-
-        fseek(_bufrFile, myOriginalFilePos, SEEK_SET);
-    }
-#endif
-
     _minMaxDone = true;
 }
 
@@ -727,10 +490,13 @@ void MvObsSet::expand() {
     if (_unpacked)
         return;  // nothing to be done, it is already expanded
 
+    if (!_ecH || !_ecH->handle())
+        return;
+
     if (useSkipExtraAttributes_) {
-        codes_set_long(_ecH, "skipExtraKeyAttributes", 1);
+        codes_set_long(_ecH->handle(), "skipExtraKeyAttributes", 1);
     }
-    codes_set_long(_ecH, "unpack", 1);
+    codes_set_long(_ecH->handle(), "unpack", 1);
     _unpacked = true;
 }
 
@@ -1426,6 +1192,106 @@ bool MvObsSetIterator::AcceptedObs(MvObs& anObs, bool skipPreFilterCond) const {
 
     if (!WmoBlockOk(&anObs))  // others require decoding of the msg
         return false;
+    if (!WmoStationOk(&anObs))
+        return false;
+
+    if (!selectOk(&anObs))
+        return false;
+
+    if (!WithinXSectionLine(&anObs))
+        return false;
+
+    if (!InsideArea(&anObs))
+        return false;
+
+    return true;
+}
+
+
+bool MvObsSetIterator::AcceptedObs(MvObs& anObs, bool skipPreFilterCond, bool& headerDidNotMatch) const {
+    headerDidNotMatch = false;
+
+    if (!anObs)
+        return false;
+
+    if (_NoFiltersSet)
+        return true;
+
+    // Prefilter conditions are fully based on the BUFR header
+    if (!skipPreFilterCond) {
+        // Index of the message within the bufr file
+        if (!messageNumberOk(&anObs)) {
+            headerDidNotMatch = true;
+            return false;
+        }
+
+        // BUFR edition
+        if (!editionNumberOk(&anObs)) {
+            headerDidNotMatch = true;
+            return false;
+        }
+
+        // Edition parameters
+        if (!originatingCentreOk(&anObs)) {
+            headerDidNotMatch = true;
+            return false;
+        }
+
+        if (!originatingCentreAsStrOk(&anObs)) {
+            headerDidNotMatch = true;
+            return false;
+        }
+
+        if (!originatingSubCentreOk(&anObs)) {
+            headerDidNotMatch = true;
+            return false;
+        }
+
+        if (!masterTableVersionOk(&anObs)) {
+            headerDidNotMatch = true;
+            return false;
+        }
+
+        if (!localTableVersionOk(&anObs)) {
+            headerDidNotMatch = true;
+            return false;
+        }
+
+        // Type parameters - fully based on the BUFR header
+        if (!msgTypeOk(&anObs)) {
+            headerDidNotMatch = true;
+            return false;
+        }
+
+        if (!msgSubtypeOk(&anObs)) {
+            headerDidNotMatch = true;
+            return false;
+        }
+
+        if (!msgRdbtypeOk(&anObs)) {
+            headerDidNotMatch = true;
+            return false;
+        }
+    }
+
+    //"ident" key defined in ecmwf (centre=98) header
+    if (!headerIdentOk(&anObs)) {
+        headerDidNotMatch = true;
+        return false;
+    }
+
+    // User defined identifier from the data section
+    if (!identValueOk(&anObs))
+        return false;
+
+    if (!TimeOk(&anObs)) {
+        headerDidNotMatch = !useObsTime_;
+        return false;
+    }
+
+    if (!WmoBlockOk(&anObs))
+        return false;
+
     if (!WmoStationOk(&anObs))
         return false;
 

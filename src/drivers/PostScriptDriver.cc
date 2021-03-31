@@ -1132,7 +1132,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::circle(const MFloat x, const MFloat y, c
   \param alpha transparency of array
 */
 MAGICS_NO_EXPORT bool PostScriptDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int width, int height,
-                                                     unsigned char* pixmap, int landscape, bool alpha) const {
+                                                     unsigned char* pixmap, int landscape, bool alpha, bool ) const {
     if (landscape)  // swop w/h
     {
         const int x = width;
@@ -1390,7 +1390,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::openFile() const {
         MagLog::error() << " PostScriptDriver --> Cannot write output file to what was specified: " << fileName_
                         << endl;
         MagLog::error() << "";
-        throw NoSuchFileException("Error opening PS output file!");
+        throw CannotOpenFile(fileName_);
     }
 
     pFile_.setf(ios_base::fixed);
@@ -1458,8 +1458,8 @@ MAGICS_NO_EXPORT void PostScriptDriver::writePSFileHeader() const {
     *ps << "\n%%Title: " << title_ << "\n%%Creator: ";
     if (!output_creator_.empty())
         *ps << output_creator_ << " and ";
-    *ps << getMagicsVersionString() << "\n%%CreationDate: " << info.getTime() << "\n%%For: " << info.getUserID() << "@"
-        << info.getHostName() << " " << info.getUserName() << "\n";
+    *ps << getMagicsVersionString() << "\n%%CreationDate: " << info.getTime() << "\n%%For: " 
+        << info.getUserID() << "@" << info.getHostName() << "\n";
 
     MFloat dimensionX = getXDeviceLength() * 72. / 2.54;  // 72   = points / inch
     MFloat dimensionY = getYDeviceLength() * 72. / 2.54;  // 2.54 = cm / inch

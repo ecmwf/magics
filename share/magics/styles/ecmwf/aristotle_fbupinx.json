@@ -1,0 +1,23 @@
+[
+  {
+    "eccharts_layer": "",
+    "styles": [
+      "fbupinx_1"
+    ],
+    "match": [
+      {
+        "paramId": [
+          "260545"
+        ],
+        "shortName": [
+          "fbupinx"
+        ]
+      },
+      {
+        "long_name": [
+          "Fire buildup index"
+        ]
+      }
+    ]
+  }
+]

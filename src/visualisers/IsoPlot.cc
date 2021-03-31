@@ -61,22 +61,19 @@ void IsoPlot::print(ostream& out) const {
 class CellBox : public AutoVector<CellBox> {
 public:
     CellBox(const CellArray* parent, int row1, int row2, int column1, int column2) :
-        parent_(parent),
-        row1_(row1),
-        row2_(row2),
-        column1_(column1),
-        column2_(column2) {}
+        parent_(parent), row1_(row1), row2_(row2), column1_(column1), column2_(column2) {}
 
     CellBox(const CellArray* parent) :
-        parent_(parent),
-        row1_(0),
-        row2_(parent->rows_ - 1),
-        column1_(0),
-        column2_(parent->columns_ - 1) {}
+        parent_(parent), row1_(0), row2_(parent->rows_ - 1), column1_(0), column2_(parent->columns_ - 1) {}
 
     CellBox() : parent_(0), row1_(0), row2_(0), column1_(0), column2_(0) {}
 
-    ~CellBox() {}
+    ~CellBox() {
+        for (map<int, SegmentJoiner*>::iterator index = helper_.begin(); index != helper_.end(); ++index) 
+            if ( index->second )
+                delete index->second;
+
+    }
 
     double value() { return (*parent_)(row1_, column1_)->value(0); }
 
@@ -174,46 +171,42 @@ public:
                 previous.push_back(PaperPoint(pt->x_, pt->y_));
             }
 
+            if (helper != helper_.end()) {
+                delete helper_[index];
+            }
             helper_[index] = new SegmentJoiner();
+
+            
 
 
             std::vector<Polyline*> output;
 
             clipper.clip(previous, pts, output);
 
-            /*
-                        if (output.size() == 1) {
-                            vector<PaperPoint> tmp;
-                            for ( auto pt = output.front()->begin();  pt != output.front()->end(); ++pt ) {
-                                    tmp.push_back(*pt);
-                                }
-
-                                push_back(index, tmp);
-
-
-                        }
-
-                        else
-                        {
-                            */
             MagClipper::add(pts, previous, output);
 
-
+            
             if (output.size() == 1) {
                 vector<PaperPoint> tmp;
                 for (auto pt = output.front()->begin(); pt != output.front()->end(); ++pt) {
                     tmp.push_back(*pt);
                 }
+                
+                
                 push_back(index, tmp);
             }
             else {
+
                 vector<PaperPoint> tmp;
                 for (auto pt = previous.begin(); pt != previous.end(); ++pt) {
                     tmp.push_back(*pt);
                 }
                 push_back(index, tmp);
             }
-            //}
+
+            for (auto p = output.begin(); p != output.end(); ++p )
+                delete *p;
+           
         }
     }
 
@@ -343,6 +336,8 @@ public:
                 continue;
             bool reverse = joiner.isHole(result.front());
 
+            // reverse = false;
+
             for (vector<vector<Point> >::iterator j = result.begin(); j != result.end(); ++j) {
                 if (reverse) {
                     if (!joiner.isHole((*j))) {
@@ -364,6 +359,8 @@ public:
                         std::swap((*j), polys.back());
                     }
                 }
+                
+
             }
 
             for (vector<vector<Point> >::iterator j = polys.begin(); j != polys.end(); ++j) {
@@ -392,6 +389,7 @@ public:
                 }
             }
             delete index->second;
+            index->second = 0;
         }
     }
 
@@ -1275,7 +1273,6 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
         int c = 0;
         AutoVector<IsoProducerData> datas;
         for (int i = 0; i < view.size(); i++)
-        // int i = 1;
         {
             IsoProducerData* data = new IsoProducerData(shading_->shadingMode(), *this, *(view[i]));
             datas.push_back(data);
@@ -1604,8 +1601,7 @@ void IsoPlot::visit(Data& data, PointsHandler& points, HistoVisitor& visitor) {
 
 CellArray::CellArray(MatrixHandler& data, IntervalMap<int>& range, const Transformation& transformation, int width,
                      int height, float resol, const string& technique) :
-    rangeFinder_(range),
-    data_(data) {
+    rangeFinder_(range), data_(data) {
     Timer timer("CellArray", "CellArray");
     int r = height / resol;
     int c = width / resol;
@@ -1720,8 +1716,7 @@ GridArray::GridArray(MatrixHandler& data, IntervalMap<int>& range, const Transfo
 
 GridCell::GridCell(const CellArray& data, int row, int column, const Transformation& transformation,
                    const string& technique) :
-    Cell(data),
-    transformation_(transformation) {
+    Cell(data), transformation_(transformation) {
     row_     = row;
     column_  = column;
     int row1 = (row) ? row - 1 : 0;

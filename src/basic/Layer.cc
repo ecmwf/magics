@@ -17,6 +17,7 @@
 #include "SceneVisitor.h"
 #include "Symbol.h"
 #include "TextVisitor.h"
+#include "Data.h"
 
 #include "HistoVisitor.h"
 
@@ -38,13 +39,7 @@ Layer::Layer() :
 {}
 
 Layer::Layer(BasicSceneObject* object) :
-    visibility_(true),
-    zindex_(1),
-    transparency_(0),
-    state_(new_layer),
-    id_(""),
-    parent_(0),
-    object_(object) {}
+    visibility_(true), zindex_(1), transparency_(0), state_(new_layer), id_(""), parent_(0), object_(object) {}
 
 Layer::~Layer() {}
 
@@ -146,9 +141,7 @@ void Layer::metadata(const string& param, const string& value) {
 //===================================
 
 SingleLayer::SingleLayer(StepLayer* parent, BasicSceneObject* object) :
-    Layer(object),
-    objects_(0),
-    parentLayer_(parent) {}
+    Layer(object), objects_(0), parentLayer_(parent) {}
 
 SingleLayer::~SingleLayer() {}
 
@@ -283,7 +276,7 @@ Layer* StepLayer::get(int i) {
     return steps_[i];
 }
 
-void StepLayer::addStep(BasicSceneObject* object) {
+void StepLayer::addStep(BasicSceneObject* object, Data* data) {
     static int level   = 100;
     SingleLayer* layer = new SingleLayer(this, object);
     layer->name(name_);
@@ -291,8 +284,12 @@ void StepLayer::addStep(BasicSceneObject* object) {
     static int mod       = 0;
     static DateTime date = DateTime();
 
+   
+
     layer->metadata("valid_date", string(date));
     layer->metadata("level", tostring(level));
+    if (data)
+        data->visit(*layer);
     level += 100;
     date = date + Second(6 * 3600 * (mod % 2));
     mod++;

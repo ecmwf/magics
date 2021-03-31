@@ -23,12 +23,26 @@
         "shortName": "msl"
       },
       {
+        "originatingCentre": "edzw",
+        "shortName": "prmsl"
+      },
+      {
         "long_name": [
           "Mean sea level pressure",
           "Sea Level Pressure",
           "Sea level pressure"
         ],
-        "standard_name": "air_pressure_at_sea_level"
+        "standard_name": ["air_pressure_at_sea_level","air_pressure_at_mean_sea_level"]
+      },
+      {
+        "long_name": [
+          "Mean sea level pressure",
+          "Sea Level Pressure",
+          "Sea level pressure"
+        ]
+      },
+      {
+        "standard_name": ["air_pressure_at_sea_level","air_pressure_at_mean_sea_level"]
       }
     ]
   }

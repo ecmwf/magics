@@ -32,9 +32,7 @@ using namespace magics;
 
 
 AnimationStep::AnimationStep(AnimationRules& rules) :
-    rules_(rules),
-    xResolution_(std::numeric_limits<double>::max()),
-    yResolution_(std::numeric_limits<double>::max()) {}
+    rules_(rules), xResolution_(std::numeric_limits<double>::max()), yResolution_(std::numeric_limits<double>::max()) {}
 
 
 AnimationStep::~AnimationStep() {}

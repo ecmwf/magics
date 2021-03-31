@@ -217,10 +217,7 @@ public:
 
     static bool skinny_;
 
-    static void skinnyMode() {
-        skinny_ = true;
-        
-    }
+    static void skinnyMode() { skinny_ = true; }
 
     void reproject(const Transformation&);
     bool reproject(BasicGraphicsObjectContainer& out) const;
@@ -284,7 +281,7 @@ public:
     void push_back(Polyline&);
 
     // Is the pointincluded in the polyline"
-    bool in(const PaperPoint&)const;
+    bool in(const PaperPoint&) const;
 
     void reserve(double);
 

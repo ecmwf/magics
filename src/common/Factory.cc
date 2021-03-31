@@ -50,12 +50,7 @@ B* SimpleFactory<B>::create(const string& name) {
         B* object = (*maker).make();
         return object;
     }
-#ifdef MAGICS_EXCEPTION
     throw NoFactoryException(name);
-#else
-    MagLog::info() << "SimpleFactory: Failed to create an object named '" << name << "'" << endl;
-    return 0;
-#endif
 }
 
 
@@ -65,10 +60,6 @@ SimpleFactory<B>* SimpleFactory<B>::get(const string& name) {
     typename map<string, SimpleFactory<B>*>::iterator maker = (*map_).find(lowerCase(name));
     if (maker != (*map_).end())
         return (*maker).second;
-#ifdef MAGICS_EXCEPTION
+
     throw NoFactoryException(name);
-#else
-    MagLog::info() << "SimpleFactory: Failed to get an object named '" << name << "'" << endl;
-    return 0;
-#endif
 }

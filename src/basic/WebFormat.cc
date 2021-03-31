@@ -121,3 +121,13 @@ void WebInterpretor::json(const string& file) {
     json.execute(file, web_);
     web_.clear();
 }
+
+TempFile::TempFile() : filename(tmpnam(0)), ofs(filename) {
+    if (!ofs)
+        return;
+}
+
+TempFile::~TempFile() {
+    ofs.close();
+    remove(filename);
+}

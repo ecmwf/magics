@@ -77,8 +77,9 @@ void Boundaries::operator()(const map<string, string>& setting, BasicGraphicsObj
         predefined_list["africa"]        = {"DZA", "AGO", "CAF", "TCD", "COG", "COD", "BWA", "CMR", "EGY", "ERI", "ETH",
                                      "GAB", "GMB", "CIV", "GHA", "GIN", "KEN", "LBY", "MLI", "MRT", "MDG", "MAR",
                                      "MOZ", "NAM", "NER", "NGA", "RWA", "SEN", "SOM", "ZAF", "SDN", "TZA", "TGO"};
-        predefined_list["europe"]        = {"AUT", "BLR", "RUS", "CZE", "FRO", "FIN", "ALA", "FRA", "DEU", "GRC",
-                                     "SJM", "ITA", "POL", "ROU", "SRB", "ESP", "UKR", "GBR", "GIB"};
+        predefined_list["europe"]        = {"AUT", "BEL", "BGR", "BLR", "HRV" , "RUS", "CZE", "FRO", "FIN", "ALA", "FRA", "DEU", "GRC",
+                                     "SJM", "ITA", "POL", "ROU", "SRB", "ESP", "UKR", "GBR", "GIB", "CHE", "CYP", "CZE", "DNK",
+                                     "EST", "FIN", "HUN", "IRL", "LVA", "LTU", "LUX", "MLT", "NLD", "PRT", "ROU", "SVK", "SVN", "SWE", "NOR"};
     }
 
 

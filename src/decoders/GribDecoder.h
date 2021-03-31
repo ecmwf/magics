@@ -96,13 +96,15 @@ public:
         decode();
         return layerId_;
     }
-    string name() { return name_; }
-    const DateTime& from() { return from_; }
-    const DateTime& to() { return to_; }
+    string name() const { return name_; }
+    const DateTime& from();
+    const DateTime& to();
 
-    string title() { return title_; }
+    string title() const { return title_; }
 
     static void scale(const string&, double&, double&);
+
+    bool isEarthOblate() const;
 
     InterpolateMethod interpolateMethod() const {
         if (magCompare(interpolation_method_, "interpolate"))
@@ -190,6 +192,8 @@ public:
         return field_;
     }
 
+    string representation();
+
     long getLong(const string&, bool warnIfKeyAbsent = true) const;
     string getString(const string&, bool warnIfKeyAbsent = true) const;
     double getDouble(const string&, bool warnIfKeyAbsent = true) const;
@@ -210,8 +214,8 @@ public:
     grib_handle* cHandle(string&);
 
     grib_handle* uHandle() const { return field_; }
-    grib_handle* vHandle() const { return component2_; };
-    grib_handle* cHandle() const { return colour_; };
+    grib_handle* vHandle() const { return component2_; }
+    grib_handle* cHandle() const { return colour_; }
 
 
     double uComponent(int);
@@ -324,7 +328,10 @@ public:
     grib_handle* open(grib_handle*, bool sendMsg = true);
 
     void openFirstComponent() { ASSERT(field_); }
-    void openField() { ASSERT(field_); }
+    void openField() {
+        ASSERT(field_);
+        current_handle_ = field_;
+    }
 
     void openSecondComponent() {
         ASSERT(handle2_);

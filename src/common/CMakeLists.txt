@@ -10,7 +10,7 @@ list( APPEND _common_srcs
 	Transformation.h Dimension.h
 	XmlNode.h XmlTree.h XmlReader.h BackgroundColour.h
 	ColourTableDefinition.h ColourTableDefinitionCompute.h ColourTableDefinitionComputeInterface.h
-	ColourTableDefinitionList.h ColourTableDefinitionListInterface.h 
+	ColourTableDefinitionList.h ColourTableDefinitionListInterface.h
 	TableDefinition.h TableDefinitionList.h TableDefinitionListInterface.h
 	TableDefinitionCompute.h TableDefinitionComputeInterface.h
 	HeightTableDefinition.h LevelTableDefinition.h IntervalMap.h PaperDimension.h
@@ -23,13 +23,13 @@ list( APPEND _common_srcs
 	BinaryObject.h
 	Arrow.h
 	Flag.h
-	Image.h 
+	Image.h
 	ArrowProperties.h
 	MagicsParameter.cc MagicsParameter.h Clipper.h LogoPlottingBase.h
-	TableDefinitionCompute.cc 
+	TableDefinitionCompute.cc
 	TableDefinitionList.cc
 	Coordinate.h OutputHandler.h
-	MagFont.h 
+	MagFont.h
 	AnimationRules.h SymbolItem.h
 	UserPoint.h Label.h
 	Timer.h
@@ -42,7 +42,7 @@ list( APPEND _common_srcs
 	Path.h
 	MagicsSingleton.h
 	PlotManager.h
-	Image.h 
+	Image.h
 	MagClipper.h
 	XmlReader.h XmlTree.h XmlNode.h
 	MagicsFormat.h
@@ -54,7 +54,7 @@ list( APPEND _common_srcs
 
 # sources
 	Data.cc Matrix.cc MagicsCalls.cc Static.cc DriverStatic.cc MagLog.cc Colour.cc Transformation.cc MagException.cc
-	BaseParameter.cc ParameterManager.cc  
+	BaseParameter.cc ParameterManager.cc
 	Tokenizer.cc Timer.cc Seconds.cc Label.cc MagClipper.cc
 	ArrowProperties.cc
 	XmlReader.cc XmlTree.cc XmlNode.cc Dimension.cc
@@ -68,7 +68,7 @@ list( APPEND _common_srcs
 	Coordinate.cc
 	LogoPlotting.cc
 	PageID.cc AnimationRules.cc Layout.cc SymbolItem.cc Symbol.cc Polyline.cc
-	Text.cc Flag.cc  
+	Text.cc Flag.cc
 	Mutex.cc MutexCond.cc Thread.cc MagExceptions.cc AutoLocker.cc
 	ThreadControler.cc Task.cc
 	DataStats.cc SciMethods.cc BasePointsHandler.cc PointsHandler.cc ProgressObject.cc
@@ -76,11 +76,29 @@ list( APPEND _common_srcs
 # projection
 	GeoRectangularProjection.cc  PolarStereographicProjection.cc TaylorProjection.cc
 	GeoRectangularProjection.h   PolarStereographicProjection.h TaylorProjection.h
-	Proj4Projection.cc  Proj4Projection.h
+	Proj4Projection.cc  Proj4Projection.h ProjP.cc ProjP.h
 
-# unused
+# stuff from eckit
 
+	# Value.cc Value.h
 
+	JSONParser.cc JSONParser.h
+	ObjectParser.cc ObjectParser.h
+	Translator.cc Translator.h
+	StreamParser.cc StreamParser.h
+	JSON.cc JSON.h
+	Value.cc Value.h
+	MapContent.cc MapContent.h
+		OrderedMapContent.cc OrderedMapContent.h
+
+	NilContent.cc NilContent.h
+	StringContent.cc StringContent.h
+	BoolContent.cc BoolContent.h
+	ListContent.cc ListContent.h
+	DoubleContent.cc DoubleContent.h
+	NumberContent.cc NumberContent.h
+	Content.cc Content.h
+	Counted.cc Counted.h
  )
 
 if( EC_OS_NAME MATCHES "windows" )
@@ -105,22 +123,22 @@ set( common_srcs ${common_srcs} PARENT_SCOPE )
 set( common_templates ${common_templates} PARENT_SCOPE )
 
 if ( metview )
-	list (APPEND metview_include 
-				common/MagLog.h 
-				common/MagTranslator.h 
-				common/Factory.h 
-				common/Factory.cc 
-				common/Colour.h 
-				common/Tokenizer.h 
-				common/MagException.h 
+	list (APPEND metview_include
+				common/MagLog.h
+				common/MagTranslator.h
+				common/Factory.h
+				common/Factory.cc
+				common/Colour.h
+				common/Tokenizer.h
+				common/MagException.h
 				common/ParameterManager.h
-				common/PaperPoint.h 
+				common/PaperPoint.h
 				common/Matrix.h
 				common/BaseParameter.h
 				common/OutputHandler.h
 				common/OutputFactory.h
 				common/Layout.h
-				common/XmlNode.h 
+				common/XmlNode.h
 				common/Transformation.h
 				common/UserPoint.h
 				common/CustomisedPoint.h
@@ -143,6 +161,7 @@ if ( metview )
 				common/ColourTable.h
 				common/ColourTableDefinition.h
 				common/PointsHandler.h
+				common/ProjP.h
 				)
 
 	if ( EC_OS_NAME MATCHES "windows" )

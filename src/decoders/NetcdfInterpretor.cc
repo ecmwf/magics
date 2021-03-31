@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file NetcdfInterpretor.cc
@@ -19,8 +19,10 @@
 
 */
 
-
 #include "NetcdfInterpretor.h"
+
+#include <limits>
+
 #include "Layer.h"
 #include "NetcdfData.h"
 #include "NetcdfGeoMatrixInterpretor.h"
@@ -28,8 +30,6 @@
 #include "NetcdfOrcaInterpretor.h"
 #include "NetcdfVectorInterpretor.h"
 #include "XmlReader.h"
-
-#include <limits>
 
 using namespace magics;
 
@@ -44,24 +44,26 @@ NetcdfInterpretor* NetcdfGuessInterpretor::guess() const {
         return delegate_;
     // guess!!
     Netcdf netcdf(path_, dimension_method_);
-    string convention = netcdf.getAttribute("Conventions", string(""));
+    try {
+        string convention = netcdf.getAttribute("Conventions", string(""));
+        delegate_         = NetcdfGeoMatrixInterpretor::guess(*this);
 
+        if (delegate_)
+            return delegate_;
 
-    delegate_ = NetcdfGeoMatrixInterpretor::guess(*this);
+        delegate_ = NetcdfGeoVectorInterpretor::guess(*this);
 
-    if (delegate_)
-        return delegate_;
+        if (delegate_)
+            return delegate_;
+        delegate_ = NetcdfOrcaInterpretor::guess(*this);
 
-    delegate_ = NetcdfGeoVectorInterpretor::guess(*this);
-
-    if (delegate_)
-        return delegate_;
-    delegate_ = NetcdfOrcaInterpretor::guess(*this);
-
-    if (delegate_)
-        return delegate_;
-
-    MagLog::warning() << "Could not guess the type of netcdf: Use default -->matrix" << endl;
+        if (delegate_)
+            return delegate_;
+        MagLog::warning() << "Could not guess the type of netcdf: Use default -->matrix" << endl;
+    }
+    catch (...) {
+        MagLog::warning() << "Could not guess the type of netcdf: Use default -->matrix" << endl;
+    }
 
     delegate_ = new NetcdfMatrixInterpretor();
     delegate_->NetcdfInterpretor::copy(*this);
@@ -142,6 +144,7 @@ bool NetcdfInterpretor::reference_date(Netcdf& netcdf, const string& var, const 
 
     double missing_value = netcdf.getMissing(var, missing_attribute_);
     string date          = netcdf.getVariableAttribute(var, "reference_date", string(""));
+    
     if (date.empty())
         return false;
     originals.reserve(coords.size());
@@ -162,6 +165,8 @@ bool NetcdfInterpretor::cf_date(Netcdf& netcdf, const string& var, const string&
                                 vector<double>& coords, vector<double>& originals) {
     // Step 1 : try to find a attribute long_name = time
     // Step 2 : Parse the attribute  units : days since date
+
+    
     static map<string, double> factors;
     if (factors.empty()) {
         factors["hours"] = 3600;
@@ -169,27 +174,46 @@ bool NetcdfInterpretor::cf_date(Netcdf& netcdf, const string& var, const string&
     }
     double missing_value = netcdf.getMissing(var, missing_attribute_);
 
-    string date = netcdf.getVariableAttribute(var, "long_name", string(""));
+    vector<string> times = {"standard_name", "long_name"};
 
+    string date;
+    for ( auto t = times.begin(); t != times.end(); ++t) {
+        
+        date = netcdf.getVariableAttribute(var, *t , string(""));
+        
+        if ( date.size() ) 
+            break;
+    }
+        
+
+    
+    
     if (date.empty())
         return false;
     if (date != "time" && date != "date and time")
         return false;
 
+   
+
     string units = netcdf.getVariableAttribute(var, "units", string(""));
     if (units.empty())
-        return false;
+        return false;   
     originals.reserve(coords.size());
     for (vector<double>::iterator c = coords.begin(); c != coords.end(); ++c)
         originals.push_back(*c);
 
+    
     // Now we parse the string !
     vector<string> tokens;
     Tokenizer tokenizer(" ");
     tokenizer(units, tokens);
 
 
+
+    
+
     basedate = tokens[2];
+    
     double diff;
     map<string, double>::const_iterator factor = factors.find(tokens[0]);
     if (refdate.empty()) {
@@ -240,7 +264,6 @@ void NetcdfInterpretor::getAttributes(Netcdf& nc, const string& varName, string&
             string val;
             it->second.get(val);
 
-
             if (!first) {
                 keys += "/";
                 values += "/";
@@ -289,7 +312,6 @@ void NetcdfTag::visit(const XmlNode& node) {
         title_.update("netcdf" + var, "number", netcdf_.getLevel(format, def));
     }
 
-
     node.visit(*this);
 }
 
@@ -315,7 +337,8 @@ void NetcdfTag::decode(const string& line) {
 void NetcdfGuessInterpretor::visit(MetaDataCollector& info) {
     for (MetaDataCollector::iterator key = info.begin(); key != info.end(); ++key) {
         key->second = getAttribute(field_, key->first, "");
-        // cout << "Netcdf Attributes " << key->first << "--->" << key->second << endl;
+        // cout << "Netcdf Attributes " << key->first << "--->" << key->second <<
+        // endl;
     }
     guess()->visit(info);
 }

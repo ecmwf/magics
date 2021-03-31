@@ -26,11 +26,11 @@
 
 #include "BasicSceneObject.h"
 #include "Data.h"
-#include "MagDateTime.h"
-#include "MagicsDecoder.h"
 #include "EfigramDecoderAttributes.h"
 #include "EpsXmlInputAttributes.h"
 #include "EpsgramDecoderAttributes.h"
+#include "MagDateTime.h"
+#include "MagicsDecoder.h"
 #include "UserPoint.h"
 #include "XmlReader.h"
 #include "spot_database.h"
@@ -47,11 +47,7 @@ public:
     EpsParameter();
 
     EpsParameter(const string& name, const string& title, const string& code) :
-        name_(name),
-        code_(code),
-        title_(title),
-        offset_(0),
-        scaling_(1) {
+        name_(name), code_(code), title_(title), offset_(0), scaling_(1) {
         minx_ = std::numeric_limits<double>::max();
         maxx_ = -minx_;
         miny_ = std::numeric_limits<double>::max();

@@ -26,9 +26,9 @@
 
 #include "BasicSceneObject.h"
 #include "Data.h"
+#include "EpsXmlInputAttributes.h"
 #include "MagDateTime.h"
 #include "MagicsDecoder.h"
-#include "EpsXmlInputAttributes.h"
 #include "UserPoint.h"
 #include "XmlReader.h"
 

@@ -42,11 +42,13 @@ public:
     bool interpretAsMatrix(Matrix**);
     void customisedPoints(const Transformation& transformation, const std::set<string>&, CustomisedPointsList& out,
                           int thinning);
+    virtual void visit(ValuesCollector&, PointsList&);
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
     virtual void print(ostream&) const;
+    Matrix* matrix_;
 
 
 private:

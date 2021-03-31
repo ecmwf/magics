@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file Axis.cc
@@ -20,11 +20,11 @@
  */
 
 #include "Axis.h"
+
 #include "Factory.h"
+#include "Layer.h"
 #include "Layout.h"
 #include "MagLog.h"
-
-#include "Layer.h"
 #include "Polyline.h"
 #include "SceneVisitor.h"
 #include "Text.h"
@@ -62,7 +62,6 @@ HorizontalAxis::HorizontalAxis() {
         position_ = "bottom";
 }
 
-
 void Axis::ticks(double min, double max, vector<double>& ticks) {
     const double step  = (max - min) / 10.;
     const double log   = log10(step);
@@ -84,7 +83,6 @@ void Axis::visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors) {
     // and push It to the parent layer!
     StaticLayer* axis = new NoDataLayer(this);
 
-
     axis->icon(*this);
 
     layer.add(axis);
@@ -98,7 +96,6 @@ void Axis::visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors) {
 void Axis::visit(TextVisitor&) {
     // Nothing to put in the title
 }
-
 
 void VerticalAxis::tick(VerticalAxisVisitor& axis) {
     if (!tick_)
@@ -183,7 +180,6 @@ void HorizontalAxis::line(BottomAxisVisitor& out) const {
     axis->push_back(to);
     out.push_back(axis);
 }
-
 
 void VerticalAxis::line(LeftAxisVisitor& out) const {
     if (!line_)
@@ -279,7 +275,6 @@ void HorizontalAxis::label(HorizontalAxisVisitor& axis) {
             }
         }
 
-
         if (out)
             continue;
         Text* text = new Text();
@@ -289,7 +284,6 @@ void HorizontalAxis::label(HorizontalAxisVisitor& axis) {
             newcolour = Colour((*x)->colour());
         else
             newcolour = (label_colour_->automatic()) ? *line_colour_ : *label_colour_;
-
 
         MagFont font(label_font_);
         font.colour(newcolour);
@@ -308,7 +302,6 @@ void HorizontalAxis::label(HorizontalAxisVisitor& axis) {
     }
 }
 
-
 void VerticalAxis::label(VerticalAxisVisitor& axis) {
     if (!label_)
         return;
@@ -322,7 +315,6 @@ void VerticalAxis::label(VerticalAxisVisitor& axis) {
     x1              = axis.offsetTickLabel(0.025, x1);
     positions[-1]   = x1;
     title_position_ = x1;
-
 
     PaperPoint point;
 
@@ -340,13 +332,11 @@ void VerticalAxis::label(VerticalAxisVisitor& axis) {
         if ((*y)->isLast() && !label_last_)
             continue;
 
-
         if (label.empty())
             continue;
         count++;
         if (count % label_frequency_)
             continue;
-
 
         double height = ((*y)->height() == DBL_MIN || (*y)->height() == 0) ? label_height_ : (*y)->height();
         double pos;
@@ -371,7 +361,6 @@ void VerticalAxis::label(VerticalAxisVisitor& axis) {
 
         bool out = false;
 
-
         if (magCompare(label_position_, "inter_tick")) {
             AxisItems::const_iterator next = y;
             next++;
@@ -385,7 +374,6 @@ void VerticalAxis::label(VerticalAxisVisitor& axis) {
                 out             = !transformation.inY((y2 + y1) / 2);
             }
         }
-
 
         if (out)
             continue;
@@ -414,7 +402,6 @@ string Axis::number(const AxisItem& in) {
 string Axis::labellist(const AxisItem& in) {
     if (label_labels_.empty())
         return in.label();
-
 
     if (currentLabel_ < label_labels_.size()) {
         string label = label_labels_[currentLabel_];
@@ -487,7 +474,16 @@ void VerticalAxis::title(VerticalAxisVisitor& out) {
         return;
     out.frameIt();
     double angle = out.angleTitle();
-    double x     = title_position_;
+
+
+    double x = title_position_;
+
+
+    double shift = (out.maxX() - out.minX()) * 0.1;
+    x            = x - shift;
+
+    if (title_relative_position_ != -1)
+        x = out.percentX(title_relative_position_);
 
     Text* text = new Text();
     MagFont font(title_font_, title_font_style_, title_height_);
@@ -529,7 +525,6 @@ void HorizontalAxis::grid(DrawingVisitor& out) const {
         else
             return;
     }
-
 
     for (AxisItems::const_iterator x = items_.begin(); x != items_.end(); ++x) {
         pos = (*x)->position();
@@ -598,7 +593,6 @@ void VerticalAxis::grid(DrawingVisitor& out) const {
         else
             return;
     }
-
 
     for (AxisItems::const_iterator y = items_.begin(); y != items_.end(); ++y) {
         pos = (*y)->position();
@@ -684,7 +678,6 @@ void HorizontalAxis::minortick(HorizontalAxisVisitor& axis) {
     }
 }
 
-
 void HorizontalAxis::tip(TopAxisVisitor& out) const {}
 
 void HorizontalAxis::tip(BottomAxisVisitor& out) const {
@@ -723,7 +716,6 @@ void VerticalAxis::tip(LeftAxisVisitor& out) const {
 
     double y = out.maxY() - (out.maxY() - out.minY()) * 0.05;
     ;
-
 
     text->push_back(PaperPoint(x, y));
 

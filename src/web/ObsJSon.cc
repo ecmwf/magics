@@ -12,10 +12,10 @@
 #include <locale>
 #include "CustomisedPoint.h"
 #include "MetaData.h"
-#include "json_spirit.h"
+#include "Value.h"
+#include "JSONParser.h"
 
 using namespace magics;
-using namespace json_spirit;
 
 
 ObsJSon::ObsJSon() {
@@ -28,18 +28,21 @@ ObsJSon::ObsJSon() {
 ObsJSon::~ObsJSon() {}
 
 
-CustomisedPoint* ObsJSon::decode(Object& point) {
+CustomisedPoint* ObsJSon::decode(ValueMap& point) {
+
     CustomisedPoint* current = new CustomisedPoint();
-    for (vector<Pair>::const_iterator key = point.begin(); key != point.end(); ++key) {
-        map<string, ObsJSon::Method>::iterator method = methods_.find(key->name_);
+    for (auto key = point.begin(); key != point.end(); ++key) {
+        map<string, ObsJSon::Method>::iterator method = methods_.find(key->first);
+        
         if (method != methods_.end()) {
-            (this->*method->second)(key->value_, *current);
+            (this->*method->second)(key->second, *current);
         }
         else {
-            if (key->value_.type() == real_type)
-                (*current)[key->name_] = key->value_.get_value<double>();
-            if (key->value_.type() == int_type)
-                (*current)[key->name_] = key->value_.get_value<int>();
+            
+            if (key->second.isDouble()) {
+               
+                (*current)[key->first] = key->second.get_value<double>();
+            }
         }
     }
 
@@ -48,34 +51,37 @@ CustomisedPoint* ObsJSon::decode(Object& point) {
 
 
 void ObsJSon::decode() {
+     
     points_.clear();
-    json_spirit::Value value;
+    Value value;
     if (!values_.empty()) {
         for (vector<string>::iterator val = values_.begin(); val != values_.end(); ++val) {
-            json_spirit::read_or_throw(*val, value);
-            Object object = value.get_value<Object>();
+            ValueMap object = value.get_value<ValueMap>();
             points_.push_back(decode(object));
         }
         return;
     }
 
     try {
-        ifstream is(path_.c_str());
-        json_spirit::Value value;
+       
+        
+        Value value = JSONParser::decodeFile(path_);
 
-        json_spirit::read_or_throw(is, value);
-        Object object = value.get_value<Object>();
+        
 
-        for (vector<Pair>::const_iterator entry = object.begin(); entry != object.end(); ++entry) {
-            Array points = entry->value_.get_value<Array>();
+        ValueMap object = value.get_value<ValueMap>();
+
+        for (auto entry = object.begin(); entry != object.end(); ++entry) {
+            
+            ValueList points = entry->second.get_value<ValueList>();
 
             for (unsigned int i = 0; i < points.size(); i++) {
-                Object point = points[i].get_value<Object>();
+                ValueMap point = points[i].get_value<ValueMap>();
                 points_.push_back(decode(point));
             }
         }
     }
-    catch (std::exception e) {
+    catch (std::exception& e) {
         MagLog::error() << "Could not processed the file: " << path_ << ": " << e.what() << endl;
     }
 }
@@ -105,6 +111,7 @@ void ObsJSon::customisedPoints(const Transformation&, const std::set<string>& wh
     for (vector<CustomisedPoint*>::const_iterator point = points_.begin(); point != points_.end(); ++point) {
         out.push_back(*point);
     }
+
 }
 void ObsJSon::customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out,
                                bool all) {
@@ -123,25 +130,23 @@ void ObsJSon::getInfo(const std::set<string>& what, multimap<string, string>& in
     }
 }
 
-void ObsJSon::latitude(const json_spirit::Value& value, CustomisedPoint& point) {
-    ASSERT(value.type() == real_type);
+void ObsJSon::latitude(const Value& value, CustomisedPoint& point) {
+    ASSERT(value.isDouble());
     point.latitude(value.get_value<double>());
 }
 
-void ObsJSon::longitude(const json_spirit::Value& value, CustomisedPoint& point) {
-    ASSERT(value.type() == real_type);
+void ObsJSon::longitude(const Value& value, CustomisedPoint& point) {
+    ASSERT(value.isDouble());
     point.longitude(value.get_value<double>());
 }
 
-void ObsJSon::type(const json_spirit::Value& value, CustomisedPoint& point) {
-    ASSERT(value.type() == str_type);
+void ObsJSon::type(const Value& value, CustomisedPoint& point) {
     string type = value.get_value<string>();
     point.type(type);
     types_.insert(type);
 }
 
-void ObsJSon::identifier(const json_spirit::Value& value, CustomisedPoint& point) {
-    ASSERT(value.type() == str_type);
+void ObsJSon::identifier(const Value& value, CustomisedPoint& point) {
     string type = value.get_value<string>();
     point.identifier(type);
 }

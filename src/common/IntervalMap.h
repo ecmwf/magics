@@ -22,8 +22,8 @@
 #ifndef IntervalMap_H
 #define IntervalMap_H
 
-#include "magics.h"
 #include "MagException.h"
+#include "magics.h"
 
 namespace magics {
 

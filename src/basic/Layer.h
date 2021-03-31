@@ -207,7 +207,7 @@ public:
     void getReady(int) const;
     Layer* get(int);
 
-    void addStep(BasicSceneObject*);
+    void addStep(BasicSceneObject*, Data*);
     vector<SingleLayer*>::iterator firstStep() { return steps_.begin(); }
     vector<SingleLayer*>::iterator endStep() { return steps_.end(); }
 
@@ -397,12 +397,7 @@ public:
 class ValuesCollectorData {
 public:
     ValuesCollectorData(double x, double y, double value, double distance, int index = -1) :
-        x_(x),
-        y_(y),
-        value_(value),
-        distance_(distance),
-        missing_(false),
-        index_(index) {}
+        x_(x), y_(y), value_(value), distance_(distance), missing_(false), index_(index) {}
 
     double x() const { return x_; }
     double y() const { return y_; }
@@ -435,9 +430,7 @@ protected:
 class ValuesCollectorUVData : public ValuesCollectorData {
 public:
     ValuesCollectorUVData(double x, double y, double u, double v, double distance, int index = -1) :
-        ValuesCollectorData(x, y, 0, distance, index),
-        xComponent_(u),
-        yComponent_(v) {}
+        ValuesCollectorData(x, y, 0, distance, index), xComponent_(u), yComponent_(v) {}
 
     virtual void visit(ValuesCollectorVisitor& visitor) { visitor.visit(*this); }
 
@@ -457,9 +450,7 @@ protected:
 class ValuesCollectorSDData : public ValuesCollectorData {
 public:
     ValuesCollectorSDData(double x, double y, double s, double d, double distance, int index = -1) :
-        ValuesCollectorData(x, y, 0, distance, index),
-        speed_(s),
-        direction_(d) {}
+        ValuesCollectorData(x, y, 0, distance, index), speed_(s), direction_(d) {}
     virtual void visit(ValuesCollectorVisitor& visitor) { visitor.visit(*this); }
     double speed() const { return speed_; }
     double direction() const { return direction_; }

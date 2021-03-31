@@ -69,6 +69,8 @@ magics::MagTime::MagTime(const string& s) {
         case 2:
             // hh:mm
             err = result[0].length() != 2 || result[1].length() != 2;
+            if (err)
+                break;
 
             hh = atol(result[0].c_str());
             mm = atol(result[1].c_str());
@@ -79,11 +81,12 @@ magics::MagTime::MagTime(const string& s) {
             // hh:mm:ss
             // MagLog::dev()<< result[0].length() << ":" << result[1].length() << ":" << result[2].length() << endl;
             err = result[0].length() != 2 || result[1].length() != 2 || result[2].length() != 2;
+            if (err)
+                break;
+            hh = atol(result[0].c_str());
+            mm = atol(result[1].c_str());
+            ss = atol(result[2].c_str());
 
-            hh  = atol(result[0].c_str());
-            mm  = atol(result[1].c_str());
-            ss  = atol(result[2].c_str());
-            err = false;
 
             break;
 

@@ -49,13 +49,7 @@ struct Segment {
 
 
     Segment(const Point& from, const Point& to) :
-        ok_(true),
-        from_(from),
-        to_(to),
-        before_(0),
-        after_(0),
-        fnext_(0),
-        tnext_(0) {}
+        ok_(true), from_(from), to_(to), before_(0), after_(0), fnext_(0), tnext_(0) {}
 
     bool cancels(const Segment& other) const { return from_ == other.to_ && to_ == other.from_; }
 

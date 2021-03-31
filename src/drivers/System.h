@@ -24,8 +24,8 @@
 #include <pwd.h>
 #include <unistd.h>
 #else
-#include "win_time.h"
 #include <lmcons.h>
+#include "win_time.h"
 #endif
 
 namespace magics {
@@ -70,16 +70,6 @@ public:
         string tmp(username);
 #endif
         return tmp;
-    };
-
-    MAGICS_NO_EXPORT string getUserName() const {
-#ifndef MAGICS_ON_WINDOWS
-        struct passwd* who = getpwuid(getuid());
-        string tmp(who->pw_gecos);
-        return tmp;
-#else
-        return getUserID();
-#endif
     };
 
 private:

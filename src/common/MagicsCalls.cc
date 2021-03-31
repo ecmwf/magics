@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file MagicsCalls.cc
@@ -20,6 +20,7 @@
 
 #include <FortranMagics.h>
 #include <MagLog.h>
+#include <MagicsGlobal.h>
 #include <MagicsParameter.h>
 #include <WebFormat.h>
 
@@ -27,17 +28,17 @@ extern "C" {
 #include <magics_api.h>
 }
 
-
 static FortranMagics* magics_ = 0;
 
 /*! \defgroup compatibility Compatibility to MAGICS 6 for deprecated parameters
 
-  The CompatibilityHelper allows the handling of deprecated parameters and set the
-  equivalent new parameter are gives info/warning messages. The class is located in
-  file src/common/MagicsCalls.cc .
+  The CompatibilityHelper allows the handling of deprecated parameters and set
+  the equivalent new parameter are gives info/warning messages. The class is
+  located in file src/common/MagicsCalls.cc .
 
-  To add a new parameter produce a new class which inherits from CompatibilityHelper.
-  The produce a static object of that class: static 'class_name' 'para_name';
+  To add a new parameter produce a new class which inherits from
+  CompatibilityHelper. The produce a static object of that class: static
+  'class_name' 'para_name';
 
 */
 
@@ -102,7 +103,6 @@ protected:
     string parameter_;
 };
 
-
 class IgnoreConverter : public CompatibilityHelper {
 public:
     IgnoreConverter(const string& param) : CompatibilityHelper(param), parameter_(param) {}
@@ -116,7 +116,6 @@ public:
 protected:
     string parameter_;
 };
-
 
 class ComingSoonConverter : public CompatibilityHelper {
 public:
@@ -133,7 +132,6 @@ protected:
 
 map<string, CompatibilityHelper*> CompatibilityHelper::compatibility_;
 
-
 /*! \brief Prints info about old parameter
  */
 class GribSubareaExtraction : public CompatibilityHelper {
@@ -141,7 +139,9 @@ public:
     GribSubareaExtraction() : CompatibilityHelper("grib_subarea_extraction") {}
     ~GribSubareaExtraction() {}
     bool operator()(const string&) {
-        MagLog::info() << "Compatibility issue: Parameter grib_subarea_extraction not required anymore.\n" << std::endl;
+        MagLog::info() << "Compatibility issue: Parameter grib_subarea_extraction "
+                          "not required anymore.\n"
+                       << std::endl;
         return true;
     }
 };
@@ -161,10 +161,7 @@ public:
 class SimpleTranslator : public CompatibilityHelper {
 public:
     SimpleTranslator(const string& from, const string& to, bool both = false) :
-        CompatibilityHelper(from),
-        from_(from),
-        to_(to),
-        both_(both) {}
+        CompatibilityHelper(from), from_(from), to_(to), both_(both) {}
     ~SimpleTranslator() {}
     void deprecated() {
         MagLog::warning() << "Compatibility issue: Parameter " << from_ << " is deprecated : consider using " << to_
@@ -302,14 +299,13 @@ public:
     bool operator()(const string& res) {
         if (magCompare(res, "high") || magCompare(res, "medium")) {
             MagLog::info() << "Magics is using the \'" << res << "\' dataset for coastlines from Natural Earth.\n"
-                           << "        You can speed up your processing time by setting them to \'low\'.\n";
+                           << "        You can speed up your processing time by "
+                              "setting them to \'low\'.\n";
         }
-
 
         return false;
     }
 };
-
 
 /*! \brief Converts ps_file_name into output_file_root_name.
 
@@ -336,7 +332,9 @@ public:
     ~PsDevice() {}
     bool operator()(const string&) {
         MagLog::info() << "Compatibility issue: ps_device was removed.\n"
-                       << "               Please use other PostScript driver parameter instead." << std::endl;
+                       << "               Please use other PostScript driver "
+                          "parameter instead."
+                       << std::endl;
         return true;
     }
 };
@@ -407,11 +405,12 @@ public:
     ~OutputResolution() {}
     bool operator()(int) {
         MagLog::info() << "Deprecated parameter: output_resolution is not used anymore.\n"
-                       << "        Vector formats already used highes resolution and PNG uses 300 DPI." << std::endl;
+                       << "        Vector formats already used highes resolution and PNG uses "
+                          "300 DPI."
+                       << std::endl;
         return true;
     }
 };
-
 
 class GraphValuesConverter : public CompatibilityHelper {
 public:
@@ -451,10 +450,7 @@ protected:
 class ValuesConverter : public CompatibilityHelper {
 public:
     ValuesConverter(const string& from, const string& to, bool done = true) :
-        CompatibilityHelper(from),
-        from_(from),
-        to_(to),
-        done_(done) {}
+        CompatibilityHelper(from), from_(from), to_(to), done_(done) {}
 
     bool operator()(const doublearray& values) {
         ParameterManager::set(to_, values);
@@ -476,12 +472,10 @@ protected:
     bool done_;
 };
 
-
 static GraphValuesConverter graph_curve_x_values("graph_curve_x_values", "x_values");
 static GraphValuesConverter graph_curve_y_values("graph_curve_y_values", "y_values");
 static GraphValuesConverter graph_curve_date_x_values("graph_curve_date_x_values", "x_date_values");
 static GraphValuesConverter graph_curve_date_y_values("graph_curve_date_y_values", "y_date_values");
-
 
 static GraphValuesConverter graph_curve_x_base_date("graph_curve_x_base_date", "x_base_date");
 static GraphValuesConverter graph_curve_x_date_offset("graph_curve_x_date_offset", "x_date_offset");
@@ -514,7 +508,6 @@ static GraphValuesConverter graph_bar_y_lower_values("graph_bar_y_lower_values",
 static GraphValuesConverter graph_bar_y_upper_values("graph_bar_y_upper_values", "y_upper_values");
 static GraphValuesConverter graph_bar_date_y_lower_values("graph_bar_date_y_lower_values", "y_lower_date_values");
 static GraphValuesConverter graph_bar_date_y_upper_values("graph_bar_date_y_upper_values", "y_upper_date_values");
-
 
 /*! \brief Converts device_file_name into output_file_root_name.
 
@@ -558,7 +551,8 @@ public:
     DeviceQualityLevel() : CompatibilityHelper("device_quality_level") {}
     ~DeviceQualityLevel() {}
     bool operator()(const int quality) {
-        MagLog::info() << "Compatibility issue: Parameter device_quality_level is deprecated.\n"
+        MagLog::info() << "Compatibility issue: Parameter device_quality_level is "
+                          "deprecated.\n"
                        << "             Please use output_jpg_quality instead." << std::endl;
         ParameterManager::set("output_jpg_quality", quality);
         return true;
@@ -606,7 +600,6 @@ protected:
     string base_;
 };
 
-
 class TextHeight : public CompatibilityHelper {
 public:
     TextHeight(const string& from, const string& to) : CompatibilityHelper(from), from_(from), to_(to) {}
@@ -634,7 +627,9 @@ public:
                            << height << std::endl;
         }
         else {
-            MagLog::info() << from_ << " is now expecting a string : consider to change your setting for psetc "
+            MagLog::info() << from_
+                           << " is now expecting a string : consider to change your "
+                              "setting for psetc "
                            << endl;
         }
         ParameterManager::set(to_, tostring(height));
@@ -651,7 +646,8 @@ protected:
 };
 /*! \brief Converts gd_file_name into output_file_root_name.
 
-  The convention to describe GD filenames in Magics++ has changed between version 1.1 and 1.2.
+  The convention to describe GD filenames in Magics++ has changed between
+  version 1.1 and 1.2.
 */
 class GdFileName : public CompatibilityHelper {
 public:
@@ -674,9 +670,9 @@ public:
         string fix = projection;
         if (magCompare(projection, "none")) {
             fix = "cartesian";
-            MagLog::info()
-                << "Compatibility issue: The value [none] for Parameter subpage_map_projection is deprecated.\n"
-                << "               Please use [cartesian] instead." << std::endl;
+            MagLog::info() << "Compatibility issue: The value [none] for Parameter "
+                              "subpage_map_projection is deprecated.\n"
+                           << "               Please use [cartesian] instead." << std::endl;
         }
         ParameterManager::set("subpage_map_projection", fix);
         return true;
@@ -733,17 +729,19 @@ public:
     bool operator()(const string& setting) {
         // cout << " setting -->" << setting << endl;
         if (magCompare(setting, "eccharts")) {
-            MagLog::info() << "Compatibility issue: ecchart automatic contour is deprecated, consider using ecmwf\n";
+            MagLog::info() << "Compatibility issue: ecchart automatic contour is "
+                              "deprecated, consider using ecmwf\n";
             return false;
         }
         if (magCompare(setting, "web")) {
-            MagLog::warning() << "Compatibility issue: web automatic contour is now deprecated, use ecmwf instead\n";
+            MagLog::warning() << "Compatibility issue: web automatic contour is now "
+                                 "deprecated, use ecmwf instead\n";
             ParameterManager::set("contour_automatic_setting", "ecmwf");
             return true;
         }
         if (magCompare(setting, "on")) {
-            MagLog::warning()
-                << "Compatibility issue: on for  automatic contour is now deprecated, use ecmwf instead\n";
+            MagLog::warning() << "Compatibility issue: on for  automatic contour is "
+                                 "now deprecated, use ecmwf instead\n";
             ParameterManager::set("contour_automatic_setting", "ecmwf");
             return true;
         }
@@ -751,14 +749,16 @@ public:
     }
 };
 
-
 class WindArrowIndexHead : public CompatibilityHelper {
 public:
     WindArrowIndexHead() : CompatibilityHelper("wind_arrow_head_index") {}
     ~WindArrowIndexHead() {}
     bool operator()(int index) {
-        MagLog::info() << "Compatibility issue: Parameter wind_arrow_index_head does not exist anymore.\n"
-                       << "            use wind_arrow_head_shape and wind_arrow_head_ratio instead." << endl;
+        MagLog::info() << "Compatibility issue: Parameter wind_arrow_index_head "
+                          "does not exist anymore.\n"
+                       << "            use wind_arrow_head_shape and "
+                          "wind_arrow_head_ratio instead."
+                       << endl;
         const int head_index = (int)index / 10;
         const int ratio      = index % 10;
         double head_ratio;
@@ -817,7 +817,6 @@ static TextFontHeight text_reference_character_height("text_reference_character_
 static TextFontHeight text_height("text_font_size", "text_font_size");
 static TextFontHeight legend_text_font_size("legend_text_font_size", "legend_text_font_size");
 
-
 static SubpageMapProjectionNone subpage_map_projection_none;
 static NoMoreGribex grib_mode("grib_mode");
 static NoMoreGribex grib_product_block("grib_product_block");
@@ -828,7 +827,6 @@ static NoMoreGribex grib_input_type("grib_input_type");
 static IgnoreConverter graph_position_mode("graph_position_mode");
 static IgnoreConverter axis_date_units("axis_date_units");
 static IgnoreConverter legend_entry_maximum_width("legend_entry_maximum_width");
-
 
 static IgnoreConverter graph_curve_interpolation("graph_curve_interpolation");
 
@@ -869,13 +867,11 @@ static SimpleTranslator graph_x_missing_value("graph_x_missing_value", "x_missin
 static SimpleTranslator graph_y_missing_value("graph_y_missing_value", "y_missing_value");
 static SimpleTranslator symbol_marker("symbol_marker", "symbol_marker_index");
 
-
 // Clean font parametermap_cities_font_
 static SimpleTranslator map_cities_font_name("map_cities_font_name", "map_cities_font");
 static SimpleTranslator eps_maximum_font_name("eps_maximum_font_name", "eps_maximum_font");
 static SimpleTranslator magnifier_text_font_name("magnifier_text_font_name", "magnifier_text_font");
 static SimpleTranslator symbol_text_font_name("symbol_text_font_name", "symbol_text_font");
-
 
 extern "C" {
 
@@ -913,6 +909,9 @@ MAGICS_EXPORT const char* metagrib_() {
     return magics_->metagrib();
 }
 
+MAGICS_EXPORT const char* knowndrivers_() {
+    return magics_->knownDrivers();
+}
 
 MAGICS_EXPORT const char* version() {
     static string version = getMagicsVersionString();
@@ -1006,7 +1005,7 @@ MAGICS_EXPORT void psymb_() {
 }
 
 MAGICS_EXPORT int pclose_() {
-    int code = magics_->pclose();
+    int code = magics_->pclose(false);
 
     delete magics_;
     magics_ = 0;
@@ -1236,7 +1235,6 @@ MAGICS_EXPORT void pinfo_() {
     mag_info();
 }
 
-
 /* **************************************************************************
 
 ***
@@ -1250,7 +1248,7 @@ MAGICS_EXPORT void pinfo_() {
         try {                            \
             magics();                    \
         }                                \
-        catch (exception e) {            \
+        catch (exception& e) {            \
             return e.what();             \
         }                                \
         return NULL;                     \
@@ -1260,15 +1258,36 @@ MAGICS_EXPORT void pinfo_() {
         try {                            \
             return magics();             \
         }                                \
-        catch (exception e) {            \
+        catch (exception& e) {            \
             return e.what();             \
         }                                \
         return NULL;                     \
     }
+
 MAGICS_EXPORT void mag_open() {
     popen_();
 }
 PYTHON(py_open, popen_)
+
+MAGICS_EXPORT void mag_mute() {
+    MagicsGlobal::silent(true);
+}
+PYTHON(py_mute, mag_mute)
+
+MAGICS_EXPORT void mag_unmute() {
+    MagicsGlobal::silent(false);
+}
+PYTHON(py_unmute, mag_unmute)
+
+MAGICS_EXPORT void mag_set_python_context() {
+    MagicsGlobal::compatibility(false);
+}
+PYTHON(py_set_python, mag_set_python_context)
+MAGICS_EXPORT void mag_keep_compatibility() {
+    MagicsGlobal::compatibility(true);
+}
+PYTHON(py_keep_compatibility, mag_keep_compatibility)
+
 MAGICS_EXPORT int mag_close() {
     return pclose_();
 }
@@ -1282,6 +1301,7 @@ MAGICS_EXPORT void mag_grib() {
 }
 PYTHON(py_grib, pgrib_)
 PYTHONS(py_metagrib, metagrib_)
+PYTHONS(py_knowndrivers, knowndrivers_)
 MAGICS_EXPORT void mag_mapgen() {
     pmapgen_();
 }
@@ -1441,7 +1461,7 @@ MAGICS_EXPORT const char* py_new(const char* page) {
     try {
         mag_new(page);
     }
-    catch (exception e) {
+    catch (exception& e) {
         return e.what();
     }
     return NULL;
@@ -1455,7 +1475,7 @@ MAGICS_EXPORT const char* py_reset(const char* name) {
     try {
         mag_reset(name);
     }
-    catch (exception e) {
+    catch (exception& e) {
         return e.what();
     }
     return NULL;
@@ -1469,7 +1489,7 @@ MAGICS_EXPORT const char* py_setc(const char* name, const char* value) {
     try {
         mag_setc(name, value);
     }
-    catch (exception e) {
+    catch (exception& e) {
         return e.what();
     }
     return NULL;
@@ -1486,7 +1506,7 @@ MAGICS_EXPORT const char* py_setr(const char* name, const double value) {
     try {
         mag_setr(name, value);
     }
-    catch (exception e) {
+    catch (exception& e) {
         return e.what();
     }
     return NULL;
@@ -1504,7 +1524,7 @@ MAGICS_EXPORT const char* py_seti(const char* name, const int value) {
     try {
         mag_seti(name, value);
     }
-    catch (exception e) {
+    catch (exception& e) {
         return e.what();
     }
     return NULL;
@@ -1527,7 +1547,7 @@ MAGICS_EXPORT const char* py_set1r(const char* name, const double* data, const i
     try {
         mag_set1r(name, data, dim1);
     }
-    catch (exception e) {
+    catch (exception& e) {
         return e.what();
     }
     return NULL;
@@ -1553,7 +1573,7 @@ MAGICS_EXPORT const char* py_set2r(const char* name, const double* data, const i
     try {
         mag_set2r(name, data, dim1, dim2);
     }
-    catch (exception e) {
+    catch (exception& e) {
         return e.what();
     }
     return NULL;
@@ -1587,7 +1607,7 @@ MAGICS_EXPORT const char* py_set1i(const char* name, const int* data, const int 
     try {
         mag_set1i(name, data, dim1);
     }
-    catch (exception e) {
+    catch (exception& e) {
         return e.what();
     }
     return NULL;
@@ -1613,7 +1633,7 @@ MAGICS_EXPORT const char* py_set2i(const char* name, const int* data, const int 
     try {
         mag_set2i(name, data, dim1, dim2);
     }
-    catch (exception e) {
+    catch (exception& e) {
         return e.what();
     }
     return NULL;
@@ -1645,7 +1665,7 @@ MAGICS_EXPORT const char* py_set1c(const char* name, const char** data, const in
     try {
         mag_set1c(name, data, dim1);
     }
-    catch (exception e) {
+    catch (exception& e) {
         return e.what();
     }
     return NULL;
@@ -1708,7 +1728,6 @@ MAGICS_EXPORT void mag_enqr(const char* fname, double* value) {
     MagLog::dev() << "mag_enqr->" << name << " = " << magics << endl;
 }
 
-
 MAGICS_EXPORT void mag_enqi(const char* name, int* value) {
     int magics;
     ParameterManager::get(string(name), magics);
@@ -1744,7 +1763,6 @@ MAGICS_EXPORT void mag_add_debug_listener(void* data, void (*cb)(void*, const ch
 MAGICS_EXPORT void mag_clear_listeners() {
     MagLog::clearListeners();
 }
-
 
 MAGICS_EXPORT void mag_pie() {
     ppie_();
@@ -1797,10 +1815,7 @@ MagicsParameter<string> paxis_date_min_value("axis_date_min_value", "");
 class AxisConverter : public CompatibilityHelper {
 public:
     AxisConverter(const string& from, const string& horiz, const string& vert) :
-        CompatibilityHelper(from),
-        from_(from),
-        vertical_(vert),
-        horizontal_(horiz) {}
+        CompatibilityHelper(from), from_(from), vertical_(vert), horizontal_(horiz) {}
 
     bool operator()(double val) {
         ParameterManager::set(from_, val);
@@ -1850,9 +1865,7 @@ protected:
     string vertical_;
 };
 
-
 static AxisConverter axis_type("axis_type", "subpage_x_axis_type", "subpage_y_axis_type");
-
 
 static AxisConverter axis_min_value("axis_min_value", "subpage_x_min", "subpage_y_min");
 static AxisConverter axis_max_value("axis_max_value", "subpage_x_max", "subpage_y_max");

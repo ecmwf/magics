@@ -1,23 +1,15 @@
 # (C) Copyright 1996-2016 ECMWF.
-# 
+#
 # This software is licensed under the terms of the Apache Licence Version 2.0
-# which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-# In applying this licence, ECMWF does not waive the privileges and immunities 
+# which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+# In applying this licence, ECMWF does not waive the privileges and immunities
 # granted to it by virtue of its status as an intergovernmental organisation nor
 # does it submit to any jurisdiction.
 
-if(Boost_FOUND)
-  message( STATUS " Boost include : [${Boost_INCLUDE_DIRS}]" )
-endif()
 
-if( SWIG_FOUND AND NUMPY_FOUND )
-  message( STATUS " Swig (${SWIG_VERSION}) : [${SWIG_EXECUTABLE}]" )
-  message( STATUS " NumPy (${NUMPY_VERSION}) : [${NUMPY_INCLUDE_DIRS}]" )
-endif()
-
-if(PROJ4_FOUND)
-  message( STATUS " Proj4 include : [${PROJ4_INCLUDE_DIRS}]" )
-  message( STATUS "         libs  : [${PROJ4_LIBRARIES}]" )
+if(PROJ_FOUND)
+  message( STATUS " Proj include : [${PROJ_INCLUDE_DIRS}]" )
+  message( STATUS "        libs  : [${PROJ_LIBRARIES}]" )
 endif()
 
 if(PANGOCAIRO_FOUND)

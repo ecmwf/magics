@@ -1,32 +1,41 @@
-<magics>
-<class inherits="Transformation" metview_prefix="subpage_" xmltag="cartesian" name="CartesianTransformation" directory="common" prefix="subpage" action="pnew">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
-  	This object contains the attributes to the cartesian Projection 
-
-	<parameter member="x" to="XCoordinate" default="regular" from="string" name="subpage_x_axis_type">
-    		<option xml="x_regular" fortran="regular" include="Coordinate.h" name="XRegularCoordinate">		</option>
-    		<option xml="x_date" fortran="date" include="Coordinate.h" name="XDateCoordinate">		</option>
-    		<option xml="x_hyper" fortran="geoline" include="Coordinate.h" name="XHyperCoordinate">		</option>
-    		<option xml="x_logarithmic" fortran="logarithmic" include="Coordinate.h" name="XLogarithmicCoordinate">		</option>
-    		<release>Magics++1.3		</release>         
-	</parameter>    
- 
-	<parameter member="y" to="YCoordinate" default="regular" from="string" name="subpage_y_axis_type">
-          
-           		<option xml="y_regular" fortran="regular" include="Coordinate.h" name="YRegularCoordinate">		</option>
-           		<option xml="y_date" fortran="date" include="Coordinate.h" name="YDateCoordinate">		</option>
-            		<option xml="y_hyper" fortran="geoline" include="Coordinate.h" name="YHyperCoordinate">		</option>
-           		<option xml="y_logarithmic" fortran="logarithmic" include="Coordinate.h" name="YLogarithmicCoordinate">		</option>
-           		<release>Magics++1.3		</release>
-	</parameter>
-
-</class></magics>
+<magics>
+	<class inherits="Transformation"
+		metview_prefix="subpage_"
+		xmltag="cartesian"
+		name="CartesianTransformation"
+		directory="common"
+		prefix="subpage"
+		action="pnew">
+  	This object contains the attributes to the cartesian Projection
+		<parameter member="x"
+			to="XCoordinate"
+			default="regular"
+			from="string"
+			name="subpage_x_axis_type">
+			<option xml="x_regular" fortran="regular" include="Coordinate.h" name="XRegularCoordinate"></option>
+			<option xml="x_date" fortran="date" include="Coordinate.h" name="XDateCoordinate"></option>
+			<option xml="x_hyper" fortran="geoline" include="Coordinate.h" name="XHyperCoordinate"></option>
+			<option xml="x_logarithmic" fortran="logarithmic" include="Coordinate.h" name="XLogarithmicCoordinate"></option>
+			<release>Magics++1.3</release>
+		</parameter>
+		<parameter member="y"
+			to="YCoordinate"
+			default="regular"
+			from="string"
+			name="subpage_y_axis_type">
+			<option xml="y_regular" fortran="regular" include="Coordinate.h" name="YRegularCoordinate"></option>
+			<option xml="y_date" fortran="date" include="Coordinate.h" name="YDateCoordinate"></option>
+			<option xml="y_hyper" fortran="geoline" include="Coordinate.h" name="YHyperCoordinate"></option>
+			<option xml="y_logarithmic" fortran="logarithmic" include="Coordinate.h" name="YLogarithmicCoordinate"></option>
+			<release>Magics++1.3</release>
+		</parameter>
+	</class>
+</magics>

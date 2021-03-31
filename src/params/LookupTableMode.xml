@@ -1,29 +1,36 @@
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
 <magics>
-<class directory="visualisers" prefix="image" name="LookupTableMode">
-
-  	<parameter member="minLevel" to="int" default="-1.0e+21" from="int" name="image_min_level">
-         		<documentation> The lowest pixel value to be plotted  		</documentation>
-         		<migration> New Magics: Parameter image_min_level sent to new Magics[ImagePlotting].  		</migration>
-  	</parameter>
-
-  	<parameter member="maxLevel" to="int" default="1.0e+21" from="int" name="image_max_level">
-         		<documentation> The highest pixel value to be plotted  		</documentation>
-         		<migration> New Magics: Parameter image_max_level sent to new Magics[ImagePlotting].  		</migration>
-  	</parameter>
-
-  	<parameter member="outlayer" to="float" default="0" from="float" name="image_outlayer_rejection">
-         		<documentation> The outlayer rejection factor 		</documentation>
-         		<migration> New Magics: Parameter image_outlayer_rejection sent to new Magics[ImagePlotting].  		</migration>
-  	</parameter>
-
-</class></magics>
+	<class directory="visualisers" prefix="image" name="LookupTableMode">
+		<parameter member="minLevel"
+			to="int"
+			default="INT_MIN"
+			from="int"
+			name="image_min_level">
+			<documentation>The lowest pixel value to be plotted</documentation>
+			<migration>New Magics: Parameter image_min_level sent to new Magics[ImagePlotting].</migration>
+		</parameter>
+		<parameter member="maxLevel"
+			to="int"
+			default="INT_MAX"
+			from="int"
+			name="image_max_level">
+			<documentation>The highest pixel value to be plotted</documentation>
+			<migration>New Magics: Parameter image_max_level sent to new Magics[ImagePlotting].</migration>
+		</parameter>
+		<parameter member="outlayer"
+			to="float"
+			default="0"
+			from="float"
+			name="image_outlayer_rejection">
+			<documentation>The outlayer rejection factor</documentation>
+			<migration>New Magics: Parameter image_outlayer_rejection sent to new Magics[ImagePlotting].</migration>
+		</parameter>
+	</class>
+</magics>

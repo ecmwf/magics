@@ -18,6 +18,7 @@
 
 #include <BinaryDriver.h>
 #include <Image.h>
+#include <ImportObject.h>
 #include <Polyline.h>
 #include <Text.h>
 
@@ -563,6 +564,47 @@ MAGICS_NO_EXPORT void BinaryDriver::circle(const MFloat x, const MFloat y, const
 }
 
 /*!
+  \brief Image render method
+
+  Checks if the image is given by reference. If not, use BaseDriver version!
+*/
+MAGICS_NO_EXPORT void BinaryDriver::renderImage(const ImportObject& obj) const {
+    if(obj.getByReference()) {
+      char c = 'J';
+      out_.write(&c, 1);
+      const MFloat x = obj.getOrigin().x();
+      const MFloat y = obj.getOrigin().y();
+      const MFloat w = obj.getWidth();
+      const MFloat h = obj.getHeight();
+      const ImageProperties::OriginReference r = obj.getOriginReference();
+      const std::string format = obj.getFormat();
+      const std::string path = obj.getPath();
+
+      out_.write((char*)(&x), sizeof(MFloat));
+      out_.write((char*)(&y), sizeof(MFloat));
+      out_.write((char*)(&w), sizeof(MFloat));
+      out_.write((char*)(&h), sizeof(MFloat));
+      out_.write((char*)(&r), sizeof(ImageProperties::OriginReference));
+
+      const int lformat = format.length();
+      out_.write((char*)(&lformat), sizeof(int));
+      char* pp = new char[lformat];
+      strcpy(pp, format.c_str());
+      out_.write(pp, sizeof(char) * lformat);
+      delete[] pp;
+
+      const int lpath = path.length();
+      out_.write((char*)(&lpath), sizeof(int));
+      char* pp2 = new char[lpath];
+      strcpy(pp2, path.c_str());
+      out_.write(pp2, sizeof(char) * lpath);
+      delete[] pp2;
+    }
+    else BaseDriver::renderImage(obj);
+}
+
+
+/*!
   \brief render pixmaps
 
   This method renders pixmaps. These are used for cell shading and raster input (GIFs and PNGs).
@@ -580,8 +622,19 @@ MAGICS_NO_EXPORT void BinaryDriver::circle(const MFloat x, const MFloat y, const
 
 */
 MAGICS_NO_EXPORT bool BinaryDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
-                                                 unsigned char* pixmap, int landscape, bool) const {
-    MagLog::debug() << "BinaryDriver::renderPixmap needs implementing." << std::endl;
+                                                 unsigned char* pixmap, int landscape, bool, bool) const {
+    char cc = 'M';
+    out_.write(&cc, 1);
+    out_.write((char*)(&x0), sizeof(MFloat));
+    out_.write((char*)(&y0), sizeof(MFloat));
+    out_.write((char*)(&x1), sizeof(MFloat));
+    out_.write((char*)(&y1), sizeof(MFloat));
+    out_.write((char*)(&w), sizeof(int));
+    out_.write((char*)(&h), sizeof(int));
+    out_.write((char*)(&landscape), sizeof(int));
+    out_.write((char*)(pixmap), sizeof(unsigned char) * w * h * 4);
+ 
+    MagLog::debug() << "BinaryDriver::renderPixmap called: "<< w*h << std::endl;
     return true;
 }
 
@@ -619,7 +672,6 @@ MAGICS_NO_EXPORT bool BinaryDriver::renderCellArray(const Image& image) const {
         si++;
     }
     const int sii = si;
-
 
     out_.write((char*)(&sii), sizeof(int));
     for (int v = 0; v < sii; v++) {

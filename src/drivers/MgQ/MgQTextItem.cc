@@ -23,8 +23,7 @@
 
 
 MgQTextItem::MgQTextItem(const QString& text, QGraphicsItem* parent) :
-    QGraphicsSimpleTextItem(text, parent),
-    textBlanking_(false) {}
+    QGraphicsSimpleTextItem(text, parent), textBlanking_(false) {}
 
 MgQTextItem::~MgQTextItem() {}
 

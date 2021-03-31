@@ -117,15 +117,9 @@ private:
 };
 struct LegendEntryBuilder {
     LegendEntryBuilder(LegendVisitor& legend, const PolyShadingMethod* method, const ColourTechnique& colours) :
-        legend_(legend),
-        method_(method),
-        colours_(colours),
-        first_(true){};
+        legend_(legend), method_(method), colours_(colours), first_(true){};
     LegendEntryBuilder(LegendVisitor& legend, const ColourTechnique& colours) :
-        legend_(legend),
-        method_(0),
-        colours_(colours),
-        first_(true){};
+        legend_(legend), method_(0), colours_(colours), first_(true){};
     ~LegendEntryBuilder(){};
     bool operator()(const pair<double, ColourInfo>& first, const pair<double, ColourInfo>& second) {
         Polyline* box = new Polyline();

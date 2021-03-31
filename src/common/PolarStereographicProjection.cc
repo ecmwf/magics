@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file PolarStereographicProjection.cc
@@ -26,7 +26,6 @@
 #include <PolarStereographicProjection.h>
 #include <Text.h>
 #include <math.h>
-
 
 using namespace magics;
 
@@ -113,7 +112,6 @@ PaperPoint PolarStereographicProjection::operator()(const UserPoint& point) cons
     return PaperPoint(xy.x(), xy.y(), point.value(), point.missing(), point.border(), 0, point.name());
 }
 
-
 PaperPoint PolarStereographicProjection::operator()(const PaperPoint& point) const {
     return Transformation::operator()(point);
 }
@@ -142,7 +140,6 @@ void PolarStereographicProjection::revert(const PaperPoint& xy, UserPoint& point
     point = UserPoint(geo.x() * TeCRD, geo.y() * TeCRD);
 }
 
-
 bool PolarStereographicProjection::needShiftedCoastlines() const {
     return false;
 }
@@ -151,7 +148,6 @@ void PolarStereographicProjection::init(double width, double height) {
     if (!projection_)
         projection_ = new TePolarStereographic(TeDatum(), vertical_longitude_ * TeCDR, 0., 0., "Meters",
                                                (hemisphere_ == NORTH) ? TeNORTH_HEM : TeSOUTH_HEM);
-
 
     if (magCompare(area_, "full")) {
         ymin_ = (hemisphere_ == NORTH) ? -20. : 20.;
@@ -283,11 +279,9 @@ void PolarStereographicProjection::init(double width, double height) {
         PCEnveloppe_->push_back(PaperPoint(xpcmax_, ypcmin_));
         PCEnveloppe_->push_back(PaperPoint(xpcmin_, ypcmin_));
 
-
         MagLog::dev() << " Projection definition-->[" << ymin_ << ", " << xmin_ << ", " << xmax_ << ", " << ymax_ << "]"
                       << endl;
     }
-
 
     // Tiling information
     askedxmin_ = std::min(xpcmin_, xpcmax_);
@@ -544,7 +538,6 @@ void PolarStereographicProjection::verticalLabels(const LabelPlotting& label, do
         revert(point, geo);
         point.x(xx);
 
-
         Text* text = new Text();
         label.add(text);
         text->setJustification(left ? MRIGHT : MLEFT);
@@ -553,7 +546,6 @@ void PolarStereographicProjection::verticalLabels(const LabelPlotting& label, do
         text->push_back(point);
     }
 }
-
 
 void PolarStereographicProjection::labels(const LabelPlotting& label, DrawingVisitor&) const {
     Text* text;
@@ -635,6 +627,11 @@ void PolarStereographicProjection::visit(MetaDataVisitor& visitor, double left, 
     java << "\"img_width\" : " << img_width << ",";
     java << "\"height\" : " << height << ",";
     java << "\"img_height\" : " << img_height << ",";
+    java << "\"xmin\" : " << xmin_ << ",";
+    java << "\"ymin\" : " << ymin_ << ",";
+    java << "\"xmax\" : " << xmax_ << ",";
+    java << "\"ymax\" : " << ymax_ << ",";
+
 
     java << "\"pcxmin\" : " << getMinPCX() << ",";
     java << "\"pcymin\" : " << getMinPCY() << ",";
@@ -664,13 +661,11 @@ void PolarStereographicProjection::corners() {
     ymax_ = max_latitude_;
 }
 
-
 void PolarStereographicProjection::centre(double width, double height) {
     PaperPoint centre = (*this)(UserPoint(centre_longitude_, centre_latitude_));
 
     double x = (width * map_scale_) / 200;
     double y = (height * map_scale_) / 200;
-
 
     PaperPoint llxy(centre.x() - x, centre.y() - y);
     PaperPoint urxy(centre.x() + x, centre.y() + y);
@@ -686,15 +681,14 @@ void PolarStereographicProjection::centre(double width, double height) {
     ymax_ = ur.y();
 }
 
-
 /*!polar
  Read in the documentation:
  For Polar Stereographic projections, the thinning factor is the distance,
- in both X and Y directions, corresponding to the projected INPUT_FIELD_LONGITUDE_STEP ,
- along 60 degrees latitude, multiplied by the value of WIND_THINNING_FACTOR .
- After plotting at a grid point, all subsequent grid points,
- whose distance from the current grid point is less than the thinning factor, will be ignored.
- The default value is 2.0, e.g. the statement
+ in both X and Y directions, corresponding to the projected
+ INPUT_FIELD_LONGITUDE_STEP , along 60 degrees latitude, multiplied by the value
+ of WIND_THINNING_FACTOR . After plotting at a grid point, all subsequent grid
+ points, whose distance from the current grid point is less than the thinning
+ factor, will be ignored. The default value is 2.0, e.g. the statement
 */
 void PolarStereographicProjection::thin(MatrixHandler& matrix, double x, double y, vector<UserPoint>& out) const {
     Transformation::thin(matrix, x, y, out);
@@ -725,7 +719,6 @@ void PolarStereographicProjection::thin(MatrixHandler& matrix, double x, double 
         }
     }
 }
-
 
 void PolarStereographicProjection::setNewPCBox(double minx, double miny, double maxx, double maxy) {
     PaperPoint p1(minx, miny);
@@ -785,15 +778,15 @@ void PolarStereographicProjection::reprojectSpeedDirection(const PaperPoint& poi
     double x = point.x_;
     double y = point.y_;
 
-    double u = x + (sin(wind.second * DEG_TO_RAD));
-    double v = y + (cos(wind.second * DEG_TO_RAD));
+    double u = x + (sin(RAD(wind.second)));
+    double v = y + (cos(RAD(wind.second)));
 
     fast_reproject(x, y);
     fast_reproject(u, v);
 
     double rotation = atan2((u - x), (v - y));
 
-    wind.second = (rotation * RAD_TO_DEG);
+    wind.second = DEG(rotation);
 }
 
 void PolarStereographicProjection::coastSetting(map<string, string>& setting, double abswidth, double absheight) const {
@@ -820,7 +813,8 @@ void PolarStereographicProjection::coastSetting(map<string, string>& setting, do
     setting["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
     setting["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
 
-    //! \note Administraive borders hardcoded to 10m resolution (low res version do not contain all info)
+    //! \note Administraive borders hardcoded to 10m resolution (low res version
+    //! do not contain all info)
     setting["administrative_boundaries"] = "10m/ne_10m_admin_1_states_provinces_lines";
 
     MagLog::dev() << "GeoRectangularProjection::coastSetting[" << abswidth << ", " << absheight << "]->" << ratio
@@ -871,7 +865,6 @@ magics::Polyline& PolarStereographicProjection::getUserBoundingBox() const {
     }
     return *userEnveloppe_;
 }
-
 
 double PolarStereographicProjection::patchDistance(double res) const {
     /*

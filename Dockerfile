@@ -2,7 +2,7 @@
 # for Magics
 
 # Build image
-FROM python:3.8.0-slim-buster as build
+FROM python:3.7.10-slim-buster as build
 
 RUN set -ex \
     && apt-get update
@@ -43,7 +43,6 @@ RUN set -ex \
     && apt-get install --yes --no-install-suggests --no-install-recommends \
       libarmadillo-dev \
       libatlas-base-dev \
-      libboost-dev \
       libbz2-dev \
       libc6-dev \
       libcairo2-dev \
@@ -63,7 +62,6 @@ RUN set -ex \
       libpango1.0-dev \
       libpcre3-dev \
       libpng-dev \
-      libproj-dev \
       libreadline6-dev \
       libsqlite3-dev \
       libssl-dev \
@@ -71,7 +69,24 @@ RUN set -ex \
       libxml2-dev \
       libxslt1-dev \
       libyaml-dev \
+      sqlite3 \
       zlib1g-dev
+
+# Install Proj6
+
+RUN mkdir -p /proj6/src \
+    && cd /proj6/src \
+    && wget https://download.osgeo.org/proj/proj-6.3.1.tar.gz \
+    && tar -xf proj-6.3.1.tar.gz \
+    && mkdir -p /proj6/build/ \
+    && cd /proj6/build \
+    && cmake /proj6/src/proj-6.3.1 \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DPROJ_TESTS=OFF \
+    && make -j4 \
+    && make install
+
+
 
 # Install Python run-time dependencies.
 COPY requirements.txt /root/
@@ -80,7 +95,7 @@ RUN set -ex \
     && pip install -r /root/requirements.txt
 
 # Install ecbuild
-ARG ECBUILD_VERSION=2019.07.1
+ARG ECBUILD_VERSION=2021.03.0
 RUN set -eux \
     && mkdir -p /src/ \
     && cd /src \
@@ -95,7 +110,7 @@ RUN set -eux \
 
 # Install eccodes
 # requires ecbuild
-ARG ECCODES_VERSION=2.14.0
+ARG ECCODES_VERSION=2021.03.0
 RUN set -eux \
     && wget https://confluence.ecmwf.int/download/attachments/45757960/eccodes-${ECCODES_VERSION}-Source.tar.gz?api=v2 --output-document=eccodes.tar.gz \
     && tar -xf eccodes.tar.gz \
@@ -130,7 +145,7 @@ RUN set -ex \
 #
 # Run-time image.
 #
-FROM debian:stable-slim
+FROM python:3.7.10-slim-buster
 
 # Install run-time depencencies.
 # Delete resources after installation
@@ -177,7 +192,6 @@ RUN set -ex \
        libpcre3 \
        libpcrecpp0v5 \
        libpng16-16 \
-       libproj13 \
        libreadline7 \
        libsqlite3-0 \
        libssl1.1 \

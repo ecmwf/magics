@@ -1,178 +1,277 @@
-<magics>
-<class xmltag="subpage" name="FortranViewNode" directory="common" prefix="subpage/subpage/subpage" action="pnew" include="ViewNode.h"> 
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
-    
-
- 
-
-	<parameter member="left" to="float" default="-1" from="float" name="subpage_x_position">
-         		<documentation> Y-Coordinate of lower left hand corner of subpage in cm. 
-          -1 is the  default: 7.5% of the parent page 		</documentation>
-	</parameter>
-	<parameter member="bottom" to="float" default="-1" from="float" name="subpage_y_position">
-         		<documentation> X-Coordinate of lower left hand corner of subpage in cm. 
-          -1 is the  default: 5% of the parent page		</documentation>
-	</parameter>
-
-	<parameter member="width" to="float" default="-1" from="float" name="subpage_x_length">
-         		<documentation> Length of subpage in horizontal direction in cm.  
-          -1 is the  default: 85% of the parent page 		</documentation>
-	</parameter>
-	<parameter member="height" to="float" default="-1" from="float" name="subpage_y_length">
-         		<documentation> Length of subpage in vertical direction in cm.
-         -1 is the  default:  85% of the parent page 		</documentation>
-	</parameter>
-
-	<parameter member="predefined" to="bool" default="off" from="string" name="subpage_map_library_area">
-		<documentation> if On, pickup a predefined geographical area </documentation>
-	</parameter>
-	<parameter member="predefined_name" to="string" default="off" from="string" name="subpage_map_area_name">
-		<documentation> Name of the predefined area </documentation>
-	</parameter>
-	<parameter member="transformation" to="Transformation" default="cylindrical" from="string" name="subpage_map_projection">
-         		<documentation>Projection to set in the drawing area 		</documentation>
-
-            		<option xml="cylindrical" fortran="cylindrical" include="GeoRectangularProjection.h" name="GeoRectangularProjection">		
-            		</option>
-             		<option xml="polar_stereographic" fortran="polar_stereographic" include="PolarStereographicProjection.h" name="PolarStereographicProjection">		</option>
-        		<option fortran="polar_north" include="Proj4Projection.h" name="Proj4PolarNorth">		</option>
-        		<option fortran="polar_south" include="Proj4Projection.h" name="Proj4PolarSouth">		</option>
- 				<option fortran="geos" include="Proj4Projection.h" name="Proj4Geos">		</option>
- 				<option fortran="meteosat" include="Proj4Projection.h" name="Proj4Meteosat0">		</option>
- 				<option fortran="meteosat_57E" include="Proj4Projection.h" name="Proj4Meteosat57">		</option>
- 				<!--option fortran="meteosat2" include="Proj4Projection.h" name="Proj4Meteosat145">		</option>
+<magics>
+	<class xmltag="subpage"
+		name="FortranViewNode"
+		directory="common"
+		prefix="subpage/subpage/subpage"
+		action="pnew"
+		python="mmap"
+		include="ViewNode.h">
+		<parameter member="left"
+			to="float"
+			default="-1"
+			from="float"
+			name="subpage_x_position">
+			<documentation>Y-Coordinate of lower left hand corner of subpage in cm.
+          -1 is the  default: 7.5% of the parent page</documentation>
+		</parameter>
+		<parameter member="bottom"
+			to="float"
+			default="-1"
+			from="float"
+			name="subpage_y_position">
+			<documentation>X-Coordinate of lower left hand corner of subpage in cm.
+          -1 is the  default: 5% of the parent page</documentation>
+		</parameter>
+		<parameter member="width"
+			to="float"
+			default="-1"
+			from="float"
+			name="subpage_x_length">
+			<documentation>Length of subpage in horizontal direction in cm.
+          -1 is the  default: 85% of the parent page</documentation>
+		</parameter>
+		<parameter member="height"
+			to="float"
+			default="-1"
+			from="float"
+			name="subpage_y_length">
+			<documentation>Length of subpage in vertical direction in cm.
+         -1 is the  default:  85% of the parent page</documentation>
+		</parameter>
+		<parameter member="predefined"
+			to="bool"
+			default="off"
+			from="string"
+			name="subpage_map_library_area">
+			<documentation>if On, pickup a predefined geographical area</documentation>
+		</parameter>
+		<parameter member="predefined_name"
+			to="string"
+			default="off"
+			from="string"
+			name="subpage_map_area_name">
+			<documentation>Name of the predefined area</documentation>
+		</parameter>
+		<parameter member="transformation"
+			to="Transformation"
+			default="cylindrical"
+			from="string"
+			name="subpage_map_projection">
+			<documentation>Projection to set in the drawing area</documentation>
+			<option xml="cylindrical" fortran="cylindrical" include="GeoRectangularProjection.h" name="GeoRectangularProjection"></option>
+			<option xml="polar_stereographic" fortran="polar_stereographic" include="PolarStereographicProjection.h" name="PolarStereographicProjection"></option>
+			<option fortran="polar_north" include="Proj4Projection.h" name="Proj4PolarNorth"></option>
+			<option fortran="polar_south" include="Proj4Projection.h" name="Proj4PolarSouth"></option>
+			<option fortran="geos" include="Proj4Projection.h" name="Proj4Geos"></option>
+			<option fortran="meteosat" include="Proj4Projection.h" name="Proj4Meteosat0"></option>
+			<option fortran="meteosat_57E" include="Proj4Projection.h" name="Proj4Meteosat57"></option>
+			<!--option fortran="meteosat2" include="Proj4Projection.h" name="Proj4Meteosat145">		</option>
  				<option fortran="goes_west" include="Proj4Projection.h" name="Proj4Geosw">		</option-->
- 				<option fortran="goes_east" include="Proj4Projection.h" name="Proj4Geose">		</option>
- 				<option fortran="lambert" include="Proj4Projection.h" name="Proj4Lambert">		</option>
- 				<option fortran="EPSG:3857" include="Proj4Projection.h" name="Proj4EPSG3857">		</option>
- 				<option fortran="EPSG:900913" include="Proj4Projection.h" name="Proj4EPSG900913">		</option>
- 				<option fortran="EPSG:32661" include="Proj4Projection.h" name="Proj4EPSG32661">		</option>
- 				<option fortran="EPSG:32761" include="Proj4Projection.h" name="Proj4EPSG32761">		</option>
- 				<option fortran="EPSG:4326" include="Proj4Projection.h" name="Proj4EPSG4326">		</option>
- 				<option fortran="goode" include="Proj4Projection.h" name="Proj4Goode">		</option>
- 				<option fortran="collignon" include="Proj4Projection.h" name="Proj4Collignon">		</option>
- 				<option fortran="mollweide" include="Proj4Projection.h" name="Proj4Mollweide">		</option>
- 				<option fortran="robinson" include="Proj4Projection.h" name="Proj4Robinson">		</option>
- 				<option fortran="bonne" include="Proj4Projection.h" name="Proj4Bonne">		</option>
- 				<option fortran="google" include="Proj4Projection.h" name="Proj4Google">		</option>
- 				<option fortran="efas" include="Proj4Projection.h" name="Proj4Efas">		</option>
- 				<option fortran="tpers" include="Proj4Projection.h" name="Proj4TPers">		</option>
- 				<option fortran="automatic" include="Proj4Projection.h" name="Proj4Automatic">		</option>
- 				<option fortran="lambert_north_atlantic" include="Proj4Projection.h" name="Proj4LambertNorthAtlantic">		</option>
-        		<option xml="mercator" fortran="mercator" include="Proj4Projection.h" name="Proj4Mercator">		</option>
-				<option xml="cartesian" fortran="cartesian" include="CartesianTransformation.h" name="CartesianTransformation">		</option>
-        		<option xml="taylor" fortran="taylor" include="TaylorProjection.h" name="TaylorProjection">		</option>
-                <option xml="tephigram" fortran="tephigram" include="Tephigram.h" name="Tephigram">		</option>
-                <option xml="skewt" fortran="skewt" include="Skewt.h" name="Skewt">		</option>
-                <option xml="emagram" fortran="emagram" include="Emagram.h" name="Emagram">		</option>
-
-              
-	</parameter>
-	<parameter from="float" name="subpage_y_position_internal" visible="off" default="-1" member="bottom_internal" to="float">
-         		<documentation> X-Coordinate of lower left hand corner of subpage 		</documentation>
-	</parameter>
-
-	<parameter from="float" name="subpage_x_position_internal" visible="off" default="-1" member="left_internal" to="float">
-         		<documentation> Y-Coordinate of lower left hand corner of subpage 		</documentation>
-	</parameter>
-
-	<parameter from="float" name="subpage_right_position" visible="off" default="-1" member="right" to="float">
-         		<documentation> X-Coordinate of lower right  hand corner of subpage 		</documentation>
-	</parameter>
-
-
-
-	<parameter from="float" name="subpage_y_length_internal" visible="off" default="-1" member="height_internal" to="float">
-         		<documentation> Length of subpage in vertical direction.Default 		</documentation>
-	</parameter>
-	<parameter from="float" name="subpage_x_length_internal" visible="off" default="-1" member="width_internal" to="float">
-         		<documentation> Length of subpage in horizontal direction.Default 		</documentation>
-	</parameter>
-
-	<parameter from="float" name="subpage_top_position" visible="off" default="-1" member="top" to="float">
-         		<release>Magics++2.4		</release>
-         		<documentation> Y-Coordinate of upper left hand corner of subpage 		</documentation>
-	</parameter>
-	<parameter from="string" name="subpage_clipping"  default="off" member="clipping" to="bool">
-         	
-         		<documentation> Apply a clipping to the subpage to avoid any symbol, flag or arrow to go outside of the plotting area</documentation>
-	</parameter>
-
-
-	<parameter member="background" to="Colour" default="none" from="string" name="subpage_background_colour">
-         		<documentation> Colour of the subpage background 		</documentation>
-	</parameter>
-
-	<parameter member="frame" to="bool" default="on" from="string" name="subpage_frame">
-         		<documentation> Plot frame around subpage (ON/OFF) 		</documentation>
-         		<set name="subpage_frame_colour" value="on">		</set>
-         		<set name="subpage_frame_line_style" value="on">		</set>
-         		<set name="subpage_frame_thickness" value="on">		</set>
-	</parameter>
-
-	<parameter member="frame_colour" to="Colour" default="charcoal" from="string" name="subpage_frame_colour">
-         		<documentation> Colour of subpage frame (Full choice of colours) 		</documentation>
-	</parameter>
-
-	<parameter member="frame_line_style" to="LineStyle" default="solid" from="string" name="subpage_frame_line_style">
-         		<documentation> Style of subpage frame (SOLID/DASH/DOT/CHAIN_DASH/CHAIN_DOT) 		</documentation>
-	</parameter>
-
-	<parameter member="frame_thickness" to="int" default="2" from="int" name="subpage_frame_thickness">
-         		<documentation> Thickness of subpage frame 		</documentation>
-	</parameter>
-
-	<parameter member="vertical_axis_with" to="float" default="1" from="float" name="subpage_vertical_axis_width">
-         		<documentation> width of the vertical  axis in cm 		</documentation>
-	</parameter>
-	<parameter member="horizontal_axis_height" to="float" default="0.5" from="float" name="subpage_horizontal_axis_height">
-         		<documentation> height of the horizontal  axis in cm		</documentation>
-	</parameter>
- 	<parameter from="string" name="subpage_map_overlay_control" visible="metview" default="basic" member="overlay" to="string">
-         		<documentation for_docs="no"> Metview Only: overlay method. always: plot the fields as they come; never: never overlay; by_date/by_level: only overlay data with the same valid date/level  		</documentation>
-  	</parameter>
-	<parameter from="string" name="subpage_align_horizontal" default="left" member="horizontal" to="string" values="left/right">
-         		<release>Magics++2.4		</release>     
-         		<documentation>  Used in automatic layout to setup the horizontal alignment of the drawing area in the subpage  		</documentation>
-	</parameter>
-	<parameter from="string" name="subpage_align_vertical" default="bottom" member="vertical" to="string" values="bottom/top">
-         		<release>Magics++2.4		</release>     
-         		<documentation>  Used in automatic layout to setup the vertical alignment of the drawing area in the subpage 		</documentation>
-	</parameter>
-
-
-
-	<parameter from="string" name="subpage_map_json_definition" visible="off" default="" member="json" to="string">
-			<documentation> Metview only : store internal information about zooned area 		</documentation>
-	</parameter>
-
-  
- 
-
-	<parameter from="string" name="automatic_title" visible="off" default="off" member="title" to="bool">
-         		<documentation> Plot the title (ON/OFF) 		</documentation>
-	</parameter>
-
-	<parameter from="string" name="subpage_map_preview" visible="metview" default="off" member="preview" to="NoPreviewVisitor" include="PreviewVisitor.h">
-         		<documentation for_docs="no"> Mv4: turn on/off the generation of the infomation for the preview box 		</documentation>
-         		<release>Magics++2.8		</release>
-         		<option xml="off" fortran="off" include="PreviewVisitor.h" name="NoPreviewVisitor">		</option>
-         		<option xml="on" fortran="on" include="PreviewVisitor.h" name="PreviewVisitor">		</option>
-	</parameter> 
-
-	<parameter from="string" name="subpage_map_magnifier" visible="metview" default="off" member="magnify" to="NoMagnifierVisitor" include="MagnifierVisitor.h">
-         		<documentation for_docs="no"> Mv4: turn on/off the generation of the infomation for the magnifier tool 		</documentation>
-         		<release>Magics++2.8		</release>
-         		<option xml="off" fortran="off" include="MagnifierVisitor.h" name="NoMagnifierVisitor">		</option>
-         		<option xml="on" fortran="on" include="MagnifierVisitor.h" name="MagnifierVisitor">		</option>
-	</parameter>
-</class></magics>
+			<option fortran="goes_east" include="Proj4Projection.h" name="Proj4Geose"></option>
+			<option fortran="lambert" include="Proj4Projection.h" name="Proj4Lambert"></option>
+			<option fortran="EPSG:3857" include="Proj4Projection.h" name="Proj4EPSG3857"></option>
+			<option fortran="EPSG:900913" include="Proj4Projection.h" name="Proj4EPSG900913"></option>
+			<option fortran="EPSG:32661" include="Proj4Projection.h" name="Proj4EPSG32661"></option>
+			<option fortran="EPSG:32761" include="Proj4Projection.h" name="Proj4EPSG32761"></option>
+			<option fortran="EPSG:4326" include="Proj4Projection.h" name="Proj4EPSG4326"></option>
+			<option fortran="goode" include="Proj4Projection.h" name="Proj4Goode"></option>
+			<option fortran="collignon" include="Proj4Projection.h" name="Proj4Collignon"></option>
+			<option fortran="mollweide" include="Proj4Projection.h" name="Proj4Mollweide"></option>
+			<option fortran="robinson" include="Proj4Projection.h" name="Proj4Robinson"></option>
+			<option fortran="bonne" include="Proj4Projection.h" name="Proj4Bonne"></option>
+			<option fortran="google" include="Proj4Projection.h" name="Proj4Google"></option>
+			<option fortran="efas" include="Proj4Projection.h" name="Proj4Efas"></option>
+			<option fortran="tpers" include="Proj4Projection.h" name="Proj4TPers"></option>
+			<option fortran="automatic" include="Proj4Projection.h" name="Proj4Automatic"></option>
+			<option fortran="lambert_north_atlantic" include="Proj4Projection.h" name="Proj4LambertNorthAtlantic"></option>
+			<option xml="mercator" fortran="mercator" include="Proj4Projection.h" name="Proj4Mercator"></option>
+			<option xml="cartesian" fortran="cartesian" include="CartesianTransformation.h" name="CartesianTransformation"></option>
+			<option xml="taylor" fortran="taylor" include="TaylorProjection.h" name="TaylorProjection"></option>
+			<option xml="tephigram" fortran="tephigram" include="Tephigram.h" name="Tephigram"></option>
+			<option xml="skewt" fortran="skewt" include="Skewt.h" name="Skewt"></option>
+			<option xml="emagram" fortran="emagram" include="Emagram.h" name="Emagram"></option>
+		</parameter>
+		<parameter from="float"
+			name="subpage_y_position_internal"
+			visible="off"
+			default="-1"
+			member="bottom_internal"
+			to="float">
+			<documentation>X-Coordinate of lower left hand corner of subpage</documentation>
+		</parameter>
+		<parameter from="float"
+			name="subpage_x_position_internal"
+			visible="off"
+			default="-1"
+			member="left_internal"
+			to="float">
+			<documentation>Y-Coordinate of lower left hand corner of subpage</documentation>
+		</parameter>
+		<parameter from="float"
+			name="subpage_right_position"
+			visible="off"
+			default="-1"
+			member="right"
+			to="float">
+			<documentation>X-Coordinate of lower right  hand corner of subpage</documentation>
+		</parameter>
+		<parameter from="float"
+			name="subpage_y_length_internal"
+			visible="off"
+			default="-1"
+			member="height_internal"
+			to="float">
+			<documentation>Length of subpage in vertical direction.Default</documentation>
+		</parameter>
+		<parameter from="float"
+			name="subpage_x_length_internal"
+			visible="off"
+			default="-1"
+			member="width_internal"
+			to="float">
+			<documentation>Length of subpage in horizontal direction.Default</documentation>
+		</parameter>
+		<parameter from="float"
+			name="subpage_top_position"
+			visible="off"
+			default="-1"
+			member="top"
+			to="float">
+			<release>Magics++2.4</release>
+			<documentation>Y-Coordinate of upper left hand corner of subpage</documentation>
+		</parameter>
+		<parameter from="string"
+			name="subpage_clipping"
+			default="off"
+			member="clipping"
+			to="bool">
+			<documentation>Apply a clipping to the subpage to avoid any symbol, flag or arrow to go outside of the plotting area</documentation>
+		</parameter>
+		<parameter member="background"
+			to="Colour"
+			default="none"
+			from="string"
+			name="subpage_background_colour">
+			<documentation>Colour of the subpage background</documentation>
+		</parameter>
+		<parameter member="frame"
+			to="bool"
+			default="on"
+			from="string"
+			name="subpage_frame">
+			<documentation>Plot frame around subpage (ON/OFF)</documentation>
+			<set name="subpage_frame_colour" value="on"></set>
+			<set name="subpage_frame_line_style" value="on"></set>
+			<set name="subpage_frame_thickness" value="on"></set>
+		</parameter>
+		<parameter member="frame_colour"
+			to="Colour"
+			default="charcoal"
+			from="string"
+			name="subpage_frame_colour">
+			<documentation>Colour of subpage frame (Full choice of colours)</documentation>
+		</parameter>
+		<parameter member="frame_line_style"
+			to="LineStyle"
+			default="solid"
+			from="string"
+			name="subpage_frame_line_style">
+			<documentation>Style of subpage frame (SOLID/DASH/DOT/CHAIN_DASH/CHAIN_DOT)</documentation>
+		</parameter>
+		<parameter member="frame_thickness"
+			to="int"
+			default="2"
+			from="int"
+			name="subpage_frame_thickness">
+			<documentation>Thickness of subpage frame</documentation>
+		</parameter>
+		<parameter member="vertical_axis_with"
+			to="float"
+			default="1"
+			from="float"
+			name="subpage_vertical_axis_width">
+			<documentation>width of the vertical  axis in cm</documentation>
+		</parameter>
+		<parameter member="horizontal_axis_height"
+			to="float"
+			default="0.5"
+			from="float"
+			name="subpage_horizontal_axis_height">
+			<documentation>height of the horizontal  axis in cm</documentation>
+		</parameter>
+		<parameter from="string"
+			name="subpage_map_overlay_control"
+			visible="metview"
+			default="basic"
+			member="overlay"
+			to="string">
+			<documentation for_docs="no">Metview Only: overlay method. always: plot the fields as they come; never: never overlay; by_date/by_level: only overlay data with the same valid date/level</documentation>
+		</parameter>
+		<parameter from="string"
+			name="subpage_align_horizontal"
+			default="left"
+			member="horizontal"
+			to="string"
+			values="left/right">
+			<release>Magics++2.4</release>
+			<documentation>Used in automatic layout to setup the horizontal alignment of the drawing area in the subpage</documentation>
+		</parameter>
+		<parameter from="string"
+			name="subpage_align_vertical"
+			default="bottom"
+			member="vertical"
+			to="string"
+			values="bottom/top">
+			<release>Magics++2.4</release>
+			<documentation>Used in automatic layout to setup the vertical alignment of the drawing area in the subpage</documentation>
+		</parameter>
+		<parameter from="string"
+			name="subpage_map_json_definition"
+			visible="off"
+			default=""
+			member="json"
+			to="string">
+			<documentation>Metview only : store internal information about zooned area</documentation>
+		</parameter>
+		<parameter from="string"
+			name="automatic_title"
+			visible="off"
+			default="off"
+			member="title"
+			to="bool">
+			<documentation>Plot the title (ON/OFF)</documentation>
+		</parameter>
+		<parameter from="string"
+			name="subpage_map_preview"
+			visible="metview"
+			default="off"
+			member="preview"
+			to="NoPreviewVisitor"
+			include="PreviewVisitor.h">
+			<documentation for_docs="no">Mv4: turn on/off the generation of the infomation for the preview box</documentation>
+			<release>Magics++2.8</release>
+			<option xml="off" fortran="off" include="PreviewVisitor.h" name="NoPreviewVisitor"></option>
+			<option xml="on" fortran="on" include="PreviewVisitor.h" name="PreviewVisitor"></option>
+		</parameter>
+		<parameter from="string"
+			name="subpage_map_magnifier"
+			visible="metview"
+			default="off"
+			member="magnify"
+			to="NoMagnifierVisitor"
+			include="MagnifierVisitor.h">
+			<documentation for_docs="no">Mv4: turn on/off the generation of the infomation for the magnifier tool</documentation>
+			<release>Magics++2.8</release>
+			<option xml="off" fortran="off" include="MagnifierVisitor.h" name="NoMagnifierVisitor"></option>
+			<option xml="on" fortran="on" include="MagnifierVisitor.h" name="MagnifierVisitor"></option>
+		</parameter>
+	</class>
+</magics>

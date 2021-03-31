@@ -22,10 +22,10 @@
 #include "ImportObjectHandlerWrapper.h"
 #include "MetaDataWrapper.h"
 
-#ifdef HAVE_GRIB
+
 #include <GribDecoderWrapper.h>
 #include <GribLoopWrapper.h>
-#endif
+
 
 #ifdef HAVE_NETCDF
 #include <NetcdfDecoderWrapper.h>
@@ -39,10 +39,10 @@
 #include <OdaXYDecoderWrapper.h>
 #endif
 
-#ifdef HAVE_BUFR
+
 #include <ObsDecoderWrapper.h>
 #include <ObsPlottingWrapper.h>
-#endif
+
 
 #include <ContourWrapper.h>
 #include <GeoJSonWrapper.h>
@@ -823,7 +823,7 @@ bool MagPlus::binning(magics::MagRequest& in) {
 }
 
 bool MagPlus::grib(magics::MagRequest& in) {
-#ifdef HAVE_GRIB
+
     MagLog::dev() << "add grib" << endl;
     in.print();
 
@@ -835,9 +835,6 @@ bool MagPlus::grib(magics::MagRequest& in) {
     grib.set(in);
     setIconInfo(in, *grib.object());
     top()->data(grib.object());
-#else
-    MagLog::dev() << "can NOT add grib (disabled in Magics!)" << endl;
-#endif
     return false;  // do not exit
 }
 
@@ -986,7 +983,7 @@ void MagPlus::setIconInfo(magics::MagRequest& mv, MetviewIcon& object) {
 }
 
 bool MagPlus::gribloop(magics::MagRequest& in) {
-#ifdef HAVE_GRIB
+
     MagLog::dev() << "add gribloop" << endl;
     in.print();
     string loop("loop");
@@ -1010,9 +1007,7 @@ bool MagPlus::gribloop(magics::MagRequest& in) {
 
 
     action->loop(grib.object());
-#else
-    MagLog::dev() << "can NOT add gribloop (disabled in Magics!)" << endl;
-#endif
+
     return false;  // do not exit
 }
 
@@ -1403,7 +1398,7 @@ bool MagPlus::geojson(magics::MagRequest& in) {
 }
 
 bool MagPlus::bufr(magics::MagRequest& in) {
-#ifdef HAVE_BUFR
+
     /*
     // Extract the path ..
     magics::MagRequest record = in("RECORD");
@@ -1419,7 +1414,6 @@ bool MagPlus::bufr(magics::MagRequest& in) {
     obs.set(in);
     top()->data(obs.object());
     setIconInfo(in, *obs.object());
-#endif
     return false;  // do not exit
 }
 bool MagPlus::symbol(magics::MagRequest& in) {
@@ -1467,7 +1461,7 @@ bool MagPlus::graph(magics::MagRequest& in) {
 }
 
 bool MagPlus::obs(magics::MagRequest& in) {
-#ifdef HAVE_BUFR
+
     ObsPlottingWrapper visdef;
 
     visdef.set(in);
@@ -1477,7 +1471,7 @@ bool MagPlus::obs(magics::MagRequest& in) {
     pop();
 
 
-#endif
+
     return false;  // do not exit
 }
 bool MagPlus::dataloop(magics::MagRequest& in) {

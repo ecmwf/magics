@@ -21,8 +21,8 @@
 
 
 #include "MetgramGraph.h"
-#include "MagDateTime.h"
 #include "LegendVisitor.h"
+#include "MagDateTime.h"
 #include "PointsHandler.h"
 #include "Text.h"
 #include "Timer.h"

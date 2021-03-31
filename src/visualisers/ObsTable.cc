@@ -56,11 +56,11 @@ ObsTable::ObsTable() {
     XML_SetUserData(parser, this);
     XML_SetElementHandler(parser, startElement, endElement);
 
-    MagLog::dev() << "Load observation templates --->" << filename << endl;
+    // FMagLog::dev() << "Load observation templates --->" << filename << endl;
     FILE* in = fopen(filename.c_str(), "r");
 
     if (!in)
-        throw NoSuchFileException(filename);
+        throw CannotOpenFile(filename);
 
     do {
         size_t len = fread(buf, 1, sizeof(buf), in);
@@ -107,7 +107,8 @@ void ObsTable::add(const string& tag, const map<string, string>& def) {
             current_->push_back(obs);
         }
         catch (NoFactoryException&) {
-            MagLog::dev() << "can not find ObsItem for : " << tag << "\n";
+            // FMagLog::dev() << "can not find ObsItem for : " << tag << "\n";
+            cout << "can not find ObsItem for : " << tag << "\n";
         }
     }
 }

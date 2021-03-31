@@ -1,164 +1,279 @@
-<magics>
-<class directory="visualisers" inherits='Graph' name="Curve">
-  	<documentation> Here comes the documentation of the Curve object 	</documentation>
-
-  	<parameter xml="line" from="string" name="graph_line" default="on" member="line" to="bool">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
-         		<documentation> Plot the curve line  		</documentation>
-         		<set name="graph_line_style" value="on">		</set>
-         		<set name="graph_line_colour" value="on">		</set>
-         		<set name="graph_line_thickness" value="on">		</set>
-  	</parameter>
-
-  	<parameter xml="line_style" from="string" name="graph_line_style" default="solid" member="style" to="LineStyle">
-         		<documentation> Line style of the curve 		</documentation>
-  	</parameter>
-
-  	<parameter xml="line_colour" from="string" name="graph_line_colour" default="blue" member="colour" to="Colour">
-         		<documentation> Colour of the curve		</documentation>
-  	</parameter>
-
-  	<parameter xml="line_thickness" from="int" name="graph_line_thickness" default="1" member="thickness" to="int">
-         		<documentation> Thickness of the curve  		</documentation>
-  	</parameter>
-
-  	<parameter member="symbol" to="bool" default="off" from="string" name="graph_symbol">
-         		<documentation> If symbols are to be drawn on the curves  		</documentation>
-         		<set name="graph_symbol_marker_index" value="on">		</set>
-         		<set name="graph_symbol_height" value="on">		</set>
-         		<set name="graph_symbol_colour" value="on">		</set>
-         		<set name="graph_symbol_outline" value="on">		</set>
-  	</parameter>
-  
-  	<parameter xml="marker" from="int" name="graph_symbol_marker_index" default="3" member="symbol_marker" to="int">
-         		<documentation> The marker symbol to be used. 		</documentation>
-  	</parameter>
- 
-
-  	<parameter xml="height" from="float" name="graph_symbol_height" default="0.2" member="symbol_height" to="float">
-         		<documentation> Height of  symbol 		</documentation>
-  	</parameter>
-
-  	<parameter member="symbol_colour" to="Colour" default="red" from="string" name="graph_symbol_colour">
-         		<documentation> Colour of graph symbol 		</documentation>
-  	</parameter>
-  	<parameter member="outline" to="bool" default="off" from="string" name="graph_symbol_outline"> 
-            		<set name="graph_symbol_outline_colour" value="on">		</set> 
-            		<set name="graph_symbol_outline_thickness" value="on">		</set>
-            		<set name="graph_symbol_outline_style" value="on">		</set>
-            		<documentation> Add an outline to each symbol 		</documentation>
-        	</parameter>
-         	<parameter member="outline_colour" to="Colour" default="black" from="string" name="graph_symbol_outline_colour">
-            		<documentation> Colour of the outline 		</documentation>
-        	</parameter>  
-         	<parameter member="outline_thickness" to="int" default="1" from="int" name="graph_symbol_outline_thickness">
-            		<documentation> thickness of the outline 		</documentation>
-        	</parameter>
-       	<parameter member="outline_style" to="LineStyle" default="solid" from="string" name="graph_symbol_outline_style">
-         		<documentation> Line Style of outline 		</documentation>
-  		</parameter>
-  
- 	<parameter member="x_below" to="float" default="LLONG_MIN" from="float" name="graph_x_suppress_below">
-         		<documentation> Value on the x  below which a point is considered missing 		</documentation>
-  	</parameter>
-   	<parameter member="x_above" to="float" default="LLONG_MAX" from="float" name="graph_x_suppress_above">
-         		<documentation> Value on the x  above which a point is considered missing 		</documentation>
-  	</parameter>
-
-  	<parameter member="y_below" to="float" default="LLONG_MIN" from="float" name="graph_y_suppress_below">
-         		<documentation> Value on the y  below which a point is considered missing 		</documentation>
-  	</parameter>
-
-  	<parameter member="y_above" to="float" default="LLONG_MAX" from="float" name="graph_y_suppress_above">
-         		<documentation> Value on the y  above which a point is considered missing 		</documentation>
-  	</parameter>
-
-  
-  	<parameter from="string" name="graph_missing_data_mode" default="ignore" member="missing_mode" to="string" values="ignore/join/drop"> 
-   		<documentation> How to handle missing data  		</documentation>
-   		<set name="graph_missing_data_style" value="join">		</set>
-   		<set name="graph_missing_data_colour" value="join">		</set>
-   		<set name="graph_missing_data_thickness" value="join">		</set>
-    	<set name="graph_missing_data_style" value="drop">		</set>
-   		<set name="graph_missing_data_colour" value="drop">		</set>
-   		<set name="graph_missing_data_thickness" value="drop">		</set>
- 	</parameter>
-  	<parameter xml="style" from="string" name="graph_missing_data_style" default="dash" member="missing_style" to="LineStyle">
-         		<documentation> Line style of the missing data part of curve  		</documentation>
-  	</parameter>
-
-  	<parameter xml="colour" from="string" name="graph_missing_data_colour" default="red" member="missing_colour" to="Colour">
-         		<documentation> Colour of the missing data part of curve 		</documentation>
-  	</parameter>
-
-  	<parameter xml="thickness" from="int" name="graph_missing_data_thickness" default="1" member="missing_thickness" to="int">
-         		<documentation> Thickness of the missing data part of curve  		</documentation>
-  	</parameter>
-  	<parameter from="string" name="graph_curve_method" default="straight" member="plot_method" to="string" values="straight/stepped">
-         		<documentation> If stepped, use an histogram style 		</documentation>
-         		
-  	</parameter>
-
-    <parameter from="string" name="graph_style_setting" default="simple" member="style_setting" to="string" values="simple/advanced">
-            <documentation> Should we use the advanced setting advanced    </documentation>
-    </parameter>
-    
-    <parameter from="string" name="graph_line_style_variable_name" default="" member="style_key" to="string">
-            <documentation> Data Variable used for setting the line style of the segments     </documentation>
-    </parameter>
-    
-    <parameter from="stringarray" name="graph_line_style_value_list" default="stringarray()" member="style_keys" to="stringarray">
-            <documentation> list of line styles to use    </documentation>
-    </parameter>
-    
-    <parameter from="stringarray" name="graph_line_style_list" default="stringarray()" member="style_list" to="stringarray">
-            <documentation> list of line styles to use    </documentation>
-    </parameter>
-   
-    <parameter from="string" name="graph_line_style_list_policy" default="lastone" member="style_policy" to="ListPolicy">
-            <documentation> What to do if the list of line styles is smaller that the list of levels: lastone/cycle   </documentation>
-    </parameter>
-
-    <parameter from="string" name="graph_colour_variable_name" default="" member="colour_key" to="string">
-            <documentation> Data Variable used for setting the line style of the segments     </documentation>
-    </parameter>
-    
-    <parameter from="stringarray" name="graph_colour_value_list" default="stringarray()" member="colour_keys" to="stringarray">
-            <documentation> list of line styles to use    </documentation>
-    </parameter>
-
-    <parameter from="stringarray" name="graph_colour_list" default="stringarray()" member="colour_list" to="stringarray">
-            <documentation> list of line styles to use    </documentation>
-    </parameter>
-   
-    <parameter from="string" name="graph_colour_list_policy" default="lastone" member="colour_policy" to="ListPolicy">
-            <documentation> What to do if the list of line styles is smaller that the list of levels: lastone/cycle   </documentation>
-    </parameter>
-
-    <parameter from="string" name="graph_thickness_variable_name" default="" member="thickness_key" to="string">
-            <documentation> Data Variable used for setting the line style of the segments     </documentation>
-    </parameter>
-
-    <parameter from="stringarray" name="graph_thickness_value_list" default="stringarray()" member="thickness_keys" to="stringarray">
-            <documentation> list of line styles to use    </documentation>
-    </parameter>
-    
-    <parameter from="intarray" name="graph_thickness_list" default="intarray()" member="thickness_list" to="intarray">
-            <documentation> list of line styles to use    </documentation>
-    </parameter>
-   
-    <parameter from="string" name="graph_thickness_list_policy" default="lastone" member="thickness_policy" to="ListPolicy">
-            <documentation> What to do if the list of line styles is smaller that the list of levels: lastone/cycle   </documentation>
-    </parameter>
-
-  	
-</class></magics>
+<magics>
+	<class directory="visualisers" inherits='Graph' name="Curve">
+		<documentation>Here comes the documentation of the Curve object</documentation>
+		<parameter xml="line"
+			from="string"
+			name="graph_line"
+			default="on"
+			member="line"
+			to="bool">
+			<documentation>Plot the curve line</documentation>
+			<set name="graph_line_style" value="on"></set>
+			<set name="graph_line_colour" value="on"></set>
+			<set name="graph_line_thickness" value="on"></set>
+		</parameter>
+		<parameter xml="line_style"
+			from="string"
+			name="graph_line_style"
+			default="solid"
+			member="style"
+			to="LineStyle">
+			<documentation>Line style of the curve</documentation>
+		</parameter>
+		<parameter xml="line_colour"
+			from="string"
+			name="graph_line_colour"
+			default="blue"
+			member="colour"
+			to="Colour">
+			<documentation>Colour of the curve</documentation>
+		</parameter>
+		<parameter xml="line_thickness"
+			from="int"
+			name="graph_line_thickness"
+			default="1"
+			member="thickness"
+			to="int">
+			<documentation>Thickness of the curve</documentation>
+		</parameter>
+		<parameter member="symbol"
+			to="bool"
+			default="off"
+			from="string"
+			name="graph_symbol">
+			<documentation>If symbols are to be drawn on the curves</documentation>
+			<set name="graph_symbol_marker_index" value="on"></set>
+			<set name="graph_symbol_height" value="on"></set>
+			<set name="graph_symbol_colour" value="on"></set>
+			<set name="graph_symbol_outline" value="on"></set>
+		</parameter>
+		<parameter xml="marker"
+			from="int"
+			name="graph_symbol_marker_index"
+			default="3"
+			member="symbol_marker"
+			to="int">
+			<documentation>The marker symbol to be used.</documentation>
+		</parameter>
+		<parameter xml="height"
+			from="float"
+			name="graph_symbol_height"
+			default="0.2"
+			member="symbol_height"
+			to="float">
+			<documentation>Height of  symbol</documentation>
+		</parameter>
+		<parameter member="symbol_colour"
+			to="Colour"
+			default="red"
+			from="string"
+			name="graph_symbol_colour">
+			<documentation>Colour of graph symbol</documentation>
+		</parameter>
+		<parameter member="outline"
+			to="bool"
+			default="off"
+			from="string"
+			name="graph_symbol_outline">
+			<set name="graph_symbol_outline_colour" value="on"></set>
+			<set name="graph_symbol_outline_thickness" value="on"></set>
+			<set name="graph_symbol_outline_style" value="on"></set>
+			<documentation>Add an outline to each symbol</documentation>
+		</parameter>
+		<parameter member="outline_colour"
+			to="Colour"
+			default="black"
+			from="string"
+			name="graph_symbol_outline_colour">
+			<documentation>Colour of the outline</documentation>
+		</parameter>
+		<parameter member="outline_thickness"
+			to="int"
+			default="1"
+			from="int"
+			name="graph_symbol_outline_thickness">
+			<documentation>thickness of the outline</documentation>
+		</parameter>
+		<parameter member="outline_style"
+			to="LineStyle"
+			default="solid"
+			from="string"
+			name="graph_symbol_outline_style">
+			<documentation>Line Style of outline</documentation>
+		</parameter>
+		<parameter member="x_below"
+			to="float"
+			default="LLONG_MIN"
+			from="float"
+			name="graph_x_suppress_below">
+			<documentation>Value on the x  below which a point is considered missing</documentation>
+		</parameter>
+		<parameter member="x_above"
+			to="float"
+			default="LLONG_MAX"
+			from="float"
+			name="graph_x_suppress_above">
+			<documentation>Value on the x  above which a point is considered missing</documentation>
+		</parameter>
+		<parameter member="y_below"
+			to="float"
+			default="LLONG_MIN"
+			from="float"
+			name="graph_y_suppress_below">
+			<documentation>Value on the y  below which a point is considered missing</documentation>
+		</parameter>
+		<parameter member="y_above"
+			to="float"
+			default="LLONG_MAX"
+			from="float"
+			name="graph_y_suppress_above">
+			<documentation>Value on the y  above which a point is considered missing</documentation>
+		</parameter>
+		<parameter from="string"
+			name="graph_missing_data_mode"
+			default="ignore"
+			member="missing_mode"
+			to="string"
+			values="ignore/join/drop">
+			<documentation>How to handle missing data</documentation>
+			<set name="graph_missing_data_style" value="join"></set>
+			<set name="graph_missing_data_colour" value="join"></set>
+			<set name="graph_missing_data_thickness" value="join"></set>
+			<set name="graph_missing_data_style" value="drop"></set>
+			<set name="graph_missing_data_colour" value="drop"></set>
+			<set name="graph_missing_data_thickness" value="drop"></set>
+		</parameter>
+		<parameter xml="style"
+			from="string"
+			name="graph_missing_data_style"
+			default="dash"
+			member="missing_style"
+			to="LineStyle">
+			<documentation>Line style of the missing data part of curve</documentation>
+		</parameter>
+		<parameter xml="colour"
+			from="string"
+			name="graph_missing_data_colour"
+			default="red"
+			member="missing_colour"
+			to="Colour">
+			<documentation>Colour of the missing data part of curve</documentation>
+		</parameter>
+		<parameter xml="thickness"
+			from="int"
+			name="graph_missing_data_thickness"
+			default="1"
+			member="missing_thickness"
+			to="int">
+			<documentation>Thickness of the missing data part of curve</documentation>
+		</parameter>
+		<parameter from="string"
+			name="graph_curve_method"
+			default="straight"
+			member="plot_method"
+			to="string"
+			values="straight/stepped">
+			<documentation>If stepped, use an histogram style</documentation>
+		</parameter>
+		<parameter from="string"
+			name="graph_style_setting"
+			default="simple"
+			member="style_setting"
+			to="string"
+			values="simple/advanced">
+			<documentation>Should we use the advanced setting advanced</documentation>
+		</parameter>
+		<parameter from="string"
+			name="graph_line_style_variable_name"
+			default=""
+			member="style_key"
+			to="string">
+			<documentation>Data Variable used for setting the line style of the segments</documentation>
+		</parameter>
+		<parameter from="stringarray"
+			name="graph_line_style_value_list"
+			default="stringarray()"
+			member="style_keys"
+			to="stringarray">
+			<documentation>list of line styles to use</documentation>
+		</parameter>
+		<parameter from="stringarray"
+			name="graph_line_style_list"
+			default="stringarray()"
+			member="style_list"
+			to="stringarray">
+			<documentation>list of line styles to use</documentation>
+		</parameter>
+		<parameter from="string"
+			name="graph_line_style_list_policy"
+			default="lastone"
+			member="style_policy"
+			to="ListPolicy">
+			<documentation>What to do if the list of line styles is smaller that the list of levels: lastone/cycle</documentation>
+		</parameter>
+		<parameter from="string"
+			name="graph_colour_variable_name"
+			default=""
+			member="colour_key"
+			to="string">
+			<documentation>Data Variable used for setting the line style of the segments</documentation>
+		</parameter>
+		<parameter from="stringarray"
+			name="graph_colour_value_list"
+			default="stringarray()"
+			member="colour_keys"
+			to="stringarray">
+			<documentation>list of line styles to use</documentation>
+		</parameter>
+		<parameter from="stringarray"
+			name="graph_colour_list"
+			default="stringarray()"
+			member="colour_list"
+			to="stringarray">
+			<documentation>list of line styles to use</documentation>
+		</parameter>
+		<parameter from="string"
+			name="graph_colour_list_policy"
+			default="lastone"
+			member="colour_policy"
+			to="ListPolicy">
+			<documentation>What to do if the list of line styles is smaller that the list of levels: lastone/cycle</documentation>
+		</parameter>
+		<parameter from="string"
+			name="graph_thickness_variable_name"
+			default=""
+			member="thickness_key"
+			to="string">
+			<documentation>Data Variable used for setting the line style of the segments</documentation>
+		</parameter>
+		<parameter from="stringarray"
+			name="graph_thickness_value_list"
+			default="stringarray()"
+			member="thickness_keys"
+			to="stringarray">
+			<documentation>list of line styles to use</documentation>
+		</parameter>
+		<parameter from="intarray"
+			name="graph_thickness_list"
+			default="intarray()"
+			member="thickness_list"
+			to="intarray">
+			<documentation>list of line styles to use</documentation>
+		</parameter>
+		<parameter from="string"
+			name="graph_thickness_list_policy"
+			default="lastone"
+			member="thickness_policy"
+			to="ListPolicy">
+			<documentation>What to do if the list of line styles is smaller that the list of levels: lastone/cycle</documentation>
+		</parameter>
+	</class>
+</magics>

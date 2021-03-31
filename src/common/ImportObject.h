@@ -46,7 +46,11 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const {}
+    virtual void print(ostream& p) const { 
+        p << "by_reference-->" << by_reference_ << endl; 
+        p << "width-->" << width_ << endl; 
+        p << "height-->" << height_ << endl; 
+        }
     string path_;
     string format_;
 

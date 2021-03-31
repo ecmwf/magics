@@ -50,10 +50,7 @@ struct BadRgbFormat {
 
 struct Rgb {
     Rgb(float red = 1., float green = 1., float blue = 1., float alpha = 1.) :
-        red_(red),
-        green_(green),
-        blue_(blue),
-        alpha_(alpha) {}
+        red_(red), green_(green), blue_(blue), alpha_(alpha) {}
     Rgb(const string&);
 
     bool operator==(const Rgb other) const {
@@ -78,10 +75,7 @@ struct BadHslFormat {
 
 struct Hsl {
     Hsl(float hue = 0., float saturation = 1., float light = 1., float alpha = 1.) :
-        hue_(hue),
-        saturation_(saturation),
-        light_(light),
-        alpha_(alpha) {}
+        hue_(hue), saturation_(saturation), light_(light), alpha_(alpha) {}
     Hsl(const string&);
 
     bool operator==(const Hsl& other) const {
@@ -138,6 +132,7 @@ public:
     float green() const { return rgb_.green_; }
     float alpha() const { return rgb_.alpha_; }
     string name() const { return name_; }
+    string rgb() const;
 
     bool operator==(const Colour& other) const { return other.rgb_ == rgb_; }
 

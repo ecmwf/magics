@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file NetcdfGeoMatrixInterpretor.h
@@ -23,14 +23,13 @@
 #define NetcdfGeoMatrixInterpretor_H
 
 #include "magics.h"
-
 #include "magics_windef.h"
 #ifdef MAGICS_ON_WINDOWS
 #define PROJ_MSVC_DLL_IMPORT 1
 #endif
 
-#define ACCEPT_USE_OF_DEPRECATED_PROJ_API_H 1
-#include <proj_api.h>
+#include <ProjP.h>
+
 #include "Matrix.h"
 #include "NetcdfInterpretor.h"
 #include "XmlNode.h"
@@ -41,7 +40,6 @@ class NetcdfGeoMatrixInterpretor : public NetcdfInterpretor {
 public:
     NetcdfGeoMatrixInterpretor();
     virtual ~NetcdfGeoMatrixInterpretor();
-
 
     static NetcdfInterpretor* guess(const NetcdfInterpretor&);
     void visit(Transformation& transformation);
@@ -71,11 +69,11 @@ public:
     void checkProj4Units(Netcdf& netcdf, const string& variable, vector<double>& data);
 
 protected:
-    //! Method to print string about this class on to a stream of type ostream (virtual).
+    //! Method to print string about this class on to a stream of type ostream
+    //! (virtual).
     virtual void print(ostream&) const;
     Matrix* matrix_;
-    projPJ proj4_;
-    projPJ latlon_;
+    LatLonProjP projection_;
 
 private:
     //! Copy constructor - No copy allowed

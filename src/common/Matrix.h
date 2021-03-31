@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file Matrix.h
@@ -23,13 +23,14 @@
 #define Matrix_H
 
 #include <cfloat>
+
 #include "MagException.h"
 #include "magics.h"
-
 #include "magics_windef.h"
 #ifdef MAGICS_ON_WINDOWS
 #include <iterator>
 #endif
+#include <ProjP.h>
 
 namespace magics {
 
@@ -49,7 +50,6 @@ public:
     virtual double row(int, int) const            = 0;
     virtual double column(int, int) const         = 0;
 
-
     virtual int lowerRow(double) const                                           = 0;
     virtual int lowerColumn(double) const                                        = 0;
     virtual double interpolate(double i, double j) const                         = 0;
@@ -67,7 +67,6 @@ public:
         NOTIMP;
         return 0;
     }
-
 
     virtual const AbstractMatrix& original() const { return *this; }
 
@@ -112,7 +111,6 @@ public:
 
     virtual bool hasMissingValues() const { return false; }
 
-
     virtual vector<double>& columnsAxis() const = 0;
     virtual void print(ostream& out) const {
         out << "No Print implemented for this MatrixHandler"
@@ -139,7 +137,6 @@ struct Multiply {
     double missing_;
 };
 
-
 class OutOfRange : public MagicsException {
 public:
     OutOfRange(double r, double c) {
@@ -157,10 +154,7 @@ public:
 struct InfoIndex {
     InfoIndex() {}
     InfoIndex(double first, double last, double nb, int offset) :
-        first_(first),
-        last_(last),
-        nbPoints_(nb),
-        offset_(offset) {
+        first_(first), last_(last), nbPoints_(nb), offset_(offset) {
         step_ = (last_ - first_) / (nbPoints_ - 1);
         min_  = std::min(first_, last_);
         max_  = std::max(first_, last_);
@@ -181,12 +175,7 @@ struct InfoIndex {
 class Matrix : public AbstractMatrix, public magvector<double> {
 public:
     Matrix(int rows, int columns) :
-        rows_(rows),
-        columns_(columns),
-        missing_(DBL_MIN),
-        akima_(false),
-        min_(DBL_MAX),
-        max_(DBL_MIN) {
+        rows_(rows), columns_(columns), missing_(DBL_MIN), akima_(false), min_(DBL_MAX), max_(DBL_MIN) {
         set(rows, columns);
     }
 
@@ -196,12 +185,7 @@ public:
     MatrixHandler* getReady(const Transformation&) const;
 
     Matrix(int rows, int columns, double val) :
-        rows_(rows),
-        columns_(columns),
-        missing_(DBL_MIN),
-        akima_(false),
-        min_(DBL_MAX),
-        max_(DBL_MIN) {
+        rows_(rows), columns_(columns), missing_(DBL_MIN), akima_(false), min_(DBL_MAX), max_(DBL_MIN) {
         resize(rows_ * columns_, val);
         rowsAxis_.resize(rows_, val);
         columnsAxis_.resize(columns_, val);
@@ -244,7 +228,6 @@ public:
         this->resize(0);
     }
 
-
     double regular_column(int j) const { return columnsAxis_[j]; }
     double column(int, int j) const { return columnsAxis_[j]; }
 
@@ -277,14 +260,12 @@ public:
         }
         rows_ = ind;
 
-
         ind = 0;
         for (vector<double>::const_iterator val = columnsAxis_.begin(); val != columnsAxis_.end(); ++val) {
             columnsMap_[*val] = ind++;
         }
         columns_ = ind;
     }
-
 
     double interpolate(double r, double c) const;
     double nearest(double i, double j) const {
@@ -309,7 +290,6 @@ public:
         return (j < rows_) ? j : -1;
     }
 
-
     double operator()(int row, int column) const;
 
     double YResolution() const {
@@ -332,7 +312,6 @@ public:
     vector<double>& rowsAxis() const { return rowsAxis_; }
     vector<double>& columnsAxis() const { return columnsAxis_; }
 
-
     double minX() const { return std::min(columnsAxis_.front(), columnsAxis_.back()); }
     double minY() const { return std::min(rowsAxis_.front(), rowsAxis_.back()); }
     double maxX() const { return std::max(columnsAxis_.front(), columnsAxis_.back()); }
@@ -341,7 +320,6 @@ public:
     double bottom() const { return std::min(rowsAxis_.front(), rowsAxis_.back()); }
     double right() const { return std::max(columnsAxis_.front(), columnsAxis_.back()); }
     double top() const { return std::max(rowsAxis_.front(), rowsAxis_.back()); }
-
 
     double x(double x, double) const { return x; }
     double y(double, double y) const { return y; }
@@ -406,7 +384,8 @@ public:
     vector<double> data_;
 
 protected:
-    //! Method to print string about this class on to a stream of type ostream (virtual).
+    //! Method to print string about this class on to a stream of type ostream
+    //! (virtual).
     virtual void print(ostream& out) const {
         out << "Matrix<P>[";
         out << "rowsAxis=" << rowsAxis_;
@@ -463,11 +442,9 @@ private:
     }
 };
 
-
 class ProjectedMatrix : public Matrix {
 public:
     ProjectedMatrix(int rows, int columns);
-
 
     MatrixHandler* getReady(const Transformation& transformation) const { return Matrix::getReady(transformation); }
     void getReady();  // Prepare the matrix ...
@@ -477,7 +454,6 @@ public:
     vector<double>& columnsArray() const { return columnsArray_; }
 
     int index(int r, int c) { return (r * origColumns_) + c; }
-
 
 protected:
     void build();
@@ -499,11 +475,12 @@ protected:
 
 class Proj4Matrix : public Matrix {
 public:
-    Proj4Matrix(const string& proj4) : Matrix(), proj4_(proj4) {}
+    Proj4Matrix(const string& proj) : Matrix(), projHelper_(proj), proj_(proj) {}
     MatrixHandler* getReady(const Transformation&) const;
 
 protected:
-    string proj4_;
+    LatLonProjP projHelper_;
+    string proj_;
 };
 
 class RotatedMatrix : public Matrix {

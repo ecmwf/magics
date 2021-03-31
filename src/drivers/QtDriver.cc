@@ -81,11 +81,11 @@ QtDriver::QtDriver() : forceTextPen_(false) {
     // lineWidthFactor_=0.6;
     lineWidthFactor_ = 0.55;
     fontSizeFactor_  = 1.1;
-    
+
     std::string v = getEnvVariable("MV_FORCE_TEXT_PEN");
-    if (v == "1" ) {
+    if (v == "1") {
         forceTextPen_ = true;
-    }    
+    }
 }
 
 /*!
@@ -1085,8 +1085,8 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
 
     // Check if all the text items has the same font, size, colour  and style
     assert(text.textBegin() != text.textEnd());
-    const MagFont& magfontFirst  = (text.textBegin())->font();
-    bool sameFontForItems = true;
+    const MagFont& magfontFirst = (text.textBegin())->font();
+    bool sameFontForItems       = true;
     for (vector<NiceText>::const_iterator niceText = text.textBegin(); niceText != text.textEnd(); niceText++) {
         const MagFont& magfont = niceText->font();
         if (magfont.size() != magfontFirst.size() || magfont.name() != magfontFirst.name() ||
@@ -1108,19 +1108,19 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
         //----------------------------------------------
 
         if (sameFontForItems) {
-            const MagFont& magfont          = magfontFirst;
+            const MagFont& magfont         = magfontFirst;
             const std::set<string>& styles = magfont.styles();
 
             pheight = 72. * magfont.size() / 2.54;  // height in points
             pheight /= dpiResolutionRatio_;
             pheight *= fontSizeFactor_;
 
-            if (pheight < 1.0) 
+            if (pheight < 1.0)
                 pheight = 1.0;
             else if (pheight > 200.0) {
                 pheight = 200.0;
-            }    
-            
+            }
+
             QFont font(QString::fromStdString(magfont.name()), pheight);
             font.setPointSizeF(pheight);
 
@@ -1172,7 +1172,7 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
             item->setFont(font);
             if (forceTextPen_) {
                 item->setPen(QPen(Qt::transparent));
-            }    
+            }
             item->setTextBlanking(text.getBlanking());
             item->setBrush(getQtColour(magfont.colour()));
 
@@ -1208,19 +1208,19 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
             // Find out text width
             int totalWidth = 0;
             for (vector<NiceText>::const_iterator niceText = text.textBegin(); niceText != text.textEnd(); niceText++) {
-                const MagFont& magfont          = niceText->font();
+                const MagFont& magfont         = niceText->font();
                 const std::set<string>& styles = magfont.styles();
 
                 pheight = 72. * magfont.size() / 2.54;  // height in points
                 pheight /= dpiResolutionRatio_;
                 pheight *= fontSizeFactor_;
 
-                if (pheight < 1.0) 
+                if (pheight < 1.0)
                     pheight = 1.0;
                 else if (pheight > 200.0) {
                     pheight = 200.0;
-                }    
-                
+                }
+
                 QFont font(QString::fromStdString(magfont.name()), pheight);
                 font.setPointSizeF(pheight);
                 if (styles.find("underlined") != styles.end())
@@ -1247,7 +1247,7 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
 
             // Loop for the indidual text items
             for (vector<NiceText>::const_iterator niceText = text.textBegin(); niceText != text.textEnd(); niceText++) {
-                const MagFont& magfont          = niceText->font();
+                const MagFont& magfont         = niceText->font();
                 const std::set<string>& styles = magfont.styles();
 
                 pheight = 72. * magfont.size() / 2.54;  // height in points
@@ -1290,7 +1290,7 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
                 item->setFont(font);
                 if (forceTextPen_) {
                     item->setPen(QPen(Qt::transparent));
-                }    
+                }
                 item->setTextBlanking(text.getBlanking());
                 item->setBrush(getQtColour(magfont.colour()));
 
@@ -1555,11 +1555,20 @@ MAGICS_NO_EXPORT void QtDriver::renderImage(const ImportObject& obj) const {
 
     MgQPixmapItem* item = new MgQPixmapItem(QPixmap::fromImage(img.mirrored(false, true)));
 
-    MFloat x0 = projectX(obj.getOrigin().x());
-    MFloat y0 = projectY(obj.getOrigin().y());
-    MFloat x1 = projectX(obj.getOrigin().x() + width);
-    MFloat y1 = projectY(obj.getOrigin().y() + height);
+    MFloat x0 = 0., y0 = 0., x1 =0.,  y1=0.;
 
+    if (obj.getOriginReference() == ImageProperties::centre) {
+        x0 = projectX(obj.getOrigin().x() - width/2.);
+        y0 = projectY(obj.getOrigin().y() - height/2.);
+        x1 = projectX(obj.getOrigin().x() + width/2.);
+        y1 = projectY(obj.getOrigin().y() + height/2.);
+    } else {
+        x0 = projectX(obj.getOrigin().x());
+        y0 = projectY(obj.getOrigin().y());
+        x1 = projectX(obj.getOrigin().x() + width);
+        y1 = projectY(obj.getOrigin().y() + height);
+    }
+    
     item->setParentItem(currentItem_);
     item->setTargetRect(QRectF(x0, y0, x1 - x0, y1 - y0));
     item->setPos(x0, y0);
@@ -1592,7 +1601,7 @@ MAGICS_NO_EXPORT void QtDriver::renderImage(const ImportObject& obj) const {
 
 */
 MAGICS_NO_EXPORT bool QtDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
-                                             unsigned char* pixmap, int landscape, bool hasAlpha) const {
+                                             unsigned char* pixmap, int landscape, bool hasAlpha, bool) const {
     MagLog::debug() << "renderPixmap: " << x0 << " " << y0 << " " << x1 << " " << y1 << endl;
 
 

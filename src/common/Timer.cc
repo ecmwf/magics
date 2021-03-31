@@ -87,12 +87,7 @@ double Timer::elapsed() {
 
 ProfileInfo::ProfileInfo(const string& name, const string& details, const string& start, const string& stop,
                          const string& elapsed, const string& cpu) :
-    name_(name),
-    details_(details),
-    start_(start),
-    stop_(stop),
-    elapsed_(elapsed),
-    cpu_(cpu) {}
+    name_(name), details_(details), start_(start), stop_(stop), elapsed_(elapsed), cpu_(cpu) {}
 
 ostream& operator<<(ostream& s, const ProfileInfo& p) {
     s << "\t\"" << p.name_ << "\" : {" << endl;

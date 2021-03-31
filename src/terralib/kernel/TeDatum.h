@@ -52,12 +52,7 @@ public:
     //!	Constructor.
     TeDatum(std::string name = "Spherical", double rd = 6.371000e+06, double flt = 0., double dx = 0., double dy = 0.,
             double dz = 0.) :
-        name_(name),
-        rd_(rd),
-        flt_(flt),
-        dx_(dx),
-        dy_(dy),
-        dz_(dz) {}
+        name_(name), rd_(rd), flt_(flt), dx_(dx), dy_(dy), dz_(dz) {}
 
     //! Copy constructor
     TeDatum(const TeDatum& other);

@@ -28,13 +28,7 @@ namespace magics {
 class FullPaperPoint {
 public:
     FullPaperPoint(double x = 0, double y = 0, double val = 0, double z = 0) :
-        x_(x),
-        y_(y),
-        z_(z),
-        value_(val),
-        colour_(val),
-        marker_(val),
-        size_(val) {}
+        x_(x), y_(y), z_(z), value_(val), colour_(val), marker_(val), size_(val) {}
     virtual ~FullPaperPoint() {}
 
     void y(double y) { y_ = y; }

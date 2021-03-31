@@ -1,24 +1,80 @@
 /*
- * (C) Copyright 1996-2016 ECMWF.
+ * (C) Copyright 1996- ECMWF.
  *
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file magics.h
 
   \brief This file contains all global definition for the MagPlus library.
   \author Meteorological Visualisation Section, ECMWF
-  \license Apache License 2.0
+  \copyright Apache License 2.0
 
   Started: January 2004
 
   Changes:
 
 */
+
+/*! \mainpage 
+
+ \section intro What is Magics?
+
+ Magics is the second generation of a meteorological graphics
+ library developed at the <a href="http://www.ecmwf.int"><i>European
+ Centre for Medium Range Forecasts (ECMWF)</i></a>. This library is
+ developed in C++ and offers output in various formats such as PostScript,
+ PDF, PNG, SVG and Qt (for <a href="https://confluence.ecmwf.int/metview">Metview</a>).
+
+ \section install How-to install
+
+ Before installation you have to compile Magics. To do so, simply
+ unpack the tarball in an appropiate directory and run <i>cmake ..</i>
+ followed by <i>make</i>. 
+
+ To install type <i>make install</i>. Depending on the
+ choosen installation directory you need root permission.
+
+ \section interfaces Magics interfaces
+
+ Magics offers different interfaces to access its graphics
+ functionality: C++ (for higher-level applicatiosn such as Metview), C, Fortran 77
+ Python and MagJson. The Fortran interface is intended to be backwards compatible with older
+ versions (mainly the the 6.x series) of Magics.
+
+ \section modules More information
+
+ - \ref hilo "Computations of High &amp; Lows"
+
+ - \ref projections "Geographical projections"
+
+ - \ref drivers "Output drivers"
+
+ - \ref coastlines "Coastlines"
+
+ - \ref colours "Colours"
+
+ - \ref obs "Plotting of observations"
+
+ \section links Links
+
+ - <a href="http://software.ecmwf.int/magics">Magics++ homepage</a>
+
+ \section copyright License
+
+ (C) Copyright 1996- ECMWF
+
+ This software is licensed under the terms of the Apache Licence Version 2.0
+ which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ In applying this licence, ECMWF does not waive the privileges and immunities
+ granted to it by virtue of its status as an intergovernmental organisation nor
+ does it submit to any jurisdiction.
+*/
+
 #ifndef magicsplusplus_H
 #define magicsplusplus_H
 
@@ -37,7 +93,6 @@
 #endif
 
 #include <cstdlib>
-
 #include <cstring>
 #include <iostream>
 #include <sstream>
@@ -82,7 +137,7 @@ using std::exception;
 
 /*! \namespace magics
 
- The <I>magics</I> namespace encapsulates all elements of Magics++.
+ The <I>magics</I> namespace encapsulates all elements of Magics.
  The namespace prevents confusions with other libraries or
  older versions of Magics.
 
@@ -251,7 +306,6 @@ inline MAGICS_NO_EXPORT bool same(const double a, const double b, double epsilon
     return zero(a - b, epsilon);
 }
 
-
 //! Global function to read env variables
 inline MAGICS_NO_EXPORT string getEnvVariable(const string var) {
     const char* va = var.c_str();
@@ -263,13 +317,11 @@ inline MAGICS_NO_EXPORT string getEnvVariable(const string var) {
     return "";
 }
 
-//! Global function to return the Magics++ version for ID line
+//! Global function to return the Magics version for ID line
 /*! comes from magics_config.h !!! */
 inline string getMagicsVersionString() {
     const string magics = MAGICS_NAME;
     string version      = MAGICS_VERSION_STR;
-    if (sizeof(long) == 8)
-        version += string(" (64 bit)");
     return magics + string(" ") + version;
 }
 
@@ -312,7 +364,6 @@ inline MAGICS_NO_EXPORT string buildConfigPath(const string& config, const strin
     return out.str();
 }
 
-
 /*!
   \brief returns the biggest integer inside a double
 */
@@ -333,7 +384,6 @@ inline string tostring(const T& in) {
     out << in;
     return out.str();
 }
-
 
 }  // namespace magics
 #endif

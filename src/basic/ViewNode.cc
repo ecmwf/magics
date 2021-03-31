@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file ViewNode.cc
@@ -20,24 +20,22 @@
 */
 
 #include "ViewNode.h"
+
+#include <MagConfig.h>
+
+#include "AnimationRules.h"
 #include "Dimension.h"
+#include "HistoVisitor.h"
 #include "Layer.h"
 #include "Layout.h"
-#include "Transformation.h"
-
 #include "LegendVisitor.h"
+#include "MagicsGlobal.h"
 #include "MetaData.h"
 #include "SceneVisitor.h"
 #include "TextVisitor.h"
-
-#include "HistoVisitor.h"
-
-#include <MagConfig.h>
-#include "AnimationRules.h"
-
+#include "Transformation.h"
 
 using namespace magics;
-
 
 ViewNode::ViewNode() :
     viewTransformation_(0),
@@ -56,7 +54,6 @@ ViewNode::ViewNode() :
     layout_ = new Layout();
     layout_->name(name_);
 }
-
 
 ViewNode::~ViewNode() {
     for (vector<LayoutVisitor*>::iterator component = components_.begin(); component != components_.end();
@@ -86,10 +83,8 @@ void ViewNode::visit(MetaDataVisitor& metadata) {
 
     // width and height are the dimensions of the layout!
 
-
     double imgwidth  = width * 100 / (100 - drawing_left_ - drawing_right_);
     double imgheight = height * 100 / (100 - drawing_top_ - drawing_bottom_);
-
 
     metadata.add("output_width", tostring(rootWidthResolution()));
     metadata.add("output_height", tostring(rootHeightResolution()));
@@ -128,7 +123,6 @@ void ViewNode::visit(HistoVisitor& histo) {
     dispatch(histo);
 }
 
-
 void ViewNode::prepareLayout(SceneLayer& tree) {
     updateLayout();
     LayoutHelper helper;
@@ -140,7 +134,9 @@ void ViewNode::prepareLayout(SceneLayer& tree) {
     double vaxis        = 100 / absoluteWidth() * vaxis_;
     if (drawing_left_ - vaxis < 0) {
         vaxis = drawing_left_ * 0.80;
-        MagLog::info() << "Automatically reduce the with of the vertical axis box to fit in the page" << endl;
+        MagLog::info() << "Automatically reduce the with of the vertical axis box "
+                          "to fit in the page"
+                       << endl;
     }
 
     drawing_->transformation(viewTransformation_);
@@ -158,7 +154,6 @@ void ViewNode::prepareLayout(SceneLayer& tree) {
     drawing_->frameIt();
     drawing_->clippIt(layout_->clipp());
 
-
     frameHelper_->transformation(viewTransformation_);
     frameHelper_->y(drawing_bottom_);
     frameHelper_->x(drawing_left_);
@@ -172,7 +167,8 @@ void ViewNode::prepareLayout(SceneLayer& tree) {
 
     frameHelper_->clippIt(false);
 
-    // components_.push_back(frameHelper_); // first to draw the background if needed!
+    // components_.push_back(frameHelper_); // first to draw the background if
+    // needed!
     components_.push_back(drawing_);
 
     helper.add(drawing_);
@@ -204,7 +200,6 @@ void ViewNode::prepareLayout(SceneLayer& tree) {
     components_.push_back(topAxis_);
     helper.add(topAxis_);
 
-
     bottomAxis_ = new BottomAxisVisitor(*drawing_);
     bottomAxis_->height(bottomaxis);
     bottomAxis_->frameIt();
@@ -213,7 +208,6 @@ void ViewNode::prepareLayout(SceneLayer& tree) {
     helper.attachBottom(bottomAxis_);
     helper.add(leftAxis_);
     helper.add(rightAxis_);
-
 
     legend_ = tree.legend(legend_);
     if (needLegend_ && legend_) {
@@ -239,7 +233,6 @@ void ViewNode::prepareLayout(SceneLayer& tree) {
     else
         needLegend_ = false;
 
-
     for (vector<TextVisitor*>::iterator text = texts_.begin(); text != texts_.end(); ++text) {
         tree.text(*text);
 
@@ -257,7 +250,6 @@ void ViewNode::prepareLayout(SceneLayer& tree) {
     }
 }
 
-
 void ViewNode::copy(const ViewNode& other) {
     viewTransformation_ = other.viewTransformation_;
     drawing_bottom_     = other.drawing_bottom_;
@@ -266,7 +258,6 @@ void ViewNode::copy(const ViewNode& other) {
     drawing_right_      = other.drawing_right_;
     layout_->frame(*other.layout_);
 }
-
 
 void ViewNode::visit(SceneLayer& tree) {
     MagLog::dev() << " ViewNode::visit(GraphicsList&) \n" << endl;
@@ -277,19 +268,22 @@ void ViewNode::visit(SceneLayer& tree) {
     // First the info about the animation overlay!
     // Basic instantiation of the Animation rules...
 
-
     if (!rules_) {
         rules_ = MagTranslator<string, AnimationRules>()(lowerCase(animation_));
         BasicSceneObject::visit(*rules_);
     }
 
     tree.rules(rules_);
+
+    if (MagicsGlobal::compatibility())
+        needLegend_ = false;
     // Here we checking for the legend!
-    needLegend_ = false;
-    for (auto& item : items_) {
-        needLegend_ = item->needLegend();
-        if (needLegend_)
-            break;
+    if (!needLegend_) {
+        for (auto& item : items_) {
+            needLegend_ = item->needLegend();
+            if (needLegend_)
+                break;
+        }
     }
     bool blank = (drawing_background_colour_ != "none");
     push_front(new FrameBackgroundObject(blank, Colour(drawing_background_colour_)));
@@ -299,21 +293,19 @@ void ViewNode::visit(SceneLayer& tree) {
 
     push_back(new FrameForegroundObject(frameIt_, frameColour_, frameStyle_, frameThickness_));
 
-
     if (items_.empty()) {
         push_back(new EmptySceneObject());
     }
+
     if (needLegend_) {
         for (auto& item : items_)
             item->getReady(*legend_);
     }
 
-
     for (auto& item : items_)
         item->visit(tree, components_);
 
     // frameHelper_->frameIt();
-
 
     if (mode() == interactif) {
         PreviewVisitor* preview = new PreviewVisitor();
@@ -332,7 +324,6 @@ void ViewNode::visit(SceneLayer& tree) {
     }
 }
 
-
 XmlViewNode::XmlViewNode() {}
 
 void XmlViewNode::updateLayout() {
@@ -349,9 +340,7 @@ void XmlViewNode::updateLayout() {
     layout_->height(100);
 }
 
-
 XmlViewNode::~XmlViewNode() {}
-
 
 void XmlViewNode::getReady() {
     ASSERT(parent_);
@@ -370,7 +359,6 @@ void XmlViewNode::getReady() {
     drawing_bottom_ = mb.percent();
     drawing_left_   = ml.percent();
 
-
     double wab = width.absolute() - mr.absolute() - ml.absolute();
     double hab = height.absolute() - mt.absolute() - mb.absolute();
     vaxis_     = 1.;
@@ -378,7 +366,6 @@ void XmlViewNode::getReady() {
     double waa = wab;
     double haa = hab;
     MagLog::dev() << "after aspect ratio -->[" << waa << ", " << haa << "]" << endl;
-
 
     double w2 = 100;
     double h2 = 100;
@@ -413,7 +400,6 @@ void XmlViewNode::getReady() {
     drawing_top_   = 100 - drawing_bottom_ - h2;
     drawing_right_ = 100 - drawing_left_ - w2;
 
-
     layout_->x(left.percent());
     layout_->y(bottom.percent());
     layout_->width(width.percent());
@@ -432,22 +418,16 @@ void ViewNode::visit(MetaDataCollector&) {}
 
 void XmlViewNode::print(ostream&) const {}
 
-
 FortranViewNode::FortranViewNode() {}
 
-
 FortranViewNode::~FortranViewNode() {}
-
 
 #define undef(x) x == -1
 
 class AdjustHelper {
 public:
     AdjustHelper(double top, double bottom, double height, double parent) :
-        top_(top),
-        bottom_(bottom),
-        height_(height),
-        parent_(parent) {}
+        top_(top), bottom_(bottom), height_(height), parent_(parent) {}
     ~AdjustHelper() {}
 
     void operator()(double& top, double& bottom, double& height) {
@@ -522,7 +502,6 @@ protected:
     double parent_;
 };
 
-
 void FortranViewNode::getReady() {
     ASSERT(parent_);
 
@@ -585,10 +564,8 @@ void FortranViewNode::getReady() {
     drawing_right_  = 100 - x - width;
     drawing_left_   = x;
 
-
     vaxis_ = vertical_axis_with_;
     haxis_ = horizontal_axis_height_;
-
 
     ParameterManager::set("subpage_x_length_internal", abswidth);
     ParameterManager::set("subpage_y_length_internal", absheight);

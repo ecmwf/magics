@@ -347,9 +347,7 @@ double Matrix::operator()(int row, int column) const {
 }
 #include "MatrixHandler.h"
 GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Transformation& transformation) :
-    TransformMatrixHandler(matrix),
-    transformation_(transformation),
-    original_(0) {
+    TransformMatrixHandler(matrix), transformation_(transformation), original_(0) {
     map<double, int> lats;
     map<double, int> lons;
     double lon, lat;

@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file NetcdfGeopointsInterpretor.cc
@@ -20,7 +20,9 @@
 */
 
 #include "NetcdfGeopointsInterpretor.h"
+
 #include <limits>
+
 #include "Factory.h"
 #include "Layer.h"
 #include "NetcdfData.h"
@@ -31,22 +33,22 @@ using namespace magics;
 
 NetcdfGeopointsInterpretor::NetcdfGeopointsInterpretor() {}
 
-
 NetcdfGeopointsInterpretor::~NetcdfGeopointsInterpretor() {}
-
 
 static void setDim(Netcdf& netcdf, const string& name, vector<double>& values, map<string, string>& first,
                    map<string, string>& last) {
+       
     try {
+       
         netcdf.get(name, values, first, last);
+       
     }
-    catch (...) {
+    catch (exception& e) {    
         int dim = netcdf.getDimension(name);
         for (int i = 0; i < dim; ++i)
             values.push_back(i);
     }
 }
-
 
 bool NetcdfGeopointsInterpretor::interpretAsPoints(PointsList& list, const Transformation& projection) {
     Netcdf netcdf(path_, dimension_method_);
@@ -179,7 +181,6 @@ void NetcdfGeopointsInterpretor::visit(ValuesCollector& vcp, PointsList& points)
 
     vcp.setCollected(true);
 
-
     if (points.size() <= 0)
         return;
 
@@ -228,9 +229,7 @@ void NetcdfGeopointsInterpretor::print(ostream& out) const {
 
 NetcdfXYpointsInterpretor::NetcdfXYpointsInterpretor() {}
 
-
 NetcdfXYpointsInterpretor::~NetcdfXYpointsInterpretor() {}
-
 
 bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const Transformation& projection) {
     Netcdf netcdf(path_, dimension_method_);
@@ -293,6 +292,7 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const std::s
         vector<double> values;
         map<string, string> first, last;
         setDimensions(dimension_, first, last);
+        
         if (field_.empty() == false) {
             netcdf.get(field_, values, first, last);
         }
@@ -310,8 +310,8 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const std::s
         vector<double>::iterator x         = xs.begin();
         vector<double>::const_iterator val = values.begin();
 
-
         while (x != xs.end() && y != ys.end()) {
+            
             double value = 0;
             if (val != values.end()) {
                 value = *val;
@@ -359,7 +359,6 @@ void NetcdfXYpointsInterpretor::print(ostream& out) const {
 
 void NetcdfXYpointsInterpretor::visit(Transformation& transformation) {
     // get the data ...
-
 
     try {
         refDateX_ = (transformation.getAutomaticX()) ? "" : transformation.getReferenceX();
@@ -488,7 +487,6 @@ void NetcdfXYpointsInterpretor::visit(ValuesCollector& vcp, PointsList& points) 
 
     vcp.setCollected(true);
 
-
     if (points.size() <= 0)
         return;
 
@@ -530,7 +528,6 @@ void NetcdfXYpointsInterpretor::visit(TextVisitor& title) {
     vector<string> titles;
 
     title.titles(titles);
-
 
     NetcdfTag tag(*this, title);
     for (vector<string>::const_iterator t = titles.begin(); t != titles.end(); ++t) {

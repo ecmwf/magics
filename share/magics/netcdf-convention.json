@@ -9,9 +9,19 @@
         "standard_name" : ["longitude"],
         "long_name" : ["longitude"]
         },
+     "projection_x_coordinate" : {
+        
+        "standard_name" : ["projection_x_coordinate"],
+        "long_name" : ["x coordinate of projection"]
+        },
+    "projection_y_coordinate" : {
+        "standard_name" : ["projection_y_coordinate"],
+        "long_name" : ["y coordinate of projection"]
+        },
      "time" : {
         "calendar" : [ "gregorian", "proleptic_gregorian"],
-        "long_name" : ["time", "date and time"]
+        "long_name" : ["time", "date and time"],
+        "standard_name" : ["time", "date and time"]
         },
      "level" : {
         "axis" : ["Z"]

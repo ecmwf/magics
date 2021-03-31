@@ -21,12 +21,13 @@
 #include "MagDateTime.h"
 #include "MagicsDecoder.h"
 #include "UserPoint.h"
-#include "json_spirit.h"
 
 #include <limits>
 #include "Matrix.h"
+#include "Value.h"
 
 namespace magics {
+
 
 
 struct InputWrep {
@@ -91,11 +92,11 @@ public:
     WrepJSon();
     virtual ~WrepJSon();
 
-    typedef void (WrepJSon::*Method)(const json_spirit::Value&);
+    typedef void (WrepJSon::*Method)(const Value&);
     typedef void (WrepJSon::*Decoder)();
     typedef void (WrepJSon::*TransformationHandler)(Transformation&);
     typedef double (WrepJSon::*HeightCorrection)(double);
-    typedef json_spirit::Value (WrepJSon::*MetaMethod)();
+    typedef Value (WrepJSon::*MetaMethod)();
     map<string, Method> methods_;
     map<string, Decoder> decoders_;
     map<string, TransformationHandler> transformationHandlers_;
@@ -119,62 +120,64 @@ public:
     void cdf(Transformation&);
 
     // Simple  input
-    void x_values(const json_spirit::Value&);
-    void y_values(const json_spirit::Value&);
-    void values(const json_spirit::Value&);
-    void x_date_values(const json_spirit::Value&);
-    void y_date_values(const json_spirit::Value&);
+    void x_values(const Value&);
+    void y_values(const Value&);
+    void values(const Value&);
+    void x_date_values(const Value&);
+    void y_date_values(const Value&);
+    void clim_step(const Value&);
 
     // tephigram
-    void param(const json_spirit::Value&);
-    void levels(const json_spirit::Value&);
-    void data(const json_spirit::Value&, vector<double>&);
+    void param(const Value&);
+    void levels(const Value&);
+    void data(const Value&, vector<double>&);
 
     // Hodograph
-    void hodo_u(const json_spirit::Value&);
-    void hodo_v(const json_spirit::Value&);
+    void hodo_u(const Value&);
+    void hodo_v(const Value&);
 
     // Cape
-    void cape0(const json_spirit::Value&);
-    void cape1(const json_spirit::Value&);
-    void cape2(const json_spirit::Value&);
-    void cape3(const json_spirit::Value&);
-    void cape_dig(const json_spirit::Value&);
+    void cape0(const Value&);
+    void cape1(const Value&);
+    void cape2(const Value&);
+    void cape3(const Value&);
+    void cape_dig(const Value&);
 
 
     // common
-    void location(const json_spirit::Value&);
-    void station_name(const json_spirit::Value&);
-    void valid_time(const json_spirit::Value&);
-    void epsz(const json_spirit::Value&);
-    void detz(const json_spirit::Value&);
-    void date(const json_spirit::Value&);
-    void expver(const json_spirit::Value&);
-    void height(const json_spirit::Value&);
-    void time(const json_spirit::Value&);
-    void step(const json_spirit::Value&);
-    void api(const json_spirit::Value&);
+    void location(const Value&);
+    void station_name(const Value&);
+    void valid_time(const Value&);
+    void epsz(const Value&);
+    void detz(const Value&);
+    void date(const Value&);
+    void expver(const Value&);
+    void height(const Value&);
+    void time(const Value&);
+    void step(const Value&);
+    void api(const Value&);
+    void x_min_value(const Value&);
 
-    virtual void parameter(const json_spirit::Value&);
-    virtual void eps(const json_spirit::Value&);
-    virtual void clim(const json_spirit::Value&);
-    virtual void efi(const json_spirit::Value&);
-    void dig(const json_spirit::Value&);
-    void ignore(const json_spirit::Value&) {}
-    void missing(const json_spirit::Value&);
-    void mask(const json_spirit::Value&);
-    void station(const json_spirit::Value&);
-    void metadata(const json_spirit::Value&);
-    void temperature_correction(const json_spirit::Value&);
-    void points_along_meridian(const json_spirit::Value&);
+    virtual void parameter(const Value&);
+    virtual void eps(const Value&);
+    virtual void clim(const Value&);
+    virtual void efi(const Value&);
+    void dig(const Value&);
+    void ignore(const Value&) {}
+    void missing(const Value&);
+    void mask(const Value&);
+    void station(const Value&);
+    void metadata(const Value&);
+    void temperature_correction(const Value&);
+    void points_along_meridian(const Value&);
 
 
-    json_spirit::Value temperature_correction();
-    json_spirit::Value temperature_adjustment();
-    json_spirit::Value eps_resolution();
-    json_spirit::Value deterministic_resolution();
-    json_spirit::Value height();
-    json_spirit::Value station_name();
+    Value temperature_correction();
+    Value temperature_adjustment();
+    Value eps_resolution();
+    Value deterministic_resolution();
+    Value height();
+    Value station_name();
 
     MatrixHandler& matrix();
     void customisedPoints(const std::set<string>&, CustomisedPointsList&);
@@ -222,6 +225,7 @@ protected:
     double scaling_factor_;
     double offset_factor_;
     double mask_;
+    double x_min_value_;
     string station_name_;
     double station_latitude_;
     double station_longitude_;
@@ -235,7 +239,8 @@ protected:
     string capekey_;
     string tephikey_;
 
-    json_spirit::Value metadata_;
+
+    Value metadata_;
     InputWrep values_;
     InputWrep* current_;
 

@@ -60,9 +60,9 @@ void ObsWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
 
     map<string, double>::iterator it = point.begin();
     map<string, double>::iterator en = point.end();
-    for (; it != en; ++it) {
-        MagLog::debug() << " >>> " << it->first << " -> " << it->second << endl;
-    }
+    // for (; it != en; ++it) {
+    // F    MagLog::debug() << " >>> " << it->first << " -> " << it->second << endl;
+    // F}
     Colour colour = owner_->wind_colour_->automatic() ? *owner_->colour_ : *owner_->wind_colour_;
 
     CustomisedPoint::const_iterator speed = point.find(speed_);
@@ -79,9 +79,9 @@ void ObsWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
     const string origin = "circle";
 
 
-    MagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: " << point.longitude() << " / " << point.latitude()
-                    << "\n\twind_speed:     " << point[speed_] << "\n\twind_direction: " << point[direction_]
-                    << "\n\tcloud amount:   " << point["total_cloud"] << " -> " << origin << std::endl;
+    // FMagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: " << point.longitude() << " / " << point.latitude()
+    // F                << "\n\twind_speed:     " << point[speed_] << "\n\twind_direction: " << point[direction_]
+    // F               << "\n\tcloud amount:   " << point["total_cloud"] << " -> " << origin << std::endl;
 
 
     flag->setOriginHeight(owner_->ring_size_);
@@ -129,13 +129,13 @@ void ObsCloudAndWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) 
 
     map<string, double>::iterator it = point.begin();
     map<string, double>::iterator en = point.end();
-    for (; it != en; ++it) {
-        MagLog::debug() << " >>> " << it->first << " -> " << it->second << endl;
-    }
+    // Ffor (; it != en; ++it) {
+    // F    MagLog::debug() << " >>> " << it->first << " -> " << it->second << endl;
+    // F}
     symbol.setHeight(owner_->size_);
 
     int total_cloud = maground((point["total_cloud"] / 100.) * 8);
-    MagLog::debug() << "total_cloud-->" << point["total_cloud"] << "--->" << total_cloud << endl;
+    // FMagLog::debug() << "total_cloud-->" << point["total_cloud"] << "--->" << total_cloud << endl;
     map<int, string>::const_iterator marker = origins_.find(total_cloud);
     string origin;
 
@@ -176,11 +176,11 @@ void ObsCloudAndWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) 
     flag->thickness(1.5);
 
 
-    MagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: " << point.longitude() << " / " << point.latitude()
-                    << "\n\twind_speed:     " << point["wind_speed"]
-                    << "\n\twind_direction: " << point["wind_direction"]
-                    << "\n\tcloud amount:   " << point["total_cloud"] << "--->" << total_cloud << "--->" << origin
-                    << std::endl;
+    // FMagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: " << point.longitude() << " / " << point.latitude()
+    // F                << "\n\twind_speed:     " << point["wind_speed"]
+    // F                << "\n\twind_direction: " << point["wind_direction"]
+    // F                << "\n\tcloud amount:   " << point["total_cloud"] << "--->" << total_cloud << "--->" << origin
+    // F                << std::endl;
 
     flag->setOriginHeight(owner_->ring_size_ * 1.75);
     flag->setOriginMarker(origin);
@@ -234,7 +234,7 @@ void ObsPressure::operator()(CustomisedPoint& point, ComplexSymbol& symbol) cons
     object->text(os.str());
 
 
-    MagLog::debug() << "\tPressure:  " << value->second << " = " << pressure << " -> " << os.str() << "\n";
+    // FMagLog::debug() << "\tPressure:  " << value->second << " = " << pressure << " -> " << os.str() << "\n";
 
     object->font(font);
     symbol.add(object);
@@ -264,7 +264,7 @@ void ObsPressureLevel::operator()(CustomisedPoint& point, ComplexSymbol& symbol)
 
     object->text(tostring(pressure));
 
-    MagLog::debug() << "\tPressureLevel: " << value->second << " = " << pressure << "\n";
+    // FMagLog::debug() << "\tPressureLevel: " << value->second << " = " << pressure << "\n";
     font.size(owner_->size_);
     object->font(font);
     symbol.add(object);
@@ -319,7 +319,7 @@ void ObsPressureTendency::operator()(CustomisedPoint& point, ComplexSymbol& symb
     oss << "a_" << value->second;
     tendancy->symbol(oss.str());
 
-    MagLog::debug() << "\tPressure tendency--->" << oss.str() << "\n";
+    // FMagLog::debug() << "\tPressure tendency--->" << oss.str() << "\n";
 
     tendancy->height(owner_->size_ * 0.8);  // A bit too big !
     symbol.add(tendancy);
@@ -349,7 +349,7 @@ void ObsDewPoint::operator()(CustomisedPoint& point, ComplexSymbol& symbol) cons
     // The temperature is displayed in Celsius.
     const double tempe = maground(value->second - 273.15);
 
-    MagLog::debug() << "\tDewPoint--->" << point["dewpoint_2meters"] << " = " << tempe << "\n";
+    // FMagLog::debug() << "\tDewPoint--->" << point["dewpoint_2meters"] << " = " << tempe << "\n";
 
     object->text(tostring(tempe));
     object->font(font);
@@ -395,7 +395,7 @@ void ObsVisibility::operator()(CustomisedPoint& point, ComplexSymbol& symbol) co
 
     object->text(val);
 
-    MagLog::debug() << "\tVisibility: " << vv << " = " << val << "\n";
+    // FMagLog::debug() << "\tVisibility: " << vv << " = " << val << "\n";
 
     font.size(owner_->size_);
     object->font(font);
@@ -483,7 +483,7 @@ void ObsPresentWeather::operator()(CustomisedPoint& point, ComplexSymbol& symbol
 
 
     object->symbol(ww);
-    MagLog::debug() << "\tPresent Weather--->" << ww << " in " << colour << "\n";
+    // FMagLog::debug() << "\tPresent Weather--->" << ww << " in " << colour << "\n";
     // time->setJustification(MRIGHT);
     object->height(owner_->size_);
     symbol.add(object);
@@ -510,7 +510,7 @@ void ObsTemperature::operator()(CustomisedPoint& point, ComplexSymbol& symbol) c
     // The temperature is displayed in Celsius.
     double tempe = maground(value->second - 273.15);
 
-    MagLog::debug() << "\tTemperature: " << tempe << " from " << value->second << "\n";
+    // FMagLog::debug() << "\tTemperature: " << tempe << " from " << value->second << "\n";
 
     object->text(tostring(tempe));
     // object->setJustification(MCENTRE);
@@ -532,7 +532,7 @@ void ObsTimePlot::operator()(CustomisedPoint& point, ComplexSymbol& symbol) cons
     if (value == point.end())
         return;
 
-    MagLog::debug() << "\tTimePlot: " << value->second << "at[" << column_ << ", " << row_ << "]" << endl;
+    // FMagLog::debug() << "\tTimePlot: " << value->second << "at[" << column_ << ", " << row_ << "]" << endl;
 
 
     Colour colour = owner_->time_plot_colour_->automatic() ? *owner_->colour_ : *owner_->time_plot_colour_;
@@ -566,7 +566,7 @@ void ObsHeight::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const 
         return;
     double geop = maground(value->second / 98.1);
 
-    MagLog::debug() << "\tGeopotential: " << geop << "at[" << column_ << ", " << row_ << "]" << endl;
+    // FMagLog::debug() << "\tGeopotential: " << geop << "at[" << column_ << ", " << row_ << "]" << endl;
     Colour colour    = owner_->height_colour_->automatic() ? *owner_->colour_ : *owner_->height_colour_;
     TextItem* height = new TextItem();
     MagFont font("sansserif");
@@ -598,7 +598,7 @@ void ObsThickness::operator()(CustomisedPoint& point, ComplexSymbol& symbol) con
         return;
     const double thickness = maground(value->second / 98.1);
 #ifdef OBS_DEBUG_
-    MagLog::debug() << "\tThickness: " << thickness << "at[" << column_ << ", " << row_ << "]" << endl;
+    // FMagLog::debug() << "\tThickness: " << thickness << "at[" << column_ << ", " << row_ << "]" << endl;
 #endif
     Colour colour    = owner_->thickness_colour_->automatic() ? *owner_->colour_ : *owner_->thickness_colour_;
     TextItem* object = new TextItem();
@@ -627,7 +627,8 @@ void ObsIdentifier::operator()(CustomisedPoint& point, ComplexSymbol& symbol) co
         return;
     TextItem* time = new TextItem();
 #ifdef OBS_DEBUG_
-    MagLog::debug() << "Identification for " << point.identifier() << "at[" << column_ << ", " << row_ << "]" << endl;
+    // FMagLog::debug() << "Identification for " << point.identifier() << "at[" << column_ << ", " << row_ << "]" <<
+    // endl;
 #endif
     Colour colour = owner_->identifier_colour_->automatic() ? *owner_->colour_ : *owner_->identifier_colour_;
     MagFont font("sansserif");
@@ -716,7 +717,7 @@ void ObsPastWeather::operator()(CustomisedPoint& point, ComplexSymbol& symbol) c
 
         object->symbol(ww->second);
 
-        MagLog::debug() << "\tPast Weather 1-> " << ww->second << "\n";
+        // FMagLog::debug() << "\tPast Weather 1-> " << ww->second << "\n";
 
         object->height(owner_->size_ * .75);
         symbol.add(object);
@@ -734,7 +735,7 @@ void ObsPastWeather::operator()(CustomisedPoint& point, ComplexSymbol& symbol) c
 
         object2->symbol(ww->second);
 
-        MagLog::debug() << "\tPast Weather 2-> " << ww->second << "\n";
+        // FMagLog::debug() << "\tPast Weather 2-> " << ww->second << "\n";
 
         object2->height(owner_->size_ * .75);
         symbol.add(object2);
@@ -876,7 +877,7 @@ void ObsCloud::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
         font.colour(*owner_->low_colour_);
         font.size(owner_->size_ * 0.9);
 
-        MagLog::debug() << "\tLow Cloud--->" << nh.str() << "\n";
+        // FMagLog::debug() << "\tLow Cloud--->" << nh.str() << "\n";
         object->text(nh.str());
         object->font(font);
         symbol.add(object);
@@ -893,7 +894,7 @@ void ObsCloud::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
 
             cloud->symbol(low->second);
 
-            MagLog::debug() << "\tLow Cloud--->" << value->second << "-->" << low->second << "\n";
+            // FMagLog::debug() << "\tLow Cloud--->" << value->second << "-->" << low->second << "\n";
 
             cloud->height(owner_->size_);
             symbol.add(cloud);
@@ -911,7 +912,7 @@ void ObsCloud::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
             cloud->colour(*owner_->medium_colour_);
             cloud->symbol(medium->second);
 
-            MagLog::debug() << "\tMedium Cloud--->" << value->second << " --> " << medium->second << "\n";
+            // FMagLog::debug() << "\tMedium Cloud--->" << value->second << " --> " << medium->second << "\n";
 
             cloud->height(owner_->size_);
             symbol.add(cloud);
@@ -929,7 +930,7 @@ void ObsCloud::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
             cloud->colour(*owner_->high_colour_);
             cloud->symbol(high->second);
 
-            MagLog::debug() << "\tHigh Cloud--->" << value->second << "-->" << high->second << "\n";
+            // FMagLog::debug() << "\tHigh Cloud--->" << value->second << "-->" << high->second << "\n";
 
             cloud->height(owner_->size_);
             symbol.add(cloud);
@@ -956,7 +957,7 @@ void ObsDemoItem1::visit(std::set<string>& tokens) {
 
 void ObsDemoItem1::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
     if (point.find("temperature") == point.end()) {
-        MagLog::debug() << "No info for temperature given!" << endl;
+        // FMagLog::debug() << "No info for temperature given!" << endl;
         return;
     }
 
@@ -1108,7 +1109,7 @@ void ObsSeaTemperature::operator()(CustomisedPoint& point, ComplexSymbol& symbol
     // The temperature is displayed in Celsius.
     double tempe = maground(value->second - 273.15);
 
-    MagLog::debug() << "\tTemperature: " << tempe << " from " << value->second << "\n";
+    // FMagLog::debug() << "\tTemperature: " << tempe << " from " << value->second << "\n";
 
     object->text(tostring(tempe));
 
@@ -1143,7 +1144,7 @@ void ObsWave::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
     if (period == point.end() || height == point.end())
         return;
 
-    MagLog::debug() << "\theight: " << height->second << " period " << period->second << "\n";
+    // FMagLog::debug() << "\theight: " << height->second << " period " << period->second << "\n";
     // height of waves in units of 0.5
     double h = maground(height->second / 0.5);
     double p = maground(period->second);

@@ -7,14 +7,8 @@
 
  ***************************** LICENSE END *************************************/
 
-// MvObs.h,   vk july94
-//        rev vk 010724
-//        rev fi 20170801
-
 #ifndef MvBufrObs_DEFINED
 #define MvBufrObs_DEFINED
-
-//#define MV_BUFRDC_TEST  //ec remove later
 
 #include "MvLocation.h"
 #include "fmettim.h"
@@ -22,6 +16,7 @@
 #include <eccodes.h>
 
 #include <map>
+#include <memory>
 #include <sstream>
 #include <vector>
 
@@ -29,46 +24,6 @@
 #include "MvDate.h"
 #include "MvRequest.h"
 #endif
-
-#ifdef MV_BUFRDC_TEST
-#include "MvBufr.h"
-
-//---------------------------------------------------
-// Function definitions for the FORTRAN BUFR routines
-//---------------------------------------------------
-#ifdef FORTRAN_NO_UNDERSCORE
-#define BUS012 bus012
-#define BUPRS0 buprs0
-#define BUPRS1 buprs1
-#define BUPRS2 buprs2
-#define BUFREX bufrex
-#define BUFREN bufren
-#define BUSEL busel
-#define BUSEL2 busel2
-#define BUUKEY buukey
-#define BUPRS3 buprs3
-#define BUBOX bubox
-#define BUPRTBOX buprtbox
-#define FT_OP6 ft_op6
-#define FT_CLO ft_clo
-#else
-#define BUS012 bus012_
-#define BUPRS0 buprs0_
-#define BUPRS1 buprs1_
-#define BUPRS2 buprs2_
-#define BUFREX bufrex_
-#define BUFREN bufren_
-#define BUSEL busel_
-#define BUSEL2 busel2_
-#define BUUKEY buukey_
-#define BUPRS3 buprs3_
-#define BUBOX bubox_
-#define BUPRTBOX buprtbox_
-#define FT_OP6 ft_op6_
-#define FT_CLO ft_clo_
-#endif
-
-#endif  // MV_BUFRDC_TEST
 
 #ifdef ECCODES_UI  //#ifndef METVIEW   //ECCODES_UI
 #include "FortranTypes.h"
@@ -93,12 +48,7 @@ enum EBufrConfState
  */
 class MvBufrConfidence {
 public:
-#ifdef MV_BUFRDC_TEST
-    MvBufrConfidence(MvBufr* aBufr, int aSubsetNr);
-#else
     MvBufrConfidence(int aSubsetNr);
-#endif
-
     ~MvBufrConfidence();
 
     bool hasConfidences();
@@ -112,10 +62,6 @@ protected:
     int delta(int anIndex);
 
 private:
-#ifdef MV_BUFRDC_TEST
-    MvBufr* _bufr;
-#endif
-
     int _subsetNr;
     int _startOfDataPresent;
     int _startOfConfidences;
@@ -123,10 +69,21 @@ private:
 };
 #endif  // DOXYGEN_SHOULD_SKIP_THIS
 
-#ifndef MV_BUFRDC_TEST
 const float kBufrMissingValue  = 1.7e38;
 const int kBufrMissingIntValue = 2147483647;
-#endif
+
+class MvEccHandle {
+public:
+    MvEccHandle(codes_handle* ecH) : ecH_(ecH) {}
+    codes_handle* handle() const { return ecH_; }
+    void clear() { ecH_ = nullptr; }
+
+protected:
+    codes_handle* ecH_;
+};
+
+typedef std::shared_ptr<MvEccHandle> MvEccHandle_ptr;
+
 
 //--------------------------------------------------------------- MvObs
 //! A class to handle one observation report stored in a BUFR message
@@ -182,30 +139,17 @@ protected:
 };
 
 class MvObs {
-#ifdef MV_BUFRDC_TEST
-    friend class MvBufrOut;
-#endif
-
     friend class MvObsSet;
     friend class MvObsSetIterator;
-
-#ifdef MV_BUFRDC_TEST
-    void _copy(MvBufr* b);
-#endif
-
     void _copy(const MvObs& b);
 
 public:
-//! Constructors
-/*! Arguments are mainly used by MvObsSet and MvObsSetIterator.
- *  Applications normally call this constructor without arguments.
- */
-#ifdef MV_BUFRDC_TEST
-    MvObs(MvBufr* b = NULL, int subset_current = 1, bool unpacked = false, codes_handle** ecH = NULL);
-#else
-    MvObs(codes_handle** ecH = NULL, int subset_current = 1, bool unpacked = false, bool useSkipExtraAttributes = true,
-          bool cacheCompressedData = true);
-#endif
+    //! Constructors
+    /*! Arguments are mainly used by MvObsSet and MvObsSetIterator.
+     *  Applications normally call this constructor without arguments.
+     */
+    MvObs(MvEccHandle_ptr, int subset_current = 1, bool unpacked = false, bool cacheCompressedData = true);
+    MvObs() {}
 
     //! Copy constructor
     MvObs(const MvObs&);
@@ -241,10 +185,15 @@ public:
     //! Initialise some variables
     void init();
 
-    // Set/Get ecCodes handle
-    codes_handle* getHandle() { return *_ecH; }
+    codes_handle* getHandle() const;
+    //    {
+    //        return *_ecH;
+    //    }
 
-    void setHandle(codes_handle** h) { _ecH = h; }
+    //    void setHandle(codes_handle** h)
+    //    {
+    //        _ecH = h;
+    //    }
 
     //----------------------------------------------------------------------------
     //-- APIs for requesting info from the Header, BUFR Section 0,1,2 --//
@@ -313,7 +262,8 @@ public:
     //----------------------------------------------------------------------------
 
     //! Returns the time from the observation report (from the data: BUFR section 4)
-    TDynamicTime obsTime(int occurrence = 1);
+    TDynamicTime obsTime();
+    TDynamicTime obsTime(int occurrence);
 
     //! Advances to the next subset in a multisubset BUFR message
     /*! Returns 'false' if current subset is the last (or the only)
@@ -385,24 +335,6 @@ public:
      *  Index 'n' starts from '1', i.e. n=1,2,3,...
      */
     double operator[](int n);  //-- n starts from 1: 1,2,...,n
-
-#ifdef MV_BUFRDC_TEST
-    //! Returns the value from the 'col'th feedback column for Current Descriptor
-    /*! Uses 'bufrdc' subroutine 'BUBOX()' to arrange feedback values into
-     *  a two dimensional array. Argument 'col' refers to a column in this array.
-     */
-    double feedbackValue(int);
-
-    //! Returns the value of the 'row'th element in the 'col'th feedback column
-    /*! Uses 'bufrdc' subroutine 'BUBOX()' to arrange feedback values into
-     *  a two dimensional array. Arguments 'row' and 'col' are indices into
-     *  this array.
-     */
-    double feedbackValue(int, int);
-
-    std::string feedbackItemName(int);
-    std::string feedbackItemUnit(int);
-#endif
 
     //-- APIs for requesting parameter metadata --//
 
@@ -577,26 +509,6 @@ public:
     float valueByLayerC(float, float, const std::string&);  // input can be a number (descriptor) or a key
     float valueByLayer(float, float, long);
 
-#ifdef MV_BUFRDC_TEST
-    //-- APIs for printing obs --//
-    // Section 0,1,2 and 3 just delegated to bufr class.
-
-    //! Prints BUFR section 0 to output stream 'aStream'
-    bool printSection0(ostream& aStream = cout) { return _bufrIn->printSection_012(aStream, 0); }
-
-    //! Prints BUFR section 1 to output stream 'aStream'
-    bool printSection1(ostream& aStream = cout) { return _bufrIn->printSection_012(aStream, 1); }
-
-    //! Prints BUFR section 2 to output stream 'aStream'
-    bool printSection2(ostream& aStream = cout) { return _bufrIn->printSection_012(aStream, 2); }
-
-    //! Prints BUFR section 3 to output stream 'aStream'
-    bool printSection3(ostream& aStream = cout) { return _bufrIn->printSection(aStream, 3); }
-
-    //! Decode BUFR section 2 and place the result into an std::map
-    bool getDataFromSection2(map<std::string, std::string>& data) { return _bufrIn->getDataFromSection2(data); }
-#endif  // MV_BUFRDC_TEST
-
     //! Prints all data values into standard output
     /*! For output format see method 'writeAllValues' below
      */
@@ -633,23 +545,6 @@ public:
      */
     bool writeAllValues(const char*);
 
-#ifdef MV_BUFRDC_TEST
-
-    //! Calls 'bufren' routine BUPRTBOX to write feedback data into stream 'aStream'
-    bool writeBufrBox(ostream& aStream = cout);
-
-    bool getBufrBoxSize(int& rows, int& cols) { return _bufrIn->getBufrBoxSize(rows, cols, _subsetNr); }
-
-    //-- APIs for accessing original section 1 and 2 headers --//
-
-    // const unsigned char* section1Ptr(){ return (unsigned char*)(_bufrIn->Sec1->start()); }
-
-    //! Returns a pointer to the beginning of local section 2 in BUFR message
-    /*! Returns 0 (NULL) if message has no local section 2
-     */
-    const unsigned char* section2Ptr() { return _bufrIn->fTotalSec2; }
-#endif
-
     //! Returns 'true' if BUFR message contains local section 2, 'false' if not
     bool hasSection2();
 
@@ -670,11 +565,6 @@ public:
     //--      so that ObsPicker can use them freely (vk/Jul)
     double valueBySpecifier(long, double, long, int firstIndexValue = 0);
     double valueBySpecifier(const std::string&, double, const std::string&);
-
-#ifdef MV_BUFRDC_TEST
-    int specifierIndex(long, double, int firstIndexValue = 0);
-    bool writeConfidenceValues(ostream& aStream);
-#endif
 
 #ifdef METVIEW
     //! Decodes OPERA BUFR radar data into unsigned char array
@@ -701,13 +591,6 @@ private:
     bool descriptorToKey(const long, std::string&);
     bool descriptor_to_key(const long, std::string&);
 
-#ifdef MV_BUFRDC_TEST
-    double level(const std::string&, int, long, int);
-    double pressureLevel(int, int);
-    int subsetOffset() const;
-    const unsigned char* section1Ptr() { return (unsigned char*)(_bufrIn->Sec1->start()); }
-#endif
-
 protected:
     // It is implemeted in MvMiscellanous, but because of magics we cannot
     // use  MvMisc ... here!
@@ -719,54 +602,52 @@ protected:
     }
 
 
-    bool _skipConfidence;          // true: skip Confidence values
-    std::string _currentKey;       // mainly to be used in the key iterator within a message
-    std::string _currentLevelKey;  // Level parameter name
-    int _currentLevelOccurrence;   // Level parameter occurrence (1..N)
-    int _subsetNr;                 // current subset (1.._number_of_subsets)
+    bool _skipConfidence{true};      // true: skip Confidence values
+    std::string _currentKey;         // mainly to be used in the key iterator within a message
+    std::string _currentLevelKey;    // Level parameter name
+    int _currentLevelOccurrence{0};  // Level parameter occurrence (1..N)
+    int _subsetNr{1};                // current subset (1.._number_of_subsets)
 
     // Info from the Header, BUFR Section 1
-    bool _compressed_data;  // true: compressed, false: uncompress
-    bool _unpacked;         // true: data unpacked, false: data packed
-    long _messageTotalLen;
-    long _editionNumber;
-    long _number_of_subsets;
-    long _messageType;
-    long _subTypeInternational, _subTypeLocal;
-    long _rdbType;
-    long _originatingCentre, _originatingSubCentre;
+    bool _compressed_data{false};  // true: compressed, false: uncompress
+    bool _unpacked{false};         // true: data unpacked, false: data packed
+    long _messageTotalLen{-1};
+    long _editionNumber{-1};
+    long _number_of_subsets{-1};
+    long _messageType{-1};
+    long _subTypeInternational{-1};
+    long _subTypeLocal{-1};
+    long _rdbType{-1};
+    long _originatingCentre{-1};
+    long _originatingSubCentre{-1};
     std::string _originatingCentreStr;
-    long _masterTable, _masterTableVersion, _localTableVersion;
-    long _lyear, _lmonth, _lday, _lhour, _lminute;
-    std::string headerIdent_;
+    long _masterTable{-1};
+    long _masterTableVersion{-1};
+    long _localTableVersion{-1};
+    long _lyear{-1};
+    long _lmonth{-1};
+    long _lday{-1};
+    long _lhour{-1};
+    long _lminute{-1};
+    std::string headerIdent_{"__UNDEF__"};
 
-    MvBufrEdition* _edition;  // BUFR id type
-    MvBufrConfidence* _confidence;
+    MvBufrEdition* _edition{nullptr};
+    MvBufrConfidence* _confidence{nullptr};
 
     // use eccodes optimisation
-    bool useSkipExtraAttributes_;
+    bool useSkipExtraAttributes_{true};
 
     // For compressed messages
-    bool cacheCompressedData_;
+    bool cacheCompressedData_{true};
     MvBufrSubsetData compressedData_;
 
-#ifdef MV_BUFRDC_TEST
-    MvBufr* _bufrIn;
-    int _currentLevelIndex1;
-    int _lastSpecifierIndex1;  // required???? used by who?????
-    long _currentLevelCoordinate1;
-    long _bufr_id;
-#endif
+    MvEccHandle_ptr _ecH;
 
-    codes_handle** _ecH;  // handle general access to eccodes
-                          // Since this is just a pointer to a pointer,
-                          // it should be destroyed elsewhere
+    codes_handle* _ecHSS{nullptr};  // handle access to a subset.
+                                    // function Destructor should delete it
 
-    codes_handle* _ecHSS;  // handle access to a subset.
-                           // function Destructor should delete it
-
-    codes_bufr_keys_iterator* _ecIter;  // eccodes key iterator within a message
-    const void* _bufferSS;              // auxiliary pointer
+    codes_bufr_keys_iterator* _ecIter{nullptr};  // eccodes key iterator within a message
+    const void* _bufferSS{nullptr};              // auxiliary pointer
 };
 
 
@@ -798,63 +679,19 @@ private:
 
 class MvObsSet;
 
-#ifdef MV_BUFRDC_TEST
-const int MAX_KDLEN = 2000;  //-- big value needed for some NCEP PrepBUFR files
-
-//! Wrapper around Fortran 'bufren', for (re)encoding
-/*! This class and its methods are a lower level wrapper around Fortran
- *  subroutine 'bufren'. These methods should be called only via MvObs class.
- */
-class MvBufrOut : public MvBufrBase
-#else
-class MvBufrOut
-#endif
-{
+class MvBufrOut {
     friend class MvObs;
     friend class MvObsSet;
 
 protected:
-#ifdef MV_BUFRDC_TEST
-    MvBufrOut(const long len, MvObsSet* anOutSet);
-#else
     MvBufrOut(MvObsSet*);
-#endif
-
     ~MvBufrOut(void);
 
     void add(MvObs& anObs);
     //   void  write( MvObs& anObs );   //FAMI20171023 maybe we do not need this function or maybe
     // we could remove the previous function (add) and use this one.
 
-#ifdef MV_BUFRDC_TEST
-    static long _bufrOut_ref;
-    void createBuffers();
-    void resetBuffers(void);
-    void write_bufrdc(MvObs& anObs);  // FAMI20171023 temporary function created to
-                                      // avoid clashing with the other write(MvObs&) function.
-    void formatBuffers(const MvObs& anObs);
-    void addIntoBuffers(MvObs& anObs);
-    void encode(void);
-    void checkDescriptors(const MvObs& anObs);
-    int differentDescriptors(void) const;
-    int differentHeader(const MvObs& anObs) const;
-    int shouldBeWritten(void);
-    void setSubsetCount(int MaxNrSubsets);
-    bool isDelayedDescriptor(const long aDescriptor) const;
-    // long  msgLength( void ) { return _msgIntLen*sizeof( int ); }
-#endif
-
 protected:
-#ifdef MV_BUFRDC_TEST
-    int _maxNrSubsets;
-    int _nextValue;
-    int _nextCharParamPos;
-    EBufrOutState _outState;
-    int _KDLEN;
-    int _KDATA[MAX_KDLEN];
-    Section1Base* _currentSec1;
-#endif
-
     MvObsSet* _outSet;
 };
 

@@ -68,6 +68,8 @@ struct NetDimension {
     Netcdf* parent_;
     int netcdf_;
 
+
+
     NetDimension() {}
     NetDimension(Netcdf* netcdf, const string& name, int index = 0, int variable = -1);
 
@@ -204,17 +206,22 @@ struct NetVariable {
     }
 
     void setFirstPoint(const string& name, const string& first) {
+        
         map<string, NetDimension>::iterator dim = dimensions_.find(name);
         if (dim == dimensions_.end())
             return;
-        (*dim).second.first(first);
+         (*dim).second.first(first);
+        
+       
     }
 
     void setLastPoint(const string& name, const string& last) {
+        
         map<string, NetDimension>::iterator d = dimensions_.find(name);
         if (d == dimensions_.end())
             return;
         (*d).second.last(last);
+        
     }
 
     size_t getSize(const vector<size_t>& dims) {
@@ -234,12 +241,18 @@ struct NetVariable {
     void get(vector<float>& data, vector<size_t>& start, vector<size_t>& edges) {
         nc_get_vara_float(netcdf_, id_, &start.front(), &edges.front(), &data.front());
     }
+    void get(vector<long>& data, vector<size_t>& start, vector<size_t>& edges) {
+        nc_get_vara_long(netcdf_, id_, &start.front(), &edges.front(), &data.front());
+    }
 
     void get(vector<int>& data, vector<size_t>& start, vector<size_t>& edges) {
         nc_get_vara_int(netcdf_, id_, &start.front(), &edges.front(), &data.front());
     }
     void get(vector<short>& data, vector<size_t>& start, vector<size_t>& edges) {
         nc_get_vara_short(netcdf_, id_, &start.front(), &edges.front(), &data.front());
+    }
+    void get(vector<unsigned short>& data, vector<size_t>& start, vector<size_t>& edges) {
+        nc_get_vara_ushort(netcdf_, id_, &start.front(), &edges.front(), &data.front());
     }
     void get(vector<signed char>& data, vector<size_t>& start, vector<size_t>& edges) {
         nc_get_vara_schar(netcdf_, id_, &start.front(), &edges.front(), &data.front());
@@ -251,6 +264,7 @@ struct NetVariable {
     void get(vector<int>& data) { nc_get_var_int(netcdf_, id_, &data.front()); }
     void get(vector<short>& data) { nc_get_var_short(netcdf_, id_, &data.front()); }
     void get(vector<signed char>& data) { nc_get_var_schar(netcdf_, id_, &data.front()); }
+
 
 
     void print(ostream& s) const {
@@ -326,6 +340,28 @@ struct NetVariable {
         return dims;
     }
 
+    void default2D() {
+        int nb = dimensions_.size();
+        for (map<string, NetDimension>::iterator dim = dimensions_.begin(); dim != dimensions_.end(); ++dim)
+            if ( dim->second.index_ < nb-2)
+                dim->second.dim_ = 1;
+
+        
+        auto dim = dimensions_.begin();
+        for (int i = 0; i < nb-2; ++i) {
+            dim->second.dim_ = 1;
+            dim++;
+        }
+         
+    }
+    void default1D() {
+         int nb = dimensions_.size();
+        for (map<string, NetDimension>::iterator dim = dimensions_.begin(); dim != dimensions_.end(); ++dim)
+            if ( dim->second.index_ < nb-1)
+                dim->second.dim_ = 1;
+
+    }
+
 
     friend ostream& operator<<(ostream& s, const NetVariable& p) {
         p.print(s);
@@ -373,6 +409,7 @@ public:
     }
 
     int getDimension(const string& name) {
+        
         map<string, NetDimension>::iterator dim = dimensions_.find(name);
         if (dim == dimensions_.end()) {
             MagLog::error() << name << " : do not find such dimension\n" << endl;
@@ -425,6 +462,19 @@ public:
         return (*var).second;
     }
 
+    void setDefault2D(const string& name)  {
+        map<string, NetVariable>::iterator var = variables_.find(name);
+        if (var == variables_.end())
+            throw NoSuchNetcdfVariable(name);
+        var->second.default2D();
+    }
+    void setDefault1D(const string& name) {
+        map<string, NetVariable>::iterator var = variables_.find(name);
+        if (var == variables_.end())
+            throw NoSuchNetcdfVariable(name);
+        var->second.default1D();
+    }
+
     map<string, NetAttribute> getAttributes() { return attributes_; }
 
 
@@ -449,8 +499,12 @@ private:
 template <class T>
 void Accessor<T>::access(vector<T>& data, vector<size_t>& start, vector<size_t>& edges, NetVariable& var) {
     typename map<nc_type, Accessor<T>*>::const_iterator accessor = accessors_->find(var.type());
-    if (accessor == accessors_->end())
-        throw new MagicsException("No accessor available");
+    if (accessor == accessors_->end()) {
+        MagLog::error() << "NetcdfDecoder : No accessor available for " << var.type() << endl;
+        MagLog::error() << "Throwing excpetion for  " << var.type() << endl;
+
+        throw MagicsException("No accessor available");
+    }
 
     (*(*accessor).second)(data, start, edges, var);
 }

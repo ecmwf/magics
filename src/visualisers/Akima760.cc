@@ -25,8 +25,7 @@ using namespace magics;
 
 
 Akima760::Akima760(const AbstractMatrix& matrix, const Akima760MethodAttributes& attr) :
-    MatrixHandler(matrix),
-    attr_(attr) {
+    MatrixHandler(matrix), attr_(attr) {
     MagLog::debug() << "Akima760 Constructor"
                     << "\n";
 

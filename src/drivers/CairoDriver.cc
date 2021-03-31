@@ -187,15 +187,15 @@ void CairoDriver::setupNewSurface() const {
         cairo_ps_surface_dsc_comment(surface_, s1.c_str());
         const string s2 = "%%Creator2: " + output_creator_ + " " + getMagicsVersionString();
         cairo_ps_surface_dsc_comment(surface_, s2.c_str());
-        const string s3 = "%%For: " + info.getUserID() + "@" + info.getHostName() + " " + info.getUserName();
+        const string s3 = "%%For: " + info.getUserID() + "@" + info.getHostName();
         cairo_ps_surface_dsc_comment(surface_, s3.c_str());
 
         dimensionXglobal_ = static_cast<int>(getXDeviceLength() * 72 / 2.54);
         dimensionYglobal_ = static_cast<int>(getYDeviceLength() * 72 / 2.54);
         cairo_ps_surface_dsc_comment(surface_, "%%PageOrientation: Landscape");
 
-        if (magCompare(MAGICS_SITE, "ecmwf"))
-            cairo_ps_surface_dsc_comment(surface_, "%%Copyright: ECMWF");
+       // if (magCompare(MAGICS_SITE, "ecmwf"))
+       //     cairo_ps_surface_dsc_comment(surface_, "%%Copyright: ECMWF");
 #endif
     }
 
@@ -208,8 +208,8 @@ void CairoDriver::setupNewSurface() const {
     cairo_paint(cr_);
     cairo_set_line_join(cr_, CAIRO_LINE_JOIN_BEVEL);
 
-    dimensionX_ = static_cast<MFloat>(dimensionXglobal_);
-    dimensionY_ = static_cast<MFloat>(dimensionYglobal_);
+    dimensionX_  = static_cast<MFloat>(dimensionXglobal_);
+    dimensionY_  = static_cast<MFloat>(dimensionYglobal_);
     currentPage_ = 0;
 }
 
@@ -1105,53 +1105,51 @@ MAGICS_NO_EXPORT void CairoDriver::circle(const MFloat x, const MFloat y, const 
   \param alpha transparency
 */
 MAGICS_NO_EXPORT bool CairoDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
-                                                unsigned char* pixmap, int, bool alpha) const {
+                                                unsigned char* pixmap, int, bool alpha, bool offset) const {
     MagLog::debug() << "CD:renderPixmap> " << w << "x" << h << endl;
     unsigned char* p = pixmap;
     const MFloat dx  = (x1 - x0) / w;
-    const MFloat dy  = -(y1 - y0) / h;  // Minus needed for Y axis correction
+    const MFloat dy  = (y1 - y0) / h;  // Minus needed for Y axis correction
+    MFloat a         = 1.;
 
-    const MFloat X0 = x0;
-    const MFloat Y0 = y0;
-    MFloat a        = 0;
+    if(offset){
+        x0 += offsetX_;
+        y0 += offsetY_;
+    }
 
     cairo_save(cr_);
-    cairo_antialias_t t = cairo_get_antialias(cr_);
-    cairo_set_antialias(cr_, CAIRO_ANTIALIAS_NONE);
+//    cairo_antialias_t t = cairo_get_antialias(cr_);
+//    cairo_set_antialias(cr_, CAIRO_ANTIALIAS_NONE);
 
-    for (int i = h - 1; i >= 0; i--) {
-        for (int j = 0; j < w; x0 += dx, j++) {
+    for (int i = 0; i < h; i++) {
+        for (int j = 0; j < w; j++) {
             const MFloat r = *(p++);
             const MFloat g = *(p++);
             const MFloat b = *(p++);
-            if (alpha)
-                a = *(p++);
+            if (alpha)   a = *(p++);
 
-            if ((r * g * b) > 0) {
-                if (!alpha)
-                    cairo_set_source_rgb(cr_, r, g, b);
-                else
-                    cairo_set_source_rgba(cr_, r, g, b, a);
+            //if ((r * g * b) > 0)
+            {
+                if (!alpha) cairo_set_source_rgb( cr_, r, g, b);
+                else        cairo_set_source_rgba(cr_, r, g, b, a);
 
-                const MFloat x0 = X0 + (j * dx);
-                const MFloat y0 = Y0 + (i * dy);
-                cairo_rectangle(cr_, x0, y0, dx, -dy);
+                const MFloat x = x0 + (j * dx);
+                const MFloat y = y0 + (i * dy);
+                cairo_rectangle(cr_, x, y, dx, dy);
                 cairo_stroke_preserve(cr_);
                 cairo_fill(cr_);
             }
         }
-        x0 = X0;
-        y0 += dy;
     }
     cairo_restore(cr_);
-    cairo_set_antialias(cr_, t);
+//    cairo_set_antialias(cr_, t);
     return true;
 }
 
 /*!
   \brief Image render method for ALL drivers.
 
-  This method should be used by all Magics++ drivers to render image objects.
+  This method should be used by all Magics drivers to render image objects.
 */
 MAGICS_NO_EXPORT void CairoDriver::renderImage(const ImportObject& obj) const {
     std::string file = obj.getPath();
@@ -1176,8 +1174,8 @@ MAGICS_NO_EXPORT void CairoDriver::renderImage(const ImportObject& obj) const {
         int w = cairo_image_surface_get_width(image);
         int h = cairo_image_surface_get_height(image);
 
-        const MFloat oow = (obj.getWidth() < 0) ? 30. / coordRatioX_ : obj.getWidth();
-        const MFloat ooh = (obj.getHeight() < 0) ? 30. / coordRatioY_ : obj.getHeight();
+        const MFloat oow = (obj.getWidth()  < 0) ? w / coordRatioX_ : obj.getWidth();
+        const MFloat ooh = (obj.getHeight() < 0) ? h / coordRatioY_ : obj.getHeight();
         const MFloat x   = projectX(obj.getOrigin().x());
         const MFloat y   = projectY(obj.getOrigin().y());
         const MFloat oh  = fabs(projectY(obj.getOrigin().y() + ooh) - y);
@@ -1227,7 +1225,7 @@ MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const {
     cairo_save(cr_);
     cairo_translate(cr_, x0, y0);
 
-    if ((width > 500) || (height > 500))  // high resoltion enough to use image
+    if ((width > 300) || (height > 300))  // high resoltion enough to use image
     {
         cairo_surface_t* result = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
         if (cairo_surface_status(result) != CAIRO_STATUS_SUCCESS) {

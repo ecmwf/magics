@@ -16,6 +16,7 @@
 #include <eccodes.h>
 #include "MvBufrObs.h"
 
+#include <memory>
 #include <vector>
 
 // namespace mvObs {
@@ -62,7 +63,7 @@ public:
     //! Destructor
     ~MvObsSet();
 
-    // FAMI20171016 - I think ecCodes does not need this function (_maxNrSubsets).
+    // I think ecCodes does not need this function (_maxNrSubsets).
     //               If this is the case delete it later.
     //! Set max subset count for a new file
     void setSubsetMax(int);
@@ -100,16 +101,12 @@ public:
     bool writeCompressed(MvObs* obs);
     bool writeCompressed(MvObs* obs, const std::vector<int>& subsetVec);
     bool write(const void*, const size_t);
-#ifdef MV_BUFRDC_TEST
-    bool write(const char*, int);
-#endif
 
     MvObs& firstObs() { return _firstObs; }
 
     // Expand message
     void expand();
 
-    void setUseSkipExtraAttributes(bool b) { useSkipExtraAttributes_ = b; }
     void setCacheCompressedData(bool b) { cacheCompressedData_ = b; }
 
     MvObs gotoMessage(long offset, int msgCnt);
@@ -123,12 +120,6 @@ protected:
     // Logical  currentInputBufferOK() {return _IO_buffer_OK;}
 
 protected:
-#ifdef MV_BUFRDC_TEST
-    FILE* _bufrFile;
-    char* _message;
-    long _msgLen;
-#endif
-
     FILE* _ecFile;
     bool _minMaxDone;
     bool _IO_buffer_OK;
@@ -138,11 +129,16 @@ protected:
     long _msgNumber;
     std::string _IO_mode;
 
-    codes_handle* _ecH;  // handle general access to eccodes
+    std::shared_ptr<MvEccHandle> _ecH;
+
     MvObs _firstObs;
     TDynamicTime _minTime;
     TDynamicTime _maxTime;
 
+#ifdef METVIEW_PREPBUFR
+    MvPrepBufrPrep* _prepBufr;
+    bool _isPrepBufrFile;
+#endif
 
     MvBufrOut* _bufrOut;
 
@@ -337,6 +333,7 @@ public:
 
     MvObs nextMessage();
     bool AcceptedObs(MvObs&, bool skipPreFilterCond = false) const;
+    bool AcceptedObs(MvObs&, bool skipPreFilterCond, bool& headerDidNotMatch) const;
     bool useHeaderOnly() const { return useHeaderOnly_; }
 
     MvObs gotoMessage(long offset, int msgCnt);

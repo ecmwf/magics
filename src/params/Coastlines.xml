@@ -1,51 +1,98 @@
-<magics>
-<class xmltag="coastlines" name="Coastlines" metview="MCOAST" directory="visualisers" prefix="map" action="pcoast">
 <!--
 (C) Copyright 1996-2016 ECMWF.
-
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
-    	<documentation> 
+<magics>
+	<class xmltag="coastlines"
+		name="Coastlines"
+		metview="MCOAST"
+		directory="visualisers"
+		prefix="map"
+		action="pcoast"
+		python="mcoast"
+		python_rank="1">
+		<userdoc>
+		This action controls the plotting of coastlines, rivers, cities and country boundaries, as well as the latitude/longitude grid lines.
+		</userdoc>
+		<documentation>
 		The parameters relating to action routine PCOAST (C++ class Coastlines) enable
-        users to control the plotting of coastlines and grid lines. 
-    	</documentation>
-        <parameter from="string" name="map_coastline_general_style" default="" member="style" to="string"> 
-                <documentation> 
-          Use a predefined style depending on the general theme 
-                </documentation>
-        </parameter> 
-    	
-        <parameter from="string" name="map_coastline" default="on" member="coastlines" to="NoCoastPlotting" include="CoastPlotting.h"> 
-                <documentation> 
+        users to control the plotting of coastlines and grid lines.
+		</documentation>
+		<parameter from="string"
+			name="map_coastline_general_style"
+			default=""
+			member="style"
+			to="string">
+			<documentation>
+          Use a predefined style depending on the general theme
+			</documentation>
+		</parameter>
+		<parameter from="string"
+			name="map_coastline"
+			default="on"
+			member="coastlines"
+			to="NoCoastPlotting"
+			include="CoastPlotting.h">
+			<documentation>
             Plot coastlines on map (ON/OFF)
-                    </documentation>
-                <option xml="coast" fortran="on" include="CoastPlotting.h" name="CoastPlotting" description="CoastPlotting.xml">        </option>
-                <option xml="nocoast" fortran="off" include="CoastPlotting.h" name="NoCoastPlotting" description="CoastPlotting.xml">       </option>
-                <release>Magics++0.1        </release>
-        </parameter> 
-
-
-    	<parameter from="string" name="map_grid" default="on" member="grid" to="NoGridPlotting" include="GridPlotting.h"> 
-        		<documentation>
+			</documentation>
+			<option xml="coast"
+				fortran="on"
+				include="CoastPlotting.h"
+				name="CoastPlotting"
+				description="CoastPlotting.xml"></option>
+			<option xml="nocoast"
+				fortran="off"
+				include="CoastPlotting.h"
+				name="NoCoastPlotting"
+				description="CoastPlotting.xml"></option>
+			<release>Magics++0.1</release>
+		</parameter>
+		<parameter from="string"
+			name="map_grid"
+			default="on"
+			member="grid"
+			to="NoGridPlotting"
+			include="GridPlotting.h">
+			<documentation>
             Plot grid lines on map (On/OFF)
-        		</documentation>
-        		<option xml="grid" fortran="on" include="GridPlotting.h" name="GridPlotting" description="GridPlotting.xml">		</option>
-        		<option xml="nogrid" fortran="off" include="GridPlotting.h" name="NoGridPlotting" description="GridPlotting.xml">		</option>
-        		<release>Magics++0.1		</release>
-    	</parameter>
-
-    	<parameter from="string" name="map_label" default="on" member="label" to="NoLabelPlotting" include="LabelPlotting.h">
-        		<documentation>
+			</documentation>
+			<option xml="grid"
+				fortran="on"
+				include="GridPlotting.h"
+				name="GridPlotting"
+				description="GridPlotting.xml"></option>
+			<option xml="nogrid"
+				fortran="off"
+				include="GridPlotting.h"
+				name="NoGridPlotting"
+				description="GridPlotting.xml"></option>
+			<release>Magics++0.1</release>
+		</parameter>
+		<parameter from="string"
+			name="map_label"
+			default="on"
+			member="label"
+			to="NoLabelPlotting"
+			include="LabelPlotting.h">
+			<documentation>
             Plot label  on map grid lines (On/OFF)
-        		</documentation>
-        		<option xml="label" fortran="on" include="LabelPlotting.h" name="LabelPlotting" description="LabelPlotting.xml">		</option>
-        		<option xml="nolabel" fortran="off" include="LabelPlotting.h" name="NoLabelPlotting" description="LabelPlotting.xml">		</option>
-        		<release>Magics++0.1		</release>
-    	</parameter>
-
-</class></magics>
+			</documentation>
+			<option xml="label"
+				fortran="on"
+				include="LabelPlotting.h"
+				name="LabelPlotting"
+				description="LabelPlotting.xml"></option>
+			<option xml="nolabel"
+				fortran="off"
+				include="LabelPlotting.h"
+				name="NoLabelPlotting"
+				description="LabelPlotting.xml"></option>
+			<release>Magics++0.1</release>
+		</parameter>
+	</class>
+</magics>

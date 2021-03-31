@@ -45,6 +45,7 @@ int main() {
     formats[1] = "png";
     formats[2] = "pdf";
 
+    // mag_setc("output_format", "png");
     mag_set1c("output_formats", formats, NUM_FORMATS);
 
 
@@ -63,9 +64,10 @@ int main() {
     mag_setc("contour", "on");
     mag_setc("contour_line_colour", "sky");
     mag_setc("CONTOUR_HIGHLIGHT_COLOUR", "GREEN");
-    mag_setc("cjgskljdfkljdontour_label", "on");
+    mag_setc("contour_label", "on");
     mag_cont();
 
+    mag_coast();
 
     // mag_clear_listeners();
     /* close magics and trigger plot generation */

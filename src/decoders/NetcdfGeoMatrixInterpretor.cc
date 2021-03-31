@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file NetcdfGeoMatrixInterpretor.cc
@@ -20,7 +20,9 @@
 */
 
 #include "NetcdfGeoMatrixInterpretor.h"
+
 #include <limits>
+
 #include "ContourLibrary.h"
 #include "Factory.h"
 #include "Layer.h"
@@ -29,20 +31,27 @@ using namespace magics;
 
 NetcdfGeoMatrixInterpretor::NetcdfGeoMatrixInterpretor() {}
 
-
 NetcdfGeoMatrixInterpretor::~NetcdfGeoMatrixInterpretor() {}
 
 string NetcdfGeoMatrixInterpretor::proj4Detected(Netcdf& netcdf) {
     // Efas old netcdf
     string proj4 = netcdf.getAttribute("projection", string(""));
+
     if (proj4.size())
         return proj4;
+
+
+    proj4 = netcdf.getAttribute("gdal_projection", string(""));
+
+    if (proj4.size())
+        return proj4;
+
+
     string mapping = netcdf.getVariableAttribute(field_, "grid_mapping", string(""));
     if (mapping.size())
         return netcdf.getVariableAttribute(mapping, "proj4_params", string(""));
     return "";
 }
-
 
 bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
     if (*matrix)
@@ -50,8 +59,8 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
 
     Netcdf netcdf(path_, dimension_method_);
 
-
     string proj4 = proj4Detected(netcdf);
+
 
     if (proj4.empty()) {
         matrix_ = new Matrix();
@@ -62,30 +71,35 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
     }
     *matrix = matrix_;
 
-
     if (automatic_scaling_) {
         WebLibrary settings;
         MetaDataCollector needs;
         settings.askId(needs);
         for (auto need = needs.begin(); need != needs.end(); ++need) {
             need->second = getAttribute(field_, need->first, "");
-            // cout << need->first << "--->" << need->second << endl;
         }
 
         settings.getScaling(needs, scaling_, offset_);
-        // cout << "Apply scaling " << scaling_ << " and " << offset_ << endl;
     }
-
 
     // get the data ...
     try {
         double missing_value = netcdf.getMissing(field_, missing_attribute_);
+
+
+        if (std::isnan(missing_value)) {
+            missing_value = std::numeric_limits<double>::max();
+        }
+
         map<string, string> first, last;
         setDimensions(dimension_, first, last);
         vector<double> inlon, outlon;
         vector<double> inlat, outlat;
 
+
         netcdf.get(longitude_, matrix_->columnsAxis(), first, last);
+
+
         netcdf.get(latitude_, matrix_->rowsAxis(), first, last);
 
         matrix_->missing(missing_value);
@@ -116,7 +130,6 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
                 i++;
             }
         }
-        // cout << "Apply scaling " << scaling_ << " and " << offset_ << endl;
         matrix_->multiply(scaling_);
         matrix_->plus(offset_);
         matrix_->setMapsAxis();
@@ -140,18 +153,14 @@ void NetcdfGeoMatrixInterpretor::print(ostream& out) const {
     out << "]";
 }
 
-
 UserPoint* NetcdfGeoMatrixInterpretor::newPoint(const string& proj4, double lon, double lat, double val) {
     double x = lon;
     double y = lat;
 
-    if (!proj4.empty()) {
-        int error = pj_transform(proj4_, latlon_, 1, 1, &x, &y, NULL);
-        return new UserPoint(x * RAD_TO_DEG, y * RAD_TO_DEG, val);
+    if (!projection_.valid()) {
+        int error = projection_.revert(x, y);
     }
-    else {
-        return new UserPoint(x, y, val);
-    }
+    return new UserPoint(x, y, val);
 }
 
 void NetcdfGeoMatrixInterpretor::visit(Transformation& transformation) {
@@ -164,14 +173,12 @@ void NetcdfGeoMatrixInterpretor::visit(Transformation& transformation) {
     }
 }
 
-
 bool NetcdfGeoMatrixInterpretor::interpretAsPoints(PointsList& list) {
     Netcdf netcdf(path_, dimension_method_);
     string proj4 = proj4Detected(netcdf);
 
     if (!proj4.empty()) {
-        proj4_  = pj_init_plus(proj4.c_str());
-        latlon_ = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84");
+        projection_ = LatLonProjP(proj4);
     }
     // get the data ...
     try {
@@ -310,7 +317,6 @@ void NetcdfGeoMatrixInterpretor::customisedPoints(const Transformation& transfor
     }
 }
 
-
 NetcdfInterpretor* NetcdfGeoMatrixInterpretor::guess(const NetcdfInterpretor& from) {
     if (from.field_.empty() && (from.x_component_.empty() || from.y_component_.empty()))
         return 0;
@@ -334,5 +340,23 @@ NetcdfInterpretor* NetcdfGeoMatrixInterpretor::guess(const NetcdfInterpretor& fr
         interpretor->number_variable_ = netcdf.detect(variable, "number");
         return interpretor;
     }
+
+    string projection_y_coordinate = netcdf.detect(variable, "projection_y_coordinate");
+    string projection_x_coordinate = netcdf.detect(variable, "projection_x_coordinate");
+
+    if (projection_y_coordinate.size() && projection_y_coordinate.size()) {
+        NetcdfGeoMatrixInterpretor* interpretor = new NetcdfGeoMatrixInterpretor();
+        interpretor->NetcdfInterpretor::copy(from);
+
+        if (interpretor->proj4Detected(netcdf).size()) {
+            interpretor->latitude_        = projection_y_coordinate;
+            interpretor->longitude_       = projection_x_coordinate;
+            interpretor->time_variable_   = netcdf.detect(variable, "time");
+            interpretor->level_variable_  = netcdf.detect(variable, "level");
+            interpretor->number_variable_ = netcdf.detect(variable, "number");
+            return interpretor;
+        }
+    }
+
     return 0;
 }

@@ -178,9 +178,10 @@ public:
     ~ImageSymbol() {}
     void redisplay(const BaseDriver& driver) const;
 
-    void set(double width, double height) {
+    void set(double width, double height, bool by_reference) {
         width_  = width;
         height_ = height;
+        by_reference_ = by_reference;
     }
 
 protected:
@@ -188,6 +189,7 @@ protected:
     string format_;
     double width_;
     double height_;
+    bool   by_reference_;
 };
 class SimpleTextSymbol : public TextSymbol {
 public:
@@ -248,6 +250,7 @@ struct SymbolProperties {
     string image_format_;
     int image_width_;
     int image_height_;
+    bool image_by_reference_;
 
     SymbolProperties(Colour colour, double height, const string& marker, const string& label = "");
     SymbolProperties(Colour colour, double height, int marker, const string& label = "");

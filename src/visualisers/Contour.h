@@ -26,8 +26,8 @@
 
 
 #include "ContourAttributes.h"
-#include "Visdef.h"
 #include "MagConfig.h"
+#include "Visdef.h"
 
 namespace magics {
 
@@ -55,7 +55,10 @@ public:
 
     void visit(Data&, HistoVisitor&);
     void visit(MetaDataVisitor&);
-    void getReady(const LegendVisitor& legend) { contour_->legend_only_ = legend.only_; }
+    void getReady(const LegendVisitor& legend) {
+        contour_->legend_only_ = legend.only_;
+        legendIsOn_            = true;
+    }
 
 
 protected:
@@ -63,7 +66,8 @@ protected:
     virtual void print(ostream&) const;
     MatrixHandler* matrix_;
     StyleEntry* styleInfo_;
-    MagDef      automaticAttributes_;
+    MagDef automaticAttributes_;
+    bool legendIsOn_;
 
 private:
     //! Copy constructor - No copy allowed

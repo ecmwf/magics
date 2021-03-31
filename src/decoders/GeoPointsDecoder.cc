@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file GeoPointsDecoder.cc
@@ -19,14 +19,13 @@
 
 */
 
-
 #include "GeoPointsDecoder.h"
+
 #include "SciMethods.h"
 
 using namespace magics;
 
 GeoPointsDecoder::GeoPointsDecoder() {}
-
 
 GeoPointsDecoder::~GeoPointsDecoder() {}
 
@@ -81,9 +80,7 @@ void GeoPointsDecoder::yxdtlv2(const string& line, const Transformation& transfo
 
     if (lat != missing_ && lon != missing_) {
         if (useProj4_) {
-            int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);
-            lon *= RAD_TO_DEG;
-            lat *= RAD_TO_DEG;
+            int error = helper_.revert(lon, lat);
         }
         UserPoint geo(lon, lat, value, value == missing_);
         add(transformation, geo);
@@ -97,9 +94,7 @@ void GeoPointsDecoder::xyv2(const string& line, const Transformation& transforma
 
     if (lat != missing_ && lon != missing_) {
         if (useProj4_) {
-            int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);
-            lon *= RAD_TO_DEG;
-            lat *= RAD_TO_DEG;
+            int error = helper_.revert(lon, lat);
         }
         UserPoint geo(lon, lat, value, value == missing_);
         add(transformation, geo);
@@ -113,9 +108,7 @@ void GeoPointsDecoder::lluv(const string& line, const Transformation& transforma
 
     if (lat != missing_ && lon != missing_) {
         if (useProj4_) {
-            int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);
-            lon *= RAD_TO_DEG;
-            lat *= RAD_TO_DEG;
+            int error = helper_.revert(lon, lat);
         }
         CustomisedPoint geo(lon, lat, "lluv");
         geo["x_component"] = u;
@@ -133,9 +126,7 @@ void GeoPointsDecoder::polar(const string& line, const Transformation& transform
 
     if (lat != missing_ && lon != missing_) {
         if (useProj4_) {
-            int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);
-            lon *= RAD_TO_DEG;
-            lat *= RAD_TO_DEG;
+            int error = helper_.revert(lon, lat);
         }
         CustomisedPoint geo(lon, lat, "polar");
 
@@ -158,9 +149,7 @@ void GeoPointsDecoder::yxdtlv1(const string& line) {
 
     if (lat != missing_ && lon != missing_) {
         if (useProj4_) {
-            int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);
-            lon *= RAD_TO_DEG;
-            lat *= RAD_TO_DEG;
+            int error = helper_.revert(lon, lat);
         }
         push_back(new UserPoint(lon, lat, value, value == missing_));
     }
@@ -173,21 +162,19 @@ void GeoPointsDecoder::xyv1(const string& line) {
 
     if (lat != missing_ && lon != missing_) {
         if (useProj4_) {
-            int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);
-            lon *= RAD_TO_DEG;
-            lat *= RAD_TO_DEG;
+            int error = helper_.revert(lon, lat);
         }
         push_back(new UserPoint(lat, lon, value, value == missing_));
     }
 }
 
-
 void GeoPointsDecoder::ncols(const string& line, const Transformation& transformation) {
     std::istringstream in(line);
-    double lat, lon, date, time, level, value;
+    double lat, lon, date, time, level, elevation, value;
     string stnid;
 
-    // the column order has been detected by parseColumnNames and stored in colTypes_
+    // the column order has been detected by parseColumnNames and stored in
+    // colTypes_
 
     for (size_t c = 0; c < ncoordcols_; c++) {
         if (colTypes_[c] == eGeoColStnId)
@@ -198,28 +185,29 @@ void GeoPointsDecoder::ncols(const string& line, const Transformation& transform
             in >> lon;
         else if (colTypes_[c] == eGeoColLevel)
             in >> level;
+        else if (colTypes_[c] == eGeoColElevation)
+            in >> elevation;
         else if (colTypes_[c] == eGeoColDate)
             in >> date;
         else if (colTypes_[c] == eGeoColTime)
             in >> time;
     }
 
-    in >> value;  // try to read the first non-coordinate value (it may be present or missing)
+    in >> value;  // try to read the first non-coordinate value (it may be present
+                  // or missing)
 
     if (lat != missing_ && lon != missing_) {
         if (!in)
-            value = 0;  // no value? we probably want to at least plot the location, so set to something valid
+            value = 0;  // no value? we probably want to at least plot the location,
+                        // so set to something valid
 
         if (useProj4_) {
-            int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);
-            lon *= RAD_TO_DEG;
-            lat *= RAD_TO_DEG;
+            int error = helper_.revert(lon, lat);
         }
         UserPoint geo(lon, lat, value, value == missing_);
         add(transformation, geo);
     }
 }
-
 
 //_____________________________________________________________________
 // return the coordinate column map - if it's the first time, populate it
@@ -232,13 +220,13 @@ const std::map<std::string, GeoPointsDecoder::eGeoColType>& GeoPointsDecoder::co
         coordColMap_["latitude"]  = eGeoColLat;
         coordColMap_["longitude"] = eGeoColLon;
         coordColMap_["level"]     = eGeoColLevel;
+        coordColMap_["elevation"] = eGeoColElevation;
         coordColMap_["date"]      = eGeoColDate;
         coordColMap_["time"]      = eGeoColTime;
         coordColMap_["stnid"]     = eGeoColStnId;
     }
     return coordColMap_;
 }
-
 
 //_____________________________________________________________________
 // The input line should be something like this:
@@ -256,7 +244,6 @@ bool GeoPointsDecoder::parseColumnNames(const char* line) {
 
     const std::map<std::string, eGeoColType>& colmap = coordColMap();
 
-
     // for each string on the line
     ncoordcols_  = 0;
     bool valcols = false;  // co-ordinate cols first, then value cols
@@ -268,7 +255,8 @@ bool GeoPointsDecoder::parseColumnNames(const char* line) {
         map<string, eGeoColType>::const_iterator it = colmap.find(name);
         if (it != colmap.end()) {
             if (valcols) {
-                MagLog::error() << "Error parsing geopoints #COLUMNS line: all co-ordinate columns must come before "
+                MagLog::error() << "Error parsing geopoints #COLUMNS line: all "
+                                   "co-ordinate columns must come before "
                                    "the value columns: "
                                 << name << " comes after a value column" << endl;
                 return false;
@@ -282,7 +270,6 @@ bool GeoPointsDecoder::parseColumnNames(const char* line) {
         }
     }
 
-
     // check that the essential columns exist
     if (std::find(colTypes_.begin(), colTypes_.end(), eGeoColLat) == colTypes_.end() ||
         std::find(colTypes_.begin(), colTypes_.end(), eGeoColLon) == colTypes_.end()) {
@@ -292,7 +279,6 @@ bool GeoPointsDecoder::parseColumnNames(const char* line) {
 
     return true;
 }
-
 
 void GeoPointsDecoder::decode(const Transformation& transformation) {
     if (formats_.empty()) {
@@ -317,8 +303,7 @@ void GeoPointsDecoder::decode(const Transformation& transformation) {
                 useProj4_ = true;
                 string proj4(line + 12);
 
-                proj4_  = pj_init_plus(line + 11);
-                latlon_ = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84");
+                helper_ = LatLonProjP(line + 11);
             }
             if (strncmp(line, "#FORMAT ", 8) == 0) {
                 const char* fp = line + 7;
@@ -428,7 +413,6 @@ void GeoPointsDecoder::visit(ValuesCollector& points) {
     if (points.size() <= 0 || size() == 0)
         return;
 
-
     for (ValuesCollector::iterator point = points.begin(); point != points.end(); ++point) {
         double lat = (*point).y();
         double lon = (*point).x();
@@ -446,7 +430,8 @@ void GeoPointsDecoder::visit(ValuesCollector& points) {
         double dist = 10000000.;
         int minIdx  = -1;
 
-        // MagLog::debug() << "odb collect idxV : " << lat << " " << lon << " " << idxV.size() << endl;
+        // MagLog::debug() << "odb collect idxV : " << lat << " " << lon << " " <<
+        // idxV.size() << endl;
 
         for (int i = 0; i < idxV.size(); i++) {
             int idx  = idxV[i];

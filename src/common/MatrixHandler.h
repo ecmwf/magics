@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file MatrixHandler.h
@@ -25,31 +25,19 @@
 #include "AutoVector.h"
 #include "BasePointsHandler.h"
 #include "Matrix.h"
+#include "ProjP.h"
+#include "Timer.h"
 #include "Transformation.h"
 #include "magics.h"
-
-#include "Timer.h"
-
-#include "Transformation.h"
 
 namespace magics {
 
 class MatrixHandler : public AbstractMatrix, public AbstractPoints {
 public:
     MatrixHandler(const AbstractMatrix& matrix) :
-        AbstractMatrix(),
-        AbstractPoints(),
-        matrix_(matrix),
-        min_(INT_MAX),
-        max_(-INT_MAX),
-        tile_(false) {}
+        AbstractMatrix(), AbstractPoints(), matrix_(matrix), min_(INT_MAX), max_(-INT_MAX), tile_(false) {}
     MatrixHandler(const MatrixHandler& matrix) :
-        AbstractMatrix(),
-        AbstractPoints(),
-        matrix_(matrix),
-        min_(INT_MAX),
-        max_(-INT_MAX),
-        tile_(false) {}
+        AbstractMatrix(), AbstractPoints(), matrix_(matrix), min_(INT_MAX), max_(-INT_MAX), tile_(false) {}
 
     virtual ~MatrixHandler() {}
 
@@ -144,7 +132,8 @@ public:
              coord != coordinates.end(); ++coord) {
             double distance = (row - coord->first.first) * (row - coord->first.first) +
                               (column - coord->first.second) * (column - coord->first.second);
-            // cout << distance << " [ " << coord->first.first << ", " << coord->first.second << "]" << endl;
+            // cout << distance << " [ " << coord->first.first << ", " <<
+            // coord->first.second << "]" << endl;
             distances.push_back(distance);
             helper.insert(make_pair(distance, *coord));
         }
@@ -169,7 +158,8 @@ public:
         if (j < left()) {
             if (!same(j, left()))
                 return matrix_.missing();
-            j = left();  // not really necessary but now there will be no more obscur rounding problems!
+            j = left();  // not really necessary but now there will be no more obscur
+                         // rounding problems!
         }
         if (j > right()) {
             if (!same(j, right()))
@@ -186,7 +176,6 @@ public:
                 return matrix_.missing();
             i = top();  // id left
         }
-
 
         int ii = rowIndex(i);
         if (ii == -1) {
@@ -224,7 +213,6 @@ public:
             boundColumn(j, v1, i1, v2, i2);
             if (i1 == -1 || i2 == -1)
                 return missing();
-
 
             double a = (*this)(ii, i1);
             if (same(a, missing()))
@@ -331,17 +319,14 @@ public:
 
     virtual void advance() { current_++; }
 
-
     virtual vector<double>& rowsAxis() const { return const_cast<MatrixHandler*>(this)->matrix_.rowsAxis(); }
     virtual vector<double>& columnsAxis() const { return const_cast<MatrixHandler*>(this)->matrix_.columnsAxis(); }
 
     virtual double row(int i, int j) const { return matrix_.row(i, j); }
     virtual double column(int i, int j) const { return matrix_.column(i, j); }
 
-
     virtual double regular_row(int i) const { return matrix_.regular_row(i); }
     virtual double regular_column(int i) const { return matrix_.regular_column(i); }
-
 
     virtual double missing() const { return matrix_.missing(); }
     virtual bool hasMissingValues() const {
@@ -368,11 +353,9 @@ protected:
     mutable bool tile_;
 };
 
-
 class TransformMatrixHandler : public MatrixHandler {
 public:
     TransformMatrixHandler(const AbstractMatrix& matrix) : MatrixHandler(matrix) {}
-
 
     double operator()(int i, int j) const { return matrix_(i + minrow_, j + mincolumn_); }
 
@@ -468,7 +451,6 @@ class DelegateMatrixHandler : public MatrixHandler {
 public:
     DelegateMatrixHandler(const AbstractMatrix& matrix) : MatrixHandler(matrix) {}
 
-
     double interpolate(double row, double column) const { return matrix_.interpolate(row, column); }
     double nearest(double row, double column) const { return matrix_.nearest(row, column); }
 
@@ -487,13 +469,11 @@ protected:
 #define PROJ_MSVC_DLL_IMPORT 1
 #endif
 
-#define ACCEPT_USE_OF_DEPRECATED_PROJ_API_H 1
-#include <proj_api.h>
+#include <ProjP.h>
 
 class Proj4MatrixHandler : public MatrixHandler {
 public:
     Proj4MatrixHandler(const AbstractMatrix& matrix, const string&);
-
 
     double interpolate(double row, double column) const;
     double nearest(double row, double column) const;
@@ -502,7 +482,6 @@ public:
     double row(int, int) const;
 
     bool delegate() const { return true; }
-
 
 protected:
     double minx_;
@@ -510,18 +489,15 @@ protected:
     double miny_;
     double maxy_;
 
-    projPJ proj4_;
-    projPJ latlon_;
+    LatLonProjP projHelper_;
 };
 
 class RotatedMatrixHandler : public MatrixHandler {
 public:
     RotatedMatrixHandler(const AbstractMatrix& matrix, double lat, double lon);
 
-
     double interpolate(double row, double column) const;
     double nearest(double row, double column) const;
-
 
     double column(int, int) const;
     double row(int, int) const;
@@ -529,7 +505,6 @@ public:
     bool delegate() const { return true; }
     pair<double, double> unrotate(double, double) const;
     pair<double, double> rotate(double, double) const;
-
 
 protected:
     double minx_;
@@ -543,9 +518,7 @@ protected:
 class BoxMatrixHandler : public TransformMatrixHandler {
 public:
     BoxMatrixHandler(const AbstractMatrix& matrix, const Transformation& transformation) :
-        TransformMatrixHandler(matrix),
-        transformation_(transformation),
-        original_(0) {
+        TransformMatrixHandler(matrix), transformation_(transformation), original_(0) {
         double minx = std::min(transformation.getMinX(), transformation.getMaxX());
         double maxx = std::max(transformation.getMinX(), transformation.getMaxX());
         double miny = std::min(transformation.getMinY(), transformation.getMaxY());
@@ -571,7 +544,6 @@ public:
                 }
             }
         }
-
 
         if (mincolumn_ > maxcolumn_) {
             mincolumn_ = maxcolumn_;
@@ -600,7 +572,6 @@ public:
             original_ = new BoxMatrixHandler(matrix_.original(), transformation_);
         return *original_;
     }
-
 
     virtual void boundRow(double r, double& row1, int& index1, double& row2, int& index2) const {
         index1 = lowerRow(r);
@@ -658,7 +629,6 @@ protected:
     mutable BoxMatrixHandler* original_;
 };
 
-
 class GeoBoxMatrixHandler : public TransformMatrixHandler {
 public:
     GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Transformation& transformation);
@@ -699,7 +669,6 @@ public:
         }
         return -1;
     }
-
 
     inline double column(int, int column) const { return regular_longitudes_[column]; }
     inline double row(int row, int) const { return regular_latitudes_[row]; }
@@ -787,7 +756,6 @@ public:
         column2 = regular_longitudes_[index2];
     }
 
-
 protected:
     const Transformation& transformation_;
     mutable GeoBoxMatrixHandler* original_;
@@ -796,7 +764,6 @@ protected:
     vector<double> regular_latitudes_;
     vector<double> regular_longitudes_;
 };
-
 
 class MonotonicIncreasingMatrixHandler : public MatrixHandler {
 public:
@@ -856,7 +823,6 @@ public:
         MagLog::debug() << "<--" << endl;
     }
 
-
     int lowerRow(double r) const {
         map<double, int>::const_iterator bound = newRowsMap_.find(r);
         if (bound != newRowsMap_.end())
@@ -886,19 +852,15 @@ protected:
     map<double, int> newColumnsMap_;
 };
 
-
 class OriginalMatrixHandler : public MatrixHandler {
 public:
     OriginalMatrixHandler(AbstractMatrix& matrix) : MatrixHandler(matrix.original()) {}
 };
 
-
 class ThinningMatrixHandler : public MatrixHandler {
 public:
     ThinningMatrixHandler(const AbstractMatrix& matrix, int fr, int fc) :
-        MatrixHandler(matrix),
-        frequencyRow_(fr),
-        frequencyColumn_(fc) {
+        MatrixHandler(matrix), frequencyRow_(fr), frequencyColumn_(fc) {
         int rows    = matrix_.rows();
         int columns = matrix_.columns();
 
@@ -911,12 +873,14 @@ public:
         for (int i = 0; i < columns; i += frequencyColumn_) {
             // MagLog::dev()<< "Sample --> " << column << "=" << i << endl;
             columnIndex_.insert(make_pair(column, i));
-            // MagLog::dev()<< "Sample --> " << column << "=" << i << "[" << regular_column(column) << "]" << endl;
+            // MagLog::dev()<< "Sample --> " << column << "=" << i << "[" <<
+            // regular_column(column) << "]" << endl;
 
             column++;
         }
         columnIndex_.insert(make_pair(column, columns - 1));
-        // MagLog::dev()<< "Sample --> " << column << "=" << columns-1 << "[" << regular_column(column) << "]"<< endl;
+        // MagLog::dev()<< "Sample --> " << column << "=" << columns-1 << "[" <<
+        // regular_column(column) << "]"<< endl;
     }
 
     int rows() const { return rowIndex_.size(); }

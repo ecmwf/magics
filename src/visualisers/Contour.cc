@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file Contour.cc
@@ -20,6 +20,7 @@
 */
 
 #include "Contour.h"
+
 #include "ContourLibrary.h"
 #include "HistoVisitor.h"
 #include "Layer.h"
@@ -30,9 +31,7 @@
 
 using namespace magics;
 
-
-Contour::Contour() : matrix_(0), styleInfo_(0) {}
-
+Contour::Contour() : matrix_(0), styleInfo_(0), legendIsOn_(false) {}
 
 Contour::~Contour() {
     if (matrix_)
@@ -51,13 +50,10 @@ void Contour::print(ostream& out) const {
     out << "]";
 }
 
-
 class MatrixTreshold : public MatrixHandler {
 public:
     MatrixTreshold(const AbstractMatrix& matrix, double min, double max) :
-        MatrixHandler(matrix),
-        min_(min),
-        max_(max) {}
+        MatrixHandler(matrix), min_(min), max_(max) {}
     double operator()(int row, int column) const {
         double val = this->matrix_(row, column);
         if (same(val, this->matrix_.missing()))
@@ -68,10 +64,10 @@ public:
             return max_;
         return val;
     }
+    double interpolate(double row, double column) const { return matrix_.interpolate(row, column); }
     double min_;
     double max_;
 };
-
 
 void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
     try {
@@ -79,12 +75,10 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
         ContourLibrary* library = MagTranslator<string, ContourLibrary>()(setting_);
 
         MetaDataCollector request, needAttributes;
-        
 
         bool legend_only = contour_->legend_only_;
         if (predefined_.size()) {
             library->getStyle(predefined_, automaticAttributes_);
-
 
             set(automaticAttributes_);
             auto text = automaticAttributes_.find("contour_legend_text");
@@ -99,8 +93,10 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
                 data.visit(needAttributes);
                 needAttributes["theme"] = theme_;
                 library->getStyle(needAttributes, automaticAttributes_, *styleInfo_);
-                if (!legend_)
+
+                if (!legendIsOn_ && !legend_)
                     automaticAttributes_["legend"] = "off";
+
                 set(automaticAttributes_);
             }
             else {
@@ -109,10 +105,8 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
 
                 library->getStyle(request, automaticAttributes_, *styleInfo_);
 
-
                 automaticAttributes_["contour_legend_only"] = contour_->legend_only_;
-
-                if (!legend_)
+                if (!legendIsOn_ && !legend_)
                     automaticAttributes_["legend"] = "off";
                 if (metadata_only_)
                     automaticAttributes_["contour_legend_only"] = "on";
@@ -130,7 +124,6 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
         contour_->legend_only_ = legend_only;
 
         delete library;
-
 
         data.getReady(parent.transformation());
         if (!data.valid()) {
@@ -153,8 +146,10 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
             return;
         }
 
-        matrix_ = (*this->method_).handler(*box, parent);
-        // matrix_ = box;
+        matrix_ = method_->handler(*box, parent);
+
+    
+
 
         if (this->floor_ != -INT_MAX || this->ceiling_ != INT_MAX)
             matrix_ = new MatrixTreshold(*matrix_, this->floor_, this->ceiling_);
@@ -183,7 +178,6 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
             (*this->grid_)(data, parent);
         (*this->hilo_)(*matrix_, parent);
 
-
         // We do not need the box anymore!
         delete box;
     }
@@ -192,22 +186,19 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
     }
 }
 
-
 void Contour::visit(Data& data, HistoVisitor& visitor) {
     if (!matrix_)
         return;
     contour_->visit(data, data.points(*visitor.dataLayoutTransformation(), false), visitor);
 }
 
-
 static SimpleObjectMaker<EcChartLibrary, ContourLibrary> ecchart("ecchart");
 static SimpleObjectMaker<NoContourLibrary, ContourLibrary> off("off");
 static SimpleObjectMaker<WebLibrary, ContourLibrary> style_name("style_name");
 static SimpleObjectMaker<WebLibrary, ContourLibrary> ecmwf("ecmwf");
 
-
 void Contour::visit(Data& data, LegendVisitor& legend) {
-    if (!this->legend_)
+    if (!legend_)
         return;
     legend.set(automaticAttributes_);
     contour_->visit(data, legend);

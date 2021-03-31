@@ -188,17 +188,20 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
                 for (vector<string>::const_iterator val = values.begin(); val != values.end(); ++val) {
                     string ss = s.substr(0, val->length());
                     if (magCompare(*val, ss)) {
-                        if (magCompare(ss,"ITA")) {
+                        if (magCompare(ss, "ITA")) {
                             MagLog::debug() << "Enter special case for regions in Italy MAGP-1214" << endl;
                             map<string, int>::iterator index_class = attributes.find("featurecla");
                             string type = DBFReadStringAttribute(hDBF, i, index_class->second);
-                            map<string, int>::iterator index = filter.empty() ? attributes.end() : attributes.find(filter);
-                            if(magCompare(type,"Admin-1 boundary")){
+                            map<string, int>::iterator index =
+                                filter.empty() ? attributes.end() : attributes.find(filter);
+                            if (magCompare(type, "Admin-1 boundary")) {
                                 add = false;
                             }
-                            else add = true;
+                            else
+                                add = true;
                         }
-                        else add = true;
+                        else
+                            add = true;
                         // MagLog::debug() << "Found " << ss << endl;
                         break;
                     }
@@ -368,8 +371,7 @@ void ShapeDecoder::decode(vector<magics::Polyline*>& data, const Transformation&
                 data.push_back(polyright);
             }
 
-            left        = false;
-            right       = false;
+
             int index   = 0;
             bool rotate = 0;
             for (j = 0, iPart = 1; j < psShape->nVertices; j++) {
@@ -418,7 +420,7 @@ void ShapeDecoder::decode(vector<magics::Polyline*>& data, const Transformation&
         SHPDestroyObject(psShape);
         SHPClose(hSHP);
     }
-    catch (std::exception e) {
+    catch (std::exception& e) {
         MagLog::error() << "Can not open Shapefile " << path_ << endl;
     }
 }

@@ -44,10 +44,7 @@ struct TL_DLL TeBox {
     */
     TeBox(const double& x1 = TeMAXFLOAT, const double y1 = TeMAXFLOAT, const double& x2 = -TeMAXFLOAT,
           const double y2 = -TeMAXFLOAT) :
-        x1_(x1),
-        y1_(y1),
-        x2_(x2),
-        y2_(y2) {}
+        x1_(x1), y1_(y1), x2_(x2), y2_(y2) {}
 
     //! Constructor from corners as TeCoord2D objects
     /*!

@@ -95,7 +95,7 @@ Symbol* SymbolProperties::symbol(const string& type) const {
     if (magCompare(type, "marker")) {
         if (image_) {
             ImageSymbol* img = new ImageSymbol(image_path_, image_format_);
-            img->set(image_width_, image_height_);
+            img->set(image_width_, image_height_, image_by_reference_);
             symbol = img;
         }
 
@@ -106,6 +106,8 @@ Symbol* SymbolProperties::symbol(const string& type) const {
             text->font(font_);
             text->text(text_);
             text->blanking(blanking_);
+            text->outline(outline_, outlineColour_, outlineThickness_, outlineStyle_);
+            text->connectline(connectLine_, connectLineColour_, connectLineThickness_, connectLineStyle_);
         }
         else
             symbol = new Symbol();
@@ -118,6 +120,11 @@ Symbol* SymbolProperties::symbol(const string& type) const {
         text->font(font_);
         text->text(text_);
         text->blanking(blanking_);
+        symbol->setColour(colour_);
+        symbol->setSymbol(marker_);
+        symbol->setHeight(height_);
+        symbol->outline(outline_, outlineColour_, outlineThickness_, outlineStyle_);
+        symbol->connectline(connectLine_, connectLineColour_, connectLineThickness_, connectLineStyle_);
     }
 
     if (magCompare(type, "text")) {
@@ -129,6 +136,8 @@ Symbol* SymbolProperties::symbol(const string& type) const {
             vector<string> helper;
             helper.push_back(label_);
             stext->text(helper);
+            symbol->outline(outline_, outlineColour_, outlineThickness_, outlineStyle_);
+            symbol->connectline(connectLine_, connectLineColour_, connectLineThickness_, connectLineStyle_);
         }
         else {
             TextSymbol* text = new TextSymbol();
@@ -141,6 +150,8 @@ Symbol* SymbolProperties::symbol(const string& type) const {
             symbol->setColour(Colour("none"));
             symbol->setSymbol(marker_);
             symbol->setHeight(0.0);
+            symbol->outline(outline_, outlineColour_, outlineThickness_, outlineStyle_);
+            symbol->connectline(connectLine_, connectLineColour_, connectLineThickness_, connectLineStyle_);
 
             return symbol;
         }
@@ -158,6 +169,8 @@ Symbol* SymbolProperties::symbol(const string& type) const {
         symbol->setColour(Colour("none"));
         symbol->setSymbol(marker_);
         symbol->setHeight(0.0);
+        symbol->outline(outline_, outlineColour_, outlineThickness_, outlineStyle_);
+        symbol->connectline(connectLine_, connectLineColour_, connectLineThickness_, connectLineStyle_);
 
         return symbol;
     }
@@ -215,6 +228,9 @@ void Symbol::redisplay(const BaseDriver& driver) const {
     line.clip(boundingbox_, lines);
 
     for (vector<Polyline*>::const_iterator l = lines.begin(); l != lines.end(); ++l) {
+        (*l)->setColour(connectLineColour_);
+        (*l)->setLineStyle(connectLineStyle_);
+        (*l)->setThickness(connectLineThickness_);
         driver.redisplay(**l);
     }
 }
@@ -265,11 +281,15 @@ void TextSymbol::redisplay(const BaseDriver& driver) const {
         line.push_back(*point);
     }
 
+
     vector<Polyline*> lines;
 
-    boundingbox_.clip(line, lines);
+    line.clip(boundingbox_, lines);
 
     for (vector<Polyline*>::const_iterator l = lines.begin(); l != lines.end(); ++l) {
+        (*l)->setColour(connectLineColour());
+        (*l)->setLineStyle(connectLineStyle());
+        (*l)->setThickness(connectLineThickness());
         driver.redisplay(**l);
     }
     // first  we remove the point that are outside!
@@ -291,6 +311,7 @@ void ImageSymbol::redisplay(const BaseDriver& driver) const {
         object->setFormat(format_);
         object->setWidth(width_);
         object->setHeight(height_);
+        object->setByReference(by_reference_);
         driver.redisplay(*object);
     }
 }

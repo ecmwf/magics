@@ -110,7 +110,7 @@ void KMLDriver::open() {
     if (!pFile_) {
         MagLog::error() << " KMLScriptDriver --> Cannot write output file to what was specified: " << fileName_ << endl;
         MagLog::error() << "";
-        throw NoSuchFileException("Error opening KML output file!");
+        throw CannotOpenFile(fileName_);
     }
     pFile_ << "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
            << "<kml xmlns=\"http://www.opengis.net/kml/2.2\" \n"
@@ -758,7 +758,7 @@ MAGICS_NO_EXPORT void KMLDriver::renderText(const Text& text) const {}
 
 */
 MAGICS_NO_EXPORT bool KMLDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
-                                              unsigned char* pixmap, int, bool) const {
+                                              unsigned char* pixmap, int, bool, bool) const {
     debugOutput("Start renderPixmap");
     if (render_) {
         if (kml_placemark_)
@@ -1194,7 +1194,7 @@ MAGICS_NO_EXPORT void KMLDriver::renderWindFlag(const Flag& flag) const {
 		MFloat slev1 = 2.5;
 		MFloat slev2 = 5.;
 		MFloat slev3 = 25.;
-		
+
 		if(flag.getConvention()==KNOTS)
 		{
 			len *= 1.94384466;
@@ -1212,7 +1212,7 @@ MAGICS_NO_EXPORT void KMLDriver::renderWindFlag(const Flag& flag) const {
 		currentLineStyle_ = setLineParameters(style,thickness);
 		renderPolyline2(line);
 		currentLineStyle_ = old_currentColourIndex;
-		
+
 		MFloat tmp = 0.;
 		int i = 0;
 		const MFloat lengthY = setY(length * ratio);
@@ -1262,9 +1262,9 @@ MAGICS_NO_EXPORT void KMLDriver::renderWindFlag(const Flag& flag) const {
 /*!
   \brief prints debug output
 
-  When Magics++ is compiled in debug mode these extra strings are printed.
+  When Magics is compiled in debug mode these extra strings are printed.
 
-  \note This can increase file and log file sizes if you run Magics++ in debug mode!
+  \note This can increase file and log file sizes if you run Magics in debug mode!
 
   \param s string to be printed
 */

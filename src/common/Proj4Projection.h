@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*!
@@ -28,8 +28,7 @@
 #define PROJ_MSVC_DLL_IMPORT 1
 #endif
 
-#define ACCEPT_USE_OF_DEPRECATED_PROJ_API_H 1
-#include <proj_api.h>
+#include <ProjP.h>
 
 namespace magics {
 
@@ -41,7 +40,6 @@ class Epsg;
 
     This projection ...
 */
-
 
 class Proj4Projection : public Transformation, public Proj4ProjectionAttributes {
 public:
@@ -222,7 +220,8 @@ public:
     void wrap(double&, double&);
 
 protected:
-    //! Method to print string about this class on to a stream of type ostream (virtual).
+    //! Method to print string about this class on to a stream of type ostream
+    //! (virtual).
     typedef void (Proj4Projection::*SettingHelper)();
     map<string, SettingHelper> helpers_;
 
@@ -231,8 +230,7 @@ protected:
     void centre();
 
     virtual void print(ostream&) const;
-    mutable projPJ from_;
-    mutable projPJ to_;
+    mutable LatLonProjP* helper_;
     double min_pcx_;
     double max_pcx_;
     double min_pcy_;

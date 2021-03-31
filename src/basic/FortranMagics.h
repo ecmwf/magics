@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file FortranMagics.h
@@ -22,13 +22,11 @@
 #ifndef FortranMagics_H
 #define FortranMagics_H
 
-#include "magics.h"
-
-
 #include "DisplayManager.h"
 #include "DriverManager.h"
 #include "MagicsGlobalAttributes.h"
 #include "OutputHandler.h"
+#include "magics.h"
 
 namespace magics {
 
@@ -42,20 +40,13 @@ class Axis;
 class FortranTextVisitor;
 class LegendVisitor;
 
-
-class MagicsGlobal : public MagicsGlobalAttributes {
-public:
-    MagicsGlobal(){};
-    ~MagicsGlobal(){};
-};
-
-class FortranMagics : public MagicsGlobal, public std::stack<BasicSceneObject*> {
+class FortranMagics : public std::stack<BasicSceneObject*> {
 public:
     FortranMagics();
     ~FortranMagics();
     typedef void (FortranMagics::*Action)();
     void popen();
-    int pclose();
+    int pclose(bool catch_exceptions=true);
     void pnew(const string&);
     void pcoast();
     void ptephi();
@@ -91,7 +82,6 @@ public:
     void metbufr();
     void metgraph();
 
-
     void epscloud();
     void epsplumes();
     void epsgraph();
@@ -110,13 +100,11 @@ public:
 
     void pwind();
 
-
     static FortranMagics& magics() {
         if (!singleton_)
             singleton_ = new FortranMagics();
         return *singleton_;
     }
-
     static void close() {
         if (singleton_)
             delete singleton_;
@@ -141,6 +129,8 @@ public:
     void flagInputSymbol() { symbolinput_todo_ = true; }
     void flagInputMatrix() { matrixinput_todo_ = true; }
     void flagInputPoly() { polyinput_todo_ = true; }
+
+    const char* knownDrivers();
 
 protected:
     //! Method to print string about this class on to a stream of type ostream.
