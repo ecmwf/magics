@@ -77,7 +77,7 @@ public:
 class AbstractPoints : public BasePointsHandler {
 public:
     AbstractPoints() : helper_(0){};
-    virtual ~AbstractPoints() {
+    virtual ~AbstractPoints() override {
         if (helper_)
             delete helper_;
     };
@@ -165,13 +165,13 @@ private:
 class PointsList : public vector<UserPoint*>, public AbstractPoints {
 public:
     PointsList() {}
-    ~PointsList() {}
+    ~PointsList() override {}
     // Implements the AbstractPoints interface
-    virtual void setToFirst() { current_ = this->begin(); }
-    virtual bool more() { return current_ != this->end(); }
-    virtual UserPoint& current() { return **current_; }
-    virtual void advance() { current_++; }
-    virtual int size() { return vector<UserPoint*>::size(); }
+    virtual void setToFirst() override { current_ = this->begin(); }
+    virtual bool more() override { return current_ != this->end(); }
+    virtual UserPoint& current() override { return **current_; }
+    virtual void advance() override { current_++; }
+    virtual int size() override { return vector<UserPoint*>::size(); }
 
 
 protected:

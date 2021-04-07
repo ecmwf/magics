@@ -9,18 +9,21 @@
  */
 
 #include "SegmentJoiner.h"
+#include "magics.h"
 
+#include <algorithm>
 #include <cmath>
 #include <limits>
-#include "MagExceptions.h"
+#include "MagException.h"
 #include "Timer.h"
-#include "marsmachine.h"
 
 #define CHECK_COLINEAR
 #define ONE_PASS
 #define xxxPROBE 8
 
 typedef uint64_t hash_t;
+
+using namespace magics;
 
 class Hasher {
     static const hash_t MIN_BITS = 8;   // 256 entryes
@@ -622,6 +625,7 @@ void SegmentJoiner::punchHoles(vector<vector<Point> >& result) {
 // Below is just for debugging
 
 void SegmentJoiner::check(list<deque<Segment> >& lines) {
+#if 0
     for (std::list<deque<Segment> >::iterator k = lines.begin(); k != lines.end(); ++k) {
         deque<Segment>& p = (*k);
         ASSERT(p.size());
@@ -653,6 +657,7 @@ void SegmentJoiner::check(list<deque<Segment> >& lines) {
         deque<Segment>& p = (*k);
         n += p.size();
     }
+#endif
 }
 
 class checker {

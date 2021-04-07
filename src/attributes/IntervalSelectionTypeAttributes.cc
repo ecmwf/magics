@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -28,17 +28,17 @@ IntervalSelectionTypeAttributes::IntervalSelectionTypeAttributes():
 	reference_(ParameterManager::getDouble("contour_reference_level")),
 	interval_(ParameterManager::getDouble("contour_interval"))
 	
-	 
+	
 {
-} 
+}
 
 
 IntervalSelectionTypeAttributes::~IntervalSelectionTypeAttributes()
 {
-	
+
 }
 
-    
+
 void IntervalSelectionTypeAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(3);
@@ -58,12 +58,12 @@ void IntervalSelectionTypeAttributes::copy(const IntervalSelectionTypeAttributes
 	reference_ = other.reference_;
 	interval_ = other.interval_;
 	
-} 
+}
 
 
 bool IntervalSelectionTypeAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "interval")  )
 		return true;
 	
@@ -74,7 +74,7 @@ void IntervalSelectionTypeAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "interval")  )
@@ -103,7 +103,7 @@ void IntervalSelectionTypeAttributes::print(ostream& out)  const
 
 void IntervalSelectionTypeAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"interval\""; 
+	out <<  "\"interval\"";
 	out << ", \"contour_reference_level\":";
 	niceprint(out,reference_);
 	out << ", \"contour_interval\":";
@@ -111,5 +111,5 @@ void IntervalSelectionTypeAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> contour_reference_level("contour_reference_level", 0.0, "");
-static MagicsParameter<double> contour_interval("contour_interval", 8.0, "");
+static MagicsParameter<double> contour_reference_level("contour_reference_level", 0.0);
+static MagicsParameter<double> contour_interval("contour_interval", 8.0);

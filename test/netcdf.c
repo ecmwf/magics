@@ -50,8 +50,8 @@ int main() {
     mag_setc("output_name", "contour_netcdf");  // which is different each time
 
     /* load the data */
-    mag_setc("netcdf_type",           "geomatrix");
-    mag_setc("netcdf_filename",       "era5_2mt.nc");
+    mag_setc("netcdf_type", "geomatrix");
+    mag_setc("netcdf_filename", "era5_2mt.nc");
     mag_setc("netcdf_value_variable", "t2m");
     mag_netcdf();
 

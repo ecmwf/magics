@@ -25,7 +25,8 @@
 
 using namespace magics;
 
-Text::Text() : justification_(MCENTRE), blanking_(false), verticalAlign_(MBASE), angle_(0) {}
+Text::Text() :
+    justification_(Justification::CENTRE), blanking_(false), verticalAlign_(VerticalAlign::BASE), angle_(0) {}
 
 Text::~Text() {}
 

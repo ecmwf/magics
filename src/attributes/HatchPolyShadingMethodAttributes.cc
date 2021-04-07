@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -29,17 +29,17 @@ HatchPolyShadingMethodAttributes::HatchPolyShadingMethodAttributes():
 	thickness_(ParameterManager::getInt("contour_shade_hatch_thickness")),
 	density_(ParameterManager::getDouble("contour_shade_hatch_density"))
 	
-	 
+	
 {
-} 
+}
 
 
 HatchPolyShadingMethodAttributes::~HatchPolyShadingMethodAttributes()
 {
-	
+
 }
 
-    
+
 void HatchPolyShadingMethodAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(5);
@@ -63,12 +63,12 @@ void HatchPolyShadingMethodAttributes::copy(const HatchPolyShadingMethodAttribut
 	thickness_ = other.thickness_;
 	density_ = other.density_;
 	
-} 
+}
 
 
 bool HatchPolyShadingMethodAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "hatch")  )
 		return true;
 	
@@ -79,7 +79,7 @@ void HatchPolyShadingMethodAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "hatch")  )
@@ -109,7 +109,7 @@ void HatchPolyShadingMethodAttributes::print(ostream& out)  const
 
 void HatchPolyShadingMethodAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"hatch\""; 
+	out <<  "\"hatch\"";
 	out << ", \"contour_shade_hatch_index\":";
 	niceprint(out,index_);
 	out << ", \"contour_shade_hatch_thickness\":";
@@ -119,6 +119,6 @@ void HatchPolyShadingMethodAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<int> contour_shade_hatch_index("contour_shade_hatch_index", 0, "");
-static MagicsParameter<int> contour_shade_hatch_thickness("contour_shade_hatch_thickness", 1, "");
-static MagicsParameter<double> contour_shade_hatch_density("contour_shade_hatch_density", 18.0, "");
+static MagicsParameter<int> contour_shade_hatch_index("contour_shade_hatch_index", 0);
+static MagicsParameter<int> contour_shade_hatch_thickness("contour_shade_hatch_thickness", 1);
+static MagicsParameter<double> contour_shade_hatch_density("contour_shade_hatch_density", 18.0);

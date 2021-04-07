@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-   
+
 
 #ifndef ListColourTechniqueWrapper_H
 #define ListColourTechniqueWrapper_H
@@ -33,7 +33,7 @@
 #include "ListColourTechnique.h"
 
 
- 
+
 #include "ColourTechniqueWrapper.h"
 
 
@@ -41,7 +41,7 @@
 
 
 
- 
+
 
 namespace magics {
 
@@ -58,21 +58,21 @@ public:
 //  --  destructor
     virtual ~ListColourTechniqueWrapper();
     virtual void set(const MagRequest&);
-    
-    ListColourTechnique* me()   { return listcolourtechnique_; }
-   	
-   	virtual ListColourTechnique* object() { return listcolourtechnique_; }
-	
 
-	virtual void object(ListColourTechnique* o) { 
+    ListColourTechnique* me()   { return listcolourtechnique_; }
+
+   	virtual ListColourTechnique* object() { return listcolourtechnique_; }
+
+
+	virtual void object(ListColourTechnique* o) {
 		// Remember to delete the previous object
 		listcolourtechnique_ = o;
 		ColourTechniqueWrapper::object(o);
 		
 
 	}
-    
-  
+
+
 
 protected:
     ListColourTechnique* listcolourtechnique_;
@@ -80,7 +80,7 @@ protected:
 
 //  --  method
 	virtual void print(ostream&) const;
-	
+
 
 private:
     string tag_;
@@ -91,5 +91,3 @@ private:
 } // namespace magics
 
 #endif
-
-

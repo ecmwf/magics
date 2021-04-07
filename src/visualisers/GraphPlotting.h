@@ -37,24 +37,24 @@ class DateTime;
 class GraphPlotting : public GraphPlottingAttributes, public Visdef {
 public:
     GraphPlotting();
-    virtual ~GraphPlotting();
+    virtual ~GraphPlotting() override;
 
     // Implements the Visualiser interface  ...
 
-    void operator()(Data& data, BasicGraphicsObjectContainer& parent) { return (*type_)(data, parent); }
-    bool needLegend() { return legend_; }
-    void visit(LegendVisitor& legend) {
+    void operator()(Data& data, BasicGraphicsObjectContainer& parent) override { return (*type_)(data, parent); }
+    bool needLegend() override { return legend_; }
+    void visit(LegendVisitor& legend) override {
         type_->legend(legend_, legend_text_);
         type_->visit(legend);
     }
-    void visit(TopAxisVisitor& top) { type_->visit(top); }
-    virtual void visit(Transformation& transformation, Data& data) { type_->visit(transformation, data); }
+    void visit(TopAxisVisitor& top) override { type_->visit(top); }
+    virtual void visit(Transformation& transformation, Data& data) override { type_->visit(transformation, data); }
     // Implements the set method ...
-    void set(const map<string, string>& map) {
+    void set(const map<string, string>& map) override {
         GraphPlottingAttributes::set(map);
         type_->set(map);
     }
-    void set(const XmlNode& node) {
+    void set(const XmlNode& node) override {
         GraphPlottingAttributes::set(node);
         type_->set(node);
     }
@@ -62,7 +62,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed

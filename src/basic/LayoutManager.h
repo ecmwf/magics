@@ -76,7 +76,7 @@ private:
 class AutomaticLayout : public LayoutManager {
 public:
     AutomaticLayout() : x_(0), y_(0), gapx_(0), gapy_(0) {}
-    ~AutomaticLayout() {}
+    ~AutomaticLayout() override {}
 
     void gapx(double gapx) { gapx_ = gapx; }
     void gapy(double gapy) { gapx_ = gapy; }
@@ -91,9 +91,9 @@ protected:
 class MagMLLayoutManager : public AutomaticLayout {
 public:
     MagMLLayoutManager();
-    ~MagMLLayoutManager() {}
-    BasicSceneNode* operator()(BasicSceneNode* parent, BasicPositionalObject* node);
-    virtual LayoutManager* clone() {
+    ~MagMLLayoutManager() override {}
+    BasicSceneNode* operator()(BasicSceneNode* parent, BasicPositionalObject* node) override;
+    virtual LayoutManager* clone() override {
         MagMLLayoutManager* layout = new MagMLLayoutManager();
 
         return layout;
@@ -113,9 +113,9 @@ protected:
 class BottomVerticalLayoutManager : public AutomaticLayout {
 public:
     BottomVerticalLayoutManager();
-    ~BottomVerticalLayoutManager();
-    BasicSceneNode* operator()(BasicSceneNode* parent, BasicPositionalObject* node);
-    virtual LayoutManager* clone() {
+    ~BottomVerticalLayoutManager() override;
+    BasicSceneNode* operator()(BasicSceneNode* parent, BasicPositionalObject* node) override;
+    virtual LayoutManager* clone() override {
         BottomVerticalLayoutManager* layout = new BottomVerticalLayoutManager();
         layout->gapx_                       = gapx_;
         layout->gapy_                       = gapy_;
@@ -126,9 +126,9 @@ public:
 class BottomHorizontalLayoutManager : public AutomaticLayout {
 public:
     BottomHorizontalLayoutManager();
-    ~BottomHorizontalLayoutManager();
-    BasicSceneNode* operator()(BasicSceneNode* parent, BasicPositionalObject* node);
-    virtual LayoutManager* clone() {
+    ~BottomHorizontalLayoutManager() override;
+    BasicSceneNode* operator()(BasicSceneNode* parent, BasicPositionalObject* node) override;
+    virtual LayoutManager* clone() override {
         BottomHorizontalLayoutManager* layout = new BottomHorizontalLayoutManager();
         layout->gapx_                         = gapx_;
         layout->gapy_                         = gapy_;
@@ -139,9 +139,9 @@ public:
 class TopHorizontalLayoutManager : public AutomaticLayout {
 public:
     TopHorizontalLayoutManager();
-    ~TopHorizontalLayoutManager();
-    BasicSceneNode* operator()(BasicSceneNode* parent, BasicPositionalObject* node);
-    virtual LayoutManager* clone() {
+    ~TopHorizontalLayoutManager() override;
+    BasicSceneNode* operator()(BasicSceneNode* parent, BasicPositionalObject* node) override;
+    virtual LayoutManager* clone() override {
         TopHorizontalLayoutManager* layout = new TopHorizontalLayoutManager();
         layout->gapx_                      = gapx_;
         layout->gapy_                      = gapy_;
@@ -152,9 +152,9 @@ public:
 class TopVerticalLayoutManager : public AutomaticLayout {
 public:
     TopVerticalLayoutManager();
-    ~TopVerticalLayoutManager();
-    BasicSceneNode* operator()(BasicSceneNode* parent, BasicPositionalObject* node);
-    virtual LayoutManager* clone() {
+    ~TopVerticalLayoutManager() override;
+    BasicSceneNode* operator()(BasicSceneNode* parent, BasicPositionalObject* node) override;
+    virtual LayoutManager* clone() override {
         TopVerticalLayoutManager* layout = new TopVerticalLayoutManager();
         layout->gapx_                    = gapx_;
         layout->gapy_                    = gapy_;

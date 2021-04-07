@@ -7,7 +7,7 @@ granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
 <magics>
-      <class name="MagicsGlobal" directory="common" action="pnew">
+      <class name="MagicsGlobal" directory="common" action="pnew" static_methods="yes">
             <parameter member="silent"
                   to="bool"
                   default="off"
@@ -20,6 +20,13 @@ does it submit to any jurisdiction.
                   default="true"
                   from="string"
                   name="magics_backward_compatibility">
+                  <documentation>Turn on/off</documentation>
+            </parameter>
+            <parameter member="strict"
+                  to="bool"
+                  default="false"
+                  from="string"
+                  name="magics_strict_mode">
                   <documentation>Turn on/off</documentation>
             </parameter>
       </class>

@@ -36,26 +36,32 @@ class Colour;
 class FrameBase {
 public:
     FrameBase() {}
-    virtual ~FrameBase() {}
+    virtual ~FrameBase() override {}
 
-    virtual void set(const XmlNode&) { MagLog::dev() << "FrameBase::set(const XmlNode&)---> to be checked!...\n"; }
-    virtual void set(const map<string, string>&) {
+    virtual void set(const XmlNode&) override {
+        MagLog::dev() << "FrameBase::set(const XmlNode&)---> to be checked!...\n";
+    }
+    virtual void set(const map<string, string>&) override {
         MagLog::dev() << "FrameBase::set(const map<string, string&)---> to be checked!...\n";
     }
-    virtual FrameBase* clone() const {
+    virtual FrameBase* clone() const override {
         MagLog::dev() << "FrameBase::set(const map<string, string&)---> to be checked!...\n";
         return new FrameBase();
     }
-    virtual void toxml(ostream&, int = 0) const {
+    virtual void toxml(ostream&, int = 0) const override {
         MagLog::dev() << "FrameBase::virtual void toxml(ostream&, int = 0) const ---> to be checked!...\n";
     }
-    virtual bool operator()() const {
+    virtual bool operator()() const override {
         MagLog::dev() << " bool FrameBase::operator()() const ---> to be checked!...\n";
         return false;
     }
 
-    virtual void set(Polyline&) { MagLog::dev() << " bool FrameBase::set(Polyline&) ---> to be checked!...\n"; }
-    virtual void blank(Polyline&) { MagLog::dev() << " bool FrameBase::blank(Polyline&) ---> to be checked!...\n"; }
+    virtual void set(Polyline&) override {
+        MagLog::dev() << " bool FrameBase::set(Polyline&) ---> to be checked!...\n";
+    }
+    virtual void blank(Polyline&) override {
+        MagLog::dev() << " bool FrameBase::blank(Polyline&) ---> to be checked!...\n";
+    }
     // Simulate the FrameAttributes interface!
     virtual void setColour(Colour*) {}
     virtual void setStyle(LineStyle) {}
@@ -65,7 +71,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const { out << "FrameBase\n"; }
+    virtual void print(ostream& out) const override { out << "FrameBase\n"; }
 
 private:
     //! Copy constructor - No copy allowed

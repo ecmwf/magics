@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -32,17 +32,17 @@ SimplePolylineInputAttributes::SimplePolylineInputAttributes():
 	position_filename_(ParameterManager::getString("polyline_input_positions_filename")),
 	values_filename_(ParameterManager::getString("polyline_input_values_filename"))
 	
-	 
+	
 {
-} 
+}
 
 
 SimplePolylineInputAttributes::~SimplePolylineInputAttributes()
 {
-	
+
 }
 
-    
+
 void SimplePolylineInputAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -69,12 +69,12 @@ void SimplePolylineInputAttributes::copy(const SimplePolylineInputAttributes& ot
 	position_filename_ = other.position_filename_;
 	values_filename_ = other.values_filename_;
 	
-} 
+}
 
 
 bool SimplePolylineInputAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "polyline_input")  )
 		return true;
 	
@@ -85,7 +85,7 @@ void SimplePolylineInputAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "polyline_input")  )
@@ -118,7 +118,7 @@ void SimplePolylineInputAttributes::print(ostream& out)  const
 
 void SimplePolylineInputAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"polyline_input\""; 
+	out <<  "\"polyline_input\"";
 	out << ", \"polyline_input_latitudes\":";
 	niceprint(out,latitudes_);
 	out << ", \"polyline_input_longitudes\":";
@@ -134,9 +134,9 @@ void SimplePolylineInputAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<doublearray> polyline_input_latitudes("polyline_input_latitudes", floatarray(), "");
-static MagicsParameter<doublearray> polyline_input_longitudes("polyline_input_longitudes", floatarray(), "");
-static MagicsParameter<doublearray> polyline_input_values("polyline_input_values", floatarray(), "");
-static MagicsParameter<double> polyline_input_break_indicator("polyline_input_break_indicator", -999, "");
-static MagicsParameter<string> polyline_input_positions_filename("polyline_input_positions_filename", "", "");
-static MagicsParameter<string> polyline_input_values_filename("polyline_input_values_filename", "", "");
+static MagicsParameter<doublearray> polyline_input_latitudes("polyline_input_latitudes", floatarray());
+static MagicsParameter<doublearray> polyline_input_longitudes("polyline_input_longitudes", floatarray());
+static MagicsParameter<doublearray> polyline_input_values("polyline_input_values", floatarray());
+static MagicsParameter<double> polyline_input_break_indicator("polyline_input_break_indicator", -999);
+static MagicsParameter<string> polyline_input_positions_filename("polyline_input_positions_filename", "");
+static MagicsParameter<string> polyline_input_values_filename("polyline_input_values_filename", "");

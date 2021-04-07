@@ -66,7 +66,7 @@ Arrow* ArrowPlotting::southArrow(const Colour& colour) {
     south->setThickness(this->thickness_);
     south->setStyle(this->style_);
     south->setScale(this->unit_velocity_);
-    south->setHemisphere(SOUTH);
+    south->setHemisphere(Hemisphere::SOUTH);
     south->setArrowPosition(this->origin_position_);
     south->setHeadIndex(this->head_);
     south->setHeadRatio(this->ratio_);
@@ -86,7 +86,7 @@ Arrow* ArrowPlotting::northArrow(const Colour& colour) {
     north->setThickness(this->thickness_);
     north->setStyle(this->style_);
     north->setScale(this->unit_velocity_);
-    north->setHemisphere(NORTH);
+    north->setHemisphere(Hemisphere::NORTH);
     north->setArrowPosition(this->origin_position_);
     north->setHeadIndex(this->head_);
     north->setHeadRatio(this->ratio_);

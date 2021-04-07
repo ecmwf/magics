@@ -34,22 +34,22 @@ class Box;
 class HistoIndividualMode : public HistoMode, public HistoIndividualModeAttributes {
 public:
     HistoIndividualMode();
-    virtual ~HistoIndividualMode();
+    virtual ~HistoIndividualMode() override;
 
     void set(const map<string, string>& map) { HistoIndividualModeAttributes::set(map); }
     void set(const XmlNode& node) { HistoIndividualModeAttributes::set(node); }
-    HistoMode* clone() const {
+    HistoMode* clone() const override {
         HistoIndividualMode* object;
         object->copy(*this);
         return object;
     }
 
-    virtual void count(double, double);
-    virtual void setToFirst(Layout&);
+    virtual void count(double, double) override;
+    virtual void setToFirst(Layout&) override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     Box* addButton(int var, int val, Layout&);
 
     map<double, int> map_;

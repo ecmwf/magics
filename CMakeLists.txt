@@ -15,7 +15,7 @@ cmake_minimum_required( VERSION 3.12 FATAL_ERROR )
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../ecbuild/cmake")
 find_package( ecbuild 3.4 REQUIRED )
 
-project( magics VERSION 4.6.0 LANGUAGES CXX )
+project( magics VERSION 4.7.0 LANGUAGES CXX )
 
 # make sure that the header files are installed into include/magics
 # note that this needs to be done before ecbuild_declare_project()
@@ -146,17 +146,7 @@ ecbuild_find_package( NAME eccodes VERSION 2.19.0 REQUIRED
 set( HAVE_GRIB 1 )
 set( HAVE_BUFR 1 )
 
-set( CMAKE_THREAD_PREFER_PTHREAD 1 )
 
-
-if( EC_OS_NAME MATCHES "windows" )
-    message("====================== IN WINDOWS")
-    find_package( Pthread REQUIRED )
-    message("====================== IN WINDOWS ${PTHREAD_INCLUDE_DIR} ${PTHREAD_LIBRARIES}")
-    list( APPEND MAGICS_EXTRA_LIBRARIES ${PTHREAD_LIBRARIES} )
-else()
-  find_package( Threads )
-endif()
 
 
 # adding NO_MODULE means that if we don't find it, CMake will not generate
@@ -164,6 +154,7 @@ endif()
 # this should find proj if it has been installed via CMake, but if it has been
 # installed via autotools, then we will need to try another method
 #ecbuild_find_package(NAME PROJ4 VERSION 6.1.0 QUIET )
+
 # find_package( PROJ4 6.1.0 NO_MODULE )
 # if(NOT PROJ4_FOUND)
 find_package(PROJ 6.1.0 REQUIRED)
@@ -195,14 +186,30 @@ if( EC_OS_NAME MATCHES "windows" )
     # Suppress warnings about using well-known C functions.
     ecbuild_add_c_flags("/D_CRT_NONSTDC_NO_DEPRECATE")
     ecbuild_add_cxx_flags("/D_CRT_NONSTDC_NO_DEPRECATE")
+    # For M_PI
+    ecbuild_add_c_flags("/D_USE_MATH_DEFINES")
+    ecbuild_add_cxx_flags("/D_USE_MATH_DEFINES")
     # Suppress C4267: warns about possible loss of data when converting 'size_t' to 'int'.
     ecbuild_add_c_flags("/wd4267")
     ecbuild_add_cxx_flags("/wd4267")
     # Suppress C4800: forcing value to bool 'true' or 'false'
     ecbuild_add_cxx_flags("/wd4800")
+    # Suppress C4244: convertions from double to int
+    #ecbuild_add_cxx_flags("/wd4244")
+    # Suppress C4244: convertions from double to float
+    #ecbuild_add_cxx_flags("/wd4305")
+
+#### /D PROJ_MSVC_DLL_IMPORT
 
     # Prevent fatal error C1128
     ecbuild_add_cxx_flags("/bigobj")
+
+else()
+
+  set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-unused-parameter -Wno-overloaded-virtual -Wno-unused-variable -Wno-reorder -Wno-sign-compare")
+
+  # set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-unused-parameter -Wno-overloaded-virtual -Wno-unused-variable -Wno-reorder-ctor -Wno-sign-compare")
+
 endif()
 
 ###############################################################################
@@ -243,8 +250,12 @@ if( EC_OS_NAME MATCHES "windows" )
     # It's part of the Windows SDK so no need to search for it.
     list( APPEND MAGICS_EXTRA_LIBRARIES ws2_32 )
     # We need to find zlib.lib
-    find_library( ZLIB_LIB zlib PATHS ENV PATH )
-    list( APPEND MAGICS_EXTRA_LIBRARIES ${ZLIB_LIB} )
+    # find_library( ZLIB_LIB zlib PATHS ENV PATH )
+    # list( APPEND MAGICS_EXTRA_LIBRARIES ${ZLIB_LIB} )
+    find_package( ZLIB REQUIRED )   # for MagML
+    message("ZLIB include: ${ZLIB_INCLUDE_DIR}")
+    message("ZLIB library: ${ZLIB_LIBRARIES}")
+    list( APPEND MAGICS_EXTRA_LIBRARIES ${ZLIB_LIBRARIES} )
 endif()
 
 ecbuild_debug("MAGICS_EXTRA_DEFINITIONS  => ${MAGICS_EXTRA_DEFINITIONS}")
@@ -275,6 +286,7 @@ ecbuild_add_resources( TARGET old_resources
 		regression
 		toolsjs
 		notebook)
+
 
 
 ############################################################################################

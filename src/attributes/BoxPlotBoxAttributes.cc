@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -30,17 +30,17 @@ BoxPlotBoxAttributes::BoxPlotBoxAttributes():
 	colour_(MagTranslator<string, Colour>().magics("boxplot_box_colour")),
 	border_(MagTranslator<string, NoBoxPlotBoxBorder>().magics("boxplot_box_border")),
 	median_(MagTranslator<string, NoBoxPlotMedian>().magics("boxplot_median"))
-	 
+	
 {
-} 
+}
 
 
 BoxPlotBoxAttributes::~BoxPlotBoxAttributes()
 {
-	
+
 }
 
-    
+
 void BoxPlotBoxAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -63,12 +63,12 @@ void BoxPlotBoxAttributes::copy(const BoxPlotBoxAttributes& other)
 	border_ = unique_ptr<NoBoxPlotBoxBorder>(other.border_->clone());
 	median_ = unique_ptr<NoBoxPlotMedian>(other.median_->clone());
 	
-} 
+}
 
 
 bool BoxPlotBoxAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "box")  )
 		return true;
 	if ( acceptNode(node, border_) )
@@ -83,7 +83,7 @@ void BoxPlotBoxAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "box")  )
@@ -99,8 +99,8 @@ void BoxPlotBoxAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), border_, *elt); 
-		setMember(elt->name(), median_, *elt); 
+		setMember(elt->name(), border_, *elt);
+		setMember(elt->name(), median_, *elt);
 		
 	}
 }
@@ -118,7 +118,7 @@ void BoxPlotBoxAttributes::print(ostream& out)  const
 
 void BoxPlotBoxAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"box\""; 
+	out <<  "\"box\"";
 	out << ", \"boxplot_box_width\":";
 	niceprint(out,width_);
 	out << ", \"boxplot_box_colour\":";
@@ -130,10 +130,10 @@ void BoxPlotBoxAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> boxplot_box_width("boxplot_box_width", 1.0, "");
-static MagicsParameter<string> boxplot_box_colour("boxplot_box_colour", "sky", ""); 
-static MagicsParameter<string> boxplot_box_border("boxplot_box_border", "on", ""); 
-static MagicsParameter<string> boxplot_median("boxplot_median", "on", ""); 
+static MagicsParameter<double> boxplot_box_width("boxplot_box_width", 1.0);
+static MagicsParameter<string> boxplot_box_colour("boxplot_box_colour", "sky");
+static MagicsParameter<string> boxplot_box_border("boxplot_box_border", "on");
+static MagicsParameter<string> boxplot_median("boxplot_median", "on");
 #include "BoxPlotItem.h"
 #include "BoxPlotBasicItem.h"
 static SimpleObjectMaker<BoxPlotBoxBorder , NoBoxPlotBoxBorder> border_BoxPlotBoxBorder("border");

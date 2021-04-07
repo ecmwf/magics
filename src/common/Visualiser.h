@@ -39,16 +39,18 @@ template <class P>
 class VisualComponent {
 public:
     VisualComponent(){};
-    virtual ~VisualComponent(){};
+    virtual ~VisualComponent() override{};
 
 
-    virtual void preparePlot(Data<P>&, Task&) {
+    virtual void preparePlot(Data<P>&, Task&) override {
         MagLog::dev() << "VisualComponent::preparePlot(Data<P>&, Task&)--->Not yet implemented\n";
     }
-    virtual void preparePlot(MatrixHandler<P>&, Task&) {
+    virtual void preparePlot(MatrixHandler<P>&, Task&) override {
         MagLog::dev() << "VisualComponent::preparePlot(MatrixHandler<P>&, Task&)--->Not yet implemented\n";
     }
-    virtual void preparePlot(Task&) { MagLog::dev() << "VisualComponent::preparePlot(Task&)--->Not yet implemented\n"; }
+    virtual void preparePlot(Task&) override {
+        MagLog::dev() << "VisualComponent::preparePlot(Task&)--->Not yet implemented\n";
+    }
 };
 
 
@@ -56,13 +58,13 @@ template <class P>
 class Visualiser : public BaseSceneObject, public VisualComponent<P> {
 public:
     Visualiser(){};
-    virtual ~Visualiser(){};
+    virtual ~Visualiser() override{};
 
-    virtual void specialise(VisualTask<P>& task) { task.set(this); };
+    virtual void specialise(VisualTask<P>& task) override { task.set(this); };
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const { out << "Base class Visualiser"; }
+    virtual void print(ostream& out) const override { out << "Base class Visualiser"; }
 
 
 private:

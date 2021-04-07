@@ -15,7 +15,6 @@
 #include "magics.h"
 
 typedef struct PJconsts PJ;
-typedef struct projCtx_t PJ_CONTEXT;
 
 
 namespace magics {
@@ -41,7 +40,6 @@ protected:
     string from_;
     string to_;
     PJ* converter_;
-    static PJ_CONTEXT* context_;
 
 private:
     //! Copy constructor - No copy allowed
@@ -59,8 +57,8 @@ class LatLonProjP : public ProjP {
 public:
     LatLonProjP() {}
     LatLonProjP(const string& to) : ProjP("EPSG:4326", to) {}
-    int convert(double&, double&) const;
-    int revert(double&, double&) const;
+    int convert(double&, double&) const override;
+    int revert(double&, double&) const override;
 };
 
 }  // namespace magics

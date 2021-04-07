@@ -33,17 +33,17 @@ namespace magics {
 class ImportObjectHandler : public BasicSceneNode, public Layout, public ImportObjectHandlerAttributes {
 public:
     ImportObjectHandler();
-    virtual ~ImportObjectHandler();
+    virtual ~ImportObjectHandler() override;
 
-    void getReady();
-    void visit(SceneLayer&, vector<LayoutVisitor*>&);
-    void visit(MetaDataCollector& collector);
-    void set(const XmlNode& node) { ImportObjectHandlerAttributes::set(node); }
-    void set(const map<string, string>& map) { ImportObjectHandlerAttributes::set(map); }
+    void getReady() override;
+    void visit(SceneLayer&, vector<LayoutVisitor*>&) override;
+    void visit(MetaDataCollector& collector) override;
+    void set(const XmlNode& node) override { ImportObjectHandlerAttributes::set(node); }
+    void set(const map<string, string>& map) override { ImportObjectHandlerAttributes::set(map); }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed

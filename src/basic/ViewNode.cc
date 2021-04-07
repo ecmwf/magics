@@ -21,7 +21,7 @@
 
 #include "ViewNode.h"
 
-#include <MagConfig.h>
+#include "MagConfig.h"
 
 #include "AnimationRules.h"
 #include "Dimension.h"
@@ -34,6 +34,7 @@
 #include "SceneVisitor.h"
 #include "TextVisitor.h"
 #include "Transformation.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 

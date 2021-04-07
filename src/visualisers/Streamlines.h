@@ -33,16 +33,16 @@ namespace magics {
 class Streamlines : public WindPlotting, public StreamlinesAttributes {
 public:
     Streamlines() {}
-    virtual ~Streamlines() {}
-    virtual void set(const map<string, string>& map) {
+    virtual ~Streamlines() override {}
+    virtual void set(const map<string, string>& map) override {
         WindPlottingAttributes::set(map);
         StreamlinesAttributes::set(map);
     }
-    virtual void set(const XmlNode& node) {
+    virtual void set(const XmlNode& node) override {
         WindPlottingAttributes::set(node);
         StreamlinesAttributes::set(node);
     }
-    bool accept(const string& node) {
+    bool accept(const string& node) override {
         return StreamlinesAttributes::accept(node);
         ;
     }
@@ -50,20 +50,20 @@ public:
         WindPlottingAttributes::copy(other);
         StreamlinesAttributes::copy(other);
     }
-    virtual WindPlotting* clone() {
+    virtual WindPlotting* clone() override {
         Streamlines* object = new Streamlines();
         object->copy(*this);
         return object;
     }
 
-    bool operator()(Data& data, BasicGraphicsObjectContainer& parent);
+    bool operator()(Data& data, BasicGraphicsObjectContainer& parent) override;
 
-    void visit(LegendVisitor& legend);
+    void visit(LegendVisitor& legend) override;
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const;
+    virtual void print(ostream& out) const override;
 
 private:
     //! Copy constructor - No copy allowed

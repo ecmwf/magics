@@ -5,6 +5,7 @@ from xml.sax import make_parser
 from datetime import date
 
 import sys
+import os
 
 
 class ObjectHandler(ContentHandler):
@@ -31,6 +32,7 @@ class ObjectHandler(ContentHandler):
     include = {}
     include_options = {}
     inherits = ""
+    static_methods = ""
     top = ""
     metview_default = ""
     implements = []
@@ -62,6 +64,8 @@ class ObjectHandler(ContentHandler):
         if "inherits" in attrs.keys():
             self.inherits = attrs.get("inherits")
         self.abstract = "abstract" in attrs.keys()
+        if "static_methods" in attrs.keys():
+            self.static_methods = attrs.get("static_methods")
         if "top" in attrs.keys():
             self.top = attrs.get("top")
 
@@ -154,7 +158,7 @@ class ObjectHandler(ContentHandler):
 
         param = self.parameters["factory"][-1]
         name = attrs.get("xml")
-        if name != None:
+        if name is not None:
             param["options"].append(
                 {
                     "key": attrs.get("xml"),
@@ -168,7 +172,7 @@ class ObjectHandler(ContentHandler):
 
         if attrs.get("fortran") != attrs.get("xml"):
             name = attrs.get("fortran")
-            if name != None:
+            if name is not None:
                 param["options"].append(
                     {
                         "key": attrs.get("fortran"),
@@ -201,40 +205,61 @@ saxparser.parse(datasource)
 
 with open("%s/source_mv.template" % toolssource, "r") as source:
     template = jinja2.Template(source.read())
-with open("%s/%sWrapper.cc" % (destination, object.name), "wt") as out:
-    out.write(
-        template.render(
-            object=object.name,
-            string_parameters=object.parameters["basic"],
-            factory_parameters=object.parameters["factory"],
-            include=object.include,
-            include_options=object.include_options,
-            date=object.generated,
-            tag=object.tag,
-            top=object.top,
-            metview_default=object.metview_default,
-            abstract=object.abstract,
-            inherit=object.inherits,
-            prefix=object.prefix,
-        )
-    )
+
+path = "%s/%sWrapper.cc" % (destination, object.name)
+old = None
+
+if os.path.exists(path):
+    with open(path) as f:
+        old = f.read()
+
+new = template.render(
+    object=object.name,
+    string_parameters=object.parameters["basic"],
+    factory_parameters=object.parameters["factory"],
+    include=object.include,
+    include_options=object.include_options,
+    date=object.generated,
+    tag=object.tag,
+    top=object.top,
+    metview_default=object.metview_default,
+    abstract=object.abstract,
+    inherit=object.inherits,
+    static_methods=object.static_methods,
+    prefix=object.prefix,
+)
+
+if old != new:
+    with open(path, "wt") as out:
+        print("CHANGED:", path)
+        out.write(new)
 
 with open("%s/header_mv.template" % (toolssource), "r") as source:
     template = jinja2.Template(source.read())
-with open("%s/%sWrapper.h" % (destination, object.name), "wt") as out:
-    out.write(
-        template.render(
-            object=object.name,
-            string_parameters=object.parameters["basic"],
-            factory_parameters=object.parameters["factory"],
-            include=object.include,
-            include_options=object.include_options,
-            implements=object.implements,
-            date=object.generated,
-            inherit=object.inherits,
-            tag=object.tag,
-            object_include=object.object_include,
-            wrapper=object.wrapper_include,
-            prefix=object.prefix,
-        )
-    )
+
+path = "%s/%sWrapper.h" % (destination, object.name)
+old = None
+
+if os.path.exists(path):
+    with open(path) as f:
+        old = f.read()
+
+new = template.render(
+    object=object.name,
+    string_parameters=object.parameters["basic"],
+    factory_parameters=object.parameters["factory"],
+    include=object.include,
+    include_options=object.include_options,
+    implements=object.implements,
+    date=object.generated,
+    inherit=object.inherits,
+    tag=object.tag,
+    object_include=object.object_include,
+    wrapper=object.wrapper_include,
+    prefix=object.prefix,
+)
+
+if old != new:
+    with open(path, "wt") as out:
+        print("CHANGED:", path)
+        out.write(new)

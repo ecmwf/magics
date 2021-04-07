@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -35,17 +35,17 @@ TileDecoderAttributes::TileDecoderAttributes():
 	scaling_factor_(ParameterManager::getDouble("grib_scaling_factor")),
 	scaling_offset_(ParameterManager::getDouble("grib_scaling_offset"))
 	
-	 
+	
 {
-} 
+}
 
 
 TileDecoderAttributes::~TileDecoderAttributes()
 {
-	
+
 }
 
-    
+
 void TileDecoderAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -77,12 +77,12 @@ void TileDecoderAttributes::copy(const TileDecoderAttributes& other)
 	scaling_factor_ = other.scaling_factor_;
 	scaling_offset_ = other.scaling_offset_;
 	
-} 
+}
 
 
 bool TileDecoderAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "grib")  )
 		return true;
 	
@@ -93,7 +93,7 @@ void TileDecoderAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "grib")  )
@@ -129,7 +129,7 @@ void TileDecoderAttributes::print(ostream& out)  const
 
 void TileDecoderAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"grib\""; 
+	out <<  "\"grib\"";
 	out << ", \"grib_input_file_name\":";
 	niceprint(out,file_name_);
 	out << ", \"grib_tile_projection\":";
@@ -151,12 +151,12 @@ void TileDecoderAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> grib_input_file_name("grib_input_file_name", "", "");
-static MagicsParameter<string> grib_tile_projection("grib_tile_projection", "cylindrical", "");
-static MagicsParameter<string> grib_loop("grib_loop", "off", "");
-static MagicsParameter<int> grib_tile_z("grib_tile_z", 1, "");
-static MagicsParameter<int> grib_tile_x("grib_tile_x", 0, "");
-static MagicsParameter<int> grib_tile_y("grib_tile_y", 0, "");
-static MagicsParameter<string> grib_automatic_scaling("grib_automatic_scaling", "on", "");
-static MagicsParameter<double> grib_scaling_factor("grib_scaling_factor", 1, "");
-static MagicsParameter<double> grib_scaling_offset("grib_scaling_offset", 0, "");
+static MagicsParameter<string> grib_input_file_name("grib_input_file_name", "");
+static MagicsParameter<string> grib_tile_projection("grib_tile_projection", "cylindrical");
+static MagicsParameter<string> grib_loop("grib_loop", "off");
+static MagicsParameter<int> grib_tile_z("grib_tile_z", 1);
+static MagicsParameter<int> grib_tile_x("grib_tile_x", 0);
+static MagicsParameter<int> grib_tile_y("grib_tile_y", 0);
+static MagicsParameter<string> grib_automatic_scaling("grib_automatic_scaling", "on");
+static MagicsParameter<double> grib_scaling_factor("grib_scaling_factor", 1);
+static MagicsParameter<double> grib_scaling_offset("grib_scaling_offset", 0);

@@ -79,7 +79,7 @@ void WebFormat::prepare(const string& magml, const map<string, string>& params, 
     ifstream in(magml.c_str());
     if (!in) {
         MagLog::error() << " Can not open file " << magml << endl;
-        throw(MagicsException("no file"));
+        throw CannotOpenFile(magml);
     }
 
     ofstream& out = file();
@@ -104,7 +104,11 @@ void MagML::execute(const string& magml, const map<string, string>& params) {
     magics.execute(file.name());
 }
 
-WebInterpretor WebInterpretor::web_;
+WebInterpretor& WebInterpretor::instance() {
+    static WebInterpretor instance;
+    return instance;
+}
+
 
 WebInterpretor::WebInterpretor() {}
 
@@ -112,14 +116,14 @@ WebInterpretor::~WebInterpretor() {}
 
 void WebInterpretor::magml(const string& file) {
     MagML magml;
-    magml.execute(file, web_);
-    web_.clear();
+    magml.execute(file, instance());
+    instance().clear();
 }
 
 void WebInterpretor::json(const string& file) {
     MagJSon json;
-    json.execute(file, web_);
-    web_.clear();
+    json.execute(file, instance());
+    instance().clear();
 }
 
 TempFile::TempFile() : filename(tmpnam(0)), ofs(filename) {

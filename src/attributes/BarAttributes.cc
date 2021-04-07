@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -40,17 +40,17 @@ BarAttributes::BarAttributes():
 	colour_(MagTranslator<string, Colour>().magics("graph_bar_colour")),
 	shade_(MagTranslator<string, GraphShade>().magics("graph_shade")),
 	annotation_colour_(MagTranslator<string, Colour>().magics("graph_bar_annotation_font_colour"))
-	 
+	
 {
-} 
+}
 
 
 BarAttributes::~BarAttributes()
 {
-	
+
 }
 
-    
+
 void BarAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -92,12 +92,12 @@ void BarAttributes::copy(const BarAttributes& other)
 	shade_ = unique_ptr<GraphShade>(other.shade_->clone());
 	annotation_colour_ = unique_ptr<Colour>(other.annotation_colour_->clone());
 	
-} 
+}
 
 
 bool BarAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "bar")  )
 		return true;
 	if ( acceptNode(node, shade_) )
@@ -110,7 +110,7 @@ void BarAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "bar")  )
@@ -125,7 +125,7 @@ void BarAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), shade_, *elt); 
+		setMember(elt->name(), shade_, *elt);
 		
 	}
 }
@@ -153,7 +153,7 @@ void BarAttributes::print(ostream& out)  const
 
 void BarAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"bar\""; 
+	out <<  "\"bar\"";
 	out << ", \"graph_bar_orientation\":";
 	niceprint(out,orientation_);
 	out << ", \"graph_bar_width\":";
@@ -185,20 +185,20 @@ void BarAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> graph_bar_orientation("graph_bar_orientation", "vertical", "");
-static MagicsParameter<double> graph_bar_width("graph_bar_width", -1, "");
-static MagicsParameter<string> graph_bar_style("graph_bar_style", "bar", "");
-static MagicsParameter<int> graph_bar_line_thickness("graph_bar_line_thickness", 1, "");
-static MagicsParameter<string> graph_bar_clipping("graph_bar_clipping", "on", "");
-static MagicsParameter<stringarray> graph_bar_annotation("graph_bar_annotation", stringarray(), "");
-static MagicsParameter<double> graph_bar_annotation_font_size("graph_bar_annotation_font_size", 0.25, "");
-static MagicsParameter<double> graph_bar_minimum_value("graph_bar_minimum_value", INT_MAX, "");
-static MagicsParameter<string> graph_bar_justification("graph_bar_justification", "centre", ""); 
-static MagicsParameter<string> graph_bar_line_style("graph_bar_line_style", "solid", ""); 
-static MagicsParameter<string> graph_bar_line_colour("graph_bar_line_colour", "black", ""); 
-static MagicsParameter<string> graph_bar_colour("graph_bar_colour", "blue", ""); 
-static MagicsParameter<string> graph_shade("graph_shade", "on", ""); 
-static MagicsParameter<string> graph_bar_annotation_font_colour("graph_bar_annotation_font_colour", "red", ""); 
+static MagicsParameter<string> graph_bar_orientation("graph_bar_orientation", "vertical");
+static MagicsParameter<double> graph_bar_width("graph_bar_width", -1);
+static MagicsParameter<string> graph_bar_style("graph_bar_style", "bar");
+static MagicsParameter<int> graph_bar_line_thickness("graph_bar_line_thickness", 1);
+static MagicsParameter<string> graph_bar_clipping("graph_bar_clipping", "on");
+static MagicsParameter<stringarray> graph_bar_annotation("graph_bar_annotation", stringarray());
+static MagicsParameter<double> graph_bar_annotation_font_size("graph_bar_annotation_font_size", 0.25);
+static MagicsParameter<double> graph_bar_minimum_value("graph_bar_minimum_value", INT_MAX);
+static MagicsParameter<string> graph_bar_justification("graph_bar_justification", "centre");
+static MagicsParameter<string> graph_bar_line_style("graph_bar_line_style", "solid");
+static MagicsParameter<string> graph_bar_line_colour("graph_bar_line_colour", "black");
+static MagicsParameter<string> graph_bar_colour("graph_bar_colour", "blue");
+static MagicsParameter<string> graph_shade("graph_shade", "on");
+static MagicsParameter<string> graph_bar_annotation_font_colour("graph_bar_annotation_font_colour", "red");
 #include "GraphShade.h"
 static SimpleObjectMaker<GraphShade , GraphShade> shading_GraphShade("shading");
 static SimpleObjectMaker<GraphShade , GraphShade> on_GraphShade("on");

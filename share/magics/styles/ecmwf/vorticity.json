@@ -1,0 +1,36 @@
+[
+  {
+    "eccharts_layer": [],
+    "prefered_units": "10**5/sec",
+    "styles": [
+      "sh_blured_fM50t50lst_cell",
+      "sh_blured_fM50t50lst",
+      "sh_blured_fM50t50lst_less",
+      "sh_blu_fM50tM1lst",
+      "sh_red_f1t50lst",
+      "sh_viobrn_fM50t50lst_less",
+      "ct_blured_fM5t50",
+      "sh_blured_fM50t50lst_narrow_range"
+    ],
+    "match": [
+      {
+        "paramId": "138",
+        "shortName": "vo"
+      },
+      {
+        "long_name": "Vorticity (relative)",
+        "standard_name": "atmosphere_relative_vorticity"
+      },
+      {
+        "paramId": "3041",
+        "shortName": "absv"
+      },
+      {
+        "standard_name": ["atmosphere_absolute_vorticity","atmosphere_upward_absolute_vorticity"]
+      },
+      {
+        "long_name": "Absolute vorticity"
+      }   
+    ]
+  }
+]

@@ -40,7 +40,7 @@ void setHandler(const vector<string>& keys, vector<T>& values, ListPolicy policy
         handler.insert(make_pair(*key, translator(*value)));
         value++;
         if (value == values.end())
-            value = (policy == M_CYCLE) ? values.begin() : --value;
+            value = (policy == ListPolicy::CYCLE) ? values.begin() : --value;
     }
 }
 

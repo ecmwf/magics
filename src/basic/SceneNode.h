@@ -33,18 +33,18 @@ namespace magics {
 class SceneNode : public BasicSceneNode {
 public:
     SceneNode();
-    virtual ~SceneNode();
+    virtual ~SceneNode() override;
 
-    BasicSceneNode* clone() { return new SceneNode(); }
+    BasicSceneNode* clone() override { return new SceneNode(); }
 
-    void getReady();
-    void text(TextVisitor*);
-    void legend(LegendVisitor*);
-    void visit(BasicGraphicsObjectContainer& tree);
+    void getReady() override;
+    void text(TextVisitor*) override;
+    void legend(LegendVisitor*) override;
+    void visit(BasicGraphicsObjectContainer& tree) override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     vector<TextVisitor*> texts_;
     LegendVisitor* legend_;
 
@@ -64,19 +64,19 @@ private:
 class FortranSceneNode : public SceneNode, public FortranSceneNodeAttributes {
 public:
     FortranSceneNode();
-    ~FortranSceneNode();
-    void getReady();
+    ~FortranSceneNode() override;
+    void getReady() override;
     void resize();
-    void visit(BasicGraphicsObjectContainer& tree);
-    BasicSceneNode* clone() {
+    void visit(BasicGraphicsObjectContainer& tree) override;
+    BasicSceneNode* clone() override {
         FortranSceneNode* node = new FortranSceneNode();
         node->copy(*this);
         return node;
     }
-    string theme() const;
+    string theme() const override;
 
 protected:
-    void print(ostream&) const;
+    void print(ostream&) const override;
     SceneLayer* sceneLayer_;
 };
 
@@ -84,13 +84,13 @@ protected:
 class XmlSceneNode : public SceneNode, public XmlSceneNodeAttributes {
 public:
     XmlSceneNode();
-    ~XmlSceneNode();
-    void set(const map<string, string>& map) { XmlSceneNodeAttributes::set(map); }
-    void set(const XmlNode& node) { XmlSceneNodeAttributes::set(node); }
-    void getReady();
+    ~XmlSceneNode() override;
+    void set(const map<string, string>& map) override { XmlSceneNodeAttributes::set(map); }
+    void set(const XmlNode& node) override { XmlSceneNodeAttributes::set(node); }
+    void getReady() override;
 
 protected:
-    void print(ostream&) const;
+    void print(ostream&) const override;
 };
 
 }  // namespace magics

@@ -16,16 +16,16 @@
 
 */
 
-#include <AnimationRules.h>
-#include <Flag.h>
-#include <Image.h>
-#include <ImportObject.h>
-#include <Layer.h>
-#include <Polyline.h>
-#include <QtDriver.h>
-#include <Symbol.h>
-#include <Text.h>
+#include "QtDriver.h"
+#include "AnimationRules.h"
+#include "Flag.h"
 #include "HistoVisitor.h"
+#include "Image.h"
+#include "ImportObject.h"
+#include "Layer.h"
+#include "Polyline.h"
+#include "Symbol.h"
+#include "Text.h"
 
 #include <QtGlobal>
 #include <QApplication>
@@ -76,11 +76,11 @@ QtDriver::QtDriver() : forceTextPen_(false) {
 
     currentPolylineSetItem_ = 0;
 
-    penStyle_[M_DASH]       = Qt::DashLine;
-    penStyle_[M_DOT]        = Qt::DotLine;
-    penStyle_[M_CHAIN_DASH] = Qt::DashDotLine;
-    penStyle_[M_CHAIN_DOT]  = Qt::DashDotDotLine;
-    penStyle_[M_SOLID]      = Qt::SolidLine;
+    penStyle_[LineStyle::DASH]       = Qt::DashLine;
+    penStyle_[LineStyle::DOT]        = Qt::DotLine;
+    penStyle_[LineStyle::CHAIN_DASH] = Qt::DashDotLine;
+    penStyle_[LineStyle::CHAIN_DOT]  = Qt::DashDotDotLine;
+    penStyle_[LineStyle::SOLID]      = Qt::SolidLine;
 
     // lineWidthFactor_=0.67;
     // lineWidthFactor_=0.6;
@@ -444,7 +444,7 @@ MAGICS_NO_EXPORT void QtDriver::project(MgQLayoutItem* item) const {
 		if(layout.name() != "drawing")
 			r->setBrush(Qt::cyan);
 		else
-			r->setBrush(Qt::red);	
+			r->setBrush(Qt::red);
 		//r->setTransform(tr);
 		//scene_->addItem(r);
 		//group->addToGroup(r);
@@ -490,7 +490,7 @@ MAGICS_NO_EXPORT void QtDriver::unproject() const {
     if (dimensionStack_.empty()) {
         MagLog::error() << "--->UNPROJECT ("
                         << ") Dimension stack error!" << endl;
-        assert(dimensionStack_.empty() == false);
+        ASSERT(dimensionStack_.empty() == false);
     }
 
     coordRatioX_ = scalesX_.top();
@@ -614,7 +614,7 @@ MAGICS_NO_EXPORT void QtDriver::closeLayer(MgQLayerItem* qln) const {
         return;
 
     // Get current layer item
-    // assert(qln->layer().id() == layer.id());
+    // ASSERT(qln->layer().id() == layer.id());
 
     // Pop layer item from the stack
     layerItemStack_.pop();
@@ -667,10 +667,8 @@ MAGICS_NO_EXPORT void QtDriver::setNewLineWidth(const MFloat width) const {
   \param w width of the line
 
 */
-MAGICS_NO_EXPORT int QtDriver::setLineParameters(const LineStyle linestyle, const MFloat w) const {
+MAGICS_NO_EXPORT void QtDriver::setLineParameters(const LineStyle linestyle, const MFloat w) const {
     setNewLineWidth(w);
-
-    currentLineStyle_ = linestyle;
 
     if (penStyle_.contains(linestyle)) {
         currentPenStyle_ = penStyle_[linestyle];
@@ -678,8 +676,6 @@ MAGICS_NO_EXPORT int QtDriver::setLineParameters(const LineStyle linestyle, cons
     else {
         currentPenStyle_ = Qt::SolidLine;
     }
-
-    return 0;
 }
 
 /*!
@@ -793,7 +789,7 @@ MAGICS_NO_EXPORT void QtDriver::renderSimplePolygon(const int n, MFloat* x, MFlo
     QBrush brush(Qt::SolidPattern);
     QPen pen;
 
-    if (currentShading_ == M_SH_DOT) {
+    if (currentShading_ == Shading::DOT) {
         const DotShadingProperties* pro = (DotShadingProperties*)currentShadingProperties_;
         const int density               = (int)sqrt(pro->density_);
         if (density <= 0)
@@ -838,7 +834,7 @@ MAGICS_NO_EXPORT void QtDriver::renderSimplePolygon(const int n, MFloat* x, MFlo
             // pen.setColor(QColor(255,255,255,0));
         }
     }
-    else if (currentShading_ == M_SH_HATCH) {
+    else if (currentShading_ == Shading::HATCH) {
         const HatchShadingProperties* pro = (HatchShadingProperties*)currentShadingProperties_;
         indexHatch_                       = pro->index_;
         if (indexHatch_ < 1 || indexHatch_ > 6) {
@@ -915,7 +911,7 @@ void QtDriver::renderSimplePolygon(const Polyline& line) const {
 
     QBrush brush(Qt::SolidPattern);
     QPen pen;
-    if (currentShading_ == M_SH_DOT) {
+    if (currentShading_ == Shading::DOT) {
         const DotShadingProperties* pro = (DotShadingProperties*)currentShadingProperties_;
         const int density               = (int)sqrt(pro->density_);
         if (density <= 0)
@@ -960,7 +956,7 @@ void QtDriver::renderSimplePolygon(const Polyline& line) const {
             // pen.setColor(QColor(255,255,255,0));
         }
     }
-    else if (currentShading_ == M_SH_HATCH) {
+    else if (currentShading_ == Shading::HATCH) {
         const HatchShadingProperties* pro = (HatchShadingProperties*)currentShadingProperties_;
         indexHatch_                       = pro->index_;
         if (indexHatch_ < 1 || indexHatch_ > 6) {
@@ -1083,7 +1079,7 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
     MFloat pheight;
 
     // Check if all the text items has the same font, size, colour  and style
-    assert(text.textBegin() != text.textEnd());
+    ASSERT(text.textBegin() != text.textEnd());
     const MagFont& magfontFirst = (text.textBegin())->font();
     bool sameFontForItems       = true;
     for (vector<NiceText>::const_iterator niceText = text.textBegin(); niceText != text.textEnd(); niceText++) {
@@ -1150,22 +1146,22 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
             int height = fm.height();
 
             MFloat x = 0;
-            if (horizontal == MCENTRE)
+            if (horizontal == Justification::CENTRE)
                 x = width * .5;
-            else if (horizontal == MRIGHT)
+            else if (horizontal == Justification::RIGHT)
                 x = width;
 
             MFloat y = 0.;
-            if (vertical == MBASE) {
+            if (vertical == VerticalAlign::BASE) {
                 y = height;
             }
-            else if (vertical == MTOP) {
+            else if (vertical == VerticalAlign::TOP) {
                 y = 0.;
             }
-            else if (vertical == MHALF) {
+            else if (vertical == VerticalAlign::HALF) {
                 y = height * .5;
             }
-            else if (vertical == MBOTTOM) {
+            else if (vertical == VerticalAlign::BOTTOM) {
                 y = height;
             }
 
@@ -1240,9 +1236,9 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
 
             // Find out text start position
             int xPos = x0;
-            if (horizontal == MCENTRE)
+            if (horizontal == Justification::CENTRE)
                 xPos -= totalWidth * .5;
-            else if (horizontal == MRIGHT)
+            else if (horizontal == Justification::RIGHT)
                 xPos -= totalWidth;
 
             // Loop for the indidual text items
@@ -1271,16 +1267,16 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
                 int height = fm.height();
 
                 MFloat y = 0.;
-                if (vertical == MBASE) {
+                if (vertical == VerticalAlign::BASE) {
                     y = height;
                 }
-                else if (vertical == MTOP) {
+                else if (vertical == VerticalAlign::TOP) {
                     y = 0.;
                 }
-                else if (vertical == MHALF) {
+                else if (vertical == VerticalAlign::HALF) {
                     y = height * .5;
                 }
-                else if (vertical == MBOTTOM) {
+                else if (vertical == VerticalAlign::BOTTOM) {
                     y = height;
                 }
 
@@ -1502,17 +1498,17 @@ MAGICS_NO_EXPORT void QtDriver::circle(const MFloat x, const MFloat y, const MFl
 
 MAGICS_NO_EXPORT void QtDriver::renderImage(const ImportObject& obj) const {
     std::string f         = obj.getFormat();
-    GraphicsFormat format = PNG;
+    GraphicsFormat format = GraphicsFormat::PNG;
     if (magCompare(f, "ps"))
         return;  // format = PS;
     else if (magCompare(f, "eps"))
         return;  // format = EPS;
     else if (magCompare(f, "gif"))
-        format = GIF;
+        format = GraphicsFormat::GIF;
     else if (magCompare(f, "jpeg") || magCompare(f, "jpg"))
-        format = JPG;
+        format = GraphicsFormat::JPG;
     else if (magCompare(f, "png"))
-        format = PNG;
+        format = GraphicsFormat::PNG;
     else if (magCompare(f, "svg"))
         return;  // format = SVG;
     else
@@ -1568,7 +1564,7 @@ MAGICS_NO_EXPORT void QtDriver::renderImage(const ImportObject& obj) const {
         x1 = projectX(obj.getOrigin().x() + width);
         y1 = projectY(obj.getOrigin().y() + height);
     }
-    
+
     item->setParentItem(currentItem_);
     item->setTargetRect(QRectF(x0, y0, x1 - x0, y1 - y0));
     item->setPos(x0, y0);

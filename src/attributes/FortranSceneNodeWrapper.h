@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-   
+
 
 #ifndef FortranSceneNodeWrapper_H
 #define FortranSceneNodeWrapper_H
@@ -40,15 +40,15 @@
 
 
 #include "NoPageIDWrapper.h"
- 
+
 
 namespace magics {
 
 class MagRequest;
 
 
- 	
-class FortranSceneNodeWrapper 
+
+class FortranSceneNodeWrapper
 
 {
 public:
@@ -58,20 +58,20 @@ public:
 //  --  destructor
     virtual ~FortranSceneNodeWrapper();
     virtual void set(const MagRequest&);
-    
-    FortranSceneNode* me()   { return fortranscenenode_; }
-   	
-   	virtual FortranSceneNode* object() { return fortranscenenode_; }
-	
 
-	virtual void object(FortranSceneNode* o) { 
+    FortranSceneNode* me()   { return fortranscenenode_; }
+
+   	virtual FortranSceneNode* object() { return fortranscenenode_; }
+
+
+	virtual void object(FortranSceneNode* o) {
 		// Remember to delete the previous object
 		fortranscenenode_ = o;
 		
 
 	}
-    
-  
+
+
 
 protected:
     FortranSceneNode* fortranscenenode_;
@@ -79,7 +79,7 @@ protected:
 
 //  --  method
 	virtual void print(ostream&) const;
-	
+
 
 private:
     string tag_;
@@ -90,5 +90,3 @@ private:
 } // namespace magics
 
 #endif
-
-

@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -26,17 +26,17 @@ using namespace magics;
 
 NoBoxPlotMedianAttributes::NoBoxPlotMedianAttributes()
 	
-	 
+	
 {
-} 
+}
 
 
 NoBoxPlotMedianAttributes::~NoBoxPlotMedianAttributes()
 {
-	
+
 }
 
-    
+
 void NoBoxPlotMedianAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -51,12 +51,12 @@ void NoBoxPlotMedianAttributes::set(const std::map<string, string>& params)
 void NoBoxPlotMedianAttributes::copy(const NoBoxPlotMedianAttributes& other)
 {
 	
-} 
+}
 
 
 bool NoBoxPlotMedianAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "median")  )
 		return true;
 	
@@ -67,7 +67,7 @@ void NoBoxPlotMedianAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "median")  )
@@ -94,7 +94,7 @@ void NoBoxPlotMedianAttributes::print(ostream& out)  const
 
 void NoBoxPlotMedianAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"median\""; 
+	out <<  "\"median\"";
 	
 }
 

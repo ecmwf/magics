@@ -91,7 +91,7 @@ public:
     //	MinMaxFilter (const BaseMatrixHandler& matrix, int nrows, int ncols);
     MinMaxFilter(MatrixHandler& matrix, int nrows, int ncols, int flag = 3);
 
-    virtual ~MinMaxFilter();
+    virtual ~MinMaxFilter() override;
 
     /*!
       Convolutes the filter over the input matrix
@@ -99,7 +99,7 @@ public:
          true  if the operantion was successfull
          false otherwise
     */
-    virtual bool Process();
+    virtual bool Process() override;
 
     //! Set min/max flag
     void SetMinMaxFlag(int flag) { mflag_ = flag; }

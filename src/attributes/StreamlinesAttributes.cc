@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -33,17 +33,17 @@ StreamlinesAttributes::StreamlinesAttributes():
 	,
 	colour_(MagTranslator<string, Colour>().magics("wind_streamline_colour")),
 	style_(MagTranslator<string, LineStyle>().magics("wind_streamline_style"))
-	 
+	
 {
-} 
+}
 
 
 StreamlinesAttributes::~StreamlinesAttributes()
 {
-	
+
 }
 
-    
+
 void StreamlinesAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -72,12 +72,12 @@ void StreamlinesAttributes::copy(const StreamlinesAttributes& other)
 	colour_ = unique_ptr<Colour>(other.colour_->clone());
 	style_ = other.style_;
 	
-} 
+}
 
 
 bool StreamlinesAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "")  )
 		return true;
 	
@@ -88,7 +88,7 @@ void StreamlinesAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "")  )
@@ -122,7 +122,7 @@ void StreamlinesAttributes::print(ostream& out)  const
 
 void StreamlinesAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"\""; 
+	out <<  "\"\"";
 	out << ", \"wind_streamline_min_density\":";
 	niceprint(out,min_density_);
 	out << ", \"wind_streamline_min_speed\":";
@@ -140,10 +140,10 @@ void StreamlinesAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> wind_streamline_min_density("wind_streamline_min_density", 1, "");
-static MagicsParameter<double> wind_streamline_min_speed("wind_streamline_min_speed", 1, "");
-static MagicsParameter<int> wind_streamline_thickness("wind_streamline_thickness", 2, "");
-static MagicsParameter<int> wind_streamline_head_shape("wind_streamline_head_shape", 1, "");
-static MagicsParameter<double> wind_streamline_head_ratio("wind_streamline_head_ratio", 0.2, "");
-static MagicsParameter<string> wind_streamline_colour("wind_streamline_colour", "blue", ""); 
-static MagicsParameter<string> wind_streamline_style("wind_streamline_style", "solid", ""); 
+static MagicsParameter<double> wind_streamline_min_density("wind_streamline_min_density", 1);
+static MagicsParameter<double> wind_streamline_min_speed("wind_streamline_min_speed", 1);
+static MagicsParameter<int> wind_streamline_thickness("wind_streamline_thickness", 2);
+static MagicsParameter<int> wind_streamline_head_shape("wind_streamline_head_shape", 1);
+static MagicsParameter<double> wind_streamline_head_ratio("wind_streamline_head_ratio", 0.2);
+static MagicsParameter<string> wind_streamline_colour("wind_streamline_colour", "blue");
+static MagicsParameter<string> wind_streamline_style("wind_streamline_style", "solid");

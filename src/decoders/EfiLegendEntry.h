@@ -89,28 +89,28 @@ public:
         magics::Polyline* l1 = new magics::Polyline();
         l1->setColour(normalColour_);
         l1->setThickness(1);
-        l1->setLineStyle(M_DOT);
+        l1->setLineStyle(LineStyle::DOT);
         l1->push_back(PaperPoint(x + half, bottom));
         l1->push_back(PaperPoint(x + half, top));
 
         magics::Polyline* l2 = new magics::Polyline();
         l2->setColour(normalColour_);
         l2->setThickness(1);
-        l2->setLineStyle(M_DOT);
+        l2->setLineStyle(LineStyle::DOT);
         l2->push_back(PaperPoint(x - half, bottom));
         l2->push_back(PaperPoint(x - half, top));
 
         magics::Polyline* lt = new magics::Polyline();
         lt->setColour(normalColour_);
         lt->setThickness(1);
-        lt->setLineStyle(M_DOT);
+        lt->setLineStyle(LineStyle::DOT);
         lt->push_back(PaperPoint(x - factor, top));
         lt->push_back(PaperPoint(x + factor, top));
 
         magics::Polyline* lb = new magics::Polyline();
         lb->setColour(normalColour_);
         lb->setThickness(1);
-        lb->setLineStyle(M_DOT);
+        lb->setLineStyle(LineStyle::DOT);
         lb->push_back(PaperPoint(x - factor, bottom));
         lb->push_back(PaperPoint(x + factor, bottom));
 

@@ -40,6 +40,7 @@ Contour::~Contour() {
         delete (styleInfo_);
 }
 
+
 /*!
  Class information are given to the output-stream.
 */
@@ -148,7 +149,7 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
 
         matrix_ = method_->handler(*box, parent);
 
-    
+
 
 
         if (this->floor_ != -INT_MAX || this->ceiling_ != INT_MAX)
@@ -196,6 +197,8 @@ static SimpleObjectMaker<EcChartLibrary, ContourLibrary> ecchart("ecchart");
 static SimpleObjectMaker<NoContourLibrary, ContourLibrary> off("off");
 static SimpleObjectMaker<WebLibrary, ContourLibrary> style_name("style_name");
 static SimpleObjectMaker<WebLibrary, ContourLibrary> ecmwf("ecmwf");
+static SimpleObjectMaker<WebLibrary, ContourLibrary> on("on");
+static SimpleObjectMaker<WebLibrary, ContourLibrary> climetlab("climetlab"); // For now
 
 void Contour::visit(Data& data, LegendVisitor& legend) {
     if (!legend_)

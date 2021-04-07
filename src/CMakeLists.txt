@@ -42,7 +42,7 @@ foreach( file ${metview_xmls} )
 #add_custom_command( magics_params DEPENDS ${magics_params_srcs} ${metview_wrappers_srcs} )
 
 ###############################################################################
-
+add_subdirectory( api )
 add_subdirectory( common )
 add_subdirectory( basic )
 add_subdirectory( web )
@@ -66,6 +66,14 @@ if( HAVE_ODB )
   list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/oda> )
 endif()
 
+
+# we may need to add stdc++fs to the link libs
+# GNU and Clang need this, but AppleClang does not
+set(STDFSLIB "")
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+	set(STDFSLIB "stdc++fs")
+endif()
+
 ecbuild_add_library( TARGET    MagPlus
                      SOURCES
                         magics.h
@@ -81,6 +89,7 @@ ecbuild_add_library( TARGET    MagPlus
                         ${clipper_srcs}
                         ${terralib_srcs}
                         ${odb_srcs}
+                        ${api_srcs}
                      TEMPLATES
                         ${common_templates}
                      PUBLIC_DEFINITIONS
@@ -88,6 +97,7 @@ ecbuild_add_library( TARGET    MagPlus
                      PUBLIC_LIBS
                         ${MAGICS_EXTRA_LIBRARIES}
                         eccodes
+                        ${STDFSLIB}
                      PRIVATE_INCLUDES $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/clipper>
                                       ${MAGICS_PRIVATE_INCLUDE_DIRS}
 
@@ -96,6 +106,7 @@ ecbuild_add_library( TARGET    MagPlus
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/attributes>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/basic>
+                                     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/api>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/common>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/drivers>
                                      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/decoders>
@@ -167,6 +178,7 @@ if( metview )
             XmlBasicNodeAttributes.h
             LookupTableModeAttributes.h
             FixedTableModeAttributes.h
+            MagicsGlobalAttributes.h
    )
    if(qt)
      list(APPEND attributes_include QtDriverAttributes.h)
@@ -194,7 +206,6 @@ endif()
 
 install( FILES magics.h                DESTINATION ${INSTALL_INCLUDE_DIR})
 install( FILES common/magics_export.h  DESTINATION ${INSTALL_INCLUDE_DIR})
-install( FILES common/magics_windef.h  DESTINATION ${INSTALL_INCLUDE_DIR})
 
 ## Add install include dirs to install interface
 foreach( target     MagPlus

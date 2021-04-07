@@ -146,9 +146,9 @@ public:
 
     /*
     // is the polyline out the projection!
-    virtual bool out(const Polyline&) const;
+    virtual bool out(const Polyline&) const override;
     // is the polyline in the projection?
-    virtual bool in(const Polyline&) const;
+    virtual bool in(const Polyline&) const override;
     */
     // is the point in projected area?
     virtual bool in(const UserPoint&) const;

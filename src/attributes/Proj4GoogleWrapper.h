@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-   
+
 
 #ifndef Proj4GoogleWrapper_H
 #define Proj4GoogleWrapper_H
@@ -33,7 +33,7 @@
 #include "Proj4Projection.h"
 
 
- 
+
 #include "Proj4ProjectionWrapper.h"
 
 
@@ -41,7 +41,7 @@
 
 
 
- 
+
 
 namespace magics {
 
@@ -58,21 +58,21 @@ public:
 //  --  destructor
     virtual ~Proj4GoogleWrapper();
     virtual void set(const MagRequest&);
-    
-    Proj4Google* me()   { return proj4google_; }
-   	
-   	virtual Proj4Google* object() { return proj4google_; }
-	
 
-	virtual void object(Proj4Google* o) { 
+    Proj4Google* me()   { return proj4google_; }
+
+   	virtual Proj4Google* object() { return proj4google_; }
+
+
+	virtual void object(Proj4Google* o) {
 		// Remember to delete the previous object
 		proj4google_ = o;
 		Proj4ProjectionWrapper::object(o);
 		
 
 	}
-    
-  
+
+
 
 protected:
     Proj4Google* proj4google_;
@@ -80,7 +80,7 @@ protected:
 
 //  --  method
 	virtual void print(ostream&) const;
-	
+
 
 private:
     string tag_;
@@ -91,5 +91,3 @@ private:
 } // namespace magics
 
 #endif
-
-

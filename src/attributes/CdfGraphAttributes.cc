@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -34,17 +34,17 @@ CdfGraphAttributes::CdfGraphAttributes():
 	,
 	clim_colour_(MagTranslator<string, Colour>().magics("cdf_clim_line_colour")),
 	clim_style_(MagTranslator<string, LineStyle>().magics("cdf_clim_line_style"))
-	 
+	
 {
-} 
+}
 
 
 CdfGraphAttributes::~CdfGraphAttributes()
 {
-	
+
 }
 
-    
+
 void CdfGraphAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -74,12 +74,12 @@ void CdfGraphAttributes::copy(const CdfGraphAttributes& other)
 	clim_colour_ = unique_ptr<Colour>(other.clim_colour_->clone());
 	clim_style_ = other.clim_style_;
 	
-} 
+}
 
 
 bool CdfGraphAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "cdfgraph")  )
 		return true;
 	
@@ -90,7 +90,7 @@ void CdfGraphAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "cdfgraph")  )
@@ -125,7 +125,7 @@ void CdfGraphAttributes::print(ostream& out)  const
 
 void CdfGraphAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"cdfgraph\""; 
+	out <<  "\"cdfgraph\"";
 	out << ", \"cdf_graph_type\":";
 	niceprint(out,type_);
 	out << ", \"cdf_lines_colour_array\":";
@@ -145,11 +145,11 @@ void CdfGraphAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> cdf_graph_type("cdf_graph_type", "medium", "");
-static MagicsParameter<stringarray> cdf_lines_colour_array("cdf_lines_colour_array", stringarray(), "");
-static MagicsParameter<stringarray> cdf_lines_style_array("cdf_lines_style_array", stringarray(), "");
-static MagicsParameter<intarray> cdf_lines_thickness_array("cdf_lines_thickness_array", intarray(), "");
-static MagicsParameter<int> cdf_clim_line_thickness("cdf_clim_line_thickness", 4, "");
-static MagicsParameter<string> legend("legend", "off", "");
-static MagicsParameter<string> cdf_clim_line_colour("cdf_clim_line_colour", "black", ""); 
-static MagicsParameter<string> cdf_clim_line_style("cdf_clim_line_style", "solid", ""); 
+static MagicsParameter<string> cdf_graph_type("cdf_graph_type", "medium");
+static MagicsParameter<stringarray> cdf_lines_colour_array("cdf_lines_colour_array", stringarray());
+static MagicsParameter<stringarray> cdf_lines_style_array("cdf_lines_style_array", stringarray());
+static MagicsParameter<intarray> cdf_lines_thickness_array("cdf_lines_thickness_array", intarray());
+static MagicsParameter<int> cdf_clim_line_thickness("cdf_clim_line_thickness", 4);
+static MagicsParameter<string> legend("legend", "off");
+static MagicsParameter<string> cdf_clim_line_colour("cdf_clim_line_colour", "black");
+static MagicsParameter<string> cdf_clim_line_style("cdf_clim_line_style", "solid");

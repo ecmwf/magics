@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -52,17 +52,17 @@ XYListAttributes::XYListAttributes():
 	x_upper_date_(ParameterManager::getStringArray("x_upper_date_values")),
 	y_upper_date_(ParameterManager::getStringArray("y_upper_date_values"))
 	
-	 
+	
 {
-} 
+}
 
 
 XYListAttributes::~XYListAttributes()
 {
-	
+
 }
 
-    
+
 void XYListAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -128,12 +128,12 @@ void XYListAttributes::copy(const XYListAttributes& other)
 	x_upper_date_ = other.x_upper_date_;
 	y_upper_date_ = other.y_upper_date_;
 	
-} 
+}
 
 
 bool XYListAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "xyinput")  )
 		return true;
 	
@@ -144,7 +144,7 @@ void XYListAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "xyinput")  )
@@ -197,7 +197,7 @@ void XYListAttributes::print(ostream& out)  const
 
 void XYListAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"xyinput\""; 
+	out <<  "\"xyinput\"";
 	out << ", \"x_values\":";
 	niceprint(out,x_);
 	out << ", \"y_values\":";
@@ -253,29 +253,29 @@ void XYListAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<doublearray> x_values("x_values", floatarray(), "");
-static MagicsParameter<doublearray> y_values("y_values", floatarray(), "");
-static MagicsParameter<stringarray> x_date_values("x_date_values", stringarray(), "");
-static MagicsParameter<string> x_base_date("x_base_date", "", "");
-static MagicsParameter<string> x_date_offset("x_date_offset", "second", "");
-static MagicsParameter<string> y_base_date("y_base_date", "", "");
-static MagicsParameter<string> y_date_offset("y_date_offset", "second", "");
-static MagicsParameter<stringarray> y_date_values("y_date_values", stringarray(), "");
-static MagicsParameter<double> x_missing_value("x_missing_value", -21.e6, "");
-static MagicsParameter<double> y_missing_value("y_missing_value", -21.e6, "");
-static MagicsParameter<doublearray> x2_values("x2_values", floatarray(), "");
-static MagicsParameter<doublearray> y2_values("y2_values", floatarray(), "");
-static MagicsParameter<string> x2_base_date("x2_base_date", "", "");
-static MagicsParameter<string> x2_date_offset("x2_date_offset", "second", "");
-static MagicsParameter<stringarray> x2_date_values("x2_date_values", stringarray(), "");
-static MagicsParameter<string> y2_base_date("y2_base_date", "", "");
-static MagicsParameter<string> y2_date_offset("y2_date_offset", "second", "");
-static MagicsParameter<stringarray> y2_date_values("y2_date_values", stringarray(), "");
-static MagicsParameter<doublearray> x_lower_values("x_lower_values", floatarray(), "");
-static MagicsParameter<doublearray> y_lower_values("y_lower_values", floatarray(), "");
-static MagicsParameter<stringarray> x_lower_date_values("x_lower_date_values", stringarray(), "");
-static MagicsParameter<stringarray> y_lower_date_values("y_lower_date_values", stringarray(), "");
-static MagicsParameter<doublearray> x_upper_values("x_upper_values", floatarray(), "");
-static MagicsParameter<doublearray> y_upper_values("y_upper_values", floatarray(), "");
-static MagicsParameter<stringarray> x_upper_date_values("x_upper_date_values", stringarray(), "");
-static MagicsParameter<stringarray> y_upper_date_values("y_upper_date_values", stringarray(), "");
+static MagicsParameter<doublearray> x_values("x_values", floatarray());
+static MagicsParameter<doublearray> y_values("y_values", floatarray());
+static MagicsParameter<stringarray> x_date_values("x_date_values", stringarray());
+static MagicsParameter<string> x_base_date("x_base_date", "");
+static MagicsParameter<string> x_date_offset("x_date_offset", "second");
+static MagicsParameter<string> y_base_date("y_base_date", "");
+static MagicsParameter<string> y_date_offset("y_date_offset", "second");
+static MagicsParameter<stringarray> y_date_values("y_date_values", stringarray());
+static MagicsParameter<double> x_missing_value("x_missing_value", -21.e6);
+static MagicsParameter<double> y_missing_value("y_missing_value", -21.e6);
+static MagicsParameter<doublearray> x2_values("x2_values", floatarray());
+static MagicsParameter<doublearray> y2_values("y2_values", floatarray());
+static MagicsParameter<string> x2_base_date("x2_base_date", "");
+static MagicsParameter<string> x2_date_offset("x2_date_offset", "second");
+static MagicsParameter<stringarray> x2_date_values("x2_date_values", stringarray());
+static MagicsParameter<string> y2_base_date("y2_base_date", "");
+static MagicsParameter<string> y2_date_offset("y2_date_offset", "second");
+static MagicsParameter<stringarray> y2_date_values("y2_date_values", stringarray());
+static MagicsParameter<doublearray> x_lower_values("x_lower_values", floatarray());
+static MagicsParameter<doublearray> y_lower_values("y_lower_values", floatarray());
+static MagicsParameter<stringarray> x_lower_date_values("x_lower_date_values", stringarray());
+static MagicsParameter<stringarray> y_lower_date_values("y_lower_date_values", stringarray());
+static MagicsParameter<doublearray> x_upper_values("x_upper_values", floatarray());
+static MagicsParameter<doublearray> y_upper_values("y_upper_values", floatarray());
+static MagicsParameter<stringarray> x_upper_date_values("x_upper_date_values", stringarray());
+static MagicsParameter<stringarray> y_upper_date_values("y_upper_date_values", stringarray());

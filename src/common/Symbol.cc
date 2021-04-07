@@ -47,7 +47,7 @@ SymbolProperties::SymbolProperties(Colour colour, double height, const string& m
     height_(height),
     marker_(marker),
     label_(label),
-    position_(Symbol::M_NONE),
+    position_(TextPosition::NONE),
     outline_(false),
     connectLine_(false),
     image_(false) {
@@ -60,7 +60,7 @@ SymbolProperties::SymbolProperties(Colour colour, double height, int marker, con
     height_(height),
     marker_(Symbol::convert(marker)),
     label_(label),
-    position_(Symbol::M_NONE),
+    position_(TextPosition::NONE),
     outline_(false),
     connectLine_(false),
     image_(false) {
@@ -73,7 +73,7 @@ SymbolProperties::SymbolProperties() :
     height_(0),
     marker_(Symbol::convert(1)),
     label_(""),
-    position_(Symbol::M_NONE),
+    position_(TextPosition::NONE),
     outline_(false),
     connectLine_(false),
     image_(false) {
@@ -241,7 +241,7 @@ void Symbol::boundingbox(const Polyline& boundingbox) {
 
 void TextSymbol::redisplay(const BaseDriver& driver) const {
     if (!connectLine()) {
-        if (position_ == M_CENTRE) {
+        if (position_ == TextPosition::CENTRE) {
             // send text and symbol;
             Symbol::redisplay(driver);
             // Now we display the text
@@ -252,8 +252,8 @@ void TextSymbol::redisplay(const BaseDriver& driver) const {
                 text.addText(*info, font_);
                 text.push_back(*point);
                 text.setBlanking(blanking_);
-                text.setVerticalAlign(MHALF);
-                text.setJustification(MCENTRE);
+                text.setVerticalAlign(VerticalAlign::HALF);
+                text.setJustification(Justification::CENTRE);
                 ++point;
                 text.redisplay(driver);
 

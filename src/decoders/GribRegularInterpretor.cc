@@ -305,7 +305,7 @@ void GribInterpretor::index(const GribDecoder& grib) {
 }
 
 int GribInterpretor::nearest(double lon, double lat, double& nlon, double& nlat) {
-    assert(false);
+    ASSERT(false);
     return -1;
 }
 
@@ -486,6 +486,9 @@ void GribRegularInterpretor::index(const GribDecoder& grib) {
     }
 
     catch (...) {
+        if (MagicsGlobal::strict()) {
+            throw;
+        }
         throw MagicsException("GribRegularInterpretor - Not enough memory");
     }
 }
@@ -600,6 +603,9 @@ void GribRegularInterpretor::interpretAsMatrix(GribDecoder& grib) const {
         u->missing(missing);
     }
     catch (...) {
+        if (MagicsGlobal::strict()) {
+            throw;
+        }
         throw MagicsException("GribRegularInterpretor - Not enough memory");
     }
 }
@@ -1441,6 +1447,9 @@ void GribLambertAzimutalInterpretor::interpretAsMatrix(GribDecoder& grib) const 
         rotated->setMapsAxis();
     }
     catch (MagicsException& e) {
+        if (MagicsGlobal::strict()) {
+            throw;
+        }
         MagLog::error() << e << "\n";
     }
 }
@@ -1461,7 +1470,7 @@ void GribRotatedInterpretor::interpretAsMatrix(GribDecoder& grib) const {
     long nblon = grib.getLong("numberOfPointsAlongAParallel");
     long nblat = grib.getLong("numberOfPointsAlongAMeridian");
 
-    Matrix* u  = grib.u(new RotatedMatrix(nblat, nblon, southPoleLat_, southPoleLon_));
+    Matrix* u = grib.u(new RotatedMatrix(nblat, nblon, southPoleLat_, southPoleLon_));
     Matrix* v = grib.v(new RotatedMatrix(nblat, nblon, southPoleLat_, southPoleLon_));
 
     size_t nb;
@@ -1472,7 +1481,8 @@ void GribRotatedInterpretor::interpretAsMatrix(GribDecoder& grib) const {
     double missing = INT_MAX;
     grib.setDouble("missingValue", missing);
     u->missing(missing);
-    if ( v) v->missing(missing);
+    if (v)
+        v->missing(missing);
 
     double north = grib.getDouble("latitudeOfFirstGridPointInDegrees");
     double west  = grib.getDouble("longitudeOfFirstGridPointInDegrees");
@@ -1481,7 +1491,7 @@ void GribRotatedInterpretor::interpretAsMatrix(GribDecoder& grib) const {
 
     longitudesSanityCheck(west, east);
 
-    
+
     double loni = longitudeIncrement(grib);
 
     double lon = (east - west) / (nblon - 1);
@@ -1526,7 +1536,7 @@ void GribRotatedInterpretor::interpretAsMatrix(GribDecoder& grib) const {
         if (jPointsAreConsecutive) {
             vector<double>* d = new vector<double>(nb);  // temporary array
             double* d1        = &d->front();             // temporary array pointer
-            double* d2        = &u->front();        // final array
+            double* d2        = &u->front();             // final array
 
             grib_get_double_array(grib.id(), "values", d1, &aux);
 
@@ -1557,6 +1567,9 @@ void GribRotatedInterpretor::interpretAsMatrix(GribDecoder& grib) const {
         u->missing(missing);
     }
     catch (...) {
+        if (MagicsGlobal::strict()) {
+            throw;
+        }
         throw MagicsException("GribRegularInterpretor - Not enough memory");
     }
 }
@@ -1585,7 +1598,7 @@ void GribRotatedInterpretor::raw(GribDecoder& grib, const Transformation& transf
     southPoleLat_ = grib.getDouble("latitudeOfSouthernPoleInDegrees");
     southPoleLon_ = grib.getDouble("longitudeOfSouthernPoleInDegrees");
     angle_        = grib.getDouble("angleOfRotationInDegrees") * 180.0 / M_PI;
-    ;
+
     grib_iterator* iter = grib_iterator_new(grib.handle(), 0, &err);
     double missing      = grib.getDouble("missingValue");
 
@@ -1813,6 +1826,9 @@ void GribLambertInterpretor::interpretAsMatrix(GribDecoder& grib) const {
     }
 
     catch (MagicsException& e) {
+        if (MagicsGlobal::strict()) {
+            throw;
+        }
         MagLog::error() << e << "\n";
     }
 }
@@ -2012,6 +2028,9 @@ void GribProjInterpretor::interpretAsMatrix(GribDecoder& grib) const {
         matrix->setMapsAxis();
     }
     catch (...) {
+        if (MagicsGlobal::strict()) {
+            throw;
+        }
         throw MagicsException("GribRegularInterpretor - Not enough memory");
     }
 }
