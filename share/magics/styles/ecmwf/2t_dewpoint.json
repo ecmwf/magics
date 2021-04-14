@@ -21,6 +21,11 @@
       },
       {
         "long_name": ["2 metre dewpoint temperature","2m dewpoint temperature"]
+      },
+      {
+        "paramId": "168",
+        "shortName": "2d",
+        "centre": "219"
       }
     ]
   }
