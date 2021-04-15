@@ -38,12 +38,7 @@
 
 #include <QGuiApplication>
 #include <QScreen>
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#include <QtCore5Compat/QRegExp>
-#endif
-#if defined(Q_WS_X11)
-#include <QX11Info>
-#endif
+#include <QRegularExpression>
 
 #include "MgQPlotScene.h"
 
@@ -1315,11 +1310,21 @@ void QtDriver::textToUnicode(const string& str, QString& ustr) const {
     ustr = QString::fromUtf8(str.c_str());
 
     // Replace HTML 4 entities &#...;  to unicode char
-    QRegExp rx("&#(\\d+);");
+    QRegularExpression rx("&#(\\d+);");
 
     QStringList lstHtml;
     QList<QChar> lstUni;
 
+    int pos = 0;
+    auto rmatch = rx.match(ustr, pos);
+    while (rmatch.hasMatch()) {
+        lstHtml << rmatch.captured(0);
+        lstUni << QChar(rmatch.captured(1).toInt());
+        pos += rmatch.capturedLength(1);
+        rmatch = rx.match(ustr, pos);
+    }
+
+#if 0
     int pos = 0;
     while ((pos = rx.indexIn(ustr, pos)) != -1) {
         if (!rx.cap(1).isEmpty()) {
@@ -1328,7 +1333,7 @@ void QtDriver::textToUnicode(const string& str, QString& ustr) const {
         }
         pos += rx.matchedLength();
     }
-
+#endif
     for (int i = 0; i < lstHtml.count(); i++) {
         ustr.replace(lstHtml[i], lstUni[i]);
     }
