@@ -1258,7 +1258,11 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
                 textToUnicode((*niceText).text(), str);
 
                 QFontMetrics fm(font);
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 0)
                 int width  = fm.horizontalAdvance(str);
+#else
+                int width  = fm.width(str);
+#endif
                 int height = fm.height();
 
                 MFloat y = 0.;
