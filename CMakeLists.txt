@@ -156,6 +156,22 @@ if(APPLE)
   find_package( zlib REQUIRED )  # dependency of minizip - KMZ support
 endif(APPLE)
 
+### check support for DL library
+#
+#  code taken from eckit (src/eckit/CMakeList.txt)
+#
+check_include_files( dlfcn.h magics_HAVE_DLFCN_H )
+
+if(NOT magics_HAVE_DLFCN_H)
+message(FATAL_ERROR "Magics requires dlfcn.h for supporting the detection of the shared folder")
+endif()
+
+cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES ${CMAKE_DL_LIBS} )
+    check_c_source_compiles( "#define _GNU_SOURCE\n#include <dlfcn.h>\nint main(){ void* addr; Dl_info info; dladdr(addr, &info); }\n"
+        magics_HAVE_DLADDR )
+cmake_pop_check_state()
+
 ###############################################################################
 # Windows compiler options
 
@@ -201,8 +217,6 @@ if ( HAVE_ODB )
   ecbuild_info("Adding support for ODB")
   list( APPEND MAGICS_EXTRA_LIBRARIES odccore)
 endif()
-
-
 
 if( HAVE_CAIRO )
   list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS ${PANGOCAIRO_INCLUDE_DIRS})

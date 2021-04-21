@@ -126,6 +126,10 @@ using std::exception;
 // #include <cassert>
 #include <cmath>
 
+#if defined(magics_HAVE_DLFCN_H)
+#include <dlfcn.h>
+#endif
+
 // #include "magics_windef.h"
 #if defined(_WIN32) && defined(_MSC_VER)
 #define MAGICS_ON_WINDOWS
@@ -342,18 +346,36 @@ inline MAGICS_NO_EXPORT bool same(const double a, const double b, double epsilon
 inline MAGICS_NO_EXPORT string getEnvVariable(const string var) {
     const char* va = var.c_str();
     const char* ww = getenv(va);
-    if (ww)
-        return string(ww);
-    if (!strcmp(va, "MAGPLUS_HOME"))
-        return string(MAGICS_INSTALL_PATH);
+    if (ww) return string(ww);
     return "";
 }
 
+/*! Function to return path to resources in share folder
+
+  See also https://jira.ecmwf.int/browse/MAGP-1295
+*/
 inline MAGICS_NO_EXPORT string buildSharePath(const string& config, const string& aux = "") {
+    string magplushome = getEnvVariable("MAGPLUS_HOME");
+    if(magplushome.empty()) {
+#if defined(magics_HAVE_DLFCN_H)
+       Dl_info info;
+       if(dladdr((void*)getEnvVariable, &info)){
+            string libpath(info.dli_fname);
+            // remove libname and lib folder from path name
+            std::size_t found = libpath.find_last_of("/\\");
+            libpath = libpath.substr(0,found);
+            found = libpath.find_last_of("/\\");
+            magplushome = libpath.substr(0,found);
+       }
+       else 
+#endif
+         magplushome = string(MAGICS_INSTALL_PATH);  
+    }
     ostringstream out;
-    out << getEnvVariable("MAGPLUS_HOME") << "/share/magics/" << config;
+    out << magplushome << "/share/magics/" << config;
     if (aux.size())
         out << "/" << aux;
+    //cout << ">>" << magplushome << endl;
     return out.str();
 }
 
