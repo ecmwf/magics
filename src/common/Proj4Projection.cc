@@ -182,7 +182,7 @@ map<string, Epsg*> Epsg::epsgs_;
 
 void EpsgConfig::init() {
     // methods_["epsg"] =  &EpsgConfig::epsg;
-    MagConfigHandler(buildConfigPath("epsg.json"), *this);
+    MagConfigHandler(buildSharePath("epsg.json"), *this);
 }
 void Epsg::set(const Value& value) {
     ValueMap object = value.get_value<ValueMap>();

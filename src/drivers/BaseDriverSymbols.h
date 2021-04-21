@@ -71,7 +71,7 @@ MAGICS_NO_EXPORT bool BaseDriver::checkDistanceMoreThan(const PaperPoint* pp, do
 
 MAGICS_NO_EXPORT void BaseDriver::loadSymbols() const {
     if (sym_.empty()) {
-        string filename   = buildConfigPath("symbols.svg");
+        string filename   = buildSharePath("symbols.svg");
         XML_Parser parser = XML_ParserCreate(NULL);
         XML_SetUserData(parser, &sym_);
         XML_SetElementHandler(parser, startElement, endElement);

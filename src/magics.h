@@ -179,7 +179,6 @@ public:
     }
 };
 
-#define MAGPLUS_PATH_TO_SHARE_ "/share/magics/"
 #define MAGPLUS_LINK_ "http://software.ecmwf.int/magics"
 #define MAGPLUS_PATH_TO_PS_FONTS_ POSTSCRIPT_FONT_PATH;
 
@@ -350,6 +349,15 @@ inline MAGICS_NO_EXPORT string getEnvVariable(const string var) {
     return "";
 }
 
+inline MAGICS_NO_EXPORT string buildSharePath(const string& config, const string& aux = "") {
+    ostringstream out;
+    out << getEnvVariable("MAGPLUS_HOME") << "/share/magics/" << config;
+    if (aux.size())
+        out << "/" << aux;
+    return out.str();
+}
+
+
 //! Global function to return the Magics version for ID line
 /*! comes from magics_config.h !!! */
 inline string getMagicsVersionString() {
@@ -381,20 +389,6 @@ inline MAGICS_NO_EXPORT bool magCompare(const string& s1, const string& s2) {
     if (s1.size() != s2.size())
         return false;
     return !(strcasecmp(s1.c_str(), s2.c_str()));
-}
-
-inline MAGICS_NO_EXPORT std::string replacePathWithHome(const string& path) {
-    const std::string home_path = getEnvVariable("HOME");
-    std::string filename        = path.substr(path.find_last_of("/\\"));
-    return home_path + filename;
-}
-
-inline MAGICS_NO_EXPORT string buildConfigPath(const string& config, const string& aux = "") {
-    ostringstream out;
-    out << getEnvVariable("MAGPLUS_HOME") << "/share/magics/" << config;
-    if (aux.size())
-        out << "/" << aux;
-    return out.str();
 }
 
 /*!

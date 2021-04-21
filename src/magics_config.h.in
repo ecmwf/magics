@@ -148,12 +148,6 @@
 /* Turn on TIFF file format support */
 #cmakedefine MAGICS_TIFF
 
-/* Turn on the TTF support */
-#cmakedefine MAGICS_TTF
-
-/* Path to TTF font files. */
-#cmakedefine MAGICS_TTF_PATH
-
 /* Version of Magics. */
 #define MAGICS_VERSION "@magics_VERSION@"
 

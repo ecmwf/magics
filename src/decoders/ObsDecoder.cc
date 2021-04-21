@@ -176,8 +176,8 @@ static void XMLCALL character(void* userData, const char* s, int len) {
 
 BufrIdentifiers::BufrIdentifiers(int centre) : centre_(centre) {
     ostringstream file, deffile;
-    file << getEnvVariable("MAGPLUS_HOME") << MAGPLUS_PATH_TO_SHARE_ << "bufr_" << centre << ".xml";
-    deffile << getEnvVariable("MAGPLUS_HOME") << MAGPLUS_PATH_TO_SHARE_ << "bufr_98.xml";
+    file    << buildSharePath("bufr_" + to_string(centre) + ".xml");
+    deffile << buildSharePath("bufr_98.xml");
     char buf[BUFSIZ];
     XML_Parser parser = XML_ParserCreate(NULL);
     int done;
@@ -232,7 +232,7 @@ BufrFamilyTable BufrFamilyTable::table_;
 
 BufrFamily::BufrFamily(const string& centre) : centre_(centre) {
     ostringstream file;
-    file << getEnvVariable("MAGPLUS_HOME") << MAGPLUS_PATH_TO_SHARE_ << "bufr_" << centre << ".xml";
+    file << buildSharePath("bufr_" + centre + ".xml");
     char buf[BUFSIZ];
     XML_Parser parser = XML_ParserCreate(NULL);
     int done;

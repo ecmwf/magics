@@ -71,7 +71,7 @@ void VisDefInfoBase::collectKeys() {
 
 
 ObstatVisDefInfo::ObstatVisDefInfo(string fConf, DataType dataType) : VisDefInfoBase(fConf, dataType) {
-    fConf_ = buildConfigPath("ObstatGribVisDef.txt");
+    fConf_ = buildSharePath("ObstatGribVisDef.txt");
 
     loadItems();
 

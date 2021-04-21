@@ -131,7 +131,7 @@ void BaseDriver::printOutputName(const std::string& str) const {
   \todo make this a singleton!?
 */
 void BaseDriver::readFonts() const {
-    const string s = buildConfigPath("Fonts.dat");
+    const string s = buildSharePath("Fonts.dat");
     ifstream psfile(s.c_str());
 
     if (psfile) {
