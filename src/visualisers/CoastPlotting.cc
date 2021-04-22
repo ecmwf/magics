@@ -94,8 +94,8 @@ void NoCoastPlotting::operator()(DrawingVisitor& parent) {
 
 void NoCoastPlotting::efas(DrawingVisitor& visitor) {
     map<string, string> data;
-    data["extended"] = buildConfigPath("efas/ExtendedDomain/lines");
-    data["current"]  = buildConfigPath("efas/CurrentDomain/lines");
+    data["extended"] = buildSharePath("efas/ExtendedDomain/lines");
+    data["current"]  = buildSharePath("efas/CurrentDomain/lines");
 
     map<string, string>::iterator file = data.find(lowerCase(efas_domain_));
 
@@ -149,7 +149,7 @@ void NoCoastPlotting::user(DrawingVisitor& visitor) {
 }
 
 void NoCoastPlotting::rivers(DrawingVisitor& visitor) {
-    const string file = buildConfigPath(coastSet_["rivers"]);
+    const string file = buildSharePath(coastSet_["rivers"]);
 
     ShapeDecoder rivers;
     rivers.setPath(file);
@@ -361,7 +361,7 @@ void CoastPlotting::decode(const Layout& parent) {
     vector<magics::Polyline*> coastlines;
     coast_.clear();
     ShapeDecoder coastline_decoder;
-    const string file = buildConfigPath(coastSet_["land"]);
+    const string file = buildSharePath(coastSet_["land"]);
     coastline_decoder.setPath(file);
     coastline_decoder.decode(coastlines, transformation);
 
@@ -372,7 +372,7 @@ void CoastPlotting::decode(const Layout& parent) {
     if (sea_) {
         vector<magics::Polyline*> oceans;
         ocean_.clear();
-        const string file_ocean = buildConfigPath(coastSet_["ocean"]);
+        const string file_ocean = buildSharePath(coastSet_["ocean"]);
         coastline_decoder.setPath(file_ocean);
         coastline_decoder.decode(oceans, transformation);
 

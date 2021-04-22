@@ -1247,7 +1247,7 @@ MAGICS_NO_EXPORT void SVGDriver::renderSymbols(const Symbol& symbol) const {
             if (magCompare(logoLocation_, "LOCAL"))
                 logofile = "ecmwf_logo.png";
             else
-                logofile = buildConfigPath("ecmwf_logo.png");
+                logofile = buildSharePath("ecmwf_logo.png");
             svg_output_resource_list_.push_back(logofile);
             pFile_ << "<a xlink:href=\"http://www.ecmwf.int\">"
                    << "<image x=\"" << x - (y * 1.35) << "\" y=\"" << setY(y + (y * .5)) << "\" width=\"" << y * 5.4
@@ -1256,7 +1256,7 @@ MAGICS_NO_EXPORT void SVGDriver::renderSymbols(const Symbol& symbol) const {
         }
         else {
             pFile_ << "<g transform=\"translate(" << x - (y * 1.35) << "," << setY(y + (y * .5)) << ")\">\n";
-            const string s = buildConfigPath("ecmwf_logo_2014.svg");
+            const string s = buildSharePath("ecmwf_logo_2014.svg");
             ifstream psfile(s.c_str());
 
             if (!psfile) {

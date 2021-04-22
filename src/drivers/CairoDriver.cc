@@ -1334,11 +1334,11 @@ MAGICS_NO_EXPORT void CairoDriver::renderSymbols(const Symbol& symbol) const {
     else {
         string logofile;
         if (symbolName == "logo_cams")
-            logofile = buildConfigPath("CAMS_combined.png");
+            logofile = buildSharePath("CAMS_combined.png");
         else if (symbolName == "logo_c3s")
-            logofile = buildConfigPath("C3S_combined.png");
+            logofile = buildSharePath("C3S_combined.png");
         else
-            logofile = buildConfigPath("ecmwf_logo_2014.png");
+            logofile = buildSharePath("ecmwf_logo_2014.png");
 
         cairo_surface_t* image = cairo_image_surface_create_from_png(logofile.c_str());
         cairo_status_t ret     = cairo_surface_status(image);

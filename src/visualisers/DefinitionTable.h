@@ -99,7 +99,7 @@ D DefinitionTable<D>::unknown_;
 
 template <class D>
 DefinitionTable<D>::DefinitionTable(const string& file, const string& keyword) : BaseTable(keyword) {
-    string filename = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + file;
+    string filename = buildSharePath(file);
     char buf[BUFSIZ];
     XML_Parser parser = XML_ParserCreate(NULL);
     int done;

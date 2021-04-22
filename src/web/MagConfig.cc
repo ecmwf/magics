@@ -175,7 +175,7 @@ void StyleLibrary::callback(const string& name, const Value& value) {
 void StyleLibrary::init() {
     // Now we have a variable
 
-    string ecmwf   = buildConfigPath("styles", "ecmwf");
+    string ecmwf   = buildSharePath("styles", "ecmwf");
     string library = getEnvVariable("MAGICS_STYLE_PATH");
 
     if (library.empty())
@@ -208,7 +208,7 @@ void StyleLibrary::init() {
 }
 
 void PaletteLibrary::init() {
-    string library = buildConfigPath("styles", "palettes.json");
+    string library = buildSharePath("styles", "palettes.json");
     MagConfigHandler(library, *this);
 }
 
@@ -245,7 +245,7 @@ void PaletteLibrary::callback(const string& name, const Value& value) {
 }
 
 void UnitsLibrary::init() {
-    string library = buildConfigPath("units-rules.json");
+    string library = buildSharePath("units-rules.json");
     MagConfigHandler(library, *this);
 }
 
@@ -428,7 +428,7 @@ bool StyleLibrary::findScaling(const MetaDataCollector& data, MagDef& scaling) {
 void NetcdfGuess::init() {
     ostringstream name;
     name << name_ << ".json";
-    string library = buildConfigPath(name.str());
+    string library = buildSharePath(name.str());
     MagLog::debug() << "Opening " << library << endl;
     MagConfigHandler(library, *this);
 }
@@ -475,7 +475,7 @@ void DimensionGuess::init() {
 
 
 void MagDefLibrary::init(const string& name) {
-    string library = buildConfigPath(name);
+    string library = buildSharePath(name);
     MagLog::dev() << "opening -->" << library << endl;
     MagConfigHandler(library, *this);
 }

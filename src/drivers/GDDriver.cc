@@ -606,7 +606,6 @@ MAGICS_NO_EXPORT void GDDriver::renderText(const Text& text) const {
 #ifdef MAGICS_TTF
     if (text.empty())
         return;
-    const string MAGPLUS_HOME = getEnvVariable("MAGPLUS_HOME");
 
     const vector<NiceText>& niceT = text.getNiceText();
     if (niceT.empty() && (text.empty()))
@@ -661,7 +660,7 @@ MAGICS_NO_EXPORT void GDDriver::renderText(const Text& text) const {
         const string lowFont = lowerCase(magfont.name() + "_" + style);
         fontMapIter iter     = FontMap_.find(lowFont);
 
-        string ttf = MAGPLUS_HOME + "/" + MAGICS_TTF_PATH;
+        string ttf = buildSharePath("ttf");
         if (iter != FontMap_.end())
             ttf += iter->second.ttf_filename;
         else {
@@ -677,7 +676,7 @@ MAGICS_NO_EXPORT void GDDriver::renderText(const Text& text) const {
                               << " is used instead!" << endl;
             fontMapIter iter = FontMap_.find(new_font);
 
-            ttf = MAGPLUS_HOME + "/" + MAGICS_TTF_PATH;
+            ttf = buildSharePath("ttf");
             if (iter != FontMap_.end())
                 ttf += iter->second.ttf_filename;
         }
@@ -719,7 +718,7 @@ MAGICS_NO_EXPORT void GDDriver::renderText(const Text& text) const {
         fontMapIter iter     = FontMap_.find(lowFont);
         const float fontSize = scaleFactor_ * convertCM(magfont.size());
 
-        string ttf = MAGPLUS_HOME + "/" + MAGICS_TTF_PATH;
+        string ttf = buildSharePath("ttf");
         if (iter != FontMap_.end())
             ttf += iter->second.ttf_filename;
         else {
@@ -736,7 +735,7 @@ MAGICS_NO_EXPORT void GDDriver::renderText(const Text& text) const {
                                   << new_font << " is used instead!" << endl;
                 fontMapIter iter = FontMap_.find(new_font);
 
-                ttf = MAGPLUS_HOME + "/" + MAGICS_TTF_PATH;
+                ttf = buildSharePath("ttf");
                 if (iter != FontMap_.end())
                     ttf += iter->second.ttf_filename;
             }
@@ -971,7 +970,7 @@ void GDDriver::print(ostream& out) const {
 */
 MAGICS_NO_EXPORT void GDDriver::renderMagLogo(MFloat x, MFloat y) const {
     GraphicsFormat format = PNG;
-    const string logofile = buildConfigPath("ecmwf_logo.png");
+    const string logofile = buildSharePath("ecmwf_logo.png");
     convertToPixmap(logofile, format, 300, x - 40, y + 10, x + 50, y - 5);
 }
 

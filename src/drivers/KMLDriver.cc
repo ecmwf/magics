@@ -158,7 +158,7 @@ void KMLDriver::close() {
 
     // Wind icon file
     const string iconfile  = "magics_kml_icons.png";
-    const string icon_path = buildConfigPath(iconfile);
+    const string icon_path = buildSharePath(iconfile);
 
     bool is_copied = copy_file(icon_path, iconfile);
     if (is_copied)
@@ -166,7 +166,7 @@ void KMLDriver::close() {
 
     if (ecmwf_logo_) {
         const string logofilename = "kml_logo_2014.png";
-        const string logofile     = buildConfigPath(logofilename);
+        const string logofile     = buildSharePath(logofilename);
         is_copied                 = copy_file(logofile, logofilename);
         if (is_copied)
             kml_output_resource_list_.push_back(logofilename);

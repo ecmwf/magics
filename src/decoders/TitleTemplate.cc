@@ -95,7 +95,7 @@ TitleTemplate::TitleTemplate() {
 
 void TitleTemplate::decode() {
     singleton_      = this;
-    string filename = buildConfigPath(file_);
+    string filename = buildSharePath(file_);
     char buf[BUFSIZ];
     ignore_space_ = true;
     push(this);

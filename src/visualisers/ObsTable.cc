@@ -50,7 +50,7 @@ ObsTable* ObsTable::table_ = 0;
 
 
 ObsTable::ObsTable() {
-    string filename = path_.empty() ? buildConfigPath("obs.xml") : path_;
+    string filename = path_.empty() ? buildSharePath("obs.xml") : path_;
     char buf[BUFSIZ];
     XML_Parser parser = XML_ParserCreate(NULL);
     int done;

@@ -50,7 +50,7 @@ string TileDecoder::weights() {
     ostringstream out;
     string parent = getEnvVariable("MAGPLUS_TILE");
     if (parent.empty()) {
-        parent = getEnvVariable("MAGPLUS_HOME") + "/share/magics/tiles";
+        parent = buildSharePath("tiles");
     }
     out << parent << "/weight-" << grid_ << "-" << projection() << "-z" + tostring(z_) << ".nc";
     return out.str();
@@ -60,7 +60,7 @@ string TileDecoder::positions() {
     ostringstream out;
     string parent = getEnvVariable("MAGPLUS_TILE");
     if (parent.empty()) {
-        parent = getEnvVariable("MAGPLUS_HOME") + "/share/magics/tiles";
+        parent = buildSharePath("tiles");
     }
     out << parent << "/wind-" << grid_ << "-" << projection() << "-z" + tostring(z_) << ".nc";
 
@@ -71,7 +71,7 @@ string TileDecoder::positions_symbols() {
     ostringstream out;
     string parent = getEnvVariable("MAGPLUS_TILE");
     if (parent.empty()) {
-        parent = getEnvVariable("MAGPLUS_HOME") + "/share/magics/tiles";
+        parent = buildSharePath("tiles");
     }
     out << parent << "/symbol-" << grid_ << "-" << projection() << "-z" + tostring(z_) << ".nc";
     file_ = ifstream(out.str());
