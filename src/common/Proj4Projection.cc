@@ -220,6 +220,7 @@ Proj4Projection::Proj4Projection(const string& definition) :
     // init();
     EpsgConfig config;
     config.init();
+    name_ = definition;
 }
 
 Proj4Projection::Proj4Projection() :

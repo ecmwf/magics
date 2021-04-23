@@ -300,11 +300,14 @@ public:
             out.push_back(UserPoint(lon, lat, val));
     }
     double distance(UserPoint&, UserPoint&) const;
+    string name() { return name_; }
 
 protected:
     virtual void print(ostream&) const;
 
     CoordinateType coordinateType_;
+
+    string name_;
 
     mutable double areaMinX_;
     mutable double areaMaxX_;

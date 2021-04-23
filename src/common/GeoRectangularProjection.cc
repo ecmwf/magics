@@ -43,6 +43,7 @@ GeoRectangularProjection::GeoRectangularProjection() : projection_(0) {
     tile_        = 256;
     unit_        = 360.;
     unitEpsilon_ = unit_ * 0.0001;
+    name_ = "cylindrical";
 }
 
 /*!
@@ -538,6 +539,7 @@ void GeoRectangularProjection::populate(double lon, double lat, double value, ve
 
 void GeoRectangularProjection::wraparound(const UserPoint& origin, stack<UserPoint>& out) const {
     UserPoint point = origin;
+   
     if (point.y_ > max_latitude_ || point.y_ < min_latitude_)
         return;
 

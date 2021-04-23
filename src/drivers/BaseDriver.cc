@@ -269,6 +269,7 @@ string BaseDriver::getFileName(const string& extension, const unsigned int no) c
   \sa Layout
 */
 MAGICS_NO_EXPORT void BaseDriver::redisplay(const Layout& layout) const {
+    // cout << "BaseDriver::redisplay-->" << layout.infoTransformation() << endl;
     project(layout);
     staLayouts_.push(&layout);
     layout.visit(*this);  // visit this layout!
