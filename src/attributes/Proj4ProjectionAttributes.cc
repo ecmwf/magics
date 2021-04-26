@@ -40,7 +40,8 @@ Proj4ProjectionAttributes::Proj4ProjectionAttributes():
 	projection_view_longitude_(ParameterManager::getDouble("subpage_map_projection_view_longitude")),
 	sweep_(ParameterManager::getDouble("subpage_map_geos_sweep")),
 	proj4_definition_(ParameterManager::getString("subpage_map_proj4_definition")),
-	coordinates_system_(ParameterManager::getString("subpage_coordinates_system"))
+	coordinates_system_(ParameterManager::getString("subpage_coordinates_system")),
+	gutter_(ParameterManager::getDouble("subpage_gutter_percentage"))
 	
 	
 {
@@ -77,6 +78,7 @@ void Proj4ProjectionAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "subpage_map_geos_sweep", sweep_, params);
 	setAttribute(prefix, "subpage_map_proj4_definition", proj4_definition_, params);
 	setAttribute(prefix, "subpage_coordinates_system", coordinates_system_, params);
+	setAttribute(prefix, "subpage_gutter_percentage", gutter_, params);
 	
 	
 }
@@ -99,6 +101,7 @@ void Proj4ProjectionAttributes::copy(const Proj4ProjectionAttributes& other)
 	sweep_ = other.sweep_;
 	proj4_definition_ = other.proj4_definition_;
 	coordinates_system_ = other.coordinates_system_;
+	gutter_ = other.gutter_;
 	
 }
 
@@ -153,6 +156,7 @@ void Proj4ProjectionAttributes::print(ostream& out)  const
 	out << " sweep = " <<  sweep_;
 	out << " proj4_definition = " <<  proj4_definition_;
 	out << " coordinates_system = " <<  coordinates_system_;
+	out << " gutter = " <<  gutter_;
 	
 	out << "]" << "\n";
 }
@@ -192,6 +196,8 @@ void Proj4ProjectionAttributes::toxml(ostream& out)  const
 	niceprint(out,proj4_definition_);
 	out << ", \"subpage_coordinates_system\":";
 	niceprint(out,coordinates_system_);
+	out << ", \"subpage_gutter_percentage\":";
+	niceprint(out,gutter_);
 	
 }
 
@@ -211,3 +217,4 @@ static MagicsParameter<double> subpage_map_projection_view_longitude("subpage_ma
 static MagicsParameter<double> subpage_map_geos_sweep("subpage_map_geos_sweep", 0);
 static MagicsParameter<string> subpage_map_proj4_definition("subpage_map_proj4_definition", "");
 static MagicsParameter<string> subpage_coordinates_system("subpage_coordinates_system", "latlon");
+static MagicsParameter<double> subpage_gutter_percentage("subpage_gutter_percentage", 0);

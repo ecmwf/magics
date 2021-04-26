@@ -82,6 +82,10 @@ void GeoRectangularProjectionWrapper::set(const MagRequest& request)
 		double min_area_value = request("SUBPAGE_MINIMAL_AREA");
 		georectangularprojection_->min_area_ = min_area_value;
 		}
+	if  (request.countValues("SUBPAGE_GUTTER_PERCENTAGE") ) {
+		double gutter_value = request("SUBPAGE_GUTTER_PERCENTAGE");
+		georectangularprojection_->gutter_ = gutter_value;
+		}
 	
 	
 }

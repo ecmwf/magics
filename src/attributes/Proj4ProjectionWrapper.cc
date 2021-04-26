@@ -126,6 +126,10 @@ void Proj4ProjectionWrapper::set(const MagRequest& request)
 		string coordinates_system_value = request("SUBPAGE_COORDINATES_SYSTEM");
 		proj4projection_->coordinates_system_ = coordinates_system_value;
 		}
+	if  (request.countValues("SUBPAGE_GUTTER_PERCENTAGE") ) {
+		double gutter_value = request("SUBPAGE_GUTTER_PERCENTAGE");
+		proj4projection_->gutter_ = gutter_value;
+		}
 	
 	
 }
