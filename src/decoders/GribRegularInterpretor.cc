@@ -671,7 +671,7 @@ PaperPoint GribInterpretor::reference(const GribDecoder& grib, const Transformat
     UserPoint point(grib.getDouble("longitudeOfFirstGridPointInDegrees"),
                     grib.getDouble("latitudeOfFirstGridPointInDegrees"));
 
-    return point;
+   
     if (transformation.in(point))
         return transformation(point);
     int err;
