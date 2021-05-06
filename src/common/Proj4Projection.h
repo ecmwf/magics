@@ -153,6 +153,12 @@ public:
     \\brief return the ymax in projection coordinates!
     */
     virtual double getMaxPCY() const override;
+
+    virtual double getExtendedMinPCX() const override;
+    virtual double getExtendedMaxPCX() const override;
+    virtual double getExtendedMinPCY() const override;
+    virtual double getExtendedMaxPCY() const override;
+
     /*!
     \\brief create the grid for the longitudes!!
     */
@@ -227,10 +233,13 @@ protected:
 
     virtual void print(ostream&) const override;
     mutable LatLonProjP* helper_;
-    double min_pcx_;
-    double max_pcx_;
-    double min_pcy_;
-    double max_pcy_;
+    double xpcmin_;
+    double xpcmax_;
+    double ypcmin_;
+    double ypcmax_;
+    double xgutter_;
+    double ygutter_;
+    
     mutable Epsg* projection_;
     string definition_;
     mutable double gridMinLon_;

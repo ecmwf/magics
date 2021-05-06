@@ -38,11 +38,13 @@ Transformation::Transformation() :
     zoomLevel_(0) {
     userEnveloppe_ = new magics::Polyline();
     PCEnveloppe_   = new magics::Polyline();
+    PCExtendedEnveloppe_   = new magics::Polyline();
 }
 
 Transformation::~Transformation() {
     delete userEnveloppe_;
     delete PCEnveloppe_;
+    delete PCExtendedEnveloppe_;
 }
 
 void Transformation::print(ostream& out) const {
@@ -342,6 +344,7 @@ bool Transformation::in(const UserPoint& point) const {
 }
 
 bool Transformation::in(const PaperPoint& point) const {
+
     if (PCEnveloppe_->empty()) {
         PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
         PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMaxPCY()));
@@ -349,8 +352,19 @@ bool Transformation::in(const PaperPoint& point) const {
         PCEnveloppe_->push_back(PaperPoint(getMaxPCX(), getMinPCY()));
         PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
     }
-
     return PCEnveloppe_->within(point);
+}
+
+bool Transformation::inExtended(const PaperPoint& point) const {
+
+    if (PCExtendedEnveloppe_->empty()) {
+        PCExtendedEnveloppe_->push_back(PaperPoint(getExtendedMinPCX(), getExtendedMinPCY()));
+        PCExtendedEnveloppe_->push_back(PaperPoint(getExtendedMinPCX(), getExtendedMaxPCY()));
+        PCExtendedEnveloppe_->push_back(PaperPoint(getExtendedMaxPCX(), getExtendedMaxPCY()));
+        PCExtendedEnveloppe_->push_back(PaperPoint(getExtendedMaxPCX(), getExtendedMinPCY()));
+        PCExtendedEnveloppe_->push_back(PaperPoint(getExtendedMinPCX(), getExtendedMinPCY()));
+    }
+    return PCExtendedEnveloppe_->within(point);
 }
 
 bool Transformation::in(double x, double y) const {
@@ -470,10 +484,11 @@ void Transformation::thin(double step, PaperPoint& origin, vector<pair<double, d
     Timer timer("thinning", "");
 
     vector<std::pair<double, double> > xypoints;
-    double minx = getMinPCX();
-    double maxx = getMaxPCX();
-    double miny = getMinPCY();
-    double maxy = getMaxPCY();
+    double minx = getExtendedMinPCX();
+    double maxx = getExtendedMaxPCX();
+    double miny = getExtendedMinPCY();
+    double maxy = getExtendedMaxPCY();
+
 
     std::set<double> xl, yl;
 

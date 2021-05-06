@@ -163,6 +163,12 @@ public:
     virtual void labels(const LabelPlotting&, TopAxisVisitor&) const override;
     virtual void labels(const LabelPlotting&, BottomAxisVisitor&) const override;
 
+
+    virtual double getExtendedMinPCX() const override;
+    virtual double getExtendedMaxPCX() const override;
+    virtual double getExtendedMinPCY() const override;
+    virtual double getExtendedMaxPCY() const override;
+
     MatrixHandler* prepareData(const AbstractMatrix& matrix) const override;
     void wraparound(const UserPoint&, stack<UserPoint>&) const override;
     void getNewDefinition(const UserPoint&, const UserPoint&, string&) const override;
@@ -178,6 +184,11 @@ protected:
     double ypcmin_;
     double xpcmax_;
     double ypcmax_;
+
+    double xgutter_;
+    double ygutter_;
+    
+
 
 private:
     //! Copy constructor - No copy allowed
