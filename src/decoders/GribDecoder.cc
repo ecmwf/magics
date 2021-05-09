@@ -831,6 +831,8 @@ grib_nearest* GribDecoder::nearest_point_handle(bool keep) {
 }
 
 bool GribDecoder::id(const string& id, const string& where) const {
+
+   
     if (id_.empty() && id.empty()) {
         return (verify(where));
     }
@@ -1255,8 +1257,10 @@ public:
 
     void visit(const XmlNode& node) override {
         if (magCompare(node.name(), "grib_info")) {
+           
             string grib  = node.getAttribute("id");
             string where = node.getAttribute("where");
+            
             if (!grib_.id(grib, where)) {
                 return;
             }
@@ -1604,6 +1608,7 @@ string GribDecoder::representation() {
 }
 
 void GribDecoder::visit(MetaDataCollector& step) {
+
     // Here we gather information for the label!
     const Transformation& transformation = step.transformation();
 
@@ -1650,9 +1655,10 @@ void GribDecoder::visit(MetaDataCollector& step) {
                 else if (step.attribute(key->first).source() == MetaDataAttribute::AnySource ||
                          step.attribute(key->first).source() == MetaDataAttribute::GribApiSource) {
                     if (step.attribute(key->first).type() != MetaDataAttribute::NumberType) {
-                        need.push_back("<grib_info key='" + key->first + "'/>");
+                        need.push_back("<grib_info key='" + key->first + "' id='" + id_ + "'/>");  
                     }
                     else {
+
                         need.push_back("<grib_info key='" + key->first + "' readAsLong='yes'/>");
                     }
                 }
@@ -1726,9 +1732,9 @@ void GribDecoder::visit(MetaDataCollector& step) {
                 if (information_.find(key->first) == information_.end()) {
                     if (step.attribute(key->first).source() == MetaDataAttribute::AnySource ||
                         step.attribute(key->first).source() == MetaDataAttribute::GribApiSource) {
-                        key->second = helper.get("grib", key->first);
+                        key->second = helper.get("grib" + id_, key->first);
                         setInfo(key->first, key->second);
-                    }
+                     }
                 }
             }
         }
