@@ -956,7 +956,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderText(const Text& text) const {
             gchar* t = g_markup_escape_text((*niceText).text().c_str(), -1);
 
             alltext << "<span color=\"" << col.str() << "\" font_family=\"" << magfont.name() << "\" size=\""
-                    << int(magfont.size() * FONT_SCALE * 1024) << "\"";
+                    << int(magfont.size() * FONT_SCALE * 1024 * font_scale_) << "\"";
             if (styles.find("bold") != styles.end())
                 alltext << " weight=\"bold\"";
             else if (styles.find("italic") != styles.end())

@@ -54,6 +54,7 @@ public:
 	string antialias_;
 	string palette_;
 	int quality_;
+	double font_scale_;
 	 
 
 private:
