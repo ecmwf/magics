@@ -1190,6 +1190,7 @@ void Proj4Projection::revert(const vector<std::pair<double, double> >& in,
         double y = pt->second;
         PaperPoint p(x, y);
 
+        // Trying to remove this test, to make the wind tiles working
         // if (PCEnveloppe_->within(p) == false) {
         //     out.push_back(make_pair(HUGE_VAL, HUGE_VAL));
         //     continue;
@@ -1198,7 +1199,7 @@ void Proj4Projection::revert(const vector<std::pair<double, double> >& in,
         int error = helper_->revert(x, y);
 
         if (error) {
-            MagLog::error() << helper_->error(error) << " for " << pt->first << " " << pt->second << endl;
+            //The point is outside the projection, we return a HUGE_VAL point
             out.push_back(make_pair(HUGE_VAL, HUGE_VAL));
         }
         else {
