@@ -85,18 +85,18 @@ private:
 class InputMatrixRegularInterpretor : public InputMatrixRegularInterpretorAttributes, public InputMatrixInterpretor {
 public:
     InputMatrixRegularInterpretor();
-    virtual ~InputMatrixRegularInterpretor();
+    virtual ~InputMatrixRegularInterpretor() override;
 
-    virtual void set(const map<string, string>& map) { InputMatrixRegularInterpretorAttributes::set(map); }
-    virtual void set(const XmlNode& node) { InputMatrixRegularInterpretorAttributes::set(node); }
+    virtual void set(const map<string, string>& map) override { InputMatrixRegularInterpretorAttributes::set(map); }
+    virtual void set(const XmlNode& node) override { InputMatrixRegularInterpretorAttributes::set(node); }
 
-    virtual Matrix* xyInterpret(Matrix*, const InputMatrix&);
-    virtual Matrix* geoInterpret(Matrix*, const InputMatrix&);
-    virtual void getReady(const Transformation&);
+    virtual Matrix* xyInterpret(Matrix*, const InputMatrix&) override;
+    virtual Matrix* geoInterpret(Matrix*, const InputMatrix&) override;
+    virtual void getReady(const Transformation&) override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     string dateX_;  // Used to adjust the Matrix according to the projection
     string dateY_;  // Used to adjust the Matrix according to the projection
 
@@ -117,24 +117,24 @@ private:
 class InputMatrixGaussianInterpretor : public InputMatrixRegularInterpretor {
 public:
     InputMatrixGaussianInterpretor() {}
-    virtual ~InputMatrixGaussianInterpretor() {}
+    virtual ~InputMatrixGaussianInterpretor() override {}
 };
 
 class InputMatrixIrregularInterpretor : public InputMatrixIrregularInterpretorAttributes,
                                         public InputMatrixInterpretor {
 public:
     InputMatrixIrregularInterpretor();
-    virtual ~InputMatrixIrregularInterpretor();
+    virtual ~InputMatrixIrregularInterpretor() override;
 
-    virtual void set(const map<string, string>& map) { InputMatrixIrregularInterpretorAttributes::set(map); }
-    virtual void set(const XmlNode& node) { InputMatrixIrregularInterpretorAttributes::set(node); }
+    virtual void set(const map<string, string>& map) override { InputMatrixIrregularInterpretorAttributes::set(map); }
+    virtual void set(const XmlNode& node) override { InputMatrixIrregularInterpretorAttributes::set(node); }
 
-    virtual Matrix* geoInterpret(Matrix*, const InputMatrix&);
-    virtual Matrix* xyInterpret(Matrix*, const InputMatrix&);
+    virtual Matrix* geoInterpret(Matrix*, const InputMatrix&) override;
+    virtual Matrix* xyInterpret(Matrix*, const InputMatrix&) override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed

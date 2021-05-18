@@ -28,6 +28,11 @@
                           "lwe_thickness_of_stratiform_precipitation_amount",
                           "lwe_thickness_of_convective_precipitation_amount"
                           ]
+      },
+      {
+        "paramId": "228228",
+        "shortName": "tp",
+        "centre": "219"
       }
     ]
   }

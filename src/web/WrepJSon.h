@@ -29,7 +29,6 @@
 namespace magics {
 
 
-
 struct InputWrep {
     bool empty() { return steps_.empty(); }
     map<string, vector<double>> values_;
@@ -90,7 +89,7 @@ struct InputWrep {
 class WrepJSon : public Data, public PointsList, public WrepJSonAttributes {
 public:
     WrepJSon();
-    virtual ~WrepJSon();
+    virtual ~WrepJSon() override;
 
     typedef void (WrepJSon::*Method)(const Value&);
     typedef void (WrepJSon::*Decoder)();
@@ -179,15 +178,15 @@ public:
     Value height();
     Value station_name();
 
-    MatrixHandler& matrix();
+    MatrixHandler& matrix() override;
     void customisedPoints(const std::set<string>&, CustomisedPointsList&);
     void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&);
 
-    virtual void set(const map<string, string>& map) { WrepJSonAttributes::set(map); }
-    virtual void set(const XmlNode& node) { WrepJSonAttributes::set(node); }
+    virtual void set(const map<string, string>& map) override { WrepJSonAttributes::set(map); }
+    virtual void set(const XmlNode& node) override { WrepJSonAttributes::set(node); }
 
-    virtual void visit(Transformation&);
-    virtual void visit(TextVisitor&);
+    virtual void visit(Transformation&) override;
+    virtual void visit(TextVisitor&) override;
     void visit(const XmlNode& node);
 
     virtual void decode();
@@ -195,17 +194,19 @@ public:
     double correctDetz(double);
     double correctEpsz(double);
 
-    void visit(MetaDataVisitor&);
+    void visit(MetaDataVisitor&) override;
     void points(const Transformation&, vector<UserPoint>&);
-    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all) {
+    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out,
+                          bool all) override {
         customisedPoints(t, n, out);
     }
-    PointsHandler& points(const Transformation& t, bool);
+    PointsHandler& points(const Transformation& t, bool) override;
 
+    virtual std::string getUnits() const override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     DateTime base_;
     vector<CustomisedPoint*> points_;
     PointsList list_;

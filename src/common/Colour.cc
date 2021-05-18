@@ -22,6 +22,7 @@
 #include "Colour.h"
 #include "BaseParameter.h"
 #include "MagLog.h"
+#include "MagicsGlobal.h"
 #include "XmlNode.h"
 
 /*! \defgroup colours Colours
@@ -72,6 +73,9 @@ Colour::Colour(const string& name) : name_(lowerCase(name)), automatic_(false) {
         setColour(name);
     }
     catch (BadHslFormat& e) {
+        if (MagicsGlobal::strict()) {
+            throw;
+        }
         name_ = "red";
         rgb_  = Rgb(1., 0., 0., 1.);
     }
@@ -92,6 +96,9 @@ void Colour::set(const XmlNode& xml) {
         setColour(xml.data());
     }
     catch (BadHslFormat& e) {
+        if (MagicsGlobal::strict()) {
+            throw;
+        }
         name_ = "red";
         rgb_  = Rgb(1., 0., 0., 1.);
     }
@@ -99,6 +106,9 @@ void Colour::set(const XmlNode& xml) {
 
 void Colour::setColour(const string& name) {
     if (name.empty()) {
+        if (MagicsGlobal::strict()) {
+            throw MagicsException("No colour name given.");
+        }
         MagLog::warning() << "No colour name given. Red used.\n";
         name_ = "red";
         rgb_  = Rgb(1., 0., 0.);
@@ -156,6 +166,9 @@ void Colour::setColour(const string& name) {
             rgb_ = (*colour).second;
     }
     catch (...) {
+        if (MagicsGlobal::strict()) {
+            throw;
+        }
         MagLog::warning() << " Invalid colour name " << name << ". Red used.\n";
         name_ = "red";
         rgb_  = Rgb(1., 0., 0.);
@@ -368,7 +381,162 @@ void Colour::init() {
     colours_["purple"]           = Rgb(1.0000, 0.0000, 1.0000);
     colours_["white"]            = Rgb(1.0000, 1.0000, 1.0000);
     colours_["undefined"]        = Rgb(-1., -1., -1.);
+    
+#if 0
+    // CSS colours
+    colours_["aliceblue"]            = Colour("#F0F8FF");
+    colours_["antiquewhite"]         = Colour("#FAEBD7");
+    colours_["aqua"]                 = Colour("#00FFFF");
+    colours_["aquamarine"]           = Colour("#7FFFD4");
+    colours_["azure"]                = Colour("#F0FFFF");
+    colours_["beige"]                = Colour("#F5F5DC");
+    colours_["bisque"]               = Colour("#FFE4C4");
+    colours_["black"]                = Colour("#000000");
+    colours_["blanchedalmond"]       = Colour("#FFEBCD");
+    colours_["blue"]                 = Colour("#0000FF");
+    colours_["blueviolet"]           = Colour("#8A2BE2");
+    colours_["brown"]                = Colour("#A52A2A");
+    colours_["burlywood"]            = Colour("#DEB887");
+    colours_["cadetblue"]            = Colour("#5F9EA0");
+    colours_["chartreuse"]           = Colour("#7FFF00");
+    colours_["chocolate"]            = Colour("#D2691E");
+    colours_["coral"]                = Colour("#FF7F50");
+    colours_["cornflowerblue"]       = Colour("#6495ED");
+    colours_["cornsilk"]             = Colour("#FFF8DC");
+    colours_["crimson"]              = Colour("#DC143C");
+    colours_["cyan"]                 = Colour("#00FFFF");
+    colours_["darkblue"]             = Colour("#00008B");
+    colours_["darkcyan"]             = Colour("#008B8B");
+    colours_["darkgoldenrod"]        = Colour("#B8860B");
+    colours_["darkgray"]             = Colour("#A9A9A9");
+    colours_["darkgreen"]            = Colour("#006400");
+    colours_["darkgrey"]             = Colour("#A9A9A9");
+    colours_["darkkhaki"]            = Colour("#BDB76B");
+    colours_["darkmagenta"]          = Colour("#8B008B");
+    colours_["darkolivegreen"]       = Colour("#556B2F");
+    colours_["darkorange"]           = Colour("#FF8C00");
+    colours_["darkorchid"]           = Colour("#9932CC");
+    colours_["darkred"]              = Colour("#8B0000");
+    colours_["darksalmon"]           = Colour("#E9967A");
+    colours_["darkseagreen"]         = Colour("#8FBC8F");
+    colours_["darkslateblue"]        = Colour("#483D8B");
+    colours_["darkslategray"]        = Colour("#2F4F4F");
+    colours_["darkslategrey"]        = Colour("#2F4F4F");
+    colours_["darkturquoise"]        = Colour("#00CED1");
+    colours_["darkviolet"]           = Colour("#9400D3");
+    colours_["deeppink"]             = Colour("#FF1493");
+    colours_["deepskyblue"]          = Colour("#00BFFF");
+    colours_["dimgray"]              = Colour("#696969");
+    colours_["dimgrey"]              = Colour("#696969");
+    colours_["dodgerblue"]           = Colour("#1E90FF");
+    colours_["firebrick"]            = Colour("#B22222");
+    colours_["floralwhite"]          = Colour("#FFFAF0");
+    colours_["forestgreen"]          = Colour("#228B22");
+    colours_["fuchsia"]              = Colour("#FF00FF");
+    colours_["gainsboro"]            = Colour("#DCDCDC");
+    colours_["ghostwhite"]           = Colour("#F8F8FF");
+    colours_["gold"]                 = Colour("#FFD700");
+    colours_["goldenrod"]            = Colour("#DAA520");
+    colours_["gray"]                 = Colour("#808080");
+    colours_["green"]                = Colour("#008000");
+    colours_["greenyellow"]          = Colour("#ADFF2F");
+    colours_["grey"]                 = Colour("#808080");
+    colours_["honeydew"]             = Colour("#F0FFF0");
+    colours_["hotpink"]              = Colour("#FF69B4");
+    colours_["indianred"]            = Colour("#CD5C5C");
+    colours_["indigo"]               = Colour("#4B0082");
+    colours_["ivory"]                = Colour("#FFFFF0");
+    colours_["khaki"]                = Colour("#F0E68C");
+    colours_["lavender"]             = Colour("#E6E6FA");
+    colours_["lavenderblush"]        = Colour("#FFF0F5");
+    colours_["lawngreen"]            = Colour("#7CFC00");
+    colours_["lemonchiffon"]         = Colour("#FFFACD");
+    colours_["lightblue"]            = Colour("#ADD8E6");
+    colours_["lightcoral"]           = Colour("#F08080");
+    colours_["lightcyan"]            = Colour("#E0FFFF");
+    colours_["lightgoldenrodyellow"] = Colour("#FAFAD2");
+    colours_["lightgray"]            = Colour("#D3D3D3");
+    colours_["lightgreen"]           = Colour("#90EE90");
+    colours_["lightgrey"]            = Colour("#D3D3D3");
+    colours_["lightpink"]            = Colour("#FFB6C1");
+    colours_["lightsalmon"]          = Colour("#FFA07A");
+    colours_["lightseagreen"]        = Colour("#20B2AA");
+    colours_["lightskyblue"]         = Colour("#87CEFA");
+    colours_["lightslategray"]       = Colour("#778899");
+    colours_["lightslategrey"]       = Colour("#778899");
+    colours_["lightsteelblue"]       = Colour("#B0C4DE");
+    colours_["lightyellow"]          = Colour("#FFFFE0");
+    colours_["lime"]                 = Colour("#00FF00");
+    colours_["limegreen"]            = Colour("#32CD32");
+    colours_["linen"]                = Colour("#FAF0E6");
+    colours_["magenta"]              = Colour("#FF00FF");
+    colours_["maroon"]               = Colour("#800000");
+    colours_["mediumaquamarine"]     = Colour("#66CDAA");
+    colours_["mediumblue"]           = Colour("#0000CD");
+    colours_["mediumorchid"]         = Colour("#BA55D3");
+    colours_["mediumpurple"]         = Colour("#9370DB");
+    colours_["mediumseagreen"]       = Colour("#3CB371");
+    colours_["mediumslateblue"]      = Colour("#7B68EE");
+    colours_["mediumspringgreen"]    = Colour("#00FA9A");
+    colours_["mediumturquoise"]      = Colour("#48D1CC");
+    colours_["mediumvioletred"]      = Colour("#C71585");
+    colours_["midnightblue"]         = Colour("#191970");
+    colours_["mintcream"]            = Colour("#F5FFFA");
+    colours_["mistyrose"]            = Colour("#FFE4E1");
+    colours_["moccasin"]             = Colour("#FFE4B5");
+    colours_["navajowhite"]          = Colour("#FFDEAD");
+    colours_["navy"]                 = Colour("#000080");
+    colours_["oldlace"]              = Colour("#FDF5E6");
+    colours_["olive"]                = Colour("#808000");
+    colours_["olivedrab"]            = Colour("#6B8E23");
+    colours_["orange"]               = Colour("#FFA500");
+    colours_["orangered"]            = Colour("#FF4500");
+    colours_["orchid"]               = Colour("#DA70D6");
+    colours_["palegoldenrod"]        = Colour("#EEE8AA");
+    colours_["palegreen"]            = Colour("#98FB98");
+    colours_["paleturquoise"]        = Colour("#AFEEEE");
+    colours_["palevioletred"]        = Colour("#DB7093");
+    colours_["papayawhip"]           = Colour("#FFEFD5");
+    colours_["peachpuff"]            = Colour("#FFDAB9");
+    colours_["peru"]                 = Colour("#CD853F");
+    colours_["pink"]                 = Colour("#FFC0CB");
+    colours_["plum"]                 = Colour("#DDA0DD");
+    colours_["powderblue"]           = Colour("#B0E0E6");
+    colours_["purple"]               = Colour("#800080");
+    colours_["rebeccapurple"]        = Colour("#663399");
+    colours_["red"]                  = Colour("#FF0000");
+    colours_["rosybrown"]            = Colour("#BC8F8F");
+    colours_["royalblue"]            = Colour("#4169E1");
+    colours_["saddlebrown"]          = Colour("#8B4513");
+    colours_["salmon"]               = Colour("#FA8072");
+    colours_["sandybrown"]           = Colour("#F4A460");
+    colours_["seagreen"]             = Colour("#2E8B57");
+    colours_["seashell"]             = Colour("#FFF5EE");
+    colours_["sienna"]               = Colour("#A0522D");
+    colours_["silver"]               = Colour("#C0C0C0");
+    colours_["skyblue"]              = Colour("#87CEEB");
+    colours_["slateblue"]            = Colour("#6A5ACD");
+    colours_["slategray"]            = Colour("#708090");
+    colours_["slategrey"]            = Colour("#708090");
+    colours_["snow"]                 = Colour("#FFFAFA");
+    colours_["springgreen"]          = Colour("#00FF7F");
+    colours_["steelblue"]            = Colour("#4682B4");
+    colours_["tan"]                  = Colour("#D2B48C");
+    colours_["teal"]                 = Colour("#008080");
+    colours_["thistle"]              = Colour("#D8BFD8");
+    colours_["tomato"]               = Colour("#FF6347");
+    colours_["turquoise"]            = Colour("#40E0D0");
+    colours_["violet"]               = Colour("#EE82EE");
+    colours_["wheat"]                = Colour("#F5DEB3");
+    colours_["white"]                = Colour("#FFFFFF");
+    colours_["whitesmoke"]           = Colour("#F5F5F5");
+    colours_["yellow"]               = Colour("#FFFF00");
+    colours_["yellowgreen"]          = Colour("#9ACD32");
+    //
+    colours_["transparent"] = Rgb(0, 0, 0, 0);
+#endif
 }
+
 
 #include "BackgroundColour.h"
 Colour* MagTranslator<string, Colour>::operator()(const string& val) {
@@ -388,7 +556,7 @@ Rgb::Rgb(const string& name) : red_(1.), green_(1.), blue_(1.), alpha_(1.) {
     in.get(token, '(');
 
     if (in.eof())
-        throw BadRgbFormat();
+        throw BadRgbFormat(name);
 
     if (magCompare(token.str(), "rgb")) {
         in.ignore(name.length(), '(');
@@ -396,12 +564,12 @@ Rgb::Rgb(const string& name) : red_(1.), green_(1.), blue_(1.), alpha_(1.) {
 
         in.ignore(name.length(), ',');
         if (in.eof())
-            throw BadRgbFormat();
+            throw BadRgbFormat(name);
         in >> green_;
 
         in.ignore(name.length(), ',');
         if (in.eof())
-            throw BadRgbFormat();
+            throw BadRgbFormat(name);
         in >> blue_;
     }
     else if (magCompare(token.str(), "rgba")) {
@@ -411,24 +579,24 @@ Rgb::Rgb(const string& name) : red_(1.), green_(1.), blue_(1.), alpha_(1.) {
 
         in.ignore(name.length(), ',');
         if (in.eof())
-            throw BadRgbFormat();
+            throw BadRgbFormat(name);
         in >> green_;
 
 
         in.ignore(name.length(), ',');
         if (in.eof())
-            throw BadRgbFormat();
+            throw BadRgbFormat(name);
         in >> blue_;
 
         in.ignore(name.length(), ',');
         if (in.eof())
-            throw BadRgbFormat();
+            throw BadRgbFormat(name);
         in >> alpha_;
         if (alpha_ < 0 || alpha_ > 1)
-            throw BadRgbFormat();
+            throw BadRgbFormat(name);
     }
     else
-        throw BadRgbFormat();
+        throw BadRgbFormat(name);
     if (red_ > 1 || green_ > 1 || blue_ > 1) {
         // WE are using the second convention ( Colour defined between, 0 and 1)
         red_ = red_ / 256;
@@ -437,11 +605,11 @@ Rgb::Rgb(const string& name) : red_(1.), green_(1.), blue_(1.), alpha_(1.) {
         blue_  = blue_ / 256.;
     }
     if (red_ < 0 || red_ > 1)
-        throw BadRgbFormat();
+        throw BadRgbFormat(name);
     if (green_ < 0 || green_ > 1)
-        throw BadRgbFormat();
+        throw BadRgbFormat(name);
     if (blue_ < 0 || blue_ > 1)
-        throw BadRgbFormat();
+        throw BadRgbFormat(name);
 }
 
 
@@ -452,58 +620,58 @@ Hsl::Hsl(const string& name) {
     in.get(token, '(');
 
     if (in.eof())
-        throw BadHslFormat();
+        throw BadHslFormat(name);
 
     if (magCompare(token.str(), "HSL")) {
         in.ignore(name.length(), '(');
         in >> hue_;
         if (hue_ < 0 || hue_ > 360)
-            throw BadHslFormat();
+            throw BadHslFormat(name);
 
         in.ignore(name.length(), ',');
         if (in.eof())
-            throw BadHslFormat();
+            throw BadHslFormat(name);
         in >> saturation_;
         if (saturation_ < 0 || saturation_ > 1)
-            throw BadHslFormat();
+            throw BadHslFormat(name);
 
         in.ignore(name.length(), ',');
         if (in.eof())
-            throw BadHslFormat();
+            throw BadHslFormat(name);
         in >> light_;
         if (light_ < 0 || light_ > 1)
-            throw BadHslFormat();
+            throw BadHslFormat(name);
         alpha_ = 1.;
     }
     else if (magCompare(token.str(), "HSLA")) {
         in.ignore(name.length(), '(');
         in >> hue_;
         if (hue_ < 0 || hue_ > 360)
-            throw BadHslFormat();
+            throw BadHslFormat(name);
 
         in.ignore(name.length(), ',');
         if (in.eof())
-            throw BadHslFormat();
+            throw BadHslFormat(name);
         in >> saturation_;
         if (saturation_ < 0 || saturation_ > 1)
-            throw BadHslFormat();
+            throw BadHslFormat(name);
 
         in.ignore(name.length(), ',');
         if (in.eof())
-            throw BadHslFormat();
+            throw BadHslFormat(name);
         in >> light_;
         if (light_ < 0 || light_ > 1)
-            throw BadHslFormat();
+            throw BadHslFormat(name);
 
         in.ignore(name.length(), ',');
         if (in.eof())
-            throw BadHslFormat();
+            throw BadHslFormat(name);
         in >> alpha_;
         if (alpha_ < 0 || alpha_ > 1)
-            throw BadHslFormat();
+            throw BadHslFormat(name);
     }
     else
-        throw BadHslFormat();
+        throw BadHslFormat(name);
 }
 
 
@@ -513,22 +681,22 @@ istream& operator>>(istream& s, Rgb& p) {
     s >> token;
 
     if (token != "RGB")
-        throw BadRgbFormat();
+        throw BadRgbFormat(token);
 
     s.ignore(256, '(');
     s >> p.red_;
     if (p.red_ < 0 || p.red_ > 1)
-        throw BadRgbFormat();
+        throw BadRgbFormat(token);
 
     s.ignore(256, ',');
     s >> p.green_;
     if (p.green_ < 0 || p.green_ > 1)
-        throw BadRgbFormat();
+        throw BadRgbFormat(token);
     s.ignore(256, ',');
 
     s >> p.blue_;
     if (p.blue_ < 0 || p.blue_ > 1)
-        throw BadRgbFormat();
+        throw BadRgbFormat(token);
 
     return s;
 }
@@ -539,22 +707,22 @@ istream& operator>>(istream& s, Hsl& p) {
     s >> token;
 
     if (token != "HSL")
-        throw BadHslFormat();
+        throw BadHslFormat(token);
 
     s.ignore(256, '(');
     s >> p.hue_;
     if (p.hue_ < 0 || p.hue_ > 360)
-        throw BadHslFormat();
+        throw BadHslFormat(token);
 
     s.ignore(256, ',');
     s >> p.saturation_;
     if (p.saturation_ < 0 || p.saturation_ > 1)
-        throw BadHslFormat();
+        throw BadHslFormat(token);
     s.ignore(256, ',');
 
     s >> p.light_;
     if (p.light_ < 0 || p.light_ > 1)
-        throw BadHslFormat();
+        throw BadHslFormat(token);
     return s;
 }
 bool Colour::none() const {

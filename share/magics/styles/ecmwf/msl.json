@@ -27,6 +27,11 @@
         "shortName": "prmsl"
       },
       {
+        "centre": "219",
+        "shortName": "prmsl",
+        "paramId":"260074"
+      },
+      {
         "long_name": [
           "Mean sea level pressure",
           "Sea Level Pressure",

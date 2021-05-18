@@ -37,21 +37,21 @@ class Layout;
 class HistoMode {
 public:
     HistoMode();
-    virtual ~HistoMode();
+    virtual ~HistoMode() override;
 
     virtual void set(const map<string, string>&) = 0;
     virtual void set(const XmlNode&)             = 0;
-    virtual HistoMode* clone() const             = 0;
+    virtual HistoMode* clone() const override    = 0;
     virtual void toxml(ostream&, int) const {}
     virtual void count(double, double) {}
     virtual void setToFirst(Layout&) {}
-    virtual BasicGraphicsObject* next() { return (*(current_++)).get(); }
-    virtual bool more() { return current_ != objects_.end(); }
+    virtual BasicGraphicsObject* next() override { return (*(current_++)).get(); }
+    virtual bool more() override { return current_ != objects_.end(); }
     string button(int);
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
     AutoVector<BasicGraphicsObject> objects_;
     AutoVector<BasicGraphicsObject>::iterator current_;

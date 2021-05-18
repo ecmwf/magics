@@ -33,10 +33,10 @@ namespace magics {
 class SimplePolylineInput : public SimplePolylineInputAttributes, public Data, public PointsList {
 public:
     SimplePolylineInput();
-    virtual ~SimplePolylineInput();
+    virtual ~SimplePolylineInput() override;
     virtual void decode();
-    void set(const map<string, string>& map) { SimplePolylineInputAttributes::set(map); }
-    void set(const XmlNode& node) { SimplePolylineInputAttributes::set(node); }
+    void set(const map<string, string>& map) override { SimplePolylineInputAttributes::set(map); }
+    void set(const XmlNode& node) override { SimplePolylineInputAttributes::set(node); }
 
 
     PointsHandler& points() {
@@ -45,13 +45,14 @@ public:
         return *(pointsHandlers_.back());
     }
 
-    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all) {}
-    PointsHandler& points(const Transformation&, bool) { return points(); }
+    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out,
+                          bool all) override {}
+    PointsHandler& points(const Transformation&, bool) override { return points(); }
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed

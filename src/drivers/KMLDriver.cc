@@ -16,16 +16,16 @@
 
 */
 
-#include <Arrow.h>
-#include <Flag.h>
-#include <Image.h>
-#include <KMLDriver.h>
-#include <Layer.h>
-#include <Polyline.h>
-#include <Symbol.h>
-#include <Text.h>
+#include "KMLDriver.h"
+#include "Arrow.h"
+#include "Flag.h"
+#include "Image.h"
+#include "Layer.h"
+#include "Polyline.h"
+#include "Symbol.h"
+#include "Text.h"
 
-#include "magics_windef.h"
+#include "magics.h"
 
 //! For generating KMZ files
 extern "C" {
@@ -34,7 +34,7 @@ extern "C" {
 #define MAXFILENAME 256
 #define WRITEBUFFERSIZE 16384
 #include <fcntl.h>  // open
-#include <cstdio>   // BUFSIZ
+#include <cstdio>  // BUFSIZ
 
 #ifndef MAGICS_ON_WINDOWS
 #include <unistd.h>
@@ -47,8 +47,8 @@ extern "C" {
 #endif
 
 #ifdef HAVE_CAIRO
-#include <CairoDriver.h>
 #include <cairo.h>
+#include "CairoDriver.h"
 #endif
 
 using namespace magics;
@@ -158,7 +158,7 @@ void KMLDriver::close() {
 
     // Wind icon file
     const string iconfile  = "magics_kml_icons.png";
-    const string icon_path = buildConfigPath(iconfile);
+    const string icon_path = buildSharePath(iconfile);
 
     bool is_copied = copy_file(icon_path, iconfile);
     if (is_copied)
@@ -166,7 +166,7 @@ void KMLDriver::close() {
 
     if (ecmwf_logo_) {
         const string logofilename = "kml_logo_2014.png";
-        const string logofile     = buildConfigPath(logofilename);
+        const string logofile     = buildSharePath(logofilename);
         is_copied                 = copy_file(logofile, logofilename);
         if (is_copied)
             kml_output_resource_list_.push_back(logofilename);
@@ -541,11 +541,11 @@ MAGICS_NO_EXPORT void KMLDriver::setNewLineWidth(const MFloat width) const {
   param w width of the line
 
 */
-MAGICS_NO_EXPORT int KMLDriver::setLineParameters(const LineStyle, const MFloat w) const {
+MAGICS_NO_EXPORT void KMLDriver::setLineParameters(const LineStyle, const MFloat w) const {
     setNewLineWidth(w);
 
     //	MagLog::debug() << "KMLDriver::setLineParameters needs implementing." << std::endl;
-    return 0;
+    return;
 }
 
 /*!

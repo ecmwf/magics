@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -28,17 +28,17 @@ EpsCloudAttributes::EpsCloudAttributes():
 	
 	colour_(MagTranslator<string, Colour>().magics("eps_rose_cloud_colour")),
 	border_colour_(MagTranslator<string, Colour>().magics("eps_rose_cloud_border_colour"))
-	 
+	
 {
-} 
+}
 
 
 EpsCloudAttributes::~EpsCloudAttributes()
 {
-	
+
 }
 
-    
+
 void EpsCloudAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -57,12 +57,12 @@ void EpsCloudAttributes::copy(const EpsCloudAttributes& other)
 	colour_ = unique_ptr<Colour>(other.colour_->clone());
 	border_colour_ = unique_ptr<Colour>(other.border_colour_->clone());
 	
-} 
+}
 
 
 bool EpsCloudAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "epscloud")  )
 		return true;
 	
@@ -73,7 +73,7 @@ void EpsCloudAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "epscloud")  )
@@ -102,7 +102,7 @@ void EpsCloudAttributes::print(ostream& out)  const
 
 void EpsCloudAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"epscloud\""; 
+	out <<  "\"epscloud\"";
 	out << ", \"eps_rose_cloud_colour\":";
 	niceprint(out, *colour_);
 	out << ", \"eps_rose_cloud_border_colour\":";
@@ -110,5 +110,5 @@ void EpsCloudAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> eps_rose_cloud_colour("eps_rose_cloud_colour", "black", ""); 
-static MagicsParameter<string> eps_rose_cloud_border_colour("eps_rose_cloud_border_colour", "none", ""); 
+static MagicsParameter<string> eps_rose_cloud_colour("eps_rose_cloud_colour", "black");
+static MagicsParameter<string> eps_rose_cloud_border_colour("eps_rose_cloud_border_colour", "none");

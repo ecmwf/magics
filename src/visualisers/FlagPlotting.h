@@ -33,16 +33,16 @@ namespace magics {
 class FlagPlotting : public WindPlotting, public FlagPlottingAttributes {
 public:
     FlagPlotting() {}
-    virtual ~FlagPlotting() {}
-    virtual void set(const map<string, string>& map) {
+    virtual ~FlagPlotting() override {}
+    virtual void set(const map<string, string>& map) override {
         WindPlottingAttributes::set(map);
         FlagPlottingAttributes::set(map);
     }
-    virtual void set(const XmlNode& node) {
+    virtual void set(const XmlNode& node) override {
         WindPlottingAttributes::set(node);
         FlagPlottingAttributes::set(node);
     }
-    bool accept(const string& node) {
+    bool accept(const string& node) override {
         return FlagPlottingAttributes::accept(node);
         ;
     }
@@ -50,25 +50,25 @@ public:
         WindPlottingAttributes::copy(other);
         FlagPlottingAttributes::copy(other);
     }
-    virtual WindPlotting* clone() {
+    virtual WindPlotting* clone() override {
         FlagPlotting* object = new FlagPlotting();
         object->copy(*this);
         return object;
     }
 
-    virtual void operator()(bool, const PaperPoint& point, double x, double y, double);
+    virtual void operator()(bool, const PaperPoint& point, double x, double y, double) override;
     Flag* southFlag(const Colour& colour);
     Flag* northFlag(const Colour& colour);
-    virtual void prepare(BasicGraphicsObjectContainer& task, double);
-    void visit(LegendVisitor& legend);
-    void visit(Data&, PointsHandler&, HistoVisitor&);
-    double minSpeed() { return min_speed_; }
-    double maxSpeed() { return max_speed_; }
-    void finish(BasicGraphicsObjectContainer&);
+    virtual void prepare(BasicGraphicsObjectContainer& task, double) override;
+    void visit(LegendVisitor& legend) override;
+    void visit(Data&, PointsHandler&, HistoVisitor&) override;
+    double minSpeed() override { return min_speed_; }
+    double maxSpeed() override { return max_speed_; }
+    void finish(BasicGraphicsObjectContainer&) override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const { out << "FlagPlotting<P>"; }
+    virtual void print(ostream& out) const override { out << "FlagPlotting<P>"; }
     map<Colour, Flag*> northFlags_;
     map<Colour, Flag*> southFlags_;
 

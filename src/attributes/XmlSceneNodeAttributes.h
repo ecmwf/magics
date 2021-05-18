@@ -25,8 +25,8 @@
 #define XmlSceneNodeAttributes_H
 
 #include "magics.h"
-#include "PageID.h"
 #include "Colour.h"
+#include "PageID.h"
 namespace magics {
 
 class XmlNode;

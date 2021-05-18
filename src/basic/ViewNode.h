@@ -39,7 +39,7 @@ class AnimationRules;
 class ViewNode : public BasicSceneNode {
 public:
     ViewNode();
-    virtual ~ViewNode();
+    virtual ~ViewNode() override;
     void setInteractiveInfo(const string& id, int levels, int level) {
         name(id);
         ASSERT(layout_);
@@ -51,29 +51,29 @@ public:
         layout_->zoomCurrentLevel(level);
     }
 
-    virtual void text(TextVisitor* text);
-    virtual void legend(LegendVisitor* legend);
+    virtual void text(TextVisitor* text) override;
+    virtual void legend(LegendVisitor* legend) override;
 
 
-    void visit(MetaDataCollector&);
+    void visit(MetaDataCollector&) override;
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    void print(ostream&) const;
+    void print(ostream&) const override;
     void prepareLayout(SceneLayer&);
     virtual void updateLayout() {}
 
-    void getReady();
+    void getReady() override;
 
-    void visit(SceneLayer&);
-    void visit(MetaDataVisitor&);
-    void visit(PreviewVisitor&);
-    void visit(HistoVisitor&);
+    void visit(SceneLayer&) override;
+    void visit(MetaDataVisitor&) override;
+    void visit(PreviewVisitor&) override;
+    void visit(HistoVisitor&) override;
 
     virtual void copy(const ViewNode&);
 
-    Transformation& transformation() const {
+    Transformation& transformation() const override {
         ASSERT(viewTransformation_);
         return *viewTransformation_;
     }
@@ -133,22 +133,22 @@ private:
 class FortranViewNode : public ViewNode, public FortranViewNodeAttributes {
 public:
     FortranViewNode();
-    ~FortranViewNode();
+    ~FortranViewNode() override;
 
-    BasicSceneNode* clone();
+    BasicSceneNode* clone() override;
 
-    void getReady();
+    void getReady() override;
 
 
 protected:
-    void print(ostream&) const;
+    void print(ostream&) const override;
 };
 
 class XmlViewNode : public ViewNode, public XmlBasicNodeAttributes, public XmlViewNodeAttributes {
 public:
     XmlViewNode();
-    ~XmlViewNode();
-    void set(const XmlNode& node) {
+    ~XmlViewNode() override;
+    void set(const XmlNode& node) override {
         if (magCompare(node.name(), "map")) {
             XmlNode view = node;
             view.name("view");
@@ -158,11 +158,11 @@ public:
     }
 
 
-    void updateLayout();
-    void getReady();
+    void updateLayout() override;
+    void getReady() override;
 
 protected:
-    void print(ostream&) const;
+    void print(ostream&) const override;
 };
 
 

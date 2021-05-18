@@ -28,6 +28,7 @@
 #include "MetaData.h"
 #include "TextVisitor.h"
 #include "XmlReader.h"
+#include "MagicsGlobal.h"
 
 #include <limits>
 #include <locale>
@@ -66,6 +67,9 @@ void EpsXmlInput::decode() {
         tree.visit(*this);
     }
     catch (MagicsException& e) {
+        if (MagicsGlobal::strict()) {
+            throw;
+        }
         MagLog::debug() << e.what() << endl;
     }
 }

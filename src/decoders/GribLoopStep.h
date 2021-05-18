@@ -65,22 +65,22 @@ private:
 class DateGribLoopStep : public GribLoopStep, public DateGribLoopStepAttributes {
 public:
     DateGribLoopStep() {}
-    ~DateGribLoopStep() {}
-    void set(const XmlNode& node) { DateGribLoopStepAttributes::set(node); }
-    bool accept(const string& node) {
+    ~DateGribLoopStep() override {}
+    void set(const XmlNode& node) override { DateGribLoopStepAttributes::set(node); }
+    bool accept(const string& node) override {
         return DateGribLoopStepAttributes::accept(node);
         ;
     }
-    GribLoopStep* clone() { return new DateGribLoopStep(); }
-    // virtual void operator()(GribDecoder&, LayerNode&);
+    GribLoopStep* clone() override { return new DateGribLoopStep(); }
+    // virtual void operator()(GribDecoder&, LayerNode&) override;
 };
 
 class ParamGribLoopStep : public GribLoopStep {
 public:
     ParamGribLoopStep() {}
-    ~ParamGribLoopStep() {}
-    // virtual void operator()(GribDecoder&, LayerNode&);
-    GribLoopStep* clone() { return new ParamGribLoopStep(); }
+    ~ParamGribLoopStep() override {}
+    // virtual void operator()(GribDecoder&, LayerNode&) override;
+    GribLoopStep* clone() override { return new ParamGribLoopStep(); }
 };
 
 

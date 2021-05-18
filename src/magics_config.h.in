@@ -4,7 +4,7 @@
 /*#include "eckit_config.h"*/
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
-#cmakedefine HAVE_DLFCN_H
+#cmakedefine magics_HAVE_DLFCN_H
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #cmakedefine HAVE_INTTYPES_H
@@ -14,9 +14,6 @@
 
 /* Define to 1 if you have the `gd' library (-lgd). */
 #cmakedefine HAVE_LIBGD
-
-/* Define to 1 if you have the `grib_api' library (-lgrib_api). */
-#cmakedefine HAVE_LIBGRIB_API
 
 /* Define to 1 if you have the `proj' library (-lproj). */
 #cmakedefine HAVE_LIBPROJ
@@ -61,9 +58,6 @@
    */
 #cmakedefine LT_OBJDIR
 
-/* Turn on 32 bit addressing */
-#cmakedefine MAGICS_32BIT
-
 /* Install all header files. */
 #cmakedefine MAGICS_ALLHEADERS
 
@@ -84,9 +78,6 @@
 
 /* Defines animated GIF output is supported. */
 #cmakedefine MAGICS_GIF_ANIMATED
-
-/* Turn off the GRIB 1/2 support */
-#cmakedefine HAVE_GRIB
 
 /* Install path. */
 #define MAGICS_INSTALL_PATH "@CMAKE_INSTALL_PREFIX@"
@@ -147,12 +138,6 @@
 
 /* Turn on TIFF file format support */
 #cmakedefine MAGICS_TIFF
-
-/* Turn on the TTF support */
-#cmakedefine MAGICS_TTF
-
-/* Path to TTF font files. */
-#cmakedefine MAGICS_TTF_PATH
 
 /* Version of Magics. */
 #define MAGICS_VERSION "@magics_VERSION@"

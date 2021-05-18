@@ -64,6 +64,9 @@ void NetcdfDecoder::visit(MagnifierVisitor& magnify) {
         }
     }
     catch (...) {
+        if (MagicsGlobal::strict()) {
+            throw;
+        }
     }
 }
 
@@ -109,6 +112,9 @@ void NetcdfDecoder::visit(ValuesCollector& values) {
         (*interpretor_).visit(values, points_);
     }
     catch (...) {
+        if (MagicsGlobal::strict()) {
+            throw;
+        }
         valid_ = false;
     }
 }
@@ -119,8 +125,22 @@ void NetcdfDecoder::visit(TextVisitor& text) {
         (*interpretor_).visit(text);
     }
     catch (...) {
+        if (MagicsGlobal::strict()) {
+            throw;
+        }
         valid_ = false;
     }
+}
+
+string NetcdfDecoder::getUnits() const {
+    MetaDataCollector collector;
+    collector["units"] = "";
+    MetaDataAttribute attribute;
+    attribute.setSource(MetaDataAttribute::GribApiSource);
+    collector.setAttribute("units", attribute);
+    // FIXME: make visit() const
+    const_cast<NetcdfDecoder*>(this)->visit(collector);
+    return collector["units"];
 }
 
 PointsHandler& NetcdfDecoder::points(const Transformation& transformation, bool all) {

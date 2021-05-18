@@ -12,7 +12,6 @@
 #ifndef MagClipper_H
 #define MagClipper_H
 
-#include "clipper.hpp"
 #include "magics.h"
 
 namespace magics {

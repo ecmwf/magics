@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-   
+
 
 #ifndef IsoShadingWrapper_H
 #define IsoShadingWrapper_H
@@ -33,7 +33,7 @@
 #include "IsoShading.h"
 
 
- 
+
 #include "NoIsoShadingWrapper.h"
 
 
@@ -43,7 +43,7 @@
 
 #include "ShadingTechniqueWrapper.h"
 #include "ColourTechniqueWrapper.h"
- 
+
 
 namespace magics {
 
@@ -60,21 +60,21 @@ public:
 //  --  destructor
     virtual ~IsoShadingWrapper();
     virtual void set(const MagRequest&);
-    
-    IsoShading* me()   { return isoshading_; }
-   	
-   	virtual IsoShading* object() { return isoshading_; }
-	
 
-	virtual void object(IsoShading* o) { 
+    IsoShading* me()   { return isoshading_; }
+
+   	virtual IsoShading* object() { return isoshading_; }
+
+
+	virtual void object(IsoShading* o) {
 		// Remember to delete the previous object
 		isoshading_ = o;
 		NoIsoShadingWrapper::object(o);
 		
 
 	}
-    
-  
+
+
 
 protected:
     IsoShading* isoshading_;
@@ -82,7 +82,7 @@ protected:
 
 //  --  method
 	virtual void print(ostream&) const;
-	
+
 
 private:
     string tag_;
@@ -93,5 +93,3 @@ private:
 } // namespace magics
 
 #endif
-
-

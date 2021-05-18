@@ -16,15 +16,15 @@
 
 */
 
-#include <GridPlotting.h>
-#include <LabelPlotting.h>
-#include <Layer.h>
-#include <MagJSon.h>
-#include <MatrixHandler.h>
-#include <ParameterSettings.h>
-#include <Polyline.h>
-#include <Proj4Projection.h>
-#include <Text.h>
+#include "Proj4Projection.h"
+#include "GridPlotting.h"
+#include "LabelPlotting.h"
+#include "Layer.h"
+#include "MagJSon.h"
+#include "MatrixHandler.h"
+#include "ParameterSettings.h"
+#include "Polyline.h"
+#include "Text.h"
 
 #include <cmath>
 
@@ -49,8 +49,7 @@ public:
         initMethods_["polar_north"] = &Epsg::polarinit;
         initMethods_["polar_south"] = &Epsg::polarsouthinit;
         initMethods_["EPSG:32661"]  = &Epsg::epsg32661;
-        initMethods_["EPSG:32761"]  = &Epsg::epsg32761;
-        
+        initMethods_["EPSG:32761"]  = &Epsg::epsg32761;    
     }
     string name_;
     string definition_;
@@ -183,7 +182,7 @@ map<string, Epsg*> Epsg::epsgs_;
 
 void EpsgConfig::init() {
     // methods_["epsg"] =  &EpsgConfig::epsg;
-    MagConfigHandler(buildConfigPath("epsg.json"), *this);
+    MagConfigHandler(buildSharePath("epsg.json"), *this);
 }
 void Epsg::set(const Value& value) {
     ValueMap object = value.get_value<ValueMap>();
@@ -221,6 +220,7 @@ Proj4Projection::Proj4Projection(const string& definition) :
     // init();
     EpsgConfig config;
     config.init();
+    name_ = definition;
 }
 
 Proj4Projection::Proj4Projection() :
@@ -304,10 +304,13 @@ void Proj4Projection::init() {
         full();
     }
 
-    askedxmin_ = std::min(min_pcx_, max_pcx_);
-    askedxmax_ = std::max(min_pcx_, max_pcx_);
-    askedymin_ = std::min(min_pcy_, max_pcy_);
-    askedymax_ = std::max(min_pcy_, max_pcy_);
+    xgutter_ = ((xpcmax_ - xpcmin_ ) * gutter_)/100;
+    ygutter_ = ((ypcmax_ - ypcmin_ ) * gutter_)/100;
+
+    askedxmin_ = std::min(xpcmin_, xpcmax_);
+    askedxmax_ = std::max(xpcmin_, xpcmax_);
+    askedymin_ = std::min(ypcmin_, ypcmax_);
+    askedymax_ = std::max(ypcmin_, ypcmax_);
 }
 
 bool Proj4Projection::addSouth() const {
@@ -363,18 +366,18 @@ void Proj4Projection::wrap(double& x, double& y) {}
 
 void Proj4Projection::corners() {
     // we have to update the PCBounding box!
-    min_pcx_ = min_longitude_;
-    min_pcy_ = min_latitude_;
-    max_pcx_ = max_longitude_;
-    max_pcy_ = max_latitude_;
+    xpcmin_ = min_longitude_;
+    ypcmin_ = min_latitude_;
+    xpcmax_ = max_longitude_;
+    ypcmax_ = max_latitude_;
 
-    fast_reproject(min_pcx_, min_pcy_);
-    fast_reproject(max_pcx_, max_pcy_);
+    fast_reproject(xpcmin_, ypcmin_);
+    fast_reproject(xpcmax_, ypcmax_);
 
     delete PCEnveloppe_;
 
     PCEnveloppe_ = new magics::Polyline();
-    PCEnveloppe_->box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
+    PCEnveloppe_->box(PaperPoint(xpcmin_, ypcmin_), PaperPoint(xpcmax_, ypcmax_));
 }
 
 void Proj4Projection::centre() {}
@@ -427,10 +430,10 @@ void Proj4Projection::setNewPCBox(double minx, double miny, double maxx, double 
     max_longitude_ = ur.x();
     min_latitude_  = ll.y();
     max_latitude_  = ur.y();
-    min_pcx_       = minx;
-    max_pcx_       = maxx;
-    min_pcy_       = miny;
-    max_pcy_       = maxy;
+    xpcmin_       = minx;
+    xpcmax_       = maxx;
+    ypcmin_       = miny;
+    ypcmax_       = maxy;
 }
 
 void Proj4Projection::revert(const PaperPoint& xy, UserPoint& point) const {
@@ -476,14 +479,14 @@ void Proj4Projection::add(double lon, double lat) {
     userEnveloppe_->push_back(PaperPoint(lon, lat));
     PCEnveloppe_->push_back(PaperPoint(x, y));
 
-    if (x < min_pcx_)
-        min_pcx_ = x;
-    if (y < min_pcy_)
-        min_pcy_ = y;
-    if (x > max_pcx_)
-        max_pcx_ = x;
-    if (y > max_pcy_)
-        max_pcy_ = y;
+    if (x < xpcmin_)
+        xpcmin_ = x;
+    if (y < ypcmin_)
+        ypcmin_ = y;
+    if (x > xpcmax_)
+        xpcmax_ = x;
+    if (y > ypcmax_)
+        ypcmax_ = y;
 
     if (lon < gridMinLon_)
         gridMinLon_ = lon;
@@ -498,10 +501,10 @@ void Proj4Projection::add(double lon, double lat) {
 void Proj4Projection::conic() {
     userEnveloppe_->clear();
     PCEnveloppe_->clear();
-    min_pcx_ = DBL_MAX;
-    min_pcy_ = DBL_MAX;
-    max_pcx_ = -DBL_MAX;
-    max_pcy_ = -DBL_MAX;
+    xpcmin_ = DBL_MAX;
+    ypcmin_ = DBL_MAX;
+    xpcmax_ = -DBL_MAX;
+    ypcmax_ = -DBL_MAX;
 
     // top
     add(projection_->minlon_ - vertical_longitude_, projection_->maxlat_);
@@ -514,10 +517,10 @@ void Proj4Projection::conic() {
 void Proj4Projection::simple() {
     userEnveloppe_->clear();
     PCEnveloppe_->clear();
-    min_pcx_ = DBL_MAX;
-    min_pcy_ = DBL_MAX;
-    max_pcx_ = -DBL_MAX;
-    max_pcy_ = -DBL_MAX;
+    xpcmin_ = DBL_MAX;
+    ypcmin_ = DBL_MAX;
+    xpcmax_ = -DBL_MAX;
+    ypcmax_ = -DBL_MAX;
 
     add(projection_->minlon_, projection_->minlat_);
     add(projection_->minlon_, projection_->maxlat_);
@@ -539,10 +542,10 @@ void Proj4Projection::simple() {
 }
 
 void Proj4Projection::projectionSimple() {
-    min_pcx_ = min_longitude_;
-    min_pcy_ = min_latitude_;
-    max_pcx_ = max_longitude_;
-    max_pcy_ = max_latitude_;
+    xpcmin_ = min_longitude_;
+    ypcmin_ = min_latitude_;
+    xpcmax_ = max_longitude_;
+    ypcmax_ = max_latitude_;
 
 
     int error;
@@ -554,7 +557,7 @@ void Proj4Projection::projectionSimple() {
 
     helper_->convert(x, y);
 
-    // cout << "[" << min_pcx_ << " " << min_pcy_ << "]-->[" << max_pcx_ << " " << max_pcy_ << "]" << endl;
+    // cout << "[" << xpcmin_ << " " << ypcmin_ << "]-->[" << xpcmax_ << " " << ypcmax_ << "]" << endl;
     // cout << "[" << min_longitude_ << " " << min_latitude_ << "]-->[" << max_longitude_ << " " << max_latitude_ << "]" << endl;
     // cout << "[" << max_longitude_ << " " << max_latitude_ << "]-->[" << x << " " << y << "] --> " << error <<  endl;
 
@@ -568,7 +571,7 @@ void Proj4Projection::projectionSimple() {
 
     
     magics::Polyline box;
-    box.box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
+    box.box(PaperPoint(xpcmin_, ypcmin_), PaperPoint(xpcmax_, ypcmax_));
 
     vector<magics::Polyline*> newbox;
     PCEnveloppe_->intersect(box, newbox);
@@ -587,10 +590,10 @@ void Proj4Projection::geos() {
     userEnveloppe_->clear();
     PCEnveloppe_->clear();
     // here we have to prepare the enveloppe!
-    min_pcx_ = DBL_MAX;
-    min_pcy_ = DBL_MAX;
-    max_pcx_ = -DBL_MAX;
-    max_pcy_ = -DBL_MAX;
+    xpcmin_ = DBL_MAX;
+    ypcmin_ = DBL_MAX;
+    xpcmax_ = -DBL_MAX;
+    ypcmax_ = -DBL_MAX;
 
     map<double, vector<double> > helper;
 
@@ -656,7 +659,7 @@ void Proj4Projection::geos() {
 
 magics::Polyline& Proj4Projection::getSimplePCBoundingBox() const {
     static magics::Polyline box;
-    box.box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
+    box.box(PaperPoint(xpcmin_, ypcmin_), PaperPoint(xpcmax_, ypcmax_));
 
     return box;
 }
@@ -665,10 +668,10 @@ void Proj4Projection::tpers() {
     userEnveloppe_->clear();
     PCEnveloppe_->clear();
     // here we have to prepare the enveloppe!
-    min_pcx_ = DBL_MAX;
-    min_pcy_ = DBL_MAX;
-    max_pcx_ = -DBL_MAX;
-    max_pcy_ = -DBL_MAX;
+    xpcmin_ = DBL_MAX;
+    ypcmin_ = DBL_MAX;
+    xpcmax_ = -DBL_MAX;
+    ypcmax_ = -DBL_MAX;
 
     map<double, vector<double> > helper;
 
@@ -806,28 +809,44 @@ void Proj4Projection::setMaxY(double y) {
 }
 
 double Proj4Projection::getMinPCX() const {
-    return min_pcx_;
+    return xpcmin_;
 }
 
 double Proj4Projection::getMinPCY() const {
-    return min_pcy_;
+    return ypcmin_;
 }
 
 double Proj4Projection::getMaxPCX() const {
-    return max_pcx_;
+    return xpcmax_;
 }
 
 double Proj4Projection::getMaxPCY() const {
-    return max_pcy_;
+    return ypcmax_;
+}
+
+double Proj4Projection::getExtendedMinPCX() const {
+    return xpcmin_ - xgutter_;
+}
+
+double Proj4Projection::getExtendedMinPCY() const {
+    return ypcmin_- ygutter_;
+}
+
+double Proj4Projection::getExtendedMaxPCX() const {
+    return xpcmax_ + xgutter_;
+}
+
+double Proj4Projection::getExtendedMaxPCY() const {
+    return ypcmax_ + ygutter_;
 }
 
 void Proj4Projection::fill(double& width, double& height) {
     Transformation::fill(width, height);
     setting_       = "projection";
-    min_longitude_ = min_pcx_;
-    min_latitude_  = min_pcy_;
-    max_longitude_ = max_pcx_;
-    max_latitude_  = max_pcy_;
+    min_longitude_ = xpcmin_;
+    min_latitude_  = ypcmin_;
+    max_longitude_ = xpcmax_;
+    max_latitude_  = ypcmax_;
 }
 void Proj4Projection::gridLongitudes(const GridPlotting& grid) const {
     vector<double> longitudes = grid.longitudes();
@@ -941,15 +960,15 @@ void Proj4Projection::labels(const LabelPlotting& label, LeftAxisVisitor& visito
             label.add(text);
             text->setText(writeLatitude(point));
             text->push_back(xy);
-            text->setJustification(MRIGHT);
-            text->setVerticalAlign(MHALF);
+            text->setJustification(Justification::RIGHT);
+            text->setVerticalAlign(VerticalAlign::HALF);
             text->setBlanking(true);
         }
     }
     else {
-        double x = max_pcx_ - ((max_pcx_ - min_pcx_) * .1);
+        double x = xpcmax_ - ((xpcmax_ - xpcmin_) * .1);
         // we calculate the intersection of the longitudes with the left side
-        verticalLabels(label, min_pcx_, x, MRIGHT);
+        verticalLabels(label, xpcmin_, x, Justification::RIGHT);
     }
 }
 
@@ -970,15 +989,15 @@ void Proj4Projection::labels(const LabelPlotting& label, RightAxisVisitor& visit
             label.add(text);
             text->setText(writeLatitude(point));
             text->push_back(xy);
-            text->setJustification(MLEFT);
-            text->setVerticalAlign(MHALF);
+            text->setJustification(Justification::LEFT);
+            text->setVerticalAlign(VerticalAlign::HALF);
             text->setBlanking(true);
         }
     }
     else {
         // we calculate the intersection of the longitudes with the right side
-        double x = min_pcx_ + ((max_pcx_ - min_pcx_) * .1);
-        verticalLabels(label, max_pcx_, x, MLEFT);
+        double x = xpcmin_ + ((xpcmax_ - xpcmin_) * .1);
+        verticalLabels(label, xpcmax_, x, Justification::LEFT);
     }
 }
 
@@ -1000,15 +1019,15 @@ void Proj4Projection::labels(const LabelPlotting& label, BottomAxisVisitor& visi
             text->setText(writeLongitude(point));
 
             text->push_back(xy);
-            text->setJustification(MCENTRE);
-            text->setVerticalAlign(MTOP);
+            text->setJustification(Justification::CENTRE);
+            text->setVerticalAlign(VerticalAlign::TOP);
             text->setBlanking(true);
         }
     }
     else {
         // we calculate the intersection of the longitudes with the right side
-        double y = min_pcy_ + ((max_pcy_ - min_pcy_) * .8);
-        horizontalLabels(label, min_pcy_, y, MTOP);
+        double y = ypcmin_ + ((ypcmax_ - ypcmin_) * .8);
+        horizontalLabels(label, ypcmin_, y, VerticalAlign::TOP);
     }
 }
 
@@ -1055,7 +1074,7 @@ void Proj4Projection::verticalLabels(const LabelPlotting& label, double x, doubl
                 Text* text = new Text();
                 label.add(text);
                 text->setJustification(justif);
-                text->setVerticalAlign(MHALF);
+                text->setVerticalAlign(VerticalAlign::HALF);
                 text->setText(writeLongitude(geo));
                 text->push_back(xy);
             }
@@ -1085,7 +1104,7 @@ void Proj4Projection::horizontalLabels(const LabelPlotting& label, double y, dou
                     continue;
                 Text* text = new Text();
                 label.add(text);
-                text->setJustification(MCENTRE);
+                text->setJustification(Justification::CENTRE);
                 text->setVerticalAlign(align);
                 text->setText(writeLongitude(geo));
                 text->push_back(xy);
@@ -1111,15 +1130,15 @@ void Proj4Projection::labels(const LabelPlotting& label, TopAxisVisitor& visitor
             label.add(text);
             text->setText(writeLongitude(point));
             text->push_back(xy);
-            text->setJustification(MCENTRE);
-            text->setVerticalAlign(MBOTTOM);
+            text->setJustification(Justification::CENTRE);
+            text->setVerticalAlign(VerticalAlign::BOTTOM);
             text->setBlanking(true);
         }
     }
     else {
         // we calculate the intersection of the longitudes with the right side
-        double y = min_pcy_ + ((max_pcy_ - min_pcy_) * .2);
-        horizontalLabels(label, max_pcy_, y, MBOTTOM);
+        double y = ypcmin_ + ((ypcmax_ - ypcmin_) * .2);
+        horizontalLabels(label, ypcmax_, y, VerticalAlign::BOTTOM);
     }
 }
 
@@ -1171,15 +1190,16 @@ void Proj4Projection::revert(const vector<std::pair<double, double> >& in,
         double y = pt->second;
         PaperPoint p(x, y);
 
-        if (PCEnveloppe_->within(p) == false) {
-            out.push_back(make_pair(HUGE_VAL, HUGE_VAL));
-            continue;
-        }
+        // Trying to remove this test, to make the wind tiles working
+        // if (PCEnveloppe_->within(p) == false) {
+        //     out.push_back(make_pair(HUGE_VAL, HUGE_VAL));
+        //     continue;
+        // }
 
         int error = helper_->revert(x, y);
 
         if (error) {
-            MagLog::error() << helper_->error(error) << " for " << pt->first << " " << pt->second << endl;
+            //The point is outside the projection, we return a HUGE_VAL point
             out.push_back(make_pair(HUGE_VAL, HUGE_VAL));
         }
         else {
@@ -1200,7 +1220,7 @@ void Proj4Projection::coastSetting(map<string, string>& setting, double abswidth
     // const double yratio = ( ypcmax_ - ypcmin_ ) / absheight;
 
     // choose the smallest (smaller ratio means more detail required)
-    const double area = (max_pcx_ - min_pcx_) * (max_pcy_ - min_pcy_);
+    const double area = (xpcmax_ - xpcmin_) * (ypcmax_ - ypcmin_);
 
     double ratio = area / (abswidth * absheight);
 
@@ -1231,8 +1251,8 @@ void Proj4Projection::coastSetting(map<string, string>& setting, double abswidth
 void Proj4Projection::visit(MetaDataVisitor& visitor, double left, double top, double width, double height,
                             double iwidth, double iheight) {
     ostringstream java;
-    double w = max_pcx_ - min_pcx_;
-    double h = max_pcy_ - min_pcy_;
+    double w = xpcmax_ - xpcmin_;
+    double h = ypcmax_ - ypcmin_;
     java << "{";
     java << "\"name\" : \"" << definition_ << "\",";
     java << "\"definition\" : \"" << definition_ << "\",";
@@ -1243,8 +1263,8 @@ void Proj4Projection::visit(MetaDataVisitor& visitor, double left, double top, d
     java << "\"height\" : \"" << height << "\",";
     java << "\"img_width\" : \"" << iwidth << "\",";
     java << "\"img_height\" : \"" << iheight << "\",";
-    java << "\"pcxmin\" : \"" << min_pcx_ << "\",";
-    java << "\"pcymin\" : \"" << min_pcy_ << "\",";
+    java << "\"pcxmin\" : \"" << xpcmin_ << "\",";
+    java << "\"pcymin\" : \"" << ypcmin_ << "\",";
     java << "\"pcwidth\" : \"" << w << "\",";
     java << "\"pcheight\" : \"" << h << "\"";
     java << "}";

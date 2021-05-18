@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -30,17 +30,17 @@ EpsXmlInputAttributes::EpsXmlInputAttributes():
 	long_title_(ParameterManager::getBool("epsxml_long_title")),
 	short_title_(ParameterManager::getBool("epsxml_title"))
 	
-	 
+	
 {
-} 
+}
 
 
 EpsXmlInputAttributes::~EpsXmlInputAttributes()
 {
-	
+
 }
 
-    
+
 void EpsXmlInputAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -62,12 +62,12 @@ void EpsXmlInputAttributes::copy(const EpsXmlInputAttributes& other)
 	long_title_ = other.long_title_;
 	short_title_ = other.short_title_;
 	
-} 
+}
 
 
 bool EpsXmlInputAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "epsxml")  )
 		return true;
 	
@@ -78,7 +78,7 @@ void EpsXmlInputAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "epsxml")  )
@@ -109,7 +109,7 @@ void EpsXmlInputAttributes::print(ostream& out)  const
 
 void EpsXmlInputAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"epsxml\""; 
+	out <<  "\"epsxml\"";
 	out << ", \"epsxml_input_filename\":";
 	niceprint(out,path_);
 	out << ", \"epsxml_parameter\":";
@@ -121,7 +121,7 @@ void EpsXmlInputAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> epsxml_input_filename("epsxml_input_filename", "", "");
-static MagicsParameter<string> epsxml_parameter("epsxml_parameter", "", "");
-static MagicsParameter<string> epsxml_long_title("epsxml_long_title", "off", "");
-static MagicsParameter<string> epsxml_title("epsxml_title", "on", "");
+static MagicsParameter<string> epsxml_input_filename("epsxml_input_filename", "");
+static MagicsParameter<string> epsxml_parameter("epsxml_parameter", "");
+static MagicsParameter<string> epsxml_long_title("epsxml_long_title", "off");
+static MagicsParameter<string> epsxml_title("epsxml_title", "on");

@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -28,17 +28,17 @@ BoxPlotVisualiserAttributes::BoxPlotVisualiserAttributes():
 	
 	box_(MagTranslator<string, NoBoxPlotBox>().magics("boxplot_box")),
 	whisker_(MagTranslator<string, NoBoxPlotWhisker>().magics("boxplot_whisker"))
-	 
+	
 {
-} 
+}
 
 
 BoxPlotVisualiserAttributes::~BoxPlotVisualiserAttributes()
 {
-	
+
 }
 
-    
+
 void BoxPlotVisualiserAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -56,12 +56,12 @@ void BoxPlotVisualiserAttributes::copy(const BoxPlotVisualiserAttributes& other)
 	box_ = unique_ptr<NoBoxPlotBox>(other.box_->clone());
 	whisker_ = unique_ptr<NoBoxPlotWhisker>(other.whisker_->clone());
 	
-} 
+}
 
 
 bool BoxPlotVisualiserAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "boxplot")  )
 		return true;
 	if ( acceptNode(node, box_) )
@@ -76,7 +76,7 @@ void BoxPlotVisualiserAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "boxplot")  )
@@ -92,8 +92,8 @@ void BoxPlotVisualiserAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), box_, *elt); 
-		setMember(elt->name(), whisker_, *elt); 
+		setMember(elt->name(), box_, *elt);
+		setMember(elt->name(), whisker_, *elt);
 		
 	}
 }
@@ -109,7 +109,7 @@ void BoxPlotVisualiserAttributes::print(ostream& out)  const
 
 void BoxPlotVisualiserAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"boxplot\""; 
+	out <<  "\"boxplot\"";
 	out << ", \"boxplot_box\":";
 	box_->toxml(out);
 	out << ", \"boxplot_whisker\":";
@@ -117,8 +117,8 @@ void BoxPlotVisualiserAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> boxplot_box("boxplot_box", "on", ""); 
-static MagicsParameter<string> boxplot_whisker("boxplot_whisker", "line", ""); 
+static MagicsParameter<string> boxplot_box("boxplot_box", "on");
+static MagicsParameter<string> boxplot_whisker("boxplot_whisker", "line");
 #include "BoxPlotItem.h"
 #include "BoxPlotBasicItem.h"
 static SimpleObjectMaker<BoxPlotBox , NoBoxPlotBox> box_BoxPlotBox("box");

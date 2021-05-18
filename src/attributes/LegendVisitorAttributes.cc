@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -81,17 +81,17 @@ LegendVisitorAttributes::LegendVisitorAttributes():
 	border_line_style_(MagTranslator<string, LineStyle>().magics("legend_border_line_style")),
 	border_colour_(MagTranslator<string, Colour>().magics("legend_border_colour")),
 	entry_border_colour_(MagTranslator<string, Colour>().magics("legend_entry_border_colour"))
-	 
+	
 {
-} 
+}
 
 
 LegendVisitorAttributes::~LegendVisitorAttributes()
 {
-	
+
 }
 
-    
+
 void LegendVisitorAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -215,12 +215,12 @@ void LegendVisitorAttributes::copy(const LegendVisitorAttributes& other)
 	border_colour_ = unique_ptr<Colour>(other.border_colour_->clone());
 	entry_border_colour_ = unique_ptr<Colour>(other.entry_border_colour_->clone());
 	
-} 
+}
 
 
 bool LegendVisitorAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "legend")  )
 		return true;
 	if ( magCompare(node, "zlegend")  )
@@ -235,7 +235,7 @@ void LegendVisitorAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "legend")  )
@@ -252,7 +252,7 @@ void LegendVisitorAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), method_, *elt); 
+		setMember(elt->name(), method_, *elt);
 		
 	}
 }
@@ -321,7 +321,7 @@ void LegendVisitorAttributes::print(ostream& out)  const
 
 void LegendVisitorAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"legend\""; 
+	out <<  "\"legend\"";
 	out << ", \"legend_title\":";
 	niceprint(out,title_);
 	out << ", \"legend_title_text\":";
@@ -435,61 +435,61 @@ void LegendVisitorAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> legend_title("legend_title", "off", "");
-static MagicsParameter<string> legend_title_text("legend_title_text", "legend", "");
-static MagicsParameter<string> legend_title_orientation("legend_title_orientation", "automatic", "");
-static MagicsParameter<double> legend_title_font_size("legend_title_font_size", -1, "");
-static MagicsParameter<double> legend_title_position_ratio("legend_title_position_ratio", 25, "");
-static MagicsParameter<string> legend_units_text("legend_units_text", "", "");
-static MagicsParameter<string> legend_user_minimum("legend_user_minimum", "off", "");
-static MagicsParameter<string> legend_user_minimum_text("legend_user_minimum_text", "", "");
-static MagicsParameter<string> legend_user_maximum("legend_user_maximum", "off", "");
-static MagicsParameter<string> legend_user_maximum_text("legend_user_maximum_text", "", "");
-static MagicsParameter<string> legend_text_format("legend_text_format", "(automatic)", "");
-static MagicsParameter<string> legend_box_mode("legend_box_mode", "automatic", "");
-static MagicsParameter<string> legend_automatic_position("legend_automatic_position", "top", "");
-static MagicsParameter<double> legend_automatic_box_margin("legend_automatic_box_margin", 5, "");
-static MagicsParameter<string> legend_text_font("legend_text_font", "sansserif", "");
-static MagicsParameter<string> legend_text_font_style("legend_text_font_style", "normal", "");
-static MagicsParameter<string> legend_text_font_size("legend_text_font_size", "0.3", "");
-static MagicsParameter<string> legend_text_quality("legend_text_quality", "medium", "");
-static MagicsParameter<double> legend_text_orientation("legend_text_orientation", 0, "");
-static MagicsParameter<stringarray> legend_user_lines("legend_user_lines", stringarray(), "");
-static MagicsParameter<int> legend_column_count("legend_column_count", 1, "");
-static MagicsParameter<string> legend_entry_plot_direction("legend_entry_plot_direction", "automatic", "");
-static MagicsParameter<string> legend_entry_plot_orientation("legend_entry_plot_orientation", "bottom_top", "");
-static MagicsParameter<string> legend_text_composition("legend_text_composition", "automatic_text_only", "");
-static MagicsParameter<doublearray> legend_values_list("legend_values_list", floatarray(), "");
-static MagicsParameter<string> legend_user_text("legend_user_text", "", "");
-static MagicsParameter<string> legend_user_text_1("legend_user_text_1", "", "");
-static MagicsParameter<string> legend_user_text_2("legend_user_text_2", "", "");
-static MagicsParameter<string> legend_user_text_3("legend_user_text_3", "", "");
-static MagicsParameter<string> legend_user_text_4("legend_user_text_4", "", "");
-static MagicsParameter<string> legend_user_text_5("legend_user_text_5", "", "");
-static MagicsParameter<string> legend_user_text_6("legend_user_text_6", "", "");
-static MagicsParameter<string> legend_user_text_7("legend_user_text_7", "", "");
-static MagicsParameter<string> legend_user_text_8("legend_user_text_8", "", "");
-static MagicsParameter<string> legend_user_text_9("legend_user_text_9", "", "");
-static MagicsParameter<string> legend_user_text_10("legend_user_text_10", "", "");
-static MagicsParameter<double> legend_symbol_height_factor("legend_symbol_height_factor", 1, "");
-static MagicsParameter<double> legend_box_x_position("legend_box_x_position", -1, "");
-static MagicsParameter<double> legend_box_y_position("legend_box_y_position", -1, "");
-static MagicsParameter<double> legend_box_x_length("legend_box_x_length", -1, "");
-static MagicsParameter<double> legend_box_y_length("legend_box_y_length", 0, "");
-static MagicsParameter<string> legend_box_blanking("legend_box_blanking", "off", "");
-static MagicsParameter<string> legend_border("legend_border", "off", "");
-static MagicsParameter<int> legend_border_thickness("legend_border_thickness", 1, "");
-static MagicsParameter<string> legend_wrep("legend_wrep", "off", "");
-static MagicsParameter<string> legend_only("legend_only", "off", "");
-static MagicsParameter<double> legend_entry_text_width("legend_entry_text_width", 60, "");
-static MagicsParameter<string> legend_entry_border("legend_entry_border", "on", "");
-static MagicsParameter<string> legend_text_colour("legend_text_colour", "blue", ""); 
-static MagicsParameter<string> legend_title_font_colour("legend_title_font_colour", "automatic", ""); 
-static MagicsParameter<string> legend_title_position("legend_title_position", "automatic", ""); 
-static MagicsParameter<string> legend_display_type("legend_display_type", "disjoint", ""); 
-static MagicsParameter<string> legend_border_line_style("legend_border_line_style", "solid", ""); 
-static MagicsParameter<string> legend_border_colour("legend_border_colour", "blue", ""); 
-static MagicsParameter<string> legend_entry_border_colour("legend_entry_border_colour", "black", ""); 
+static MagicsParameter<string> legend_title("legend_title", "off");
+static MagicsParameter<string> legend_title_text("legend_title_text", "legend");
+static MagicsParameter<string> legend_title_orientation("legend_title_orientation", "automatic");
+static MagicsParameter<double> legend_title_font_size("legend_title_font_size", -1);
+static MagicsParameter<double> legend_title_position_ratio("legend_title_position_ratio", 25);
+static MagicsParameter<string> legend_units_text("legend_units_text", "");
+static MagicsParameter<string> legend_user_minimum("legend_user_minimum", "off");
+static MagicsParameter<string> legend_user_minimum_text("legend_user_minimum_text", "");
+static MagicsParameter<string> legend_user_maximum("legend_user_maximum", "off");
+static MagicsParameter<string> legend_user_maximum_text("legend_user_maximum_text", "");
+static MagicsParameter<string> legend_text_format("legend_text_format", "(automatic)");
+static MagicsParameter<string> legend_box_mode("legend_box_mode", "automatic");
+static MagicsParameter<string> legend_automatic_position("legend_automatic_position", "top");
+static MagicsParameter<double> legend_automatic_box_margin("legend_automatic_box_margin", 5);
+static MagicsParameter<string> legend_text_font("legend_text_font", "sansserif");
+static MagicsParameter<string> legend_text_font_style("legend_text_font_style", "normal");
+static MagicsParameter<string> legend_text_font_size("legend_text_font_size", "0.3");
+static MagicsParameter<string> legend_text_quality("legend_text_quality", "medium");
+static MagicsParameter<double> legend_text_orientation("legend_text_orientation", 0);
+static MagicsParameter<stringarray> legend_user_lines("legend_user_lines", stringarray());
+static MagicsParameter<int> legend_column_count("legend_column_count", 1);
+static MagicsParameter<string> legend_entry_plot_direction("legend_entry_plot_direction", "automatic");
+static MagicsParameter<string> legend_entry_plot_orientation("legend_entry_plot_orientation", "bottom_top");
+static MagicsParameter<string> legend_text_composition("legend_text_composition", "automatic_text_only");
+static MagicsParameter<doublearray> legend_values_list("legend_values_list", floatarray());
+static MagicsParameter<string> legend_user_text("legend_user_text", "");
+static MagicsParameter<string> legend_user_text_1("legend_user_text_1", "");
+static MagicsParameter<string> legend_user_text_2("legend_user_text_2", "");
+static MagicsParameter<string> legend_user_text_3("legend_user_text_3", "");
+static MagicsParameter<string> legend_user_text_4("legend_user_text_4", "");
+static MagicsParameter<string> legend_user_text_5("legend_user_text_5", "");
+static MagicsParameter<string> legend_user_text_6("legend_user_text_6", "");
+static MagicsParameter<string> legend_user_text_7("legend_user_text_7", "");
+static MagicsParameter<string> legend_user_text_8("legend_user_text_8", "");
+static MagicsParameter<string> legend_user_text_9("legend_user_text_9", "");
+static MagicsParameter<string> legend_user_text_10("legend_user_text_10", "");
+static MagicsParameter<double> legend_symbol_height_factor("legend_symbol_height_factor", 1);
+static MagicsParameter<double> legend_box_x_position("legend_box_x_position", -1);
+static MagicsParameter<double> legend_box_y_position("legend_box_y_position", -1);
+static MagicsParameter<double> legend_box_x_length("legend_box_x_length", -1);
+static MagicsParameter<double> legend_box_y_length("legend_box_y_length", 0);
+static MagicsParameter<string> legend_box_blanking("legend_box_blanking", "off");
+static MagicsParameter<string> legend_border("legend_border", "off");
+static MagicsParameter<int> legend_border_thickness("legend_border_thickness", 1);
+static MagicsParameter<string> legend_wrep("legend_wrep", "off");
+static MagicsParameter<string> legend_only("legend_only", "off");
+static MagicsParameter<double> legend_entry_text_width("legend_entry_text_width", 60);
+static MagicsParameter<string> legend_entry_border("legend_entry_border", "on");
+static MagicsParameter<string> legend_text_colour("legend_text_colour", "blue");
+static MagicsParameter<string> legend_title_font_colour("legend_title_font_colour", "automatic");
+static MagicsParameter<string> legend_title_position("legend_title_position", "automatic");
+static MagicsParameter<string> legend_display_type("legend_display_type", "disjoint");
+static MagicsParameter<string> legend_border_line_style("legend_border_line_style", "solid");
+static MagicsParameter<string> legend_border_colour("legend_border_colour", "blue");
+static MagicsParameter<string> legend_entry_border_colour("legend_entry_border_colour", "black");
 #include "LegendMethod.h"
 static SimpleObjectMaker<LegendMethod , LegendMethod> disjoint_LegendMethod("disjoint");
 static SimpleObjectMaker<ContinuousLegendMethod , LegendMethod> continuous_ContinuousLegendMethod("continuous");

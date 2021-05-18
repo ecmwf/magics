@@ -140,5 +140,13 @@ does it submit to any jurisdiction.
 			to="string">
 			<documentation>Proj4 defintion string : to be used very carefully --&gt; possible side effect</documentation>
 		</parameter>
+		<parameter from="float"
+			name="subpage_gutter_percentage"
+			visible="off"
+			default="0"
+			member="gutter"
+			to="float">
+			<documentation>Gutter in percentage of the area displayed : Useful for wind plotting</documentation>
+		</parameter>
 	</class>
 </magics>

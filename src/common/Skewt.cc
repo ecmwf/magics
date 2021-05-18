@@ -8,10 +8,10 @@
  * does it submit to any jurisdiction.
  */
 
-#include <MagClipper.h>
-#include <Polyline.h>
-#include <Skewt.h>
+#include "Skewt.h"
+#include "MagClipper.h"
 #include "MagJSon.h"
+#include "Polyline.h"
 #include "SciMethods.h"
 
 using namespace magics;

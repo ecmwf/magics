@@ -33,83 +33,83 @@ class XmlNode;
 class CartesianTransformation : public Transformation, public CartesianTransformationAttributes {
 public:
     CartesianTransformation();
-    virtual ~CartesianTransformation();
+    virtual ~CartesianTransformation() override;
     virtual void operator()(Layout&) const;
-    void init() {
+    void init() override {
         x_->set();
         y_->set();
         Transformation::init();
     }
-    void cleaninit() { Transformation::init(); }
-    virtual void toxml(ostream& out) const { CartesianTransformationAttributes::toxml(out); }
-    virtual void set(const map<string, string>& map) { CartesianTransformationAttributes::set(map); }
-    virtual void set(const XmlNode& node) { CartesianTransformationAttributes::set(node); }
-    virtual bool accept(const string& node) { return CartesianTransformationAttributes::accept(node); }
-    virtual double x(double x) const { return (*x_)(x); }
-    virtual double y(double y) const { return (*y_)(y); }
-    virtual double rx(double x) const { return (*x_).revert(x); }
-    virtual double ry(double y) const { return (*y_).revert(y); }
-    virtual bool fast_reproject(double& x, double& y) const {
+    void cleaninit() override { Transformation::init(); }
+    virtual void toxml(ostream& out) const override { CartesianTransformationAttributes::toxml(out); }
+    virtual void set(const map<string, string>& map) override { CartesianTransformationAttributes::set(map); }
+    virtual void set(const XmlNode& node) override { CartesianTransformationAttributes::set(node); }
+    virtual bool accept(const string& node) override { return CartesianTransformationAttributes::accept(node); }
+    virtual double x(double x) const override { return (*x_)(x); }
+    virtual double y(double y) const override { return (*y_)(y); }
+    virtual double rx(double x) const override { return (*x_).revert(x); }
+    virtual double ry(double y) const override { return (*y_).revert(y); }
+    virtual bool fast_reproject(double& x, double& y) const override {
         x = (*x_)(x);
         y = (*y_)(y);
         return true;
     }
-    void reprojectComponents(double& x, double& y, pair<double, double>&) const;
+    void reprojectComponents(double& x, double& y, pair<double, double>&) const override;
 
-    virtual PaperPoint operator()(const UserPoint& xy) const {
+    virtual PaperPoint operator()(const UserPoint& xy) const override {
         return PaperPoint((*x_)(xy.x()), (*y_)(xy.y()), xy.value());
     }
 
-    void aspectRatio(double&, double&);
+    void aspectRatio(double&, double&) override;
 
-    virtual Transformation* clone() const {
+    virtual Transformation* clone() const override {
         CartesianTransformation* object = new CartesianTransformation();
         object->copy(*this);
         return object;
     }
 
-    virtual void adjustXAxis(Layout& layout) const;
-    virtual void adjustYAxis(Layout& layout) const;
+    virtual void adjustXAxis(Layout& layout) const override;
+    virtual void adjustYAxis(Layout& layout) const override;
 
-    virtual double getMinX() const { return x_->min(); }
-    virtual double getMaxX() const { return x_->max(); }
-    virtual double getMinY() const { return y_->min(); }
-    virtual double getMaxY() const { return y_->max(); }
+    virtual double getMinX() const override { return x_->min(); }
+    virtual double getMaxX() const override { return x_->max(); }
+    virtual double getMinY() const override { return y_->min(); }
+    virtual double getMaxY() const override { return y_->max(); }
 
-    virtual double getMinPCX() const { return x_->minpc(); }
-    virtual double getMaxPCX() const { return x_->maxpc(); }
-    virtual double getMinPCY() const { return y_->minpc(); }
-    virtual double getMaxPCY() const { return y_->maxpc(); }
+    virtual double getMinPCX() const override { return x_->minpc(); }
+    virtual double getMaxPCX() const override { return x_->maxpc(); }
+    virtual double getMinPCY() const override { return y_->minpc(); }
+    virtual double getMaxPCY() const override { return y_->maxpc(); }
 
-    double x(const string& val) const { return (*x_)(val); }
-    double y(const string& val) const { return (*y_)(val); }
-
-
-    virtual void setMinMaxX(double min, double max) { x_->minmax(min, max); }
-    virtual void setMinMaxY(double min, double max) { y_->minmax(min, max); }
+    double x(const string& val) const override { return (*x_)(val); }
+    double y(const string& val) const override { return (*y_)(val); }
 
 
-    virtual const string& getReferenceX() const {
+    virtual void setMinMaxX(double min, double max) override { x_->minmax(min, max); }
+    virtual void setMinMaxY(double min, double max) override { y_->minmax(min, max); }
+
+
+    virtual const string& getReferenceX() const override {
         referenceX_ = x_->reference();
         return referenceX_;
     }
-    virtual const string& getReferenceY() const {
+    virtual const string& getReferenceY() const override {
         referenceY_ = y_->reference();
         return referenceY_;
     }
 
 
-    virtual void setDataMinMaxX(double min, double max) const { x_->dataMinMax(min, max); }
-    virtual void setDataMinMaxY(double min, double max) const { y_->dataMinMax(min, max); }
+    virtual void setDataMinMaxX(double min, double max) const override { x_->dataMinMax(min, max); }
+    virtual void setDataMinMaxY(double min, double max) const override { y_->dataMinMax(min, max); }
 
 
-    vector<double> getDataVectorMinX() const { return x_->mins(); }
-    vector<double> getDataVectorMaxX() const { return x_->maxs(); }
-    vector<double> getDataVectorMinY() const { return y_->mins(); }
-    vector<double> getDataVectorMaxY() const { return y_->maxs(); }
+    vector<double> getDataVectorMinX() const override { return x_->mins(); }
+    vector<double> getDataVectorMaxX() const override { return x_->maxs(); }
+    vector<double> getDataVectorMinY() const override { return y_->mins(); }
+    vector<double> getDataVectorMaxY() const override { return y_->maxs(); }
 
 
-    Polyline& getPCBoundingBox() const {
+    Polyline& getPCBoundingBox() const override {
         boxes();
         return *PCEnveloppe_;
     }
@@ -117,20 +117,20 @@ public:
     void boxes() const;
 
 
-    virtual void setDataMinMaxX(double minx, double maxx, const string& ref) const {
+    virtual void setDataMinMaxX(double minx, double maxx, const string& ref) const override {
         x_->dataMinMax(minx, maxx, ref);
         referenceX_ = x_->reference();
     }
-    virtual void setDataMinMaxY(double min, double max, const string& ref) const {
+    virtual void setDataMinMaxY(double min, double max, const string& ref) const override {
         y_->dataMinMax(min, max, ref);
         referenceY_ = y_->reference();
     }
 
 
-    virtual void setAutomaticX(bool automatic) { x_->automatic(automatic); }
-    virtual void setAutomaticY(bool automatic) { y_->automatic(automatic); }
-    virtual bool getAutomaticX() const { return x_->automatic(); }
-    virtual bool getAutomaticY() const { return y_->automatic(); }
+    virtual void setAutomaticX(bool automatic) override { x_->automatic(automatic); }
+    virtual void setAutomaticY(bool automatic) override { y_->automatic(automatic); }
+    virtual bool getAutomaticX() const override { return x_->automatic() != AxisAutomaticSetting::OFF; }
+    virtual bool getAutomaticY() const override { return y_->automatic() != AxisAutomaticSetting::OFF; }
 
     virtual bool in(double x, double y) const {
         double minx = std::min(x_->min(), x_->max());
@@ -140,15 +140,15 @@ public:
         return (minx <= x && x <= maxx && miny <= y && y <= maxy);
     }
 
-    string xAxisType() const { return x_->type(); }
-    string yAxisType() const { return y_->type(); }
-    void visit(MetaDataVisitor&, double, double, double, double, double, double);
-    void getNewDefinition(const UserPoint&, const UserPoint&, string&) const;
-    void setDefinition(const string&);
+    string xAxisType() const override { return x_->type(); }
+    string yAxisType() const override { return y_->type(); }
+    void visit(MetaDataVisitor&, double, double, double, double, double, double) override;
+    void getNewDefinition(const UserPoint&, const UserPoint&, string&) const override;
+    void setDefinition(const string&) override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed

@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -30,17 +30,17 @@ IsoShadingAttributes::IsoShadingAttributes():
 	,
 	technique_(MagTranslator<string, ShadingTechnique>().magics("contour_shade_technique")),
 	colourMethod_(MagTranslator<string, ColourTechnique>().magics("contour_shade_colour_method"))
-	 
+	
 {
-} 
+}
 
 
 IsoShadingAttributes::~IsoShadingAttributes()
 {
-	
+
 }
 
-    
+
 void IsoShadingAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(5);
@@ -66,12 +66,12 @@ void IsoShadingAttributes::copy(const IsoShadingAttributes& other)
 	technique_ = unique_ptr<ShadingTechnique>(other.technique_->clone());
 	colourMethod_ = unique_ptr<ColourTechnique>(other.colourMethod_->clone());
 	
-} 
+}
 
 
 bool IsoShadingAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "shading")  )
 		return true;
 	if ( acceptNode(node, technique_) )
@@ -86,7 +86,7 @@ void IsoShadingAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "shading")  )
@@ -102,8 +102,8 @@ void IsoShadingAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), technique_, *elt); 
-		setMember(elt->name(), colourMethod_, *elt); 
+		setMember(elt->name(), technique_, *elt);
+		setMember(elt->name(), colourMethod_, *elt);
 		
 	}
 }
@@ -121,7 +121,7 @@ void IsoShadingAttributes::print(ostream& out)  const
 
 void IsoShadingAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"shading\""; 
+	out <<  "\"shading\"";
 	out << ", \"contour_shade_max_level\":";
 	niceprint(out,max_);
 	out << ", \"contour_shade_min_level\":";
@@ -133,17 +133,17 @@ void IsoShadingAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> contour_shade_max_level("contour_shade_max_level", 1.0e+21, "");
-static MagicsParameter<double> contour_shade_min_level("contour_shade_min_level", -1.0e+21, "");
-static MagicsParameter<string> contour_shade_technique("contour_shade_technique", "polygon_shading", ""); 
-static MagicsParameter<string> contour_shade_colour_method("contour_shade_colour_method", "calculate", ""); 
-#include "ListColourTechnique.h"
-#include "MarkerShadingTechnique.h"
+static MagicsParameter<double> contour_shade_max_level("contour_shade_max_level", 1.0e+21);
+static MagicsParameter<double> contour_shade_min_level("contour_shade_min_level", -1.0e+21);
+static MagicsParameter<string> contour_shade_technique("contour_shade_technique", "polygon_shading");
+static MagicsParameter<string> contour_shade_colour_method("contour_shade_colour_method", "calculate");
+#include "PolyShadingTechnique.h"
 #include "CellShading.h"
+#include "MarkerShadingTechnique.h"
 #include "CalculateColourTechnique.h"
+#include "ListColourTechnique.h"
 #include "GradientsColourTechnique.h"
 #include "ColourTechnique.h"
-#include "PolyShadingTechnique.h"
 static SimpleObjectMaker<PolyShadingTechnique , ShadingTechnique> polygon_PolyShadingTechnique("polygon");
 static SimpleObjectMaker<PolyShadingTechnique , ShadingTechnique> polygon_shading_PolyShadingTechnique("polygon_shading");
 static SimpleObjectMaker<GridShading , ShadingTechnique> grid_shading_GridShading("grid_shading");

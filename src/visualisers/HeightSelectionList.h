@@ -32,13 +32,13 @@ namespace magics {
 class HeightSelectionList : public HeightSelection, public HeightSelectionListAttributes {
 public:
     HeightSelectionList();
-    virtual ~HeightSelectionList();
-    virtual void set(map<string, string> map) { HeightSelectionListAttributes::set(map); }
+    virtual ~HeightSelectionList() override;
+    virtual void set(map<string, string> map) override { HeightSelectionListAttributes::set(map); }
     void prepare();
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed

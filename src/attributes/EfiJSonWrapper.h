@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-   
+
 
 #ifndef EfiJSonWrapper_H
 #define EfiJSonWrapper_H
@@ -39,15 +39,15 @@
 
 
 
- 
+
 
 namespace magics {
 
 class MagRequest;
 
 
- 	
-class EfiJSonWrapper 
+
+class EfiJSonWrapper
 
 {
 public:
@@ -57,20 +57,20 @@ public:
 //  --  destructor
     virtual ~EfiJSonWrapper();
     virtual void set(const MagRequest&);
-    
-    EfiJSon* me()   { return efijson_; }
-   	
-   	virtual EfiJSon* object() { return efijson_; }
-	
 
-	virtual void object(EfiJSon* o) { 
+    EfiJSon* me()   { return efijson_; }
+
+   	virtual EfiJSon* object() { return efijson_; }
+
+
+	virtual void object(EfiJSon* o) {
 		// Remember to delete the previous object
 		efijson_ = o;
 		
 
 	}
-    
-  
+
+
 
 protected:
     EfiJSon* efijson_;
@@ -78,7 +78,7 @@ protected:
 
 //  --  method
 	virtual void print(ostream&) const;
-	
+
 
 private:
     string tag_;
@@ -89,5 +89,3 @@ private:
 } // namespace magics
 
 #endif
-
-

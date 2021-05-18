@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -38,17 +38,17 @@ FlagPlottingAttributes::FlagPlottingAttributes():
 	colour_(MagTranslator<string, Colour>().magics("wind_flag_colour")),
 	style_(MagTranslator<string, LineStyle>().magics("wind_flag_style")),
 	origin_(MagTranslator<string, OriginMarker>().magics("wind_flag_origin_marker"))
-	 
+	
 {
-} 
+}
 
 
 FlagPlottingAttributes::~FlagPlottingAttributes()
 {
-	
+
 }
 
-    
+
 void FlagPlottingAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -87,12 +87,12 @@ void FlagPlottingAttributes::copy(const FlagPlottingAttributes& other)
 	style_ = other.style_;
 	origin_ = unique_ptr<OriginMarker>(other.origin_->clone());
 	
-} 
+}
 
 
 bool FlagPlottingAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "flags")  )
 		return true;
 	if ( acceptNode(node, calm_) )
@@ -107,7 +107,7 @@ void FlagPlottingAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "flags")  )
@@ -123,8 +123,8 @@ void FlagPlottingAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), calm_, *elt); 
-		setMember(elt->name(), origin_, *elt); 
+		setMember(elt->name(), calm_, *elt);
+		setMember(elt->name(), origin_, *elt);
 		
 	}
 }
@@ -150,7 +150,7 @@ void FlagPlottingAttributes::print(ostream& out)  const
 
 void FlagPlottingAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"flags\""; 
+	out <<  "\"flags\"";
 	out << ", \"wind_flag_calm_indicator_size\":";
 	niceprint(out,calm_indicator_size_);
 	out << ", \"wind_flag_calm_below\":";
@@ -178,20 +178,20 @@ void FlagPlottingAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> wind_flag_calm_indicator_size("wind_flag_calm_indicator_size", 0.3, "");
-static MagicsParameter<double> wind_flag_calm_below("wind_flag_calm_below", 0.5, "");
-static MagicsParameter<string> wind_flag_cross_boundary("wind_flag_cross_boundary", "on", "");
-static MagicsParameter<double> wind_flag_length("wind_flag_length", 1.0, "");
-static MagicsParameter<double> wind_flag_max_speed("wind_flag_max_speed", 1.0e+21, "");
-static MagicsParameter<double> wind_flag_min_speed("wind_flag_min_speed", -1.0e+21, "");
-static MagicsParameter<double> wind_flag_origin_marker_size("wind_flag_origin_marker_size", 0.3, "");
-static MagicsParameter<int> wind_flag_thickness("wind_flag_thickness", 1, "");
-static MagicsParameter<string> wind_flag_calm_indicator("wind_flag_calm_indicator", "on", ""); 
-static MagicsParameter<string> wind_flag_colour("wind_flag_colour", "blue", ""); 
-static MagicsParameter<string> wind_flag_style("wind_flag_style", "solid", ""); 
-static MagicsParameter<string> wind_flag_origin_marker("wind_flag_origin_marker", "circle", ""); 
-#include "OriginMarker.h"
+static MagicsParameter<double> wind_flag_calm_indicator_size("wind_flag_calm_indicator_size", 0.3);
+static MagicsParameter<double> wind_flag_calm_below("wind_flag_calm_below", 0.5);
+static MagicsParameter<string> wind_flag_cross_boundary("wind_flag_cross_boundary", "on");
+static MagicsParameter<double> wind_flag_length("wind_flag_length", 1.0);
+static MagicsParameter<double> wind_flag_max_speed("wind_flag_max_speed", 1.0e+21);
+static MagicsParameter<double> wind_flag_min_speed("wind_flag_min_speed", -1.0e+21);
+static MagicsParameter<double> wind_flag_origin_marker_size("wind_flag_origin_marker_size", 0.3);
+static MagicsParameter<int> wind_flag_thickness("wind_flag_thickness", 1);
+static MagicsParameter<string> wind_flag_calm_indicator("wind_flag_calm_indicator", "on");
+static MagicsParameter<string> wind_flag_colour("wind_flag_colour", "blue");
+static MagicsParameter<string> wind_flag_style("wind_flag_style", "solid");
+static MagicsParameter<string> wind_flag_origin_marker("wind_flag_origin_marker", "circle");
 #include "CalmIndicator.h"
+#include "OriginMarker.h"
 static SimpleObjectMaker<CalmIndicator , CalmIndicator> calm_CalmIndicator("calm");
 static SimpleObjectMaker<CalmIndicator , CalmIndicator> on_CalmIndicator("on");
 static SimpleObjectMaker<NoCalmIndicator , CalmIndicator> nocalm_NoCalmIndicator("nocalm");

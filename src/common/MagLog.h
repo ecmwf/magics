@@ -51,12 +51,12 @@ public:
 
     vector<MagLogObserver*> listeners_;
 
-    static void addWarningListener(void*, void (*)(void*, const char*));
-    static void addErrorListener(void*, void (*)(void*, const char*));
-    static void addInfoListener(void*, void (*)(void*, const char*));
-    static void addDebugListener(void*, void (*)(void*, const char*));
+    MAGICS_EXPORT static void addWarningListener(void*, void (*)(void*, const char*));
+    MAGICS_EXPORT static void addErrorListener(void*, void (*)(void*, const char*));
+    MAGICS_EXPORT static void addInfoListener(void*, void (*)(void*, const char*));
+    MAGICS_EXPORT static void addDebugListener(void*, void (*)(void*, const char*));
 
-    static void clearListeners();
+    MAGICS_EXPORT static void clearListeners();
 
 
     // -- Methods
@@ -71,29 +71,29 @@ public:
     MAGICS_EXPORT static ostream& progress();
     MAGICS_EXPORT static void progress(const string&);
 
-    static void broadcast();
+    MAGICS_EXPORT static void broadcast();
 
-    static void devMessage(bool dev = true) { log_.dev_ = dev; }
+    MAGICS_EXPORT static void devMessage(bool dev = true);
 
-    static void infoMessage(bool info = true) { log_.info_ = info; }
+    MAGICS_EXPORT static void infoMessage(bool info = true);
 
-    static void userInfoMessage(bool info = true) { log_.userInfo_ = info; }
+    MAGICS_EXPORT static void userInfoMessage(bool info = true);
 
-    static void warningMessage(bool warning = true) { log_.warning_ = warning; }
+    MAGICS_EXPORT static void warningMessage(bool warning = true);
 
-    static void debugMessage(bool debug = true) { log_.debug_ = debug; }
+    MAGICS_EXPORT static void debugMessage(bool debug = true);
 
-    static void errorMessage(bool error = true) { log_.error_ = error; }
+    MAGICS_EXPORT static void errorMessage(bool error = true);
 
-    static void profilingMessage(bool error = true) { log_.error_ = error; }
+    MAGICS_EXPORT static void profilingMessage(bool error = true);
 
-    static void fatalMessage(bool fatal = true) { log_.fatal_ = fatal; }
+    MAGICS_EXPORT static void fatalMessage(bool fatal = true);
 
-    static void header(bool header) { header_ = header; }
+    MAGICS_EXPORT static void header(bool header);
 
-    static void setReporter(const ErrorReporter* reporter) { log_.reporter_ = reporter; }
-    static void registerObserver(MagicsObserver* observer) { log_.observers_.push_back(observer); }
-    static void unregisterObserver(MagicsObserver* observer);
+    MAGICS_EXPORT static void setReporter(const ErrorReporter* reporter);
+    MAGICS_EXPORT static void registerObserver(MagicsObserver* observer);
+    MAGICS_EXPORT static void unregisterObserver(MagicsObserver* observer);
 
 protected:
     // -- Methods

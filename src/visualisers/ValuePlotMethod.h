@@ -37,9 +37,9 @@ namespace magics {
 class ValuePlotMethod : public ValuePlotMethodAttributes, public vector<BasicGraphicsObject*> {
 public:
     ValuePlotMethod() {}
-    virtual ~ValuePlotMethod() {}
-    virtual void set(const map<string, string>& map) { ValuePlotMethodAttributes::set(map); }
-    virtual void set(const XmlNode& node) { ValuePlotMethodAttributes::set(node); }
+    virtual ~ValuePlotMethod() override {}
+    virtual void set(const map<string, string>& map) override { ValuePlotMethodAttributes::set(map); }
+    virtual void set(const XmlNode& node) override { ValuePlotMethodAttributes::set(node); }
 
     virtual ValuePlotMethod* clone() const {
         ValuePlotMethod* object = new ValuePlotMethod();
@@ -82,7 +82,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const {
+    virtual void print(ostream& out) const override {
         out << "ValuePlotMethod[";
         ValuePlotMethodAttributes::print(out);
         out << "]";
@@ -91,12 +91,12 @@ protected:
     virtual void add(const PaperPoint& xy) {
         static map<string, VerticalAlign> alignhandlers;
         if (alignhandlers.empty()) {
-            alignhandlers["normal"] = MNORMAL;
-            alignhandlers["top"]    = MTOP;
-            alignhandlers["cap"]    = MCAP;
-            alignhandlers["half"]   = MHALF;
-            alignhandlers["base"]   = MBASE;
-            alignhandlers["bottom"] = MBOTTOM;
+            alignhandlers["normal"] = VerticalAlign::NORMAL;
+            alignhandlers["top"]    = VerticalAlign::TOP;
+            alignhandlers["cap"]    = VerticalAlign::CAP;
+            alignhandlers["half"]   = VerticalAlign::HALF;
+            alignhandlers["base"]   = VerticalAlign::BASE;
+            alignhandlers["bottom"] = VerticalAlign::BOTTOM;
         }
         ostringstream nice;
         nice << MagicsFormat(format_, xy.value());
@@ -104,7 +104,7 @@ protected:
         text->addText(nice.str(), *colour_, height_);
         text->setJustification(justification_);
         map<string, VerticalAlign>::iterator pos = alignhandlers.find(lowerCase(vertical_align_));
-        VerticalAlign align                      = (pos != alignhandlers.end()) ? pos->second : MBASE;
+        VerticalAlign align                      = (pos != alignhandlers.end()) ? pos->second : VerticalAlign::BASE;
         text->setVerticalAlign(align);
         text->push_back(xy);
         push_back(text);

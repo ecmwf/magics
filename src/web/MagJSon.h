@@ -36,7 +36,7 @@ public:
     MagJSon();
     ~MagJSon() {}
 
-    void execute(const string&, const map<string, string>&);
+    void execute(const string&, const map<string, string>&) override;
 
 
     void magics(const Value&);

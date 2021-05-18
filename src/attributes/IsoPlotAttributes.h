@@ -25,12 +25,12 @@
 #define IsoPlotAttributes_H
 
 #include "magics.h"
+#include "Colour.h"
+#include "ColourTechnique.h"
+#include "IsoHighlight.h"
 #include "LevelSelection.h"
 #include "IsoLabel.h"
-#include "IsoHighlight.h"
-#include "ColourTechnique.h"
 #include "IsoShading.h"
-#include "Colour.h"
 namespace magics {
 
 class XmlNode;

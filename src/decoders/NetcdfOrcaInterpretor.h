@@ -34,20 +34,20 @@ namespace magics {
 class NetcdfOrcaInterpretor : public NetcdfInterpretor {
 public:
     NetcdfOrcaInterpretor();
-    virtual ~NetcdfOrcaInterpretor();
+    virtual ~NetcdfOrcaInterpretor() override;
 
 
     static NetcdfInterpretor* guess(const NetcdfInterpretor&);
-    bool interpretAsPoints(PointsList&);
-    bool interpretAsMatrix(Matrix**);
+    bool interpretAsPoints(PointsList&) override;
+    bool interpretAsMatrix(Matrix**) override;
     void customisedPoints(const Transformation& transformation, const std::set<string>&, CustomisedPointsList& out,
-                          int thinning);
-    virtual void visit(ValuesCollector&, PointsList&);
+                          int thinning) override;
+    virtual void visit(ValuesCollector&, PointsList&) override;
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     Matrix* matrix_;
 
 

@@ -7,7 +7,7 @@ granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
 <magics>
-	<class xmltag="coastlines"
+	<class xmltag="coastlines/zcoastlines"
 		name="Coastlines"
 		metview="MCOAST"
 		directory="visualisers"

@@ -21,6 +21,8 @@
 
 
 #include "Data.h"
+#include "MagException.h"
+
 
 void Data::computeStats() {
     map<string, vector<double> >::iterator itX, itY, itV;
@@ -134,3 +136,10 @@ void DataList::next() {
 void DataList::add(Data* data) {
     data_.push_back(data);
 }
+
+std::string Data::getUnits() const {
+    std::ostringstream oss;
+    oss << "Data::getUnits() not implemented for " << *this;
+    throw NotImplemented(oss.str());
+}
+

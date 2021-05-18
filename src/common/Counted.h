@@ -20,11 +20,9 @@
 
 namespace magics {
 
-class Counted  {
+class Counted {
 public:  // methods
-    void attach() const {
-        count_++;
-    }
+    void attach() const { count_++; }
 
     void detach() const {
         if (--count_ == 0) {
@@ -33,9 +31,7 @@ public:  // methods
 
     }
 
-    size_t count() const {
-        return count_;
-    }
+    size_t count() const { return count_; }
 
 public:
     Counted() : count_(0) {}

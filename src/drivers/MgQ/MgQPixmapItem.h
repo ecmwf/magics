@@ -31,7 +31,7 @@ public:
     };
 
     MgQPixmapItem(const QPixmap& pixmap, QGraphicsItem* parent = 0);
-    ~MgQPixmapItem();
+    ~MgQPixmapItem() override;
 
     void setTargetRect(QRectF r) { targetRect_ = r; }
     QRectF boundingRect() const;

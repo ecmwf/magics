@@ -26,7 +26,6 @@
 #include <iostream>
 
 #include "CalcStreamlines.h"
-#include "magics_windef.h"
 
 
 float ShiftPeriod(float x, float xstart, float period) {

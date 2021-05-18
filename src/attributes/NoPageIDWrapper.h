@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-   
+
 
 #ifndef NoPageIDWrapper_H
 #define NoPageIDWrapper_H
@@ -39,15 +39,15 @@
 
 
 
- 
+
 
 namespace magics {
 
 class MagRequest;
 
 
- 	
-class NoPageIDWrapper 
+
+class NoPageIDWrapper
 
 {
 public:
@@ -57,20 +57,20 @@ public:
 //  --  destructor
     virtual ~NoPageIDWrapper();
     virtual void set(const MagRequest&);
-    
-    NoPageID* me()   { return nopageid_; }
-   	
-   	virtual NoPageID* object() { return nopageid_; }
-	
 
-	virtual void object(NoPageID* o) { 
+    NoPageID* me()   { return nopageid_; }
+
+   	virtual NoPageID* object() { return nopageid_; }
+
+
+	virtual void object(NoPageID* o) {
 		// Remember to delete the previous object
 		nopageid_ = o;
 		
 
 	}
-    
-  
+
+
 
 protected:
     NoPageID* nopageid_;
@@ -78,7 +78,7 @@ protected:
 
 //  --  method
 	virtual void print(ostream&) const;
-	
+
 
 private:
     string tag_;
@@ -89,5 +89,3 @@ private:
 } // namespace magics
 
 #endif
-
-

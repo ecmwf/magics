@@ -27,7 +27,12 @@
       {
         "long_name": "Near-Surface Air Temperature",
         "standard_name": "air_temperature"
-      }
+      },
+      {
+        "paramId": "167",
+        "shortName": "2t",
+        "centre":"219"
+      }      
     ]
   }
 ]

@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -33,17 +33,17 @@ TephigramAttributes::TephigramAttributes():
 	y_max_(ParameterManager::getDouble("y_max")),
 	annotation_width_(ParameterManager::getDouble("thermo_annotation_width"))
 	
-	 
+	
 {
-} 
+}
 
 
 TephigramAttributes::~TephigramAttributes()
 {
-	
+
 }
 
-    
+
 void TephigramAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -71,12 +71,12 @@ void TephigramAttributes::copy(const TephigramAttributes& other)
 	y_max_ = other.y_max_;
 	annotation_width_ = other.annotation_width_;
 	
-} 
+}
 
 
 bool TephigramAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "tephigram")  )
 		return true;
 	
@@ -87,7 +87,7 @@ void TephigramAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "tephigram")  )
@@ -121,7 +121,7 @@ void TephigramAttributes::print(ostream& out)  const
 
 void TephigramAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"tephigram\""; 
+	out <<  "\"tephigram\"";
 	out << ", \"x_min\":";
 	niceprint(out,x_min_);
 	out << ", \"subpage_x_automatic\":";
@@ -139,10 +139,10 @@ void TephigramAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> x_min("x_min", 0, "");
-static MagicsParameter<string> subpage_x_automatic("subpage_x_automatic", "off", "");
-static MagicsParameter<string> subpage_y_automatic("subpage_y_automatic", "off", "");
-static MagicsParameter<double> x_max("x_max", 100, "");
-static MagicsParameter<double> y_min("y_min", 0, "");
-static MagicsParameter<double> y_max("y_max", 100, "");
-static MagicsParameter<double> thermo_annotation_width("thermo_annotation_width", 25, "");
+static MagicsParameter<double> x_min("x_min", 0);
+static MagicsParameter<string> subpage_x_automatic("subpage_x_automatic", "off");
+static MagicsParameter<string> subpage_y_automatic("subpage_y_automatic", "off");
+static MagicsParameter<double> x_max("x_max", 100);
+static MagicsParameter<double> y_min("y_min", 0);
+static MagicsParameter<double> y_max("y_max", 100);
+static MagicsParameter<double> thermo_annotation_width("thermo_annotation_width", 25);

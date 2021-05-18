@@ -2,10 +2,10 @@
 /*******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -19,7 +19,7 @@
 
     Generated: 
 */
-   
+
 
 #ifndef LookupTableModeWrapper_H
 #define LookupTableModeWrapper_H
@@ -39,15 +39,15 @@
 
 
 
- 
+
 
 namespace magics {
 
 class MagRequest;
 
 
- 	
-class LookupTableModeWrapper 
+
+class LookupTableModeWrapper
 
 {
 public:
@@ -57,20 +57,20 @@ public:
 //  --  destructor
     virtual ~LookupTableModeWrapper();
     virtual void set(const MagRequest&);
-    
-    LookupTableMode* me()   { return lookuptablemode_; }
-   	
-   	virtual LookupTableMode* object() { return lookuptablemode_; }
-	
 
-	virtual void object(LookupTableMode* o) { 
+    LookupTableMode* me()   { return lookuptablemode_; }
+
+   	virtual LookupTableMode* object() { return lookuptablemode_; }
+
+
+	virtual void object(LookupTableMode* o) {
 		// Remember to delete the previous object
 		lookuptablemode_ = o;
 		
 
 	}
-    
-  
+
+
 
 protected:
     LookupTableMode* lookuptablemode_;
@@ -78,7 +78,7 @@ protected:
 
 //  --  method
 	virtual void print(ostream&) const;
-	
+
 
 private:
     string tag_;
@@ -89,5 +89,3 @@ private:
 } // namespace magics
 
 #endif
-
-

@@ -35,7 +35,7 @@ class XmlNode;
 class ColourSelection : public FloatSelection {
 public:
     ColourSelection();
-    virtual ~ColourSelection();
+    virtual ~ColourSelection() override;
     virtual void set(const map<string, string>&) {}
     virtual void set(const XmlNode&) {}
     virtual void toxml(ostream&, int) const {}
@@ -46,7 +46,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed

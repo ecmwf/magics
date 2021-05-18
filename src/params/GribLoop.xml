@@ -68,6 +68,14 @@ does it submit to any jurisdiction.
 			name="grib_loop_path">
 			<documentation>Path of the grib to animate</documentation>
 		</parameter>
+		<parameter member="id"
+			to="string"
+			default=""
+			from="string"
+			name="grib_id">
+			<release>Magics++2.6</release>
+			<documentation>Id used to identify a grib file in the title production</documentation>
+		</parameter>
 		<parameter member="step"
 			to="GribLoopStep"
 			default="loopondate"

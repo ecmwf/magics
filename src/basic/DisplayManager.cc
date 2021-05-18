@@ -42,10 +42,10 @@ void DisplayManager::print(ostream& out) const {
 
 void DisplayManager::operator()(BasicSceneObject& object, BasicGraphicsObjectContainer& list) {
     switch (object.display()) {
-        case M_DT_INLINE:
+        case DisplayType::INLINE:
             fortran_ ? (this->*style_)(object, list) : addInline(object, list);
             break;
-        case M_DT_BLOCK:
+        case DisplayType::BLOCK:
             fortran_ ? (this->*style_)(object, list) : addBlock(object, list);
             break;
         default:

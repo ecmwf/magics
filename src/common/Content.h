@@ -38,8 +38,8 @@ class OrderedMapContent;
 class Value;
 class JSON;
 
-class ValueList: public std::vector<Value>{};
-class ValueMap: public std::map<Value, Value>{};
+class ValueList : public std::vector<Value> {};
+class ValueMap : public std::map<Value, Value> {};
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -116,7 +116,7 @@ protected:
 
     // -- Destructor
 
-    virtual ~Content();
+    virtual ~Content() override;
 
     // -- Operators
 
@@ -138,7 +138,7 @@ protected:
 
     Content* operator+(const Content&) const;
     Content* operator-(const Content&) const;
-    Content* operator*(const Content&)const;
+    Content* operator*(const Content&) const;
     Content* operator/(const Content&) const;
 
 
@@ -210,6 +210,6 @@ private:
 
 //----------------------------------------------------------------------------------------------------------------------
 
-}  // namespace eckit
+}  // namespace magics
 
 #endif  // eckit_Content_h

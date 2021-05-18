@@ -16,29 +16,29 @@
 
 */
 
-#include <BaseDriver.h>
+#include "BaseDriver.h"
 
-#include <Arrow.h>
-#include <BinaryObject.h>
-#include <Colour.h>
-#include <Flag.h>
-#include <Image.h>
-#include <ImportObject.h>
-#include <Layer.h>
-#include <Layout.h>
-#include <PaperPoint.h>
-#include <Polyline.h>
-#include <Symbol.h>
-#include <Text.h>
+#include "Arrow.h"
+#include "BinaryObject.h"
+#include "Colour.h"
+#include "Flag.h"
+#include "Image.h"
+#include "ImportObject.h"
+#include "Layer.h"
+#include "Layout.h"
+#include "PaperPoint.h"
+#include "Polyline.h"
+#include "Symbol.h"
+#include "Text.h"
 
-#include <BaseDriverImages.h>
-#include <BaseDriverSymbols.h>
-#include <BaseDriverWind.h>
+#include "BaseDriverImages.h"
+#include "BaseDriverSymbols.h"
+#include "BaseDriverWind.h"
 
-#include <System.h>
-#include <Timer.h>
+#include "System.h"
+#include "Timer.h"
 
-#include "magics_windef.h"
+#include "magics.h"
 
 using namespace magics;
 
@@ -53,9 +53,8 @@ BaseDriver::BaseDriver() :
     currentPage_(-1),
     fileName_(""),
     currentLayer_(""),
-    currentLineType_(M_SOLID),
+    currentLineType_(LineStyle::SOLID),
     currentLineWidth_(-1),
-    currentLineStyle_(1),
     currentColour_(Colour("white")),
     coordRatioX_(1),
     coordRatioY_(1),
@@ -64,7 +63,7 @@ BaseDriver::BaseDriver() :
     alphaEnabled_(false),
     applyGaussianBlur_(-1.),
     indexHatch_(0),
-    currentShading_(M_SH_NONE),
+    currentShading_(Shading::NONE),
     cmScale_(1.),
     xDeviceLength_(MagTranslator<double, double>().magics("SUPER_PAGE_X_LENGTH")),
     yDeviceLength_(MagTranslator<double, double>().magics("SUPER_PAGE_Y_LENGTH")),
@@ -80,7 +79,7 @@ BaseDriver::~BaseDriver() {
  \sa renderSimplePolygon
 */
 void BaseDriver::shade(const FillShadingProperties& properties) const {
-    currentShading_           = M_SH_SOLID;
+    currentShading_           = Shading::SOLID;
     currentShadingProperties_ = &properties;
 }
 
@@ -89,7 +88,7 @@ void BaseDriver::shade(const FillShadingProperties& properties) const {
  \sa renderSimplePolygon
 */
 void BaseDriver::shade(const HatchShadingProperties& properties) const {
-    currentShading_           = M_SH_HATCH;
+    currentShading_           = Shading::HATCH;
     currentShadingProperties_ = &properties;
 }
 
@@ -98,7 +97,7 @@ void BaseDriver::shade(const HatchShadingProperties& properties) const {
  \sa renderSimplePolygon
 */
 void BaseDriver::shade(const DotShadingProperties& properties) const {
-    currentShading_           = M_SH_DOT;
+    currentShading_           = Shading::DOT;
     currentShadingProperties_ = &properties;
 }
 
@@ -132,7 +131,7 @@ void BaseDriver::printOutputName(const std::string& str) const {
   \todo make this a singleton!?
 */
 void BaseDriver::readFonts() const {
-    const string s = buildConfigPath("Fonts.dat");
+    const string s = buildSharePath("Fonts.dat");
     ifstream psfile(s.c_str());
 
     if (psfile) {
@@ -178,8 +177,19 @@ void BaseDriver::readFonts() const {
 string BaseDriver::getFileName(const string& extension, const unsigned int no) const {
     // offsetting the current page number if the users has set so
     const unsigned int no2 = (firstvalue_ >= 0) ? (no + firstvalue_ - 1) : no;
+    string ext             = "." + extension;
 
-    string ext  = "." + extension;
+    if (!file_.empty()) {
+        ASSERT(no <= 1);
+        ASSERT(file_.size() > ext.size());
+        if(file_.substr(file_.size() - ext.size()) != ext) {
+            std::stringstream oss;
+            oss << "BaseDriver::getFileName extension mismatch [" << ext << "] and [" << file_ << "]";
+            throw MagicsException(oss.str());
+        }
+        return file_;
+    }
+
     bool full   = false;
     bool legacy = false;
 
@@ -259,6 +269,7 @@ string BaseDriver::getFileName(const string& extension, const unsigned int no) c
   \sa Layout
 */
 MAGICS_NO_EXPORT void BaseDriver::redisplay(const Layout& layout) const {
+    // cout << "BaseDriver::redisplay-->" << layout.infoTransformation() << endl;
     project(layout);
     staLayouts_.push(&layout);
     layout.visit(*this);  // visit this layout!
@@ -414,7 +425,7 @@ void BaseDriver::printLine(const magics::Polyline& line) const {
     // render line - driver specific part
     if (line.getThickness() > 0 && !(line.getColour() == Colour("NONE"))) {
         setNewColour(line.getColour());
-        currentLineStyle_ = setLineParameters(line.getLineStyle(), line.getThickness());
+        setLineParameters(line.getLineStyle(), line.getThickness());
 
         renderPolyline(n, x, y);
 
@@ -484,7 +495,7 @@ void BaseDriver::printLine(const magics::Polyline& line) const {
                         Arrow arrow;
                         arrow.copy(*line.arrowProperties());
                         arrow.setColour(line.getColour());
-                        arrow.setArrowPosition(M_HEAD_ONLY);
+                        arrow.setArrowPosition(ArrowPosition::HEAD_ONLY);
                         if ((x[i] - x[i + 3]) < 0.)
                             angle += PI;
                         const double dx = sin(angle + 1.5707963267949);
@@ -506,7 +517,7 @@ void BaseDriver::printLine(const magics::Polyline& line) const {
                         text.addText(label.getText(), font.colour(), font.size());
                         text.setBlanking(label.getBlanking());
                         text.setJustification(label.getJustification());
-                        text.setVerticalAlign(MHALF);
+                        text.setVerticalAlign(VerticalAlign::HALF);
                         text.setAngle(-setAngleY(angle));
                         text.setFont(font);
                         renderText(text);
