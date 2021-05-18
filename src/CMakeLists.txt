@@ -72,7 +72,9 @@ endif()
 # note: on conda the compiler id is just 'Clang', so we also need to check for 'APPLE'
 set(STDFSLIB "")
 if( (NOT APPLE) AND 
-    (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang"))
+    (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR
+     CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR
+     CMAKE_CXX_COMPILER_ID STREQUAL "Intel"))
 	set(STDFSLIB "stdc++fs")
 endif()
 
