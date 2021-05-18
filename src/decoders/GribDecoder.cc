@@ -1610,7 +1610,7 @@ string GribDecoder::representation() {
 void GribDecoder::visit(MetaDataCollector& step) {
 
     // Here we gather information for the label!
-    const Transformation& transformation = step.transformation();
+    
 
     openField();  // just to be sure the file is opened!
 
@@ -1639,7 +1639,7 @@ void GribDecoder::visit(MetaDataCollector& step) {
                 // Compute stats
                 if (step.attribute(key->first).group() == MetaDataAttribute::StatsGroup) {
                     stats_.clear();
-
+                    const Transformation& transformation = step.transformation();
                     PointsHandler& points = this->points(transformation, false);
 
                     points.setToFirst();

@@ -592,7 +592,7 @@ public:
     ~MetaDataCollector(){};
 
     void transformation(const Transformation* transformation) { transformation_ = transformation; }
-    const Transformation& transformation() { return *transformation_; }
+    const Transformation& transformation() {  ASSERT(transformation_); return *transformation_; }
     void reset() {
         clear();
         attributes_.clear();

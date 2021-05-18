@@ -33,4 +33,5 @@ ecbuild_add_test( TARGET          bufr_c
                   RESOURCES       synop.bufr
                   LIBS            MagPlusSingle MagPlus
                   ENVIRONMENT     MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
+                                   ${eccodes_environment}
                   LINKER_LANGUAGE C )
