@@ -1218,11 +1218,11 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
         levels_.push_back(*level);
         ++level;
     }
-    if (level != end) {
-        levels_.push_back(*level);
-    }
-    else
+
+
+    if (levels_.back() != max) {
         levels_.push_back(max);
+    }
 
 
     missing_ = data.missing();
