@@ -67,7 +67,7 @@ install:
                                 m2-unzip
 
   # install conda deps
-  - cmd: conda install libnetcdf expat xarray scipy cftime
+  - cmd: conda install -c conda-forge libnetcdf expat xarray scipy cftime
   - cmd: conda install -c conda-forge cmake jom proj4=6 pthreads-win32 libiconv eccodes pytest
 
   # gtk+ - needed for pango
