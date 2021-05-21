@@ -1,3 +1,4 @@
 # pip requirements file
 # pip freeze > requirements.txt
+findlibs
 Magics
