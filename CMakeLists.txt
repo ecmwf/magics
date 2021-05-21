@@ -160,7 +160,9 @@ endif(APPLE)
 #
 #  code taken from eckit (src/eckit/CMakeList.txt)
 #
+if( NOT EC_OS_NAME MATCHES "windows" )
 check_include_files( dlfcn.h magics_HAVE_DLFCN_H )
+endif()
 
 if(NOT magics_HAVE_DLFCN_H)
 message(FATAL_ERROR "Magics requires dlfcn.h for supporting the detection of the shared folder")
