@@ -85,6 +85,7 @@ install:
   - conda install -c conda-forge proj4=6 eccodes pytest cairo pango pip
   # search for conda-installed libraries
   - export LDFLAGS="$LDFLAGS -L${CONDA_PREFIX}/lib -Wl,-rpath,${CONDA_PREFIX}/lib"
+  - pip install findlibs
 
 
 #---------------------------------#
