@@ -25,9 +25,8 @@ environment:
 
 # scripts that are called at very beginning, before repo cloning
 init:
-  # activate MSVC environment
-  - cmd: call "C:\Program Files\Microsoft SDKs\Windows\v8.1\Bin\SetEnv.cmd" /x64
-  - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio 19.0\VC\vcvarsall.bat" x86_amd64
+  # activate MSVC environment - https://www.appveyor.com/docs/lang/cpp/
+  - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
   # activate conda environment so we use the correct version of python during the build
   - cmd: call %CONDA%\Scripts\activate.bat
   # make sure git clones symlinks as symlinks
