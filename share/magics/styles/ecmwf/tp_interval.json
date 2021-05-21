@@ -33,6 +33,10 @@
         "paramId": "228228",
         "shortName": "tp",
         "centre": "219"
+      },
+      {
+        "paramId": "228228",
+        "centre": "78"
       }
     ]
   }
