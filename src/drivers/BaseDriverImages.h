@@ -24,7 +24,10 @@
 #endif
 
 #include "magics.h"
+
+#ifdef HAVE_CAIRO
 #include <cairo.h>
+#endif
 
 using namespace magics;
 
