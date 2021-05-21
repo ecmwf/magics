@@ -162,7 +162,6 @@ endif(APPLE)
 #
 if( NOT EC_OS_NAME MATCHES "windows" )
 check_include_files( dlfcn.h magics_HAVE_DLFCN_H )
-endif()
 
 if(NOT magics_HAVE_DLFCN_H)
 message(FATAL_ERROR "Magics requires dlfcn.h for supporting the detection of the shared folder")
@@ -173,6 +172,8 @@ cmake_push_check_state(RESET)
     check_c_source_compiles( "#define _GNU_SOURCE\n#include <dlfcn.h>\nint main(){ void* addr; Dl_info info; dladdr(addr, &info); }\n"
         magics_HAVE_DLADDR )
 cmake_pop_check_state()
+
+endif()
 
 ###############################################################################
 # Windows compiler options
