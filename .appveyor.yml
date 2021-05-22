@@ -69,6 +69,7 @@ install:
   # install conda deps
   - cmd: conda install -c conda-forge libnetcdf expat xarray scipy cftime
   - cmd: conda install -c conda-forge cmake jom proj4=6 pthreads-win32 libiconv eccodes pytest
+  - cmd: pip install findlibs
 
   # gtk+ - needed for pango
   # includes cairo, pango, glib, and other deps
