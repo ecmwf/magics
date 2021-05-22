@@ -9,7 +9,7 @@ branches:
     - develop
     - master
 
-image: Visual Studio 2015
+image: Visual Studio 2019
 
 environment:
   CONDA: c:\Miniconda37-x64
@@ -25,9 +25,8 @@ environment:
 
 # scripts that are called at very beginning, before repo cloning
 init:
-  # activate MSVC environment
-  - cmd: call "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64
-  - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
+  # activate MSVC environment - https://www.appveyor.com/docs/lang/cpp/
+  - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
   # activate conda environment so we use the correct version of python during the build
   - cmd: call %CONDA%\Scripts\activate.bat
   # make sure git clones symlinks as symlinks
@@ -68,8 +67,9 @@ install:
                                 m2-unzip
 
   # install conda deps
-  - cmd: conda install libnetcdf expat xarray scipy cftime
+  - cmd: conda install -c conda-forge libnetcdf expat xarray scipy cftime
   - cmd: conda install -c conda-forge cmake jom proj4=6 pthreads-win32 libiconv eccodes pytest
+  - cmd: pip install findlibs
 
   # gtk+ - needed for pango
   # includes cairo, pango, glib, and other deps
