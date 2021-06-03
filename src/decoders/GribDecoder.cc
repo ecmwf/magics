@@ -654,14 +654,16 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
         for (map<double, int>::iterator y = xComponent_->yIndex_.begin(); y != xComponent_->yIndex_.end(); ++y) {
             InfoIndex x = xComponent_->xIndex_[y->second];
-            double lat  = y->first;
+    
             int index   = x.offset_;
             for (int i = 0; i < x.nbPoints_; i++) {
                 double lon = x.first_ + (i * x.step_);
+                double lat  = y->first;
                 double u   = xComponent_->data_[index];
                 double v   = yComponent_->data_[index];
                 vector<UserPoint> pos;
                 pos.reserve(5);
+                xComponent_->adjustPosition(lon, lat);
                 transformation.populate(lon, lat, 0, pos);
                 if (pos.empty()) {
                     index++;
@@ -1601,10 +1603,19 @@ void GribDecoder::visit(MetaDataVisitor& meta) {
 
 string GribDecoder::representation() {
     string grid = getstring("typeOfGrid");
-    string proj = getstring("projTargetString", false);
 
+    current_handle_ = field_;
+    // Now warning, no caching
+    string proj =  getstring("projTargetString", false, false);
 
     return (proj.size()) ? "proj" : grid;
+}
+
+string GribDecoder::projString() {
+    current_handle_ = field_;
+    // Now warning, no caching
+    return  getstring("projTargetString", false, false);
+
 }
 
 void GribDecoder::visit(MetaDataCollector& step) {

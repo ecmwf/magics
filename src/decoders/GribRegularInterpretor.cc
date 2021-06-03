@@ -594,12 +594,7 @@ void GribRegularInterpretor::interpretAsMatrix(GribDecoder& grib) const {
             else
                 grib_get_double_array(grib.handle(), "values", &u->front(), &aux);
         }
-        for (int i = 0; i < nblon; i++) {
-            double lon = u->columnsAxis()[i];
-            for (int j = 0; j < nblat; j++) {
-                double lat = u->rowsAxis()[j];
-            }
-        }
+        
         u->missing(missing);
     }
     catch (...) {
@@ -1921,17 +1916,21 @@ void GribProjInterpretor::interpretAsMatrix(GribDecoder& grib) const {
     MagLog::dev() << "GribProjInterpretor::interpretAsMatrix"
                   << "\n";
 
-    string proj = grib.getString("projString");
+    string proj = grib.projString();
+
 
     // 0 Resolved u- and v- components of vector quantities relative to easterly and northerly directions
     // 1 Resolved u- and v- components of vector quantities relative to the defined grid in the direction of increasing
     // x and y (or i and j) coordinates, respectively
 
 
-    Matrix* matrix = grib.u(new Proj4Matrix(proj));
+    
+
+    Matrix* u = grib.u(new Proj4Matrix(proj));
+    Matrix* v = grib.v(new Proj4Matrix(proj));
+    Matrix* c = grib.colour(new Proj4Matrix(proj));
 
 
-    Matrix* matrix2 = 0;
 
     size_t nb;
     grib_get_size(grib.id(), "values", &nb);
@@ -1940,7 +1939,7 @@ void GribProjInterpretor::interpretAsMatrix(GribDecoder& grib) const {
                   << "\n";
     double missing = INT_MAX;
     grib.setDouble("missingValue", missing);
-    matrix->missing(missing);
+    u->missing(missing);
 
 
     long nblon = grib.getLong("numberOfPointsAlongXAxis");
@@ -1950,15 +1949,15 @@ void GribProjInterpretor::interpretAsMatrix(GribDecoder& grib) const {
     double x = grib.getDouble("longitudeOfFirstGridPointInDegrees");
 
 
-    LatLonProjP helper(proj);
+    projHelper_ = new LatLonProjP(proj);
 
-    helper.convert(x, y);
+    projHelper_->convert(x, y);
 
 
     double rx = x;
     double ry = y;
 
-    helper.revert(rx, ry);
+    projHelper_->revert(rx, ry);
 
 
     double dx = grib.getDouble("DxInMetres");
@@ -1969,64 +1968,67 @@ void GribProjInterpretor::interpretAsMatrix(GribDecoder& grib) const {
     dy *= grib.getLong("jScansPositively") ? 1 : -1;
 
 
-    matrix->columnsAxis().reserve(nb);
-    matrix->rowsAxis().reserve(nb);
+    u->columnsAxis().reserve(nb);
+    u->rowsAxis().reserve(nb);
 
 
     double xx = x;
     for (int i = 0; i < nblon; i++) {
-        matrix->columnsAxis().push_back(xx);
+        u->columnsAxis().push_back(xx);
         xx = x + (i + 1) * dx;
     }
     double yy = y;
     for (int i = 0; i < nblat; i++) {
-        matrix->rowsAxis().push_back(yy);
+        u->rowsAxis().push_back(yy);
         yy = y + (i + 1) * dy;
     }
 
 
-    if (matrix2 != NULL) {
-        MagLog::error() << "Wind method not yet implemented" << endl;
+    if (v != NULL) {
+        u->xIndex_.reserve(u->rowsAxis().size());
+        int offset = 0;
+        int l      = 0;
+
+        for (vector<double>::iterator lat = u->rowsAxis().begin(); lat != u->rowsAxis().end(); ++lat) {
+            u->yIndex_.insert(make_pair(*lat, l));
+            l++;
+            u->xIndex_.push_back(InfoIndex(u->columnsAxis().front(), u->columnsAxis().back(), nblon, offset));
+            offset += nblon;
+        }
+        u->data_.resize(nb);
+        v->data_.resize(nb);
     }
 
 
     long jPointsAreConsecutive = grib.getLong("jPointsAreConsecutive");
+    
+    if (jPointsAreConsecutive)
+        MagLog::error() << "method not yet implemented" << endl;
 
     try {
-        matrix->resize(nb);
+        u->resize(nb);
+        v->resize(nb);
         size_t aux = size_t(nb);
-
-        // if jPointsAreConsecutive=1 then the values represent columns of data
-        // instead of rows, so we have to 'reshape' the array so that it is
-        // reorganised into rows.
-        // This will have to be checked more ..
-
-        if (jPointsAreConsecutive) {
-            vector<double>* d = new vector<double>(nb);  // temporary array
-            double* d1        = &d->front();             // temporary array pointer
-            double* d2        = &matrix->front();        // final array
-
-            grib_get_double_array(grib.id(), "values", d1, &aux);
-            /*
-                        for (int i = 0; i < nblon; i++) {
-                            for (int j = 0; j < nblat; j++) {
-                                d2[j * nblon + i] = d1[i * nblat + j];
-                            }
-                        }*/
-            delete d;
-        }
-        else  // otherwise, just copy the array of values as they are
-        {
-            if (matrix2 != NULL) {
-                MagLog::error() << "Wind method not yet implemented" << endl;
-            }
-            else {
-                grib_get_double_array(grib.handle(), "values", &matrix->front(), &aux);
+       
+        if (v != NULL) {
+            grib_get_double_array(grib.uHandle(), "values", &u->front(), &aux);     
+            grib_get_double_array(grib.uHandle(), "values", &u->data_.front(), &aux);     
+            grib_get_double_array(grib.vHandle(), "values", &v->front(), &aux);
+            grib_get_double_array(grib.vHandle(), "values", &v->data_.front(), &aux);
+            if (c) {
+                c->resize(nb);
+                c->data_.resize(nb);
+                grib_get_double_array(grib.cHandle(), "values", &c->front(), &aux);
+                grib_get_double_array(grib.cHandle(), "values", &c->data_.front(), &aux);
             }
         }
+        else {
+            grib_get_double_array(grib.handle(), "values", &u->front(), &aux);
+        }
+        
 
-        matrix->missing(missing);
-        matrix->setMapsAxis();
+        u->missing(missing);
+        u->setMapsAxis();
     }
     catch (...) {
         if (MagicsGlobal::strict()) {
@@ -2040,3 +2042,17 @@ void GribProjInterpretor::print(ostream& out) const {
     out << "GribRegularInterpretor[";
     out << "]";
 }
+
+double GribProjInterpretor::XResolution(const GribDecoder& grib) const {
+    // WE have to read DxInMetres and convert back to degrees .. 
+    double y1 = grib.getDouble("latitudeOfFirstGridPointInDegrees");
+    double y2 = grib.getDouble("latitudeOfFirstGridPointInDegrees");
+    double x1 = grib.getDouble("longitudeOfFirstGridPointInDegrees");
+    double x2 = x1 + grib.getDouble("DxInMetres");
+    
+    projHelper_->revert(x1, y1);
+    projHelper_->revert(x2, y2);
+
+    return x2-x1;
+}
+ 
