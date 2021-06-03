@@ -131,6 +131,7 @@ Symbol* SymbolProperties::symbol(const string& type) const {
         if (text_size == 0) {
             SimpleTextSymbol* stext = new SimpleTextSymbol(label_);
             stext->position(position_);
+            stext->blanking(blanking_);
             symbol = stext;
             stext->font(font_);
             vector<string> helper;
