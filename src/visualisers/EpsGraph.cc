@@ -137,14 +137,14 @@ public:
         Text* max = new Text();
         max->setText("max");
         max->setFont(font_);
-        max->setJustification(MLEFT);
+        max->setJustification(Justification::LEFT);
         (*max).push_back(PaperPoint(x + 1 * .2, bottom - height));
         visitor.push_back(max);
 
         Text* min = new Text();
         min->setText("min");
         min->setFont(font_);
-        min->setJustification(MLEFT);
+        min->setJustification(Justification::LEFT);
         (*min).push_back(PaperPoint(x + 1 * .2, top + height));
         visitor.push_back(min);
 
@@ -152,21 +152,21 @@ public:
         Text* seventyfive = new Text();
         seventyfive->setText("75%");
         seventyfive->setFont(font_);
-        seventyfive->setJustification(MLEFT);
+        seventyfive->setJustification(Justification::LEFT);
         seventyfive->push_back(PaperPoint(x + 1 * 0.3, bottom));
         visitor.push_back(seventyfive);
 
         Text* fifty = new Text();
         fifty->setText("median");
         fifty->setFont(font_);
-        fifty->setJustification(MLEFT);
+        fifty->setJustification(Justification::LEFT);
         (*fifty).push_back(PaperPoint(x + 1 * 0.3, y));
         visitor.push_back(fifty);
 
         Text* twentyfive = new Text();
         twentyfive->setText("25%");
         twentyfive->setFont(font_);
-        twentyfive->setJustification(MLEFT);
+        twentyfive->setJustification(Justification::LEFT);
         twentyfive->push_back(PaperPoint(x + 1 * 0.3, top));
         visitor.push_back(twentyfive);
     }
@@ -234,7 +234,7 @@ public:
         Text* max = new Text();
         max->setText("max");
         max->setFont(font_);
-        max->setJustification(MLEFT);
+        max->setJustification(Justification::LEFT);
         max->push_back(PaperPoint(x + 0.5, bottom2 - height));
 
         visitor.push_back(max);
@@ -242,42 +242,42 @@ public:
         Text* min = new Text();
         min->setText("min");
         min->setFont(font_);
-        min->setJustification(MLEFT);
+        min->setJustification(Justification::LEFT);
         min->push_back(PaperPoint(x + 1 * 0.5, top2 + height));
         visitor.push_back(min);
 
         Text* ninety = new Text();
         ninety->setText("90%");
         ninety->setFont(font_);
-        ninety->setJustification(MLEFT);
+        ninety->setJustification(Justification::LEFT);
         ninety->push_back(PaperPoint(x + 0.5, bottom2));
         visitor.push_back(ninety);
 
         Text* ten = new Text();
         ten->setText("10%");
         ten->setFont(font_);
-        ten->setJustification(MLEFT);
+        ten->setJustification(Justification::LEFT);
         ten->push_back(PaperPoint(x + 0.5, top2));
         visitor.push_back(ten);
 
         Text* seventyfive = new Text();
         seventyfive->setText("75%");
         seventyfive->setFont(font_);
-        seventyfive->setJustification(MLEFT);
+        seventyfive->setJustification(Justification::LEFT);
         seventyfive->push_back(PaperPoint(x + 0.75, bottom1));
         visitor.push_back(seventyfive);
 
         Text* fifty = new Text();
         fifty->setText("median");
         fifty->setFont(font_);
-        fifty->setJustification(MLEFT);
+        fifty->setJustification(Justification::LEFT);
         (*fifty).push_back(PaperPoint(x + 0.75, y));
         visitor.push_back(fifty);
 
         Text* twentyfive = new Text();
         twentyfive->setText("25%");
         twentyfive->setFont(font_);
-        twentyfive->setJustification(MLEFT);
+        twentyfive->setJustification(Justification::LEFT);
         twentyfive->push_back(PaperPoint(x + 0.75, top1));
 
         visitor.push_back(twentyfive);
@@ -341,31 +341,31 @@ public:
         Text* text = new Text();
         text->setText("0%");
         text->setFont(font_);
-        text->setJustification(MLEFT);
+        text->setJustification(Justification::LEFT);
         text->push_back(PaperPoint(x, y - 0.2));
         visitor.push_back(text);
         text = new Text();
         text->setText("25%");
         text->setFont(font_);
-        text->setJustification(MLEFT);
+        text->setJustification(Justification::LEFT);
         text->push_back(PaperPoint(x + 0.5, y - 0.2));
         visitor.push_back(text);
         text = new Text();
         text->setText("50%");
         text->setFont(font_);
-        text->setJustification(MLEFT);
+        text->setJustification(Justification::LEFT);
         text->push_back(PaperPoint(x + 1, y - 0.2));
         visitor.push_back(text);
         text = new Text();
         text->setText("75%");
         text->setFont(font_);
-        text->setJustification(MLEFT);
+        text->setJustification(Justification::LEFT);
         text->push_back(PaperPoint(x + 1.5, y - 0.2));
         visitor.push_back(text);
         text = new Text();
         text->setText("100%");
         text->setFont(font_);
-        text->setJustification(MLEFT);
+        text->setJustification(Justification::LEFT);
         text->push_back(PaperPoint(x + 2, y - 0.2));
         visitor.push_back(text);
     }
@@ -424,35 +424,35 @@ public:
         Text* text = new Text();
         text->setText("1");
         text->setFont(font_);
-        text->setJustification(MCENTRE);
+        text->setJustification(Justification::CENTRE);
         text->push_back(PaperPoint(x + 0.35, y - 0.2));
         visitor.push_back(text);
 
         text = new Text();
         text->setText("2.5");
         text->setFont(font_);
-        text->setJustification(MCENTRE);
+        text->setJustification(Justification::CENTRE);
         text->push_back(PaperPoint(x + 0.8, y - 0.2));
         visitor.push_back(text);
 
         text = new Text();
         text->setText("4");
         text->setFont(font_);
-        text->setJustification(MCENTRE);
+        text->setJustification(Justification::CENTRE);
         text->push_back(PaperPoint(x + 1.2, y - 0.2));
         visitor.push_back(text);
 
         text = new Text();
         text->setText("6");
         text->setFont(font_);
-        text->setJustification(MCENTRE);
+        text->setJustification(Justification::CENTRE);
         text->push_back(PaperPoint(x + 1.6, y - 0.2));
         visitor.push_back(text);
 
         text = new Text();
         text->setText("9 m");
         text->setFont(font_);
-        text->setJustification(MLEFT);
+        text->setJustification(Justification::LEFT);
         text->push_back(PaperPoint(x + 2.0, y - 0.2));
         visitor.push_back(text);
     }
@@ -483,7 +483,7 @@ public:
 
         Text* text = new Text();
         text->addText(title_, Colour("red"), legend_size_);  // should be customisable
-        text->setJustification(MLEFT);
+        text->setJustification(Justification::LEFT);
         (*text).push_back(PaperPoint(x + 1 * 0.04, y));
         visitor.push_back(text);
     }
@@ -519,7 +519,7 @@ public:
 
         Text* text = new Text();
         text->addText(title_, Colour("blue"), legend_size_);  // should be customisable
-        text->setJustification(MLEFT);
+        text->setJustification(Justification::LEFT);
         (*text).push_back(PaperPoint(x + 1 * 0.04, y));
         visitor.push_back(text);
     }
@@ -545,7 +545,7 @@ public:
         magics::Polyline* line = new magics::Polyline();
         line->setColour(Colour("green"));
 
-        line->setLineStyle(M_SOLID);
+        line->setLineStyle(LineStyle::SOLID);
         line->setThickness(2);
         line->push_back(PaperPoint(x - 1 * 0.025, y));
         line->push_back(PaperPoint(x + 1 * 0.025, y));
@@ -553,7 +553,7 @@ public:
 
         Text* text = new Text();
         text->setText(title_);
-        text->setJustification(MLEFT);
+        text->setJustification(Justification::LEFT);
         (*text).push_back(PaperPoint(x + 1 * 0.04, y));
         visitor.push_back(text);
     }
@@ -585,7 +585,7 @@ public:
 
         Text* text = new Text();
         text->addText(title_, Colour("blue"), legend_size_);  // should be customisable
-        text->setJustification(MLEFT);
+        text->setJustification(Justification::LEFT);
         (*text).push_back(PaperPoint(x + 1 * 0.04, y));
         visitor.push_back(text);
     }
@@ -1372,7 +1372,7 @@ void EpsWind::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
         magics::Polyline* grid = new magics::Polyline();
         grid->setColour(Colour("grey"));
         grid->setThickness(2);
-        grid->setLineStyle(M_DOT);
+        grid->setLineStyle(LineStyle::DOT);
 
         double l100 = 12 * 3600;
         for (float angle = 0; angle <= 2; angle += 0.1)
@@ -1448,7 +1448,7 @@ void EpsCloud::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
         magics::Polyline* grid = new magics::Polyline();
         grid->setColour(Colour("grey"));
         grid->setThickness(2);
-        grid->setLineStyle(M_DOT);
+        grid->setLineStyle(LineStyle::DOT);
 
         double l100 = 12 * 3600;
         for (float angle = 0; angle <= 2; angle += 0.1)
@@ -1669,7 +1669,7 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
         magics::Polyline* grid = new magics::Polyline();
         grid->setColour(Colour("grey"));
         grid->setThickness(2);
-        grid->setLineStyle(M_DOT);
+        grid->setLineStyle(LineStyle::DOT);
         scale       = 200;
         double l100 = 12 * 3600;
         for (float angle = 0; angle <= 2; angle += 0.1)
@@ -1693,7 +1693,7 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
             magics::Polyline* control = new magics::Polyline();
             control->setColour(Colour("red"));
             control->setThickness(2);
-            control->setLineStyle(M_DASH);
+            control->setLineStyle(LineStyle::DASH);
 
             double angle = (*point)["control"] - 180.;
 
@@ -1707,7 +1707,7 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
             magics::Polyline* hres = new magics::Polyline();
             hres->setColour(Colour("blue"));
             hres->setThickness(2);
-            hres->setLineStyle(M_SOLID);
+            hres->setLineStyle(LineStyle::SOLID);
 
 
             double angle = (*point)["hres"] - 180;
@@ -1992,7 +1992,7 @@ void EpsShade::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
     magics::Polyline* medianmax = median->getNew();
 
     magics::Polyline* backtop = new magics::Polyline();
-    // backtop->setLineStyle(M_DASH);
+    // backtop->setLineStyle(LineStyle::DASH);
     backtop->setThickness(2);
     backtop->setColour(*colour_);
     magics::Polyline* backtopmin = backtop->getNew();
@@ -2001,7 +2001,7 @@ void EpsShade::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
     backtopmax->setColour(cmax);
 
     magics::Polyline* backbottom = new magics::Polyline();
-    // backbottom->setLineStyle(M_DOT);
+    // backbottom->setLineStyle(LineStyle::DOT);
     backbottom->setThickness(2);
     backbottom->setColour(*colour_);
 
@@ -2206,21 +2206,21 @@ public:
         Colour colour("grey");
         magics::Polyline* median = new magics::Polyline();
         median->setColour(colour);
-        median->setLineStyle(M_SOLID);
+        median->setLineStyle(LineStyle::SOLID);
         median->setThickness(4);
         median->push_back(PaperPoint(x - width, y));
         median->push_back(PaperPoint(x + width, y));
 
         magics::Polyline* top = new magics::Polyline();
         top->setColour(colour);
-        top->setLineStyle(M_DASH);
+        top->setLineStyle(LineStyle::DASH);
         top->setThickness(2);
         top->push_back(PaperPoint(x - width, y + height1));
         top->push_back(PaperPoint(x + width, y + height1));
 
         magics::Polyline* bottom = new magics::Polyline();
         bottom->setColour(colour);
-        bottom->setLineStyle(M_DASH);
+        bottom->setLineStyle(LineStyle::DASH);
         bottom->setThickness(2);
         bottom->push_back(PaperPoint(x - width, y - height1));
         bottom->push_back(PaperPoint(x + width, y - height1));
@@ -2271,28 +2271,28 @@ public:
         Text* text99 = new Text();
         text99->setText("99%");
         text99->setFont(font_);
-        text99->setJustification(MLEFT);
+        text99->setJustification(Justification::LEFT);
         text99->push_back(PaperPoint(xtext, y - height1));
         visitor.push_back(text99);
 
         Text* text90 = new Text();
         text90->setText("90%");
         text90->setFont(font_);
-        text90->setJustification(MLEFT);
+        text90->setJustification(Justification::LEFT);
         text90->push_back(PaperPoint(xtext, y - height2));
         visitor.push_back(text90);
 
         Text* text75 = new Text();
         text75->setText("75%");
         text75->setFont(font_);
-        text75->setJustification(MLEFT);
+        text75->setJustification(Justification::LEFT);
         text75->push_back(PaperPoint(xtext, y - height3));
         visitor.push_back(text75);
 
         Text* text50 = new Text();
         text50->setText("median");
         text50->setFont(font_);
-        text50->setJustification(MLEFT);
+        text50->setJustification(Justification::LEFT);
         text50->push_back(PaperPoint(xtext, y));
         visitor.push_back(text50);
 
@@ -2300,7 +2300,7 @@ public:
         text25->setText("25%");
         text25->setFont(font_);
 
-        text25->setJustification(MLEFT);
+        text25->setJustification(Justification::LEFT);
         text25->push_back(PaperPoint(xtext, y + height3));
         visitor.push_back(text25);
 
@@ -2308,7 +2308,7 @@ public:
         text10->setText("10%");
         text10->setFont(font_);
 
-        text10->setJustification(MLEFT);
+        text10->setJustification(Justification::LEFT);
         text10->push_back(PaperPoint(xtext, y + height2));
         visitor.push_back(text10);
 
@@ -2316,7 +2316,7 @@ public:
         text1->setText("1%");
         text1->setFont(font_);
 
-        text1->setJustification(MLEFT);
+        text1->setJustification(Justification::LEFT);
         text1->push_back(PaperPoint(xtext, y + height1));
         visitor.push_back(text1);
     }
@@ -2722,13 +2722,13 @@ void EfiGraph::operator()(Data& data, BasicGraphicsObjectContainer& out) {
             if (available) {
                 Text* text = new Text();
                 text->setText(legend.str());
-                text->setJustification(MRIGHT);
+                text->setJustification(Justification::RIGHT);
                 text->setFont(font);
                 text->push_back(PaperPoint(-101, i + 0.5));
                 out.push_back(text);
                 Text* value = new Text();
                 value->setText(tostring(maground(val)) + "%");
-                value->setJustification(MLEFT);
+                value->setJustification(Justification::LEFT);
                 value->setFont(font);
                 value->push_back(PaperPoint(101, i + 0.5));
                 out.push_back(value);
@@ -2737,31 +2737,31 @@ void EfiGraph::operator()(Data& data, BasicGraphicsObjectContainer& out) {
     }
     Text* text = new Text();
     text->setText("-100%");
-    text->setJustification(MCENTRE);
+    text->setJustification(Justification::CENTRE);
     text->setFont(font);
     text->push_back(PaperPoint(-100, 0.5));
     out.push_back(text);
     text = new Text();
     text->setText("-50%");
-    text->setJustification(MCENTRE);
+    text->setJustification(Justification::CENTRE);
     text->setFont(font);
     text->push_back(PaperPoint(-50, 0.5));
     out.push_back(text);
     text = new Text();
     text->setText("EFI");
-    text->setJustification(MCENTRE);
+    text->setJustification(Justification::CENTRE);
     text->setFont(font);
     text->push_back(PaperPoint(0, 0.5));
     out.push_back(text);
     text = new Text();
     text->setText("50%");
-    text->setJustification(MCENTRE);
+    text->setJustification(Justification::CENTRE);
     text->setFont(font);
     text->push_back(PaperPoint(50, 0.5));
     out.push_back(text);
     text = new Text();
     text->setText("100%");
-    text->setJustification(MCENTRE);
+    text->setJustification(Justification::CENTRE);
     text->setFont(font);
     text->push_back(PaperPoint(100, 0.5));
     out.push_back(text);

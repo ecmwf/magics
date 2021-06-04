@@ -53,15 +53,15 @@ namespace magics {
 class ObsPlotting : public Visdef, public ObsPlottingAttributes {
 public:
     ObsPlotting();
-    virtual ~ObsPlotting();
-    virtual void set(const map<string, string>& map) { ObsPlottingAttributes::set(map); }
+    virtual ~ObsPlotting() override;
+    virtual void set(const map<string, string>& map) override { ObsPlottingAttributes::set(map); }
 
-    virtual void operator()(Data&, BasicGraphicsObjectContainer&);
-    void visit(MetaDataVisitor&);
+    virtual void operator()(Data&, BasicGraphicsObjectContainer&) override;
+    void visit(MetaDataVisitor&) override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     // void filter(const CustomisedPointsList&, CustomisedPointsList&);
 
 

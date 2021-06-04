@@ -25,8 +25,8 @@
 #define SymbolPlottingAttributes_H
 
 #include "magics.h"
-#include "Colour.h"
 #include "SymbolMode.h"
+#include "Colour.h"
 namespace magics {
 
 class XmlNode;

@@ -63,7 +63,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const { out << "HiLoBase\n"; }
+    virtual void print(ostream& out) const { out << "HiLoBase[]"; }
 
 private:
     //! Copy constructor - No copy allowed

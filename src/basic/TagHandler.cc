@@ -363,7 +363,7 @@ void TagConverter::check(const string& text) {
 }
 
 void TagConverter::entities(ostream& out) {
-    string path = buildConfigPath("entities.dtd");
+    string path = buildSharePath("entities.dtd");
 
     try {
         ifstream in(path.c_str());

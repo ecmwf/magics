@@ -70,6 +70,16 @@
       },
       {
         "standard_name": "relative_humidity"
+      },
+      {
+      "paramId": "260242",
+        "shortName": "2r",
+        "centre": "219"
+      },
+      {
+      "paramId": "260242",
+        "shortName": "2r",
+        "centre": "edzw"
       }
     ]
   }

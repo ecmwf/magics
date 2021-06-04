@@ -23,11 +23,11 @@
 #include <gd.h>
 #endif
 
+#include "magics.h"
+
 #ifdef HAVE_CAIRO
 #include <cairo.h>
 #endif
-
-#include "magics_windef.h"
 
 using namespace magics;
 
@@ -174,23 +174,23 @@ static inline int check_ppmHeader(ifstream& I, int& col, int& row) {
 /*!
   \brief Image render method for ALL drivers.
 
-  This method should be used by all Magics drivers to render image objects.
+  This method should be used by all Magics++ drivers to render image objects.
 */
 MAGICS_NO_EXPORT void BaseDriver::renderImage(const ImportObject& obj) const {
     std::string f         = obj.getFormat();
-    GraphicsFormat format = PNG;
+    GraphicsFormat format = GraphicsFormat::PNG;
     if (magCompare(f, "ps"))
-        format = PS;
+        format = GraphicsFormat::PS;
     else if (magCompare(f, "eps"))
-        format = EPS;
+        format = GraphicsFormat::EPS;
     else if (magCompare(f, "gif"))
-        format = GIF;
+        format = GraphicsFormat::GIF;
     else if (magCompare(f, "jpeg") || magCompare(f, "jpg"))
-        format = JPG;
+        format = GraphicsFormat::JPG;
     else if (magCompare(f, "png"))
-        format = PNG;
+        format = GraphicsFormat::PNG;
     else if (magCompare(f, "svg"))
-        format = SVG;
+        format = GraphicsFormat::SVG;
 
     MFloat width  = 0;
     MFloat height = 0;
@@ -253,7 +253,7 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string& fname, const Gra
     string s2(" ");
     string pixmapFormat("rgb");
 
-    if (format == PS || format == EPS)  // File is PostScript
+    if (format == GraphicsFormat::PS || format == GraphicsFormat::EPS)  // File is PostScript
     {
         string cmd;
         int x1 = 0;
@@ -308,7 +308,7 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string& fname, const Gra
         remove(s2.c_str());
     }
 #ifdef HAVE_CAIRO
-    else if (format == PNG) {
+    else if (format == GraphicsFormat::PNG) {
         cairo_surface_t* surface = cairo_image_surface_create_from_png(fname.c_str());
         if (cairo_surface_status(surface))
         {

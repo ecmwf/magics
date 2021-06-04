@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -36,17 +36,17 @@ MvRootSceneNodeAttributes::MvRootSceneNodeAttributes():
 	,
 	colour_(MagTranslator<string, Colour>().magics("super_page_frame_colour")),
 	style_(MagTranslator<string, LineStyle>().magics("super_page_frame_line_style"))
-	 
+	
 {
-} 
+}
 
 
 MvRootSceneNodeAttributes::~MvRootSceneNodeAttributes()
 {
-	
+
 }
 
-    
+
 void MvRootSceneNodeAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -80,12 +80,12 @@ void MvRootSceneNodeAttributes::copy(const MvRootSceneNodeAttributes& other)
 	colour_ = unique_ptr<Colour>(other.colour_->clone());
 	style_ = other.style_;
 	
-} 
+}
 
 
 bool MvRootSceneNodeAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "super_page")  )
 		return true;
 	
@@ -96,7 +96,7 @@ void MvRootSceneNodeAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "super_page")  )
@@ -133,7 +133,7 @@ void MvRootSceneNodeAttributes::print(ostream& out)  const
 
 void MvRootSceneNodeAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"super_page\""; 
+	out <<  "\"super_page\"";
 	out << ", \"super_page_x_length\":";
 	niceprint(out,width_);
 	out << ", \"super_page_y_length\":";
@@ -157,13 +157,13 @@ void MvRootSceneNodeAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> super_page_x_length("super_page_x_length", 29.7, "");
-static MagicsParameter<double> super_page_y_length("super_page_y_length", 21.0, "");
-static MagicsParameter<string> super_page_frame("super_page_frame", "off", "");
-static MagicsParameter<int> super_page_frame_thickness("super_page_frame_thickness", 1, "");
-static MagicsParameter<string> layout("layout", "automatic", "");
-static MagicsParameter<string> plot_start("plot_start", "bottom", "");
-static MagicsParameter<string> plot_direction("plot_direction", "vertical", "");
-static MagicsParameter<string> legend("legend", "off", "");
-static MagicsParameter<string> super_page_frame_colour("super_page_frame_colour", "blue", ""); 
-static MagicsParameter<string> super_page_frame_line_style("super_page_frame_line_style", "solid", ""); 
+static MagicsParameter<double> super_page_x_length("super_page_x_length", 29.7);
+static MagicsParameter<double> super_page_y_length("super_page_y_length", 21.0);
+static MagicsParameter<string> super_page_frame("super_page_frame", "off");
+static MagicsParameter<int> super_page_frame_thickness("super_page_frame_thickness", 1);
+static MagicsParameter<string> layout("layout", "automatic");
+static MagicsParameter<string> plot_start("plot_start", "bottom");
+static MagicsParameter<string> plot_direction("plot_direction", "vertical");
+static MagicsParameter<string> legend("legend", "off");
+static MagicsParameter<string> super_page_frame_colour("super_page_frame_colour", "blue");
+static MagicsParameter<string> super_page_frame_line_style("super_page_frame_line_style", "solid");

@@ -21,22 +21,22 @@ namespace magics {
 class EmagramGrid : public TephiGrid {
 public:
     EmagramGrid();
-    virtual ~EmagramGrid();
+    virtual ~EmagramGrid() override;
 
     // New Interface!
-    void visit(DrawingVisitor&);
-    void visit(LeftAxisVisitor&);
-    void visit(RightAxisVisitor&);
-    void visit(BottomAxisVisitor&);
-    void visit(TopAxisVisitor&);
-    void visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors);
+    void visit(DrawingVisitor&) override;
+    void visit(LeftAxisVisitor&) override;
+    void visit(RightAxisVisitor&) override;
+    void visit(BottomAxisVisitor&) override;
+    void visit(TopAxisVisitor&) override;
+    void visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors) override;
 
-    void set(const map<string, string>& map) { TephiGridAttributes::set(map); }
-    void set(const XmlNode& node) { TephiGridAttributes::set(node); }
+    void set(const map<string, string>& map) override { TephiGridAttributes::set(map); }
+    void set(const XmlNode& node) override { TephiGridAttributes::set(node); }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     map<double, PaperPoint> tTopLabels_;
     map<double, PaperPoint> tBottomLabels_;
 

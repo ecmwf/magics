@@ -24,6 +24,7 @@
 #include "HistoVisitor.h"
 #include "Layout.h"
 #include "MatrixHandler.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -57,6 +58,9 @@ void Wind::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
         method = MagTranslator<string, ThinningMethod>()(this->thinning_method_);
     }
     catch (...) {
+        if (MagicsGlobal::strict()) {
+            throw;
+        }
     }
     if (!method)
         method = new BasicThinningMethod();
@@ -80,7 +84,6 @@ void Wind::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
     // request.insert("debug");
     (*method)(data, transformation, request, points);
     if (points.empty())
-
         return;
 
 
@@ -93,7 +96,7 @@ void Wind::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
         double x      = point->longitude();
         double y      = point->latitude();
         PaperPoint xy = transformation(UserPoint(point->longitude(), point->latitude()));
-        if (transformation.in(xy) || point->tile()) {
+        if (transformation.inExtended(xy) || point->tile()) {
             pair<double, double> component = std::make_pair((*point)["x_component"], (*point)["y_component"]);
             transformation.reprojectComponents(x, y, component);
             (*this->type_)(north, xy, component.first, component.second, (*point)["colour_component"]);

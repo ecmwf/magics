@@ -58,7 +58,7 @@ public:
     };
 
     MgQSceneItem(const Layout&);
-    ~MgQSceneItem();
+    ~MgQSceneItem() override;
 
     int type() const { return Type; }
 

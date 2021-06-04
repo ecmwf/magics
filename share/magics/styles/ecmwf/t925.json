@@ -22,6 +22,7 @@
     "match": [
       {
         "levelist": [
+          "1000",
           "900",
           "925",
           "950",
@@ -38,8 +39,7 @@
           "875"
         ],
         "paramId": "130",
-        "shortName": "t",
-        "levtype": "pl"
+        "shortName": "t"
       },
       {
         "level": [

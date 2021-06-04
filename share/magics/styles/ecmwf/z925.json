@@ -52,6 +52,10 @@
       {
         "long_name": "Geopotential",
         "standard_name": "geopotential"
+      },
+      {
+        "paramId": "500004",
+        "shortName": "FIS"
       }
     ]
   }

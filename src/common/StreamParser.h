@@ -16,7 +16,7 @@
 #define magics_StreamParser_h
 
 #include <set>
-#include <MagException.h>
+#include "MagException.h"
 
 
 namespace magics {
@@ -24,16 +24,13 @@ namespace magics {
 //----------------------------------------------------------------------------------------------------------------------
 
 class StreamParser {
-
-public: // types
-
+public:  // types
     class Error : public MagicsException {
     public:
         Error(const std::string& what, size_t line = 0);
     };
 
-public: // methods
-
+public:  // methods
     StreamParser(std::istream& in, bool comments = false, const char* comment = "#");
 
     char peek(bool spaces = false);
@@ -45,29 +42,28 @@ public: // methods
     void expect(const char*);
     void putback(char);
 
-protected: // members
-
+protected:  // members
     size_t line_;
     size_t pos_;
 
-private: // members
+    bool comments_;
 
+
+private:  // members
     StreamParser(const StreamParser&);
     StreamParser& operator=(const StreamParser&);
 
     std::istream& in_;
 
-    bool comments_;
     std::set<char> comment_;
 
     char _get();
     char _peek();
     bool _eof();
-
 };
 
 //----------------------------------------------------------------------------------------------------------------------
 
-} // namespace magics
+}  // namespace magics
 
 #endif

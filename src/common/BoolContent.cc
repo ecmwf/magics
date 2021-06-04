@@ -9,9 +9,9 @@
  */
 
 #include "BoolContent.h"
+#include <iostream>
 #include "JSON.h"
 #include "Translator.h"
-#include <iostream>
 
 namespace magics {
 

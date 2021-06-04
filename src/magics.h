@@ -12,7 +12,7 @@
 
   \brief This file contains all global definition for the MagPlus library.
   \author Meteorological Visualisation Section, ECMWF
-  \copyright Apache License 2.0
+  \license Apache License 2.0
 
   Started: January 2004
 
@@ -20,7 +20,7 @@
 
 */
 
-/*! \mainpage 
+/*! \mainpage
 
  \section intro What is Magics?
 
@@ -34,7 +34,7 @@
 
  Before installation you have to compile Magics. To do so, simply
  unpack the tarball in an appropiate directory and run <i>cmake ..</i>
- followed by <i>make</i>. 
+ followed by <i>make</i>.
 
  To install type <i>make install</i>. Depending on the
  choosen installation directory you need root permission.
@@ -79,9 +79,7 @@
 #define magicsplusplus_H
 
 #include <magics_config.h>
-#if defined(MAGICS_AIX_XLC)
-#include <unistd.h>  // for AIX
-#endif
+
 #include <climits>
 
 #include "magics_export.h"
@@ -125,14 +123,20 @@ using std::vector;
 
 using std::exception;
 
-#include <cassert>
+// #include <cassert>
 #include <cmath>
 
-#include "magics_windef.h"
+#if defined(magics_HAVE_DLFCN_H)
+#include <dlfcn.h>
+#endif
 
-#ifdef MAGICS_ON_WINDOWS
+// #include "magics_windef.h"
+#if defined(_WIN32) && defined(_MSC_VER)
+#define MAGICS_ON_WINDOWS
 #include <io.h>
-#define strcasecmp _stricmp
+inline int strcasecmp(const char* a, const char* b) {
+    return _stricmp(a, b);
+}
 #endif
 
 /*! \namespace magics
@@ -179,7 +183,6 @@ public:
     }
 };
 
-#define MAGPLUS_PATH_TO_SHARE_ "/share/magics/"
 #define MAGPLUS_LINK_ "http://software.ecmwf.int/magics"
 #define MAGPLUS_PATH_TO_PS_FONTS_ POSTSCRIPT_FONT_PATH;
 
@@ -189,69 +192,97 @@ typedef magvector<long int> longintarray;
 typedef magvector<double> doublearray;
 typedef magvector<double> floatarray;
 
-enum LineStyle
+enum class LineStyle
 {
-    M_SOLID,
-    M_DASH,
-    M_DOT,
-    M_CHAIN_DASH,
-    M_CHAIN_DOT
+    SOLID,
+    DASH,
+    DOT,
+    CHAIN_DASH,
+    CHAIN_DOT
 };
-enum Hemisphere
+
+std::ostream& operator<<(ostream& s, LineStyle);
+
+enum class Hemisphere
 {
     NORTH,
     SOUTH
 };
-enum Justification
+
+std::ostream& operator<<(ostream& s, Hemisphere);
+
+enum class Justification
 {
-    MLEFT,
-    MCENTRE,
-    MRIGHT
+    LEFT,
+    CENTRE,
+    RIGHT
 };
-enum Position
+
+std::ostream& operator<<(ostream& s, Justification);
+
+enum class Position
 {
-    M_AUTOMATIC,
-    M_TOP,
-    M_BOTTOM,
-    M_LEFT,
-    M_RIGHT
+    AUTOMATIC,
+    TOP,
+    BOTTOM,
+    LEFT,
+    RIGHT
 };
-enum VerticalAlign
+
+std::ostream& operator<<(ostream& s, Position);
+
+enum class VerticalAlign
 {
-    MNORMAL,
-    MTOP,
-    MCAP,
-    MHALF,
-    MBASE,
-    MBOTTOM
+    NORMAL,
+    TOP,
+    CAP,
+    HALF,
+    BASE,
+    BOTTOM
 };
-enum Shading
+
+std::ostream& operator<<(ostream& s, VerticalAlign);
+
+
+enum class Shading
 {
-    M_SH_NONE,
-    M_SH_SOLID,
-    M_SH_HATCH,
-    M_SH_DOT
+    NONE,
+    SOLID,
+    HATCH,
+    DOT
 };
-enum ArrowPosition
+
+std::ostream& operator<<(ostream& s, Shading);
+
+enum class ArrowPosition
 {
-    M_TAIL,
-    M_CENTRE,
-    M_HEAD_ONLY
+    TAIL,
+    CENTRE,
+    HEAD_ONLY
 };
-enum DisplayType
+
+std::ostream& operator<<(ostream& s, ArrowPosition);
+
+enum class DisplayType
 {
-    M_DT_ABSOLUTE,
-    M_DT_INLINE,
-    M_DT_BLOCK,
-    M_DT_NONE,
-    M_DT_HIDDEN
+    ABSOLUTE,
+    INLINE,
+    BLOCK,
+    NONE,
+    HIDDEN
 };
-enum ListPolicy
+
+std::ostream& operator<<(ostream& s, DisplayType);
+
+enum class ListPolicy
 {
-    M_LASTONE,
-    M_CYCLE
+    LASTONE,
+    CYCLE
 };
-enum GraphicsFormat
+
+std::ostream& operator<<(ostream& s, ListPolicy);
+
+enum class GraphicsFormat
 {
     PS,
     EPS,
@@ -268,15 +299,20 @@ enum GraphicsFormat
     QT,
     GEOJSON
 };
-enum AxisAutomaticSetting
+
+std::ostream& operator<<(ostream& s, GraphicsFormat);
+
+enum class AxisAutomaticSetting
 {
-    m_off,
-    m_both,
-    m_min_only,
-    m_max_only
+    OFF,
+    BOTH,
+    MIN_ONLY,
+    MAX_ONLY
 };
 
-static double EPSILON = 1.25e-10;
+std::ostream& operator<<(ostream& s, AxisAutomaticSetting);
+
+static /*const*/ double EPSILON = 1.25e-10;
 
 template <class T>
 inline MAGICS_NO_EXPORT T abs(const T a) {
@@ -310,12 +346,39 @@ inline MAGICS_NO_EXPORT bool same(const double a, const double b, double epsilon
 inline MAGICS_NO_EXPORT string getEnvVariable(const string var) {
     const char* va = var.c_str();
     const char* ww = getenv(va);
-    if (ww)
-        return string(ww);
-    if (!strcmp(va, "MAGPLUS_HOME"))
-        return string(MAGICS_INSTALL_PATH);
+    if (ww) return string(ww);
     return "";
 }
+
+/*! Function to return path to resources in share folder
+
+  See also https://jira.ecmwf.int/browse/MAGP-1295
+*/
+inline MAGICS_NO_EXPORT string buildSharePath(const string& config, const string& aux = "") {
+    string magplushome = getEnvVariable("MAGPLUS_HOME");
+    if(magplushome.empty()) {
+#if defined(magics_HAVE_DLFCN_H)
+       Dl_info info;
+       if(dladdr((void*)getEnvVariable, &info)){
+            string libpath(info.dli_fname);
+            // remove libname and lib folder from path name
+            std::size_t found = libpath.find_last_of("/\\");
+            libpath = libpath.substr(0,found);
+            found = libpath.find_last_of("/\\");
+            magplushome = libpath.substr(0,found);
+       }
+       else 
+#endif
+         magplushome = string(MAGICS_INSTALL_PATH);  
+    }
+    ostringstream out;
+    out << magplushome << "/share/magics/" << config;
+    if (aux.size())
+        out << "/" << aux;
+    //cout << ">>" << magplushome << endl;
+    return out.str();
+}
+
 
 //! Global function to return the Magics version for ID line
 /*! comes from magics_config.h !!! */
@@ -350,20 +413,6 @@ inline MAGICS_NO_EXPORT bool magCompare(const string& s1, const string& s2) {
     return !(strcasecmp(s1.c_str(), s2.c_str()));
 }
 
-inline MAGICS_NO_EXPORT std::string replacePathWithHome(const string& path) {
-    const std::string home_path = getEnvVariable("HOME");
-    std::string filename        = path.substr(path.find_last_of("/\\"));
-    return home_path + filename;
-}
-
-inline MAGICS_NO_EXPORT string buildConfigPath(const string& config, const string& aux = "") {
-    ostringstream out;
-    out << getEnvVariable("MAGPLUS_HOME") << "/share/magics/" << config;
-    if (aux.size())
-        out << "/" << aux;
-    return out.str();
-}
-
 /*!
   \brief returns the biggest integer inside a double
 */
@@ -386,4 +435,5 @@ inline string tostring(const T& in) {
 }
 
 }  // namespace magics
+
 #endif

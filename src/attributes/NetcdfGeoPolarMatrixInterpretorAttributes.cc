@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -26,17 +26,17 @@ using namespace magics;
 
 NetcdfGeoPolarMatrixInterpretorAttributes::NetcdfGeoPolarMatrixInterpretorAttributes()
 	
-	 
+	
 {
-} 
+}
 
 
 NetcdfGeoPolarMatrixInterpretorAttributes::~NetcdfGeoPolarMatrixInterpretorAttributes()
 {
-	
+
 }
 
-    
+
 void NetcdfGeoPolarMatrixInterpretorAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -50,12 +50,12 @@ void NetcdfGeoPolarMatrixInterpretorAttributes::set(const std::map<string, strin
 void NetcdfGeoPolarMatrixInterpretorAttributes::copy(const NetcdfGeoPolarMatrixInterpretorAttributes& other)
 {
 	
-} 
+}
 
 
 bool NetcdfGeoPolarMatrixInterpretorAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "netcdf")  )
 		return true;
 	
@@ -66,7 +66,7 @@ void NetcdfGeoPolarMatrixInterpretorAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "netcdf")  )
@@ -93,7 +93,7 @@ void NetcdfGeoPolarMatrixInterpretorAttributes::print(ostream& out)  const
 
 void NetcdfGeoPolarMatrixInterpretorAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"netcdf\""; 
+	out <<  "\"netcdf\"";
 	
 }
 

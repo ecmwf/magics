@@ -22,6 +22,7 @@
 #include "ObsDecoder.h"
 #include "CustomisedPoint.h"
 #include "Factory.h"
+#include "MagicsGlobal.h"
 #include "MvObs.h"
 #include "TextVisitor.h"
 #include "expat.h"
@@ -175,8 +176,8 @@ static void XMLCALL character(void* userData, const char* s, int len) {
 
 BufrIdentifiers::BufrIdentifiers(int centre) : centre_(centre) {
     ostringstream file, deffile;
-    file << getEnvVariable("MAGPLUS_HOME") << MAGPLUS_PATH_TO_SHARE_ << "bufr_" << centre << ".xml";
-    deffile << getEnvVariable("MAGPLUS_HOME") << MAGPLUS_PATH_TO_SHARE_ << "bufr_98.xml";
+    file    << buildSharePath("bufr_" + to_string(centre) + ".xml");
+    deffile << buildSharePath("bufr_98.xml");
     char buf[BUFSIZ];
     XML_Parser parser = XML_ParserCreate(NULL);
     int done;
@@ -184,11 +185,20 @@ BufrIdentifiers::BufrIdentifiers(int centre) : centre_(centre) {
     XML_SetElementHandler(parser, startElement, endElement);
 
     FILE* in = fopen(file.str().c_str(), "r");
+
     if (!in) {
+        if (MagicsGlobal::strict()) {
+            throw CannotOpenFile(file.str());
+        }
+
         // Open the default template for 98!
         // and send a big warning!
         in = fopen(deffile.str().c_str(), "r");
         MagLog::warning() << "No definition file for [" << centre << "]: We use ECMWF definitions " << endl;
+
+        if (MagicsGlobal::strict()) {
+            throw CannotOpenFile(deffile.str());
+        }
     }
 
     do {
@@ -222,7 +232,7 @@ BufrFamilyTable BufrFamilyTable::table_;
 
 BufrFamily::BufrFamily(const string& centre) : centre_(centre) {
     ostringstream file;
-    file << getEnvVariable("MAGPLUS_HOME") << MAGPLUS_PATH_TO_SHARE_ << "bufr_" << centre << ".xml";
+    file << buildSharePath("bufr_" + centre + ".xml");
     char buf[BUFSIZ];
     XML_Parser parser = XML_ParserCreate(NULL);
     int done;
@@ -231,8 +241,12 @@ BufrFamily::BufrFamily(const string& centre) : centre_(centre) {
     XML_SetCharacterDataHandler(parser, character);
 
     FILE* in = fopen(file.str().c_str(), "r");
-    if (!in)
+    if (!in) {
+        if (MagicsGlobal::strict()) {
+            throw CannotOpenFile(file.str());
+        }
         return;
+    }
 
     do {
         size_t len = fread(buf, 1, sizeof(buf), in);
@@ -620,6 +634,9 @@ void ObsDecoder::getInfo(const std::set<string>& tokens, multimap<string, string
             }
         }
         catch (NoFactoryException&) {
+            if (MagicsGlobal::strict()) {
+                throw;
+            }
         }
 
         for (std::set<string>::const_iterator no = noduplicate.begin(); no != noduplicate.end(); ++no) {

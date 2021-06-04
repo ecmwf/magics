@@ -37,9 +37,7 @@ public:
 };
 
 
-class MagConfigHandler
-
-{
+class MagConfigHandler {
 public:
     MagConfigHandler(const string& config, MagConfig& object);
     virtual ~MagConfigHandler();
@@ -92,7 +90,7 @@ public:
     }
     ~MagDefLibrary() {}
 
-    void callback(const string& name, const Value& value);
+    void callback(const string& name, const Value& value) override;
 
     void init(const string&);
     void init(const string&, const string&);
@@ -107,6 +105,10 @@ public:
             definition = def->second;
             // cout << "FOUND " << name << endl;
             // cout << def->second << endl;
+            // {
+            //     ofstream out("style");
+            //     out << name << std::endl;
+            // }
             return true;
         }
         MagLog::warning() << " Can not find the preset " << name << " for " << name_ << endl;
@@ -150,8 +152,8 @@ public:
     StyleLibrary(const string& path) : path_(path) { init(); }
     ~StyleLibrary() {}
 
-    void callback(const string& name, const Value& value);
-    void callback(const ValueList& values);
+    void callback(const string& name, const Value& value) override;
+    void callback(const ValueList& values) override;
 
     void init();
 
@@ -160,7 +162,7 @@ public:
     string theme_;
     string family_;
     string path_;
-    string current_;
+    // string current_;
     MagDefLibrary allStyles_;
 
     bool findStyle(const MetaDataCollector& data, MagDef& visdef, StyleEntry&);
@@ -202,7 +204,7 @@ public:
     PaletteLibrary(const string& family) { init(); }
     ~PaletteLibrary() {}
 
-    void callback(const string& name, const Value& value);
+    void callback(const string& name, const Value& value) override;
 
     void init();
 
@@ -225,7 +227,7 @@ public:
     NetcdfGuess() : name_("netcdf-convention") { init(); }
     ~NetcdfGuess() {}
 
-    void callback(const string& name, const Value& value);
+    void callback(const string& name, const Value& value) override;
     void init();
 
     string name_;
@@ -240,7 +242,7 @@ public:
 
     ~DimensionGuess() {}
 
-    void callback(const string& name, const Value& value) {}
+    void callback(const string& name, const Value& value) override {}
     void init();
 
     string definitions_;
@@ -278,7 +280,7 @@ public:
     UnitsLibrary(const string& family) { init(); }
     ~UnitsLibrary() {}
 
-    void callback(const string& name, const Value& value);
+    void callback(const string& name, const Value& value) override;
 
     void init();
 

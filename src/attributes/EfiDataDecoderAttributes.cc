@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -28,17 +28,17 @@ EfiDataDecoderAttributes::EfiDataDecoderAttributes():
 	path_(ParameterManager::getString("efi_filename")),
 	record_(ParameterManager::getInt("efi_record"))
 	
-	 
+	
 {
-} 
+}
 
 
 EfiDataDecoderAttributes::~EfiDataDecoderAttributes()
 {
-	
+
 }
 
-    
+
 void EfiDataDecoderAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -56,12 +56,12 @@ void EfiDataDecoderAttributes::copy(const EfiDataDecoderAttributes& other)
 	path_ = other.path_;
 	record_ = other.record_;
 	
-} 
+}
 
 
 bool EfiDataDecoderAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "")  )
 		return true;
 	
@@ -72,7 +72,7 @@ void EfiDataDecoderAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "")  )
@@ -101,7 +101,7 @@ void EfiDataDecoderAttributes::print(ostream& out)  const
 
 void EfiDataDecoderAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"\""; 
+	out <<  "\"\"";
 	out << ", \"efi_filename\":";
 	niceprint(out,path_);
 	out << ", \"efi_record\":";
@@ -109,5 +109,5 @@ void EfiDataDecoderAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> efi_filename("efi_filename", "", "");
-static MagicsParameter<int> efi_record("efi_record", 0, "");
+static MagicsParameter<string> efi_filename("efi_filename", "");
+static MagicsParameter<int> efi_record("efi_record", 0);

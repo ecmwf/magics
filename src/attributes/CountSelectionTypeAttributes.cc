@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -29,17 +29,17 @@ CountSelectionTypeAttributes::CountSelectionTypeAttributes():
 	tolerance_(ParameterManager::getInt("contour_level_tolerance")),
 	reference_(ParameterManager::getDouble("contour_reference_level"))
 	
-	 
+	
 {
-} 
+}
 
 
 CountSelectionTypeAttributes::~CountSelectionTypeAttributes()
 {
-	
+
 }
 
-    
+
 void CountSelectionTypeAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(3);
@@ -61,12 +61,12 @@ void CountSelectionTypeAttributes::copy(const CountSelectionTypeAttributes& othe
 	tolerance_ = other.tolerance_;
 	reference_ = other.reference_;
 	
-} 
+}
 
 
 bool CountSelectionTypeAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "count")  )
 		return true;
 	
@@ -77,7 +77,7 @@ void CountSelectionTypeAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "count")  )
@@ -107,7 +107,7 @@ void CountSelectionTypeAttributes::print(ostream& out)  const
 
 void CountSelectionTypeAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"count\""; 
+	out <<  "\"count\"";
 	out << ", \"contour_level_count\":";
 	niceprint(out,levelCount_);
 	out << ", \"contour_level_tolerance\":";
@@ -117,6 +117,6 @@ void CountSelectionTypeAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<int> contour_level_count("contour_level_count", 10, "");
-static MagicsParameter<int> contour_level_tolerance("contour_level_tolerance", 2, "");
-static MagicsParameter<double> contour_reference_level("contour_reference_level", 0.0, "");
+static MagicsParameter<int> contour_level_count("contour_level_count", 10);
+static MagicsParameter<int> contour_level_tolerance("contour_level_tolerance", 2);
+static MagicsParameter<double> contour_reference_level("contour_reference_level", 0.0);

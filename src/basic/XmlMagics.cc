@@ -16,25 +16,26 @@
 
 */
 
+#include <iomanip>
 
-#include "XmlMagics.h"
 #include "MagException.h"
 #include "Timer.h"
+#include "XmlMagics.h"
 #include "XmlReader.h"
 
 #include "BinaryObject.h"
 #include "Coastlines.h"
-#include "RootSceneNode.h"
-#include "SceneNode.h"
-#include "TaylorGrid.h"
-#include "TephiGrid.h"
-#include "ViewNode.h"
-#include "GribDecoder.h"
 #include "Contour.h"
 #include "EpsXmlInput.h"
 #include "GeoJSon.h"
+#include "GribDecoder.h"
+#include "RootSceneNode.h"
+#include "SceneNode.h"
 #include "SymbolPlotting.h"
 #include "TableDecoder.h"
+#include "TaylorGrid.h"
+#include "TephiGrid.h"
+#include "ViewNode.h"
 #include "VisualAction.h"
 #include "Wind.h"
 #include "WrepJSon.h"
@@ -84,6 +85,7 @@ XmlMagics::XmlMagics() : root_(0), gribloop_(0), geographical_(true), driversToS
     actions_["horizontal_axis"] = &XmlMagics::horizontalAxis;
     actions_["vertical_axis"]   = &XmlMagics::verticalAxis;
     actions_["coastlines"]      = &XmlMagics::coastlines;
+    actions_["zcoastlines"]      = &XmlMagics::coastlines;
     actions_["taylorgrid"]      = &XmlMagics::taylor;
     actions_["tephigrid"]       = &XmlMagics::tephigrid;
     actions_["thermo"]          = &XmlMagics::cartesian;

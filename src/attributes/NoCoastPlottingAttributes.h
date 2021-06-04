@@ -25,9 +25,9 @@
 #define NoCoastPlottingAttributes_H
 
 #include "magics.h"
-#include "Cities.h"
-#include "Boundaries.h"
 #include "Colour.h"
+#include "Boundaries.h"
+#include "Cities.h"
 namespace magics {
 
 class XmlNode;

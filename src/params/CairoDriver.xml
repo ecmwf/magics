@@ -52,5 +52,12 @@ does it submit to any jurisdiction.
 			default='1'>
 			<documentation for_docs='no'>Defines the quality of GeoTiff output. The default of 1. Should be a value in the range 0-10.</documentation>
 		</parameter>
+		<parameter member="font_scale"
+			name='output_font_scale'
+			from='float'
+			to='float'
+			default='1.0'>
+			<documentation>Defines the scaling factor applied to all text in PNG/PDF output, e.g. 2.0 to double the text sizes. The default is 1.0.</documentation>
+		</parameter>
 	</class>
 </magics>

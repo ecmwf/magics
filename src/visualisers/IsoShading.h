@@ -72,7 +72,7 @@ public:
     virtual bool operator()(LevelSelection&) { return false; }
     virtual void visit(LegendVisitor&) {}
     virtual void operator()(Polyline*) const {}
-    virtual void colour(double, Colour&){};
+    virtual void colour(double, Colour&) {}
     virtual bool needClipping() { return false; }
     virtual bool method(ContourMethod*) { return false; }
     virtual void reset() {}
@@ -98,12 +98,12 @@ private:
 class IsoShading : public NoIsoShading, public IsoShadingAttributes {
 public:
     IsoShading();
-    ~IsoShading();
-    void set(const map<string, string>& map) { IsoShadingAttributes::set(map); }
-    void set(const XmlNode& node) { IsoShadingAttributes::set(node); }
-    virtual void operator()(Polyline*) const;
+    ~IsoShading() override;
+    void set(const map<string, string>& map) override { IsoShadingAttributes::set(map); }
+    void set(const XmlNode& node) override { IsoShadingAttributes::set(node); }
+    virtual void operator()(Polyline*) const override;
 
-    virtual bool accept(const string&) { return true; }
+    virtual bool accept(const string&) override { return true; }
     virtual NoIsoShading* clone() const {
         IsoShading* object = new IsoShading();
         object->copy(*this);
@@ -111,22 +111,24 @@ public:
     }
 
     CellArray* array(MatrixHandler& matrix, IntervalMap<int>& range, const Transformation& transformation, int width,
-                     int height, float resolution, const string& technique) {
+                     int height, float resolution, const string& technique) override {
         CellArray* array = technique_->array(matrix, range, transformation, width, height, resolution, technique);
 
         return array;
     }
-    virtual void operator()(IsoPlot* iso, MatrixHandler& data, BasicGraphicsObjectContainer& parent) {
+    virtual void operator()(IsoPlot* iso, MatrixHandler& data, BasicGraphicsObjectContainer& parent) override {
         (*this->technique_)(iso, data, parent);
     }
-    virtual void operator()(Data& data, BasicGraphicsObjectContainer& parent) { (*this->technique_)(data, parent); }
-    virtual int shadingIndex(double);
-    virtual int leftIndex(double);
-    virtual int rightIndex(double);
-    void reset() { technique_->reset(); }
+    virtual void operator()(Data& data, BasicGraphicsObjectContainer& parent) override {
+        (*this->technique_)(data, parent);
+    }
+    virtual int shadingIndex(double) override;
+    virtual int leftIndex(double) override;
+    virtual int rightIndex(double) override;
+    void reset() override { technique_->reset(); }
 
-    virtual bool needClipping() { return (*this->technique_).needClipping(); }
-    virtual bool operator()(LevelSelection& list) {
+    virtual bool needClipping() override { return (*this->technique_).needClipping(); }
+    virtual bool operator()(LevelSelection& list) override {
         LevelSelection filter;
         for (LevelSelection::const_iterator level = list.begin(); level != list.end(); ++level)
             if (this->min_ <= *level && *level <= this->max_)
@@ -143,22 +145,22 @@ public:
         return (*this->technique_).prepare(filter, *this->colourMethod_);
     }
     // returns true, if the contouring lines have to be created... False, is the shading is finished...
-    virtual void visit(LegendVisitor& legend) {
+    virtual void visit(LegendVisitor& legend) override {
         legend.newLegend();
         (*this->technique_).visit(legend, *this->colourMethod_);
     }
-    virtual bool shadingMode() { return (*this->technique_).shadingMode(); }
-    virtual bool hasLegend() { return (*this->technique_).hasLegend(); }
-    virtual void colour(double val, Colour& colour) {
+    virtual bool shadingMode() override { return (*this->technique_).shadingMode(); }
+    virtual bool hasLegend() override { return (*this->technique_).hasLegend(); }
+    virtual void colour(double val, Colour& colour) override {
         ColourTechnique::iterator icolour = colourMethod_->find(val);
         if (icolour != colourMethod_->end())
             colour = icolour->second.right_;
     }
-    virtual bool method(ContourMethod* method) { return (*this->technique_).method(method); }
+    virtual bool method(ContourMethod* method) override { return (*this->technique_).method(method); }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     vector<Colour> colours_;
     vector<Colour>::iterator colour_;
 

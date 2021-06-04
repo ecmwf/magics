@@ -89,8 +89,8 @@ void PageID::visit(BasicGraphicsObjectContainer& out) {
     font.colour(*colour_);
 
     id->addText(text.str(), font);
-    id->setJustification(MLEFT);
-    id->setVerticalAlign(MHALF);
+    id->setJustification(Justification::LEFT);
+    id->setVerticalAlign(VerticalAlign::HALF);
 
     const double y = (PageIDAttributes::height_ / out.absoluteHeight()) * 100;
     // Line position  0.5 cm/ 0.5cm...

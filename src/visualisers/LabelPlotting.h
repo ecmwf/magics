@@ -91,18 +91,18 @@ public:
 class LabelPlotting : public NoLabelPlotting, public LabelPlottingAttributes {
 public:
     LabelPlotting();
-    virtual ~LabelPlotting();
-    void prepare(NoGridPlotting& grid);
+    virtual ~LabelPlotting() override;
+    void prepare(NoGridPlotting& grid) override;
 
-    virtual LabelPlotting* clone() const {
+    virtual LabelPlotting* clone() const override {
         LabelPlotting* object = new LabelPlotting();
         object->copy(*this);
         return object;
     }
-    virtual void set(const XmlNode& node) { LabelPlottingAttributes::set(node); }
-    virtual void set(const map<string, string>& map) { LabelPlottingAttributes::set(map); }
+    virtual void set(const XmlNode& node) override { LabelPlottingAttributes::set(node); }
+    virtual void set(const map<string, string>& map) override { LabelPlottingAttributes::set(map); }
 
-    bool accept(const string& node) { return LabelPlottingAttributes::accept(node); }
+    bool accept(const string& node) override { return LabelPlottingAttributes::accept(node); }
 
     template <class V>
     void label(V& visitor) {
@@ -111,25 +111,25 @@ public:
         visitor.transformation().labels(*this, visitor);
         layer_ = 0;
     }
-    void operator()(DrawingVisitor& visitor) { label(visitor); }
-    void operator()(LeftAxisVisitor& visitor) {
+    void operator()(DrawingVisitor& visitor) override { label(visitor); }
+    void operator()(LeftAxisVisitor& visitor) override {
         if (left_)
             label(visitor);
     }
-    void operator()(RightAxisVisitor& visitor) {
+    void operator()(RightAxisVisitor& visitor) override {
         if (right_)
             label(visitor);
     }
-    void operator()(BottomAxisVisitor& visitor) {
+    void operator()(BottomAxisVisitor& visitor) override {
         if (bottom_)
             label(visitor);
     }
-    void operator()(TopAxisVisitor& visitor) {
+    void operator()(TopAxisVisitor& visitor) override {
         if (top_)
             label(visitor);
     }
-    void layer(BasicGraphicsObjectContainer* layer) { layer_ = layer; }
-    void label(Transformation&);
+    void layer(BasicGraphicsObjectContainer* layer) override { layer_ = layer; }
+    void label(Transformation&) override;
     void add(Text* text) const {
         MagFont font(font_, font_style_, height_);
         font.colour(*colour_);
@@ -143,7 +143,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     vector<double> latitudes_;
     vector<double> longitudes_;
     BasicGraphicsObjectContainer* layer_;

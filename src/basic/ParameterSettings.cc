@@ -15,8 +15,8 @@
     Started: 2004
 
 */
-#include <ParameterSettings.h>
-#include <Path.h>
+#include "ParameterSettings.h"
+#include "Path.h"
 
 void buildkeys(const vector<string>& roots, const string& name, vector<string>& keys) {
     keys.push_back(name);
@@ -69,16 +69,16 @@ void niceprint(ostream& out, const string& val) {
 void niceprint(ostream& out, const AxisAutomaticSetting& val) {
     string cval;
     switch (val) {
-        case m_off:
+        case AxisAutomaticSetting::OFF:
             cval = "off";
             break;
-        case m_both:
+        case AxisAutomaticSetting::BOTH:
             cval = "on";
             break;
-        case m_min_only:
+        case AxisAutomaticSetting::MIN_ONLY:
             cval = "min_only";
             break;
-        case m_max_only:
+        case AxisAutomaticSetting::MAX_ONLY:
             cval = "max_only";
             break;
     }

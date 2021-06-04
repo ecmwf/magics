@@ -58,7 +58,9 @@ public:
         maxy_ = -miny_;
     }
     virtual ~MetgramParameter() {}
-    virtual double operator()(double value, const string&) const { return (value * scaling_) + offset_; }
+    virtual double operator()(double value, const string&) const {
+        return (value * scaling_) + offset_;
+    }
     virtual double operator()(double value) const { return (value * scaling_) + offset_; }
     const string& code() const { return code_; }
     virtual const string& title() const { return title_; }
@@ -92,10 +94,10 @@ protected:
 class ClassicMtgDecoder : public ClassicMtgDecoderAttributes, public Decoder, public Data, public PointsList {
 public:
     ClassicMtgDecoder();
-    virtual ~ClassicMtgDecoder();
+    virtual ~ClassicMtgDecoder() override;
 
-    virtual void set(const map<string, string>& map) { ClassicMtgDecoderAttributes::set(map); }
-    virtual void set(const XmlNode& node) { ClassicMtgDecoderAttributes::set(node); }
+    virtual void set(const map<string, string>& map) override { ClassicMtgDecoderAttributes::set(map); }
+    virtual void set(const XmlNode& node) override { ClassicMtgDecoderAttributes::set(node); }
 
     void decode();
 
@@ -115,7 +117,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
     MetgramParameter* parameter_;
     void moreTitle(TextVisitor&) const;
     UserPoint grid_;

@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -40,19 +40,20 @@ Proj4ProjectionAttributes::Proj4ProjectionAttributes():
 	projection_view_longitude_(ParameterManager::getDouble("subpage_map_projection_view_longitude")),
 	sweep_(ParameterManager::getDouble("subpage_map_geos_sweep")),
 	proj4_definition_(ParameterManager::getString("subpage_map_proj4_definition")),
-	coordinates_system_(ParameterManager::getString("subpage_coordinates_system"))
+	coordinates_system_(ParameterManager::getString("subpage_coordinates_system")),
+	gutter_(ParameterManager::getDouble("subpage_gutter_percentage"))
 	
-	 
+	
 {
-} 
+}
 
 
 Proj4ProjectionAttributes::~Proj4ProjectionAttributes()
 {
-	
+
 }
 
-    
+
 void Proj4ProjectionAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(3);
@@ -77,6 +78,7 @@ void Proj4ProjectionAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "subpage_map_geos_sweep", sweep_, params);
 	setAttribute(prefix, "subpage_map_proj4_definition", proj4_definition_, params);
 	setAttribute(prefix, "subpage_coordinates_system", coordinates_system_, params);
+	setAttribute(prefix, "subpage_gutter_percentage", gutter_, params);
 	
 	
 }
@@ -99,13 +101,14 @@ void Proj4ProjectionAttributes::copy(const Proj4ProjectionAttributes& other)
 	sweep_ = other.sweep_;
 	proj4_definition_ = other.proj4_definition_;
 	coordinates_system_ = other.coordinates_system_;
+	gutter_ = other.gutter_;
 	
-} 
+}
 
 
 bool Proj4ProjectionAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "")  )
 		return true;
 	
@@ -116,7 +119,7 @@ void Proj4ProjectionAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "")  )
@@ -153,13 +156,14 @@ void Proj4ProjectionAttributes::print(ostream& out)  const
 	out << " sweep = " <<  sweep_;
 	out << " proj4_definition = " <<  proj4_definition_;
 	out << " coordinates_system = " <<  coordinates_system_;
+	out << " gutter = " <<  gutter_;
 	
 	out << "]" << "\n";
 }
 
 void Proj4ProjectionAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"\""; 
+	out <<  "\"\"";
 	out << ", \"subpage_map_area_definition\":";
 	niceprint(out,setting_);
 	out << ", \"subpage_lower_left_latitude\":";
@@ -192,22 +196,25 @@ void Proj4ProjectionAttributes::toxml(ostream& out)  const
 	niceprint(out,proj4_definition_);
 	out << ", \"subpage_coordinates_system\":";
 	niceprint(out,coordinates_system_);
+	out << ", \"subpage_gutter_percentage\":";
+	niceprint(out,gutter_);
 	
 }
 
-static MagicsParameter<string> subpage_map_area_definition("subpage_map_area_definition", "full", "");
-static MagicsParameter<double> subpage_lower_left_latitude("subpage_lower_left_latitude", -90.0, "");
-static MagicsParameter<double> subpage_lower_left_longitude("subpage_lower_left_longitude", -180.0, "");
-static MagicsParameter<double> subpage_upper_right_latitude("subpage_upper_right_latitude", 90.0, "");
-static MagicsParameter<double> subpage_upper_right_longitude("subpage_upper_right_longitude", 180.0, "");
-static MagicsParameter<double> subpage_map_vertical_longitude("subpage_map_vertical_longitude", 0, "");
-static MagicsParameter<double> subpage_map_true_scale_north("subpage_map_true_scale_north", 06, "");
-static MagicsParameter<double> subpage_map_true_scale_south("subpage_map_true_scale_south", -60, "");
-static MagicsParameter<double> subpage_map_projection_height("subpage_map_projection_height", 42164000, "");
-static MagicsParameter<double> subpage_map_projection_tilt("subpage_map_projection_tilt", 0, "");
-static MagicsParameter<double> subpage_map_projection_azimuth("subpage_map_projection_azimuth", 20, "");
-static MagicsParameter<double> subpage_map_projection_view_latitude("subpage_map_projection_view_latitude", 20, "");
-static MagicsParameter<double> subpage_map_projection_view_longitude("subpage_map_projection_view_longitude", -60, "");
-static MagicsParameter<double> subpage_map_geos_sweep("subpage_map_geos_sweep", 0, "");
-static MagicsParameter<string> subpage_map_proj4_definition("subpage_map_proj4_definition", "", "");
-static MagicsParameter<string> subpage_coordinates_system("subpage_coordinates_system", "latlon", "");
+static MagicsParameter<string> subpage_map_area_definition("subpage_map_area_definition", "full");
+static MagicsParameter<double> subpage_lower_left_latitude("subpage_lower_left_latitude", -90.0);
+static MagicsParameter<double> subpage_lower_left_longitude("subpage_lower_left_longitude", -180.0);
+static MagicsParameter<double> subpage_upper_right_latitude("subpage_upper_right_latitude", 90.0);
+static MagicsParameter<double> subpage_upper_right_longitude("subpage_upper_right_longitude", 180.0);
+static MagicsParameter<double> subpage_map_vertical_longitude("subpage_map_vertical_longitude", 0);
+static MagicsParameter<double> subpage_map_true_scale_north("subpage_map_true_scale_north", 06);
+static MagicsParameter<double> subpage_map_true_scale_south("subpage_map_true_scale_south", -60);
+static MagicsParameter<double> subpage_map_projection_height("subpage_map_projection_height", 42164000);
+static MagicsParameter<double> subpage_map_projection_tilt("subpage_map_projection_tilt", 0);
+static MagicsParameter<double> subpage_map_projection_azimuth("subpage_map_projection_azimuth", 20);
+static MagicsParameter<double> subpage_map_projection_view_latitude("subpage_map_projection_view_latitude", 20);
+static MagicsParameter<double> subpage_map_projection_view_longitude("subpage_map_projection_view_longitude", -60);
+static MagicsParameter<double> subpage_map_geos_sweep("subpage_map_geos_sweep", 0);
+static MagicsParameter<string> subpage_map_proj4_definition("subpage_map_proj4_definition", "");
+static MagicsParameter<string> subpage_coordinates_system("subpage_coordinates_system", "latlon");
+static MagicsParameter<double> subpage_gutter_percentage("subpage_gutter_percentage", 0);

@@ -180,7 +180,7 @@ void SkewtGrid::visit(DrawingVisitor& out) {
             if (tephi.in(xy)) {
                 Text* text = new Text();
                 text->setAngle(3.14 * 0.2);
-                text->setVerticalAlign(MHALF);
+                text->setVerticalAlign(VerticalAlign::HALF);
                 // text->addText("th=" + tostring(*th), font);
                 text->addText(tostring(*th), font);
                 text->setBlanking(true);
@@ -237,7 +237,7 @@ void SkewtGrid::visit(DrawingVisitor& out) {
         // vertical dashed line where the info box starts in the right
         Polyline* axe = new Polyline();
         axe->setColour(Colour("black"));
-        axe->setLineStyle(M_DASH);
+        axe->setLineStyle(LineStyle::DASH);
         axe->setThickness(1);
 
         axe->push_back(PaperPoint(maxpcx, tephi.getMinPCY()));
@@ -306,8 +306,8 @@ void SkewtGrid::visit(DrawingVisitor& out) {
                 Text* text = new Text();
                 text->addText(tostring(*r), font);
                 text->setBlanking(true);
-                text->setJustification(MCENTRE);
-                text->setVerticalAlign(MHALF);
+                text->setJustification(Justification::CENTRE);
+                text->setVerticalAlign(VerticalAlign::HALF);
                 text->push_back(xy);
                 out.push_back(text);
             }
@@ -383,7 +383,7 @@ void SkewtGrid::visit(DrawingVisitor& out) {
             Colour colour = *isotherm_colour_;
             poly.setColour(colour);
             poly.setThickness(isotherm_thickness_);
-            poly.setLineStyle(M_DASH);
+            poly.setLineStyle(LineStyle::DASH);
 
             // poly.push_back(tephi(UserPoint(1000.+i, pmin)));
             // poly.push_back(tephi(UserPoint(1000.+i, pmax)));
@@ -408,7 +408,7 @@ void SkewtGrid::visit(DrawingVisitor& out) {
         for (std::set<double>::iterator p = isobars.begin(); p != isobars.end(); ++p) {
             Polyline poly;
             poly.setColour(*isobar_colour_);
-            poly.setLineStyle(M_DASH);
+            poly.setLineStyle(LineStyle::DASH);
             poly.setThickness(isobar_thickness_);
             poly.push_back(tephi(UserPoint(1000, *p)));
             poly.push_back(tephi(UserPoint(1100, *p)));
@@ -438,8 +438,8 @@ void SkewtGrid::visit(LeftAxisVisitor& out) {
         text->setText(tostring(label->first));
         text->setFont(font);
         text->setBlanking(true);
-        text->setJustification(MRIGHT);
-        text->setVerticalAlign(MHALF);
+        text->setJustification(Justification::RIGHT);
+        text->setVerticalAlign(VerticalAlign::HALF);
         text->push_back(label->second);
         out.push_back(text);
     }
@@ -455,8 +455,8 @@ void SkewtGrid::visit(RightAxisVisitor& out) {
         text->setText(tostring(label->first));
         text->setFont(font);
         text->setBlanking(true);
-        text->setJustification(MLEFT);
-        text->setVerticalAlign(MHALF);
+        text->setJustification(Justification::LEFT);
+        text->setVerticalAlign(VerticalAlign::HALF);
         text->push_back(label->second);
         out.push_back(text);
     }

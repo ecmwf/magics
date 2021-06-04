@@ -32,11 +32,11 @@
         saveFlag: 1:on 0:off  (PNG only) AS EARLY AS POSSIBLE!
 */
 
-#include <GDDriver.h>
-#include <Image.h>
-#include <Polyline.h>
-#include <Symbol.h>
-#include <Text.h>
+#include "GDDriver.h"
+#include "Image.h"
+#include "Polyline.h"
+#include "Symbol.h"
+#include "Text.h"
 
 #include <gdfontl.h>
 
@@ -178,6 +178,11 @@ MAGICS_NO_EXPORT void GDDriver::startPage() const {
     if (animated_ && cPage == 0) {
         string fileName = getFileName("gif", 0);
         outFile_        = fopen(fileName.c_str(), "wb");
+
+        if (!outFile_) {
+            throw CannotOpenFile(fileName);
+        }
+
         printOutputName(fileName);
 
         gdImageGifAnimBegin(currentImage_, outFile_, 1 /*global colormap*/, 0 /*infinite loop*/);
@@ -241,8 +246,12 @@ MAGICS_NO_EXPORT void GDDriver::endPage() const {
                 fclose(outFile_);
                 printOutputName(fileName);
             }
-            else
+            else {
+                if (MagicsGlobal::strict()) {
+                    throw CannotOpenFile(fileName);
+                }
                 MagLog::error() << "GIF: cannot open file " << fileName << "!" << endl;
+            }
 #endif
         }
 
@@ -254,8 +263,12 @@ MAGICS_NO_EXPORT void GDDriver::endPage() const {
                 fclose(outFile_);
                 printOutputName(fileName);
             }
-            else
+            else {
+                if (MagicsGlobal::strict()) {
+                    throw CannotOpenFile(fileName);
+                }
                 MagLog::error() << "PNG: cannot open file " << fileName << "!" << endl;
+            }
         }
 
         if (jpg_) {
@@ -266,8 +279,12 @@ MAGICS_NO_EXPORT void GDDriver::endPage() const {
                 fclose(outFile_);
                 printOutputName(fileName);
             }
-            else
+            else {
+                if (MagicsGlobal::strict()) {
+                    throw CannotOpenFile(fileName);
+                }
                 MagLog::error() << "JPEG: cannot open file " << fileName << "!" << endl;
+            }
         }
         outFile_ = 0;
     }
@@ -366,7 +383,7 @@ MAGICS_NO_EXPORT void GDDriver::setNewColour(const Colour& colour) const {
   \param w width of the line
 
 */
-MAGICS_NO_EXPORT int GDDriver::setLineParameters(const LineStyle linestyle, const MFloat w) const {
+MAGICS_NO_EXPORT void GDDriver::setLineParameters(const LineStyle linestyle, const MFloat w) const {
     //	int width = 1;
     //	if      (w > 3.) width=static_cast<int>(w*.25);
     //	else
@@ -375,7 +392,7 @@ MAGICS_NO_EXPORT int GDDriver::setLineParameters(const LineStyle linestyle, cons
         width = 1;
 
     if (width == 1 && linestyle == M_SOLID)
-        return gdAntiAliased;
+        return;
 
     const int col = gdAntiAliased;
     gdImageSetThickness(currentImage_, width);
@@ -589,7 +606,6 @@ MAGICS_NO_EXPORT void GDDriver::renderText(const Text& text) const {
 #ifdef MAGICS_TTF
     if (text.empty())
         return;
-    const string MAGPLUS_HOME = getEnvVariable("MAGPLUS_HOME");
 
     const vector<NiceText>& niceT = text.getNiceText();
     if (niceT.empty() && (text.empty()))
@@ -644,7 +660,7 @@ MAGICS_NO_EXPORT void GDDriver::renderText(const Text& text) const {
         const string lowFont = lowerCase(magfont.name() + "_" + style);
         fontMapIter iter     = FontMap_.find(lowFont);
 
-        string ttf = MAGPLUS_HOME + "/" + MAGICS_TTF_PATH;
+        string ttf = buildSharePath("ttf");
         if (iter != FontMap_.end())
             ttf += iter->second.ttf_filename;
         else {
@@ -660,7 +676,7 @@ MAGICS_NO_EXPORT void GDDriver::renderText(const Text& text) const {
                               << " is used instead!" << endl;
             fontMapIter iter = FontMap_.find(new_font);
 
-            ttf = MAGPLUS_HOME + "/" + MAGICS_TTF_PATH;
+            ttf = buildSharePath("ttf");
             if (iter != FontMap_.end())
                 ttf += iter->second.ttf_filename;
         }
@@ -702,7 +718,7 @@ MAGICS_NO_EXPORT void GDDriver::renderText(const Text& text) const {
         fontMapIter iter     = FontMap_.find(lowFont);
         const float fontSize = scaleFactor_ * convertCM(magfont.size());
 
-        string ttf = MAGPLUS_HOME + "/" + MAGICS_TTF_PATH;
+        string ttf = buildSharePath("ttf");
         if (iter != FontMap_.end())
             ttf += iter->second.ttf_filename;
         else {
@@ -719,7 +735,7 @@ MAGICS_NO_EXPORT void GDDriver::renderText(const Text& text) const {
                                   << new_font << " is used instead!" << endl;
                 fontMapIter iter = FontMap_.find(new_font);
 
-                ttf = MAGPLUS_HOME + "/" + MAGICS_TTF_PATH;
+                ttf = buildSharePath("ttf");
                 if (iter != FontMap_.end())
                     ttf += iter->second.ttf_filename;
             }
@@ -954,7 +970,7 @@ void GDDriver::print(ostream& out) const {
 */
 MAGICS_NO_EXPORT void GDDriver::renderMagLogo(MFloat x, MFloat y) const {
     GraphicsFormat format = PNG;
-    const string logofile = buildConfigPath("ecmwf_logo.png");
+    const string logofile = buildSharePath("ecmwf_logo.png");
     convertToPixmap(logofile, format, 300, x - 40, y + 10, x + 50, y - 5);
 }
 

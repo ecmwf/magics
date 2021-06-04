@@ -2,6 +2,11 @@
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
     "cmake.configureOnOpen": false,
     "files.associations": {
-        "vector": "cpp"
+        "vector": "cpp",
+        "utility": "cpp",
+        "ostream": "cpp",
+        "iostream": "cpp",
+        "map": "cpp",
+        "iosfwd": "cpp"
     }
 }

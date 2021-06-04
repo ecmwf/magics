@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -27,17 +27,17 @@ using namespace magics;
 ObsTableAttributes::ObsTableAttributes():
 	path_(ParameterManager::getString("obs_template_file_name"))
 	
-	 
+	
 {
-} 
+}
 
 
 ObsTableAttributes::~ObsTableAttributes()
 {
-	
+
 }
 
-    
+
 void ObsTableAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -53,12 +53,12 @@ void ObsTableAttributes::copy(const ObsTableAttributes& other)
 {
 	path_ = other.path_;
 	
-} 
+}
 
 
 bool ObsTableAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "obs")  )
 		return true;
 	
@@ -69,7 +69,7 @@ void ObsTableAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "obs")  )
@@ -97,10 +97,10 @@ void ObsTableAttributes::print(ostream& out)  const
 
 void ObsTableAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"obs\""; 
+	out <<  "\"obs\"";
 	out << ", \"obs_template_file_name\":";
 	niceprint(out,path_);
 	
 }
 
-static MagicsParameter<string> obs_template_file_name("obs_template_file_name", "", "");
+static MagicsParameter<string> obs_template_file_name("obs_template_file_name", "");

@@ -52,7 +52,7 @@ void Boundaries::operator()(const map<string, string>& setting, BasicGraphicsObj
     const string administrative_boundaries = setting.find("administrative_boundaries")->second;
 
 
-    string file = buildConfigPath(political_boundaries);
+    string file = buildSharePath(political_boundaries);
 
     boundaries.setPath(file);
     vector<string> treaty;
@@ -99,7 +99,7 @@ void Boundaries::operator()(const map<string, string>& setting, BasicGraphicsObj
     if (admistrative_) {
         ShapeDecoder admistrative;
         admistrative.needHoles(true);
-        file = buildConfigPath(administrative_boundaries);
+        file = buildSharePath(administrative_boundaries);
 
         admistrative.setPath(file);
         admistrative.decode(task.transformation(), "adm0_a3", admin);
@@ -141,7 +141,7 @@ void Boundaries::operator()(const map<string, string>& setting, BasicGraphicsObj
         vector<string> dis;
         dis.push_back("Disputed");
         dis.push_back("Line of control (please verify)");
-        file = buildConfigPath(political_boundaries);
+        file = buildSharePath(political_boundaries);
 
         disputed.setPath(file);
         disputed.decode(task.transformation(), "featurecla", dis);

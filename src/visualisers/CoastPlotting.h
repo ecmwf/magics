@@ -83,12 +83,12 @@ class PreviewVisitor;
 class NoCoastPlotting : public NoCoastPlottingAttributes {
 public:
     NoCoastPlotting();
-    virtual ~NoCoastPlotting() {}
+    virtual ~NoCoastPlotting() override {}
 
-    void set(const XmlNode& node) { NoCoastPlottingAttributes::set(node); }
+    void set(const XmlNode& node) override { NoCoastPlottingAttributes::set(node); }
 
-    virtual void set(const map<string, string>& map) { NoCoastPlottingAttributes::set(map); }
-    bool accept(const string& node) { return NoCoastPlottingAttributes::accept(node); }
+    virtual void set(const map<string, string>& map) override { NoCoastPlottingAttributes::set(map); }
+    bool accept(const string& node) override { return NoCoastPlottingAttributes::accept(node); }
     virtual NoCoastPlotting* clone() const { return new NoCoastPlotting(); }
     virtual void operator()(DrawingVisitor& parent);
     virtual void operator()(PreviewVisitor&) {}
@@ -98,7 +98,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const { out << "NoCoastPlotting\n"; }
+    virtual void print(ostream& out) const override { out << "NoCoastPlotting\n"; }
     typedef void (NoCoastPlotting::*Action)(DrawingVisitor&);
     std::map<string, Action> riversMethods_;
 
@@ -130,32 +130,32 @@ private:
 class CoastPlotting : public NoCoastPlotting, public CoastPlottingAttributes {
 public:
     CoastPlotting();
-    virtual ~CoastPlotting();
-    void set(const XmlNode& node) {
+    virtual ~CoastPlotting() override;
+    void set(const XmlNode& node) override {
         CoastPlottingAttributes::set(node);
         NoCoastPlottingAttributes::set(node);
     }
 
-    virtual void set(const map<string, string>& map) {
+    virtual void set(const map<string, string>& map) override {
         NoCoastPlottingAttributes::set(map);
         CoastPlottingAttributes::set(map);
     }
-    bool accept(const string& node) { return NoCoastPlottingAttributes::accept(node); }
+    bool accept(const string& node) override { return NoCoastPlottingAttributes::accept(node); }
 
-    virtual NoCoastPlotting* clone() const {
+    virtual NoCoastPlotting* clone() const override {
         CoastPlotting* object = new CoastPlotting();
         // object->copy(*this);
         return object;
     }
 
-    virtual void visit(LegendVisitor&);
-    virtual void operator()(DrawingVisitor&);
-    virtual void operator()(PreviewVisitor&);
+    virtual void visit(LegendVisitor&) override;
+    virtual void operator()(DrawingVisitor&) override;
+    virtual void operator()(PreviewVisitor&) override;
 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
     void decode(const Layout&);
     void clip(const Transformation&, const vector<Polyline*>&, vector<Polyline*>&) const;

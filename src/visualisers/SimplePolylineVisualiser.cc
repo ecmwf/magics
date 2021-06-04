@@ -122,7 +122,7 @@ void SimplePolylineVisualiser::setup() {
         colour_map_[Interval(colour_level_list_[i], colour_level_list_[i + 1])] = Colour(*colour);
         ++colour;
         if (colour == colour_list_.end())
-            colour = (colour_policy_ == M_CYCLE) ? colour_list_.begin() : --colour;
+            colour = (colour_policy_ == ListPolicy::CYCLE) ? colour_list_.begin() : --colour;
     }
 
     max = style_level_list_.empty() ? 0 : style_level_list_.size() - 1;
@@ -130,14 +130,14 @@ void SimplePolylineVisualiser::setup() {
         style_map_[Interval(style_level_list_[i], style_level_list_[i + 1])] = translator(*style);
         ++style;
         if (style == style_list_.end())
-            style = (style_policy_ == M_CYCLE) ? style_list_.begin() : --style;
+            style = (style_policy_ == ListPolicy::CYCLE) ? style_list_.begin() : --style;
     }
     max = thickness_level_list_.empty() ? 0 : thickness_level_list_.size() - 1;
     for (int i = 0; i < max; i++) {
         thickness_map_[Interval(thickness_level_list_[i], thickness_level_list_[i + 1])] = *thickness;
         ++thickness;
         if (thickness == thickness_list_.end())
-            thickness = (thickness_policy_ == M_CYCLE) ? thickness_list_.begin() : --thickness;
+            thickness = (thickness_policy_ == ListPolicy::CYCLE) ? thickness_list_.begin() : --thickness;
     }
     max = transparency_level_list_.empty() ? 0 : transparency_level_list_.size() - 1;
 
@@ -289,7 +289,7 @@ Colour SimplePolylineVisualiser::colour(const CustomisedPoint& point) {
     return colour_map_.find(value->second, blue);
 }
 LineStyle SimplePolylineVisualiser::style(const CustomisedPoint& point) {
-    LineStyle solid                       = M_SOLID;
+    LineStyle solid                       = LineStyle::SOLID;
     CustomisedPoint::const_iterator value = point.find(style_key_);
     if (value == point.end())
         return solid;

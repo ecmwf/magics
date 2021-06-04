@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -30,17 +30,17 @@ XLogarithmicCoordinateAttributes::XLogarithmicCoordinateAttributes():
 	reverse_(ParameterManager::getBool("subpage_x_automatic_reverse"))
 	,
 	automatic_(MagTranslator<string, AxisAutomaticSetting>().magics("subpage_x_automatic"))
-	 
+	
 {
-} 
+}
 
 
 XLogarithmicCoordinateAttributes::~XLogarithmicCoordinateAttributes()
 {
-	
+
 }
 
-    
+
 void XLogarithmicCoordinateAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -63,12 +63,12 @@ void XLogarithmicCoordinateAttributes::copy(const XLogarithmicCoordinateAttribut
 	reverse_ = other.reverse_;
 	automatic_ = other.automatic_;
 	
-} 
+}
 
 
 bool XLogarithmicCoordinateAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "x_regular")  )
 		return true;
 	
@@ -79,7 +79,7 @@ void XLogarithmicCoordinateAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "x_regular")  )
@@ -110,7 +110,7 @@ void XLogarithmicCoordinateAttributes::print(ostream& out)  const
 
 void XLogarithmicCoordinateAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"x_regular\""; 
+	out <<  "\"x_regular\"";
 	out << ", \"subpage_x_min\":";
 	niceprint(out,min_);
 	out << ", \"subpage_x_max\":";
@@ -122,7 +122,7 @@ void XLogarithmicCoordinateAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> subpage_x_min("subpage_x_min", 0, "");
-static MagicsParameter<double> subpage_x_max("subpage_x_max", 100, "");
-static MagicsParameter<string> subpage_x_automatic_reverse("subpage_x_automatic_reverse", "off", "");
-static MagicsParameter<string> subpage_x_automatic("subpage_x_automatic", "off", ""); 
+static MagicsParameter<double> subpage_x_min("subpage_x_min", 0);
+static MagicsParameter<double> subpage_x_max("subpage_x_max", 100);
+static MagicsParameter<string> subpage_x_automatic_reverse("subpage_x_automatic_reverse", "off");
+static MagicsParameter<string> subpage_x_automatic("subpage_x_automatic", "off");

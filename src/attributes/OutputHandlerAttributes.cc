@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -28,17 +28,17 @@ OutputHandlerAttributes::OutputHandlerAttributes():
 	format_(ParameterManager::getString("output_format")),
 	formats_(ParameterManager::getStringArray("output_formats"))
 	
-	 
+	
 {
-} 
+}
 
 
 OutputHandlerAttributes::~OutputHandlerAttributes()
 {
-	
+
 }
 
-    
+
 void OutputHandlerAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -56,12 +56,12 @@ void OutputHandlerAttributes::copy(const OutputHandlerAttributes& other)
 	format_ = other.format_;
 	formats_ = other.formats_;
 	
-} 
+}
 
 
 bool OutputHandlerAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "output")  )
 		return true;
 	
@@ -72,7 +72,7 @@ void OutputHandlerAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "output")  )
@@ -101,7 +101,7 @@ void OutputHandlerAttributes::print(ostream& out)  const
 
 void OutputHandlerAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"output\""; 
+	out <<  "\"output\"";
 	out << ", \"output_format\":";
 	niceprint(out,format_);
 	out << ", \"output_formats\":";
@@ -109,5 +109,5 @@ void OutputHandlerAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> output_format("output_format", "ps", "");
-static MagicsParameter<stringarray> output_formats("output_formats", stringarray(), "");
+static MagicsParameter<string> output_format("output_format", "ps");
+static MagicsParameter<stringarray> output_formats("output_formats", stringarray());

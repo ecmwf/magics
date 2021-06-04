@@ -36,7 +36,7 @@ public:
     void update(const string&, const string&, const string&);
     string get(const string&, const string&);
     void reset() { definitions_.erase(definitions_.begin(), definitions_.end()); }
-    virtual void addToTags(const string&, const string&){};
+    virtual void addToTags(const string&, const string&) {}
 
     bool hasInfos() { return definitions_.empty() == false; }
 
@@ -65,8 +65,8 @@ private:
 class TagConverter : public XmlNodeVisitor, public stack<NiceText> {
 public:
     TagConverter(TagHandler& owner);
-    ~TagConverter();
-    void visit(const XmlNode&);
+    ~TagConverter() override;
+    void visit(const XmlNode&) override;
     void ignore(const XmlNode&);
     void encoding(const string& encoding);
     void text(const XmlNode&);

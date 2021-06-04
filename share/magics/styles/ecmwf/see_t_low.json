@@ -1,0 +1,48 @@
+[
+  {
+    "eccharts_layer": [
+      "t925",
+      "t850_field",
+      "t800",
+      "t700",
+      "t600"
+    ],
+    "prefered_units": "C",
+    "styles": [
+      "sh_all_fM52t48i4",
+      "sh_all_fM64t52i4",
+      "ct_red_i2_dash",
+      "sh_all_fM52t48i4_light",
+      "sh_gry_fM72t56lst",
+      "ct_red_i4_t3",
+      "sh_all_fM80t56i4_v2",
+      "sh_all_fM50t58i2",
+      "transparent_zero_blue",
+      "ct_red_i4_t3"
+    ],
+    "match": [
+      {
+        "levelist": [
+          "1000",
+          "900",
+          "925",
+          "950",
+          "975",
+          "1000",
+          "850",
+          "825",
+          "800",
+          "600",
+          "650",
+          "700",
+          "750",
+          "775",
+          "875"
+        ],
+        "shortName": "t",
+        "param" : "130",
+        "centre" : "219"
+      }
+    ]
+  }
+]

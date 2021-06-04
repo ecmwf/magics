@@ -90,7 +90,7 @@ public:
         return text;
     }
 
-    virtual ~Text();
+    virtual ~Text() override;
 
     void addText(const string& text, const Colour& colour, double height) {
         nice_.push_back(NiceText());
@@ -127,7 +127,7 @@ public:
     void clear() { nice_.clear(); }
 
 
-    void redisplay(const BaseDriver& driver) const;
+    void redisplay(const BaseDriver& driver) const override;
 
 
     void setJustification(Justification justification) { justification_ = justification; }
@@ -161,7 +161,7 @@ public:
     void setAngle(double angle) { angle_ = angle; }
 
 protected:
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
     Justification justification_;
     bool blanking_;

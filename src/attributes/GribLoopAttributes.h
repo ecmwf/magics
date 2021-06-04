@@ -25,9 +25,9 @@
 #define GribLoopAttributes_H
 
 #include "magics.h"
+#include "GribAddressMode.h"
 #include "GribLoopStep.h"
 #include "WindMode.h"
-#include "GribAddressMode.h"
 namespace magics {
 
 class XmlNode;
@@ -59,6 +59,7 @@ public:
 	longintarray dim_colour_;
 	longintarray dim_;
 	string path_;
+	string id_;
 	bool scaling_;
 	bool derived_scaling_;
 	double scaling_factor_;

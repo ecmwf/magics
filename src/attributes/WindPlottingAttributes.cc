@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -45,17 +45,17 @@ WindPlottingAttributes::WindPlottingAttributes():
 	maxColour_(MagTranslator<string, Colour>().magics("wind_advanced_colour_max_level_colour")),
 	minColour_(MagTranslator<string, Colour>().magics("wind_advanced_colour_min_level_colour")),
 	colour_policy_(MagTranslator<string, ListPolicy>().magics("wind_advanced_colour_list_policy"))
-	 
+	
 {
-} 
+}
 
 
 WindPlottingAttributes::~WindPlottingAttributes()
 {
-	
+
 }
 
-    
+
 void WindPlottingAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(2);
@@ -108,12 +108,12 @@ void WindPlottingAttributes::copy(const WindPlottingAttributes& other)
 	minColour_ = unique_ptr<Colour>(other.minColour_->clone());
 	colour_policy_ = other.colour_policy_;
 	
-} 
+}
 
 
 bool WindPlottingAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "flags")  )
 		return true;
 	if ( acceptNode(node, levels_) )
@@ -128,7 +128,7 @@ void WindPlottingAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "flags")  )
@@ -144,8 +144,8 @@ void WindPlottingAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), levels_, *elt); 
-		setMember(elt->name(), colourMethod_, *elt); 
+		setMember(elt->name(), levels_, *elt);
+		setMember(elt->name(), colourMethod_, *elt);
 		
 	}
 }
@@ -178,7 +178,7 @@ void WindPlottingAttributes::print(ostream& out)  const
 
 void WindPlottingAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"flags\""; 
+	out <<  "\"flags\"";
 	out << ", \"legend\":";
 	niceprint(out,legend_);
 	out << ", \"wind_legend_only\":";
@@ -220,30 +220,30 @@ void WindPlottingAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<string> legend("legend", "off", "");
-static MagicsParameter<string> wind_legend_only("wind_legend_only", "off", "");
-static MagicsParameter<string> wind_legend_text("wind_legend_text", "vector", "");
-static MagicsParameter<string> wind_advanced_method("wind_advanced_method", "off", "");
-static MagicsParameter<string> wind_advanced_colour_parameter("wind_advanced_colour_parameter", "speed", "");
-static MagicsParameter<double> wind_advanced_colour_max_value("wind_advanced_colour_max_value", 1.e21, "");
-static MagicsParameter<double> wind_advanced_colour_min_value("wind_advanced_colour_min_value", -1.e21, "");
-static MagicsParameter<int> wind_advanced_colour_level_count("wind_advanced_colour_level_count", 10, "");
-static MagicsParameter<int> wind_advanced_colour_level_tolerance("wind_advanced_colour_level_tolerance", 2, "");
-static MagicsParameter<double> wind_advanced_colour_reference_level("wind_advanced_colour_reference_level", 0.0, "");
-static MagicsParameter<double> wind_advanced_colour_level_interval("wind_advanced_colour_level_interval", 8.0, "");
-static MagicsParameter<doublearray> wind_advanced_colour_level_list("wind_advanced_colour_level_list", floatarray(), "");
-static MagicsParameter<string> wind_advanced_colour_direction("wind_advanced_colour_direction", "anti_clockwise", "");
-static MagicsParameter<stringarray> wind_advanced_colour_list("wind_advanced_colour_list", stringarray(), "");
-static MagicsParameter<string> wind_advanced_colour_selection_type("wind_advanced_colour_selection_type", "count", ""); 
-static MagicsParameter<string> wind_advanced_colour_table_colour_method("wind_advanced_colour_table_colour_method", "calculate", ""); 
-static MagicsParameter<string> wind_advanced_colour_max_level_colour("wind_advanced_colour_max_level_colour", "blue", ""); 
-static MagicsParameter<string> wind_advanced_colour_min_level_colour("wind_advanced_colour_min_level_colour", "red", ""); 
-static MagicsParameter<string> wind_advanced_colour_list_policy("wind_advanced_colour_list_policy", "lastone", ""); 
-#include "ListColourTechnique.h"
-#include "IntervalSelectionType.h"
+static MagicsParameter<string> legend("legend", "off");
+static MagicsParameter<string> wind_legend_only("wind_legend_only", "off");
+static MagicsParameter<string> wind_legend_text("wind_legend_text", "vector");
+static MagicsParameter<string> wind_advanced_method("wind_advanced_method", "off");
+static MagicsParameter<string> wind_advanced_colour_parameter("wind_advanced_colour_parameter", "speed");
+static MagicsParameter<double> wind_advanced_colour_max_value("wind_advanced_colour_max_value", 1.e21);
+static MagicsParameter<double> wind_advanced_colour_min_value("wind_advanced_colour_min_value", -1.e21);
+static MagicsParameter<int> wind_advanced_colour_level_count("wind_advanced_colour_level_count", 10);
+static MagicsParameter<int> wind_advanced_colour_level_tolerance("wind_advanced_colour_level_tolerance", 2);
+static MagicsParameter<double> wind_advanced_colour_reference_level("wind_advanced_colour_reference_level", 0.0);
+static MagicsParameter<double> wind_advanced_colour_level_interval("wind_advanced_colour_level_interval", 8.0);
+static MagicsParameter<doublearray> wind_advanced_colour_level_list("wind_advanced_colour_level_list", floatarray());
+static MagicsParameter<string> wind_advanced_colour_direction("wind_advanced_colour_direction", "anti_clockwise");
+static MagicsParameter<stringarray> wind_advanced_colour_list("wind_advanced_colour_list", stringarray());
+static MagicsParameter<string> wind_advanced_colour_selection_type("wind_advanced_colour_selection_type", "count");
+static MagicsParameter<string> wind_advanced_colour_table_colour_method("wind_advanced_colour_table_colour_method", "calculate");
+static MagicsParameter<string> wind_advanced_colour_max_level_colour("wind_advanced_colour_max_level_colour", "blue");
+static MagicsParameter<string> wind_advanced_colour_min_level_colour("wind_advanced_colour_min_level_colour", "red");
+static MagicsParameter<string> wind_advanced_colour_list_policy("wind_advanced_colour_list_policy", "lastone");
 #include "CountSelectionType.h"
-#include "CalculateColourTechnique.h"
+#include "IntervalSelectionType.h"
 #include "LevelListSelectionType.h"
+#include "CalculateColourTechnique.h"
+#include "ListColourTechnique.h"
 static SimpleObjectMaker<CountSelectionType , LevelSelection> count_CountSelectionType("count");
 static SimpleObjectMaker<IntervalSelectionType , LevelSelection> interval_IntervalSelectionType("interval");
 static SimpleObjectMaker<LevelListSelectionType , LevelSelection> list_LevelListSelectionType("list");

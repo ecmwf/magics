@@ -146,16 +146,18 @@ public:
 
     /*
     // is the polyline out the projection!
-    virtual bool out(const Polyline&) const;
+    virtual bool out(const Polyline&) const override;
     // is the polyline in the projection?
-    virtual bool in(const Polyline&) const;
+    virtual bool in(const Polyline&) const override;
     */
     // is the point in projected area?
     virtual bool in(const UserPoint&) const;
     virtual bool in(const PaperPoint&) const;
+    virtual bool inExtended(const PaperPoint&) const;
 
     // is the point in PC in the projected area?
     bool in(double x, double y) const;
+    
 
     bool inX(double x) const { return (getAbsoluteMinX() <= x && x <= getAbsoluteMaxX()); }
     bool inY(double y) const { return (getAbsoluteMinY() <= y && y <= getAbsoluteMaxY()); }
@@ -247,6 +249,8 @@ public:
     virtual double getMinY() const { return -1; }
     virtual double getMaxY() const { return -1; }
 
+    
+
     virtual void setMinMaxX(double, double) {}
     virtual void setMinMaxY(double, double) {}
 
@@ -254,6 +258,13 @@ public:
     virtual double getMaxPCX() const { return -1; }
     virtual double getMinPCY() const { return -1; }
     virtual double getMaxPCY() const { return -1; }
+    // Add the gutter information : Useful for wind tiling
+    virtual double getExtendedMinPCX() const { return getMinPCX(); }
+    virtual double getExtendedMaxPCX() const { return getMaxPCX(); }
+    virtual double getExtendedMinPCY() const { return getMinPCY(); }
+    virtual double getExtendedMaxPCY() const { return getMaxPCY(); }
+   
+
     virtual double dimension(BasicGraphicsObjectContainer& parent) const { return parent.absoluteWidth(); }
 
     double getAbsoluteMinPCX() const { return std::min(getMinPCX(), getMaxPCX()); }
@@ -300,11 +311,14 @@ public:
             out.push_back(UserPoint(lon, lat, val));
     }
     double distance(UserPoint&, UserPoint&) const;
+    string name() { return name_; }
 
 protected:
     virtual void print(ostream&) const;
 
     CoordinateType coordinateType_;
+
+    string name_;
 
     mutable double areaMinX_;
     mutable double areaMaxX_;
@@ -327,6 +341,7 @@ protected:
 
     mutable Polyline* userEnveloppe_;
     mutable Polyline* PCEnveloppe_;
+    mutable Polyline* PCExtendedEnveloppe_;
 
     // For tiling Mode keep the position in pixel of the asked topleft corner!
     int xTile_;

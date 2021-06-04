@@ -36,12 +36,12 @@ namespace magics {
 class XYList : public Data, public XYListAttributes, public PointsList {
 public:
     XYList() {}
-    virtual ~XYList() {}
+    virtual ~XYList() override {}
 
     void prepare();
-    void set(const map<string, string>& map) { XYListAttributes::set(map); }
-    void set(const XmlNode& node) { XYListAttributes::set(node); }
-    void visit(Transformation& transformation);
+    void set(const map<string, string>& map) override { XYListAttributes::set(map); }
+    void set(const XmlNode& node) override { XYListAttributes::set(node); }
+    void visit(Transformation& transformation) override;
 
 
     PointsHandler& points(const Transformation&) {
@@ -58,17 +58,18 @@ public:
 
     virtual void customisedPoints(const std::set<string>&, CustomisedPointsList&);
     virtual void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&);
-    void getReady(const Transformation&);
+    void getReady(const Transformation&) override;
     virtual void points(const Transformation&, vector<UserPoint>&);
 
-    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all) {
+    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out,
+                          bool all) override {
         customisedPoints(t, n, out);
     }
-    PointsHandler& points(const Transformation& t, bool) { return points(t); }
+    PointsHandler& points(const Transformation& t, bool) override { return points(t); }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream&) const;
+    virtual void print(ostream&) const override;
 
 private:
     //! Copy constructor - No copy allowed

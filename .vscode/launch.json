@@ -4,20 +4,19 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+       
         {
-            "name": "Python: Current File",
-            "type": "python",
+            "type": "lldb-vscode",
             "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "(lldb) Attach",
-            "type": "cppdbg",
-            "request": "attach",
-            "program": "/usr/local/opt/python/bin/python3.7",
-            "processId": "${command:pickProcess}",
-            "MIMode": "lldb"
-        },
+            "name": "Launch",
+            "program": "/Users/sylvie/build/magics-BB/test/contour_c",
+            "args": [],
+            "env": [
+                { "MAGPLUS_HOME" : "/usr/local/"}
+            ],
+                
+            "cwd": "/Users/sylvie/build/magics-BB/test/"
+        }
     ]
+   
 }

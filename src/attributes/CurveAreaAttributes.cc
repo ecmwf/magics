@@ -2,10 +2,10 @@
 /******************************  LICENSE  *******************************
 
  * (C) Copyright 1996-2017 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
 
@@ -27,17 +27,17 @@ using namespace magics;
 CurveAreaAttributes::CurveAreaAttributes():
 	
 	shade_(MagTranslator<string, GraphShade>().magics("graph_shade"))
-	 
+	
 {
-} 
+}
 
 
 CurveAreaAttributes::~CurveAreaAttributes()
 {
-	
+
 }
 
-    
+
 void CurveAreaAttributes::set(const std::map<string, string>& params)
 {
 	vector<string> prefix(1);
@@ -53,12 +53,12 @@ void CurveAreaAttributes::copy(const CurveAreaAttributes& other)
 {
 	shade_ = unique_ptr<GraphShade>(other.shade_->clone());
 	
-} 
+}
 
 
 bool CurveAreaAttributes::accept(const string& node)
-{	
-	
+{
+
 	if ( magCompare(node, "")  )
 		return true;
 	if ( acceptNode(node, shade_) )
@@ -71,7 +71,7 @@ void CurveAreaAttributes::set(const XmlNode& node)
 {
 	bool apply = false;
 
-	if ( this->accept(node.name()) == false ) 
+	if ( this->accept(node.name()) == false )
 		return;
 
 	if ( magCompare(node.name(), "")  )
@@ -86,7 +86,7 @@ void CurveAreaAttributes::set(const XmlNode& node)
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), shade_, *elt); 
+		setMember(elt->name(), shade_, *elt);
 		
 	}
 }
@@ -101,13 +101,13 @@ void CurveAreaAttributes::print(ostream& out)  const
 
 void CurveAreaAttributes::toxml(ostream& out)  const
 {
-	out <<  "\"\""; 
+	out <<  "\"\"";
 	out << ", \"graph_shade\":";
 	shade_->toxml(out);
 	
 }
 
-static MagicsParameter<string> graph_shade("graph_shade", "on", ""); 
+static MagicsParameter<string> graph_shade("graph_shade", "on");
 #include "GraphShade.h"
 static SimpleObjectMaker<GraphShade , GraphShade> shading_GraphShade("shading");
 static SimpleObjectMaker<GraphShade , GraphShade> on_GraphShade("on");

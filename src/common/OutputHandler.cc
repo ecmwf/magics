@@ -25,6 +25,29 @@ using namespace magics;
 double OutputHandler::lineSpacing_ = 1.2;
 
 void OutputHandler::set(DriverManager& magics) {
+    std::string user_file = ParameterManager::getString("output_file");
+    if (!user_file.empty()) {
+        Tokenizer parse(".");
+        vector<std::string> bits;
+        parse(user_file, bits);
+        if (bits.size() > 1) {
+            std::string fmt = format_;
+
+            format_ = bits[bits.size() - 1];
+#if 0
+            if ((fmt != "ps" && fmt != format_) || formats_.size()) {
+                MagLog::warning() << "'output_file' provided, ignoring 'output_format(s)'. Format set to '" << format_
+                                  << "'" << std::endl;
+            }
+#endif
+            formats_.clear();
+            formats_.push_back(format_);
+        }
+        else {
+            MagLog::warning() << "'output_file' does not have an extension" << std::endl;
+        }
+    }
+
     if (formats_.empty())
         formats_.push_back(format_);
 
@@ -60,6 +83,9 @@ void OutputHandler::set(const XmlNode& node, DriverManager& magics) {
         factories_.push_back(factory);
     }
     catch (...) {
+        if (MagicsGlobal::strict()) {
+            throw;
+        }
     }
 }
 
@@ -74,6 +100,9 @@ void OutputHandler::drivers(vector<string>& ds) {
             ds.push_back(d);
         }
         catch (...) {
+            if (MagicsGlobal::strict()) {
+                throw;
+            }
         }
     }
 }
