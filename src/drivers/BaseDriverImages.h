@@ -198,14 +198,14 @@ MAGICS_NO_EXPORT void BaseDriver::renderImage(const ImportObject& obj) const {
     if (obj.getWidth() == -1 && magCompare(f, "png") ) {
 #ifndef HAVE_CAIRO
         MagLog::error()
-            << "BaseDriverImages: image size can not be determined (Cairo library required)!"
+            << "BaseDriverImages: image size cannot be determined (Cairo library required)!"
             << endl;
         return;
 #else
         cairo_surface_t* surface = cairo_image_surface_create_from_png(obj.getPath().c_str());
         if (cairo_surface_status(surface))
         {
-            MagLog::error() << "BaseDriverImages: Can not read PNG to establish size - " <<obj.getPath().c_str()<< endl;
+            MagLog::error() << "BaseDriverImages: Cannot read PNG to establish size - " <<obj.getPath().c_str()<< endl;
             return;
         }
         width  = cairo_image_surface_get_width(surface);
@@ -312,7 +312,7 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string& fname, const Gra
         cairo_surface_t* surface = cairo_image_surface_create_from_png(fname.c_str());
         if (cairo_surface_status(surface))
         {
-            MagLog::error() << "BaseDriverImages: Can not read PNG through Cairo!" << endl;
+            MagLog::error() << "BaseDriverImages: Cannot read PNG through Cairo!" << endl;
             return false;
         }
 
@@ -324,10 +324,10 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string& fname, const Gra
         switch (cairo_image_surface_get_format(surface)) {
             case CAIRO_FORMAT_A1:
             default:
-                MagLog::error() << "BaseDriverImages: Can not read PNG A1 through Cairo!" << endl;
+                MagLog::error() << "BaseDriverImages: Cannot read PNG A1 through Cairo!" << endl;
                 return false;
             case CAIRO_FORMAT_A8:
-                MagLog::error() << "BaseDriverImages: Can not read PNG A8 through Cairo!" << endl;
+                MagLog::error() << "BaseDriverImages: Cannot read PNG A8 through Cairo!" << endl;
                 return false;
             case CAIRO_FORMAT_RGB24:
                 MagLog::error() << "BaseDriverImages: Read PNG RGB24" << endl;
@@ -386,7 +386,7 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string& fname, const Gra
         }
         fclose(fd3);
         if (!imp) {
-            MagLog::error() << "BaseDriverImages: Incorrect raster file format (can not be handled by GD) !" << endl;
+            MagLog::error() << "BaseDriverImages: Incorrect raster file format (cannot be handled by GD) !" << endl;
             return false;
         }
 

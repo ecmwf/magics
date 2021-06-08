@@ -1435,7 +1435,7 @@ double MvObs::valueByLevelRange(const std::string& s1key, float level1, float le
     for (unsigned int i = 0; i < nelems; i++) {
         if (dlevels[i] >= minv && dlevels[i] <= maxv) {
             // Get value from the second key
-            // double myValue = value(s2key,i+1); // can not assume that s1key and
+            // double myValue = value(s2key,i+1); // cannot assume that s1key and
             // s2key have the same occurrence
             // number
             myValue = valueBySpecifier(s1key, dlevels[i], s2key);

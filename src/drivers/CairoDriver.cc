@@ -1241,7 +1241,7 @@ MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const {
     {
         cairo_surface_t* result = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
         if (cairo_surface_status(result) != CAIRO_STATUS_SUCCESS) {
-            MagLog::warning() << "CAIRO:renderImage> can not create surface (" << width << "x" << height << ")" << endl;
+            MagLog::warning() << "CAIRO:renderImage> cannot create surface (" << width << "x" << height << ")" << endl;
             return result;
         }
         cairo_surface_flush(result);

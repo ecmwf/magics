@@ -86,7 +86,7 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
                     ref_ver_pages[version]= splitOutput(ver_ref)
                     assert(len(ref_pages)==len(ref_ver_pages[version]))
                 except:
-                    EMES+= u"TEST FAILED: Output file '%s' has %d pages but reference file '%s' has %d pages. They can not be compared.\n"%(reference,len(ref_pages),ver_ref,len(ref_ver_pages[version]))
+                    EMES+= u"TEST FAILED: Output file '%s' has %d pages but reference file '%s' has %d pages. They cannot be compared.\n"%(reference,len(ref_pages),ver_ref,len(ref_ver_pages[version]))
                     EXIT= 1
         else:
             #only a single page -> single image
@@ -281,7 +281,7 @@ if __name__ == "__main__":
     try:
         threshold= float(optional.threshold)
     except:
-        EMES+= u"Invalid threshold '%s': can not convert into float number.\n"%optional.threshold
+        EMES+= u"Invalid threshold '%s': cannot convert into float number.\n"%optional.threshold
         EXIT= 1
 
     #name of GIT branch being tested

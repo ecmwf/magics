@@ -237,7 +237,7 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
         }
     }
 #else
-    MagLog::warning() << " TileDecoder> Can NOT work because NetCDF was DISABLED in Magics!" << endl;
+    MagLog::warning() << " TileDecoder> CANNOT work because NetCDF was DISABLED in Magics!" << endl;
 #endif
 }
 
@@ -331,7 +331,7 @@ PointsHandler& TileDecoder::points(const Transformation& t, bool) {
     pointsHandlers_.push_back(new PointsHandler(points_));
     return *(pointsHandlers_.back());
 #else
-    MagLog::warning() << " TileDecoder> Can NOT work because NetCDF was DISABLED in Magics!" << endl;
+    MagLog::warning() << " TileDecoder> CANNOT work because NetCDF was DISABLED in Magics!" << endl;
     NOTIMP;
 #endif
 }
@@ -571,6 +571,6 @@ void TileDecoder::decode() {
 
     matrix_.setMapsAxis();
 #else
-    MagLog::warning() << " TileDecoder> Can NOT work because NetCDF was DISABLED in Magics!" << endl;
+    MagLog::warning() << " TileDecoder> CANNOT work because NetCDF was DISABLED in Magics!" << endl;
 #endif
 }

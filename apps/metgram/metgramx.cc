@@ -117,7 +117,7 @@ public:
                     MagLog::dev() << "try to find template in system directory-> " << template_ << endl;
                     ifstream defaut(template_.c_str());
                     if (!defaut.good()) {
-                        MagLog::error() << "Can not open template file " << template_ << endl;
+                        MagLog::error() << "Cannot open template file " << template_ << endl;
                         return;
                     }
                     defaut.close();

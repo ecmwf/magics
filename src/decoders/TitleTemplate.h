@@ -113,7 +113,7 @@ public:
             }
             catch (NoFactoryException& e) {
                 // The data do not know how to verify the criter ....
-                MagLog::debug() << "Can Not Create the TitleFieldHandler for " << entry->name() << "\n";
+                MagLog::debug() << "Cannot Create the TitleFieldHandler for " << entry->name() << "\n";
                 (*entry)(lines);
             }
         }

@@ -111,7 +111,7 @@ public:
             // }
             return true;
         }
-        MagLog::warning() << " Can not find the preset " << name << " for " << name_ << endl;
+        MagLog::warning() << " Cannot find the preset " << name << " for " << name_ << endl;
         return false;
     }
     string name_;

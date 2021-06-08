@@ -100,7 +100,7 @@ void NoCoastPlotting::efas(DrawingVisitor& visitor) {
     map<string, string>::iterator file = data.find(lowerCase(efas_domain_));
 
     if (file == data.end()) {
-        MagLog::warning() << " Can not find the EFAS domain " << efas_domain_ << ": revert to default [current]"
+        MagLog::warning() << " Cannot find the EFAS domain " << efas_domain_ << ": revert to default [current]"
                           << endl;
         file = data.find("current");
     }
