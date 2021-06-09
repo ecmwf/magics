@@ -31,7 +31,7 @@ namespace magics {
 class CustomisedPoint : public map<string, double> {
 public:
     CustomisedPoint() : latitude_(0), longitude_(0), identifier_(""), missing_(false), tile_(false) {}
-    CustomisedPoint(double lon, double lat, string ident) :
+    CustomisedPoint(double lon, double lat, const string& ident) :
         latitude_(lat), longitude_(lon), identifier_(ident), missing_(false), tile_(false) {}
     virtual ~CustomisedPoint() {}
 

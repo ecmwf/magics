@@ -164,7 +164,7 @@ public:
     //! Method to get the style for the drawn line.
     bool isFilled() const { return fill_; }
 
-    void setFillColour(Colour col) { fill_colour_ = col; }
+    void setFillColour(const Colour& col) { fill_colour_ = col; }
     Colour getFillColour() const { return fill_colour_; }
 
     void setLabel(const Label& label) { label_ = label; }
