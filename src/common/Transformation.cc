@@ -207,7 +207,7 @@ bool ViewFilter::in(const PaperPoint& xy) {
         return false;
     if (xy.y() < ymin_)
         return false;
-    if (xy.y() < ymin_)
+    if (xy.y() > ymax_)
         return false;
     return true;
 }
