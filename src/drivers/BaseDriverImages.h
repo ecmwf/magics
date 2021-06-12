@@ -175,8 +175,18 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const PixmapInput& in) const {
         return 1;
     }
 
-    bool alpha = (pixmapFormat == "rgba");
-    status = renderPixmap(in.x0, in.y0, in.x1, in.y1, col, row, image, Landscape, alpha, false);
+    Pixmap pixmap;
+    pixmap.x0          = in.x0;
+    pixmap.y0          = in.y0;
+    pixmap.x1          = in.x1;
+    pixmap.y1          = in.y1;
+    pixmap.w           = col;
+    pixmap.h           = row;
+    pixmap.pixmap      = image;
+    pixmap.landscape   = Landscape;
+    pixmap.alpha       = (pixmapFormat == "rgba");
+    pixmap.offset      = false;
+    status = renderPixmap(pixmap);
 
     if (!status)
         MagLog::warning()

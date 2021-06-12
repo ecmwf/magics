@@ -95,7 +95,7 @@ private:
     MAGICS_NO_EXPORT void renderSimplePolygon() const;
     MAGICS_NO_EXPORT void renderText(const Text& text) const override;
     MAGICS_NO_EXPORT void circle(const MFloat x, const MFloat y, const MFloat r, const int) const override;
-    MAGICS_NO_EXPORT bool renderPixmap(MFloat, MFloat, MFloat, MFloat, int, int, unsigned char*, int, bool, bool) const override;
+    MAGICS_NO_EXPORT bool renderPixmap(const Pixmap&) const override;
     MAGICS_NO_EXPORT bool renderCellArray(const Image& obj) const override;
     MAGICS_NO_EXPORT void renderImage(const ImportObject& obj) const override;
     MAGICS_NO_EXPORT void renderSymbols(const Symbol& symbol) const override;

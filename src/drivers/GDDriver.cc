@@ -863,17 +863,16 @@ MAGICS_NO_EXPORT void GDDriver::circle(const MFloat x, const MFloat y, const MFl
   \param alpha says if array is transparent
 
 */
-MAGICS_NO_EXPORT bool GDDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
-                                             unsigned char* pixmap, int, bool alpha, bool) const {
-    unsigned char* p = pixmap;
-    const float dx   = (x1 - x0) / w;
-    const float dy   = (y1 - y0) / h;
+MAGICS_NO_EXPORT bool GDDriver::renderPixmap(const Pixmap&) const {
+    unsigned char* p = in.pixmap;
+    const float dx   = (in.x1 - in.x0) / in.w;
+    const float dy   = (in.y1 - in.y0) / in.h;
 
-    const float X0 = x0;
-    const float Y0 = y0;
+    const float X0 = in.x0;
+    const float Y0 = in.y0;
 
-    for (int i = h - 1; i >= 0; i--) {
-        for (int j = 0; j < w; x0 += dx, j++) {
+    for (int i = in.h - 1; i >= 0; i--) {
+        for (int j = 0; j < in.w; in.x0 += dx, j++) {
             int col     = 0;
             const int r = static_cast<int>(*(p++));
             const int g = static_cast<int>(*(p++));

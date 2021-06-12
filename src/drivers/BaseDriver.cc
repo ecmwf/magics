@@ -591,7 +591,7 @@ bool BaseDriver::renderCellArray(const Image&) const {
     return true;
 }
 
-bool BaseDriver::renderPixmap(MFloat, MFloat, MFloat, MFloat, int, int, unsigned char*, int, bool, bool) const {
+bool BaseDriver::renderPixmap(const Pixmap&) const {
     return true;
 }
 
@@ -1109,20 +1109,19 @@ void BaseDriver::redisplay(const BinaryObject& binary) const {
                 } break;
 
                 case 'M': {             // Pixmap
-                    MFloat x0, x1, y0, y1;
-                    int wid, hei, landscape;
-                    in.read((char*)(&x0), sizeof(double));
-                    in.read((char*)(&y0), sizeof(double));
-                    in.read((char*)(&x1), sizeof(double));
-                    in.read((char*)(&y1), sizeof(double));
-                    in.read((char*)(&wid), sizeof(int));
-                    in.read((char*)(&hei), sizeof(int));
-                    in.read((char*)(&landscape), sizeof(int));
-                    MagLog::debug() << "BaseDriver::redisplayBinary for pixmap is CALLED. "<<wid<<"x"<<hei<< std::endl;
-                    const int d = wid * hei * 4;
-                    unsigned char* pixmap = new unsigned char[d];
-                    in.read((char*)(pixmap), sizeof(unsigned char) * d);
-                    renderPixmap(x0, y0, x1, y1, wid, hei, pixmap, landscape, true, true);
+                    Pixmap pixmap;
+                    in.read((char*)(&pixmap.x0), sizeof(double));
+                    in.read((char*)(&pixmap.y0), sizeof(double));
+                    in.read((char*)(&pixmap.x1), sizeof(double));
+                    in.read((char*)(&pixmap.y1), sizeof(double));
+                    in.read((char*)(&pixmap.w), sizeof(int));
+                    in.read((char*)(&pixmap.h), sizeof(int));
+                    in.read((char*)(&pixmap.landscape), sizeof(int));
+                    MagLog::debug() << "BaseDriver::redisplayBinary for pixmap is CALLED. "<<pixmap.w<<"x"<<pixmap.h<< std::endl;
+                    const int d = pixmap.w * pixmap.h * 4;
+                    pixmap.pixmap = new unsigned char[d];
+                    in.read((char*)(pixmap.pixmap), sizeof(unsigned char) * d);
+                    renderPixmap(pixmap);
                 } break;
 
                 case 'U':

@@ -1116,15 +1116,16 @@ MAGICS_NO_EXPORT void CairoDriver::circle(const MFloat x, const MFloat y, const 
   \param pixmap contents
   \param alpha transparency
 */
-MAGICS_NO_EXPORT bool CairoDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
-                                                unsigned char* pixmap, int, bool alpha, bool offset) const {
-    MagLog::debug() << "CD:renderPixmap> " << w << "x" << h << endl;
-    unsigned char* p = pixmap;
-    const MFloat dx  = (x1 - x0) / w;
-    const MFloat dy  = (y1 - y0) / h;  // Minus needed for Y axis correction
+MAGICS_NO_EXPORT bool CairoDriver::renderPixmap(const Pixmap& in) const {
+    MagLog::debug() << "CD:renderPixmap> " << in.w << "x" << in.h << endl;
+    unsigned char* p = in.pixmap;
+    const MFloat dx  = (in.x1 - in.x0) / in.w;
+    const MFloat dy  = (in.y1 - in.y0) / in.h;  // Minus needed for Y axis correction
+    MFloat x0        = in.x0;
+    MFloat y0        = in.y0;
     MFloat a         = 1.;
 
-    if(offset){
+    if(in.offset){
         x0 += offsetX_;
         y0 += offsetY_;
     }
@@ -1133,16 +1134,16 @@ MAGICS_NO_EXPORT bool CairoDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1,
 //    cairo_antialias_t t = cairo_get_antialias(cr_);
 //    cairo_set_antialias(cr_, CAIRO_ANTIALIAS_NONE);
 
-    for (int i = 0; i < h; i++) {
-        for (int j = 0; j < w; j++) {
+    for (int i = 0; i < in.h; i++) {
+        for (int j = 0; j < in.w; j++) {
             const MFloat r = *(p++);
             const MFloat g = *(p++);
             const MFloat b = *(p++);
-            if (alpha)   a = *(p++);
+            if (in.alpha)   a = *(p++);
 
             //if ((r * g * b) > 0)
             {
-                if (!alpha) cairo_set_source_rgb( cr_, r, g, b);
+                if (!in.alpha) cairo_set_source_rgb( cr_, r, g, b);
                 else        cairo_set_source_rgba(cr_, r, g, b, a);
 
                 const MFloat x = x0 + (j * dx);

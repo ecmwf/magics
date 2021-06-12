@@ -199,6 +199,19 @@ struct PixmapInput {
     MFloat y1;
 };
 
+struct Pixmap {
+    MFloat x0;
+    MFloat y0;
+    MFloat x1;
+    MFloat y1;
+    int w;
+    int h;
+    unsigned char* pixmap;
+    int landscape;
+    bool alpha;
+    bool offset;
+};
+
 
 /*! \class BaseDriver
     \brief Base class for all drivers of Magics.
@@ -428,8 +441,7 @@ protected:
     virtual void renderImage(const ImportObject& object) const;
     MAGICS_NO_EXPORT void renderImage(const Image& obj) const { renderCellArray(obj); }
     virtual MAGICS_NO_EXPORT bool convertToPixmap(const PixmapInput&) const;
-    virtual MAGICS_NO_EXPORT bool renderPixmap(MFloat, MFloat, MFloat, MFloat, int, int, unsigned char*, int,
-                                               bool hasAlpha = false, bool offset=false) const;
+    virtual MAGICS_NO_EXPORT bool renderPixmap(const Pixmap&) const;
     virtual MAGICS_NO_EXPORT bool renderCellArray(const Image&) const;
 
     mutable std::map<string, magFont, RuntimeStringCompare> FontMap_;
