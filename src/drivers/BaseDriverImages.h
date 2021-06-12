@@ -75,14 +75,24 @@ MAGICS_NO_EXPORT void BaseDriver::renderImage(const ImportObject& obj) const {
     const MFloat ow = (obj.getWidth() < 0) ? convertCM(1. / coordRatioX_) : width;
     const MFloat oh = (obj.getHeight() < 0) ? convertCM(1. / coordRatioY_) : height;
 
-    const ImageProperties::OriginReference ori = obj.getOriginReference();
-    if (ori == ImageProperties::centre)
-        convertToPixmap(obj.getPath(), format, 300, projectX(obj.getOrigin().x() - (ow * .5)),
-                        projectY(obj.getOrigin().y() - (oh * .5)), projectX(obj.getOrigin().x() + (ow * .5)),
-                        projectY(obj.getOrigin().y() + (oh * .5)));
-    else
-        convertToPixmap(obj.getPath(), format, 300, projectX(obj.getOrigin().x()), projectY(obj.getOrigin().y()),
-                        projectX(obj.getOrigin().x() + ow), projectY(obj.getOrigin().y() + oh));
+    PixmapInput pixinput;
+    pixinput.filename   = obj.getPath();
+    pixinput.format     = format;
+    pixinput.resolution = 300;
+    
+    if (obj.getOriginReference() == ImageProperties::centre){
+        pixinput.x0        = projectX(obj.getOrigin().x() - (ow * .5));
+        pixinput.y0        = projectY(obj.getOrigin().y() - (oh * .5));
+        pixinput.x1        = projectX(obj.getOrigin().x() + (ow * .5));
+        pixinput.y1        = projectY(obj.getOrigin().y() + (oh * .5));
+    }                    
+    else{
+        pixinput.x0        = projectX(obj.getOrigin().x());
+        pixinput.y0        = projectY(obj.getOrigin().y());
+        pixinput.x1        = projectX(obj.getOrigin().x() + ow);
+        pixinput.y1        = projectY(obj.getOrigin().y() + oh);
+    }
+    convertToPixmap(pixinput);
 }  // end BaseDriver::renderImage()
 
 
@@ -92,9 +102,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderImage(const ImportObject& obj) const {
   This method should be used by all Magics drivers
 
 */
-MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string& fname, const GraphicsFormat format, const int reso,
-                                                  const MFloat x0, const MFloat y0, const MFloat x1,
-                                                  const MFloat y1) const {
+MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const PixmapInput& in) const {
 #ifdef MAGICS_ON_WINDOWS
     return false;
 #else
@@ -109,8 +117,8 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string& fname, const Gra
     string pixmapFormat("rgb");
 
 #ifdef HAVE_CAIRO
-    if (format == GraphicsFormat::PNG) {
-        cairo_surface_t* surface = cairo_image_surface_create_from_png(fname.c_str());
+    if (in.format == GraphicsFormat::PNG) {
+        cairo_surface_t* surface = cairo_image_surface_create_from_png(in.filename.c_str());
         if (cairo_surface_status(surface))
         {
             MagLog::error() << "BaseDriverImages: Cannot read PNG through Cairo!" << endl;
@@ -163,12 +171,12 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string& fname, const Gra
     } else
 #endif
     {
-        MagLog::warning() << "BaseDriverImages: graphics formats (" << format << ") is NOT supported!" << endl;
+        MagLog::warning() << "BaseDriverImages: graphics formats (" << in.format << ") is NOT supported!" << endl;
         return 1;
     }
 
     bool alpha = (pixmapFormat == "rgba");
-    status = renderPixmap(x0, y0, x1, y1, col, row, image, Landscape, alpha, false);
+    status = renderPixmap(in.x0, in.y0, in.x1, in.y1, col, row, image, Landscape, alpha, false);
 
     if (!status)
         MagLog::warning()

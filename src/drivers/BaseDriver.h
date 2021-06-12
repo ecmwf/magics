@@ -189,6 +189,16 @@ struct magFont {
     string css_name;
 };
 
+struct PixmapInput {
+    string filename;
+    GraphicsFormat format;
+    int resolution;
+    MFloat x0;
+    MFloat y0;
+    MFloat x1;
+    MFloat y1;
+};
+
 
 /*! \class BaseDriver
     \brief Base class for all drivers of Magics.
@@ -228,12 +238,14 @@ public:
 
     intarray frames() const { return frame_list_; }
 
+    MAGICS_NO_EXPORT void redisplay(const StartPage&) const;
+    MAGICS_NO_EXPORT void redisplay(const EndPage&) const;
+
     MAGICS_NO_EXPORT void redisplay(const Layout&) const;
     MAGICS_NO_EXPORT void redisplay(const RootLayout&) const;
     virtual MAGICS_NO_EXPORT void redisplay(const LegendLayout&) const;
     virtual MAGICS_NO_EXPORT void redisplay(const SceneLayout&) const;
-    MAGICS_NO_EXPORT void redisplay(const StartPage&) const;
-    MAGICS_NO_EXPORT void redisplay(const EndPage&) const;
+
     virtual MAGICS_NO_EXPORT void redisplay(const Layer&) const;
     virtual MAGICS_NO_EXPORT void redisplay(const SceneLayer&) const;
     virtual MAGICS_NO_EXPORT void redisplay(const StaticLayer&) const;
@@ -336,8 +348,7 @@ protected:
 
     virtual void renderText(const Text&) const {}
     virtual void debugOutput(const string& s) const {
-        if (debug_)
-            MagLog::debug() << " DRIVERS: " << s << "\n";
+        if (debug_) MagLog::debug() << " DRIVERS: " << s << "\n";
     }
 
     virtual MFloat projectX(const MFloat x) const { return coordRatioX_ * x; }
@@ -416,9 +427,7 @@ protected:
     // images + bitmap methods
     virtual void renderImage(const ImportObject& object) const;
     MAGICS_NO_EXPORT void renderImage(const Image& obj) const { renderCellArray(obj); }
-    virtual MAGICS_NO_EXPORT bool convertToPixmap(const string& fname, const GraphicsFormat format, const int reso,
-                                                  const MFloat wx0, const MFloat wy0, const MFloat wx1,
-                                                  const MFloat wy1) const;
+    virtual MAGICS_NO_EXPORT bool convertToPixmap(const PixmapInput&) const;
     virtual MAGICS_NO_EXPORT bool renderPixmap(MFloat, MFloat, MFloat, MFloat, int, int, unsigned char*, int,
                                                bool hasAlpha = false, bool offset=false) const;
     virtual MAGICS_NO_EXPORT bool renderCellArray(const Image&) const;

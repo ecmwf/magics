@@ -1362,17 +1362,15 @@ MAGICS_NO_EXPORT void CairoDriver::renderSymbols(const Symbol& symbol) const {
     }
 }
 
-MAGICS_NO_EXPORT bool CairoDriver::convertToPixmap(const string& fname, const GraphicsFormat format, const int reso,
-                                                   const MFloat wx0, const MFloat wy0, const MFloat wx1,
-                                                   const MFloat wy1) const {
-    if (format == GraphicsFormat::PNG) {
+MAGICS_NO_EXPORT bool CairoDriver::convertToPixmap(const PixmapInput& in) const {
+    if (in.format == GraphicsFormat::PNG) {
         cairo_save(cr_);
-        cairo_surface_t* image = cairo_image_surface_create_from_png(fname.c_str());
+        cairo_surface_t* image = cairo_image_surface_create_from_png(in.filename.c_str());
         int w                  = cairo_image_surface_get_width(image);
         int h                  = cairo_image_surface_get_height(image);
 
-        cairo_translate(cr_, wx0, wy0);
-        cairo_scale(cr_, (wx1 - wx0) / w, -(wy1 - wy0) / h);
+        cairo_translate(cr_, in.x0, in.y0);
+        cairo_scale(cr_, (in.x1 - in.x0) / w, -(in.y1 - in.y0) / h);
 
         cairo_set_source_surface(cr_, image, 0, 0);
         cairo_paint(cr_);
@@ -1382,7 +1380,7 @@ MAGICS_NO_EXPORT bool CairoDriver::convertToPixmap(const string& fname, const Gr
         return true;
     }
     else
-        MagLog::error() << "CairoDriver - Only PNG graphics can be imported - Please convert "<< fname <<" into a PNG." << endl;
+        MagLog::error() << "CairoDriver - Only PNG graphics can be imported - Please convert "<< in.filename <<" into a PNG." << endl;
         return false;
 }
 

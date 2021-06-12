@@ -99,9 +99,7 @@ private:
     MAGICS_NO_EXPORT bool renderCellArray(const Image& obj) const override;
     MAGICS_NO_EXPORT void renderImage(const ImportObject& obj) const override;
     MAGICS_NO_EXPORT void renderSymbols(const Symbol& symbol) const override;
-    MAGICS_NO_EXPORT bool convertToPixmap(const string& fname, const GraphicsFormat format, const int reso,
-                                          const MFloat wx0, const MFloat wy0, const MFloat wx1,
-                                          const MFloat wy1) const override;
+    MAGICS_NO_EXPORT bool convertToPixmap(const PixmapInput&) const override;
     //! Method to print string about this class on to a stream of type ostream (virtual).
     void print(ostream&) const override;
     MAGICS_NO_EXPORT void debugOutput(const string& s) const override;

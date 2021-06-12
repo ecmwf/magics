@@ -966,12 +966,19 @@ void GDDriver::print(ostream& out) const {
 //! Method to plot logo
 /*!
  MagLogo needs special treatment - much better quality when imported as GIF!
- \sa convertToPixmap1()
 */
 MAGICS_NO_EXPORT void GDDriver::renderMagLogo(MFloat x, MFloat y) const {
     GraphicsFormat format = PNG;
-    const string logofile = buildSharePath("ecmwf_logo.png");
-    convertToPixmap(logofile, format, 300, x - 40, y + 10, x + 50, y - 5);
+
+    PixmapInput pixinput;
+    pixinput.filename   = buildSharePath("ecmwf_logo.png");
+    pixinput.format     = format;
+    pixinput.resolution = 300;
+    pixinput.x0         = x - 40;
+    pixinput.y0         = y + 10;
+    pixinput.x1         = x + 50;
+    pixinput.y1         = y - 5;
+    convertToPixmap(pixinput);
 }
 
 //! Method to plot symbols
