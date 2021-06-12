@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 1996-2016 ECMWF.
+ * (C) Copyright 1996- ECMWF.
  *
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
@@ -19,10 +19,6 @@
 
 */
 
-#ifdef MAGICS_RASTER
-#include <gd.h>
-#endif
-
 #include "magics.h"
 
 #ifdef HAVE_CAIRO
@@ -31,150 +27,10 @@
 
 using namespace magics;
 
-
-static inline int getRealLine(ifstream& I, char* cline) {
-    int k = 0;
-    char ch;
-    while (I.get(ch)) {
-        cline[k] = ch;
-        if (ch == '\n' || ch == '\0' || I.eof())
-            break;
-        k++;
-    }
-    cline[k] = '\0';
-    return k;
-}
-
-static inline int getGoodLine(ifstream& I, char* cline, const int& n) {
-    int k = 0;
-    char ch;
-    while (I.get(ch)) {
-        cline[k] = ch;
-        if (ch == '\n' || ch == '\0' || I.eof() || k == n)
-            break;
-        k++;
-    }
-    cline[k] = '\0';
-    return k;
-}
-
-static inline int check_ps(const string& file, int& boxx, int& boxy, int& orientation) {
-    ifstream I(file.c_str());
-    if (!I)
-        return 1;
-
-    string::size_type x, y;
-    char* cline;
-    cline = new char[2048];
-    int k = getGoodLine(I, cline, 2048);
-    string s(cline, k);
-
-    // level 3 only "%!PS-Adobe-3.0";
-    x = s.find("%!PS");
-    if (x == string::npos)
-        return 1;  // no PostScript
-
-    // Looks like a PostScript file
-    int r = 0;
-    boxx = boxy           = 0;
-    orientation           = 0;  // Portrait
-    int boundingbox_found = 1;
-    int orientation_found = 1;
-    MFloat xx = 0.0, yy = 0.0;
-
-    while (!I.eof())  // look for  %%BoundingBox: %%Orientation:
-    {
-        k     = getGoodLine(I, cline, 2048);
-        int i = (k > 15) ? 15 : k;
-        if (i < 15)  // dont bother
-            continue;
-        string f(cline, i);
-
-        if (boundingbox_found) {
-            x = f.find("%%BoundingBox:");
-            if (x != string::npos) {
-                string str(cline, k);
-                y = str.find("atend");
-                if (y != string::npos)
-                    continue;
-                else {
-                    str.erase(0, x + 15);
-                    istringstream ist(str.c_str());
-
-                    MFloat dum1, dum2;
-                    ist >> dum1 >> dum2 >> xx >> yy;
-                    xx                = xx - dum1;
-                    yy                = yy - dum2;
-                    boundingbox_found = 0;
-                }
-            }
-        }
-        if (orientation_found) {
-            x = f.find("%%Orientation:");
-            if (x != string::npos) {
-                string str(cline, k);
-                y = str.find("atend");
-                if (y != string::npos)
-                    continue;
-                else {
-                    y                 = str.find("Landscape");
-                    orientation       = (y != string::npos) ? 1 : 0;
-                    orientation_found = 0;
-                }
-            }
-        }
-        if ((orientation_found + boundingbox_found) == 0)
-            break;
-    }
-
-    boxx = (int)xx;
-    boxy = (int)yy;
-    if (boxx == 0 || boxy == 0)  // No boundingbox
-    {
-        boxx = 595;
-        boxy = 841;
-    }
-
-    I.close();
-    delete[] cline;
-    return r;
-}
-
-static inline int check_ppmHeader(ifstream& I, int& col, int& row) {
-    int colours;
-    char* cline = new char[2048];
-
-    int k    = getRealLine(I, cline);
-    string s = cline;
-    int r    = 0;
-    int x    = s.find("P6");
-
-    if (x < 0)
-        r = 1;  // not PPM P6 format
-
-    if (!r) {
-        cline[0] = '#';
-        while (cline[0] == '#')  // skip comments
-            k = getRealLine(I, cline);
-        istringstream ist1(cline);
-        ist1 >> col >> row;
-        k = getRealLine(I, cline);
-        istringstream ist2(cline);
-        ist2 >> colours;
-
-        if (col == 0 || row == 0 || colours == 0)
-            r = 1;
-    }
-
-    delete[] cline;
-    return r;
-}
-
-
 /*!
   \brief Image render method for ALL drivers.
 
-  This method should be used by all Magics++ drivers to render image objects.
+  This method should be used by all Magics drivers to render image objects.
 */
 MAGICS_NO_EXPORT void BaseDriver::renderImage(const ImportObject& obj) const {
     std::string f         = obj.getFormat();
@@ -233,7 +89,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderImage(const ImportObject& obj) const {
 /*!
   \brief converting object to pixmap
 
-  This method should be used by all Magics++ drivers
+  This method should be used by all Magics drivers
 
 */
 MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string& fname, const GraphicsFormat format, const int reso,
@@ -250,65 +106,10 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string& fname, const Gra
     unsigned char* image = 0;
     int col = 0, row = 0;
     int status = 0;
-    string s2(" ");
     string pixmapFormat("rgb");
 
-    if (format == GraphicsFormat::PS || format == GraphicsFormat::EPS)  // File is PostScript
-    {
-        string cmd;
-        int x1 = 0;
-        int y1 = 0;
-
-        if (check_ps(fname, x1, y1, Landscape)) {
-            MagLog::error() << "BaseDriverImages: Open of source PostScript file failed!" << endl;
-            return false;
-        }
-
-        s2 = getTmpName();
-        if (s2 == " ") {
-            MagLog::error() << "BaseDriverImages: Open of temp file failed!" << endl;
-            return false;
-        }
-        s2 += ".ppm";
-
-        const MFloat Xres = MFloat(reso);
-        bx1 = MFloat(x1) / 72. * Xres + 0.5;
-        x1 = (int)bx1;
-        by1 = MFloat(y1) / 72. * Xres + 0.5;
-        y1 = (int)by1;
-
-        char boxx[5];
-        char boxy[5];
-        char boxz[5];
-        sprintf(boxx, "%d", x1);
-        sprintf(boxy, "%d", y1);
-        sprintf(boxz, "%d", reso);
-
-        cmd = "( gs -q -dNOPAUSE -dSAFER -sDEVICE=ppmraw -sOutputFile=" + s2 +
-              " -dGraphicsAlphaBits=4 -dTextAlphaBits=4 -dCOLORSCREEN -dBATCH -g" + boxx + "x" + boxy + " -r" + boxz +
-              " " + fname + " < /dev/null )";
-
-        status = system(cmd.c_str());
-        if (status) {
-            MagLog::error() << "BaseDriverImages: Command exit Not zero" << endl;
-            return false;
-        }
-        ifstream I(s2.c_str());
-        if (!I) {
-            MagLog::error() << "BaseDriverImages: Incorrect PostScript Format!" << endl;
-            return false;
-        }
-        if (check_ppmHeader(I, col, row)) {
-            return 1;
-        }
-
-        image = new unsigned char[row * col * 3];
-        I.read((char*)image, row * col * 3);
-        I.close();
-        remove(s2.c_str());
-    }
 #ifdef HAVE_CAIRO
-    else if (format == GraphicsFormat::PNG) {
+    if (format == GraphicsFormat::PNG) {
         cairo_surface_t* surface = cairo_image_surface_create_from_png(fname.c_str());
         if (cairo_surface_status(surface))
         {
@@ -359,84 +160,9 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string& fname, const Gra
                 *(p++) = a;
             }
         }
-    }
+    } else
 #endif
-/*
-#ifdef MAGICS_RASTER
-    else if (format == GIF || format == PNG || format == JPG) {
-        // convert png to ppm(raw) like image
-        FILE* fd3 = fopen(fname.c_str(), "rb");
-        if (!fd3) {
-            MagLog::error() << "BaseDriverImages: Open failed for raster source > " << fname << endl;
-            return false;
-        }
-        gdImagePtr imp = 0;
-        if (format == JPG)
-            imp = gdImageCreateFromJpeg(fd3);
-        else if (format == PNG)
-            imp = gdImageCreateFromPng(fd3);
-        else if (format == GIF) {
-#ifdef MAGICS_GIF
-            imp = gdImageCreateFromGif(fd3);
-#else
-            MagLog::error() << "GIF pixmap import is not supported in this version! You need a GIF enabled GD library."
-                            << endl;
-            return false;
-#endif
-        }
-        fclose(fd3);
-        if (!imp) {
-            MagLog::error() << "BaseDriverImages: Incorrect raster file format (cannot be handled by GD) !" << endl;
-            return false;
-        }
-
-        col = gdImageSX(imp);
-        row = gdImageSY(imp);
-        bx1 = (MFloat)col;
-        by1 = (MFloat)row;
-        Landscape = 0;
-
-        if (format == PNG &&  // imp->transparent == 1 &&
-            alphaEnabled_ == true) {
-            pixmapFormat = "rgba";
-
-            image = new unsigned char[col * row * 4];
-            unsigned char* p = image;
-            int i, j;
-            for (i = 0; i < row; i++)
-                for (j = 0; j < col; j++) {
-                    int c = gdImageGetPixel(imp, j, i);
-                    int r = gdImageRed(imp, c);
-                    int g = gdImageGreen(imp, c);
-                    int b = gdImageBlue(imp, c);
-                    int a = gdImageAlpha(imp, c);
-                    *(p++) = (unsigned char)r;
-                    *(p++) = (unsigned char)g;
-                    *(p++) = (unsigned char)b;
-                    *(p++) = (unsigned char)255 - 2 * a;
-                }
-        }
-        else {
-            image = new unsigned char[col * row * 3];
-            unsigned char* p = image;
-            int i, j;
-            for (i = 0; i < row; i++)
-                for (j = 0; j < col; j++) {
-                    int c = gdImageGetPixel(imp, j, i);
-                    int r = gdImageRed(imp, c);
-                    int g = gdImageGreen(imp, c);
-                    int b = gdImageBlue(imp, c);
-                    *(p++) = (unsigned char)r;
-                    *(p++) = (unsigned char)g;
-                    *(p++) = (unsigned char)b;
-                }
-        }
-
-        gdImageDestroy(imp);
-    }
-#endif
-*/
-    else {
+    {
         MagLog::warning() << "BaseDriverImages: graphics formats (" << format << ") is NOT supported!" << endl;
         return 1;
     }

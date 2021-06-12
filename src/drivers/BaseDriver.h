@@ -239,7 +239,6 @@ public:
     virtual MAGICS_NO_EXPORT void redisplay(const StaticLayer&) const;
     virtual MAGICS_NO_EXPORT void redisplay(const NoDataLayer&) const;
     virtual MAGICS_NO_EXPORT void redisplay(const StepLayer&) const;
-
     virtual MAGICS_NO_EXPORT void redisplay(const Polyline&) const;
 
 
@@ -344,7 +343,6 @@ protected:
     virtual MFloat projectX(const MFloat x) const { return coordRatioX_ * x; }
     virtual MFloat projectY(const MFloat y) const { return coordRatioY_ * y; }
 
-    string getTmpName() const;
 
     double LSF(MFloat* x, MFloat* y, int i0) const;
 
@@ -441,6 +439,8 @@ private:
     mutable vector<const PaperPoint*> vecPoints_;
     bool checkDistanceMoreThan(const PaperPoint* pp, double distance) const;
     void renderSimplePolygon(vector<PaperPoint>& vP) const;
+
+    // methods to draw symbols 
     void snowflake(const MFloat, const MFloat, const MFloat) const;
     void drizzle(const MFloat, const MFloat, const MFloat) const;
     void triangle(const MFloat, const MFloat, const MFloat, const int, const int) const;

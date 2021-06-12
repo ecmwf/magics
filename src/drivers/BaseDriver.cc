@@ -587,23 +587,6 @@ void BaseDriver::print(ostream& out) const {
     out << "BaseDriver";
 }
 
-string BaseDriver::getTmpName() const {
-#ifndef MAGICS_ON_WINDOWS
-    string stmp;
-    stmp += "magics_temp_ps_XXXXXX";
-    char* mtmp = new char[stmp.length() + 1];
-    stmp.copy(mtmp, string::npos);
-    mtmp[stmp.length()] = '\0';
-    const int m         = mkstemp(mtmp);
-    stmp                = (m) ? mtmp : " ";
-    delete[] mtmp;
-
-    return stmp;
-#else
-    return "";
-#endif
-}
-
 bool BaseDriver::renderCellArray(const Image&) const {
     return true;
 }

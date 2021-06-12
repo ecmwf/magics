@@ -1382,7 +1382,8 @@ MAGICS_NO_EXPORT bool CairoDriver::convertToPixmap(const string& fname, const Gr
         return true;
     }
     else
-        return BaseDriver::convertToPixmap(fname, format, reso, wx0, wy0, wx1, wy1);
+        MagLog::error() << "CairoDriver - Only PNG graphics can be imported - Please convert "<< fname <<" into a PNG." << endl;
+        return false;
 }
 
 static SimpleObjectMaker<CairoDriver, BaseDriver> Cairo_driver("Cairo");
