@@ -214,6 +214,10 @@ double geodistance(double lat1, double lon1, double lat2, double lon2) {
     return EARTH_RADIUS_IN_METERS * (2.0 * asin(sqrt(latitudeH + tmp * lontitudeH)));
 }
 
+double xydistance(double y1, double x1, double y2, double x2) {
+    return sqrt((y2-y1)*((y2-y1)) + ((x2-x1)*(x2-x1)));
+}
+
 #include <limits>
 pair<double, double> Matrix::nearest_value(double row, double column, double& rowOut, double& colOut) const {
     double col, offset;
@@ -276,7 +280,8 @@ pair<double, double> Matrix::nearest_value(double row, double column, double& ro
     pair<double, double> value = make_pair(missing(), missing());
     for (vector<pair<double, map<double, pair<double, double> >::const_iterator> >::iterator point = points.begin();
          point != points.end(); ++point) {
-        double dist = geodistance(point->first, point->second->first, row, col);
+        // double dist = geodistance(point->first, point->second->first, row, col);
+        double dist = xydistance(point->first, point->second->first, row, col);
         if (dist < min) {
             min    = dist;
             rowOut = point->first;
@@ -296,16 +301,21 @@ int Matrix::nearest_index(double row, double column, double& rowOut, double& col
     if (column - minX() < 0)
         factor--;
 
-    offset = (factor * 360);
+    offset = geographical_ ? (factor * 360) : 0;
 
     col    = column - offset;
     rowOut = missing();
     colOut = missing();
 
-    if (col < left() || col > right()) {
+    double x1 = left();
+    double x2 = right();
+    double y1 = bottom();
+    double y2 = top();
+    
+    if (col < x1 || col > x2) {
         return -1;
     }
-    if (row < bottom() || row > top()) {
+    if (row < y1 || row > y2) {
         return -1;
     }
     map<double, int>::const_iterator row_index;
@@ -374,7 +384,8 @@ int Matrix::nearest_index(double row, double column, double& rowOut, double& col
     int value  = -1;
     for (vector<pair<double, pair<double, int> > >::const_iterator point = points.begin(); point != points.end();
          ++point) {
-        double dist = geodistance(point->first, point->second.first, row, col);
+
+        double dist = (geographical_) ? geodistance(point->first, point->second.first, row, col) : xydistance(point->first, point->second.first, row, col);
         if (dist < min) {
             min    = dist;
             rowOut = point->first;
@@ -582,6 +593,23 @@ double Proj4MatrixHandler::nearest(double row, double column) const {
         return missing();
 
     return MatrixHandler::nearest(y, x);
+}
+void Proj4Matrix::adjustPosition(double& x, double& y)
+{
+    projHelper_.revert(x, y);
+}
+int Proj4Matrix::nearest_index(double lat, double lon, double& nlat, double& nlon) const {
+    double plat = lat;
+    double plon = lon;
+    int error  = projHelper_.convert(plon, plat);
+    if (error) 
+        return -1;
+   
+    int index = Matrix::nearest_index(plat, plon, nlat, nlon);
+
+    projHelper_.revert(nlon, nlat);
+    
+    return index;
 }
 
 double RotatedMatrixHandler::interpolate(double row, double column) const {

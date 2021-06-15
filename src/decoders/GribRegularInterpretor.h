@@ -101,6 +101,7 @@ protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
     virtual void print(ostream&) const override;
 
+
 private:
     //! Copy constructor - No copy allowed
     GribReducedLatLonInterpretor(const GribRegularInterpretor&);
@@ -189,12 +190,15 @@ public:
     GribProjInterpretor() {}
     virtual ~GribProjInterpretor() override {}
 
+    double XResolution(const GribDecoder& grib) const override;
+
 
     void interpretAsMatrix(GribDecoder&) const override;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
     virtual void print(ostream&) const override;
+    mutable LatLonProjP *projHelper_;
 };
 
 

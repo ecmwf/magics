@@ -1056,7 +1056,7 @@ void FortranMagics::ptile() {
         action_->data(input);
     }
     else {
-        MagLog::error() << "Can not create tile" << endl;
+        MagLog::error() << "Cannot create tile" << endl;
         delete input;
         GribDecoder* grib = new GribDecoder();
         action_->data(grib);

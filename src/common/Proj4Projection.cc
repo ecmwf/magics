@@ -155,7 +155,7 @@ public:
         string name                       = lowerCase(from.name());
         map<string, Epsg*>::iterator epsg = epsgs_.find(name);
         if (epsg == epsgs_.end()) {
-            MagLog::warning() << "Can not find information on " << name << ": use epsg instead" << endl;
+            MagLog::warning() << "Cannot find information on " << name << ": use epsg instead" << endl;
             return epsgs_.find("EPSG:4326")->second;
         }
         epsg->second->init(from);
@@ -235,11 +235,11 @@ Proj4Projection::Proj4Projection() :
     config.init();
 }
 void Proj4Projection::populate(double lon, double lat, double val, vector<UserPoint>& out) const {
-    if (in(lon, lat))
+    if (inExtended(PaperPoint(lon , lat)))
         out.push_back(UserPoint(lon, lat, val));
-    if (in(lon - 360, lat))
+    if (inExtended(PaperPoint(lon - 360, lat)))
         out.push_back(UserPoint(lon - 360., lat, val));
-    if (in(lon + 360, lat))
+    if (inExtended(PaperPoint(lon + 360, lat)))
         out.push_back(UserPoint(lon + 360., lat, val));
 }
 

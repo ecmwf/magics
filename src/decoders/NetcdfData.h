@@ -33,14 +33,14 @@ namespace magics {
 class NoSuchNetcdfVariable : public MagicsException {
 public:
     NoSuchNetcdfVariable(const string& var) :
-        MagicsException("Netcdf MagException:  Can not find variable ---> " + var) {
+        MagicsException("Netcdf MagException:  Cannot find variable ---> " + var) {
         MagLog::warning() << what() << "\n";
     }
 };
 class NoSuchNetcdfDimension : public MagicsException {
 public:
     NoSuchNetcdfDimension(const string& dim) :
-        MagicsException("Netcdf MagException :  Can not find dimension ---> " + dim) {
+        MagicsException("Netcdf MagException :  Cannot find dimension ---> " + dim) {
         MagLog::warning() << what() << "\n";
     }
 };

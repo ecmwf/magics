@@ -159,7 +159,7 @@ bool TitleTemplate::verify(const GribDecoder& data) const {
             if (MagicsGlobal::strict()) {
                 throw;
             }
-            MagLog::warning() << "Can Not Create the MatchCriteria for " << criter->first << "\n";
+            MagLog::warning() << "Cannot Create the MatchCriteria for " << criter->first << "\n";
             return false;
         }
     }
