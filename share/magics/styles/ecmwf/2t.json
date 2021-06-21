@@ -32,7 +32,19 @@
         "paramId": "167",
         "shortName": "2t",
         "centre":"219"
-      }      
+      },
+      {
+        "paramId": "167",
+        "centre":"edzw"
+      },
+      {
+        "paramId": "500015",
+        "centre":"edzw"
+      },
+      {
+        "paramId": "500016",
+        "centre":"edzw"
+      }
     ]
   }
 ]
