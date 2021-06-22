@@ -416,5 +416,9 @@ bool BasicLayout::buildTree(const Layout& parent, unsigned int frame, const Base
     return more;
 }
 
+string Layout::infoTransformation() const { 
+    return transformation_ ? transformation_->name() : "";
+}
+
 
 vector<DriverInfo> Layout::driverInfos_;

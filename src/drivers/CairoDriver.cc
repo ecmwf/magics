@@ -956,7 +956,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderText(const Text& text) const {
             gchar* t = g_markup_escape_text((*niceText).text().c_str(), -1);
 
             alltext << "<span color=\"" << col.str() << "\" font_family=\"" << magfont.name() << "\" size=\""
-                    << int(magfont.size() * FONT_SCALE * 1024) << "\"";
+                    << int(magfont.size() * FONT_SCALE * 1024 * font_scale_) << "\"";
             if (styles.find("bold") != styles.end())
                 alltext << " weight=\"bold\"";
             else if (styles.find("italic") != styles.end())
@@ -1241,7 +1241,7 @@ MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const {
     {
         cairo_surface_t* result = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
         if (cairo_surface_status(result) != CAIRO_STATUS_SUCCESS) {
-            MagLog::warning() << "CAIRO:renderImage> can not create surface (" << width << "x" << height << ")" << endl;
+            MagLog::warning() << "CAIRO:renderImage> cannot create surface (" << width << "x" << height << ")" << endl;
             return result;
         }
         cairo_surface_flush(result);
@@ -1334,11 +1334,11 @@ MAGICS_NO_EXPORT void CairoDriver::renderSymbols(const Symbol& symbol) const {
     else {
         string logofile;
         if (symbolName == "logo_cams")
-            logofile = buildConfigPath("CAMS_combined.png");
+            logofile = buildSharePath("CAMS_combined.png");
         else if (symbolName == "logo_c3s")
-            logofile = buildConfigPath("C3S_combined.png");
+            logofile = buildSharePath("C3S_combined.png");
         else
-            logofile = buildConfigPath("ecmwf_logo_2014.png");
+            logofile = buildSharePath("ecmwf_logo_2014.png");
 
         cairo_surface_t* image = cairo_image_surface_create_from_png(logofile.c_str());
         cairo_status_t ret     = cairo_surface_status(image);

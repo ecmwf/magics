@@ -88,7 +88,7 @@ does it submit to any jurisdiction.
     then the field may be specified by the wind speed component only.</remark></para>
 <important>
     <title>Magics++</title>
-    Magics++ can not handle fields in spherical-harmonic representation. The user has to provide 
+    Magics++ cannot handle fields in spherical-harmonic representation. The user has to provide 
     the data on a Gaussian or regular grid. This has the advantage that expensive interpolations are not 
     performed when plotting data but at the time of retrieval. Most data users will handle are either in Gaussian or regular grid.
 </important>

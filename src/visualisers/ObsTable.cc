@@ -50,7 +50,7 @@ ObsTable* ObsTable::table_ = 0;
 
 
 ObsTable::ObsTable() {
-    string filename = path_.empty() ? buildConfigPath("obs.xml") : path_;
+    string filename = path_.empty() ? buildSharePath("obs.xml") : path_;
     char buf[BUFSIZ];
     XML_Parser parser = XML_ParserCreate(NULL);
     int done;
@@ -112,8 +112,8 @@ void ObsTable::add(const string& tag, const map<string, string>& def) {
             if (MagicsGlobal::strict()) {
                 throw;
             }
-            // FMagLog::dev() << "can not find ObsItem for : " << tag << "\n";
-            cout << "can not find ObsItem for : " << tag << "\n";
+            // FMagLog::dev() << "cannot find ObsItem for : " << tag << "\n";
+            cout << "cannot find ObsItem for : " << tag << "\n";
         }
     }
 }

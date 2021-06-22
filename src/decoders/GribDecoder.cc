@@ -122,6 +122,7 @@ void GribDecoder::set(const GribLoop& loop, int index) {
     interpolation_method_ = loop.interpolation_method_;
     missing_fill_count_   = loop.missing_fill_count_;
     regular_resolution_   = loop.regular_resolution_;
+    id_                   = loop.id_;
     wind_mode_            = unique_ptr<WindMode>(loop.wind_mode_->clone());
     internalIndex_        = index;
 }
@@ -653,14 +654,16 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
         for (map<double, int>::iterator y = xComponent_->yIndex_.begin(); y != xComponent_->yIndex_.end(); ++y) {
             InfoIndex x = xComponent_->xIndex_[y->second];
-            double lat  = y->first;
+    
             int index   = x.offset_;
             for (int i = 0; i < x.nbPoints_; i++) {
                 double lon = x.first_ + (i * x.step_);
+                double lat  = y->first;
                 double u   = xComponent_->data_[index];
                 double v   = yComponent_->data_[index];
                 vector<UserPoint> pos;
                 pos.reserve(5);
+                xComponent_->adjustPosition(lon, lat);
                 transformation.populate(lon, lat, 0, pos);
                 if (pos.empty()) {
                     index++;
@@ -797,8 +800,8 @@ grib_handle* GribDecoder::open(grib_handle* grib, bool sendmsg) {
     if (!handle) {
         if (sendmsg) {
             ostringstream error;
-            error << "can not access position [" << current_position_ << " in " << file_name_ << "]" << std::endl;
-            MagLog::error() << "can not access position [" << current_position_ << " in " << file_name_ << "]"
+            error << "cannot access position [" << current_position_ << " in " << file_name_ << "]" << std::endl;
+            MagLog::error() << "cannot access position [" << current_position_ << " in " << file_name_ << "]"
                             << std::endl;
             MagLog::broadcast();
             valid_ = false;
@@ -830,6 +833,8 @@ grib_nearest* GribDecoder::nearest_point_handle(bool keep) {
 }
 
 bool GribDecoder::id(const string& id, const string& where) const {
+
+   
     if (id_.empty() && id.empty()) {
         return (verify(where));
     }
@@ -993,7 +998,7 @@ bool GribLoop::hasMore() {
     if (file_ == 0) {
         file_ = fopen(path_.c_str(), "r");
         if (!file_) {
-            MagLog::error() << "file can not be opened [" << path_ << "] " << std::strerror(errno) << std::endl;
+            MagLog::error() << "file cannot be opened [" << path_ << "] " << std::strerror(errno) << std::endl;
             throw CannotOpenFile(path_);
         }
     }
@@ -1254,8 +1259,10 @@ public:
 
     void visit(const XmlNode& node) override {
         if (magCompare(node.name(), "grib_info")) {
+           
             string grib  = node.getAttribute("id");
             string where = node.getAttribute("where");
+            
             if (!grib_.id(grib, where)) {
                 return;
             }
@@ -1596,15 +1603,25 @@ void GribDecoder::visit(MetaDataVisitor& meta) {
 
 string GribDecoder::representation() {
     string grid = getstring("typeOfGrid");
-    string proj = getstring("projTargetString", false);
 
+    current_handle_ = field_;
+    // Now warning, no caching
+    string proj =  getstring("projTargetString", false, false);
 
     return (proj.size()) ? "proj" : grid;
 }
 
+string GribDecoder::projString() {
+    current_handle_ = field_;
+    // Now warning, no caching
+    return  getstring("projTargetString", false, false);
+
+}
+
 void GribDecoder::visit(MetaDataCollector& step) {
+
     // Here we gather information for the label!
-    const Transformation& transformation = step.transformation();
+    
 
     openField();  // just to be sure the file is opened!
 
@@ -1633,7 +1650,7 @@ void GribDecoder::visit(MetaDataCollector& step) {
                 // Compute stats
                 if (step.attribute(key->first).group() == MetaDataAttribute::StatsGroup) {
                     stats_.clear();
-
+                    const Transformation& transformation = step.transformation();
                     PointsHandler& points = this->points(transformation, false);
 
                     points.setToFirst();
@@ -1649,9 +1666,10 @@ void GribDecoder::visit(MetaDataCollector& step) {
                 else if (step.attribute(key->first).source() == MetaDataAttribute::AnySource ||
                          step.attribute(key->first).source() == MetaDataAttribute::GribApiSource) {
                     if (step.attribute(key->first).type() != MetaDataAttribute::NumberType) {
-                        need.push_back("<grib_info key='" + key->first + "'/>");
+                        need.push_back("<grib_info key='" + key->first + "' id='" + id_ + "'/>");  
                     }
                     else {
+
                         need.push_back("<grib_info key='" + key->first + "' readAsLong='yes'/>");
                     }
                 }
@@ -1725,9 +1743,9 @@ void GribDecoder::visit(MetaDataCollector& step) {
                 if (information_.find(key->first) == information_.end()) {
                     if (step.attribute(key->first).source() == MetaDataAttribute::AnySource ||
                         step.attribute(key->first).source() == MetaDataAttribute::GribApiSource) {
-                        key->second = helper.get("grib", key->first);
+                        key->second = helper.get("grib" + id_, key->first);
                         setInfo(key->first, key->second);
-                    }
+                     }
                 }
             }
         }

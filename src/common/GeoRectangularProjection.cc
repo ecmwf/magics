@@ -43,6 +43,7 @@ GeoRectangularProjection::GeoRectangularProjection() : projection_(0) {
     tile_        = 256;
     unit_        = 360.;
     unitEpsilon_ = unit_ * 0.0001;
+    name_ = "cylindrical";
 }
 
 /*!
@@ -175,6 +176,8 @@ double GeoRectangularProjection::getMinPCX() const {
     return xpcmin_;
 }
 
+
+
 double GeoRectangularProjection::getMinPCY() const {
     return ypcmin_;
 }
@@ -185,6 +188,22 @@ double GeoRectangularProjection::getMaxPCX() const {
 
 double GeoRectangularProjection::getMaxPCY() const {
     return ypcmax_;
+}
+
+double GeoRectangularProjection::getExtendedMinPCX() const {
+    return xpcmin_ - xgutter_;
+}
+
+double GeoRectangularProjection::getExtendedMinPCY() const {
+    return ypcmin_- ygutter_;
+}
+
+double GeoRectangularProjection::getExtendedMaxPCX() const {
+    return xpcmax_ + xgutter_;
+}
+
+double GeoRectangularProjection::getExtendedMaxPCY() const {
+    return ypcmax_ + ygutter_;
 }
 
 void GeoRectangularProjection::gridLongitudes(const GridPlotting& grid) const {
@@ -371,6 +390,9 @@ void GeoRectangularProjection::init() {
     xpcmax_ = max_longitude_;
     ypcmax_ = max_latitude_;
 
+    xgutter_ = ((xpcmax_ - xpcmin_ ) * gutter_)/100;
+    ygutter_ = ((ypcmax_ - ypcmin_ ) * gutter_)/100;
+  
     userEnveloppe_->push_back(PaperPoint(min_longitude_, min_latitude_));
     userEnveloppe_->push_back(PaperPoint(min_longitude_, max_latitude_));
     userEnveloppe_->push_back(PaperPoint(max_longitude_, max_latitude_));
@@ -436,7 +458,7 @@ void MercatorProjection::init() {
 
     xy      = (*this)(ur);
     xpcmax_ = xy.x();
-    ypcmax_ = xy.y();
+    ypcmax_ = xy.y();  
     userEnveloppe_->clear();
     PCEnveloppe_->clear();
     askedxmin_ = std::min(xpcmin_, xpcmax_);
@@ -538,6 +560,7 @@ void GeoRectangularProjection::populate(double lon, double lat, double value, ve
 
 void GeoRectangularProjection::wraparound(const UserPoint& origin, stack<UserPoint>& out) const {
     UserPoint point = origin;
+   
     if (point.y_ > max_latitude_ || point.y_ < min_latitude_)
         return;
 

@@ -103,7 +103,7 @@ void Cities::operator()(const map<string, string>&, BasicGraphicsObjectContainer
 
     TextPosition position = (pos != positions.end()) ? pos->second : TextPosition::ABOVE;
 
-    string cities = buildConfigPath("10m", "ne_10m_populated_places_simple");
+    string cities = buildSharePath("10m", "ne_10m_populated_places_simple");
     std::set<string> need;
     CustomisedPointsList points;
     const Transformation& transformation = task.transformation();

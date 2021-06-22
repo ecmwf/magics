@@ -69,8 +69,12 @@ endif()
 
 # we may need to add stdc++fs to the link libs
 # GNU and Clang need this, but AppleClang does not
+# note: on conda the compiler id is just 'Clang', so we also need to check for 'APPLE'
 set(STDFSLIB "")
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+if( (NOT APPLE) AND 
+    (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR
+     CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR
+     CMAKE_CXX_COMPILER_ID STREQUAL "Intel"))
 	set(STDFSLIB "stdc++fs")
 endif()
 

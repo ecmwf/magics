@@ -26,7 +26,7 @@ matrix:
         CAIRO=""
 
     - os: osx
-      osx_image: xcode10.1
+      osx_image: xcode12.5
       env:
         MINICONDA_FILE="Miniconda3-latest-MacOSX-x86_64.sh"
         CAIRO="-D ENABLE_CAIRO=0"
@@ -85,6 +85,7 @@ install:
   - conda install -c conda-forge proj4=6 eccodes pytest cairo pango pip
   # search for conda-installed libraries
   - export LDFLAGS="$LDFLAGS -L${CONDA_PREFIX}/lib -Wl,-rpath,${CONDA_PREFIX}/lib"
+  - pip install findlibs
 
 
 #---------------------------------#

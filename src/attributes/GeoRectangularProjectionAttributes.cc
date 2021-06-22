@@ -29,7 +29,8 @@ GeoRectangularProjectionAttributes::GeoRectangularProjectionAttributes():
 	min_longitude_(ParameterManager::getDouble("subpage_lower_left_longitude")),
 	max_latitude_(ParameterManager::getDouble("subpage_upper_right_latitude")),
 	max_longitude_(ParameterManager::getDouble("subpage_upper_right_longitude")),
-	min_area_(ParameterManager::getDouble("subpage_minimal_area"))
+	min_area_(ParameterManager::getDouble("subpage_minimal_area")),
+	gutter_(ParameterManager::getDouble("subpage_gutter_percentage"))
 	
 	
 {
@@ -53,6 +54,7 @@ void GeoRectangularProjectionAttributes::set(const std::map<string, string>& par
 	setAttribute(prefix, "subpage_upper_right_latitude", max_latitude_, params);
 	setAttribute(prefix, "subpage_upper_right_longitude", max_longitude_, params);
 	setAttribute(prefix, "subpage_minimal_area", min_area_, params);
+	setAttribute(prefix, "subpage_gutter_percentage", gutter_, params);
 	
 	
 }
@@ -64,6 +66,7 @@ void GeoRectangularProjectionAttributes::copy(const GeoRectangularProjectionAttr
 	max_latitude_ = other.max_latitude_;
 	max_longitude_ = other.max_longitude_;
 	min_area_ = other.min_area_;
+	gutter_ = other.gutter_;
 	
 }
 
@@ -107,6 +110,7 @@ void GeoRectangularProjectionAttributes::print(ostream& out)  const
 	out << " max_latitude = " <<  max_latitude_;
 	out << " max_longitude = " <<  max_longitude_;
 	out << " min_area = " <<  min_area_;
+	out << " gutter = " <<  gutter_;
 	
 	out << "]" << "\n";
 }
@@ -124,6 +128,8 @@ void GeoRectangularProjectionAttributes::toxml(ostream& out)  const
 	niceprint(out,max_longitude_);
 	out << ", \"subpage_minimal_area\":";
 	niceprint(out,min_area_);
+	out << ", \"subpage_gutter_percentage\":";
+	niceprint(out,gutter_);
 	
 }
 
@@ -132,3 +138,4 @@ static MagicsParameter<double> subpage_lower_left_longitude("subpage_lower_left_
 static MagicsParameter<double> subpage_upper_right_latitude("subpage_upper_right_latitude", 90.0);
 static MagicsParameter<double> subpage_upper_right_longitude("subpage_upper_right_longitude", 180.0);
 static MagicsParameter<double> subpage_minimal_area("subpage_minimal_area", 0.1);
+static MagicsParameter<double> subpage_gutter_percentage("subpage_gutter_percentage", 0);

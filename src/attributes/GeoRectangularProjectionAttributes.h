@@ -55,6 +55,7 @@ public:
 	double max_latitude_;
 	double max_longitude_;
 	double min_area_;
+	double gutter_;
 	 
 
 private:

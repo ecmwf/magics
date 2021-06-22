@@ -31,6 +31,7 @@ GribLoopAttributes::GribLoopAttributes():
 	dim_colour_(ParameterManager::getLongIntArray("grib_position_colour")),
 	dim_(ParameterManager::getLongIntArray("grib_position")),
 	path_(ParameterManager::getString("grib_loop_path")),
+	id_(ParameterManager::getString("grib_id")),
 	scaling_(ParameterManager::getBool("grib_automatic_scaling")),
 	derived_scaling_(ParameterManager::getBool("grib_automatic_derived_scaling")),
 	scaling_factor_(ParameterManager::getDouble("grib_scaling_factor")),
@@ -65,6 +66,7 @@ void GribLoopAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "grib_position_colour", dim_colour_, params);
 	setAttribute(prefix, "grib_position", dim_, params);
 	setAttribute(prefix, "grib_loop_path", path_, params);
+	setAttribute(prefix, "grib_id", id_, params);
 	setAttribute(prefix, "grib_automatic_scaling", scaling_, params);
 	setAttribute(prefix, "grib_automatic_derived_scaling", derived_scaling_, params);
 	setAttribute(prefix, "grib_scaling_factor", scaling_factor_, params);
@@ -87,6 +89,7 @@ void GribLoopAttributes::copy(const GribLoopAttributes& other)
 	dim_colour_ = other.dim_colour_;
 	dim_ = other.dim_;
 	path_ = other.path_;
+	id_ = other.id_;
 	scaling_ = other.scaling_;
 	derived_scaling_ = other.derived_scaling_;
 	scaling_factor_ = other.scaling_factor_;
@@ -153,6 +156,7 @@ void GribLoopAttributes::print(ostream& out)  const
 	out << " dim_colour = " <<  dim_colour_;
 	out << " dim = " <<  dim_;
 	out << " path = " <<  path_;
+	out << " id = " <<  id_;
 	out << " scaling = " <<  scaling_;
 	out << " derived_scaling = " <<  derived_scaling_;
 	out << " scaling_factor = " <<  scaling_factor_;
@@ -182,6 +186,8 @@ void GribLoopAttributes::toxml(ostream& out)  const
 	niceprint(out,dim_);
 	out << ", \"grib_loop_path\":";
 	niceprint(out,path_);
+	out << ", \"grib_id\":";
+	niceprint(out,id_);
 	out << ", \"grib_automatic_scaling\":";
 	niceprint(out,scaling_);
 	out << ", \"grib_automatic_derived_scaling\":";
@@ -211,6 +217,7 @@ static MagicsParameter<longintarray> grib_position_2("grib_position_2", longinta
 static MagicsParameter<longintarray> grib_position_colour("grib_position_colour", longintarray());
 static MagicsParameter<longintarray> grib_position("grib_position", longintarray());
 static MagicsParameter<string> grib_loop_path("grib_loop_path", "");
+static MagicsParameter<string> grib_id("grib_id", "");
 static MagicsParameter<string> grib_automatic_scaling("grib_automatic_scaling", "on");
 static MagicsParameter<string> grib_automatic_derived_scaling("grib_automatic_derived_scaling", "off");
 static MagicsParameter<double> grib_scaling_factor("grib_scaling_factor", 1);

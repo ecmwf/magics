@@ -66,6 +66,7 @@ public:
 	double sweep_;
 	string proj4_definition_;
 	string coordinates_system_;
+	double gutter_;
 	 
 
 private:

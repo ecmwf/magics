@@ -79,7 +79,7 @@ private:
 class EcChartData : public MagConfig {
 public:
     EcChartData(const string& name) {
-        path_ = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/" + name + ".json";
+        path_ = buildSharePath(name + ".json");
         MagConfigHandler(path_, *this);
     }
 
@@ -107,7 +107,7 @@ public:
 class EcChartSetData : public MagConfig {
 public:
     EcChartSetData(const string& name) {
-        path_ = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/" + name + ".json";
+        path_ = buildSharePath(name + ".json");
         MagConfigHandler(path_, *this);
     }
     ~EcChartSetData() {}

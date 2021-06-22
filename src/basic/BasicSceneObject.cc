@@ -137,7 +137,7 @@ double BasicPositionalObject::adjustDimension(double x, double def, double paren
     MagLog::dev() << "adjustDimension[" << x << ", " << def << ", " << parent << "]=" << (x / parent) * 100 << "%"
                   << endl;
     double dim = (x / parent) * 100;
-    // can not return more thean 100!
+    // cannot return more thean 100!
 
     return dim;
     //	return dim > 100 ? 100 : dim;

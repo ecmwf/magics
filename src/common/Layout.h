@@ -144,6 +144,8 @@ public:
 
     virtual Layout* execute(AnimationStep& step, const Layout* visitor);
 
+    string infoTransformation() const;
+
 
     double minX() const { return xmin_; }
     double maxX() const { return xmax_; }

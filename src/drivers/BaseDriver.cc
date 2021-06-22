@@ -131,7 +131,7 @@ void BaseDriver::printOutputName(const std::string& str) const {
   \todo make this a singleton!?
 */
 void BaseDriver::readFonts() const {
-    const string s = buildConfigPath("Fonts.dat");
+    const string s = buildSharePath("Fonts.dat");
     ifstream psfile(s.c_str());
 
     if (psfile) {
@@ -269,6 +269,7 @@ string BaseDriver::getFileName(const string& extension, const unsigned int no) c
   \sa Layout
 */
 MAGICS_NO_EXPORT void BaseDriver::redisplay(const Layout& layout) const {
+    // cout << "BaseDriver::redisplay-->" << layout.infoTransformation() << endl;
     project(layout);
     staLayouts_.push(&layout);
     layout.visit(*this);  // visit this layout!

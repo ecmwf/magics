@@ -162,6 +162,7 @@ struct InfoIndex {
     double nbPoints_;
     int offset_;
     double step_;
+    
 
     pair<int, bool> index(double pos) const;
     double value(int i) const { return first_ + (step_)*i; }
@@ -171,7 +172,7 @@ struct InfoIndex {
 class Matrix : public AbstractMatrix, public magvector<double> {
 public:
     Matrix(int rows, int columns) :
-        rows_(rows), columns_(columns), missing_(DBL_MIN), akima_(false), min_(DBL_MAX), max_(DBL_MIN) {
+        rows_(rows), columns_(columns), missing_(DBL_MIN), akima_(false), geographical_(true), min_(DBL_MAX), max_(DBL_MIN) {
         set(rows, columns);
     }
 
@@ -181,13 +182,13 @@ public:
     MatrixHandler* getReady(const Transformation&) const override;
 
     Matrix(int rows, int columns, double val) :
-        rows_(rows), columns_(columns), missing_(DBL_MIN), akima_(false), min_(DBL_MAX), max_(DBL_MIN) {
+        rows_(rows), columns_(columns), missing_(DBL_MIN), akima_(false), geographical_(true), min_(DBL_MAX), max_(DBL_MIN) {
         resize(rows_ * columns_, val);
         rowsAxis_.resize(rows_, val);
         columnsAxis_.resize(columns_, val);
     }
 
-    Matrix() : missing_(DBL_MIN), akima_(false), min_(DBL_MAX), max_(DBL_MIN) {}
+    Matrix() : missing_(DBL_MIN), akima_(false), geographical_(true),  min_(DBL_MAX), max_(DBL_MIN) {}
 
     void set(int rows, int columns) {
         rows_    = rows;
@@ -375,6 +376,7 @@ public:
         return -1;
     }
 
+    virtual void adjustPosition(double& x, double& y) {}
 
     map<double, map<double, pair<double, double> > > index_;
     map<double, int> yIndex_;  // lat--> index
@@ -403,6 +405,7 @@ protected:
     int columns_;
     double missing_;
     bool akima_;
+    bool geographical_;
 
     int row_ind(double row) const {
         map<double, int>::const_iterator i = rowsMap_.lower_bound(row);
@@ -475,8 +478,12 @@ protected:
 
 class Proj4Matrix : public Matrix {
 public:
-    Proj4Matrix(const string& proj) : Matrix(), projHelper_(proj), proj_(proj) {}
+    Proj4Matrix(const string& proj) : Matrix(), projHelper_(proj), proj_(proj) { geographical_ = false; }
     MatrixHandler* getReady(const Transformation&) const override;
+
+    void adjustPosition(double& x, double& y)  override;
+
+    int nearest_index(double i, double j, double& iOut, double& jOut) const override;
 
 protected:
     LatLonProjP projHelper_;

@@ -95,7 +95,7 @@ TitleTemplate::TitleTemplate() {
 
 void TitleTemplate::decode() {
     singleton_      = this;
-    string filename = buildConfigPath(file_);
+    string filename = buildSharePath(file_);
     char buf[BUFSIZ];
     ignore_space_ = true;
     push(this);
@@ -159,7 +159,7 @@ bool TitleTemplate::verify(const GribDecoder& data) const {
             if (MagicsGlobal::strict()) {
                 throw;
             }
-            MagLog::warning() << "Can Not Create the MatchCriteria for " << criter->first << "\n";
+            MagLog::warning() << "Cannot Create the MatchCriteria for " << criter->first << "\n";
             return false;
         }
     }

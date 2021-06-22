@@ -84,6 +84,10 @@ void GribLoopWrapper::set(const MagRequest& request)
 		string path_value = request("GRIB_LOOP_PATH");
 		gribloop_->path_ = path_value;
 		}
+	if  (request.countValues("GRIB_ID") ) {
+		string id_value = request("GRIB_ID");
+		gribloop_->id_ = id_value;
+		}
 	if  (request.countValues("GRIB_AUTOMATIC_SCALING") ) {
 		string scaling_value = request("GRIB_AUTOMATIC_SCALING");
 		

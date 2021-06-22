@@ -194,6 +194,7 @@ public:
     }
 
     string representation();
+    string projString();
 
     long getLong(const string&, bool warnIfKeyAbsent = true) const;
     string getString(const string&, bool warnIfKeyAbsent = true) const;

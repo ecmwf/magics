@@ -78,6 +78,10 @@ void CairoDriverWrapper::set(const MagRequest& request)
 		int quality_value = request("OUTPUT_GEOTIFF_QUALITY");
 		cairodriver_->quality_ = quality_value;
 		}
+	if  (request.countValues("OUTPUT_FONT_SCALE") ) {
+		double font_scale_value = request("OUTPUT_FONT_SCALE");
+		cairodriver_->font_scale_ = font_scale_value;
+		}
 	
 	
 }

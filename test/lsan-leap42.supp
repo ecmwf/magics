@@ -1,0 +1,2 @@
+leak:asan_malloc_linux.cc
+leak:asan_interceptors.cc

@@ -519,7 +519,7 @@ void GeoJSon::decode() {
                 if (MagicsGlobal::strict()) {
                     throw;
                 }
-                MagLog::error() << "GeoJSon decoder: can not read file " << path_ << endl;
+                MagLog::error() << "GeoJSon decoder: cannot read file " << path_ << endl;
                 return;
             }
         }

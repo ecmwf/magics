@@ -15,7 +15,7 @@ cmake_minimum_required( VERSION 3.12 FATAL_ERROR )
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../ecbuild/cmake")
 find_package( ecbuild 3.4 REQUIRED )
 
-project( magics VERSION 4.7.0 LANGUAGES CXX )
+project( magics VERSION 4.8.2 LANGUAGES CXX )
 
 # make sure that the header files are installed into include/magics
 # note that this needs to be done before ecbuild_declare_project()
@@ -164,6 +164,25 @@ if(APPLE)
   find_package( zlib REQUIRED )  # dependency of minizip - KMZ support
 endif(APPLE)
 
+### check support for DL library
+#
+#  code taken from eckit (src/eckit/CMakeList.txt)
+#
+if( NOT EC_OS_NAME MATCHES "windows" )
+check_include_files( dlfcn.h magics_HAVE_DLFCN_H )
+
+if(NOT magics_HAVE_DLFCN_H)
+message(FATAL_ERROR "Magics requires dlfcn.h for supporting the detection of the shared folder")
+endif()
+
+cmake_push_check_state(RESET)
+    set(CMAKE_REQUIRED_LIBRARIES ${CMAKE_DL_LIBS} )
+    check_c_source_compiles( "#define _GNU_SOURCE\n#include <dlfcn.h>\nint main(){ void* addr; Dl_info info; dladdr(addr, &info); }\n"
+        magics_HAVE_DLADDR )
+cmake_pop_check_state()
+
+endif()
+
 ###############################################################################
 # Windows compiler options
 
@@ -196,7 +215,7 @@ if( EC_OS_NAME MATCHES "windows" )
 
 else()
 
-  set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-unused-parameter -Wno-overloaded-virtual -Wno-unused-variable -Wno-reorder -Wno-sign-compare")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-unused-parameter -Wno-overloaded-virtual -Wno-unused-variable -Wno-reorder -Wno-sign-compare")
 
   # set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-unused-parameter -Wno-overloaded-virtual -Wno-unused-variable -Wno-reorder-ctor -Wno-sign-compare")
 
@@ -209,8 +228,6 @@ if ( HAVE_ODB )
   ecbuild_info("Adding support for ODB")
   list( APPEND MAGICS_EXTRA_LIBRARIES odccore)
 endif()
-
-
 
 if( HAVE_CAIRO )
   list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS ${PANGOCAIRO_INCLUDE_DIRS})

@@ -28,7 +28,8 @@ CairoDriverAttributes::CairoDriverAttributes():
 	transparent_(ParameterManager::getString("output_cairo_transparent_background")),
 	antialias_(ParameterManager::getString("output_cairo_antialias")),
 	palette_(ParameterManager::getString("output_cairo_palette")),
-	quality_(ParameterManager::getInt("output_geotiff_quality"))
+	quality_(ParameterManager::getInt("output_geotiff_quality")),
+	font_scale_(ParameterManager::getDouble("output_font_scale"))
 	
 	
 {
@@ -52,6 +53,7 @@ void CairoDriverAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "output_cairo_antialias", antialias_, params);
 	setAttribute(prefix, "output_cairo_palette", palette_, params);
 	setAttribute(prefix, "output_geotiff_quality", quality_, params);
+	setAttribute(prefix, "output_font_scale", font_scale_, params);
 	
 	
 }
@@ -62,6 +64,7 @@ void CairoDriverAttributes::copy(const CairoDriverAttributes& other)
 	antialias_ = other.antialias_;
 	palette_ = other.palette_;
 	quality_ = other.quality_;
+	font_scale_ = other.font_scale_;
 	
 }
 
@@ -104,6 +107,7 @@ void CairoDriverAttributes::print(ostream& out)  const
 	out << " antialias = " <<  antialias_;
 	out << " palette = " <<  palette_;
 	out << " quality = " <<  quality_;
+	out << " font_scale = " <<  font_scale_;
 	
 	out << "]" << "\n";
 }
@@ -119,6 +123,8 @@ void CairoDriverAttributes::toxml(ostream& out)  const
 	niceprint(out,palette_);
 	out << ", \"output_geotiff_quality\":";
 	niceprint(out,quality_);
+	out << ", \"output_font_scale\":";
+	niceprint(out,font_scale_);
 	
 }
 
@@ -126,3 +132,4 @@ static MagicsParameter<string> output_cairo_transparent_background("output_cairo
 static MagicsParameter<string> output_cairo_antialias("output_cairo_antialias", "on");
 static MagicsParameter<string> output_cairo_palette("output_cairo_palette", "off");
 static MagicsParameter<int> output_geotiff_quality("output_geotiff_quality", 1);
+static MagicsParameter<double> output_font_scale("output_font_scale", 1.0);

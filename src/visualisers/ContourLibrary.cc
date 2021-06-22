@@ -301,6 +301,12 @@ void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& of
     StyleEntry info;
     scaling = 1;
     offset  = 0;
+    static bool debug;
+    static bool first = true;
+    if ( first ) {
+        first = false;
+        debug = (getEnvVariable("MAGICS_STYLES_DEBUG") != "");
+    }
 
     // cout << "SCALING" << endl;
     vector<string> keywords = {"preferred_units", "prefered_units"};
@@ -310,15 +316,17 @@ void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& of
         unit = data.find("parameterUnits");
     if (unit == data.end())
         return;
-    MagLog::debug() << " Found Unit " << unit->second << endl;
+    if (debug) cout << " Found Unit " << unit->second << endl;
     bool found = styles_->findStyle(data, values, info);
     if (!found) {
-        MagLog::debug() << "Can not find style" << endl;
+        MagLog::debug() << "Cannot find style" << endl;
         return;
     }
-    MagLog::debug() << " TRYING to scale " << unit->second << endl;
+    if (debug) {
+    cout << " TRYING to scale " << unit->second << endl;
     for (auto x = values.begin(); x != values.end(); ++x)
-        MagLog::debug() << x->first << "--->" << x->second << endl;
+        cout << x->first << "--->" << x->second << endl;
+    }
 
     MagDef::iterator need;
     for (auto key = keywords.begin(); key != keywords.end(); ++key) {
