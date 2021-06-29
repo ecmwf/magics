@@ -1116,15 +1116,16 @@ MAGICS_NO_EXPORT void CairoDriver::circle(const MFloat x, const MFloat y, const 
   \param pixmap contents
   \param alpha transparency
 */
-MAGICS_NO_EXPORT bool CairoDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
-                                                unsigned char* pixmap, int, bool alpha, bool offset) const {
-    MagLog::debug() << "CD:renderPixmap> " << w << "x" << h << endl;
-    unsigned char* p = pixmap;
-    const MFloat dx  = (x1 - x0) / w;
-    const MFloat dy  = (y1 - y0) / h;  // Minus needed for Y axis correction
+MAGICS_NO_EXPORT bool CairoDriver::renderPixmap(const Pixmap& in) const {
+    MagLog::debug() << "CD:renderPixmap> " << in.w << "x" << in.h << endl;
+    unsigned char* p = in.pixmap;
+    const MFloat dx  = (in.x1 - in.x0) / in.w;
+    const MFloat dy  = (in.y1 - in.y0) / in.h;  // Minus needed for Y axis correction
+    MFloat x0        = in.x0;
+    MFloat y0        = in.y0;
     MFloat a         = 1.;
 
-    if(offset){
+    if(in.offset){
         x0 += offsetX_;
         y0 += offsetY_;
     }
@@ -1133,16 +1134,16 @@ MAGICS_NO_EXPORT bool CairoDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1,
 //    cairo_antialias_t t = cairo_get_antialias(cr_);
 //    cairo_set_antialias(cr_, CAIRO_ANTIALIAS_NONE);
 
-    for (int i = 0; i < h; i++) {
-        for (int j = 0; j < w; j++) {
+    for (int i = 0; i < in.h; i++) {
+        for (int j = 0; j < in.w; j++) {
             const MFloat r = *(p++);
             const MFloat g = *(p++);
             const MFloat b = *(p++);
-            if (alpha)   a = *(p++);
+            if (in.alpha)   a = *(p++);
 
             //if ((r * g * b) > 0)
             {
-                if (!alpha) cairo_set_source_rgb( cr_, r, g, b);
+                if (!in.alpha) cairo_set_source_rgb( cr_, r, g, b);
                 else        cairo_set_source_rgba(cr_, r, g, b, a);
 
                 const MFloat x = x0 + (j * dx);
@@ -1362,17 +1363,15 @@ MAGICS_NO_EXPORT void CairoDriver::renderSymbols(const Symbol& symbol) const {
     }
 }
 
-MAGICS_NO_EXPORT bool CairoDriver::convertToPixmap(const string& fname, const GraphicsFormat format, const int reso,
-                                                   const MFloat wx0, const MFloat wy0, const MFloat wx1,
-                                                   const MFloat wy1) const {
-    if (format == GraphicsFormat::PNG) {
+MAGICS_NO_EXPORT bool CairoDriver::convertToPixmap(const PixmapInput& in) const {
+    if (in.format == GraphicsFormat::PNG) {
         cairo_save(cr_);
-        cairo_surface_t* image = cairo_image_surface_create_from_png(fname.c_str());
+        cairo_surface_t* image = cairo_image_surface_create_from_png(in.filename.c_str());
         int w                  = cairo_image_surface_get_width(image);
         int h                  = cairo_image_surface_get_height(image);
 
-        cairo_translate(cr_, wx0, wy0);
-        cairo_scale(cr_, (wx1 - wx0) / w, -(wy1 - wy0) / h);
+        cairo_translate(cr_, in.x0, in.y0);
+        cairo_scale(cr_, (in.x1 - in.x0) / w, -(in.y1 - in.y0) / h);
 
         cairo_set_source_surface(cr_, image, 0, 0);
         cairo_paint(cr_);
@@ -1382,7 +1381,8 @@ MAGICS_NO_EXPORT bool CairoDriver::convertToPixmap(const string& fname, const Gr
         return true;
     }
     else
-        return BaseDriver::convertToPixmap(fname, format, reso, wx0, wy0, wx1, wy1);
+        MagLog::error() << "CairoDriver - Only PNG graphics can be imported - Please convert "<< in.filename <<" into a PNG." << endl;
+        return false;
 }
 
 static SimpleObjectMaker<CairoDriver, BaseDriver> Cairo_driver("Cairo");

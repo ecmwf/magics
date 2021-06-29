@@ -189,6 +189,29 @@ struct magFont {
     string css_name;
 };
 
+struct PixmapInput {
+    string filename;
+    GraphicsFormat format;
+    int resolution;
+    MFloat x0;
+    MFloat y0;
+    MFloat x1;
+    MFloat y1;
+};
+
+struct Pixmap {
+    MFloat x0;
+    MFloat y0;
+    MFloat x1;
+    MFloat y1;
+    int w;
+    int h;
+    unsigned char* pixmap;
+    int landscape;
+    bool alpha;
+    bool offset;
+};
+
 
 /*! \class BaseDriver
     \brief Base class for all drivers of Magics.
@@ -228,18 +251,19 @@ public:
 
     intarray frames() const { return frame_list_; }
 
+    MAGICS_NO_EXPORT void redisplay(const StartPage&) const;
+    MAGICS_NO_EXPORT void redisplay(const EndPage&) const;
+
     MAGICS_NO_EXPORT void redisplay(const Layout&) const;
     MAGICS_NO_EXPORT void redisplay(const RootLayout&) const;
     virtual MAGICS_NO_EXPORT void redisplay(const LegendLayout&) const;
     virtual MAGICS_NO_EXPORT void redisplay(const SceneLayout&) const;
-    MAGICS_NO_EXPORT void redisplay(const StartPage&) const;
-    MAGICS_NO_EXPORT void redisplay(const EndPage&) const;
+
     virtual MAGICS_NO_EXPORT void redisplay(const Layer&) const;
     virtual MAGICS_NO_EXPORT void redisplay(const SceneLayer&) const;
     virtual MAGICS_NO_EXPORT void redisplay(const StaticLayer&) const;
     virtual MAGICS_NO_EXPORT void redisplay(const NoDataLayer&) const;
     virtual MAGICS_NO_EXPORT void redisplay(const StepLayer&) const;
-
     virtual MAGICS_NO_EXPORT void redisplay(const Polyline&) const;
 
 
@@ -337,14 +361,12 @@ protected:
 
     virtual void renderText(const Text&) const {}
     virtual void debugOutput(const string& s) const {
-        if (debug_)
-            MagLog::debug() << " DRIVERS: " << s << "\n";
+        if (debug_) MagLog::debug() << " DRIVERS: " << s << "\n";
     }
 
     virtual MFloat projectX(const MFloat x) const { return coordRatioX_ * x; }
     virtual MFloat projectY(const MFloat y) const { return coordRatioY_ * y; }
 
-    string getTmpName() const;
 
     double LSF(MFloat* x, MFloat* y, int i0) const;
 
@@ -418,11 +440,8 @@ protected:
     // images + bitmap methods
     virtual void renderImage(const ImportObject& object) const;
     MAGICS_NO_EXPORT void renderImage(const Image& obj) const { renderCellArray(obj); }
-    virtual MAGICS_NO_EXPORT bool convertToPixmap(const string& fname, const GraphicsFormat format, const int reso,
-                                                  const MFloat wx0, const MFloat wy0, const MFloat wx1,
-                                                  const MFloat wy1) const;
-    virtual MAGICS_NO_EXPORT bool renderPixmap(MFloat, MFloat, MFloat, MFloat, int, int, unsigned char*, int,
-                                               bool hasAlpha = false, bool offset=false) const;
+    virtual MAGICS_NO_EXPORT bool convertToPixmap(const PixmapInput&) const;
+    virtual MAGICS_NO_EXPORT bool renderPixmap(const Pixmap&) const;
     virtual MAGICS_NO_EXPORT bool renderCellArray(const Image&) const;
 
     mutable std::map<string, magFont, RuntimeStringCompare> FontMap_;
@@ -441,6 +460,8 @@ private:
     mutable vector<const PaperPoint*> vecPoints_;
     bool checkDistanceMoreThan(const PaperPoint* pp, double distance) const;
     void renderSimplePolygon(vector<PaperPoint>& vP) const;
+
+    // methods to draw symbols 
     void snowflake(const MFloat, const MFloat, const MFloat) const;
     void drizzle(const MFloat, const MFloat, const MFloat) const;
     void triangle(const MFloat, const MFloat, const MFloat, const int, const int) const;

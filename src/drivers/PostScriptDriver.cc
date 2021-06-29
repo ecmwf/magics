@@ -1131,24 +1131,24 @@ MAGICS_NO_EXPORT void PostScriptDriver::circle(const MFloat x, const MFloat y, c
   \param landscape says if contents is landscape
   \param alpha transparency of array
 */
-MAGICS_NO_EXPORT bool PostScriptDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int width, int height,
-                                                     unsigned char* pixmap, int landscape, bool alpha, bool ) const {
-    if (landscape)  // swop w/h
+MAGICS_NO_EXPORT bool PostScriptDriver::renderPixmap(const Pixmap& in) const {
+    int width       = in.w;
+    int height      = in.h;
+    if (in.landscape)  // swop w/h
     {
-        const int x = width;
-        width       = height;
-        height      = x;
+        width       = in.h;
+        height      = in.w;
     }
     if (height == 0 || width == 0)
         return false;
 
-    unsigned char* p    = pixmap;
+    unsigned char* p    = in.pixmap;
     std::fstream* ps    = getStream();
     const int col_model = getDeviceColourModel();
-    const MFloat dx     = x1 - x0 + 1;
-    const MFloat dy     = y1 - y0 + 1;
+    const MFloat dx     = in.x1 - in.x0 + 1;
+    const MFloat dy     = in.y1 - in.y0 + 1;
 
-    *ps << "gs /pic " << width * ((col_model == 1) ? 4 : 3) << " string def " << x0 << " " << y0 << " t " << dx << " "
+    *ps << "gs /pic " << width * ((col_model == 1) ? 4 : 3) << " string def " << in.x0 << " " << in.y0 << " t " << dx << " "
         << dy << " s " << width << " " << height << " 8\n"
         << "[" << width << " 0 0 " << height << " 0 0] "
         << "{currentfile pic readhexstring pop}"
@@ -1159,14 +1159,14 @@ MAGICS_NO_EXPORT bool PostScriptDriver::renderPixmap(MFloat x0, MFloat y0, MFloa
     for (int j = height - 1; j >= 0; j--) {
         for (int i = width - 1; i >= 0; i--) {
             // Get image left-right and bottom-up
-            int n = (landscape) ? (height * i + j) * 3 : (j * width + width - 1 - i) * 3;
-            if (alpha)
-                n = (landscape) ? (height * i + j) * 4 : (j * width + width - 1 - i) * 4;
+            int n = (in.landscape) ? (height * i + j) * 3 : (j * width + width - 1 - i) * 3;
+            if (in.alpha)
+                n = (in.landscape) ? (height * i + j) * 4 : (j * width + width - 1 - i) * 4;
             unsigned char* p2 = p + n;
             unsigned char r   = *(p2++);
             unsigned char g   = *(p2++);
             unsigned char b   = *(p2++);
-            if (alpha)
+            if (in.alpha)
                 p2++;  // ignore alpha values ... :-(
             short kr, kg, kb, kc, km, ky, kk;
             MFloat cc, cm, cy, ck;

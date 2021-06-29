@@ -1605,32 +1605,31 @@ MAGICS_NO_EXPORT void QtDriver::renderImage(const ImportObject& obj) const {
   \param hasAlpha has the array transparency?
 
 */
-MAGICS_NO_EXPORT bool QtDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
-                                             unsigned char* pixmap, int landscape, bool hasAlpha, bool) const {
-    MagLog::debug() << "renderPixmap: " << x0 << " " << y0 << " " << x1 << " " << y1 << endl;
+MAGICS_NO_EXPORT bool QtDriver::renderPixmap(const Pixmap& in) const {
+    MagLog::debug() << "renderPixmap: " << in.x0 << " " << in.y0 << " " << in.x1 << " " << in.y1 << endl;
 
 
-    QImage img = QImage(w, h, QImage::Format_ARGB32);
+    QImage img = QImage(in.w, in.h, QImage::Format_ARGB32);
 
     // uchar *data = new uchar[w*h*4];
     int srcPos;
     int pixel;
 
-    if (hasAlpha) {
-        for (int j = 0; j < h; j++) {
-            for (int i = 0; i < w; i++) {
-                srcPos = ((h - j - 1) * w + i) * 4;
+    if (in.alpha) {
+        for (int j = 0; j < in.h; j++) {
+            for (int i = 0; i < in.w; i++) {
+                srcPos = ((in.h - j - 1) * in.w + i) * 4;
                 // pixel=qRgba(pixmap[srcPos+1],pixmap[srcPos+2],pixmap[srcPos+3],pixmap[srcPos]);
-                pixel = qRgba(pixmap[srcPos], pixmap[srcPos + 1], pixmap[srcPos + 2], pixmap[srcPos + 3]);
+                pixel = qRgba(in.pixmap[srcPos], in.pixmap[srcPos + 1], in.pixmap[srcPos + 2], in.pixmap[srcPos + 3]);
                 img.setPixel(i, j, pixel);
             }
         }
     }
     else {
-        for (int j = 0; j < h; j++) {
-            for (int i = 0; i < w; i++) {
-                srcPos = ((h - j - 1) * w + i) * 3;
-                pixel  = qRgba(pixmap[srcPos], pixmap[srcPos + 1], pixmap[srcPos + 2], 0xff);
+        for (int j = 0; j < in.h; j++) {
+            for (int i = 0; i < in.w; i++) {
+                srcPos = ((in.h - j - 1) * in.w + i) * 3;
+                pixel  = qRgba(in.pixmap[srcPos], in.pixmap[srcPos + 1], in.pixmap[srcPos + 2], 0xff);
                 img.setPixel(i, j, pixel);
             }
         }
@@ -1658,8 +1657,8 @@ MAGICS_NO_EXPORT bool QtDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MF
     MgQPixmapItem* item = new MgQPixmapItem(QPixmap::fromImage(img));
 
     item->setParentItem(currentItem_);
-    item->setTargetRect(QRectF(x0, y0, x1 - x0, y1 - y0));
-    item->setPos(x0, y0);
+    item->setTargetRect(QRectF(in.x0, in.y0, in.x1 - in.x0, in.y1 - in.y0));
+    item->setPos(in.x0, in.y0);
 
     // MgQLayoutItem layoutParent=layoutItemStack_.top();
     // QRectF r=layoutparent->sceneBoundingRect();
