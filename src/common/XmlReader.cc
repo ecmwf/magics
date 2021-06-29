@@ -123,8 +123,8 @@ void XmlReader::interpret(const string& xml, XmlTree* tree) {
         if (MagicsGlobal::strict()) {
             throw CannotOpenFile(xml);
         }
-        MagLog::dev() << "XmlDecoder: can not open file " << xml << endl;
-        MagLog::error() << "XmlDecoder: can not open file " << xml << endl;
+        MagLog::dev() << "XmlDecoder: cannot open file " << xml << endl;
+        MagLog::error() << "XmlDecoder: cannot open file " << xml << endl;
         return;
     }
 

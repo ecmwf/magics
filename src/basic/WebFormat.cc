@@ -78,7 +78,7 @@ static void substitute(string& xml, const map<string, string>& variables) {
 void WebFormat::prepare(const string& magml, const map<string, string>& params, TempFile& file) {
     ifstream in(magml.c_str());
     if (!in) {
-        MagLog::error() << " Can not open file " << magml << endl;
+        MagLog::error() << " Cannot open file " << magml << endl;
         throw CannotOpenFile(magml);
     }
 

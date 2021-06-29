@@ -319,7 +319,7 @@ void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& of
     if (debug) cout << " Found Unit " << unit->second << endl;
     bool found = styles_->findStyle(data, values, info);
     if (!found) {
-        MagLog::debug() << "Can not find style" << endl;
+        MagLog::debug() << "Cannot find style" << endl;
         return;
     }
     if (debug) {

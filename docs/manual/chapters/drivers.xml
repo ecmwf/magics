@@ -30,7 +30,7 @@ does it submit to any jurisdiction.
 
     <para>
     Please be aware that not all output drivers might be installed on your system. Some output drivers dependent on third-party libraries.
-    If these are missing at compilation time <productname>Magics++</productname> can not support all formats. 
+    If these are missing at compilation time <productname>Magics++</productname> cannot support all formats. 
     Please consult the installation guide for more information.
     </para>
 
@@ -365,7 +365,7 @@ to generate PostScript files and the driver is always available to users.</para>
     
     <para>Even though printers support standardised page sizes, such as A4 and A3, they 
     often are not able to print on the full page. Depending on the printer an border 
-    area surrounding the page can not be printed on. This needs to be kept in mind if 
+    area surrounding the page cannot be printed on. This needs to be kept in mind if 
     designing maps to be printed. To help with this <productname>Magics</productname>
     provides an option to shrink/rescale a PostScript page to fit to the printer.</para>
     

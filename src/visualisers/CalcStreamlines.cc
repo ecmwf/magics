@@ -670,7 +670,7 @@ int CalcStreamlines(int density, const float* dir, const GSStruct* gs, OneLineCl
                         {
                             int stop_now = 0;
                             for (int l = 0; l < cell_used[act_cell]; l++) {
-                                // cell_used_by[l][act_cell] can not be greater than linenum
+                                // cell_used_by[l][act_cell] cannot be greater than linenum
                                 const OneLineClass& line = *str_lines[cell_used_by[l][act_cell]];
                                 int lp = cell_used_by_point[l][act_cell] - line_start_array[cell_used_by[l][act_cell]];
                                 // if( line.X[lp] == x[pos] && line.Y[lp] == y[pos] )

@@ -287,7 +287,7 @@ void GribInterpretor::scaling(GribDecoder& grib, double& scaling, double& offset
         scaling = grib.scaling_factor_;
         offset  = grib.scaling_offset_;
     }
-    // Add a sanity check : the factor can not be 0..
+    // Add a sanity check : the factor cannot be 0..
     if (scaling == 0)
         scaling = 1;
 }

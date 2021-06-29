@@ -800,8 +800,8 @@ grib_handle* GribDecoder::open(grib_handle* grib, bool sendmsg) {
     if (!handle) {
         if (sendmsg) {
             ostringstream error;
-            error << "can not access position [" << current_position_ << " in " << file_name_ << "]" << std::endl;
-            MagLog::error() << "can not access position [" << current_position_ << " in " << file_name_ << "]"
+            error << "cannot access position [" << current_position_ << " in " << file_name_ << "]" << std::endl;
+            MagLog::error() << "cannot access position [" << current_position_ << " in " << file_name_ << "]"
                             << std::endl;
             MagLog::broadcast();
             valid_ = false;
@@ -998,7 +998,7 @@ bool GribLoop::hasMore() {
     if (file_ == 0) {
         file_ = fopen(path_.c_str(), "r");
         if (!file_) {
-            MagLog::error() << "file can not be opened [" << path_ << "] " << std::strerror(errno) << std::endl;
+            MagLog::error() << "file cannot be opened [" << path_ << "] " << std::strerror(errno) << std::endl;
             throw CannotOpenFile(path_);
         }
     }

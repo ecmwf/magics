@@ -55,6 +55,18 @@
                       "Minimum total precipitation rate in the last 3 hours",
                       "Maximum total precipitation rate in the last 6 hours",
                       "Minimum total precipitation rate in the last 6 hours"]
+      },
+      {
+        "paramId": "500145",
+        "centre":"edzw"
+      },
+      {
+        "paramId": "500132",
+        "centre":"edzw"
+      },
+      {
+        "paramId": "500052",
+        "centre":"edzw"
       }
     ]
   }

@@ -270,7 +270,7 @@
            </row></tbody></tgroup>
      </informaltable>
 <para>Even if a feature is enabled by the installer it might be still disabled by the <function>configure</function> script
-if the necessary dependent software can not be detected. Installers should check carefully the output of the <function>configure</function> script.
+if the necessary dependent software cannot be detected. Installers should check carefully the output of the <function>configure</function> script.
 </para>
 
 <para>The C, C++ and Fortran compilers are chosen by configure. This can be overwritten by 

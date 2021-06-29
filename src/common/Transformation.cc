@@ -207,7 +207,7 @@ bool ViewFilter::in(const PaperPoint& xy) {
         return false;
     if (xy.y() < ymin_)
         return false;
-    if (xy.y() < ymin_)
+    if (xy.y() > ymax_)
         return false;
     return true;
 }
@@ -592,7 +592,7 @@ UserPoint Transformation::reference() const {
     return ll;
 }
 
-double Transformation::distance(UserPoint& point1, UserPoint& point2) const {
+double Transformation::distance(const UserPoint& point1, const UserPoint& point2) const {
     double x1 = point1.x_;
     double y1 = point1.y_;
     double x2 = point2.x_;

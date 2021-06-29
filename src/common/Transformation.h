@@ -122,7 +122,6 @@ public:
     virtual Polyline& getPCBoundingBox() const { NOTIMP; }
     virtual Polyline& getSimplePCBoundingBox() const { NOTIMP; }
 
-
     bool needTopAxis() const { return topAxis_; }
     void needTopAxis(bool top) { topAxis_ = top; }
 
@@ -249,8 +248,6 @@ public:
     virtual double getMinY() const { return -1; }
     virtual double getMaxY() const { return -1; }
 
-    
-
     virtual void setMinMaxX(double, double) {}
     virtual void setMinMaxY(double, double) {}
 
@@ -263,7 +260,6 @@ public:
     virtual double getExtendedMaxPCX() const { return getMaxPCX(); }
     virtual double getExtendedMinPCY() const { return getMinPCY(); }
     virtual double getExtendedMaxPCY() const { return getMaxPCY(); }
-   
 
     virtual double dimension(BasicGraphicsObjectContainer& parent) const { return parent.absoluteWidth(); }
 
@@ -310,8 +306,8 @@ public:
         if (in(lon, lat))
             out.push_back(UserPoint(lon, lat, val));
     }
-    double distance(UserPoint&, UserPoint&) const;
-    string name() { return name_; }
+    double distance(const UserPoint&, const UserPoint&) const;
+    string name() const { return name_; }
 
 protected:
     virtual void print(ostream&) const;

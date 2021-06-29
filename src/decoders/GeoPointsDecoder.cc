@@ -336,7 +336,7 @@ void GeoPointsDecoder::decode(const Transformation& transformation) {
         if (MagicsGlobal::strict()) {
             throw;
         }
-        MagLog::error() << "Geopoints file : can not open " << path_ << endl;
+        MagLog::error() << "Geopoints file : cannot open " << path_ << endl;
     }
 }
 
@@ -391,7 +391,7 @@ void GeoPointsDecoder::decode() {
         if (MagicsGlobal::strict()) {
             throw;
         }
-        MagLog::error() << "Geopoints file : can not open " << path_ << endl;
+        MagLog::error() << "Geopoints file : cannot open " << path_ << endl;
     }
 }
 

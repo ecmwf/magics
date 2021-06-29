@@ -27,18 +27,18 @@
 #include "Symbol.h"
 #include "Text.h"
 
+#include <QtGlobal>
 #include <QApplication>
 #include <QDebug>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QDesktopWidget>
+#endif
 #include <QGraphicsItem>
 #include <QPainter>
 
-#ifdef MAGICS_QT5
 #include <QGuiApplication>
 #include <QScreen>
-#elif defined(Q_WS_X11)
-#include <QX11Info>
-#endif
+#include <QRegularExpression>
 
 #include "MgQPlotScene.h"
 
@@ -130,14 +130,8 @@ void QtDriver::open() {
     // the env var METVIEW_SCREEN_RESOLUTION on the metview side.
 
     // So we need to compute their ratio to correctly set font size for rendering!
-#ifdef MAGICS_QT5
     QList<QScreen*> scList    = QGuiApplication::screens();
     const int qtDpiResolution = (!scList.isEmpty()) ? scList.at(0)->logicalDotsPerInchY() : 72;
-#elif defined(Q_WS_X11)  // Do we work with a X11 display?
-    const int qtDpiResolution = QX11Info::appDpiY(0);
-#else  // for MacOS X with Qt4
-    const int qtDpiResolution = 95;
-#endif
 
     // By default the ratio between the physical pixel size according to the external definition and Qt is 1
     dpiResolutionRatio_ = 1.;
@@ -1139,7 +1133,11 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
             }
 
             QFontMetrics fm(font);
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 0)
+            int width  = fm.horizontalAdvance(allText);
+#else
             int width  = fm.width(allText);
+#endif
             int height = fm.height();
 
             MFloat x = 0;
@@ -1183,15 +1181,9 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
             item->setTransform(tr);
 
             if (an != 0 && an != 360) {
-#ifdef MAGICS_QT5
                 item->setTransform(QTransform::fromTranslate(x, y), true);
                 item->setTransform(QTransform().rotate(an), true);
                 item->setTransform(QTransform::fromTranslate(-x, -y), true);
-#else
-                item->translate(x, y);
-                item->rotate(an);
-                item->translate(-x, -y);
-#endif
             }
             item->setPos(x0, y0);
         }
@@ -1230,12 +1222,15 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
                 textToUnicode((*niceText).text(), str);
 
                 QFontMetrics fm(font);
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 0)
+                totalWidth += fm.horizontalAdvance(str);
+#else
                 totalWidth += fm.width(str);
+#endif
             }
 
             // Find out text start position
             int xPos = x0;
-            ;
             if (horizontal == Justification::CENTRE)
                 xPos -= totalWidth * .5;
             else if (horizontal == Justification::RIGHT)
@@ -1263,7 +1258,11 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
                 textToUnicode((*niceText).text(), str);
 
                 QFontMetrics fm(font);
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 0)
+                int width  = fm.horizontalAdvance(str);
+#else
                 int width  = fm.width(str);
+#endif
                 int height = fm.height();
 
                 MFloat y = 0.;
@@ -1315,11 +1314,21 @@ void QtDriver::textToUnicode(const string& str, QString& ustr) const {
     ustr = QString::fromUtf8(str.c_str());
 
     // Replace HTML 4 entities &#...;  to unicode char
-    QRegExp rx("&#(\\d+);");
+    QRegularExpression rx("&#(\\d+);");
 
     QStringList lstHtml;
     QList<QChar> lstUni;
 
+    int pos = 0;
+    auto rmatch = rx.match(ustr, pos);
+    while (rmatch.hasMatch()) {
+        lstHtml << rmatch.captured(0);
+        lstUni << QChar(rmatch.captured(1).toInt());
+        pos += rmatch.capturedLength(1);
+        rmatch = rx.match(ustr, pos);
+    }
+
+#if 0
     int pos = 0;
     while ((pos = rx.indexIn(ustr, pos)) != -1) {
         if (!rx.cap(1).isEmpty()) {
@@ -1328,7 +1337,7 @@ void QtDriver::textToUnicode(const string& str, QString& ustr) const {
         }
         pos += rx.matchedLength();
     }
-
+#endif
     for (int i = 0; i < lstHtml.count(); i++) {
         ustr.replace(lstHtml[i], lstUni[i]);
     }

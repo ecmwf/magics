@@ -1784,9 +1784,9 @@ void MagPlus::notify(MagicsEvent& event) {
 }
 
 void MagPlus::unregisterObserver(MagicsObserver* observer) {
-    observers_.erase(
-        std::remove_if(observers_.begin(), observers_.end(), bind2nd(std::equal_to<MagicsObserver*>(), observer)),
-        observers_.end());
+  //  observers_.erase(
+  //      std::remove_if(observers_.begin(), observers_.end(), bind2nd(std::equal_to<MagicsObserver*>(), observer)),
+  //      observers_.end());
 }
 
 void setDouble(const string& key, const ParamJSon& json, MagRequest& out) {
