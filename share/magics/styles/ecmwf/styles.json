@@ -7799,6 +7799,23 @@
         "contour_shade_technique" : "cell_shading",
         "contour_title" : "Transparency light grey"
     },
+    "transparency_lightgrey_100" : {
+        "contour" : "off",
+        "contour_description" : "Method : contour shade All shades of gray, for clouds",
+        "contour_highlight" : "off",
+        "contour_hilo" : "off",
+        "contour_label" : "off",
+        "contour_legend_text" : "Transparency light grey",
+        "contour_level_list" : "0/10/20/30/40/50/60/70/80/90/100",
+        "contour_interpolation_ceiling" : "99.999",
+        "contour_level_selection_type" : "level_list",
+        "contour_shade" : "on",
+        "contour_shade_cell_resolution" : "35",
+        "contour_shade_colour_list" : "none/rgba(0.8,0.8,0.8,0)/rgba(0.8,0.8,0.8,0.1)/rgba(0.8,0.8,0.8,0.2)/rgba(0.8,0.8,0.8,0.3)/rgba(0.8,0.8,0.8,0.4)/rgba(0.8,0.8,0.8,0.5)/rgba(0.8,0.8,0.8,0.6)/rgba(0.8,0.8,0.8,0.7)/rgba(0.8,0.8,0.8,0.8)/rgba(0.8,0.8,0.8,0.9)/rgba(0.8,0.8,0.8,1)",
+        "contour_shade_colour_method" : "list",
+        "contour_shade_technique" : "cell_shading",
+        "contour_title" : "Transparency light grey"
+    },
     "transparency_white" : {
         "contour" : "off",
         "contour_description" : "Method : contour shade All shades of gray, for clouds",
