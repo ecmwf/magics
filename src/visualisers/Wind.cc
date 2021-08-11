@@ -20,11 +20,14 @@
 */
 
 #include "Wind.h"
+
+#include "ContourLibrary.h"
 #include "CustomisedPoint.h"
 #include "HistoVisitor.h"
 #include "Layout.h"
 #include "MatrixHandler.h"
 #include "MagicsGlobal.h"
+#include "MetaData.h"
 
 using namespace magics;
 
@@ -44,6 +47,50 @@ void Wind::print(ostream& out) const {
 
 
 void Wind::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
+
+    // Automatic Styling ?
+
+    try {
+        ParameterManager::set("contour_automatic_library_path", library_path_);
+        ContourLibrary* library = MagTranslator<string, ContourLibrary>()(setting_);
+
+        MetaDataCollector meta, needAttributes;
+
+        if (predefined_.size()) {
+            library->getStyle(predefined_, automaticAttributes_);
+            set(automaticAttributes_);           
+        }
+        else {
+            library->askId(meta);
+            data.visit(meta);
+            if (library->checkId(meta, needAttributes)) {
+                data.visit(needAttributes);
+                needAttributes["theme"] = theme_;
+                library->getStyle(needAttributes, automaticAttributes_, *styleInfo_);
+
+
+                set(automaticAttributes_);
+            }
+            else {
+                meta["theme"] = theme_;
+                styleInfo_       = new StyleEntry();
+
+                library->getStyle(meta, automaticAttributes_, *styleInfo_);
+                if  (getEnvVariable("MAGICS_STYLES_DEBUG") != "") {
+                    for (auto s = automaticAttributes_.begin(); s != automaticAttributes_.end(); ++s)
+                        cout << s->first << "-->" << s->second << endl;
+                }
+                set(automaticAttributes_);
+
+            }
+        }
+    }
+    catch (MagicsException& e) {
+        throw e;  // forwarding exception
+    }
+
+
+
     if ((*type_)(data, parent))
         return;
     if (type_->legend_only_)

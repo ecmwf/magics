@@ -27,7 +27,10 @@ using namespace magics;
 WindAttributes::WindAttributes():
 	thinning_method_(ParameterManager::getString("wind_thinning_method")),
 	thinning_factor_(ParameterManager::getDouble("wind_thinning_factor")),
-	thinning_debug_(ParameterManager::getBool("wind_thinning_debug"))
+	thinning_debug_(ParameterManager::getBool("wind_thinning_debug")),
+	setting_(ParameterManager::getString("wind_automatic_setting")),
+	predefined_(ParameterManager::getString("wind_style_name")),
+	library_path_(ParameterManager::getString("wind_automatic_library_path"))
 	,
 	type_(MagTranslator<string, WindPlotting>().magics("wind_field_type"))
 	
@@ -50,6 +53,9 @@ void WindAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "wind_thinning_method", thinning_method_, params);
 	setAttribute(prefix, "wind_thinning_factor", thinning_factor_, params);
 	setAttribute(prefix, "wind_thinning_debug", thinning_debug_, params);
+	setAttribute(prefix, "wind_automatic_setting", setting_, params);
+	setAttribute(prefix, "wind_style_name", predefined_, params);
+	setAttribute(prefix, "wind_automatic_library_path", library_path_, params);
 	
 	setMember(prefix, "wind_field_type", type_, params);
 	
@@ -60,6 +66,9 @@ void WindAttributes::copy(const WindAttributes& other)
 	thinning_method_ = other.thinning_method_;
 	thinning_factor_ = other.thinning_factor_;
 	thinning_debug_ = other.thinning_debug_;
+	setting_ = other.setting_;
+	predefined_ = other.predefined_;
+	library_path_ = other.library_path_;
 	type_ = unique_ptr<WindPlotting>(other.type_->clone());
 	
 }
@@ -106,6 +115,9 @@ void WindAttributes::print(ostream& out)  const
 	out << " thinning_method = " <<  thinning_method_;
 	out << " thinning_factor = " <<  thinning_factor_;
 	out << " thinning_debug = " <<  thinning_debug_;
+	out << " setting = " <<  setting_;
+	out << " predefined = " <<  predefined_;
+	out << " library_path = " <<  library_path_;
 	out << " type = " <<  *type_;
 	
 	out << "]" << "\n";
@@ -120,6 +132,12 @@ void WindAttributes::toxml(ostream& out)  const
 	niceprint(out,thinning_factor_);
 	out << ", \"wind_thinning_debug\":";
 	niceprint(out,thinning_debug_);
+	out << ", \"wind_automatic_setting\":";
+	niceprint(out,setting_);
+	out << ", \"wind_style_name\":";
+	niceprint(out,predefined_);
+	out << ", \"wind_automatic_library_path\":";
+	niceprint(out,library_path_);
 	out << ", \"wind_field_type\":";
 	type_->toxml(out);
 	
@@ -128,6 +146,9 @@ void WindAttributes::toxml(ostream& out)  const
 static MagicsParameter<string> wind_thinning_method("wind_thinning_method", "data");
 static MagicsParameter<double> wind_thinning_factor("wind_thinning_factor", 2.0);
 static MagicsParameter<string> wind_thinning_debug("wind_thinning_debug", "off");
+static MagicsParameter<string> wind_automatic_setting("wind_automatic_setting", "off");
+static MagicsParameter<string> wind_style_name("wind_style_name", "");
+static MagicsParameter<string> wind_automatic_library_path("wind_automatic_library_path", "");
 static MagicsParameter<string> wind_field_type("wind_field_type", "arrows");
 #include "FlagPlotting.h"
 #include "ArrowPlotting.h"

@@ -54,6 +54,9 @@ public:
 	string thinning_method_;
 	double thinning_factor_;
 	bool thinning_debug_;
+	string setting_;
+	string predefined_;
+	string library_path_;
 	unique_ptr<WindPlotting> type_;
 	 
 

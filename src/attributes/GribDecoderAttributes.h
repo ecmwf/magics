@@ -69,6 +69,7 @@ public:
 	int position_2_;
 	int colour_position_;
 	double missing_value_;
+	bool wind_style_;
 	unique_ptr<GribAddressMode> address_mode_;
 	unique_ptr<WindMode> wind_mode_;
 	 
