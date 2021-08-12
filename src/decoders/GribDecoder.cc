@@ -1564,10 +1564,17 @@ const LevelDescription& GribDecoder::level() {
 }
 
 void GribDecoder::ask(MetaDataCollector& meta) {
-    openField();  // just to be sure the file is opened!
+    if (Data::dimension_ == 2 | wind_style_ ) {
+        openFirstComponent();
+        openSecondComponent();
+    }
+    else {
+        openField();
+    }
+   
     for (auto m = meta.begin(); m != meta.end(); ++m) {
         m->second = getString(m->first, false);
-        //cout << "ASK --> " << m->first << " = " << m->second << endl;
+        cout << "ASK --> " << m->first << " = " << m->second << endl;
     }
 }
 

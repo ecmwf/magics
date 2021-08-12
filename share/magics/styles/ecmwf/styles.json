@@ -9404,5 +9404,27 @@
         "contour_shade_colour_method" : "list",
         "contour_shade_technique" : "cell_shading",
         "contour_title" : "Transparency grey (rgbA)"
+    },
+    "coloured_flags" : {
+        "legend" : "on",
+        "wind_field_type" : "arrows",
+        "wind_arrow_unit_velocity" : 10.0,
+        "wind_arrow_min_speed" : 0.0,  
+        "wind_arrow_calm_below" : 0.1,              
+        "wind_advanced_method" : "on",
+        "wind_advanced_colour_selection_type" : "count",
+        "wind_advanced_colour_table_colour_method" : "calculate",
+        "wind_advanced_colour_direction" : "anti_clockwise",
+        "wind_advanced_colour_min_level_colour" : "turquoise",
+        "wind_thinning_factor" :  5,
+        "wind_thinning_method" :  "automatic",
+        "wind_advanced_colour_max_level_colour" : "purple_red"
+    },
+    "flags" : {
+        "wind_field_type" : "flags"
+    },
+    "gold_arrows": {
+        "wind_field_type" : "arrows",
+        "wind_arrow_colour" : "gold"
     }
 }

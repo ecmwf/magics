@@ -133,6 +133,12 @@ void GribDecoderWrapper::set(const MagRequest& request)
 		double missing_value_value = request("GRIB_MISSING_VALUE_INDICATOR");
 		gribdecoder_->missing_value_ = missing_value_value;
 		}
+	if  (request.countValues("GRIB_WIND_STYLE") ) {
+		string wind_style_value = request("GRIB_WIND_STYLE");
+		
+		gribdecoder_->wind_style_ = MagTranslator<string, bool>()(wind_style_value);
+		
+		}
 	
 	
 		string address_mode_value = request.countValues("GRIB_FILE_ADDRESS_MODE") ?  (string) request("GRIB_FILE_ADDRESS_MODE") : "record";

@@ -12,6 +12,8 @@
 // File Transformation.cc
 // Magics Team - ECMWF 2004
 
+#include <limits>
+
 #include "Transformation.h"
 #include <iomanip>
 #include "BasicGraphicsObject.h"

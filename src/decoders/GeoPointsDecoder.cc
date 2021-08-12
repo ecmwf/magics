@@ -78,11 +78,11 @@ void GeoPointsDecoder::yxdtlv2(const string& line, const Transformation& transfo
     double lat, lon, date, time, level, value;
     in >> lat >> lon >> level >> date >> time >> value;
 
-    if (lat != missing_ && lon != missing_) {
+    if (lat != missing_ && lon != missing_ && value != missing_) {
         if (useProj4_) {
             int error = helper_.revert(lon, lat);
         }
-        UserPoint geo(lon, lat, value, value == missing_);
+        UserPoint geo(lon, lat, value);
         add(transformation, geo);
     }
 }
@@ -92,11 +92,11 @@ void GeoPointsDecoder::xyv2(const string& line, const Transformation& transforma
     double lat, lon, value;
     in >> lon >> lat >> value;
 
-    if (lat != missing_ && lon != missing_) {
+    if (lat != missing_ && lon != missing_ && value != missing_) {
         if (useProj4_) {
             int error = helper_.revert(lon, lat);
         }
-        UserPoint geo(lon, lat, value, value == missing_);
+        UserPoint geo(lon, lat, value);
         add(transformation, geo);
     }
 }
@@ -106,15 +106,13 @@ void GeoPointsDecoder::lluv(const string& line, const Transformation& transforma
     double lat, lon, height, date, time, u, v;
     in >> lat >> lon >> height >> date >> time >> u >> v;
 
-    if (lat != missing_ && lon != missing_) {
+    if (lat != missing_ && lon != missing_ && u != missing_ && v != missing_) {
         if (useProj4_) {
             int error = helper_.revert(lon, lat);
         }
         CustomisedPoint geo(lon, lat, "lluv");
         geo["x_component"] = u;
         geo["y_component"] = v;
-        if (u == missing_ || v == missing_)
-            geo.missing(true);
         add(transformation, geo);
     }
 }
@@ -124,20 +122,15 @@ void GeoPointsDecoder::polar(const string& line, const Transformation& transform
     double lat, lon, height, date, time, speed, direction;
     in >> lat >> lon >> height >> date >> time >> speed >> direction;
 
-    if (lat != missing_ && lon != missing_) {
+    if (lat != missing_ && lon != missing_ && speed != missing_ && direction != missing_) {
         if (useProj4_) {
             int error = helper_.revert(lon, lat);
         }
         CustomisedPoint geo(lon, lat, "polar");
 
-        if (speed == missing_ || direction == missing_)
-            geo.missing(true);
-
-        else {
-            double angle       = (90 - (direction)) * (PI / 180.);
-            geo["x_component"] = speed * -cos(angle);
-            geo["y_component"] = speed * -sin(angle);
-        }
+        double angle       = (90 - (direction)) * (PI / 180.);
+        geo["x_component"] = speed * -cos(angle);
+        geo["y_component"] = speed * -sin(angle);
         add(transformation, geo);
     }
 }
@@ -147,11 +140,11 @@ void GeoPointsDecoder::yxdtlv1(const string& line) {
     double lat, lon, date, time, level, value;
     in >> lat >> lon >> level >> date >> time >> value;
 
-    if (lat != missing_ && lon != missing_) {
+    if (lat != missing_ && lon != missing_ && value != missing_) {
         if (useProj4_) {
             int error = helper_.revert(lon, lat);
         }
-        push_back(new UserPoint(lon, lat, value, value == missing_));
+        push_back(new UserPoint(lon, lat, value));
     }
 }
 
@@ -160,11 +153,11 @@ void GeoPointsDecoder::xyv1(const string& line) {
     double lat, lon, value;
     in >> lon >> lat >> value;
 
-    if (lat != missing_ && lon != missing_) {
+    if (lat != missing_ && lon != missing_ && value != missing_) {
         if (useProj4_) {
             int error = helper_.revert(lon, lat);
         }
-        push_back(new UserPoint(lat, lon, value, value == missing_));
+        push_back(new UserPoint(lat, lon, value));
     }
 }
 
@@ -196,10 +189,11 @@ void GeoPointsDecoder::ncols(const string& line, const Transformation& transform
     in >> value;  // try to read the first non-coordinate value (it may be present
                   // or missing)
 
-    if (lat != missing_ && lon != missing_) {
-        if (!in)
-            value = 0;  // no value? we probably want to at least plot the location,
-                        // so set to something valid
+    if (!in)
+        value = 0;  // no value? we probably want to at least plot the location,
+                    // so set to something valid
+
+    if (lat != missing_ && lon != missing_ && value != missing_) {
 
         if (useProj4_) {
             int error = helper_.revert(lon, lat);
