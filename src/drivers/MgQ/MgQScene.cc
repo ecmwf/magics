@@ -145,9 +145,7 @@ void MgQScene::renderItemRecursively(QGraphicsItem* item, QPainter* painter, con
 
 bool MgQScene::checkItemIsVisible(QGraphicsItem* item) {
     if (item->data(MgQ::ItemIsVisibleKey).isNull()) {
-        return true;
+        return (item->zValue() <1.)?true:item->isVisible();
     }
-    else {
-        return item->data(MgQ::ItemIsVisibleKey).toBool();
-    }
+    return item->data(MgQ::ItemIsVisibleKey).toBool();
 }

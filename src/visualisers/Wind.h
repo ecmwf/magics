@@ -27,6 +27,7 @@
 #include "ThinningMethod.h"
 #include "Visdef.h"
 #include "WindAttributes.h"
+#include "MagConfig.h"
 
 namespace magics {
 
@@ -52,6 +53,10 @@ public:
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
     virtual void print(ostream&) const override;
+    MagDef automaticAttributes_;
+    StyleEntry* styleInfo_;
+    bool legendIsOn_;
+
 
 
 private:

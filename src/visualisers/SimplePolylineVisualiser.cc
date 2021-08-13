@@ -19,6 +19,8 @@
 
 */
 
+#include <limits>
+
 #include "SimplePolylineVisualiser.h"
 #include "Data.h"
 #include "LegendVisitor.h"

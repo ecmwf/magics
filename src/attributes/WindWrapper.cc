@@ -69,6 +69,18 @@ void WindWrapper::set(const MagRequest& request)
 		wind_->thinning_debug_ = MagTranslator<string, bool>()(thinning_debug_value);
 		
 		}
+	if  (request.countValues("WIND_AUTOMATIC_SETTING") ) {
+		string setting_value = request("WIND_AUTOMATIC_SETTING");
+		wind_->setting_ = setting_value;
+		}
+	if  (request.countValues("WIND_STYLE_NAME") ) {
+		string predefined_value = request("WIND_STYLE_NAME");
+		wind_->predefined_ = predefined_value;
+		}
+	if  (request.countValues("WIND_AUTOMATIC_LIBRARY_PATH") ) {
+		string library_path_value = request("WIND_AUTOMATIC_LIBRARY_PATH");
+		wind_->library_path_ = library_path_value;
+		}
 	
 	
 		string type_value = request.countValues("WIND_FIELD_TYPE") ?  (string) request("WIND_FIELD_TYPE") : "arrows";

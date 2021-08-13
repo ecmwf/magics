@@ -1,0 +1,20 @@
+[
+  {
+    "eccharts_layer": "2t",
+    "prefered_units": "C",
+    "styles": [
+      "coloured_flags",
+      "flags",
+      "gold_arrows"
+    ],
+    "match": [
+      {
+        "shortName": "u/v",
+        "levelist": ["200/200", "700/700"]
+      },
+      {
+        "shortName": "10u/10v"
+      }
+    ]
+  }
+]
