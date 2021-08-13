@@ -25,7 +25,8 @@ Gallery of Notebooks
 Docker Image
 ------------
 
-[![Docker Build Status](https://img.shields.io/docker/cloud/build/ecmwf/magics.svg)](https://hub.docker.com/r/ecmwf/magics)
+[![test](https://github.com/ecmwf/magics/actions/workflows/docker-latest.yml/badge.svg)](https://github.com/ecmwf/magics/actions)
+
 [![Docker Pulls](https://img.shields.io/docker/pulls/ecmwf/magics)](https://hub.docker.com/r/ecmwf/magics)
 
 
