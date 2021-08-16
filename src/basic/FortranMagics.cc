@@ -493,7 +493,9 @@ void FortranMagics::pmapgen() {
 
 #include "ContourLibrary.h"
 #include "MetaData.h"
+#include "Timer.h"
 const char* FortranMagics::metagrib() {
+    Timer time("metagrib", "wmsstyles");
     GribDecoder grib;
     ContourLibrary* library = MagTranslator<string, ContourLibrary>()("ecmwf");
 
@@ -509,7 +511,7 @@ const char* FortranMagics::metagrib() {
     
      
 
-    string print = getEnvVariable("MAGPLUS_DATA");
+    string print = getEnvVariable("MAGICS_STYLES_DEBUG");
     if (print.size()) {
         cout << "Metadata for " << grib.file_name_ << endl;
         for (auto r = request.begin(); r != request.end(); ++r) {
