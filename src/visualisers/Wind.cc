@@ -86,7 +86,7 @@ void Wind::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
         }
     }
     catch (MagicsException& e) {
-        throw e;  // forwarding exception
+        throw;  // forwarding exception
     }
 
 
