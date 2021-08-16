@@ -69,6 +69,13 @@ GribDecoder::GribDecoder() :
     count_++;
     title_ = "grib_" + tostring(count_);
     version();
+    if ( wind_style_ ) {
+        // Here we are trying to find some automatic styling for wind : 
+        // we need to inform Magics to read the 2 components of the winds to get the metadata
+        Data::dimension_ = 2;
+        colour_ = 0;
+    }
+
 }
 
 void GribDecoder::version() {
@@ -1564,18 +1571,26 @@ const LevelDescription& GribDecoder::level() {
 }
 
 void GribDecoder::ask(MetaDataCollector& meta) {
-    if (Data::dimension_ == 2 | wind_style_ ) {
+    grib_handle* colour;
+    if (Data::dimension_ == 2  ) {
         openFirstComponent();
         openSecondComponent();
+        // Ignore colourComponent if set :
+        colour = colour_;
+        colour_ = 0;   
     }
     else {
         openField();
     }
-   
     for (auto m = meta.begin(); m != meta.end(); ++m) {
         m->second = getString(m->first, false);
-        cout << "ASK --> " << m->first << " = " << m->second << endl;
+        if ( getEnvVariable("MAGICS_STYLES_DEBUG") != "" )
+            cout << "ASK --> " << m->first << " = " << m->second << endl;
     }
+    if (Data::dimension_ == 2  ) 
+        // reset colourComponent :
+        colour_ = colour;   
+    
 }
 
 string GribDecoder::getUnits() const {
