@@ -17,18 +17,6 @@
       },
       {
         "standard_name": "medium_type_cloud_area_fraction"
-      },
-      {
-        "paramId": "500307",
-        "centre": "edzw"
-      },
-      {
-        "paramId": "500046",
-        "centre": "edzw"
-      },
-      {
-        "paramId": "502341",
-        "centre": "edzw"
       }
     ]
   }
