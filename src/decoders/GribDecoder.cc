@@ -91,8 +91,17 @@ GribDecoder::~GribDecoder() {
         delete xComponent_;
     if (yComponent_)
         delete yComponent_;
+        
     if (field_) {
         grib_handle_delete(field_);
+    }
+
+    if ( component2_ ) {
+        grib_handle_delete(component2_);
+    }
+    
+    if ( colour_ ) {
+        grib_handle_delete(colour_);
     }
 
     if (nearest_)
