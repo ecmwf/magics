@@ -40,7 +40,7 @@ void ObsItemBox::set(const map<string, string>& def) {
     colour_        = find(def, "colour", "black");
     key_           = find(def, "key", "");
     format_        = find(def, "format", "");
-    justification_ = translate(find(def, "justification", ""));
+    justification_ = translate(find(def, "justification", "centre"));
 }
 
 

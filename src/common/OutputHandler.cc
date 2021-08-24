@@ -123,14 +123,8 @@ static SimpleObjectMaker<PS_EpsOutputFactory, OutputFactory> eps("eps");
 static SimpleObjectMaker<PS_PdfOutputFactory, OutputFactory> ps_pdf("ps_pdf");
 
 #ifdef MAGICS_RASTER
-#ifdef HAVE_CAIRO
 static SimpleObjectMaker<GD_PngOutputFactory, OutputFactory> gdpng("gd_png");
-#else
-static SimpleObjectMaker<GD_PngOutputFactory, OutputFactory> gdpng("png");
-#endif
-static SimpleObjectMaker<GD_JpegOutputFactory, OutputFactory> jpeg("jpeg");
-static SimpleObjectMaker<GD_GifOutputFactory, OutputFactory> gif("gif");
-static SimpleObjectMaker<GD_GifAnimOutputFactory, OutputFactory> gif_anim("gif_animation");
+static SimpleObjectMaker<GD_GifOutputFactory, OutputFactory> gif("gd_gif");
 #endif
 
 static SimpleObjectMaker<SVG_SvgOutputFactory, OutputFactory> svg("svg");

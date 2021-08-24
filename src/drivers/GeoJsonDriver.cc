@@ -543,13 +543,12 @@ MAGICS_NO_EXPORT void GeoJsonDriver::renderText(const Text& text) const {}
   param pixmap contents
 
 */
-MAGICS_NO_EXPORT bool GeoJsonDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
-                                                  unsigned char* pixmap, int, bool, bool) const {
+MAGICS_NO_EXPORT bool GeoJsonDriver::renderPixmap(const Pixmap&) const {
     debugOutput("Start renderPixmap");
     if (render_) {
         if (GeoJson_placemark_)
             closePlacemark();
-        MagLog::warning() << "Image import is not implemented for the used driver!!!" << endl;
+        MagLog::warning() << "Image import is not implemented for the GeoJSON driver!!!" << endl;
         return false;
         debugOutput("End renderPixmap");
     }

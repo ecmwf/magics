@@ -18,6 +18,8 @@ magics.config
 magics_*.config
 *.creator
 *.creator.*
+*.cflags
+*.cxxflags
 magics.includes
 magics_*.includes
 magics.files
@@ -25,6 +27,7 @@ magics_*.files
 
 build/
 
+.vscode
 *.sublime-workspace
 notebook/.ipynb_checkpoints
 compile_commands.json

@@ -1,0 +1,26 @@
+[
+  {
+    "eccharts_layer": "mcc",
+    "styles": [
+      "transparency_lightgrey_100"
+    ],
+    "match": [
+      {
+        "paramId": "500307",
+        "centre": "edzw"
+      },
+      {
+        "paramId": "500046",
+        "centre": "edzw"
+      },
+      {
+        "paramId": "502341",
+        "centre": "edzw"
+      },
+      {
+        "paramId": "228164",
+        "centre": "kwbc"
+      }
+    ]
+  }
+]

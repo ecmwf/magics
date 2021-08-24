@@ -168,5 +168,13 @@ does it submit to any jurisdiction.
 			to="float">
 			<documentation>When MAGICS is decoding GRIB code, this is the value to be assigned to field values where data is missing, as indicated by the bit map in the GRIB file.</documentation>
 		</parameter>
+		<parameter from="string"
+			name="grib_wind_style"
+			visible="false"
+			default="off"
+			member="wind_style"
+			to="bool">
+			<documentation>Automatic styling: Force Magics to look for wind style</documentation>
+		</parameter>
 	</class>
 </magics>

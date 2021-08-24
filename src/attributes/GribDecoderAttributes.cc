@@ -41,7 +41,8 @@ GribDecoderAttributes::GribDecoderAttributes():
 	position_1_(ParameterManager::getInt("grib_wind_position_1")),
 	position_2_(ParameterManager::getInt("grib_wind_position_2")),
 	colour_position_(ParameterManager::getInt("grib_wind_position_colour")),
-	missing_value_(ParameterManager::getDouble("grib_missing_value_indicator"))
+	missing_value_(ParameterManager::getDouble("grib_missing_value_indicator")),
+	wind_style_(ParameterManager::getBool("grib_wind_style"))
 	,
 	address_mode_(MagTranslator<string, GribAddressMode>().magics("grib_file_address_mode")),
 	wind_mode_(MagTranslator<string, WindMode>().magics("grib_wind_mode"))
@@ -80,6 +81,7 @@ void GribDecoderAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "grib_wind_position_2", position_2_, params);
 	setAttribute(prefix, "grib_wind_position_colour", colour_position_, params);
 	setAttribute(prefix, "grib_missing_value_indicator", missing_value_, params);
+	setAttribute(prefix, "grib_wind_style", wind_style_, params);
 	
 	setMember(prefix, "grib_file_address_mode", address_mode_, params);
 	setMember(prefix, "grib_wind_mode", wind_mode_, params);
@@ -105,6 +107,7 @@ void GribDecoderAttributes::copy(const GribDecoderAttributes& other)
 	position_2_ = other.position_2_;
 	colour_position_ = other.colour_position_;
 	missing_value_ = other.missing_value_;
+	wind_style_ = other.wind_style_;
 	address_mode_ = unique_ptr<GribAddressMode>(other.address_mode_->clone());
 	wind_mode_ = unique_ptr<WindMode>(other.wind_mode_->clone());
 	
@@ -170,6 +173,7 @@ void GribDecoderAttributes::print(ostream& out)  const
 	out << " position_2 = " <<  position_2_;
 	out << " colour_position = " <<  colour_position_;
 	out << " missing_value = " <<  missing_value_;
+	out << " wind_style = " <<  wind_style_;
 	out << " address_mode = " <<  *address_mode_;
 	out << " wind_mode = " <<  *wind_mode_;
 	
@@ -213,6 +217,8 @@ void GribDecoderAttributes::toxml(ostream& out)  const
 	niceprint(out,colour_position_);
 	out << ", \"grib_missing_value_indicator\":";
 	niceprint(out,missing_value_);
+	out << ", \"grib_wind_style\":";
+	niceprint(out,wind_style_);
 	out << ", \"grib_file_address_mode\":";
 	address_mode_->toxml(out);
 	out << ", \"grib_wind_mode\":";
@@ -237,6 +243,7 @@ static MagicsParameter<int> grib_wind_position_1("grib_wind_position_1", 1);
 static MagicsParameter<int> grib_wind_position_2("grib_wind_position_2", 2);
 static MagicsParameter<int> grib_wind_position_colour("grib_wind_position_colour", 3);
 static MagicsParameter<double> grib_missing_value_indicator("grib_missing_value_indicator", -1.5e+21);
+static MagicsParameter<string> grib_wind_style("grib_wind_style", "off");
 static MagicsParameter<string> grib_file_address_mode("grib_file_address_mode", "record");
 static MagicsParameter<string> grib_wind_mode("grib_wind_mode", "uv");
 #include "GribAddressMode.h"

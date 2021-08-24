@@ -988,26 +988,25 @@ MAGICS_NO_EXPORT void SVGDriver::circle(const MFloat x, const MFloat y, const MF
   \param pixmap contents
 
 */
-MAGICS_NO_EXPORT bool SVGDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
-                                              unsigned char* pixmap, int, bool alpha, bool) const {
-    unsigned char* p = pixmap;
-    const MFloat dx  = (x1 - x0) / w;
-    const MFloat dy  = (y1 - y0) / h;  // Minus needed for Y axis correction
+MAGICS_NO_EXPORT bool SVGDriver::renderPixmap(const Pixmap& in) const {
+    unsigned char* p = in.pixmap;
+    const MFloat dx  = (in.x1 - in.x0) / in.w;
+    const MFloat dy  = (in.y1 - in.y0) / in.h;  // Minus needed for Y axis correction
 
     //debugOutput("Pixmap - START");
     pFile_ << "<g pointer-events=\"none\" inkscape:label=\"pixmap\">\n";
 
     int a = 255;
-    for (int i = 0; i < h; i++) {
-        for (int j = 0; j < w; j++) {
+    for (int i = 0; i < in.h; i++) {
+        for (int j = 0; j < in.w; j++) {
             const int r = (int)*(p++);
             const int g = (int)*(p++);
             const int b = (int)*(p++);
-            if(alpha) a = (int)*(p++);
+            if(in.alpha) a = (int)*(p++);
 
             if (r + g + b > 0.) {
-                const int x = static_cast<int>(x0 + (j * dx));
-                const int y = static_cast<int>(y0 + (i * dy));
+                const int x = static_cast<int>(in.x0 + (j * dx));
+                const int y = static_cast<int>(in.y0 + (i * dy));
                 pFile_ << " <rect x=\"" << x << "\" y=\"" << y << "\" width=\"" << dx << "\" height=\"" << dy
                        << "\""
                        << " fill=\"rgba(" << r << "," << g << "," << b << "," << float(a)/255. <<")\" "

@@ -621,20 +621,19 @@ MAGICS_NO_EXPORT void BinaryDriver::renderImage(const ImportObject& obj) const {
   \param landscape says if contents is landscape
 
 */
-MAGICS_NO_EXPORT bool BinaryDriver::renderPixmap(MFloat x0, MFloat y0, MFloat x1, MFloat y1, int w, int h,
-                                                 unsigned char* pixmap, int landscape, bool, bool) const {
+MAGICS_NO_EXPORT bool BinaryDriver::renderPixmap(const Pixmap& in) const {
     char cc = 'M';
     out_.write(&cc, 1);
-    out_.write((char*)(&x0), sizeof(MFloat));
-    out_.write((char*)(&y0), sizeof(MFloat));
-    out_.write((char*)(&x1), sizeof(MFloat));
-    out_.write((char*)(&y1), sizeof(MFloat));
-    out_.write((char*)(&w), sizeof(int));
-    out_.write((char*)(&h), sizeof(int));
-    out_.write((char*)(&landscape), sizeof(int));
-    out_.write((char*)(pixmap), sizeof(unsigned char) * w * h * 4);
+    out_.write((char*)(&in.x0), sizeof(MFloat));
+    out_.write((char*)(&in.y0), sizeof(MFloat));
+    out_.write((char*)(&in.x1), sizeof(MFloat));
+    out_.write((char*)(&in.y1), sizeof(MFloat));
+    out_.write((char*)(&in.w), sizeof(int));
+    out_.write((char*)(&in.h), sizeof(int));
+    out_.write((char*)(&in.landscape), sizeof(int));
+    out_.write((char*)(in.pixmap), sizeof(unsigned char) * in.w * in.h * 4);
 
-    MagLog::debug() << "BinaryDriver::renderPixmap called: "<< w*h << std::endl;
+    MagLog::debug() << "BinaryDriver::renderPixmap called: "<< in.w * in.h << std::endl;
     return true;
 }
 

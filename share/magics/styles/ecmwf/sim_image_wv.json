@@ -13,6 +13,10 @@
       },
       {
         "long_name": "Cloudy brightness temperature"
+      },
+      {
+        "paramId": "500346",
+        "centre": "edzw"
       }
     ]
   }
