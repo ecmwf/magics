@@ -31,9 +31,12 @@
 
 using namespace magics;
 
-NetcdfGeoMatrixInterpretor::NetcdfGeoMatrixInterpretor() {}
+NetcdfGeoMatrixInterpretor::NetcdfGeoMatrixInterpretor(): projection_(0) {}
 
-NetcdfGeoMatrixInterpretor::~NetcdfGeoMatrixInterpretor() {}
+NetcdfGeoMatrixInterpretor::~NetcdfGeoMatrixInterpretor() {
+    if (projection_) 
+        delete projection_;
+}
 
 string NetcdfGeoMatrixInterpretor::proj4Detected(Netcdf& netcdf) {
     // Efas old netcdf
@@ -157,12 +160,13 @@ void NetcdfGeoMatrixInterpretor::print(ostream& out) const {
     out << "]";
 }
 
-UserPoint* NetcdfGeoMatrixInterpretor::newPoint(const string& proj4, double lon, double lat, double val) {
+UserPoint* NetcdfGeoMatrixInterpretor::newPoint(double lon, double lat, double val) {
     double x = lon;
     double y = lat;
 
-    if (!projection_.valid()) {
-        int error = projection_.revert(x, y);
+    if ( projection_ ) {
+        int error = projection_->revert(x, y);
+        if ( error ) return 0;
     }
     return new UserPoint(x, y, val);
 }
@@ -182,7 +186,7 @@ bool NetcdfGeoMatrixInterpretor::interpretAsPoints(PointsList& list) {
     string proj4 = proj4Detected(netcdf);
 
     if (!proj4.empty()) {
-        projection_ = LatLonProjP(proj4);
+        projection_ = new LatLonProjP(proj4);
     }
     // get the data ...
     try {
@@ -209,7 +213,12 @@ bool NetcdfGeoMatrixInterpretor::interpretAsPoints(PointsList& list) {
                     continue;
                 if (same(values[val], missing_value))
                     continue;
-                list.push_back(newPoint(proj4, longitudes[lon], latitudes[lat], (values[val] * scaling_) + offset_));
+                if (std::isnan(values[val])) 
+                    continue;
+                
+                UserPoint* point = newPoint(longitudes[lon], latitudes[lat], (values[val] * scaling_) + offset_);
+                if (point) 
+                    list.push_back(point);
             }
         }
         MagLog::dev() << "everything ok" << endl;

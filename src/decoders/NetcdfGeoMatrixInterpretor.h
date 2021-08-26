@@ -39,13 +39,9 @@ public:
     void visit(Transformation& transformation) override;
 
     void set(const XmlNode& node) override {
-        // FIXME: Infinit recursion
-        MagLog::debug() << "NetcdfGeoMatrixInterpretor::set(params)"
-                        << "\n";
-        set(node);
         XmlNode netcdf = node;
         netcdf.name("netcdf");
-        set(netcdf);
+        NetcdfInterpretor::set(netcdf);
     }
     virtual NetcdfInterpretor* clone() const override {
         NetcdfGeoMatrixInterpretor* object = new NetcdfGeoMatrixInterpretor();
@@ -55,7 +51,7 @@ public:
     void clone(const NetcdfGeoMatrixInterpretor& other) { copy(other); }
     bool interpretAsMatrix(Matrix**) override;
     bool interpretAsPoints(PointsList&) override;
-    UserPoint* newPoint(const string&, double, double, double);
+    UserPoint* newPoint(double, double, double);
     virtual void statsData(map<string, vector<double> >&) override;
     virtual void visit(MetaDataCollector&) override;
     virtual void visit(ValuesCollector&, PointsList&) override;
@@ -68,7 +64,7 @@ protected:
     //! (virtual).
     virtual void print(ostream&) const override;
     std::unique_ptr<Matrix> matrix_;
-    LatLonProjP projection_;
+    LatLonProjP *projection_;
 
 private:
     //! Copy constructor - No copy allowed
