@@ -34,8 +34,8 @@ using namespace magics;
 NetcdfGeoMatrixInterpretor::NetcdfGeoMatrixInterpretor(): projection_(0) {}
 
 NetcdfGeoMatrixInterpretor::~NetcdfGeoMatrixInterpretor() {
-    if (projection_) 
-        delete projection_;
+    delete projection_;
+    projection_ = 0;
 }
 
 string NetcdfGeoMatrixInterpretor::proj4Detected(Netcdf& netcdf) {
