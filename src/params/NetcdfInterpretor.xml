@@ -263,5 +263,18 @@ does it submit to any jurisdiction.
                         <release>Magics++2.4</release>
                         <documentation>Primary index latitude/longitude</documentation>
                 </parameter>
+                 <parameter member="interpretation"
+                        to="string"
+                        default="automatic"
+                        from="string"
+                        name="netcdf_matrix_interpretation"
+                        values='automatic/direct/transposed'>
+                        <release>Magics++2.4</release>
+                        <documentation>This can speed up the reading of the matrix. 
+                        Automatic : No Hint : Magics will create the matrix from the values of the parameters netcdf_x_variable and netcdf_y_variable.
+                        Direct : Little hint for Magics : it can load the matrix direcly
+                        Transposed :  Little hint for Magics : It has to transpose  the Matrix
+                        </documentation>
+                </parameter>
         </class>
 </magics>

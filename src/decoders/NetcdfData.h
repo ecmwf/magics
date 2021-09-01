@@ -485,6 +485,7 @@ protected:
     map<string, NetVariable> dataset_;
     map<string, NetAttribute> attributes_;
     double missing_;
+    mutable map<string, string> detected_;
 
 private:
     int file_;
