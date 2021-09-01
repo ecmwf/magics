@@ -114,6 +114,7 @@ void niceprint(ostream& out, const T& val) {
 }
 
 void niceprint(ostream& out, const string&);
+void niceprint(ostream& out, const AxisAutomaticSetting&);
 
 void toxml(string&, const map<string, string>&);
 #endif
