@@ -59,9 +59,9 @@ public:
     QList<MgQLayoutItem*> projectorItems() { return projectorItems_; }
     MgQLayoutItem* findProjectorItem(QPointF);
 
-    int type() const { return Type; }
-    QRectF boundingRect() const { return QRectF(); }
-    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*){};
+    int type() const override { return Type; }
+    QRectF boundingRect() const override { return QRectF(); }
+    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) override {};
 
 protected:
     const SceneLayer& sceneLayer_;
@@ -104,9 +104,9 @@ public:
 
     MgQMagnifierLayoutItem* magnifierLayoutItem();
 
-    int type() const { return Type; }
-    QRectF boundingRect() const { return QRectF(); }
-    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* widget = 0);
+    int type() const override { return Type; }
+    QRectF boundingRect() const override { return QRectF(); }
+    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* widget = 0) override;
 
     void setStackLevel(int);
     int stackLevel();

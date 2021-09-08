@@ -60,7 +60,7 @@ public:
     MgQSceneItem(const Layout&);
     ~MgQSceneItem() override;
 
-    int type() const { return Type; }
+    int type() const override { return Type; }
 
     void clearBeforeNewRequest();
     void saveStateBeforeNewRequest();

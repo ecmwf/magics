@@ -43,9 +43,9 @@ public:
     QHash<QString, QString> pixmapId() { return pixmapId_; }
     void setPixmapId(QHash<QString, QString> id) { pixmapId_ = id; }
 
-    int type() const { return Type; }
-    QRectF boundingRect() const { return QRectF(); }
-    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*){};
+    int type() const override { return Type; }
+    QRectF boundingRect() const override { return QRectF(); }
+    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) override {};
 
 protected:
     QPixmap pixmap_;
