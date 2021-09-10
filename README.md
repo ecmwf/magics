@@ -2,8 +2,8 @@
 Magics README
 =============
 
-[![Linux & macOS: master](https://img.shields.io/travis/ecmwf/magics/master.svg?label=Linux-and-macOS-master)](https://travis-ci.org/ecmwf/magics/branches)
-[![Linux & macOS: develop](https://img.shields.io/travis/ecmwf/magics/develop.svg?label=Linux-and-macOS-dev)](https://travis-ci.org/ecmwf/magics/branches)
+[![Linux & macOS: master](https://img.shields.io/github/workflow/status/ecmwf/magics/ci/master?label=Linux-and-macOS-master)](https://github.com/ecmwf/magics/actions/workflows/ci.yml?query=branch%3Amaster)
+[![Linux & macOS: develop](https://img.shields.io/github/workflow/status/ecmwf/magics/ci/develop?label=Linux-and-macOS-develop)](https://github.com/ecmwf/magics/actions/workflows/ci.yml?query=branch%3Adevelop)
 [![Windows: master](https://img.shields.io/appveyor/ci/ecmwf/magics/master.svg?label=Windows-master)](https://ci.appveyor.com/project/ecmwf/magics/branch/master)
 [![Windows: develop](https://img.shields.io/appveyor/ci/ecmwf/magics/develop.svg?label=Windows-dev)](https://ci.appveyor.com/project/ecmwf/magics/branch/develop)
 
@@ -25,8 +25,7 @@ Gallery of Notebooks
 Docker Image
 ------------
 
-[![test](https://github.com/ecmwf/magics/actions/workflows/docker-latest.yml/badge.svg)](https://github.com/ecmwf/magics/actions)
-
+[![DockerHub](https://github.com/ecmwf/magics/actions/workflows/docker-latest.yml/badge.svg)](https://github.com/ecmwf/magics/actions/workflows/docker-latest.yml)
 [![Docker Pulls](https://img.shields.io/docker/pulls/ecmwf/magics)](https://hub.docker.com/r/ecmwf/magics)
 
 
