@@ -240,7 +240,7 @@ void Proj4Projection::populate(double lon, double lat, double val, vector<UserPo
     double x, y;
     
 
-    vector<double> lons = { lon, lon-360, lon+360 };
+    vector<double> lons = { lon };
 
     for ( auto l = lons.begin(); l != lons.end(); ++l) {
         x = *l;
