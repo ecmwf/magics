@@ -38,12 +38,88 @@ NetcdfMatrixInterpretor::NetcdfMatrixInterpretor() {}
 NetcdfMatrixInterpretor::~NetcdfMatrixInterpretor() {}
 
 
+
+void NetcdfMatrixInterpretor::interpret(Netcdf& netcdf, vector<double>& rows, vector<double>& columns )
+{
+    for (vector<double>::iterator r = rows.begin(); r != rows.end(); r++) {
+        vector<string> dims;
+        ostringstream x, y;
+        map<string, string> first, last;
+        int index              = 0;
+
+        if (magCompare(dimension_method_, "index")) {
+            y << y_ << "/" << index << "/" << index;
+            x << x_ << "/" << 0 << "/" << columns.size() - 1;
+        }
+        else {
+            x.precision(20);
+            y.precision(20);
+
+            y << y_ << "/" << *r << "/" << *r;
+            x << x_ << "/" << columns.front() << "/" << columns.back();
+        }
+        std::copy(dimension_.begin(), dimension_.end(), std::back_inserter(dims));
+        dims.push_back(y.str());
+        dims.push_back(x.str());
+
+        index++;
+
+
+        setDimensions(dims, first, last);
+        vector<double> data;
+        
+        netcdf.get(field_, data, first, last);
+       
+        for (vector<double>::iterator d = data.begin(); d != data.end(); d++) {
+            matrix_->push_back(*d);
+        }
+        }
+
+}
+
+void NetcdfMatrixInterpretor::interpretTransposed(Netcdf& netcdf, vector<double>& rows, vector<double>& columns )
+{
+    vector<double> data;
+    map<string, string> first, last;
+    setDimensions(dimension_, first, last);
+
+    netcdf.get(field_, data, first, last);
+    
+    matrix_->reserve(data.size());       
+    auto d = data.begin();
+    for (int c = 0; c < columns.size(); c++)
+        for (int r = 0; r < rows.size(); r++) 
+        {
+            (*matrix_)[c + (r*columns.size())] = *d;
+            ++d;
+        }
+}
+void NetcdfMatrixInterpretor::interpretDirect(Netcdf& netcdf, vector<double>& rows, vector<double>& columns )
+{
+    map<string, string> first, last;
+    setDimensions(dimension_, first, last);
+
+    vector<double> data;
+    netcdf.get(field_, data, first, last);
+
+    matrix_->reserve(data.size());
+
+        
+    for (vector<double>::iterator d = data.begin(); d != data.end(); d++) 
+                matrix_->push_back(*d);
+}
+
 bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
-    MagLog::debug() << "NetcdfMatrixInterpretor::interpret()--->" << *this << "\n";
+
+    interpretors_["automatic"] = &NetcdfMatrixInterpretor::interpret;
+    interpretors_["direct"] = &NetcdfMatrixInterpretor::interpretDirect;
+    interpretors_["transposed"] = &NetcdfMatrixInterpretor::interpretTransposed;
+
     if (*matrix)
         return false;
 
     try {
+        Timer timer("reading ", "netcdf");
         matrix_ = new Matrix();
 
         *matrix = matrix_;
@@ -64,51 +140,24 @@ bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
         // get the data ...
 
         //netcdf.setDefault2D(field_);
+
+
         map<string, string> first, last;
         setDimensions(dimension_, first, last);
+
         vector<double> rows    = dateRows_.empty() ? rows_ : dateRows_;
         vector<double> columns = dateColumns_.empty() ? columns_ : dateColumns_;
-        int index              = 0;
+        
 
-        for (vector<double>::iterator r = rows.begin(); r != rows.end(); r++) {
-            vector<string> dims;
-            ostringstream x, y;
-            if (magCompare(dimension_method_, "index")) {
-                y << y_ << "/" << index << "/" << index;
-                x << x_ << "/" << 0 << "/" << columns.size() - 1;
-            }
-            else {
-                x.precision(20);
-                y.precision(20);
 
-                y << y_ << "/" << *r << "/" << *r;
-                x << x_ << "/" << columns.front() << "/" << columns.back();
-            }
-            std::copy(dimension_.begin(), dimension_.end(), std::back_inserter(dims));
-            dims.push_back(y.str());
-            dims.push_back(x.str());
+        std::map<string, Interpretor>::iterator interpretor = interpretors_.find(interpretation_);
 
-            index++;
-            // for (auto d = dims.begin(); d != dims.end(); ++d)
-            //     cout << *d << " " ;
-            // cout << endl;
-            //cout << "ROWS" << endl;
-            // for (auto d = rows.begin(); d != rows.end(); ++d)
-            //     cout << *d << " " ;
-            // cout << endl;
-
-            setDimensions(dims, first, last);
-            vector<double> data;
-            //cout << "GET DATA " << field_ << endl;
-
-            netcdf.get(field_, data, first, last);
-            // cout  << "GET DATA " << data.size() << "??" << rows.size() << "*" << columns.size() << "="  << rows.size() * columns.size() << endl;
-            for (vector<double>::iterator d = data.begin(); d != data.end(); d++) {
-                matrix_->push_back(*d);
-            }
-
+        if (interpretor == interpretors_.end()) {
+            interpret(netcdf, rows, columns);
         }
-
+        else 
+            (this->*interpretor->second)(netcdf, rows, columns);
+            
 
         MagLog::debug() << "matrix_[" << matrix_->size() << ", " << scaling_ << ", " << offset_ << "]"
                         << "\n";
@@ -116,9 +165,7 @@ bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
         matrix_->multiply(scaling_);
         matrix_->plus(offset_);
 
-
         MagLog::debug() << "matrix_[" << matrix_->size() << ", " << scaling_ << ", " << offset_ << "\n";
-
 
         matrix_->setColumnsAxis(columns_);
         matrix_->setRowsAxis(rows_);
@@ -183,6 +230,7 @@ bool NetcdfMatrixInterpretor::x() {
 
     if (aux_x_.empty())
         return true;
+
     try {
         vector<double> aux;
 
@@ -272,11 +320,13 @@ void NetcdfMatrixInterpretor::getReady(const Transformation& transformation) {
 
     refDateX_ = transformation.getReferenceX();
     columns_.clear();
+    dateColumns_.clear();
     x();
 
 
     refDateY_ = transformation.getReferenceY();
     rows_.clear();
+    dateRows_.clear();
     y();
 }
 

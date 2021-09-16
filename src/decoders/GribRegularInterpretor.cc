@@ -2007,10 +2007,10 @@ void GribProjInterpretor::interpretAsMatrix(GribDecoder& grib) const {
 
     try {
         u->resize(nb);
-        v->resize(nb);
         size_t aux = size_t(nb);
        
         if (v != NULL) {
+            v->resize(nb);
             grib_get_double_array(grib.uHandle(), "values", &u->front(), &aux);     
             grib_get_double_array(grib.uHandle(), "values", &u->data_.front(), &aux);     
             grib_get_double_array(grib.vHandle(), "values", &v->front(), &aux);

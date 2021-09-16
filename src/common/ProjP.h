@@ -24,7 +24,7 @@ public:
     ProjP();
     ProjP(const string&, const string&);
 
-    ~ProjP();
+    virtual ~ProjP();
 
     bool valid() const { return converter_; }
 
@@ -56,6 +56,7 @@ private:
 class LatLonProjP : public ProjP {
 public:
     LatLonProjP() {}
+    ~LatLonProjP() override {}
     LatLonProjP(const string& to) : ProjP("EPSG:4326", to) {}
     int convert(double&, double&) const override;
     int revert(double&, double&) const override;

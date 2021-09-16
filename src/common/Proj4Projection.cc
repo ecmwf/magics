@@ -235,12 +235,20 @@ Proj4Projection::Proj4Projection() :
     config.init();
 }
 void Proj4Projection::populate(double lon, double lat, double val, vector<UserPoint>& out) const {
-    if (inExtended(PaperPoint(lon , lat)))
-        out.push_back(UserPoint(lon, lat, val));
-    if (inExtended(PaperPoint(lon - 360, lat)))
-        out.push_back(UserPoint(lon - 360., lat, val));
-    if (inExtended(PaperPoint(lon + 360, lat)))
-        out.push_back(UserPoint(lon + 360., lat, val));
+
+    // Need to reproject
+    double x, y;
+    
+
+    vector<double> lons = { lon };
+
+    for ( auto l = lons.begin(); l != lons.end(); ++l) {
+        x = *l;
+        y = lat;
+        fast_reproject(x,y);
+        if (inExtended(PaperPoint(x , y)))
+            out.push_back(UserPoint(lon, lat, val));
+    }
 }
 
 /*!

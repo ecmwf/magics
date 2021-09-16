@@ -34,10 +34,10 @@ public:
     ~MgQPixmapItem() override;
 
     void setTargetRect(QRectF r) { targetRect_ = r; }
-    QRectF boundingRect() const;
-    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* widget = 0);
+    QRectF boundingRect() const override;
+    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* widget = 0) override;
     void setClipRect(QRectF);
-    int type() const { return Type; }
+    int type() const override { return Type; }
 
 protected:
     QRectF targetRect_;

@@ -96,7 +96,7 @@ public slots:
 
 protected:
     void updateCache();
-    void drawBackground(QPainter* painter, const QRectF& rect);
+    void drawBackground(QPainter* painter, const QRectF& rect) override;
 
     bool ignoreSceneItemChange_;
 

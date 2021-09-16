@@ -44,9 +44,9 @@ public:
     MgQPolylineSetItem(QRectF&, QGraphicsItem* parent = 0);
     ~MgQPolylineSetItem() override;
 
-    QRectF boundingRect() const;
-    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* widget = 0);
-    int type() const { return Type; }
+    QRectF boundingRect() const override;
+    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* widget = 0) override;
+    int type() const override { return Type; }
 
     void addPolyline(QVector<QPointF>, QBrush, QPen, bool);
     void addPath(QPainterPath&, QBrush, QPen);

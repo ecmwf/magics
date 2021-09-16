@@ -30,9 +30,9 @@ public:
     MgQRootItem(QGraphicsItem* parent = 0) : QGraphicsItem(parent){};
     virtual ~MgQRootItem() override{};
 
-    int type() const { return Type; }
-    QRectF boundingRect() const { return QRectF(); }
-    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*){};
+    int type() const override { return Type; }
+    QRectF boundingRect() const override { return QRectF(); }
+    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) override {};
 
     void clearContents() {
         foreach (QGraphicsItem* item, childItems()) {
