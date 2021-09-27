@@ -9425,20 +9425,19 @@
     "coloured_flags" : {
         "legend" : "on",
         "wind_field_type" : "arrows",
-        "wind_arrow_unit_velocity" : 10.0,
-        "wind_arrow_min_speed" : 0.0,  
-        "wind_arrow_calm_below" : 0.1,              
         "wind_advanced_method" : "on",
-        "wind_advanced_colour_selection_type" : "count",
+        "wind_advanced_colour_max_value" : 25.00,
+        "wind_advanced_colour_min_value" : 0.00,
         "wind_advanced_colour_table_colour_method" : "calculate",
-        "wind_advanced_colour_direction" : "anti_clockwise",
-        "wind_advanced_colour_min_level_colour" : "turquoise",
-        "wind_thinning_factor" :  5,
-        "wind_thinning_method" :  "automatic",
-        "wind_advanced_colour_max_level_colour" : "purple_red"
+        "wind_advanced_colour_max_level_colour":  "red",
+        "wind_advanced_colour_min_level_colour": "blue",
+        "wind_flag_origin_marker" : "dot",
+        "wind_thinning_factor" : 5,
+        "wind_thinning_method": "automatic"
     },
     "flags" : {
-        "wind_field_type" : "flags"
+        "wind_field_type" : "flags",
+        "wind_flag_colour" : "black"
     },
     "gold_arrows": {
         "wind_field_type" : "arrows",
