@@ -50,25 +50,30 @@ void Wind::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
 
     // Automatic Styling ?
 
+    bool legend = type_->legend_only_;
+
     try {
         ParameterManager::set("contour_automatic_library_path", library_path_);
         ContourLibrary* library = MagTranslator<string, ContourLibrary>()(setting_);
 
         MetaDataCollector meta, needAttributes;
 
+       
+
         if (predefined_.size()) {
             library->getStyle(predefined_, automaticAttributes_);
-            set(automaticAttributes_);           
+            set(automaticAttributes_);
+            automaticAttributes_["wind_legend_only"] = type_->legend_only_;
         }
+        
         else {
             library->askId(meta);
             data.visit(meta);
             if (library->checkId(meta, needAttributes)) {
                 data.visit(needAttributes);
                 needAttributes["theme"] = theme_;
+                automaticAttributes_["wind_legend_only"] = type_->legend_only_;
                 library->getStyle(needAttributes, automaticAttributes_, *styleInfo_);
-
-
                 set(automaticAttributes_);
             }
             else {
@@ -76,6 +81,8 @@ void Wind::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
                 styleInfo_       = new StyleEntry();
 
                 library->getStyle(meta, automaticAttributes_, *styleInfo_);
+                automaticAttributes_["wind_legend_only"] = type_->legend_only_;
+               
                 if  (getEnvVariable("MAGICS_STYLES_DEBUG") != "") {
                     for (auto s = automaticAttributes_.begin(); s != automaticAttributes_.end(); ++s)
                         cout << s->first << "-->" << s->second << endl;
@@ -90,12 +97,9 @@ void Wind::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
     }
 
 
-
     if ((*type_)(data, parent))
         return;
-    if (type_->legend_only_)
-        return;
-
+    
 
     ThinningMethod* method = 0;
 
@@ -137,6 +141,11 @@ void Wind::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
     (*this->type_).prepare(parent, method->units());
 
     (*this->type_).adjust(points, transformation);
+
+
+    if (legend)
+        return;
+
 
     for (const auto& point : points) {
         bool north    = (point->latitude() > 0);

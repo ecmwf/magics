@@ -74,7 +74,7 @@ public:
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
-    virtual void print(ostream& out) const override { out << "ArrowPlotting<P>"; }
+    virtual void print(ostream& out) const override { out << "ArrowPlotting<P>"; WindPlottingAttributes::print(out);}
     map<Colour, Arrow*> southArrows_;
     map<Colour, Arrow*> northArrows_;
     double maxVelocity_;
