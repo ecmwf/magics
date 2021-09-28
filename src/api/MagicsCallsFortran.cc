@@ -75,18 +75,18 @@ extern "C" {
 
 
 #define C_VOID(NAME) \
-    MAGICS_EXPORT void NAME##_() { c_void(#NAME, MagicsCalls::NAME); }
+    MAGICS_EXPORT void p##NAME##_() { c_void(#NAME, MagicsCalls::NAME); }
 
 #define C_CHAR(NAME) \
     MAGICS_EXPORT const char* NAME##_() { return c_char(#NAME, MagicsCalls::NAME); }
 
 #define C_INT(NAME) \
-    MAGICS_EXPORT int NAME##_() { return c_int(#NAME, MagicsCalls::NAME); }
+    MAGICS_EXPORT int pNAME##_() { return c_int(#NAME, MagicsCalls::NAME); }
 
 
 C_VOID(axis)
 C_VOID(boxplot)
-C_INT(close)
+C_VOID(close)
 C_VOID(coast)
 C_VOID(cont)
 C_VOID(eps)
@@ -152,6 +152,11 @@ static std::string fortran_string(const char* s_ptr, int s_len, bool lstrip = fa
     string::size_type index2 = s.find_last_not_of(" ");
     return (index1 == string::npos || index2 == string::npos) ? "" : s.substr(index1, index2 + 1);
 }
+
+MAGICS_EXPORT void preset_(const char* name) {
+    c_void("reset", [name] { MagicsCalls::reset(name); });
+}
+
 
 //================================================================
 
