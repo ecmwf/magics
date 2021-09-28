@@ -1,10 +1,8 @@
 [
   {
-    "eccharts_layer": "2t",
-    "prefered_units": "C",
     "styles": [
-      "coloured_flags",
       "flags",
+      "coloured_flags",
       "gold_arrows"
     ],
     "match": [

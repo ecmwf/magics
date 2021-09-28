@@ -96,6 +96,9 @@ void Wind::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
         throw;  // forwarding exception
     }
 
+    if (legend)
+        return;
+
 
     if ((*type_)(data, parent))
         return;
@@ -143,9 +146,7 @@ void Wind::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
     (*this->type_).adjust(points, transformation);
 
 
-    if (legend)
-        return;
-
+    
 
     for (const auto& point : points) {
         bool north    = (point->latitude() > 0);

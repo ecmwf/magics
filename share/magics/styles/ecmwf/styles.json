@@ -9424,7 +9424,7 @@
     },
     "coloured_flags" : {
         "legend" : "on",
-        "wind_field_type" : "arrows",
+        "wind_field_type" : "flags",
         "wind_advanced_method" : "on",
         "wind_advanced_colour_max_value" : 25.00,
         "wind_advanced_colour_min_value" : 0.00,
@@ -9437,10 +9437,14 @@
     },
     "flags" : {
         "wind_field_type" : "flags",
-        "wind_flag_colour" : "black"
+        "wind_flag_colour" : "black",
+        "wind_thinning_factor" : 5,
+        "wind_thinning_method": "automatic"
     },
     "gold_arrows": {
         "wind_field_type" : "arrows",
-        "wind_arrow_colour" : "gold"
+        "wind_arrow_colour" : "gold",
+        "wind_thinning_factor" : 5,
+        "wind_thinning_method": "automatic"
     }
 }
