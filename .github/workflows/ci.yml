@@ -1,6 +1,6 @@
 name: ci
 
-# Controls when the action will run
+# Controls when the workflow will run
 on:
 
   # Trigger the workflow on all pushes, except on tag creation
@@ -73,21 +73,28 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Install Dependencies
+    - name: Install System Dependencies (Ubuntu)
       shell: bash -eux {0}
+      if: startsWith(matrix.os, 'ubuntu')
       run: |
-        brew install netcdf pango proj
-        echo "PROJ_PATH=$(brew --prefix proj)" >> $GITHUB_ENV
-        echo "NETCDF_PATH=$(brew --prefix netcdf)" >> $GITHUB_ENV
+        sudo apt-get -q -y update
+        [[ "${{ matrix.os }}" == "ubuntu-18.04" ]] && NETCDF_PACKAGE=13 || NETCDF_PACKAGE=15
+        sudo apt-get -q -y install libnetcdf$NETCDF_PACKAGE libnetcdf-dev libpango1.0-dev libcurl4-openssl-dev
+
+    - name: Install System Dependencies (macOS)
+      shell: bash -eux {0}
+      if: startsWith(matrix.os, 'macos')
+      run: brew install netcdf imagemagick pango
 
     - name: Build & Test
       id: build-test
-      uses: ecmwf-actions/build-package@v1
+      uses: ecmwf-actions/build-package@v2
       with:
         self_coverage: true
         dependencies: |
           ecmwf/ecbuild
           ecmwf/eccodes
+          OSGeo/PROJ@refs/tags/8.1.1
         dependency_branch: develop
 
     - name: Codecov Upload
@@ -95,3 +102,16 @@ jobs:
       uses: codecov/codecov-action@v2
       with:
         files: ${{ steps.build-test.outputs.coverage_file }}
+
+  dispatch:
+    name: dispatch
+    needs: ci
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Run Regression Tests
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        token: ${{ secrets.GH_PAT }}
+        repository: ecmwf/magics-test
+        event-type: magics-updated
+        client-payload: '{"magics_ref": "${{ github.ref }}", "magics_sha": "${{ github.sha }}"}'
