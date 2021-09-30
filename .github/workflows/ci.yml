@@ -1,0 +1,117 @@
+name: ci
+
+# Controls when the workflow will run
+on:
+
+  # Trigger the workflow on all pushes, except on tag creation
+  push:
+    branches:
+    - '**'
+    tags-ignore:
+    - '**'
+
+  # Trigger the workflow on all pull requests
+  pull_request: ~
+
+  # Allow workflow to be dispatched on demand
+  workflow_dispatch: ~
+
+jobs:
+  ci:
+    name: ci
+    strategy:
+      matrix:
+        name:
+        - gnu-10@ubuntu-20.04
+        - clang-12@ubuntu-20.04
+        - gnu-10@ubuntu-18.04
+        - clang-9@ubuntu-18.04
+        # Currently disabled because of dynamic library linking issues
+        # - gnu-10@macos-10.15
+        - clang-12@macos-10.15
+        include:
+        - name: gnu-10@ubuntu-20.04
+          os: ubuntu-20.04
+          compiler: gnu-10
+          compiler_cc: gcc-10
+          compiler_cxx: g++-10
+          compiler_fc: gfortran-10
+        - name: clang-12@ubuntu-20.04
+          os: ubuntu-20.04
+          compiler: clang-12
+          compiler_cc: clang-12
+          compiler_cxx: clang++-12
+          compiler_fc: gfortran-10
+        - name: gnu-10@ubuntu-18.04
+          os: ubuntu-18.04
+          compiler: gnu-10
+          compiler_cc: gcc-10
+          compiler_cxx: g++-10
+          compiler_fc: gfortran-10
+        - name: clang-9@ubuntu-18.04
+          os: ubuntu-18.04
+          compiler: clang-9
+          compiler_cc: clang-9
+          compiler_cxx: clang++-9
+          compiler_fc: gfortran-9
+        # Currently disabled because of dynamic library linking issues
+        # - name: gnu-10@macos-10.15
+        #   os: macos-10.15
+        #   compiler: gnu-10
+        #   compiler_cc: gcc-10
+        #   compiler_cxx: g++-10
+        #   compiler_fc: gfortran-10
+        # Xcode compiler requires empty environment variables, so we pass null (~) here
+        - name: clang-12@macos-10.15
+          os: macos-10.15
+          compiler: clang-12
+          compiler_cc: ~
+          compiler_cxx: ~
+          compiler_fc: gfortran-10
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Install System Dependencies (Ubuntu)
+      shell: bash -eux {0}
+      if: startsWith(matrix.os, 'ubuntu')
+      run: |
+        sudo apt-get -q -y update
+        [[ "${{ matrix.os }}" == "ubuntu-18.04" ]] && NETCDF_PACKAGE=13 || NETCDF_PACKAGE=15
+        sudo apt-get -q -y install libnetcdf$NETCDF_PACKAGE libnetcdf-dev libpango1.0-dev libcurl4-openssl-dev
+
+    - name: Install System Dependencies (macOS)
+      shell: bash -eux {0}
+      if: startsWith(matrix.os, 'macos')
+      run: brew install netcdf imagemagick pango
+
+    - name: Build & Test
+      id: build-test
+      uses: ecmwf-actions/build-package@v2
+      with:
+        self_coverage: true
+        dependencies: |
+          ecmwf/ecbuild
+          ecmwf/eccodes
+          OSGeo/PROJ@refs/tags/8.1.1
+        dependency_branch: develop
+
+    - name: Codecov Upload
+      if: steps.build-test.outputs.coverage_file && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop')
+      uses: codecov/codecov-action@v2
+      with:
+        files: ${{ steps.build-test.outputs.coverage_file }}
+
+  dispatch:
+    name: dispatch
+    needs: ci
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Run Regression Tests
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        token: ${{ secrets.GH_PAT }}
+        repository: ecmwf/magics-test
+        event-type: magics-updated
+        client-payload: '{"magics_ref": "${{ github.ref }}", "magics_sha": "${{ github.sha }}"}'
