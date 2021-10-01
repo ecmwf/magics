@@ -154,6 +154,11 @@ C_CHAR(metagrib)      // TODO: review name
 C_CHAR(metainput)     // TODO: review name
 C_CHAR(metanetcdf)    // TODO: review name
 
+MAGICS_EXPORT void pnew_(const char* name, int length) {
+    std::string n(name, length);
+    mag_new(n.c_str());
+}
+
 MAGICS_EXPORT void mag_new(const char* page) {
     c_void("new", [page] { MagicsCalls::page(page); });
 }
@@ -231,6 +236,23 @@ C_VOID(clear_listeners)
 
 MAGICS_EXPORT void detect(const char* data, const char* dimension) {
     c_char("detect", [data, dimension] { return MagicsCalls::detect(data, dimension); });
+}
+
+// For linking issues
+MAGICS_EXPORT void presets_() {
+    ParameterManager::reset();
+}
+
+MAGICS_EXPORT void ptest_() {
+MagLog::dev() << "PTEST deprecated!\n";
+}
+
+MAGICS_EXPORT void pact_(const char*, const char*, const char*, int, int, int) {
+    MagLog::dev() << "PACT will NOT be implemented!\n";
+}
+
+MAGICS_EXPORT void ppie_() {
+    MagLog::warning() << "ppie-> is deprecated and will NOT be implemented.\n";
 }
 
 
