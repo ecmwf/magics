@@ -60,6 +60,8 @@ public:
 	double plumes_;
 	bool information_;
 	string keyword_;
+	string cams_keyword_;
+	string cams_y_keyword_;
 	string station_name_;
 	string param_;
 	double param_scaling_factor_;

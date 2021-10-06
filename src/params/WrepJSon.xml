@@ -84,6 +84,20 @@ does it submit to any jurisdiction.
 			name="wrepjson_keyword">
 			<documentation>if several eps data are put in the same json object, give the keyowrd to find them</documentation>
 		</parameter>
+		<parameter member="cams_keyword"
+			to="string"
+			default="uv_index"
+			from="string"
+			name="wrepjson_cams_keyword">
+			<documentation>Special for cams</documentation>
+		</parameter>
+		<parameter member="cams_y_keyword"
+			to="string"
+			default="uv_index"
+			from="string"
+			name="wrepjson_cams_y_keyword">
+			<documentation>Special for cams</documentation>
+		</parameter>
 		<parameter member="station_name"
 			to="string"
 			default=""

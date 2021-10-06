@@ -82,6 +82,7 @@ WrepJSon::WrepJSon() :
     decoders_["cdf"]   = &WrepJSon::cdf;
     decoders_["basic"] = &WrepJSon::basic;
     decoders_["data"]  = &WrepJSon::data;
+    decoders_["cams"]  = &WrepJSon::cams;
 
 
     transformationHandlers_["eps"]     = &WrepJSon::eps;
@@ -695,7 +696,7 @@ void WrepJSon::hodograph() {
     for (auto s = sort.begin(); s != sort.end(); ++s) {
         for (auto p = s->second.begin(); p != s->second.end(); ++p) {
             points_.push_back(*p);
-            // cout << **p << endl;
+            
         }
     }
 }
@@ -983,6 +984,7 @@ void WrepJSon::customisedPoints(const Transformation& transformation, const std:
         }
         (**point)["resolution"] = points_along_meridian_;
         out.push_back(*point);
+
     }
     points_.clear();
 }
@@ -994,12 +996,24 @@ void WrepJSon::customisedPoints(const std::set<string>&, CustomisedPointsList& o
     for (vector<CustomisedPoint*>::const_iterator point = points_.begin(); point != points_.end(); ++point) {
         (**point)["resolution"] = points_along_meridian_;
         out.push_back(*point);
+
     }
 }
 void WrepJSon::data() {
     if (points_.empty()) {
         methods_[keyword_] = &WrepJSon::dig;
         file_              = path_;
+
+        basic();
+    }
+}
+
+void WrepJSon::cams() {
+    if (points_.empty()) {
+        methods_[cams_keyword_] = &WrepJSon::cams_values;
+        file_              = path_;
+        methods_["user_location"] = &WrepJSon::ignore;
+        methods_["date"] = &WrepJSon::cams_date;
 
         basic();
     }
@@ -1104,8 +1118,9 @@ void WrepJSon::missing(const Value& value) {
     missing_ = tonumber(value.get_value<string>());
 }
 void WrepJSon::date(const Value& value) {
-    MagLog::dev() << "found -> date= " << value.get_value<string>() << endl;
+    cout << "found -> date= " << value.get_value<string>() << endl;
     date_ = value.get_value<string>();
+
 }
 
 void WrepJSon::step(const Value& value) {
@@ -1254,6 +1269,83 @@ void WrepJSon::levels(const Value& value) {
         current_->levels_.push_back(values[i].get_value<double>());
     }
 }
+
+void WrepJSon::cams_date(const Value& value) {
+    cout << "found -> date= " << value.get_value<string>() << endl;
+    date_ = value.get_value<string>();
+    xBase_ = date_;
+
+}
+
+
+void WrepJSon::cams_values(const Value& value) {
+
+    xdate_ = true;
+    xBase_ = date_;
+    
+   
+    ValueMap param = value.get_value<ValueMap>();
+    for (auto info = param.begin(); info != param.end(); ++info) {
+        ValueList values = info->second.get_value<ValueList>();
+        if (info->first == "steps") {
+            for (unsigned int i = 0; i < values.size(); i++) {
+                values_.steps_.push_back(tonumber(values[i].get_value<string>()));
+            }
+        }
+        else {
+            map<string, vector<double>>& xv = values_.values_;
+            xv.insert(make_pair(info->first, vector<double>()));
+            vector<double>& vals = xv[info->first];
+       
+            for (unsigned int i = 0; i < values.size(); i++) {
+                double val = values[i].get_value<double>();
+                 
+                if (same(val, 0)) {
+                    val = 0;
+                }
+                if (val != missing_) {
+                    // val = (val * scaling_factor_) + offset_factor_;
+                }
+                vals.push_back(val);
+            }
+        }
+    }
+
+    
+
+   
+    vector<double> yval;
+    
+
+    string key                                      = cams_y_keyword_;
+    map<string, vector<double>>::iterator val       = values_.values_.find(cams_y_keyword_);
+    for (unsigned int i = 0; i < values_.steps_.size(); i++) {
+        double value           = (val == (values_.values_.end())) ? 0 : val->second[i];
+    
+        CustomisedPoint* point = new CustomisedPoint();
+
+        (*point)["step"] = values_.steps_[i] * 3600;
+        (*point)["x"] = values_.steps_[i] * 3600;
+        (*point)["y"]         = value;
+        
+        point->base(base_);
+
+        if ( (*point)["x"] > maxx_ )
+            maxx_ = (*point)["x"];
+        if ( (*point)["x"]< minx_ )
+            minx_ = (*point)["x"];
+        if ( (*point)["y"] > maxy_ )
+            maxy_ = (*point)["y"];
+        if ( (*point)["y"]< miny_ )
+            miny_ = (*point)["y"];
+        
+        points_.push_back(point);
+    }
+    
+}
+
+
+
 
 void WrepJSon::parameter(const Value& value) {
     ValueMap param = value.get_value<ValueMap>();

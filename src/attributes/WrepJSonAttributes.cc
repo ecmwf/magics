@@ -35,6 +35,8 @@ WrepJSonAttributes::WrepJSonAttributes():
 	plumes_(ParameterManager::getDouble("wrepjson_plumes_interval")),
 	information_(ParameterManager::getBool("wrepjson_information")),
 	keyword_(ParameterManager::getString("wrepjson_keyword")),
+	cams_keyword_(ParameterManager::getString("wrepjson_cams_keyword")),
+	cams_y_keyword_(ParameterManager::getString("wrepjson_cams_y_keyword")),
 	station_name_(ParameterManager::getString("wrepjson_station_name")),
 	param_(ParameterManager::getString("wrepjson_parameter")),
 	param_scaling_factor_(ParameterManager::getDouble("wrepjson_parameter_scaling_factor")),
@@ -81,6 +83,8 @@ void WrepJSonAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "wrepjson_plumes_interval", plumes_, params);
 	setAttribute(prefix, "wrepjson_information", information_, params);
 	setAttribute(prefix, "wrepjson_keyword", keyword_, params);
+	setAttribute(prefix, "wrepjson_cams_keyword", cams_keyword_, params);
+	setAttribute(prefix, "wrepjson_cams_y_keyword", cams_y_keyword_, params);
 	setAttribute(prefix, "wrepjson_station_name", station_name_, params);
 	setAttribute(prefix, "wrepjson_parameter", param_, params);
 	setAttribute(prefix, "wrepjson_parameter_scaling_factor", param_scaling_factor_, params);
@@ -115,6 +119,8 @@ void WrepJSonAttributes::copy(const WrepJSonAttributes& other)
 	plumes_ = other.plumes_;
 	information_ = other.information_;
 	keyword_ = other.keyword_;
+	cams_keyword_ = other.cams_keyword_;
+	cams_y_keyword_ = other.cams_y_keyword_;
 	station_name_ = other.station_name_;
 	param_ = other.param_;
 	param_scaling_factor_ = other.param_scaling_factor_;
@@ -181,6 +187,8 @@ void WrepJSonAttributes::print(ostream& out)  const
 	out << " plumes = " <<  plumes_;
 	out << " information = " <<  information_;
 	out << " keyword = " <<  keyword_;
+	out << " cams_keyword = " <<  cams_keyword_;
+	out << " cams_y_keyword = " <<  cams_y_keyword_;
 	out << " station_name = " <<  station_name_;
 	out << " param = " <<  param_;
 	out << " param_scaling_factor = " <<  param_scaling_factor_;
@@ -226,6 +234,10 @@ void WrepJSonAttributes::toxml(ostream& out)  const
 	niceprint(out,information_);
 	out << ", \"wrepjson_keyword\":";
 	niceprint(out,keyword_);
+	out << ", \"wrepjson_cams_keyword\":";
+	niceprint(out,cams_keyword_);
+	out << ", \"wrepjson_cams_y_keyword\":";
+	niceprint(out,cams_y_keyword_);
 	out << ", \"wrepjson_station_name\":";
 	niceprint(out,station_name_);
 	out << ", \"wrepjson_parameter\":";
@@ -275,6 +287,8 @@ static MagicsParameter<string> wrepjson_key("wrepjson_key", "");
 static MagicsParameter<double> wrepjson_plumes_interval("wrepjson_plumes_interval", 1);
 static MagicsParameter<string> wrepjson_information("wrepjson_information", "on");
 static MagicsParameter<string> wrepjson_keyword("wrepjson_keyword", "");
+static MagicsParameter<string> wrepjson_cams_keyword("wrepjson_cams_keyword", "uv_index");
+static MagicsParameter<string> wrepjson_cams_y_keyword("wrepjson_cams_y_keyword", "uv_index");
 static MagicsParameter<string> wrepjson_station_name("wrepjson_station_name", "");
 static MagicsParameter<string> wrepjson_parameter("wrepjson_parameter", "1");
 static MagicsParameter<double> wrepjson_parameter_scaling_factor("wrepjson_parameter_scaling_factor", 1);
