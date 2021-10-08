@@ -202,7 +202,7 @@
         "subpage_vertical_longitude": 69.42, 
         "subpage_map_projection": "polar_stereographic", 
         "subpage_lower_left_latitude": 18.85
-    }, 
+    },
     "north_america": {
         "subpage_upper_right_longitude": -41.6, 
         "subpage_upper_right_latitude": 42.0, 
@@ -210,5 +210,231 @@
         "subpage_vertical_longitude": -100, 
         "subpage_map_projection": "polar_stereographic", 
         "subpage_lower_left_latitude": 20.0
+    }, 
+    "opencharts_africa": {
+        "subpage_lower_left_latitude": -40, 
+        "subpage_lower_left_longitude": -45, 
+        "subpage_map_projection": "cylindrical", 
+        "subpage_upper_right_latitude": 40, 
+        "subpage_upper_right_longitude": 75
+    }, 
+    "opencharts_antarctic": {
+        "subpage_lower_left_latitude": -42.0, 
+        "subpage_lower_left_longitude": -135.0, 
+        "subpage_map_projection": "EPSG:32761",
+        "subpage_upper_right_latitude": -42.0, 
+        "subpage_upper_right_longitude": 45.0,
+        "map_area_definition" : "corners"
+    }, 
+    "opencharts_arctic": {
+        "subpage_lower_left_latitude": 42.0, 
+        "subpage_lower_left_longitude": -45.0, 
+        "subpage_map_projection": "EPSG:32661", 
+        "map_area_definition" : "corners",
+        "subpage_upper_right_latitude": 42.0, 
+        "subpage_upper_right_longitude": 135.0
+    }, 
+    "opencharts_australasia": {
+        "lower_left_latitude": -47.6, 
+        "lower_left_longitude": 109.7, 
+        "projection": "cylindrical", 
+        "upper_right_latitude": -6.0, 
+        "upper_right_longitude": 179.0
+    }, 
+    "opencharts_central_america": {
+        "lower_left_latitude": -5.0,
+        "lower_left_longitude": -121.0,
+        "projection": "cylindrical",
+        "upper_right_latitude": 36.0,
+        "upper_right_longitude": -53.5
+    }, 
+    "opencharts_central_europe": {
+        "lower_left_latitude": 40.0, 
+        "lower_left_longitude": -6.0, 
+        "projection": "EPSG:32661", 
+        "map_area_definition" : "corners",
+        "upper_right_latitude": 54.0, 
+        "upper_right_longitude": 26.0
+    }, 
+    "opencharts_east_tropic": {
+        "lower_left_latitude": -35.0, 
+        "lower_left_longitude": 0.0, 
+        "projection": "cylindrical", 
+        "upper_right_latitude": 35.0, 
+        "upper_right_longitude": 179.9
+    }, 
+    "opencharts_eastern_asia": {
+        "lower_left_latitude": 15.8, 
+        "lower_left_longitude": 92.8, 
+        "projection": "EPSG:32661", 
+        "upper_right_latitude": 60.2, 
+        "upper_right_longitude": 178.2,
+        "vertical_longitude": 118.6,
+        "map_area_definition" : "corners"
+    }, 
+    "opencharts_eurasia": {
+        "lower_left_latitude": 17,
+        "lower_left_longitude": 50,
+        "projection": "EPSG:32661",
+        "vertical_longitude": 80,
+        "map_area_definition" : "corners",
+        "upper_right_latitude": 31,
+        "upper_right_longitude": 168
+    }, 
+    "opencharts_europe": {
+        "lower_left_latitude": 27.0, 
+        "lower_left_longitude": -15.0, 
+        "projection": "EPSG:32661", 
+        "map_area_definition" : "corners",
+        "upper_right_latitude": 50.0, 
+        "upper_right_longitude": 68.0
+    }, 
+    "opencharts_global": {
+        "lower_left_latitude": -90.0, 
+        "lower_left_longitude": -180.0, 
+        "projection": "cylindrical", 
+        "upper_right_latitude": 90.0, 
+        "upper_right_longitude": 180.0
+    }, 
+    "opencharts_middle_east_and_india": {
+        "lower_left_latitude": -2.0,
+        "lower_left_longitude": 29.0,
+        "projection": "cylindrical",
+        "upper_right_latitude": 40.5,
+        "upper_right_longitude": 94.0
+    }, 
+    "opencharts_north_america": {
+        "lower_left_latitude": 20.0, 
+        "lower_left_longitude": -118.1, 
+        "projection": "EPSG:32661", 
+        "upper_right_latitude": 42.0, 
+        "upper_right_longitude": -41.6,
+        "subpage_map_vertical_longitude": -100,
+        "map_area_definition" : "corners"
+    }, 
+    "opencharts_north_atlantic": {
+        "lower_left_latitude": 23.0, 
+        "lower_left_longitude": -50.0, 
+        "projection": "EPSG:32661", 
+        "upper_right_latitude": 62.0, 
+        "upper_right_longitude": 40.0,
+        "vertical_longitude": -20,
+        "map_area_definition" : "corners"
+    }, 
+    "opencharts_north_east_europe": {
+        "lower_left_latitude": 46.0, 
+        "lower_left_longitude": 2.0, 
+        "projection": "EPSG:32661", 
+        "map_area_definition" : "corners",
+        "upper_right_latitude": 50.0, 
+        "upper_right_longitude": 68.0
+    }, 
+    "opencharts_north_pole": {
+        "lower_left_latitude": 9.0, 
+        "lower_left_longitude": -45.0, 
+        "projection": "EPSG:32661", 
+        "upper_right_latitude": 9.0, 
+        "upper_right_longitude": 135.0,
+        "map_area_definition" : "corners"
+    }, 
+    "opencharts_north_west_europe": {
+        "lower_left_latitude": 44.0, 
+        "lower_left_longitude": -18.0, 
+        "projection": "EPSG:32661", 
+        "map_area_definition" : "corners",
+        "upper_right_latitude": 70.0, 
+        "upper_right_longitude": 40.0
+    }, 
+    "opencharts_northern_africa": {
+        "lower_left_latitude": 0.0, 
+        "lower_left_longitude": -18.21, 
+        "projection": "cylindrical", 
+        "upper_right_latitude": 38.46, 
+        "upper_right_longitude": 60.67
+    }, 
+    "opencharts_pacific": {
+        "lower_left_latitude": -69.0,
+        "lower_left_longitude": 109.0,
+        "projection": "cylindrical",
+        "upper_right_latitude": 69.0,
+        "upper_right_longitude": 296.0
+    }, 
+    "opencharts_south_america": {
+        "lower_left_latitude": -56.0, 
+        "lower_left_longitude": -89.3, 
+        "projection": "cylindrical", 
+        "upper_right_latitude": 13.0, 
+        "upper_right_longitude": -32.5
+    }, 
+    "opencharts_south_atlantic_and_indian_ocean": {
+        "lower_left_latitude": -69.0,
+        "lower_left_longitude": -65.0,
+        "projection": "cylindrical",
+        "upper_right_latitude": 25.0,
+        "upper_right_longitude": 122.0
+    }, 
+    "opencharts_south_east_asia_and_indonesia": {
+        "lower_left_latitude": -18.0,
+        "lower_left_longitude": 79.5,
+        "projection": "cylindrical",
+        "upper_right_latitude": 30.5,
+        "upper_right_longitude": 164.0
+    }, 
+    "opencharts_south_east_europe": {
+        "lower_left_latitude": 29.0, 
+        "lower_left_longitude": 4.0, 
+        "projection": "EPSG:32661", 
+        "map_area_definition" : "corners",
+        "upper_right_latitude": 40.0, 
+        "upper_right_longitude": 49.0
+    }, 
+    "opencharts_south_pole": {
+        "lower_left_latitude": -8.9, 
+        "lower_left_longitude": -135.0, 
+        "projection": "EPSG:32761", 
+        "map_area_definition" : "corners",
+        "upper_right_latitude": -9.0, 
+        "upper_right_longitude": 45.0,
+        "vertical_longitude": 180
+    }, 
+    "opencharts_south_west_europe": {
+        "lower_left_latitude": 27.0, 
+        "lower_left_longitude": -15.0, 
+        "upper_right_latitude": 50.0, 
+        "projection": "EPSG:32661", 
+        "map_area_definition" : "corners",
+        "upper_right_longitude": 20.0
+    }, 
+    "opencharts_southern_africa": {
+        "lower_left_latitude": -35.2, 
+        "lower_left_longitude": 3.7, 
+        "projection": "cylindrical", 
+        "upper_right_latitude": 6.4, 
+        "upper_right_longitude": 51.4
+    }, 
+    "opencharts_southern_asia": {
+        "lower_left_latitude": 1.0,
+        "lower_left_longitude": 61,
+        "projection": "EPSG:32661",
+        "vertical_longitude": 80,
+        "upper_right_latitude": 30,
+        "upper_right_longitude": 140,
+        "map_area_definition" : "corners"
+    }, 
+    "opencharts_west_tropic": {
+        "lower_left_latitude": -35.0, 
+        "lower_left_longitude": -180.0, 
+        "projection": "cylindrical", 
+        "upper_right_latitude": 35.0, 
+        "upper_right_longitude": 0.0
+    }, 
+    "opencharts_western_asia": {
+        "lower_left_latitude": 18.85, 
+        "lower_left_longitude": 49.51, 
+        "projection": "EPSG:32661", 
+        "upper_right_latitude": 54.56, 
+        "upper_right_longitude": 133.29,
+        "vertical_longitude": 69.42,
+        "map_area_definition" : "corners"
     }
 }
