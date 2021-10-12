@@ -1,0 +1,12 @@
+[
+  {
+    "prefered_units": "K",
+    "match": [
+      {
+        "paramId": "3127",
+        "shortName": "imgd",
+        "functionCode": "1"
+      }
+    ]
+  }
+]
