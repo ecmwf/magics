@@ -153,7 +153,8 @@ static std::string fortran_string(const char* s_ptr, int s_len, bool lstrip = fa
     return (index1 == string::npos || index2 == string::npos) ? "" : s.substr(index1, index2 + 1);
 }
 
-MAGICS_EXPORT void preset_(const char* name) {
+MAGICS_EXPORT void preset_(const char* name_ptr, int name_len) {
+    std::string name  = fortran_string(name_ptr, name_len);
     c_void("reset", [name] { MagicsCalls::reset(name); });
 }
 
