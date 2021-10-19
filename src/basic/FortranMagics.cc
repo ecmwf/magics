@@ -196,6 +196,14 @@ void FortranMagics::pclose() {
     ParameterManager::reset();
     Layout::reset();
 
+    // WE reset !
+    axisContainer_ = 0;
+    action_        = 0;
+
+    string legend;
+    ParameterManager::get("legend", legend);
+    legend_todo_ = magCompare(legend, "on");
+
 
     // the Magics log messages are not broadcast until the next log event -
     // therefore, the last log message will not be broadcast. We fix that by
@@ -368,6 +376,7 @@ void FortranMagics::pnew(const string& type) {
         finish();
         dispatch();
         empty_ = true;
+        
         actions_.push(&FortranMagics::legend);
         actions_.push(&FortranMagics::subpage);
         actions_.push(&FortranMagics::page);
@@ -388,7 +397,6 @@ void FortranMagics::actions() {
         Action action = actions_.top();
         (this->*action)();
         actions_.pop();
-
         empty_ = false;
     }
 
