@@ -45,10 +45,17 @@ void LevelListSelectionType::calculate(double, double, bool) {
 
 
     doublearray::const_iterator last = list_.begin();
+    double prevVal = min_;
     for (doublearray::const_iterator val = list_.begin(); val != list_.end(); ++val) {
         MagLog::dev() << "LevelListSelectionType::calculate(double min, double max)--->" << *val << "\n";
-        if (min_ <= *val && *val <= max_)
+        if (min_ <= *val && *val <= max_) {
+            if (*val < prevVal) {
+                MagLog::error() << " level list values should increase, but " << *val << " follows " << prevVal << endl;
+                break;
+            }
             push_back(*val);
+            prevVal = *val;
+        }
         ++last;
     }
 
