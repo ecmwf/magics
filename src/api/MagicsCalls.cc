@@ -277,19 +277,25 @@ void MagicsCalls::setc(const std::string& name, const std::string& value) {
 }
 
 void MagicsCalls::setc(const std::string& name, const char* value) {
-    ASSERT(value);
+    if ( !value) {
+        MagLog::warning() << "No value provided for parameter" << name  << endl;
+        return;
+    }
     setc(name, std::string(value));
 }
 
 void MagicsCalls::set1c(const std::string& name, const char** data, const int dim) {
-    ASSERT(data);
+    if ( !data ) {
+        MagLog::warning() << "No value provided for parameter" << name  << endl;
+        return;
+    }
 
     //	MagLog::dev() << "entry in the new mag_set1c\n";
     //	MagLog::dev() << "\tmag_set1c("  << dim << " entries);\n";
     stringarray values;
 
     for (int i = 0; i < dim; i++) {
-        ASSERT(data[i]);
+        
         values.push_back(data[i]);
     }
 
@@ -311,7 +317,10 @@ void MagicsCalls::set1r(const std::string& name, const std::vector<double>& data
 }
 
 void MagicsCalls::set1r(const std::string& name, const double* data, const int dim1) {
-    ASSERT(data);
+    if ( !data ) {
+        MagLog::warning() << "No value provided for parameter" << name  << endl;
+        return;
+    }
 
     floatarray values;
     for (int i = 0; i < dim1; i++) {
@@ -325,7 +334,10 @@ void MagicsCalls::set1r(const std::string& name, const double* data, const int d
 }
 
 void MagicsCalls::set2r(const std::string& name, const double* data, const int dim1, const int dim2) {
-    ASSERT(data);
+    if ( !data ) {
+        MagLog::warning() << "No value provided for parameter" << name  << endl;
+        return;
+    }
 
     Matrix matrix;
     for (int i = 0; i < dim2 * dim1; i++) {
@@ -379,7 +391,10 @@ void MagicsCalls::set1i(const std::string& name, const std::vector<int>& data) {
 }
 
 void MagicsCalls::set1i(const std::string& name, const int* data, const int dim1) {
-    ASSERT(data);
+    if (!data) {
+        MagLog::warning() << "No value provided for parameter" << name  << endl;
+        return;
+    }
 
     intarray values;
     for (int i = 0; i < dim1; i++) {
@@ -393,7 +408,10 @@ void MagicsCalls::set1i(const std::string& name, const int* data, const int dim1
 }
 
 void MagicsCalls::set2i(const std::string& name, const int* data, const int dim1, const int dim2) {
-    ASSERT(data);
+    if (!data) {
+        MagLog::warning() << "No value provided for parameter" << name  << endl;
+        return;
+    }
 
     Matrix matrix;
     for (int i = 0; i < dim2 * dim1; i++) {
@@ -420,7 +438,7 @@ void MagicsCalls::set3i(const std::string& name, const int* data, const int dim1
 void MagicsCalls::enqr(const std::string& n, double* value) {
     std::string name = n;
 
-    ASSERT(value);
+    
 
     vector<string> special;
     special.push_back("subpage_x_position");
@@ -450,7 +468,7 @@ void MagicsCalls::enqr(const std::string& n, double* value) {
 }
 
 void MagicsCalls::enqi(const std::string& name, int* value) {
-    ASSERT(value);
+   
 
     int magics;
     ParameterManager::get(name, magics);
@@ -458,7 +476,7 @@ void MagicsCalls::enqi(const std::string& name, int* value) {
 }
 
 void MagicsCalls::enqc(const std::string& name, char* value) {
-    ASSERT(value);
+    
 
     string magics;
 
