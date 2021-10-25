@@ -1014,6 +1014,7 @@ void WrepJSon::cams() {
         file_              = path_;
         methods_["user_location"] = &WrepJSon::ignore;
         methods_["date"] = &WrepJSon::cams_date;
+        methods_["time"] = &WrepJSon::cams_time;
 
         basic();
     }
@@ -1271,9 +1272,16 @@ void WrepJSon::levels(const Value& value) {
 }
 
 void WrepJSon::cams_date(const Value& value) {
-    cout << "found -> date= " << value.get_value<string>() << endl;
+    
     date_ = value.get_value<string>();
-    xBase_ = date_;
+    xBase_ = DateTime(date_, time_);
+
+}
+
+void WrepJSon::cams_time(const Value& value) {
+    
+    time_ = value.get_value<string>();
+    xBase_ = DateTime(date_, time_);
 
 }
 

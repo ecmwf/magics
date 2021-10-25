@@ -128,6 +128,7 @@ public:
     void clim_step(const Value&);
     void cams_values(const Value&);
     void cams_date(const Value&);
+    void cams_time(const Value&);
     
 
     // tephigram
