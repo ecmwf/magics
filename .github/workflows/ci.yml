@@ -115,3 +115,17 @@ jobs:
         repository: ecmwf/magics-test
         event-type: magics-updated
         client-payload: '{"magics_ref": "${{ github.ref }}", "magics_sha": "${{ github.sha }}"}'
+
+  notify:
+    name: notify
+    runs-on: ubuntu-20.04
+    needs:
+    - ci
+    - dispatch
+    if: always() && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop')
+    steps:
+    - name: Notify Teams
+      uses: ecmwf-actions/notify-teams@v1
+      with:
+        incoming_webhook: ${{ secrets.MS_TEAMS_INCOMING_WEBHOOK }}
+        needs_context: ${{ toJSON(needs) }}
