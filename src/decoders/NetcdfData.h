@@ -387,7 +387,7 @@ public:
 
     double getMissing(const string&, const string&);
 
-    string detect(const string& var, const string& type) const;
+    string detect(const string& var, const string& type, bool use_cache = true) const;
 
 
     template <class T>

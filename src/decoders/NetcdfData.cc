@@ -402,11 +402,13 @@ double NetVariable::getDefaultMissing() {
 }
 
 
-string Netcdf::detect(const string& var, const string& type) const {
+string Netcdf::detect(const string& var, const string& type, bool use_cache) const {
 
-    auto cache = detected_.find(var);
-    if ( cache != detected_.end() )
-        return cache->second;
+    if ( use_cache ) {
+        auto cache = detected_.find(var);
+        if ( cache != detected_.end() )
+            return cache->second;
+    }
 
     NetVariable variable      = getVariable(var);
     vector<string> dimensions = variable.dimensions();

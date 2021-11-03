@@ -343,10 +343,11 @@ NetcdfInterpretor* NetcdfGeoMatrixInterpretor::guess(const NetcdfInterpretor& fr
     Netcdf netcdf(from.path_, from.dimension_method_);
 
     string variable = from.field_;
+    bool use_cache = false; // Here we do not want to use the cache 
     if (variable.empty())
         variable = from.x_component_;
-    string latitude  = netcdf.detect(variable, "latitude");
-    string longitude = netcdf.detect(variable, "longitude");
+    string latitude  = netcdf.detect(variable, "latitude", use_cache);
+    string longitude = netcdf.detect(variable, "longitude", use_cache);
 
     if (latitude.size() && longitude.size()) {
         NetcdfGeoMatrixInterpretor* interpretor = new NetcdfGeoMatrixInterpretor();
@@ -354,14 +355,14 @@ NetcdfInterpretor* NetcdfGeoMatrixInterpretor::guess(const NetcdfInterpretor& fr
         interpretor->NetcdfInterpretor::copy(from);
         interpretor->latitude_        = latitude;
         interpretor->longitude_       = longitude;
-        interpretor->time_variable_   = netcdf.detect(variable, "time");
-        interpretor->level_variable_  = netcdf.detect(variable, "level");
-        interpretor->number_variable_ = netcdf.detect(variable, "number");
+        interpretor->time_variable_   = netcdf.detect(variable, "time", use_cache);
+        interpretor->level_variable_  = netcdf.detect(variable, "level", use_cache);
+        interpretor->number_variable_ = netcdf.detect(variable, "number", use_cache);
         return interpretor;
     }
 
-    string projection_y_coordinate = netcdf.detect(variable, "projection_y_coordinate");
-    string projection_x_coordinate = netcdf.detect(variable, "projection_x_coordinate");
+    string projection_y_coordinate = netcdf.detect(variable, "projection_y_coordinate", use_cache);
+    string projection_x_coordinate = netcdf.detect(variable, "projection_x_coordinate", use_cache);
 
     if (projection_y_coordinate.size() && projection_y_coordinate.size()) {
         NetcdfGeoMatrixInterpretor* interpretor = new NetcdfGeoMatrixInterpretor();
@@ -370,9 +371,9 @@ NetcdfInterpretor* NetcdfGeoMatrixInterpretor::guess(const NetcdfInterpretor& fr
         if (interpretor->proj4Detected(netcdf).size()) {
             interpretor->latitude_        = projection_y_coordinate;
             interpretor->longitude_       = projection_x_coordinate;
-            interpretor->time_variable_   = netcdf.detect(variable, "time");
-            interpretor->level_variable_  = netcdf.detect(variable, "level");
-            interpretor->number_variable_ = netcdf.detect(variable, "number");
+            interpretor->time_variable_   = netcdf.detect(variable, "time", use_cache);
+            interpretor->level_variable_  = netcdf.detect(variable, "level", use_cache);
+            interpretor->number_variable_ = netcdf.detect(variable, "number", use_cache);
             return interpretor;
         }
     }
