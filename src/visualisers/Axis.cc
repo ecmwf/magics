@@ -253,10 +253,9 @@ void HorizontalAxis::label(HorizontalAxisVisitor& axis) {
             p                        = positions.find((*x)->level() - 1);
             pos                      = axis.offsetTickLabel(height, p->second);
             positions[(*x)->level()] = pos;
-
+           
             title_position_ = pos;
         }
-
         PaperPoint point(transformation.x((*x)->position()), pos);
 
         bool out = false;
@@ -318,6 +317,8 @@ void VerticalAxis::label(VerticalAxisVisitor& axis) {
 
     PaperPoint point;
 
+    int gap = 0;
+    int last = 1;
     for (AxisItems::const_iterator y = items_.begin(); y != items_.end(); ++y) {
         if ((*y)->isLabel() == false)
             continue;
@@ -340,18 +341,24 @@ void VerticalAxis::label(VerticalAxisVisitor& axis) {
 
         double height = ((*y)->height() == DBL_MIN || (*y)->height() == 0) ? label_height_ : (*y)->height();
         double pos;
+
+    
+       
         map<int, double>::iterator p = positions.find((*y)->level());
 
         if (p != positions.end()) {
-            pos = p->second - axis.offsetTickLabel(height, 0);
-            ;
+            pos = p->second;
         }
         else {
+            gap  = ((*y)->level() == 0) ? height : height*(last+0.5); 
+            // Approximate to a square font : last is the number of characters of the longest label of the previous level
+            last = label.size();
             p                        = positions.find((*y)->level() - 1);
-            pos                      = p->second;
-            double newpos            = axis.offsetTickLabel(height, p->second);
-            positions[(*y)->level()] = newpos;
+            pos                      = axis.offsetTickLabel(gap, p->second);
+            positions[(*y)->level()] = pos;
         }
+        if (label.size() > last)
+            last = label.size();
 
         double tpos = axis.offsetTickLabel(height * label.size(), p->second);
         if (tpos < title_position_)
