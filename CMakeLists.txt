@@ -229,8 +229,28 @@ if ( HAVE_ODB )
   list( APPEND MAGICS_EXTRA_LIBRARIES odccore)
 endif()
 
+
+
 if( HAVE_CAIRO )
   list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS ${PANGOCAIRO_INCLUDE_DIRS})
+
+  if( EC_OS_NAME MATCHES "windows" )
+
+
+    # Looks like the transitivity of includes is broken
+    find_package(PkgConfig REQUIRED)
+
+    pkg_search_module(GLIB REQUIRED glib-2.0)
+    list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS ${GLIB_INCLUDE_DIRS})
+
+    pkg_search_module(CAIRO REQUIRED cairo)
+    list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS ${CAIRO_INCLUDE_DIRS})
+
+    pkg_search_module(HARFBUZZ REQUIRED harfbuzz)
+    list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS ${HARFBUZZ_INCLUDE_DIRS})
+
+  endif()
+
 endif()
 
 set( MAGICS_LIBRARIES MagPlus )
