@@ -38,38 +38,17 @@
 #include "MgQStepMetaData.h"
 
 
-MgQPlotScene::MgQPlotScene(QObject* parent) : MgQScene(parent), ignoreSceneItemChange_(false) {
-    dpiResolution_ = 75;
-
-    driverObject_ = 0;
-
-    currentSceneItemIndex_ = -1;
-    sceneLayerItem_        = 0;
-    previewLayoutItem_     = 0;
-
-    // cacheDevice_=new QPixmap(900,700);
-
-    // Cache
+MgQPlotScene::MgQPlotScene(QObject* parent) : MgQScene(parent) {
 
     cacheDevice_ = new QPixmap(2000, 1500);
-
     cacheItem_ = new MgQSceneCacheItem(cacheDevice_);
     addItem(cacheItem_);
-
     cachePainter_ = new QPainter(cacheDevice_);
     cacheDevice_->fill(qRgba(255, 255, 255, 255));
-
-    antialias_ = false;
     cachePainter_->setRenderHint(QPainter::Antialiasing, antialias_);
 
-    highlightItem_        = 0;
-    highlightedSceneItem_ = 0;
-
-    highlightItemForBrief_ = 0;
-
-    stepNum_ = 0;
-
-    connect(this, SIGNAL(sceneRectChanged(const QRectF&)), this, SLOT(slotSceneRectChanged(const QRectF&)));
+    connect(this, SIGNAL(sceneRectChanged(const QRectF&)), 
+            this, SLOT(slotSceneRectChanged(const QRectF&)));
 }
 
 MgQPlotScene::~MgQPlotScene() {
@@ -101,107 +80,17 @@ void MgQPlotScene::clearBeforeNewRequest() {
         delete sceneLayerItem_;
     }
 
-    sceneLayerItem_       = 0;
-    previewLayoutItem_    = 0;
+    sceneLayerItem_       = nullptr;
+    previewLayoutItem_    = nullptr;
     stepNum_              = 0;
-    highlightedSceneItem_ = 0;
+    highlightedSceneItem_ = nullptr;
 }
 
 void MgQPlotScene::saveStateBeforeNewRequest() {
-#if 0
-  	foreach(QList<MgQLayerState*> sc,previousSceneState_)
-	{
-		foreach(MgQLayerState* st, sc)
-		{
-		  	delete st;
-		}
-		sc.clear();
-	}	
-	previousSceneState_.clear();
-
-	for(int i=0; i < sceneItems_.count(); i++)
-	{  
-		QList<MgQLayerState*> vec;
-		
-		foreach(MgQLayerItem *layer,sceneItems_[i]->layerItems())  
-		{	
-			MgQLayerState *st=new MgQLayerState;
-			layer->saveLayerState(st);
-			vec << st;
-		}	
-		previousSceneState_ << vec;
-		
-	}
-#endif
 }
-// Temporary solution until layers handled properly in Metview 4
+
+
 void MgQPlotScene::restoreLayerState() {
-#if 0
-  	/*qDebug() << "restoreLayerState";
-  	foreach(QList<MgQLayerState*> sc,previousSceneState_)
-	{
-		qDebug() << "restoreLayerState";
-		
-		foreach(MgQLayerState* st, sc)
-		{
-		  qDebug() << "  " << st->name_ << st->id_ << st->stackLevel_ << st->alpha_ << st->visible_;	
-		}
-	}*/
-	
-	if(sceneItems_.count() != previousSceneState_.count())
-		return;  
-	
-	
-	for(int i=0; i < sceneItems_.count(); i++)
-	{  
-		bool sameNum=(sceneItems_[i]->layerItems().count() == previousSceneState_[i].count())?true:false;
-	  
-		int sameNameCnt=0;
-		
-	  	QSet<QString> usedNames;
-		MgQLayerState stAct;
-		for(int indexAct=0; indexAct < sceneItems_[i]->layerItems().count(); indexAct++)  
-		{	
-			MgQLayerItem *layer=sceneItems_[i]->layerItems().at(indexAct);			
-			layer->saveLayerState(&stAct);	  
-		  	for(int indexPrev=0; indexPrev < previousSceneState_[i].count(); indexPrev++)
-			{  
-				MgQLayerState *stPrev=previousSceneState_[i].at(indexPrev);
-			  	if(stPrev->name_ == stAct.name_ && !usedNames.contains(stAct.name_))
-				{
-				  	layer->setLayerVisibility(stPrev->visible_);						
-					layer->setLayerAlpha(stPrev->alpha_);		
-					sameNameCnt++;
-					usedNames << stAct.name_;
-					break;
-				}
-				
-			}
-			
-		}
-		
-		//If we have the same number of layers as before and the new and old names 
-		//are the same (so the layers can be matched) we set the stack level!!!
-		if(sameNum && sameNameCnt == sceneItems_[i]->layerItems().count())
-		{
-			for(int indexAct=0; indexAct < sceneItems_[i]->layerItems().count(); indexAct++)  
-			{	
-				MgQLayerItem *layer=sceneItems_[i]->layerItems().at(indexAct);			
-				layer->saveLayerState(&stAct);	  
-		  		for(int indexPrev=0; indexPrev < previousSceneState_[i].count(); indexPrev++)
-				{  
-					MgQLayerState *stPrev=previousSceneState_[i].at(indexPrev);
-			  		if(stPrev->name_ == stAct.name_)
-					{
-						layer->setStackLevel(stPrev->stackLevel_);		
-					}
-				}
-			}
-		}	
-		 
-				
-	}
-#endif
 }
 
 void MgQPlotScene::addSceneItem(MgQSceneItem* item) {
@@ -226,7 +115,7 @@ MgQSceneItem* MgQPlotScene::currentSceneItem() {
     if (currentSceneItemIndex_ >= 0 && currentSceneItemIndex_ < sceneItems_.count()) {
         return sceneItems_[currentSceneItemIndex_];
     }
-    return 0;
+    return nullptr;
 }
 
 MgQLayoutItem* MgQPlotScene::firstProjectorItem() {
@@ -236,7 +125,7 @@ MgQLayoutItem* MgQPlotScene::firstProjectorItem() {
             return res;
     }
 
-    return 0;
+    return nullptr;
 }
 
 MgQLayoutItem* MgQPlotScene::findProjectorItem(QPointF scenePos) {
@@ -246,7 +135,7 @@ MgQLayoutItem* MgQPlotScene::findProjectorItem(QPointF scenePos) {
             return res;
     }
 
-    return 0;
+    return nullptr;
 }
 
 MgQSceneItem* MgQPlotScene::findSceneItem(QPointF scenePos) {
@@ -254,13 +143,13 @@ MgQSceneItem* MgQPlotScene::findSceneItem(QPointF scenePos) {
         if (item->sceneBoundingRect().contains(scenePos))
             return item;
     }
-    return 0;
+    return nullptr;
 }
 
 
 bool MgQPlotScene::identifyPos(QPointF scenePos, MgQSceneItem** sceneItem, MgQLayoutItem** projectorItem) {
     MgQSceneItem* scn  = *sceneItem;
-    MgQLayoutItem* prn = 0;
+    MgQLayoutItem* prn = nullptr;
 
     // Find zoomable layout, i.e. subpage!!!
     if (scn) {
@@ -403,21 +292,31 @@ void MgQPlotScene::setEnableAntialias(bool status) {
     }
 }
 
+void MgQPlotScene::setHighlightStyle(QBrush b, QPen p)
+{
+    highlightBrush_ = b;
+    highlightPen_ = p;
+}
+
+void MgQPlotScene::setHighlightBriefStyle(QBrush b, QPen p)
+{
+    highlightBriefBrush_ = b;
+    highlightBriefPen_ = p;
+}
+
 void MgQPlotScene::highlightSceneItem(MgQSceneItem* item, bool status) {
     if (!highlightItem_) {
         highlightItem_ = new QGraphicsRectItem;
-        highlightItem_->setBrush(QColor(0, 0, 255, 10));
-        QPen pen(QColor(0, 0, 0, 100));
-        pen.setWidth(2);
-        highlightItem_->setPen(pen);
-
+        highlightItem_->setBrush(highlightBrush_);
+        highlightItem_->setPen(highlightPen_);
         highlightItem_->setVisible(false);
         // highlightItem_->setScale(plotRootItem_->scale());
         addItem(highlightItem_);
     }
 
     if (status && item) {
-        highlightItem_->setRect(item->sceneBoundingRect());
+        float w = (highlightPen_.width()==0)?1:highlightPen_.width()*0.5;
+        highlightItem_->setRect(item->sceneBoundingRect().adjusted(w, w, -w, -w));
         highlightItem_->setVisible(true);
         highlightedSceneItem_ = item;
     }
@@ -426,14 +325,11 @@ void MgQPlotScene::highlightSceneItem(MgQSceneItem* item, bool status) {
     }
 }
 
-
 void MgQPlotScene::highlightSceneItemForBrief(MgQSceneItem* item, bool status) {
     if (!highlightItemForBrief_) {
         highlightItemForBrief_ = new QGraphicsRectItem;
-        highlightItemForBrief_->setBrush(QColor(255, 0, 0, 10));
-        QPen pen(QColor(0, 0, 0, 100));
-        pen.setWidth(2);
-        highlightItemForBrief_->setPen(pen);
+        highlightItemForBrief_->setBrush(highlightBriefBrush_);
+        highlightItemForBrief_->setPen(highlightBriefPen_);
 
         highlightItemForBrief_->setVisible(false);
         // highlightItem_->setScale(plotRootItem_->scale());
@@ -441,7 +337,8 @@ void MgQPlotScene::highlightSceneItemForBrief(MgQSceneItem* item, bool status) {
     }
 
     if (status && item) {
-        highlightItemForBrief_->setRect(item->sceneBoundingRect());
+        float w = (highlightBriefPen_.width()==0)?1:highlightBriefPen_.width()*0.5;
+        highlightItemForBrief_->setRect(item->sceneBoundingRect().adjusted(w, w, -w, -w));
         highlightItemForBrief_->setVisible(true);
         // highlightedSceneItem_=item;
     }

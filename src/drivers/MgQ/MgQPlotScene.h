@@ -19,6 +19,7 @@
 #ifndef MgQPlotScene_H
 #define MgQPlotScene_H
 
+#include <QColor>
 #include <QGraphicsScene>
 #include <QMap>
 
@@ -91,6 +92,9 @@ public:
     void setDpiResolution(int r) { dpiResolution_ = r; }
     int dpiResolution() { return dpiResolution_; }
 
+    void setHighlightStyle(QBrush, QPen);
+    void setHighlightBriefStyle(QBrush, QPen);
+
 public slots:
     void slotSceneRectChanged(const QRectF&);
 
@@ -98,37 +102,40 @@ protected:
     void updateCache();
     void drawBackground(QPainter* painter, const QRectF& rect) override;
 
-    bool ignoreSceneItemChange_;
+    bool ignoreSceneItemChange_{false};
 
     QList<int> prevSceneItemCurrentStep_;
-    int stepNum_;
+    int stepNum_{0};
 
     QRectF magnifierSceneRect_;
     float magnifierFactor_;
 
-    MgQPreviewLayoutItem* previewLayoutItem_;
+    MgQPreviewLayoutItem* previewLayoutItem_{nullptr};
     QList<MgQSceneItem*> sceneItems_;
-    int currentSceneItemIndex_;
+    int currentSceneItemIndex_{-1};
 
-    QGraphicsRectItem* highlightItem_;
-    MgQSceneItem* highlightedSceneItem_;
+    QGraphicsRectItem* highlightItem_{nullptr};
+    MgQSceneItem* highlightedSceneItem_{nullptr};
+    QGraphicsRectItem* highlightItemForBrief_{nullptr};
+    QBrush highlightBrush_{QColor(0, 0, 255, 10)};
+    QPen highlightPen_{QColor(0, 0, 0, 100), 2};
+    QBrush highlightBriefBrush_{QColor(255, 0, 0, 10)};
+    QPen highlightBriefPen_{QColor(0, 0, 0, 100)};
 
-    QGraphicsRectItem* highlightItemForBrief_;
-
-    MgQSceneLayerItem* sceneLayerItem_;
+    MgQSceneLayerItem* sceneLayerItem_{nullptr};
     QList<MgQLayerItem*> layerItems_;
     QList<QList<MgQLayerState*> > previousSceneState_;
 
-    MgQDriverObject* driverObject_;
+    MgQDriverObject* driverObject_{nullptr};
 
-    QPixmap* cacheDevice_;
-    QPainter* cachePainter_;
-    MgQSceneCacheItem* cacheItem_;
+    QPixmap* cacheDevice_{nullptr};
+    QPainter* cachePainter_{nullptr};
+    MgQSceneCacheItem* cacheItem_{nullptr};
 
-    bool antialias_;
+    bool antialias_{false};
     QRectF oriSceneRect_;
 
-    int dpiResolution_;
+    int dpiResolution_{75};
 };
 
 
