@@ -15,7 +15,7 @@ cmake_minimum_required( VERSION 3.12 FATAL_ERROR )
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../ecbuild/cmake")
 find_package( ecbuild 3.4 REQUIRED )
 
-project( magics VERSION 4.9.4 LANGUAGES CXX )
+project( magics VERSION 4.10.0 LANGUAGES CXX )
 
 # make sure that the header files are installed into include/magics
 # note that this needs to be done before ecbuild_declare_project()
@@ -229,8 +229,28 @@ if ( HAVE_ODB )
   list( APPEND MAGICS_EXTRA_LIBRARIES odccore)
 endif()
 
+
+
 if( HAVE_CAIRO )
   list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS ${PANGOCAIRO_INCLUDE_DIRS})
+
+  if( EC_OS_NAME MATCHES "windows" )
+
+
+    # Looks like the transitivity of includes is broken
+    find_package(PkgConfig REQUIRED)
+
+    pkg_search_module(GLIB REQUIRED glib-2.0)
+    list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS ${GLIB_INCLUDE_DIRS})
+
+    pkg_search_module(CAIRO REQUIRED cairo)
+    list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS ${CAIRO_INCLUDE_DIRS})
+
+    pkg_search_module(HARFBUZZ REQUIRED harfbuzz)
+    list( APPEND MAGICS_PRIVATE_INCLUDE_DIRS ${HARFBUZZ_INCLUDE_DIRS})
+
+  endif()
+
 endif()
 
 set( MAGICS_LIBRARIES MagPlus )

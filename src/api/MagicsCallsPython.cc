@@ -102,6 +102,10 @@ MAGICS_EXPORT const char* home() {
     return MagicsCalls::home();
 }
 
+MAGICS_EXPORT const char* version() {
+    return MagicsCalls::version();
+}
+
 #define PYTHON_VOID(NAME) \
     MAGICS_EXPORT const char* py_##NAME() { return python_void(#NAME, MagicsCalls::NAME); }
 
