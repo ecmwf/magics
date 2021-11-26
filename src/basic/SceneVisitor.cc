@@ -166,13 +166,13 @@ void LeftAxisVisitor::minortick(double& x1, double& x2, bool) {
 }
 
 double LeftAxisVisitor::offsetTickLabel(double height, double from) {
-    double h = ((current_->xmax_ - current_->xmin_) / current_->absoluteWidth()) * (height * 0.6);
-
+    double h = ((current_->xmax_ - current_->xmin_) / current_->width()) * (height);
     return from - h;
 }
 
 double LeftAxisVisitor::shiftTitle(double position) {
-    double shift = (current_->xmax_ - current_->xmin_) * 0.1;
+    // Function probably not used
+    double shift = ((current_->xmax_ - current_->xmin_) / current_->width()) * (0.1);
 
     return position - shift;
 }

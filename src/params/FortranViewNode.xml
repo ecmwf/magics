@@ -91,7 +91,6 @@ does it submit to any jurisdiction.
 			<option fortran="efas" include="Proj4Projection.h" name="Proj4Efas"></option>
 			<option fortran="tpers" include="Proj4Projection.h" name="Proj4TPers"></option>
 			<option fortran="automatic" include="Proj4Projection.h" name="Proj4Automatic"></option>
-			<option fortran="lambert_north_atlantic" include="Proj4Projection.h" name="Proj4LambertNorthAtlantic"></option>
 			<option xml="mercator" fortran="mercator" include="Proj4Projection.h" name="Proj4Mercator"></option>
 			<option xml="cartesian" fortran="cartesian" include="CartesianTransformation.h" name="CartesianTransformation"></option>
 			<option xml="taylor" fortran="taylor" include="TaylorProjection.h" name="TaylorProjection"></option>

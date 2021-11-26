@@ -340,7 +340,6 @@ static SimpleObjectMaker<Proj4Google , Transformation> google_Proj4Google("googl
 static SimpleObjectMaker<Proj4Efas , Transformation> efas_Proj4Efas("efas");
 static SimpleObjectMaker<Proj4TPers , Transformation> tpers_Proj4TPers("tpers");
 static SimpleObjectMaker<Proj4Automatic , Transformation> automatic_Proj4Automatic("automatic");
-static SimpleObjectMaker<Proj4LambertNorthAtlantic , Transformation> lambert_north_atlantic_Proj4LambertNorthAtlantic("lambert_north_atlantic");
 static SimpleObjectMaker<Proj4Mercator , Transformation> mercator_Proj4Mercator("mercator");
 static SimpleObjectMaker<CartesianTransformation , Transformation> cartesian_CartesianTransformation("cartesian");
 static SimpleObjectMaker<TaylorProjection , Transformation> taylor_TaylorProjection("taylor");
