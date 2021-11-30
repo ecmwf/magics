@@ -382,8 +382,8 @@ void VerticalAxis::label(VerticalAxisVisitor& axis) {
         }
 
         double tpos = axis.offsetTickLabel(height * label.size(), p->second);
-        if (tpos < title_position_)
-            title_position_ = axis.offsetTickLabel(height * last, tpos) ;
+        
+        title_position_ = axis.offsetTitle(title_position_, axis.offsetTickLabel(height * last, tpos) );
 
         PaperPoint point(pos, transformation.y((*y)->position()));
 

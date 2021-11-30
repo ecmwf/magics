@@ -93,6 +93,9 @@ double VerticalAxisVisitor::angleTitle() {
 double VerticalAxisVisitor::offsetTitle(int) {
     return 0;
 }
+double VerticalAxisVisitor::offsetTitle(double previous, double pos) {
+    return previous + pos;
+}
 double VerticalAxisVisitor::angleTip() {
     return 0;
 }
@@ -177,6 +180,14 @@ double LeftAxisVisitor::shiftTitle(double position) {
     return position - shift;
 }
 
+double LeftAxisVisitor::offsetTitle(double previous, double pos) {
+    return ( previous < pos ) ? previous : pos ; 
+}
+
+double RightAxisVisitor::offsetTitle(double previous, double pos) {
+    return ( previous > pos ) ? previous : pos ; 
+}
+
 double LeftAxisVisitor::angleTickLabel() {
     return 0;
 }
@@ -209,7 +220,8 @@ void RightAxisVisitor::minortick(double& x1, double& x2, bool) {
 }
 
 double RightAxisVisitor::offsetTickLabel(double height, double from) {
-    double h = ((current_->xmax_ - current_->xmin_) / current_->absoluteWidth()) * (2 * height);
+   
+    double h = ((current_->xmax_ - current_->xmin_) / current_->width()) * (height);
     return from + h;
 }
 
