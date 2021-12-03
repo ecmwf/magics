@@ -1,0 +1,15 @@
+[
+  {
+    "description" : "Meteonet orography",
+    "prefered_units": "m",
+    "styles": [
+      "sh_orog_metres"
+    ],
+    "match": [
+      {
+        "paramId": "3008",
+        "shortName": "h"
+      }
+    ]
+  }
+]

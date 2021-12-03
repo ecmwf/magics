@@ -547,7 +547,10 @@ void FortranViewNode::getReady() {
     MagLog::dev() << "[" << abswidth << ", " << absheight << "]" << endl;
     MagLog::dev() << "[" << width << ", " << height << "]" << endl;
 
-    viewTransformation_->aspectRatio(abswidth, absheight);
+    if (FortranViewNodeAttributes::expand_)
+        viewTransformation_->fill(abswidth, absheight);
+    else 
+        viewTransformation_->aspectRatio(abswidth, absheight);
     MagLog::dev() << "after aspect ratio -->[" << abswidth << ", " << absheight << "]" << endl;
     MagLog::dev() << "[" << abswidth << ", " << absheight << "]" << endl;
     MagLog::dev() << "[" << absoluteWidth() << ", " << absoluteWidth() << "]" << endl;

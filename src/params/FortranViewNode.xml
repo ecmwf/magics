@@ -272,5 +272,12 @@ does it submit to any jurisdiction.
 			<option xml="off" fortran="off" include="MagnifierVisitor.h" name="NoMagnifierVisitor"></option>
 			<option xml="on" fortran="on" include="MagnifierVisitor.h" name="MagnifierVisitor"></option>
 		</parameter>
+		<parameter member="expand"
+			to="bool"
+			default="off"
+			from="string"
+			name="subpage_expand_mode">
+			<documentation>If set to true, the projection will be expended to fill the drawing area! </documentation>
+		</parameter>
 	</class>
 </magics>

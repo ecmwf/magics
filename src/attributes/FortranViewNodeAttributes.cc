@@ -46,8 +46,8 @@ FortranViewNodeAttributes::FortranViewNodeAttributes():
 	horizontal_(ParameterManager::getString("subpage_align_horizontal")),
 	vertical_(ParameterManager::getString("subpage_align_vertical")),
 	json_(ParameterManager::getString("subpage_map_json_definition")),
-	title_(ParameterManager::getBool("automatic_title"))
-	,
+	title_(ParameterManager::getBool("automatic_title")),
+	expand_(ParameterManager::getBool("subpage_expand_mode")),
 	transformation_(MagTranslator<string, Transformation>().magics("subpage_map_projection")),
 	background_(MagTranslator<string, Colour>().magics("subpage_background_colour")),
 	frame_colour_(MagTranslator<string, Colour>().magics("subpage_frame_colour")),
@@ -95,7 +95,7 @@ void FortranViewNodeAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "subpage_align_vertical", vertical_, params);
 	setAttribute(prefix, "subpage_map_json_definition", json_, params);
 	setAttribute(prefix, "automatic_title", title_, params);
-	
+	setAttribute(prefix, "subpage_expand_mode", expand_, params);
 	setMember(prefix, "subpage_map_projection", transformation_, params);
 	setMember(prefix, "subpage_background_colour", background_, params);
 	setMember(prefix, "subpage_frame_colour", frame_colour_, params);
@@ -129,6 +129,7 @@ void FortranViewNodeAttributes::copy(const FortranViewNodeAttributes& other)
 	vertical_ = other.vertical_;
 	json_ = other.json_;
 	title_ = other.title_;
+	expand_ = other.expand_;
 	transformation_ = unique_ptr<Transformation>(other.transformation_->clone());
 	background_ = unique_ptr<Colour>(other.background_->clone());
 	frame_colour_ = unique_ptr<Colour>(other.frame_colour_->clone());
@@ -207,6 +208,7 @@ void FortranViewNodeAttributes::print(ostream& out)  const
 	out << " vertical = " <<  vertical_;
 	out << " json = " <<  json_;
 	out << " title = " <<  title_;
+	out << " expand = " <<  expand_;
 	out << " transformation = " <<  *transformation_;
 	out << " background = " <<  *background_;
 	out << " frame_colour = " <<  *frame_colour_;
@@ -264,6 +266,8 @@ void FortranViewNodeAttributes::toxml(ostream& out)  const
 	niceprint(out,json_);
 	out << ", \"automatic_title\":";
 	niceprint(out,title_);
+	out << ", \"subpage_expand_mode\":";
+	niceprint(out,expand_);
 	out << ", \"subpage_map_projection\":";
 	transformation_->toxml(out);
 	out << ", \"subpage_background_colour\":";
@@ -301,6 +305,7 @@ static MagicsParameter<string> subpage_align_horizontal("subpage_align_horizonta
 static MagicsParameter<string> subpage_align_vertical("subpage_align_vertical", "bottom");
 static MagicsParameter<string> subpage_map_json_definition("subpage_map_json_definition", "");
 static MagicsParameter<string> automatic_title("automatic_title", "off");
+static MagicsParameter<string> subpage_expand_mode("subpage_expand_mode", "off");
 static MagicsParameter<string> subpage_map_projection("subpage_map_projection", "cylindrical");
 static MagicsParameter<string> subpage_background_colour("subpage_background_colour", "none");
 static MagicsParameter<string> subpage_frame_colour("subpage_frame_colour", "charcoal");
