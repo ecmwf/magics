@@ -76,6 +76,7 @@ public:
 	string vertical_;
 	string json_;
 	bool title_;
+	bool expand_;
 	unique_ptr<Transformation> transformation_;
 	unique_ptr<Colour> background_;
 	unique_ptr<Colour> frame_colour_;
