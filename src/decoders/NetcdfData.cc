@@ -393,6 +393,7 @@ double NetVariable::getDefaultMissing() {
         case NC_UINT64: return NC_FILL_UINT64; break;
         case NC_FLOAT: return NC_FILL_FLOAT; break;
         case NC_DOUBLE: return NC_FILL_DOUBLE; break;
+        case NC_STRING: return NC_FILL_DOUBLE; break;
     }
 
     MagLog::warning() << "NetVariable: No default missing value defined for " << nc_type_to_name(t) << std::endl;
@@ -401,7 +402,14 @@ double NetVariable::getDefaultMissing() {
 }
 
 
-string Netcdf::detect(const string& var, const string& type) const {
+string Netcdf::detect(const string& var, const string& type, bool use_cache) const {
+
+    if ( use_cache ) {
+        auto cache = detected_.find(var);
+        if ( cache != detected_.end() )
+            return cache->second;
+    }
+
     NetVariable variable      = getVariable(var);
     vector<string> dimensions = variable.dimensions();
 
@@ -421,11 +429,13 @@ string Netcdf::detect(const string& var, const string& type) const {
                 string val = value.substr(0, v->size());
 
                 if (v->compare(val) == 0) {
+                    detected_.insert(make_pair(var, *dim));
                     return *dim;
                 }
             }
         }
     }
+    detected_.insert(make_pair(var, ""));
     return "";
 }
 

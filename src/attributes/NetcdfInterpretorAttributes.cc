@@ -57,7 +57,8 @@ NetcdfInterpretorAttributes::NetcdfInterpretorAttributes():
 	geo_x_convention_(ParameterManager::getString("netcdf_x_geoline_convention")),
 	geo_y_convention_(ParameterManager::getString("netcdf_y_geoline_convention")),
 	aux_y_(ParameterManager::getString("netcdf_y_auxiliary_variable")),
-	primary_index_(ParameterManager::getString("netcdf_matrix_primary_index"))
+	primary_index_(ParameterManager::getString("netcdf_matrix_primary_index")),
+	interpretation_(ParameterManager::getString("netcdf_matrix_interpretation"))
 	
 	
 {
@@ -109,6 +110,7 @@ void NetcdfInterpretorAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "netcdf_y_geoline_convention", geo_y_convention_, params);
 	setAttribute(prefix, "netcdf_y_auxiliary_variable", aux_y_, params);
 	setAttribute(prefix, "netcdf_matrix_primary_index", primary_index_, params);
+	setAttribute(prefix, "netcdf_matrix_interpretation", interpretation_, params);
 	
 	
 }
@@ -148,6 +150,7 @@ void NetcdfInterpretorAttributes::copy(const NetcdfInterpretorAttributes& other)
 	geo_y_convention_ = other.geo_y_convention_;
 	aux_y_ = other.aux_y_;
 	primary_index_ = other.primary_index_;
+	interpretation_ = other.interpretation_;
 	
 }
 
@@ -219,6 +222,7 @@ void NetcdfInterpretorAttributes::print(ostream& out)  const
 	out << " geo_y_convention = " <<  geo_y_convention_;
 	out << " aux_y = " <<  aux_y_;
 	out << " primary_index = " <<  primary_index_;
+	out << " interpretation = " <<  interpretation_;
 	
 	out << "]" << "\n";
 }
@@ -292,6 +296,8 @@ void NetcdfInterpretorAttributes::toxml(ostream& out)  const
 	niceprint(out,aux_y_);
 	out << ", \"netcdf_matrix_primary_index\":";
 	niceprint(out,primary_index_);
+	out << ", \"netcdf_matrix_interpretation\":";
+	niceprint(out,interpretation_);
 	
 }
 
@@ -328,3 +334,4 @@ static MagicsParameter<string> netcdf_x_geoline_convention("netcdf_x_geoline_con
 static MagicsParameter<string> netcdf_y_geoline_convention("netcdf_y_geoline_convention", "lonlat");
 static MagicsParameter<string> netcdf_y_auxiliary_variable("netcdf_y_auxiliary_variable", "");
 static MagicsParameter<string> netcdf_matrix_primary_index("netcdf_matrix_primary_index", "longitude");
+static MagicsParameter<string> netcdf_matrix_interpretation("netcdf_matrix_interpretation", "automatic");

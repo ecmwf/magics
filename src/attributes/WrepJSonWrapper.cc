@@ -101,6 +101,14 @@ void WrepJSonWrapper::set(const MagRequest& request)
 		string keyword_value = request("WREPJSON_KEYWORD");
 		wrepjson_->keyword_ = keyword_value;
 		}
+	if  (request.countValues("WREPJSON_CAMS_KEYWORD") ) {
+		string cams_keyword_value = request("WREPJSON_CAMS_KEYWORD");
+		wrepjson_->cams_keyword_ = cams_keyword_value;
+		}
+	if  (request.countValues("WREPJSON_CAMS_Y_KEYWORD") ) {
+		string cams_y_keyword_value = request("WREPJSON_CAMS_Y_KEYWORD");
+		wrepjson_->cams_y_keyword_ = cams_y_keyword_value;
+		}
 	if  (request.countValues("WREPJSON_STATION_NAME") ) {
 		string station_name_value = request("WREPJSON_STATION_NAME");
 		wrepjson_->station_name_ = station_name_value;

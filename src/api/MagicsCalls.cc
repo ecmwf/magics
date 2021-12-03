@@ -295,7 +295,7 @@ void MagicsCalls::set1c(const std::string& name, const char** data, const int di
     stringarray values;
 
     for (int i = 0; i < dim; i++) {
-        
+        ASSERT(data[i]);
         values.push_back(data[i]);
     }
 
@@ -438,7 +438,7 @@ void MagicsCalls::set3i(const std::string& name, const int* data, const int dim1
 void MagicsCalls::enqr(const std::string& n, double* value) {
     std::string name = n;
 
-    
+    ASSERT(value);
 
     vector<string> special;
     special.push_back("subpage_x_position");
@@ -468,7 +468,7 @@ void MagicsCalls::enqr(const std::string& n, double* value) {
 }
 
 void MagicsCalls::enqi(const std::string& name, int* value) {
-   
+    ASSERT(value);
 
     int magics;
     ParameterManager::get(name, magics);
@@ -476,7 +476,7 @@ void MagicsCalls::enqi(const std::string& name, int* value) {
 }
 
 void MagicsCalls::enqc(const std::string& name, char* value) {
-    
+    ASSERT(value);
 
     string magics;
 

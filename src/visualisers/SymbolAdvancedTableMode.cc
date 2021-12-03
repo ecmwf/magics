@@ -195,6 +195,7 @@ void build(const IntervalMap<SymbolProperties>& in, IntervalMap<Colour>& out) {
 
 void SymbolAdvancedTableMode::visit(Data& data, LegendVisitor& legend) {
     legend.newLegend();
+    if ( map_.empty() ) return;
     IntervalMap<SymbolProperties>::const_iterator last = map_.end();
     --last;
     IntervalMap<SymbolProperties>::iterator first = map_.begin();

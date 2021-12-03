@@ -91,7 +91,6 @@ does it submit to any jurisdiction.
 			<option fortran="efas" include="Proj4Projection.h" name="Proj4Efas"></option>
 			<option fortran="tpers" include="Proj4Projection.h" name="Proj4TPers"></option>
 			<option fortran="automatic" include="Proj4Projection.h" name="Proj4Automatic"></option>
-			<option fortran="lambert_north_atlantic" include="Proj4Projection.h" name="Proj4LambertNorthAtlantic"></option>
 			<option xml="mercator" fortran="mercator" include="Proj4Projection.h" name="Proj4Mercator"></option>
 			<option xml="cartesian" fortran="cartesian" include="CartesianTransformation.h" name="CartesianTransformation"></option>
 			<option xml="taylor" fortran="taylor" include="TaylorProjection.h" name="TaylorProjection"></option>
@@ -272,6 +271,13 @@ does it submit to any jurisdiction.
 			<release>Magics++2.8</release>
 			<option xml="off" fortran="off" include="MagnifierVisitor.h" name="NoMagnifierVisitor"></option>
 			<option xml="on" fortran="on" include="MagnifierVisitor.h" name="MagnifierVisitor"></option>
+		</parameter>
+		<parameter member="expand"
+			to="bool"
+			default="off"
+			from="string"
+			name="subpage_expand_mode">
+			<documentation>If set to true, the projection will be expended to fill the drawing area! </documentation>
 		</parameter>
 	</class>
 </magics>

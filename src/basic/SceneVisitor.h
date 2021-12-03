@@ -211,6 +211,7 @@ public:
     virtual double angleTickLabel();
     virtual double angleTitle();
     virtual double offsetTitle(int);
+    virtual double offsetTitle(double pos, double) { return pos; }
     virtual double angleTip();
     virtual double offsetTip();
     virtual VerticalAlign textAlignment(const string&) { return VerticalAlign::BOTTOM; }
@@ -233,6 +234,7 @@ public:
     virtual double angleTickLabel();
     virtual double angleTitle();
     virtual double offsetTitle(int);
+    virtual double offsetTitle(double, double);
     virtual double shiftTitle(double x) { return x; }
     virtual double angleTip();
     virtual double offsetTip();
@@ -257,6 +259,7 @@ public:
     virtual double angleTitle() override;
     virtual double shiftTitle(double x) override;
     virtual double offsetTitle(int) override;
+    virtual double offsetTitle(double, double) override;
     virtual double angleTip() override;
     virtual double offsetTip() override;
     virtual VerticalAlign textAlignment(const string&) override;
@@ -279,6 +282,7 @@ public:
     virtual double angleTickLabel() override;
     virtual double angleTitle() override;
     virtual double offsetTitle(int) override;
+    virtual double offsetTitle(double, double) override;
     virtual double shiftTitle(double) override;
     virtual double angleTip() override;
     virtual double offsetTip() override;

@@ -190,6 +190,10 @@ void NetcdfInterpretorWrapper::set(const MagRequest& request)
 		string primary_index_value = request("NETCDF_MATRIX_PRIMARY_INDEX");
 		netcdfinterpretor_->primary_index_ = primary_index_value;
 		}
+	if  (request.countValues("NETCDF_MATRIX_INTERPRETATION") ) {
+		string interpretation_value = request("NETCDF_MATRIX_INTERPRETATION");
+		netcdfinterpretor_->interpretation_ = interpretation_value;
+		}
 	
 	
 }

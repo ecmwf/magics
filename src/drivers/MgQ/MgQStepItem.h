@@ -41,9 +41,9 @@ public:
     void setCached(bool b) { cached_ = b; }
     MgQLayoutItem* parentLayoutItem() { return parentLayoutItem_; }
 
-    int type() const { return Type; }
-    QRectF boundingRect() const { return QRectF(); }
-    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*){};
+    int type() const override { return Type; }
+    QRectF boundingRect() const override { return QRectF(); }
+    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) override {};
 
 protected:
     int id_;

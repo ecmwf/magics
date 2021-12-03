@@ -387,7 +387,7 @@ public:
 
     double getMissing(const string&, const string&);
 
-    string detect(const string& var, const string& type) const;
+    string detect(const string& var, const string& type, bool use_cache = true) const;
 
 
     template <class T>
@@ -485,6 +485,7 @@ protected:
     map<string, NetVariable> dataset_;
     map<string, NetAttribute> attributes_;
     double missing_;
+    mutable map<string, string> detected_;
 
 private:
     int file_;

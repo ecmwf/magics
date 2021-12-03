@@ -39,9 +39,9 @@ public:
     MgQLayoutItem(const Layout&);
     MgQLayoutItem(const MgQLayoutItem&);
 
-    virtual int type() const override { return Type; }
-    virtual QRectF boundingRect() const override;
-    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
+    int type() const override { return Type; }
+    QRectF boundingRect() const override;
+    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) override;
 
     const Layout& layout() { return layout_; };
     AnimationRules* animationRules() { return layout_.animationRules(); };
@@ -113,7 +113,7 @@ public:
     };
 
     MgQPreviewLayoutItem(const Layout& l) : MgQLayoutItem(l){};
-    int type() const { return Type; }
+    int type() const override { return Type; }
 };
 
 class MgQMagnifierLayoutItem : public MgQLayoutItem {
@@ -140,8 +140,8 @@ public:
     void setStep(AnimationStep* step) { step_ = step; }
     void setZoomFactor(double zoomFactor) { zoomFactor_ = zoomFactor; }
 
-    QRectF boundingRect() const;
-    int type() const { return Type; }
+    QRectF boundingRect() const override;
+    int type() const override { return Type; }
 
 protected:
     QVector<QPointF> area_;

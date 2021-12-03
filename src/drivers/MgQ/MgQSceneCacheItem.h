@@ -33,11 +33,11 @@ public:
     MgQSceneCacheItem(QPixmap*, QGraphicsItem* parent = 0);
     ~MgQSceneCacheItem() override;
 
-    QRectF boundingRect() const;
-    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* widget = 0);
+    QRectF boundingRect() const override;
+    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* widget = 0) override ;
     void setPixmap(QPixmap* p) { pixmap_ = p; }
     void setClipRect(QRectF r) { clipRect_ = r; }
-    int type() const { return Type; }
+    int type() const override { return Type; }
 
 protected:
     QRectF clipRect_;

@@ -34,9 +34,9 @@ public:
     ~MgQPathItem() override;
 
     void setBoundingRectSize(float s) { boundingRectSize_ = s; }
-    QRectF boundingRect() const;
-    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* widget = 0);
-    int type() const { return Type; }
+    QRectF boundingRect() const override;
+    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* widget = 0) override ;
+    int type() const override { return Type; }
 
 protected:
     float boundingRectSize_;

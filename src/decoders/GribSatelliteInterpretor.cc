@@ -297,6 +297,9 @@ void GribSatelliteInterpretor::interpretAsMatrix(GribDecoder& grib) const {
     long chan         = grib.getLong("channelNumber");
     long functionCode = grib.getLong("functionCode");
 
+    long iScansPos    = grib.getLong("iScansPositively");
+    long jScansPos    = grib.getLong("jScansPositively");
+
     // correct bad GRIB headers that we know exist
     AdjustBadlyEncodedGribs(sat, chan, nx, ny, dx, dy, xp, yp, slon, functionCode);
 
@@ -386,13 +389,19 @@ void GribSatelliteInterpretor::interpretAsMatrix(GribDecoder& grib) const {
     double lfac = cfac;
 
 
+    double firstOutputLat = (jScansPos) ? north : south;
+    double firstOutputLon = (iScansPos) ? east : west;
+    dlat = (jScansPos) ? dlat : -dlat;
+    dlon = (iScansPos) ? -dlon : dlon;
+
+
     int k = 0;
     for (int j = 0; j < nblat; j++) {
         for (int i = 0; i < nblon; i++) {
             double val;
             int srcCol, srcRow;
-            double lat = south - j * dlat;
-            double lon = east - i * dlon;
+            double lat = firstOutputLat + j * dlat;
+            double lon = firstOutputLon + i * dlon;
 
             geocoord2pixcoord(lat, lon, coff, loff, cfac, lfac,
                               -lono,  // sub-satellite longitude in radians; unclear why we have to negate it

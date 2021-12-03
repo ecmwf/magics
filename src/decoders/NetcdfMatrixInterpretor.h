@@ -91,6 +91,13 @@ protected:
     string geoMaxX_;
     string geoMinY_;
     string geoMaxY_;
+    void interpretDirect(Netcdf&, vector<double>&, vector<double>&);
+    void interpret(Netcdf&, vector<double>&, vector<double>&);
+    void interpretTransposed(Netcdf&, vector<double>&, vector<double>&);
+
+    typedef void (NetcdfMatrixInterpretor::*Interpretor)(Netcdf&, vector<double>&, vector<double>&);
+
+    std::map<string, Interpretor> interpretors_;
 
 private:
     //! Copy constructor - No copy allowed

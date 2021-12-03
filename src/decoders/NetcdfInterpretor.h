@@ -130,8 +130,7 @@ public:
         return false;
     }
     virtual bool interpretAsPoints(PointsList& out) override {
-        ASSERT(false);
-        return false;
+        return guess()->interpretAsPoints(out);
     }
     virtual void customisedPoints(const std::set<string>& needs, CustomisedPointsList& out) override {
         guess()->customisedPoints(needs, out);

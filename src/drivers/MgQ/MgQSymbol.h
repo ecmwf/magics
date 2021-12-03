@@ -90,9 +90,9 @@ public:
         outline_(false),
         connectLine_(false){};
 
-    QRectF boundingRect() const;
-    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* widget = 0);
-    int type() const { return Type; }
+    QRectF boundingRect() const override;
+    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* widget = 0) override;
+    int type() const override { return Type; }
 
     void setColor(QColor);
     void setOutlineColor(QColor);
