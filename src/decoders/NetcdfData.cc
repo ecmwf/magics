@@ -53,14 +53,14 @@ void TypedAccessor<F, T>::operator()(vector<T>& to, vector<size_t>& start, vecto
     std::transform(from.begin(), from.begin() + to.size(), to.begin(), Convertor<F, T>(var));
     // for (auto x = start.begin(); x != start.end(); ++x) {   cout << "start " << *x << endl; }
     // for (auto x = edges.begin(); x != edges.end(); ++x) {   cout << "edges " << *x << endl; }
-    
+
 }
 
 template <class F, class T>
 void TypedAccessor<F, T>::get(vector<F>& from, vector<size_t>& start, vector<size_t>& edges, NetVariable& var) const {
     var.get(&from.front(), start, edges);
-    
-   
+
+
 }
 
 Netcdf::Netcdf(const string& path, const string& method) : file_(-1) {
@@ -68,7 +68,7 @@ Netcdf::Netcdf(const string& path, const string& method) : file_(-1) {
 
     if (status != NC_NOERR) {
         fprintf(stderr, "ERROR while opening NetCDF file - %s\n", nc_strerror(status));
-        throw NoSuchNetcdfFile(path);
+        throw NoSuchNetcdfFile(path, nc_strerror(status));
     }
 
     int num_var;
@@ -157,11 +157,11 @@ int NetDimension::index(const string& val) {
 }
 
 int NetDimension::value(const string& val) {
-    
+
     if (variable_ != -1) {
         // int index = Index::get(variable_->type(), val, variable_->values(), variable_->num_vals());
         NetVariable var(name_, variable_, parent_, "index");
-    
+
         return var.find(val);
     }
 
