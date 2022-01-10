@@ -152,6 +152,7 @@ void Style::set(const ValueMap& object) {
         methods_["eccharts_layer"] = &Style::name;
         methods_["visdef"]         = &Style::style;
         methods_["scaling"]        = &Style::ignore;
+        methods_["description"]    = &Style::ignore;
     }
 
     for (auto entry = object.begin(); entry != object.end(); ++entry) {
