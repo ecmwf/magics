@@ -9422,6 +9422,48 @@
         "contour_shade_technique" : "cell_shading",
         "contour_title" : "Transparency grey (rgbA)"
     },
+    "accumulated_tp_1" : {
+        "contour_highlight": "off", 
+        "contour_hilo": "off", 
+        "contour_label": "off", 
+        "contour_legend_text": "Contour shade (Range: 1 / 2000)", 
+        "contour_level_list": "1/4/10/20/30/50/100/250/1000/2000",
+        "contour_level_selection_type": "level_list", 
+        "contour_shade": "on", 
+        "contour_shade_colour_list": "rgb(0.9,0.85,0.95)/rgb(0.7,0.75,0.95)/rgb(0.7,0.95,0.95)/rgb(0.7,0.95,0.6)/rgb(0.95,0.85,0.6)/red/rgb(0.95,0.6,0.9)/rgb(0.35,0.35,0.35)/violet",
+        "contour_shade_colour_method": "list", 
+        "contour_shade_method": "area_fill", 
+        "contour_shade_min_level": "1",
+        "contour_shade_max_level": "2000"
+    },
+    "accumulated_tp_2" : {
+            "contour_highlight": "off", 
+            "contour_hilo": "off", 
+            "contour_label": "off", 
+            "contour_legend_text": "Contour shade (Range: 1/2000)", 
+            "contour_level_list": "1/2/5/10/15/20/30/40/50/75/100/125/150/175/200/250/300/500/2000",
+            "contour_level_selection_type": "level_list", 
+            "contour_shade": "on", 
+            "contour_shade_colour_list": "RGB(0.5,0.97,0.67)/RGB(0.41,0.93,0.74)/RGB(0.11,0.84,0.94)/RGB(0.04,0.57,1)/RGB(0,0.28,1)/RGB(0.04,0.05,0.99)/RGB(0.04,0.04,0.81)/RGB(0.04,0.04,0.62)/RGB(0.04,0.04,0.44)/RGB(0.27,0.04,0.25)/RGB(0.57,0.04,0.06)/RGB(0.72,0.13,0.04)/RGB(0.85,0.27,0.04)/RGB(0.99,0.40,0.04)/RGB(0.82,0.23,0.30)/RGB(0.62,0.05,0.58)/RGB(0.8,0.30,0.70)/RGB(1,0.76,0.8)",
+            "contour_shade_colour_method": "list", 
+            "contour_shade_method": "area_fill", 
+            "contour_shade_min_level": "1",
+            "contour_shade_max_level": "2000"
+    },
+    "accumulated_tp_3" : {
+        "contour_highlight": "off", 
+        "contour_hilo": "off", 
+        "contour_label": "off", 
+        "contour_legend_text": "Contour shade (Range: 0.1/1000)", 
+        "contour_level_list": "0.1/1/2/5/10/15/20/30/40/50/100/300/1000",
+        "contour_level_selection_type": "level_list",
+        "contour_shade_colour_list": "RGB(0.94,0.86,0.72)/RGB(0.71,0.98,0.67)/RGB(0.47,0.96,0.45)/RGB(0.71,0.94,0.98)/RGB(0.47,0.73,0.98)/RGB(0.24,0.59,0.96)/RGB(0.12,0.43,0.93)/RGB(1,0.91,0.47)/RGB(1,0.63,0)/red/RGB(0.64,0.13,0.13)/magenta/grey",
+        "contour_shade": "on", 
+        "contour_shade_colour_method": "list", 
+        "contour_shade_method": "area_fill", 
+        "contour_shade_min_level": "0.1",
+        "contour_shade_max_level": "1000"
+    },
     "coloured_flags" : {
         "legend" : "on",
         "wind_field_type" : "flags",

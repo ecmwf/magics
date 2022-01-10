@@ -47,8 +47,8 @@ public:
 
 class NoSuchNetcdfFile : public MagicsException {
 public:
-    NoSuchNetcdfFile(const string& file) :
-        MagicsException("Netcdf MagException: The file " + file + " does not exist or is not a valid netcdf file") {
+    NoSuchNetcdfFile(const string& file, const string& why) :
+        MagicsException("Netcdf MagException: Cannot open " + file + ": " + why) {
         MagLog::error() << what() << "\n";
     }
 };
