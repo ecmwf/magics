@@ -131,7 +131,7 @@ ecbuild_declare_project()
 ###############################################################################
 # find extra packages
 
-ecbuild_find_package( NAME eccodes VERSION 2.19.0 REQUIRED
+ecbuild_find_package( NAME eccodes VERSION 2.24.0 REQUIRED
                       FAILURE_MSG "ecCodes is required in order to build Magics" )
 set( HAVE_GRIB 1 )
 set( HAVE_BUFR 1 )
