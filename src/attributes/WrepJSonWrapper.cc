@@ -154,6 +154,10 @@ void WrepJSonWrapper::set(const MagRequest& request)
 		double y_percent_value = request("WREPJSON_Y_PERCENTAGE");
 		wrepjson_->y_percent_ = y_percent_value;
 		}
+	if  (request.countValues("WREPJSON_X_SHIFT") ) {
+		double shift_value = request("WREPJSON_X_SHIFT");
+		wrepjson_->shift_ = shift_value;
+		}
 	if  (request.countValues("WREPJSON_TEMPERATURE_CORRECTION") ) {
 		string correction_value = request("WREPJSON_TEMPERATURE_CORRECTION");
 		

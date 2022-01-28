@@ -383,7 +383,6 @@ void WrepJSon::eps() {
     if (!points_.empty())
         return;
 
-    shift_                   = 12;
     methods_[param_]         = &WrepJSon::parameter;
     methods_[keyword_]       = &WrepJSon::dig;
     methods_[more[keyword_]] = &WrepJSon::dig;
@@ -409,6 +408,7 @@ void WrepJSon::eps() {
         minx_ = 0;
         maxx_ = values_.steps_.back() / (24 * 3600.);
     }
+
     vector<double> yval;
     for (unsigned int i = 0; i < values_.steps_.size(); i++) {
         map<string, vector<double>>::iterator values = values_.values_.find("1");
@@ -1119,7 +1119,6 @@ void WrepJSon::missing(const Value& value) {
     missing_ = tonumber(value.get_value<string>());
 }
 void WrepJSon::date(const Value& value) {
-    cout << "found -> date= " << value.get_value<string>() << endl;
     date_ = value.get_value<string>();
 
 }

@@ -221,7 +221,6 @@ protected:
     double maxClim_;
     double miny_;
     double maxy_;
-    double shift_;
     double missing_;
     double latitude_;
     double longitude_;

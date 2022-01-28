@@ -71,6 +71,7 @@ void TagHandler::update(const string& family, const string& definition, const st
 
 
 string TagHandler::get(const string& family, const string& definition) {
+
     map<string, DefList>::iterator fam = definitions_.find(family);
 
     if (fam == definitions_.end())
@@ -80,6 +81,7 @@ string TagHandler::get(const string& family, const string& definition) {
 
     if (def == fam->second.end())
         return "";
+    
 
     string sep = "";
     string value;
@@ -89,7 +91,7 @@ string TagHandler::get(const string& family, const string& definition) {
         value += sep + *v;
         sep = "/";
     }
-    return value;
+    return value; 
 }
 
 TagConverter::TagConverter(TagHandler& owner) : owner_(owner), text_(0) {
@@ -188,8 +190,16 @@ void TagConverter::json(const XmlNode& node) {
     push();
     const map<string, string>& attributes = node.attributes();
     if (attributes.find("key") != attributes.end()) {
+        
         string result = owner_.get("json", attributes.find("key")->second);
-        check(owner_.get("json", attributes.find("key")->second));
+        if ( result.size() ) {
+            auto format_it = attributes.find("format");
+            if (format_it != attributes.end()) {
+                auto format = format_it->second;
+                result = format.replace(format.find("%"), sizeof("%") - 1, result);
+            }
+            check(result);
+        }
     }
     node.visit(*this);
     pop();
