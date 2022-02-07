@@ -1930,11 +1930,13 @@ void WrepJSon::visit(TextVisitor& text) {
     text.update("json", "full_temperature_correction_info", full_correction.str());
     text.update("json", "short_temperature_correction_info", short_correction.str());
     text.update("json", "parameter_info", (param_info_ == "none") ? "" : param_info_);
+   
 
     if (param_info_ != "none") {
         text.update("json", "station_name", station_name_);
         if (!expver_.empty() && expver_ != "0001")
             text.update("json", "expver", " [" + expver_ + "] ");
+        text.update("json", "ens_height", tostring(epsz_));
     }
 
     text.update("json", "product_info", product_info_);

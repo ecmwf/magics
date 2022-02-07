@@ -306,7 +306,7 @@ static MagicsParameter<double> wrepjson_y_axis_percentile("wrepjson_y_axis_perce
 static MagicsParameter<double> wrepjson_y_axis_threshold("wrepjson_y_axis_threshold", 50);
 static MagicsParameter<double> wrepjson_y_max_threshold("wrepjson_y_max_threshold", INT_MAX);
 static MagicsParameter<double> wrepjson_y_percentage("wrepjson_y_percentage", 0.01);
-static MagicsParameter<double> wrepjson_x_shift("wrepjson_x_shift", 6);
+static MagicsParameter<double> wrepjson_x_shift("wrepjson_x_shift", 12);
 static MagicsParameter<string> wrepjson_temperature_correction("wrepjson_temperature_correction", "off");
 static MagicsParameter<double> wrepjson_missing_value("wrepjson_missing_value", -9999);
 static MagicsParameter<stringarray> wrepjson_ignore_keys("wrepjson_ignore_keys", stringarray());

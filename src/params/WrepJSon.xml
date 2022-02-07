@@ -177,10 +177,10 @@ does it submit to any jurisdiction.
 		</parameter>
 		<parameter member="shift"
 			to="float"
-			default="6"
+			default="12"
 			from="float"
 			name="wrepjson_x_shift">
-			<documentation>value to add to the range to compute automatic minmax of axis.</documentation>
+			<documentation>value to add to the range to compute automatic max of axis.</documentation>
 		</parameter>
 		<parameter member="correction"
 			to="bool"
