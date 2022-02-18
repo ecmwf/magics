@@ -243,6 +243,15 @@ does it submit to any jurisdiction.
 			<documentation>Colour of the User Layer</documentation>
 			<release>2.12</release>
 		</parameter>
+		<parameter from="string"
+			name="map_user_layer_land_colour"
+			default="NONE"
+			member="user_layer_land_colour"
+			to="Colour"
+			inherit_parent_reqs="no">
+			<documentation>Land Colour of the User Layer</documentation>
+			<release>2.12</release>
+		</parameter>
 		<parameter xml="thickness"
 			from="int"
 			name="map_user_layer_thickness"

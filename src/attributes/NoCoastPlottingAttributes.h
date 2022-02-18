@@ -76,6 +76,7 @@ public:
 	unique_ptr<Colour> efas_colour_;
 	LineStyle user_layer_style_;
 	unique_ptr<Colour> user_layer_colour_;
+	unique_ptr<Colour> user_layer_land_colour_;
 	 
 
 private:

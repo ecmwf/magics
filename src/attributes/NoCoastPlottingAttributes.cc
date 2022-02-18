@@ -48,7 +48,8 @@ NoCoastPlottingAttributes::NoCoastPlottingAttributes():
 	efas_style_(MagTranslator<string, LineStyle>().magics("map_efas_style")),
 	efas_colour_(MagTranslator<string, Colour>().magics("map_efas_colour")),
 	user_layer_style_(MagTranslator<string, LineStyle>().magics("map_user_layer_style")),
-	user_layer_colour_(MagTranslator<string, Colour>().magics("map_user_layer_colour"))
+	user_layer_colour_(MagTranslator<string, Colour>().magics("map_user_layer_colour")),
+	user_layer_land_colour_(MagTranslator<string, Colour>().magics("map_user_layer_land_colour"))
 	
 {
 }
@@ -91,6 +92,7 @@ void NoCoastPlottingAttributes::set(const std::map<string, string>& params)
 	setMember(prefix, "map_efas_colour", efas_colour_, params);
 	setAttribute(prefix, "map_user_layer_style", user_layer_style_, params);
 	setMember(prefix, "map_user_layer_colour", user_layer_colour_, params);
+	setMember(prefix, "map_user_layer_land_colour", user_layer_land_colour_, params);
 	
 }
 
@@ -119,6 +121,7 @@ void NoCoastPlottingAttributes::copy(const NoCoastPlottingAttributes& other)
 	efas_colour_ = unique_ptr<Colour>(other.efas_colour_->clone());
 	user_layer_style_ = other.user_layer_style_;
 	user_layer_colour_ = unique_ptr<Colour>(other.user_layer_colour_->clone());
+	user_layer_land_colour_ = unique_ptr<Colour>(other.user_layer_land_colour_->clone());
 	
 }
 
@@ -188,6 +191,7 @@ void NoCoastPlottingAttributes::print(ostream& out)  const
 	out << " efas_colour = " <<  *efas_colour_;
 	out << " user_layer_style = " <<  user_layer_style_;
 	out << " user_layer_colour = " <<  *user_layer_colour_;
+	out << " user_layer_land_colour = " <<  *user_layer_land_colour_;
 	
 	out << "]" << "\n";
 }
@@ -241,6 +245,8 @@ void NoCoastPlottingAttributes::toxml(ostream& out)  const
 	niceprint(out, user_layer_style_);
 	out << ", \"map_user_layer_colour\":";
 	niceprint(out, *user_layer_colour_);
+	out << ", \"map_user_layer_land_colour\":";
+	niceprint(out, *user_layer_land_colour_);
 	
 }
 
@@ -267,6 +273,7 @@ static MagicsParameter<string> map_efas_style("map_efas_style", "solid");
 static MagicsParameter<string> map_efas_colour("map_efas_colour", "blue");
 static MagicsParameter<string> map_user_layer_style("map_user_layer_style", "solid");
 static MagicsParameter<string> map_user_layer_colour("map_user_layer_colour", "blue");
+static MagicsParameter<string> map_user_layer_land_colour("map_user_layer_land_colour", "NONE");
 #include "Boundaries.h"
 static SimpleObjectMaker<Boundaries , NoBoundaries> boundaries_Boundaries("boundaries");
 static SimpleObjectMaker<Boundaries , NoBoundaries> on_Boundaries("on");
