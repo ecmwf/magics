@@ -2527,6 +2527,7 @@ void EpsPlume::timeserie(Data& data, BasicGraphicsObjectContainer& visitor) {
         vector<double> members;
         for (map<string, double>::const_iterator value = point->begin(); value != point->end(); ++value) {
             if (alldigit(value->first)) {
+                
                 if (line_) {
                     map<string, magics::Polyline*>::iterator iline = lines.find(value->first);
                     if (iline == lines.end()) {
@@ -2540,6 +2541,7 @@ void EpsPlume::timeserie(Data& data, BasicGraphicsObjectContainer& visitor) {
                     if (value->second != missing)
                         (iline->second)->push_back(PaperPoint(x, value->second));
                 }
+                
                 members.push_back(value->second);
             }
 
@@ -2553,15 +2555,15 @@ void EpsPlume::timeserie(Data& data, BasicGraphicsObjectContainer& visitor) {
             }
         }
         if (median_) {
+            int m = members.size()/2;
             std::sort(members.begin(), members.end());
-            median->push_back(PaperPoint(x, members[25]));
+            median->push_back(PaperPoint(x, members[m]));
         }
         if (shading_) {
             for (vector<double>::iterator level = shading_levels_.begin(); level != shading_levels_.end(); ++level) {
-                int i = *level / 2;
+                int i = *level * (members.size()/100.);
                 if (i >= members.size())
                     i = members.size() - 1;
-                ;
                 shading[*level].push_back(PaperPoint(x, members[i]));
             }
         }
