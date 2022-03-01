@@ -34,21 +34,17 @@ CustomisedPoint* ObsJSon::decode(ValueMap& point) {
     CustomisedPoint* current = new CustomisedPoint();
     for (auto key = point.begin(); key != point.end(); ++key) {
         map<string, ObsJSon::Method>::iterator method = methods_.find(key->first);
-
         if (method != methods_.end()) {
             (this->*method->second)(key->second, *current);
         }
         else {
-
-            if (key->second.isDouble()) {
-
-                (*current)[key->first] = key->second.get_value<double>();
-            }
+            number(key->second, *current, key->first);
         }
     }
 
     return current;
 }
+
 
 
 void ObsJSon::decode() {
@@ -66,9 +62,6 @@ void ObsJSon::decode() {
 
     try {
         Value value = MagParser::decodeFile(path_);
-
-
-
         ValueMap object = value.get_value<ValueMap>();
 
         for (auto entry = object.begin(); entry != object.end(); ++entry) {
@@ -134,13 +127,23 @@ void ObsJSon::getInfo(const std::set<string>& what, multimap<string, string>& in
 }
 
 void ObsJSon::latitude(const Value& value, CustomisedPoint& point) {
-    ASSERT(value.isDouble());
-    point.latitude(value.get_value<double>());
+    point.latitude(value);
 }
 
+void ObsJSon::number(const Value& value, CustomisedPoint& point, const string& key) {
+    try {
+        double val = value;
+        point[key] = val;
+    }
+    catch (...)
+    { 
+        MagLog::warning() << "Ignoring setting of " << key << ": number exptected, got " << value << endl;
+        // Ignore issue with decoding values
+    }
+}
 void ObsJSon::longitude(const Value& value, CustomisedPoint& point) {
-    ASSERT(value.isDouble());
-    point.longitude(value.get_value<double>());
+
+    point.longitude(value);
 }
 
 void ObsJSon::type(const Value& value, CustomisedPoint& point) {
