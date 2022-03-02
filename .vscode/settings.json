@@ -9,6 +9,10 @@
         "iostream": "cpp",
         "map": "cpp",
         "iosfwd": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "regex": "cpp",
+        "algorithm": "cpp",
+        "string": "cpp",
+        "*.tcc": "cpp"
     }
 }

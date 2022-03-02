@@ -175,6 +175,13 @@ does it submit to any jurisdiction.
 			name="wrepjson_y_percentage">
 			<documentation>percentage of the range to add to compute automatic minmax of axis.</documentation>
 		</parameter>
+		<parameter member="shift"
+			to="float"
+			default="12"
+			from="float"
+			name="wrepjson_x_shift">
+			<documentation>value to add to the range to compute automatic max of axis.</documentation>
+		</parameter>
 		<parameter member="correction"
 			to="bool"
 			default="off"

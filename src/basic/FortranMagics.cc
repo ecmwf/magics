@@ -111,6 +111,10 @@ void FortranMagics::reset() {
         actions_.pop();
     }
 
+    while (this->size()) {
+        this->pop();
+    }
+
     // TODO: clear memory
     texts_.clear();
     legends_.clear();
@@ -162,6 +166,7 @@ void FortranMagics::popen() {
     actions_.push(&FortranMagics::page);
     actions_.push(&FortranMagics::superpage);
     actions_.push(&FortranMagics::drivers);
+
 }
 
 /*! \brief Main dispatch method
@@ -199,6 +204,7 @@ void FortranMagics::pclose() {
     // WE reset !
     axisContainer_ = 0;
     action_        = 0;
+    empty_         = true;
 
     string legend;
     ParameterManager::get("legend", legend);
@@ -284,9 +290,8 @@ void FortranMagics::newpage() {
     // push(node);
 }
 
-void FortranMagics::superpage() {
+void FortranMagics::superpage() {      
     root_ = new FortranRootSceneNode();
-
     push(root_);
 
     root_->getReady();

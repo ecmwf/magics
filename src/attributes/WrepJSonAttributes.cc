@@ -48,6 +48,7 @@ WrepJSonAttributes::WrepJSonAttributes():
 	threshold_(ParameterManager::getDouble("wrepjson_y_axis_threshold")),
 	y_max_threshold_(ParameterManager::getDouble("wrepjson_y_max_threshold")),
 	y_percent_(ParameterManager::getDouble("wrepjson_y_percentage")),
+	shift_(ParameterManager::getDouble("wrepjson_x_shift")),
 	correction_(ParameterManager::getBool("wrepjson_temperature_correction")),
 	missing_value_(ParameterManager::getDouble("wrepjson_missing_value")),
 	ignore_keys_(ParameterManager::getStringArray("wrepjson_ignore_keys")),
@@ -96,6 +97,7 @@ void WrepJSonAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "wrepjson_y_axis_threshold", threshold_, params);
 	setAttribute(prefix, "wrepjson_y_max_threshold", y_max_threshold_, params);
 	setAttribute(prefix, "wrepjson_y_percentage", y_percent_, params);
+	setAttribute(prefix, "wrepjson_x_shift", shift_, params);
 	setAttribute(prefix, "wrepjson_temperature_correction", correction_, params);
 	setAttribute(prefix, "wrepjson_missing_value", missing_value_, params);
 	setAttribute(prefix, "wrepjson_ignore_keys", ignore_keys_, params);
@@ -132,6 +134,7 @@ void WrepJSonAttributes::copy(const WrepJSonAttributes& other)
 	threshold_ = other.threshold_;
 	y_max_threshold_ = other.y_max_threshold_;
 	y_percent_ = other.y_percent_;
+	shift_ = other.shift_;
 	correction_ = other.correction_;
 	missing_value_ = other.missing_value_;
 	ignore_keys_ = other.ignore_keys_;
@@ -200,6 +203,7 @@ void WrepJSonAttributes::print(ostream& out)  const
 	out << " threshold = " <<  threshold_;
 	out << " y_max_threshold = " <<  y_max_threshold_;
 	out << " y_percent = " <<  y_percent_;
+	out << " shift = " <<  shift_;
 	out << " correction = " <<  correction_;
 	out << " missing_value = " <<  missing_value_;
 	out << " ignore_keys = " <<  ignore_keys_;
@@ -260,6 +264,8 @@ void WrepJSonAttributes::toxml(ostream& out)  const
 	niceprint(out,y_max_threshold_);
 	out << ", \"wrepjson_y_percentage\":";
 	niceprint(out,y_percent_);
+	out << ", \"wrepjson_x_shift\":";
+	niceprint(out,shift_);
 	out << ", \"wrepjson_temperature_correction\":";
 	niceprint(out,correction_);
 	out << ", \"wrepjson_missing_value\":";
@@ -300,6 +306,7 @@ static MagicsParameter<double> wrepjson_y_axis_percentile("wrepjson_y_axis_perce
 static MagicsParameter<double> wrepjson_y_axis_threshold("wrepjson_y_axis_threshold", 50);
 static MagicsParameter<double> wrepjson_y_max_threshold("wrepjson_y_max_threshold", INT_MAX);
 static MagicsParameter<double> wrepjson_y_percentage("wrepjson_y_percentage", 0.01);
+static MagicsParameter<double> wrepjson_x_shift("wrepjson_x_shift", 12);
 static MagicsParameter<string> wrepjson_temperature_correction("wrepjson_temperature_correction", "off");
 static MagicsParameter<double> wrepjson_missing_value("wrepjson_missing_value", -9999);
 static MagicsParameter<stringarray> wrepjson_ignore_keys("wrepjson_ignore_keys", stringarray());

@@ -67,6 +67,8 @@ protected:
     void longitude(const Value&, CustomisedPoint&);
     void type(const Value&, CustomisedPoint&);
     void identifier(const Value&, CustomisedPoint&);
+    void number(const Value&, CustomisedPoint&, const string&);
+
 
 private:
     //! Copy constructor - No copy allowed

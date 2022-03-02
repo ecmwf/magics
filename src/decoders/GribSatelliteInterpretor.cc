@@ -270,14 +270,9 @@ void GribSatelliteInterpretor::interpretAsMatrix(GribDecoder& grib) const {
     MagLog::dev() << "GribRegularInterpretor::interpretAsMatrix"
                   << "\n";
 
-    double altitude = grib.getDouble("NrInRadiusOfEarth");
+    double altitude = grib.getDouble("NrInRadiusOfEarthScaled");
     if (!altitude)
-        altitude = 6610839.;
-
-    // GRIB edition 1 needs to be divided by 10^6, GRIB 2 is already in the right units
-    long edition = grib.getLong("edition");
-    if (edition == 1)
-        altitude *= 0.000001;
+        altitude = 6.610839;
 
     long nx = grib.getLong("numberOfPointsAlongXAxis");
     long ny = grib.getLong("numberOfPointsAlongYAxis");

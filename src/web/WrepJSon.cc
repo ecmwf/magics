@@ -383,7 +383,6 @@ void WrepJSon::eps() {
     if (!points_.empty())
         return;
 
-    shift_                   = 12;
     methods_[param_]         = &WrepJSon::parameter;
     methods_[keyword_]       = &WrepJSon::dig;
     methods_[more[keyword_]] = &WrepJSon::dig;
@@ -409,6 +408,7 @@ void WrepJSon::eps() {
         minx_ = 0;
         maxx_ = values_.steps_.back() / (24 * 3600.);
     }
+
     vector<double> yval;
     for (unsigned int i = 0; i < values_.steps_.size(); i++) {
         map<string, vector<double>>::iterator values = values_.values_.find("1");
@@ -1119,7 +1119,6 @@ void WrepJSon::missing(const Value& value) {
     missing_ = tonumber(value.get_value<string>());
 }
 void WrepJSon::date(const Value& value) {
-    cout << "found -> date= " << value.get_value<string>() << endl;
     date_ = value.get_value<string>();
 
 }
@@ -1931,11 +1930,13 @@ void WrepJSon::visit(TextVisitor& text) {
     text.update("json", "full_temperature_correction_info", full_correction.str());
     text.update("json", "short_temperature_correction_info", short_correction.str());
     text.update("json", "parameter_info", (param_info_ == "none") ? "" : param_info_);
+   
 
     if (param_info_ != "none") {
         text.update("json", "station_name", station_name_);
         if (!expver_.empty() && expver_ != "0001")
             text.update("json", "expver", " [" + expver_ + "] ");
+        text.update("json", "ens_height", tostring(epsz_));
     }
 
     text.update("json", "product_info", product_info_);

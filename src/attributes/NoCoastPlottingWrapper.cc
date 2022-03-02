@@ -193,6 +193,11 @@ void NoCoastPlottingWrapper::set(const MagRequest& request)
 		nocoastplotting_->user_layer_colour_ = unique_ptr<Colour>(MagTranslator<string, Colour>()(user_layer_colour_value));
 	}
 		
+	if  (request.countValues("MAP_USER_LAYER_LAND_COLOUR") ) {
+		string user_layer_land_colour_value = request("MAP_USER_LAYER_LAND_COLOUR");
+		nocoastplotting_->user_layer_land_colour_ = unique_ptr<Colour>(MagTranslator<string, Colour>()(user_layer_land_colour_value));
+	}
+		
 	
 }
 
@@ -243,6 +248,7 @@ static SimpleObjectMaker<NoCitiesWrapper> NoCoastPlotting_map_cities_nocities_Wr
 #include "NoCitiesWrapper.h"
 
 static SimpleObjectMaker<NoCitiesWrapper> NoCoastPlotting_map_cities_off_Wrapper("off");
+
 
 
 

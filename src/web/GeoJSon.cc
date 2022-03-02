@@ -290,6 +290,48 @@ public:
     }
 };
 
+
+class LineString : public GeoObject {
+public:
+    LineString() {
+        ostringstream n;
+        n << "GeoPoint_" << index_;
+        name_ = n.str();
+    }
+    virtual ~LineString() {}
+    virtual void decode(const Value& value) {
+            ValueList line = value.get_value<ValueList>();
+            for (unsigned int pt = 0; pt < line.size(); pt++) {
+                ValueList point = line[pt].get_value<ValueList>();
+                line_.push_back(make_pair(point[0].get_value<double>(), point[1].get_value<double>()));
+            }
+        
+        
+        
+    }
+    vector<pair<double, double> > line_;
+    void create(PointsList& out, const string& ref) {
+        double value = tonumber(getProperty("value", "0"));
+        string name  = getProperty("name", "");
+        
+            for (vector<pair<double, double> >::iterator point = line_.begin(); point != line_.end(); ++point) {
+                UserPoint* upoint = new UserPoint(point->first, point->second, value, false, false, name);
+                out.push_back(upoint);
+            }
+            out.push_back(new UserPoint(0, 0, 0, true));
+    }
+    void shift(PointsList& out) {
+        double value = tonumber(getProperty("value", "0"));
+        string name  = getProperty("name");
+            for (vector<pair<double, double> >::iterator point = line_.begin(); point != line_.end(); ++point) {
+                UserPoint* upoint = new UserPoint(point->first, point->second, value, false, false, name);
+                out.push_back(upoint);
+            }
+            out.push_back(new UserPoint(0, 0, 0, true));
+            
+    }
+};
+
 class MultiPolygon : public GeoObject {
 public:
     MultiPolygon() {
@@ -396,6 +438,7 @@ static SimpleObjectMaker<GeoPoint, GeoObject> Point("Point");
 static SimpleObjectMaker<GeoFeature, GeoObject> FeatureCollection("FeatureCollection");
 static SimpleObjectMaker<GeoObject> Feature("Feature");
 static SimpleObjectMaker<MultiLineString, GeoObject> MultiLineString("MultiLineString");
+static SimpleObjectMaker<LineString, GeoObject> LineString("LineString");
 static SimpleObjectMaker<MultiPolygon, GeoObject> MultiPolygon("MultiPolygon");
 static SimpleObjectMaker<MagPolygon, GeoObject> MagPolygon("Polygon");
 

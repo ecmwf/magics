@@ -89,6 +89,7 @@ void NoCoastPlotting::operator()(DrawingVisitor& parent) {
     (*boundaries_)(coastSet_, parent.layout());
     layers(riversMethods_, rivers_, parent);
     layers(riversMethods_, "efas" + efas_, parent);
+    layers(riversMethods_, "user" + user_layer_, parent);
     (*cities_)(coastSet_, parent.layout());
 }
 
@@ -137,8 +138,13 @@ void NoCoastPlotting::user(DrawingVisitor& visitor) {
         magics::Polyline poly;
         poly.setColour(*user_layer_colour_);
         poly.setThickness(user_layer_thickness_);
-
         poly.setLineStyle(user_layer_style_);
+        if ( !user_layer_land_colour_->none() ) {
+            FillShadingProperties* shading = new FillShadingProperties();
+            poly.setFillColour(*user_layer_land_colour_);
+            poly.setShading(shading);
+            poly.setFilled(true);
+        }
         (**river).setToFirst();
         while ((**river).more()) {
             poly.push_back(transformation((**river).current()));

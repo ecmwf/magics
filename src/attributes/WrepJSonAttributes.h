@@ -73,6 +73,7 @@ public:
 	double threshold_;
 	double y_max_threshold_;
 	double y_percent_;
+	double shift_;
 	bool correction_;
 	double missing_value_;
 	stringarray ignore_keys_;
