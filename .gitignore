@@ -25,7 +25,8 @@ magics_*.includes
 magics.files
 magics_*.files
 
-build/
+build
+.ipynb_checkpoints
 
 .vscode
 *.sublime-workspace
