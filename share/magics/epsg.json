@@ -31,7 +31,7 @@
             }
         },
         {
-            "lambert": {
+            "lambert": { 
                 "definition": "+proj=lcc +lat_1=43 +lat_2=62 +lat_0=30 +lon_0=10 +x_0=0 +y_0=0 +ellps=intl +units=m",
                 "max_latitude": 90,
                 "max_longitude": 180,
@@ -231,6 +231,18 @@
                 "min_longitude": -180
             }
         },
+        {
+            "EPSG:3035": {
+                "definition": "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
+                "max_latitude": 89,
+                "max_longitude": 180,
+                "method": "conic",
+                "min_latitude":  20,
+                "min_longitude": -180
+            }
+        },
+        
+ 
         {
             "bonne": {
                 "definition": "+proj=bonne +lon_0=0 +x_0=0 +y_0=0 +lat_1=60 +ellps=WGS84 +datum=WGS84 +units=m +no_defs",

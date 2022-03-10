@@ -287,6 +287,10 @@ class Proj4EPSG900913 : public Proj4Projection {
 public:
     Proj4EPSG900913() : Proj4Projection("EPSG:3857") {}
 };
+class Proj4EPSG3035 : public Proj4Projection {
+public:
+    Proj4EPSG3035() : Proj4Projection("EPSG:3035") {}
+};
 class Proj4Geos : public Proj4Projection {
 public:
     Proj4Geos() : Proj4Projection("geos") {}
