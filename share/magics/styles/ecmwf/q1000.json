@@ -54,7 +54,13 @@
           "50"
         ],
         "paramId": "133",
-        "shortName": "q"
+        "shortName": "q",
+        "levtype": "pl"
+      },
+      {
+        "paramId": "133",
+        "shortName": "q",
+        "levtype": "ml"
       },
       {
         "long_name": "Specific humidity",
