@@ -137,6 +137,7 @@ Proj4PolarSouth.xml
 Proj4Mercator.xml
 Proj4Collignon.xml
 Proj4Automatic.xml
+Proj4EPSG3035.xml
 Proj4EPSG32661.xml
 Proj4EPSG32761.xml
 Proj4EPSG4326.xml
