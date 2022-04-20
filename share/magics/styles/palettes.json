@@ -41583,5 +41583,43 @@
             "origin" : "matplotlib",
             "parameter" : []
         }
+    },
+    "ecmwf" : {
+        "contour_shade_colour_list" : [
+            "#fbfbe5",
+            "#e5f1e0",
+            "#d0e6dc",
+            "#bbdcd7",
+            "#a8d1d3",
+            "#96c6cf",
+            "#84bacb",
+            "#74afc6",
+            "#66a3c2",
+            "#5996bf",
+            "#4e8abb",
+            "#467db7",
+            "#4170b3",
+            "#3c63ad",
+            "#3657a5",
+            "#2f4b9b",
+            "#274090",
+            "#1d3784",
+            "#112e74",
+            "#002761"
+        ],
+        "tags" : {
+            "colours" : [
+                "yellow",
+                "blue",
+                "ecmwf_blue"
+            ],
+            "eccharts_style" : [],
+            "keywords" : [
+                "ecmwf"
+            ],
+            "n_levels" : "20",
+            "origin" : "milana",
+            "parameter" : []
+        }
     }    
 }
