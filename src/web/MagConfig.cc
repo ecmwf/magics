@@ -140,7 +140,7 @@ void Style::match(const Value& value) {
         if (method != methods_.end())
             (this->*method->second)(entry->second);
         else
-            MagLog::warning() << entry->first << " is not a known keyword" << endl;
+            cout << entry->first << " is not a known keyword" << endl;
     }
 }
 
@@ -160,7 +160,7 @@ void Style::set(const ValueMap& object) {
         if (method != methods_.end())
             (this->*method->second)(entry->second);
         else
-            MagLog::warning() << entry->first << " is not a known keyword" << endl;
+            cout << entry->first << " is not a known keyword" << endl;
     }
 }
 
@@ -222,19 +222,34 @@ void Palette::values(const Value& value) {
     }
 }
 
+void Palette::deprecated(const Value& value) {
+    ValueList values = value.get_value<ValueList>();
+
+    for (unsigned int i = 0; i < values.size(); i++) {
+        deprecated_.push_back(MagConfig::convert(values[i]));
+    }
+}
+void Palette::deprecatedReverse(const Value& value) {
+    ValueList values = value.get_value<ValueList>();
+
+    for (unsigned int i = 0; i < values.size(); i++) {
+        deprecatedReverse_.push_back(MagConfig::convert(values[i]));
+    }
+}
+
 void Palette::tags(const Value& value) {}
 
 void Palette::set(const ValueMap& object) {
     if (methods_.empty()) {
         methods_["contour_shade_colour_list"] = &Palette::values;
         methods_["tags"]                      = &Palette::tags;
+        methods_["deprecated"]                = &Palette::deprecated;
+        methods_["deprecated_reversed"]       = &Palette::deprecatedReverse;
     }
     for (auto entry = object.begin(); entry != object.end(); ++entry) {
         map<string, SetMethod>::iterator method = methods_.find(entry->first);
         if (method != methods_.end())
             (this->*method->second)(entry->second);
-        else
-            MagLog::warning() << entry->first << " is not a known keyword" << endl;
     }
 }
 void PaletteLibrary::callback(const string& name, const Value& value) {
@@ -281,7 +296,7 @@ void UnitConvert::set(const ValueMap& object) {
         if (method != methods_.end())
             (this->*method->second)(entry->second);
         else
-            MagLog::warning() << entry->first << " is not a known keyword" << endl;
+            cout << entry->first << " is not a known keyword" << endl;
     }
 }
 void UnitsLibrary::callback(const string& name, const Value& value) {
@@ -504,4 +519,45 @@ void MagDefLibrary::callback(const string& name, const Value& value) {
     def.set(object);
 
     library_.insert(make_pair(name, def));
+}
+bool PaletteLibrary::find(string& name, Palette::Definition& colours) {
+    map<string, Palette>::iterator palette = library_.find(name);
+
+    if (palette != library_.end()) {
+        colours = palette->second.colours_;
+        return true;
+    }
+    
+    for ( auto p = library_.begin(); p != library_.end(); ++p) {
+        auto palette = p->second;
+    
+        auto deprecated = std::find(palette.deprecated_.begin(), palette.deprecated_.end(), name);
+
+        if ( deprecated != palette.deprecated_.end() ) {
+            colours = palette.colours_;
+            MagLog::warning() << "The palette " << name << " is deprecated, using " << p->first << " instead" << endl;
+            MagLog::warning() << "Please update your code " << endl;
+            MagLog::warning() << "contour_shade_palette_name = '" << p->first << "'" << endl;
+            MagLog::warning() << "contour_shade_list_policy = 'dynamic'"  << endl;
+            name = string(p->first);
+            return true;
+        }
+        
+        auto deprecatedreverse = std::find(palette.deprecatedReverse_.begin(), palette.deprecatedReverse_.end(), name);
+
+        if ( deprecatedreverse != palette.deprecatedReverse_.end() ) {
+            colours = palette.colours_;
+            reverse(colours.begin(), colours.end());
+            MagLog::warning() << "The reverse palette " << name << " is deprecated, using " << p->first << " instead" << endl;
+            MagLog::warning() << "Please update your code " << endl;
+            MagLog::warning() << "contour_shade_palette_name = '" << p->first << "'" << endl;
+            MagLog::warning() << "contour_shade_list_policy = 'dynamic'"  << endl;
+            MagLog::warning() << "contour_shade_colour_reverse_list = 'on'"  << endl;
+            name = string(p->first);
+            return true;
+        }
+       
+    }
+    return false;
+        
 }

@@ -41,6 +41,7 @@ void ColourTableDefinitionList::print(ostream& out) const {
 
 void ColourTableDefinitionList::set(const ColourTableDefinitionListInterface& attributes) {
     colours_ = attributes.getValues();
+    
 }
 
 void ColourTableDefinitionList::set(const XmlNode& node) {

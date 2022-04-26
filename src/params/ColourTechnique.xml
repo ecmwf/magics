@@ -8,4 +8,5 @@ does it submit to any jurisdiction.
 -->
 <magics>
     <class directory="visualisers" name="ColourTechnique" python="mcont"/>
+   
 </magics>

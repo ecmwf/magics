@@ -25,12 +25,10 @@
 #define ListColourTechniqueAttributes_H
 
 #include "magics.h"
-#include "ColourTableDefinitionListInterface.h"
 namespace magics {
 
 class XmlNode;
-class ListColourTechniqueAttributes :
-    public ColourTableDefinitionListInterface
+class ListColourTechniqueAttributes 
 {
 public:
 //  --  constructor
@@ -52,7 +50,9 @@ public:
 	virtual void toxml(std::ostream& out) const;
 	//  --  members:
 	string tag_;
-	stringarray values_;
+	stringarray colours_;
+	bool reverse_;
+	ColourListPolicy list_policy_;
 	 
 
 private:

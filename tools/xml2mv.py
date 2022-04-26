@@ -312,6 +312,7 @@ class ObjectHandler(ContentHandler):
         "LineStyle": linestyle,
         "Justification": justification,
         "ListPolicy": policy,
+        "ColourListPolicy": colourpolicy,
         "floatarray": listofnumbers,
         "intarray": listofnumbers,
         "stringarray": listofstrings,

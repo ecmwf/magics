@@ -28,6 +28,8 @@
 #include "MagTranslator.h"
 #include "magics.h"
 
+#include "ColourTechniqueAttributes.h"
+
 #include "PaletteColourTechniqueAttributes.h"
 namespace magics {
 
@@ -52,7 +54,8 @@ public:
     virtual const Colour& getMaxColour() const = 0;
     virtual const string& getDirection() const = 0;
     virtual stringarray getColours() const     = 0;
-    virtual ListPolicy getPolicy() const       = 0;
+    virtual ListPolicy getPolicy() const = 0;
+
 };
 
 
@@ -75,7 +78,7 @@ public:
     double leftRange(double) const;
     double rightRange(double) const;
 
-    virtual void set(LevelSelection&, LevelSelection&, ColourTable&, int) const {}
+    virtual void set(LevelSelection&, LevelSelection&, ColourTable&, int)  {}
     void prepare(LevelSelection&, LevelSelection&, bool rainbow = false);
 
     void colours(vector<string>&) const;
@@ -109,7 +112,9 @@ private:
 };
 
 
-class PaletteColourTechnique : public ColourTechnique, public PaletteColourTechniqueAttributes {
+class PaletteColourTechnique : public ColourTechnique, 
+    public PaletteColourTechniqueAttributes
+{
 public:
     PaletteColourTechnique();
     virtual ~PaletteColourTechnique() override;
@@ -126,8 +131,11 @@ public:
         return object;
     }
 
+    
+
+
 protected:
-    void set(LevelSelection&, LevelSelection&, ColourTable&, int) const override;
+    void set(LevelSelection&, LevelSelection&, ColourTable&, int)  override;
     //! Method to print string about this class on to a stream of type ostream (virtual).
     virtual void print(ostream&) const override;
 
@@ -143,6 +151,7 @@ private:
         p.print(s);
         return s;
     }
+
 };
 
 

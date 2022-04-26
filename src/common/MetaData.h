@@ -58,6 +58,7 @@ public:
 
     string default_;
     vector<string> styles_;
+    map<string, string> matching_criteria_;
 
     virtual void print(ostream& s) const;
 

@@ -153,11 +153,15 @@ public:
     \\brief return the ymax in projection coordinates!
     */
     virtual double getMaxPCY() const override;
+    virtual void setExtend();
 
     virtual double getExtendedMinPCX() const override;
     virtual double getExtendedMaxPCX() const override;
     virtual double getExtendedMinPCY() const override;
     virtual double getExtendedMaxPCY() const override;
+
+    virtual void setMinMaxX(double, double) override;
+    virtual void setMinMaxY(double, double) override;
 
     /*!
     \\brief create the grid for the longitudes!!
@@ -199,6 +203,8 @@ public:
     Polyline& getSimplePCBoundingBox() const override;
     Polyline& getUserBoundingBox() const override;
 
+    void setPCBoundingBox();
+
     typedef void (Proj4Projection::*InitMethod)();
     map<string, InitMethod> methods_;
 
@@ -230,6 +236,7 @@ protected:
     void full();
     void corners();
     void centre();
+    void data();
 
     virtual void print(ostream&) const override;
     mutable LatLonProjP* helper_;
@@ -248,8 +255,15 @@ protected:
     mutable double gridMaxLat_;
 
     bool wraparound_;
-    double width_;
+    bool useData_;
+
     double pwidth_;
+
+    double data_min_longitude_;
+    double data_max_longitude_;
+    double data_min_latitude_;
+    double data_max_latitude_;
+   
 
 private:
     //! Copy constructor - No copy allowed
@@ -376,14 +390,17 @@ public:
     void aspectRatio(double&, double&);
 
     void init();
-    void setMinMaxX(double, double);
-    void setMinMaxY(double, double);
+    
+    
     void setNewPCBox(double minx, double miny, double maxx, double maxy);
+    virtual void setExtend() override;
+    
 
 protected:
     bool init_;
-    double width_;
-    double height_;
+
+    
+   
 };
 
 }  // namespace magics

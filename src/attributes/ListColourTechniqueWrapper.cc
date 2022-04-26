@@ -62,12 +62,24 @@ void ListColourTechniqueWrapper::set(const MagRequest& request)
 	ColourTechniqueWrapper::set(request);
 	
 
-	stringarray  values_value;
+	stringarray  colours_value;
 	for (int i = 0; i < request.countValues("CONTOUR_SHADE_COLOUR_LIST"); i++)
-		values_value.push_back((string)request("CONTOUR_SHADE_COLOUR_LIST", i));
-	if ( !values_value.empty() )
-		listcolourtechnique_->values_ = values_value;
+		colours_value.push_back((string)request("CONTOUR_SHADE_COLOUR_LIST", i));
+	if ( !colours_value.empty() )
+		listcolourtechnique_->colours_ = colours_value;
+	if  (request.countValues("CONTOUR_SHADE_COLOUR_REVERSE_LIST") ) {
+		string reverse_value = request("CONTOUR_SHADE_COLOUR_REVERSE_LIST");
+		
+		listcolourtechnique_->reverse_ = MagTranslator<string, bool>()(reverse_value);
+		
+		}
 	
+	
+	if  (request.countValues("CONTOUR_SHADE_COLOUR_LIST_POLICY") ) {
+		string list_policy_value = request("CONTOUR_SHADE_COLOUR_LIST_POLICY");
+		listcolourtechnique_->list_policy_ = MagTranslator<string, ColourListPolicy>()(list_policy_value);
+	}
+		
 	
 }
 
@@ -75,5 +87,6 @@ void ListColourTechniqueWrapper::print(ostream& out)  const
 {
 	out << "ListColourTechniqueWrapper[]";
 }
+
 
 

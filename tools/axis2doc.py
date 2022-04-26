@@ -91,6 +91,7 @@ class ObjectHandler(ContentHandler):
         "Colour": anyset,
         "LineStyle": lineset,
         "ListPolicy": listpolicy,
+        "ColourListPolicy": colourpolicy,
         "Justification": justification,
     }
 

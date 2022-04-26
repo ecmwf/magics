@@ -24,11 +24,27 @@
 #include "XmlNode.h"
 
 using namespace magics;
+ColourTableDefinitionCompute::ColourTableDefinitionCompute(): 
+    direction_("clockwise"), method_("rgb") {
+     methods_["anti_clockwise"] = &ColourTableDefinitionCompute::hsl;
+    methods_["clockwise"]      = &ColourTableDefinitionCompute::hsl;
+    methods_["linear"]         = &ColourTableDefinitionCompute::linear;
+    methods_["hsl"]    = &ColourTableDefinitionCompute::hsl;
+    methods_["linear"] = &ColourTableDefinitionCompute::linear;
+    methods_["rgb"]    = &ColourTableDefinitionCompute::linear;
+    methods_["hcl"]    = &ColourTableDefinitionCompute::hcl;
+}
 
-ColourTableDefinitionCompute::ColourTableDefinitionCompute() {
+
+ColourTableDefinitionCompute::ColourTableDefinitionCompute(const string& method, const string& direction): 
+    direction_(direction), method_(method) {
     methods_["anti_clockwise"] = &ColourTableDefinitionCompute::hsl;
     methods_["clockwise"]      = &ColourTableDefinitionCompute::hsl;
     methods_["linear"]         = &ColourTableDefinitionCompute::linear;
+    methods_["hsl"]    = &ColourTableDefinitionCompute::hsl;
+    methods_["linear"] = &ColourTableDefinitionCompute::linear;
+    methods_["rgb"]    = &ColourTableDefinitionCompute::linear;
+    methods_["hcl"]    = &ColourTableDefinitionCompute::hcl;
 }
 
 ColourTableDefinitionCompute::ColourTableDefinitionCompute(const string& min, const string& max, const string& method,
@@ -274,6 +290,66 @@ void ColourTableDefinitionCompute::set(ColourTable& table, int nb) {
         hsl(table, nb);
     else
         (this->*method->second)(table, nb);
+}
+
+void ColourTableDefinitionCompute::dynamic(const stringarray& from, ColourTable& to, int nb)
+{
+    stringarray::const_iterator colour = from.begin();
+    // Nb is the number of intervals!
+    // We need nb-1 colours!
+    minColour_ = *colour;
+    ++colour;
+    int modulo = 0;
+    int count = 0;
+    int nbcols = (((nb-1)*from.size())/(from.size()-1)) + 1;
+    for ( auto c = colour; c != from.end(); ++c) {
+        maxColour_ = *c;
+       
+        ColourTable workingtable;
+        set(workingtable, nbcols);
+
+        count += workingtable.size()-1;
+        for (int i = 0; i < workingtable.size()-1; ++i) {
+            if ( !modulo ) 
+                to.push_back(workingtable[i]);
+            modulo++;
+            if ( modulo ==   from.size() )
+                modulo = 0;
+        }
+        minColour_ = maxColour_;
+        
+    }
+    to.push_pack(from.back());
+
+}
+
+void ColourTableDefinitionCompute::set(const stringarray& from, ColourTable& to, int nb, ColourListPolicy policy)
+{
+    auto colour = from.begin();
+    if (policy == ColourListPolicy::DYNAMIC) {
+        dynamic(from, to, nb);
+        return;
+    }
+    
+    for (int i = 0; i < nb - 1; i++) {
+        if (colour == from.end()) {
+            if (policy == ColourListPolicy::LASTONE) {
+                to.push_back(Colour(from.back()));
+            }
+            else {
+                colour = from.begin();
+                to.push_back(Colour(*colour));
+                colour++;
+            }
+        }
+        else {
+            to.push_back(Colour(*colour));
+            colour++;
+        }
+    }
+    
+
+
 }
 
 

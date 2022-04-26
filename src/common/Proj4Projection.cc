@@ -216,11 +216,16 @@ Proj4Projection::Proj4Projection(const string& definition) :
     gridMaxLon_(-DBL_MAX),
     gridMaxLat_(-DBL_MAX),
     wraparound_(false),
+    useData_(false),
     helper_(0) {
     // init();
     EpsgConfig config;
     config.init();
     name_ = definition;
+    data_min_longitude_ = DBL_MAX;
+    data_max_longitude_ = -DBL_MAX;
+    data_min_latitude_ = DBL_MAX;
+    data_max_latitude_ = -DBL_MAX;
 }
 
 Proj4Projection::Proj4Projection() :
@@ -229,10 +234,15 @@ Proj4Projection::Proj4Projection() :
     gridMaxLon_(-DBL_MAX),
     gridMaxLat_(-DBL_MAX),
     wraparound_(false),
+    useData_(false),
     helper_(0) {
     // init();
     EpsgConfig config;
     config.init();
+    data_min_longitude_ = DBL_MAX;
+    data_max_longitude_ = -DBL_MAX;
+    data_min_latitude_ = DBL_MAX;
+    data_max_latitude_ = -DBL_MAX;
 }
 void Proj4Projection::populate(double lon, double lat, double val, vector<UserPoint>& out) const {
 
@@ -271,8 +281,6 @@ magics::Polyline& Proj4Projection::getUserBoundingBox() const {
 }
 
 void Proj4Projection::init() {
-    MagLog::dev() << "Proj4Projection::init()" << *this << endl;
-
     projection_ = Epsg::find(*this);
     helper_     = new LatLonProjP(projection_->definition());
 
@@ -298,6 +306,7 @@ void Proj4Projection::init() {
     helpers_["corners"]    = &Proj4Projection::corners;
     helpers_["centre"]     = &Proj4Projection::centre;
     helpers_["projection"] = &Proj4Projection::projectionSimple;
+    helpers_["data"]       = &Proj4Projection::data;
 
     if (coordinates_system_ == "projection")
         setting_ = "projection";
@@ -371,6 +380,12 @@ void Proj4Projection::full() {
 }
 
 void Proj4Projection::wrap(double& x, double& y) {}
+
+
+void Proj4Projection::data() {
+    useData_ = true;
+}
+
 
 void Proj4Projection::corners() {
     // we have to update the PCBounding box!
@@ -476,8 +491,9 @@ bool Proj4Projection::needShiftedCoastlines() const {
 }
 
 void Proj4Projection::aspectRatio(double& width, double& height) {
-    MagLog::dev() << "Proj4Projection::aspectRatio(...) needs implementing." << endl;
     Transformation::aspectRatio(width, height);
+    outputWidth_  = width;
+    outputHeight_ = height;
 }
 
 void Proj4Projection::add(double lon, double lat) {
@@ -536,7 +552,7 @@ void Proj4Projection::simple() {
     add(projection_->maxlon_, projection_->minlat_);
     add(projection_->minlon_, projection_->minlat_);
 
-    width_ = projection_->maxlon_ - projection_->minlon_;
+    pwidth_ = projection_->maxlon_ - projection_->minlon_;
 
     double minx = projection_->minlon_;
     double y1, y2 = (projection_->maxlat_ + projection_->minlat_);
@@ -550,6 +566,8 @@ void Proj4Projection::simple() {
 }
 
 void Proj4Projection::projectionSimple() {
+
+   
     xpcmin_ = min_longitude_;
     ypcmin_ = min_latitude_;
     xpcmax_ = max_longitude_;
@@ -565,19 +583,10 @@ void Proj4Projection::projectionSimple() {
 
     helper_->convert(x, y);
 
-    // cout << "[" << xpcmin_ << " " << ypcmin_ << "]-->[" << xpcmax_ << " " << ypcmax_ << "]" << endl;
-    // cout << "[" << min_longitude_ << " " << min_latitude_ << "]-->[" << max_longitude_ << " " << max_latitude_ << "]" << endl;
-    // cout << "[" << max_longitude_ << " " << max_latitude_ << "]-->[" << x << " " << y << "] --> " << error <<  endl;
-
     if (max_longitude_ < 0) {
         max_longitude_ += 360.;
     }
-    
 
-   
-
-
-    
     magics::Polyline box;
     box.box(PaperPoint(xpcmin_, ypcmin_), PaperPoint(xpcmax_, ypcmax_));
 
@@ -1292,10 +1301,10 @@ MatrixHandler* Proj4Projection::prepareData(const AbstractMatrix& matrix) const 
 
 bool Proj4Projection::fast_reproject(double& x, double& y) const {
     int factor = 0;
-    if (wraparound_) {
-        factor = int(x / width_);
-        x -= (factor - width_);
-    }
+    // if (wraparound_) {
+    //     factor = int(x / outwidth_);
+    //     x -= (factor - width_);
+    // }
 
     int error = helper_->convert(x, y);
 
@@ -1352,74 +1361,198 @@ void Proj4Projection::setDefinition(const string& json) {
     set(node);
 }
 
-void Proj4Automatic::setMinMaxX(double min, double max) {
-    min_longitude_ = min;
-    max_longitude_ = max;
+void Proj4Projection::setPCBoundingBox()
+{ 
+    if (!helper_ ) {
+        projection_ = Epsg::find(*this);
+        helper_     = new LatLonProjP(projection_->definition());
+    }
+
+    vector<double> lons;
+    vector<double> lats;
+
+
+    double x;
+    double y;
+
+    for (auto lon = min_longitude_; lon <= max_longitude_; lon++) {
+        x = lon;
+        y = min_latitude_;
+        helper_->convert(x, y);
+        lons.push_back(x);
+        lats.push_back(y);
+        x = lon;
+        y = max_latitude_;
+        helper_->convert(x, y);
+        lons.push_back(x);
+        lats.push_back(y);
+    }
+    for (auto lat = max_latitude_; lat <= max_latitude_; lat++) {
+        x = min_longitude_;
+        y = lat;
+        helper_->convert(x, y);
+        lons.push_back(x);
+        lats.push_back(y);
+        x = max_longitude_;
+        y = lat;
+        helper_->convert(x, y);
+        lons.push_back(x);
+        lats.push_back(y);
+    }
+
+    xpcmin_ = *std::min_element(lons.begin(), lons.end());
+    xpcmax_ = *std::max_element(lons.begin(), lons.end());
+    ypcmin_ = *std::min_element(lats.begin(), lats.end());
+    ypcmax_ = *std::max_element(lats.begin(), lats.end());
+
+   
+
+
+
 }
 
-void Proj4Automatic::setMinMaxY(double min, double max) {
-    min_latitude_ = min;
-    max_latitude_ = max;
-    if (min_latitude_ > 45) {
+void Proj4Projection::setMinMaxX(double min, double max) {
+
+    data_min_longitude_ = std::min(min, data_min_longitude_);
+    data_max_longitude_ = std::max(max, data_max_longitude_);
+
+}
+
+
+    
+
+
+void Proj4Projection::setMinMaxY(double min, double max) {
+    if ( helper_ ) {
+        delete helper_;
+        helper_ = 0;
+    }
+   
+    data_min_latitude_ = std::min(min, data_min_latitude_);
+    data_max_latitude_ = std::max(max, data_max_latitude_);
+    setExtend();
+}
+
+void Proj4Projection::setExtend() {
+    if ( !useData_ )
+        return;
+    min_longitude_  = data_min_longitude_;
+    min_latitude_ = data_min_latitude_;
+    max_longitude_ = data_max_longitude_;
+    max_latitude_ = data_max_latitude_;
+    vertical_longitude_ = (max_longitude_ + min_longitude_ ) / 2;   
+
+
+    setting_ = "projection";
+    coordinates_system_ = "projection";
+    setPCBoundingBox();
+    min_longitude_ = xpcmin_;
+    max_longitude_ = xpcmax_;
+    min_latitude_ = ypcmin_;
+    max_latitude_ = ypcmax_;
+    
+    //Now apply teh aspect ratio and reintialise!
+
+
+    fill(outputWidth_, outputHeight_);
+    init();
+
+    gridMinLat_ = min_latitude_;
+    gridMinLon_ = min_longitude_;
+    gridMaxLat_ = max_latitude_;
+    gridMaxLon_ = max_longitude_;
+    }
+
+
+void Proj4Automatic::setExtend() {
+    min_longitude_  = data_min_longitude_;
+    min_latitude_ = data_min_latitude_;
+    max_longitude_ = data_max_longitude_;
+    max_latitude_ = data_max_latitude_;
+
+    if (min_latitude_ >= 45 ) {
         definition_         = "polar_north";
-        vertical_longitude_ = (min_longitude_ + max_longitude_) / 2;
-        MagLog::dev() << "Set Vertical longitude " << vertical_longitude_ << endl;
-        // map_hemisphere_     = "north";
-        setting_ = "corners";
-        min_latitude_ -= 5;
+        vertical_longitude_ = (max_longitude_ + min_longitude_ ) / 2;
+        setting_ = "projection";
+        coordinates_system_ = "projection";
+        setPCBoundingBox();
+        min_longitude_ = xpcmin_;
+        max_longitude_ = xpcmax_;
+        min_latitude_ = ypcmin_;
+        max_latitude_ = ypcmax_;
+
     }
-    else if (max_latitude_ < -45) {
-        definition_         = "polar_south";
-        vertical_longitude_ = (min_longitude_ + max_longitude_) / 2;
-        MagLog::dev() << "Set Vertical longitude " << vertical_longitude_ << endl;
-        // map_hemisphere_     = "north";
-        setting_ = "corners";
-        max_latitude_ += 10;
-        double swap    = min_longitude_;
-        min_longitude_ = max_longitude_;
-        max_longitude_ = swap;
+    else if (max_latitude_ <= - 45) {
+         definition_         = "polar_south";
+        vertical_longitude_ = (max_longitude_ + min_longitude_ ) / 2;
+    // vertical line of projecion:
+        setting_ = "projection";
+        coordinates_system_ = "projection";
+        setPCBoundingBox();
+
+        min_longitude_ = xpcmin_;
+        max_longitude_ = xpcmax_;
+        min_latitude_ = ypcmin_;
+        max_latitude_ = ypcmax_;
     }
+    
     else {
+        xpcmin_ = min_longitude_;
+        ypcmin_ = min_latitude_;
+        xpcmax_ = max_longitude_;
+        ypcmax_ = max_latitude_;
+        coordinates_system_ = "projection";
+
         definition_ = "EPSG:4326";
         setting_    = "corners";
     }
+    //Now apply teh aspect ratio and reintialise!
+    
+    init_ = false;
+    fill(outputWidth_, outputHeight_);
     init_ = true;
-    fill(width_, height_);
-
-    // Now apply teh aspect ratio and reintialise!
-
-    min_latitude_  = gridMinLat_;
-    min_longitude_ = gridMinLon_;
-    max_latitude_  = gridMaxLat_;
-    max_longitude_ = gridMaxLon_;
-
     init();
+
+    gridMinLat_ = min_latitude_;
+    gridMinLon_ = min_longitude_;
+    gridMaxLat_ = max_latitude_;
+    gridMaxLon_ = max_longitude_;
 }
 
 void Proj4Automatic::init() {
+    if ( definition_ == "automatic") {
+        definition_ = "EPSG:4326";
+        Proj4Projection::init();
+        return;
+    }
     if (init_)
         Proj4Projection::init();
 }
 
-Proj4Automatic::Proj4Automatic() : Proj4Projection("automatic"), init_(false) {}
+Proj4Automatic::Proj4Automatic() : 
+    Proj4Projection("automatic"), 
+    init_(false)
+    {
+   
+}
 
 void Proj4Automatic::aspectRatio(double& width, double& height) {
-    width_  = width;
-    height_ = height;
+    outputWidth_  = width;
+    outputHeight_ = height;
 }
 
 void Proj4Automatic::setNewPCBox(double minx, double miny, double maxx, double maxy) {
     gridMinLon_ = minx;
+    min_longitude_ = minx;
     gridMinLat_ = miny;
-    int error   = helper_->revert(gridMinLon_, gridMinLat_);
-    if (error) {
-        MagLog::error() << "Error Proj4Automatic::setNewPCBox to check " << endl;
-    }
-
+    min_latitude_ = miny;
     gridMaxLon_ = maxx;
+    max_longitude_ = maxx;
     gridMaxLat_ = maxy;
-    error       = helper_->revert(gridMaxLon_, gridMaxLat_);
-    if (error) {
-        MagLog::error() << "Error Proj4Automatic::setNewPCBox to check " << endl;
-    }
+    max_latitude_ = maxy;
+    xpcmin_ = minx;
+    xpcmax_ = maxx;
+    ypcmin_ = miny;
+    ypcmax_ = maxy;
+   
 }

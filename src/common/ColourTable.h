@@ -71,6 +71,7 @@ public:
 
     // void visit(LegendEntryList&) const;
     void push_pack(const Colour& colour) { push_back(ColourTableEntry(colour)); }
+    void push_pack(const string& colour) { push_back(Colour(colour)); }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).

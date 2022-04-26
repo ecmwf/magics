@@ -25,8 +25,10 @@
 using namespace magics;
 
 ListColourTechniqueAttributes::ListColourTechniqueAttributes():
-	values_(ParameterManager::getStringArray("contour_shade_colour_list"))
-	
+	colours_(ParameterManager::getStringArray("contour_shade_colour_list")),
+	reverse_(ParameterManager::getBool("contour_shade_colour_reverse_list"))
+	,
+	list_policy_(MagTranslator<string, ColourListPolicy>().magics("contour_shade_colour_list_policy"))
 	
 {
 }
@@ -48,14 +50,18 @@ void ListColourTechniqueAttributes::set(const std::map<string, string>& params)
 	prefix[i++] = "contour_shade";
 	prefix[i++] = "contour_shade";
 	
-	setAttribute(prefix, "contour_shade_colour_list", values_, params);
+	setAttribute(prefix, "contour_shade_colour_list", colours_, params);
+	setAttribute(prefix, "contour_shade_colour_reverse_list", reverse_, params);
 	
+	setAttribute(prefix, "contour_shade_colour_list_policy", list_policy_, params);
 	
 }
 
 void ListColourTechniqueAttributes::copy(const ListColourTechniqueAttributes& other)
 {
-	values_ = other.values_;
+	colours_ = other.colours_;
+	reverse_ = other.reverse_;
+	list_policy_ = other.list_policy_;
 	
 }
 
@@ -94,7 +100,9 @@ void ListColourTechniqueAttributes::set(const XmlNode& node)
 void ListColourTechniqueAttributes::print(ostream& out)  const
 {
 	out << "Attributes[";
-	out << " values = " <<  values_;
+	out << " colours = " <<  colours_;
+	out << " reverse = " <<  reverse_;
+	out << " list_policy = " <<  list_policy_;
 	
 	out << "]" << "\n";
 }
@@ -103,8 +111,14 @@ void ListColourTechniqueAttributes::toxml(ostream& out)  const
 {
 	out <<  "\"list\"";
 	out << ", \"contour_shade_colour_list\":";
-	niceprint(out,values_);
+	niceprint(out,colours_);
+	out << ", \"contour_shade_colour_reverse_list\":";
+	niceprint(out,reverse_);
+	out << ", \"contour_shade_colour_list_policy\":";
+	niceprint(out, list_policy_);
 	
 }
 
 static MagicsParameter<stringarray> contour_shade_colour_list("contour_shade_colour_list", stringarray());
+static MagicsParameter<string> contour_shade_colour_reverse_list("contour_shade_colour_reverse_list", "off");
+static MagicsParameter<string> contour_shade_colour_list_policy("contour_shade_colour_list_policy", "lastone");

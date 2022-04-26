@@ -32,7 +32,7 @@ namespace magics {
 class ColourTableDefinitionCompute : public ColourTableDefinition {
 public:
     ColourTableDefinitionCompute();
-
+    ColourTableDefinitionCompute(const string& method, const string& direction);
     ColourTableDefinitionCompute(const string& min, const string& max, const string& method, const string& direction);
     virtual ~ColourTableDefinitionCompute() override;
     void set(const ColourTableDefinitionComputeInterface&);
@@ -45,6 +45,8 @@ public:
         return object;
     }
     void set(ColourTable&, int) override;
+
+    void set(const stringarray&, ColourTable&, int, ColourListPolicy);
 
     typedef void (ColourTableDefinitionCompute::*ComputeFunction)(ColourTable&, int);
 
@@ -65,11 +67,14 @@ protected:
     string direction_;
     string method_;
     void hcl(const Colour& colour, float& h, float& c, float& l);
+
     Colour rgb(float h, float c, float l, float alpha);
     void xyzToRgb(float, float, float, float&, float&, float&);
     void xyzToHcl(float, float, float, float&, float&, float&);
     void hclToXyz(float, float, float, float&, float&, float&);
     void rgbToXyz(float, float, float, float&, float&, float&);
+
+    void dynamic(const stringarray& from, ColourTable& to, int nb);
 
 
 private:

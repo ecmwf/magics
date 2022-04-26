@@ -174,13 +174,22 @@ PaletteColourTechnique::PaletteColourTechnique() {}
 
 PaletteColourTechnique::~PaletteColourTechnique() {}
 
+#include "ColourTableDefinitionCompute.h"
 
-void PaletteColourTechnique::set(LevelSelection& out, LevelSelection& in, ColourTable& table, int nb) const {
+// technique_ -> rgb/hcl/hsl
+// technique_direction_ -> clockwise/anti_clockwise/shortest/longest
+
+
+
+void PaletteColourTechnique::set(LevelSelection& out, LevelSelection& in, ColourTable& table, int nb)  {
     PaletteLibrary library;
-    vector<string> colours;
 
     vector<string> colours_;
-    library.find(palette_, colours_);
+    string palette = palette_;
+    library.find(palette, colours_);
+
+    
+
 
     if (colours_.empty()) {
         MagLog::warning() << "Could not load palette " << palette_ << ": using a default one " << endl;
@@ -191,25 +200,17 @@ void PaletteColourTechnique::set(LevelSelection& out, LevelSelection& in, Colour
         colours_.push_back("red");
     }
 
-    stringarray::const_iterator colour = colours_.begin();
-    // Nb is the number of intervals!
-    // We need nb-1 colours!
-    for (int i = 0; i < nb - 1; i++) {
-        if (colour == colours_.end()) {
-            if (palette_policy_ == ListPolicy::LASTONE) {
-                table.push_back(Colour(colours_.back()));
-            }
-            else {
-                colour = colours_.begin();
-                table.push_back(Colour(*colour));
-                colour++;
-            }
-        }
-        else {
-            table.push_back(Colour(*colour));
-            colour++;
-        }
+    if ( palette != palette_ ) {
+        list_policy_ = ColourListPolicy::DYNAMIC;
     }
+
+    if ( reverse_ )
+        std::reverse(colours_.begin(), colours_.end()); 
+
+
+    ColourTableDefinitionCompute helper;
+    helper.set(colours_, table, nb, list_policy_);
+
 }
 
 

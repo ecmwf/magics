@@ -270,7 +270,14 @@ void BaseParameter::set(const ListPolicy& value) {
     throw MistmatchType(name_, getType(value), type());
 }
 
+void BaseParameter::set(const ColourListPolicy& value) {
+    throw MistmatchType(name_, getType(value), type());
+}
+
 void BaseParameter::get(ListPolicy& value) const {
+    throw MistmatchType(name_, getType(value), type());
+}
+void BaseParameter::get(ColourListPolicy& value) const {
     throw MistmatchType(name_, getType(value), type());
 }
 
@@ -353,6 +360,10 @@ string BaseParameter::getType(const DisplayType&) const {
 string BaseParameter::getType(const ListPolicy&) const {
     return "ListPolicy";
 }
+string BaseParameter::getType(const ColourListPolicy&) const {
+    return "ColourListPolicy";
+}
+
 
 void BaseParameter::print(ostream& out) const {
     out << name_ << "[]";
@@ -447,6 +458,48 @@ const std::string& BaseParameter::listPolicy(const ListPolicy& x) {
 
 std::ostream& magics::operator<<(ostream& s, ListPolicy x) {
     s << BaseParameter::listPolicy(x);
+    return s;
+}
+
+//=================================
+
+static map<string, ColourListPolicy> _ColourListPolicy = {
+    {
+        "lastone",
+        ColourListPolicy::LASTONE,
+    },
+    {
+        "cycle",
+        ColourListPolicy::CYCLE,
+    },
+    {
+        "dynamic",
+        ColourListPolicy::DYNAMIC,
+    },
+
+};
+
+ColourListPolicy BaseParameter::colourListPolicy(const std::string& name) {
+    auto j = _ColourListPolicy.find(name);
+    if (j == _ColourListPolicy.end()) {
+        MagLog::warning() << "Invalid value '" << name << "' for a ColourListPolicy,"
+                          << " changed to 'lastone'" << endl;
+        return ColourListPolicy::LASTONE;
+    }
+    return (*j).second;
+}
+
+const std::string& BaseParameter::colourListPolicy(const ColourListPolicy& x) {
+    for (auto j = _ColourListPolicy.begin(); j != _ColourListPolicy.end(); ++j) {
+        if ((*j).second == x) {
+            return (*j).first;
+        }
+    }
+    return unknown;
+}
+
+std::ostream& magics::operator<<(ostream& s, ColourListPolicy x) {
+    s << BaseParameter::colourListPolicy(x);
     return s;
 }
 

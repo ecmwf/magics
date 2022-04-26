@@ -29,7 +29,7 @@ GradientsColourTechnique::GradientsColourTechnique() {}
 
 GradientsColourTechnique::~GradientsColourTechnique() {}
 
-void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, ColourTable& table, int nb) const {
+void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, ColourTable& table, int nb)  {
     // First make sure that
     ColourTableDefinitionCompute helper;
 

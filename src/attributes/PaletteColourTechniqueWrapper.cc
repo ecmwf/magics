@@ -66,11 +66,17 @@ void PaletteColourTechniqueWrapper::set(const MagRequest& request)
 		string palette_value = request("CONTOUR_SHADE_PALETTE_NAME");
 		palettecolourtechnique_->palette_ = palette_value;
 		}
+	if  (request.countValues("CONTOUR_SHADE_COLOUR_REVERSE_LIST") ) {
+		string reverse_value = request("CONTOUR_SHADE_COLOUR_REVERSE_LIST");
+		
+		palettecolourtechnique_->reverse_ = MagTranslator<string, bool>()(reverse_value);
+		
+		}
 	
 	
-	if  (request.countValues("CONTOUR_SHADE_PALETTE_POLICY") ) {
-		string palette_policy_value = request("CONTOUR_SHADE_PALETTE_POLICY");
-		palettecolourtechnique_->palette_policy_ = MagTranslator<string, ListPolicy>()(palette_policy_value);
+	if  (request.countValues("CONTOUR_SHADE_COLOUR_LIST_POLICY") ) {
+		string list_policy_value = request("CONTOUR_SHADE_COLOUR_LIST_POLICY");
+		palettecolourtechnique_->list_policy_ = MagTranslator<string, ColourListPolicy>()(list_policy_value);
 	}
 		
 	

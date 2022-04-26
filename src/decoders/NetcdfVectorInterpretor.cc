@@ -185,16 +185,47 @@ NetcdfGeoPolarMatrixInterpretor::NetcdfGeoPolarMatrixInterpretor() {}
 
 NetcdfGeoPolarMatrixInterpretor::~NetcdfGeoPolarMatrixInterpretor() {}
 
+void NetcdfGeoPolarMatrixInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>& s,
+                                                       CustomisedPointsList& list) 
+{
+     customisedPoints(transformation, s, list, 1);
+}
 
-void NetcdfGeoPolarMatrixInterpretor::customisedPoints(const Transformation&, const std::set<string>&,
-                                                       CustomisedPointsList& list) {
-    Netcdf netcdf(path_, dimension_method_);
+void meteo(double speed, double angle, double& x_component, double& y_component) 
+{
+// Directions are measured clockwise (CW) from North. An angle of 0◦ denotes a 
+// Northerly wind flowing from North to South. An angle of 270◦ denotes a Westerly wind 
+// flowing from West to East.
+   angle = RAD(angle); 
+
+   
+      
+    x_component =  - (speed * sin(angle));
+    y_component =  -(speed * cos(angle));
+
+}
+
+void oceano(double speed, double angle, double& x_component, double& y_component) 
+{
+// Wind angles are clockwise (CW) from North. A wind angle of 0◦ denotes a wind 
+// flowing from the South to the North and 90◦ denotes a wind flowing from West to East
+    angle = RAD(angle); 
+
+    
+      
+    x_component = speed * sin(angle);
+    y_component = speed * cos(angle);
+}
+void NetcdfGeoPolarMatrixInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>& s,
+                                                  CustomisedPointsList& list, int thinning) {
+
     try {
         vector<double> latitudes;
         vector<double> longitudes;
         vector<double> speed;
         vector<double> direction;
         map<string, string> first, last;
+        Netcdf netcdf(path_, dimension_method_);
         setDimensions(dimension_, first, last);
 
         netcdf.get(speed_, speed, first, last);
@@ -204,8 +235,8 @@ void NetcdfGeoPolarMatrixInterpretor::customisedPoints(const Transformation&, co
 
         vector<double>::iterator lat     = latitudes.begin();
         vector<double>::iterator lon     = longitudes.begin();
-        vector<double>::const_iterator x = speed.begin();
-        vector<double>::const_iterator y = direction.begin();
+        vector<double>::const_iterator s = speed.begin();
+        vector<double>::const_iterator d = direction.begin();
 
         // If the lat-lon units is specified as "radians" convert lat-lon
         // to degrees. By default the units are sipposed to be "degrees"
@@ -223,23 +254,51 @@ void NetcdfGeoPolarMatrixInterpretor::customisedPoints(const Transformation&, co
                 lon++;
             }
         }
-        /*
+
+       
+    
         lat = latitudes.begin();
         lon = longitudes.begin();
+
+        int i = 0;
+
+        double x, y;
+        double ff, dd;
+
+        MagLog::userInfo() << "Oceanographic convention applied" << endl;
+
         while ( lat != latitudes.end() && lon != longitudes.end() &&
-                    x != x_component.end() && y != y_component.end() ) {
-                    CustomisedPoint* point = new CustomisedPoint();
-                    point->longitude(*lon);
-                    point->latitude(*lat);
-                    (*point)["x_component"] = *x;
-                    (*point)["y_component"] = *y;
+                    s != speed.end() && d != direction.end() ) {
+                        
+                    CustomisedPoint* point = new CustomisedPoint(*lon, *lat, "polar");
+                    if ( i < thinning || (*d) < 0 ) {
+                        // WE need to check how to dtecte missing data, here Direction < 0
+                        i++;
+                        lon++;
+                        lat++;
+                        s++;
+                        d++;
+                        continue;
+                    }
+                   
+                    i = 0;
+
+                    ff = (*s);
+                    dd = (*d);
+
+                    oceano(ff, dd, x, y);
+                    //meteo(ff, dd, x, y);
+                    
+                    (*point)["x_component"] = x;
+                    (*point)["y_component"] = y;
+                    
                     list.push_back(point);
                     lon++;
                     lat++;
-                    x++;
-                    y++;
+                    s++;
+                    d++;
+                   
         }
-        */
     }
     catch (MagicsException& e) {
         if (MagicsGlobal::strict()) {
