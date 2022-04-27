@@ -71,6 +71,7 @@ void ColourTableDefinitionCompute::set(const ColourTableDefinitionComputeInterfa
     minColour_ = attributes.getMin();
     maxColour_ = attributes.getMax();
     direction_ = attributes.getDirection();
+    method_ = "hsl";
 }
 
 void ColourTableDefinitionCompute::set(const XmlNode& node) {
@@ -290,6 +291,7 @@ void ColourTableDefinitionCompute::set(ColourTable& table, int nb) {
         hsl(table, nb);
     else
         (this->*method->second)(table, nb);
+
 }
 
 void ColourTableDefinitionCompute::dynamic(const stringarray& from, ColourTable& to, int nb)
