@@ -58,4 +58,5 @@ void ListColourTechnique::print(ostream& out) const {
 }
 
 void ListColourTechnique::set(const ColourTechniqueInterface& attributes) {
+    colours_ = attributes.getColours();
 }
