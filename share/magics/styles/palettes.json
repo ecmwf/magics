@@ -13374,7 +13374,8 @@
             "colours" : [],
             "eccharts_style" : [],
             "keywords" : ["colorbrewer",
-                          "Accent"],
+                          "Accent",
+                          "categorical"],
             "origin" : "colorbrewer2",
             "parameter" : []
         },
@@ -13400,7 +13401,8 @@
             "colours" : [],
             "eccharts_style" : [],
             "keywords" : ["colorbrewer",
-                          "Dark"],
+                          "Dark",
+                          "categorical"],
             "origin" : "colorbrewer2",
             "parameter" : []
         },
@@ -13430,7 +13432,8 @@
             "colours" : [],
             "eccharts_style" : [],
             "keywords" : ["Paired",
-                          "colorbrewer"],
+                          "colorbrewer",
+                          "categorical"],
             "origin" : "colorbrewer2",
             "parameter" : []
         },
@@ -13461,7 +13464,8 @@
             "colours" : [],
             "eccharts_style" : [],
             "keywords" : ["Pastel1",
-                          "colorbrewer"],
+                          "colorbrewer",
+                          "categorical"],
             "origin" : "colorbrewer2",
             "parameter" : []
         },
@@ -13488,7 +13492,8 @@
             "colours" : [],
             "eccharts_style" : [],
             "keywords" : ["Pastel2",
-                          "colorbrewer"],
+                          "colorbrewer",
+                          "categorical"],
             "origin" : "colorbrewer2",
             "parameter" : []
         },
@@ -13515,7 +13520,8 @@
             "colours" : [],
             "eccharts_style" : [],
             "keywords" : ["Set1",
-                          "colorbrewer"],
+                          "colorbrewer",
+                          "categorical"],
             "origin" : "colorbrewer2",
             "parameter" : []
         },
@@ -13542,7 +13548,8 @@
             "colours" : [],
             "eccharts_style" : [],
             "keywords" : ["Set2",
-                          "colorbrewer"],
+                          "colorbrewer",
+                          "categorical"],
             "origin" : "colorbrewer2",
             "parameter" : []
         },
@@ -13572,7 +13579,8 @@
             "colours" : [],
             "eccharts_style" : [],
             "keywords" : ["Set3",
-                          "colorbrewer"],
+                          "colorbrewer",
+                          "categorical"],
             "origin" : "colorbrewer2",
             "parameter" : []
         },
