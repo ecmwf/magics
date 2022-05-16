@@ -170,7 +170,8 @@ void ColourTechnique::visit(LegendVisitor& legend) {
         legend.add(new BoxEntry(min, max, box));
     }
 }
-PaletteColourTechnique::PaletteColourTechnique() {}
+PaletteColourTechnique::PaletteColourTechnique() {
+}
 
 PaletteColourTechnique::~PaletteColourTechnique() {}
 
@@ -183,33 +184,30 @@ PaletteColourTechnique::~PaletteColourTechnique() {}
 
 void PaletteColourTechnique::set(LevelSelection& out, LevelSelection& in, ColourTable& table, int nb)  {
     PaletteLibrary library;
-
-    vector<string> colours_;
-    string palette = palette_;
-    library.find(palette, colours_);
-
-    
+    vector<string> colours;
+    Palette palette;
+    string name = palette_;   
+    library.find(name, palette);
 
 
-    if (colours_.empty()) {
+    if (palette.colours_.empty()) {
         MagLog::warning() << "Could not load palette " << palette_ << ": using a default one " << endl;
-        colours_.push_back("blue");
-        colours_.push_back("green");
-        colours_.push_back("yellow");
-        colours_.push_back("orange");
-        colours_.push_back("red");
+        colours.push_back("blue");
+        colours.push_back("green");
+        colours.push_back("yellow");
+        colours.push_back("orange");
+        colours.push_back("red");
     }
 
-    if ( palette != palette_ ) {
+    if ( name != palette_ ) {
         list_policy_ = ColourListPolicy::DYNAMIC;
     }
 
     if ( reverse_ )
-        std::reverse(colours_.begin(), colours_.end()); 
-
+        std::reverse(palette.colours_.begin(), palette.colours_.end()); 
 
     ColourTableDefinitionCompute helper;
-    helper.set(colours_, table, nb, list_policy_);
+    helper.set(palette.colours_, table, nb, list_policy_, palette.method_);
 
 }
 

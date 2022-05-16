@@ -33,6 +33,8 @@ ColourTableDefinitionCompute::ColourTableDefinitionCompute():
     methods_["linear"] = &ColourTableDefinitionCompute::linear;
     methods_["rgb"]    = &ColourTableDefinitionCompute::linear;
     methods_["hcl"]    = &ColourTableDefinitionCompute::hcl;
+    dynamicMethods_["normal"]    = &ColourTableDefinitionCompute::dynamic_normal;
+    dynamicMethods_["divergent"] = &ColourTableDefinitionCompute::dynamic_divergent;
 }
 
 
@@ -45,6 +47,8 @@ ColourTableDefinitionCompute::ColourTableDefinitionCompute(const string& method,
     methods_["linear"] = &ColourTableDefinitionCompute::linear;
     methods_["rgb"]    = &ColourTableDefinitionCompute::linear;
     methods_["hcl"]    = &ColourTableDefinitionCompute::hcl;
+    dynamicMethods_["normal"]    = &ColourTableDefinitionCompute::dynamic_normal;
+    dynamicMethods_["divergent"] = &ColourTableDefinitionCompute::dynamic_divergent;
 }
 
 ColourTableDefinitionCompute::ColourTableDefinitionCompute(const string& min, const string& max, const string& method,
@@ -54,6 +58,8 @@ ColourTableDefinitionCompute::ColourTableDefinitionCompute(const string& min, co
     methods_["linear"] = &ColourTableDefinitionCompute::linear;
     methods_["rgb"]    = &ColourTableDefinitionCompute::linear;
     methods_["hcl"]    = &ColourTableDefinitionCompute::hcl;
+    dynamicMethods_["normal"]    = &ColourTableDefinitionCompute::dynamic_normal;
+    dynamicMethods_["divergent"] = &ColourTableDefinitionCompute::dynamic_divergent;
 }
 
 
@@ -291,14 +297,67 @@ void ColourTableDefinitionCompute::set(ColourTable& table, int nb) {
         hsl(table, nb);
     else
         (this->*method->second)(table, nb);
+    
+    
+}
+
+void ColourTableDefinitionCompute::dynamic_divergent(const stringarray& from, ColourTable& to, int nb)
+{
+    // Nb is the number of intervals!
+    // We need nb-1 colours!
+    stringarray left;
+    stringarray right;
+    string middle;
+    int count = from.size();
+    int nbcol = nb-1;
+
+
+    // cout << count << " " << count/2 << "-->nb col:" << nbcol << " " << nbcol/2 << endl;
+
+    if ( count  % 2 == 0) {
+        MagLog::warning() << "Can not create the palette " << endl;
+        dynamic_normal(from, to, nb);
+    }
+
+    for ( int i = 0; i < count/2; i++) 
+        left.push_back(from[i]);
+
+    // cout << "left->" << left.size() << endl;
+    
+    middle = from[count/2];
+
+    for (int i = (count/2)+1; i < count; i++)
+        right.push_back(from[i]);
+    
+    // cout << "right->" << right.size() << endl;
+
+    if ( nbcol % 2 == 0) {
+        dynamic_normal(left, to, (nbcol/2)+1);
+        // cout << "left " << to.size() << endl;
+        dynamic_normal(right, to, (nb/2)+1);
+        // cout << "right " << to.size() << endl;
+    }
+    else {
+        // cout << "Asking " << (nbcol/2) << " colours" << endl;
+        dynamic_normal(left, to, (nbcol/2)+1);
+        // cout << "left " << to.size() << endl;
+        to.push_pack(middle);
+        // cout << "middle " << to.size() << endl;
+        dynamic_normal(right, to, (nbcol/2)+1);
+        // cout << "right " << to.size() << endl;
+    }
+
+//    cout << "return " << to.size() << endl;
 
 }
 
-void ColourTableDefinitionCompute::dynamic(const stringarray& from, ColourTable& to, int nb)
+
+void ColourTableDefinitionCompute::dynamic_normal(const stringarray& from, ColourTable& to, int nb)
 {
-    stringarray::const_iterator colour = from.begin();
     // Nb is the number of intervals!
     // We need nb-1 colours!
+    stringarray::const_iterator colour = from.begin();
+    // Nb is the number of intervals!
     minColour_ = *colour;
     ++colour;
     int modulo = 0;
@@ -321,15 +380,27 @@ void ColourTableDefinitionCompute::dynamic(const stringarray& from, ColourTable&
         minColour_ = maxColour_;
         
     }
-    to.push_pack(from.back());
+    if ( to.size() < nb -1 ) 
+        to.push_pack(from.back());
 
+// cout << "return " << to.size() << endl;
 }
 
-void ColourTableDefinitionCompute::set(const stringarray& from, ColourTable& to, int nb, ColourListPolicy policy)
+void ColourTableDefinitionCompute::set(const stringarray& from, ColourTable& to, 
+        int nb, ColourListPolicy policy, const string& method)
 {
+   
     auto colour = from.begin();
     if (policy == ColourListPolicy::DYNAMIC) {
-        dynamic(from, to, nb);
+        auto helper = dynamicMethods_.find(method);
+        if ( helper != dynamicMethods_.end() )
+            (this->*helper->second)(from, to , nb);
+        else {
+            MagLog::warning() << "Method [" << method_ << "] not found , revertingto default" << endl;
+            dynamic_normal(from, to , nb);
+        }
+            
+        
         return;
     }
     

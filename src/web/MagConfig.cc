@@ -222,6 +222,10 @@ void Palette::values(const Value& value) {
     }
 }
 
+void Palette::method(const Value& value) {
+   cout << "Palette::method" << endl;
+}
+
 void Palette::deprecated(const Value& value) {
     ValueList values = value.get_value<ValueList>();
 
@@ -237,14 +241,28 @@ void Palette::deprecatedReverse(const Value& value) {
     }
 }
 
-void Palette::tags(const Value& value) {}
+void Palette::tags(const Value& value) {
+    ValueMap object = value.get_value<ValueMap>();
+    auto keywords = object.find("keywords");
+    if ( keywords != object.end() ) {
+        ValueList values = keywords->second.get_value<ValueList>();
+        for (unsigned int i = 0; i < values.size(); i++) {
+            string method = MagConfig::convert(values[i]);
+            if (method == "diverging")
+                method_ = "divergent";
+    }
+    }
+}
 
 void Palette::set(const ValueMap& object) {
+    method_ = "normal";
     if (methods_.empty()) {
         methods_["contour_shade_colour_list"] = &Palette::values;
         methods_["tags"]                      = &Palette::tags;
         methods_["deprecated"]                = &Palette::deprecated;
         methods_["deprecated_reversed"]       = &Palette::deprecatedReverse;
+        methods_["method"]       = &Palette::method;
+        methods_["keywords"]       = &Palette::method;
     }
     for (auto entry = object.begin(); entry != object.end(); ++entry) {
         map<string, SetMethod>::iterator method = methods_.find(entry->first);
@@ -520,13 +538,14 @@ void MagDefLibrary::callback(const string& name, const Value& value) {
 
     library_.insert(make_pair(name, def));
 }
-bool PaletteLibrary::find(string& name, Palette::Definition& colours) {
+bool PaletteLibrary::find(string& name, Palette& out) {
     map<string, Palette>::iterator palette = library_.find(name);
 
     if (palette != library_.end()) {
-        colours = palette->second.colours_;
+        out = palette->second;
         return true;
     }
+
     
     for ( auto p = library_.begin(); p != library_.end(); ++p) {
         auto palette = p->second;
@@ -534,7 +553,7 @@ bool PaletteLibrary::find(string& name, Palette::Definition& colours) {
         auto deprecated = std::find(palette.deprecated_.begin(), palette.deprecated_.end(), name);
 
         if ( deprecated != palette.deprecated_.end() ) {
-            colours = palette.colours_;
+            out = palette;
             MagLog::warning() << "The palette " << name << " is deprecated, using " << p->first << " instead" << endl;
             MagLog::warning() << "Please update your code " << endl;
             MagLog::warning() << "contour_shade_palette_name = '" << p->first << "'" << endl;
@@ -546,8 +565,8 @@ bool PaletteLibrary::find(string& name, Palette::Definition& colours) {
         auto deprecatedreverse = std::find(palette.deprecatedReverse_.begin(), palette.deprecatedReverse_.end(), name);
 
         if ( deprecatedreverse != palette.deprecatedReverse_.end() ) {
-            colours = palette.colours_;
-            reverse(colours.begin(), colours.end());
+            out = palette;
+            reverse(out.colours_.begin(), out.colours_.end());
             MagLog::warning() << "The reverse palette " << name << " is deprecated, using " << p->first << " instead" << endl;
             MagLog::warning() << "Please update your code " << endl;
             MagLog::warning() << "contour_shade_palette_name = '" << p->first << "'" << endl;
