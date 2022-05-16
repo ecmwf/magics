@@ -312,7 +312,7 @@ void ColourTableDefinitionCompute::dynamic_divergent(const stringarray& from, Co
     int nbcol = nb-1;
 
 
-    // cout << count << " " << count/2 << "-->nb col:" << nbcol << " " << nbcol/2 << endl;
+    // cout  << " dynamic_divergent " << count/2 << "-->nb col:" << nbcol << " " << nbcol/2 << endl;
 
     if ( count  % 2 == 0) {
         MagLog::warning() << "Can not create the palette " << endl;
@@ -322,32 +322,33 @@ void ColourTableDefinitionCompute::dynamic_divergent(const stringarray& from, Co
     for ( int i = 0; i < count/2; i++) 
         left.push_back(from[i]);
 
-    // cout << "left->" << left.size() << endl;
+    // cout << "left colours->" << left.size() << endl;
     
     middle = from[count/2];
 
     for (int i = (count/2)+1; i < count; i++)
         right.push_back(from[i]);
     
-    // cout << "right->" << right.size() << endl;
-
+    // cout << "right colours->" << right.size() << endl;
+    // cout << "Asking " << (nbcol/2) << " colours" << endl;
     if ( nbcol % 2 == 0) {
         dynamic_normal(left, to, (nbcol/2)+1);
-        // cout << "left " << to.size() << endl;
+        // cout << "after left " << to.size() << endl;
         dynamic_normal(right, to, (nb/2)+1);
-        // cout << "right " << to.size() << endl;
+    //     cout << "after right " << to.size() << endl;
+    // 
     }
     else {
-        // cout << "Asking " << (nbcol/2) << " colours" << endl;
+        
         dynamic_normal(left, to, (nbcol/2)+1);
-        // cout << "left " << to.size() << endl;
+        // cout << "after left " << to.size() << endl;
         to.push_pack(middle);
         // cout << "middle " << to.size() << endl;
         dynamic_normal(right, to, (nbcol/2)+1);
-        // cout << "right " << to.size() << endl;
+        // cout << "after right " << to.size() << endl;
     }
 
-//    cout << "return " << to.size() << endl;
+//   cout << "return " << to.size() << endl;
 
 }
 
@@ -356,6 +357,7 @@ void ColourTableDefinitionCompute::dynamic_normal(const stringarray& from, Colou
 {
     // Nb is the number of intervals!
     // We need nb-1 colours!
+    // cout << "dynamic_normal--> " << nb-1 << " colours" << endl;
     stringarray::const_iterator colour = from.begin();
     // Nb is the number of intervals!
     minColour_ = *colour;
@@ -369,10 +371,12 @@ void ColourTableDefinitionCompute::dynamic_normal(const stringarray& from, Colou
         ColourTable workingtable;
         set(workingtable, nbcols);
 
-        count += workingtable.size()-1;
+        
         for (int i = 0; i < workingtable.size()-1; ++i) {
-            if ( !modulo ) 
+            if ( !modulo ) {
                 to.push_back(workingtable[i]);
+                count++;
+            }
             modulo++;
             if ( modulo ==   from.size() )
                 modulo = 0;
@@ -380,7 +384,7 @@ void ColourTableDefinitionCompute::dynamic_normal(const stringarray& from, Colou
         minColour_ = maxColour_;
         
     }
-    if ( to.size() < nb -1 ) 
+    if ( count < nb -1 ) 
         to.push_pack(from.back());
 
 // cout << "return " << to.size() << endl;
