@@ -128,6 +128,7 @@ class ObjectHandler(ContentHandler):
                 "Justification",
                 "AxisAutomaticSetting",
                 "ListPolicy",
+                "ColourListPolicy",
                 "Position",
                 "Hemisphere",
                 "DisplayType",

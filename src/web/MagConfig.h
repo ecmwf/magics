@@ -189,11 +189,17 @@ struct Palette {
 
     void values(const Value&);
     void tags(const Value&);
+    void deprecated(const Value&);
+    void deprecatedReverse(const Value&);
+    void method(const Value&);
 
 
     Definition colours_;
     Definition tags_;
+    Definition deprecated_;
+    Definition deprecatedReverse_;
     string name_;
+    string method_;
     void set(const ValueMap&);
 };
 
@@ -210,15 +216,8 @@ public:
 
     map<string, Palette> library_;
 
-    bool find(const string& name, Palette::Definition& colours) {
-        map<string, Palette>::iterator palette = library_.find(name);
-
-        if (palette != library_.end()) {
-            colours = palette->second.colours_;
-            return true;
-        }
-        return false;
-    }
+    bool find(string& name, Palette& palette);
+    
 };
 
 class NetcdfGuess : public MagConfig {

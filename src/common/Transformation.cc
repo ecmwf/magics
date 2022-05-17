@@ -59,6 +59,7 @@ void Transformation::forceNewArea(double xpcmin, double ypmin, double xpcmax, do
 void Transformation::fill(double& width, double& height) {
     init();
 
+
     // with and height will only
     double w = getAbsoluteMaxPCX() - getAbsoluteMinPCX();
     double h = getAbsoluteMaxPCY() - getAbsoluteMinPCY();
@@ -68,6 +69,17 @@ void Transformation::fill(double& width, double& height) {
 
     double miny = getAbsoluteMinPCY();
     double maxy = getAbsoluteMaxPCY();
+
+    PRINT("initfill", minx);
+    PRINT("initfill", miny);
+    PRINT("initfill", maxx);
+    PRINT("initfill", maxy);
+    PRINT("initfill", w);
+     PRINT("initfill", h);
+     PRINT("initfill", width);
+     PRINT("initfill", height);
+    
+
 
     double nw = (width / height) * h;
     if (nw > w) {

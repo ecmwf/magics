@@ -21,18 +21,29 @@
 
 
 #include "ListColourTechnique.h"
-#include "ColourTableDefinitionList.h"
+#include "ColourTableDefinitionCompute.h"
 #include "LevelSelection.h"
 
 using namespace magics;
 
 ListColourTechnique::ListColourTechnique() {}
 
-void ListColourTechnique::set(LevelSelection&, LevelSelection&, ColourTable& table, int nb) const {
-    ColourTableDefinitionList helper;
-    // policy = table.getPolicy();
-    helper.set(*this);
-    helper.set(table, nb);
+void ListColourTechnique::set(LevelSelection&, LevelSelection&, ColourTable& table, int nb) {
+    ColourTableDefinitionCompute helper;
+    if (colours_.empty()) {
+        MagLog::warning() << "Colour Table Definition: No colour defined\n";
+    
+        vector<string> colours = { "blue", "green","yellow", "orange", "red" };
+        helper.set(colours, table, nb, list_policy_);
+
+        return;
+    }
+    if ( reverse_ )
+        std::reverse(colours_.begin(),colours_.end());
+
+
+    
+    helper.set(colours_, table, nb, list_policy_);
 }
 
 
@@ -47,6 +58,5 @@ void ListColourTechnique::print(ostream& out) const {
 }
 
 void ListColourTechnique::set(const ColourTechniqueInterface& attributes) {
-    values_ = attributes.getColours();
-    policy_ = attributes.getPolicy();
+    colours_ = attributes.getColours();
 }

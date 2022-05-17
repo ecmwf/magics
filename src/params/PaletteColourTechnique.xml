@@ -15,17 +15,27 @@ does it submit to any jurisdiction.
     action="pcont">
     <parameter member="palette"
       to="string"
-      default=""
+      default="ecmwf"
       from="string"
       name="contour_shade_palette_name">
-      <documentation>Colour used at the stops : the gradient will be calculated between 2 consecutive ones.</documentation>
+      <documentation>Name of the palette.</documentation>
     </parameter>
+
     <parameter from="string"
-      name="contour_shade_palette_policy"
-      default="lastone"
-      member="palette_policy"
-      to="ListPolicy">
-      <documentation>What to do if the list of colours is smaller that the list of levels: lastone/cycle</documentation>
+      name="contour_shade_colour_reverse_list"
+      default="off"
+      member="reverse"
+      to="bool">
+      <documentation> If true, we will reverse the order of the list of colours </documentation>
     </parameter>
+
+     <parameter from="string"
+      name="contour_shade_colour_list_policy"
+      default="lastone"
+      member="list_policy"
+      to="ColourListPolicy">
+      <documentation> What to do if the list of colours is smaller that the list of levels: lastone/cycle </documentation>
+    </parameter>
+    
   </class>
 </magics>

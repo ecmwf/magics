@@ -150,6 +150,8 @@ public:
         NetcdfInterpretor::copy(*this);
     }
     virtual void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&);
+    virtual void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, int);
+
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).

@@ -387,6 +387,16 @@ public:
     }
 };
 template <>
+class MagTranslator<string, magics::ColourListPolicy> {
+public:
+    magics::ColourListPolicy operator()(const string& s) { return BaseParameter::colourListPolicy(lowerCase(s)); }
+    magics::ColourListPolicy magics(const string& param) {
+        string from;
+        ParameterManager::get(param, from);
+        return (*this)(from);
+    }
+};
+template <>
 class MagTranslator<string, magics::AxisAutomaticSetting> {
 public:
     magics::AxisAutomaticSetting operator()(const string& s) {

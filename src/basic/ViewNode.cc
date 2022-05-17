@@ -372,6 +372,7 @@ void XmlViewNode::getReady() {
     double h2 = 100;
 
     // Fitted can be: expand/tiling/crop/off
+    viewTransformation_->setOutputDimension(waa, haa);
 
     if (fitted_ == "expand") {
         viewTransformation_->fill(waa, haa);
@@ -546,7 +547,7 @@ void FortranViewNode::getReady() {
 
     MagLog::dev() << "[" << abswidth << ", " << absheight << "]" << endl;
     MagLog::dev() << "[" << width << ", " << height << "]" << endl;
-
+    viewTransformation_->setOutputDimension(abswidth, absheight);
     if (FortranViewNodeAttributes::expand_)
         viewTransformation_->fill(abswidth, absheight);
     else 

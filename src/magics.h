@@ -282,6 +282,15 @@ enum class ListPolicy
 
 std::ostream& operator<<(ostream& s, ListPolicy);
 
+enum class ColourListPolicy
+{
+    LASTONE,
+    CYCLE,
+    DYNAMIC
+};
+
+std::ostream& operator<<(ostream& s, ColourListPolicy);
+
 enum class GraphicsFormat
 {
     PS,

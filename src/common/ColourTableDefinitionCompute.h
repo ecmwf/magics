@@ -32,7 +32,7 @@ namespace magics {
 class ColourTableDefinitionCompute : public ColourTableDefinition {
 public:
     ColourTableDefinitionCompute();
-
+    ColourTableDefinitionCompute(const string& method, const string& direction);
     ColourTableDefinitionCompute(const string& min, const string& max, const string& method, const string& direction);
     virtual ~ColourTableDefinitionCompute() override;
     void set(const ColourTableDefinitionComputeInterface&);
@@ -46,15 +46,20 @@ public:
     }
     void set(ColourTable&, int) override;
 
-    typedef void (ColourTableDefinitionCompute::*ComputeFunction)(ColourTable&, int);
+    void set(const stringarray&, ColourTable&, int, ColourListPolicy, const string& method="normal");
 
+    typedef void (ColourTableDefinitionCompute::*ComputeFunction)(ColourTable&, int);
+    typedef void (ColourTableDefinitionCompute::*DynamicFunction)(const stringarray& from, ColourTable& to, int nb);
     map<string, ComputeFunction> methods_;
+    map<string, DynamicFunction> dynamicMethods_;
 
     void hsl(ColourTable&, int);
     void hcl(ColourTable&, int);
     void linear(ColourTable&, int);
     void hsl_shortest(ColourTable&, int);
     void hsl_longest(ColourTable&, int);
+
+
 
 
 protected:
@@ -65,11 +70,16 @@ protected:
     string direction_;
     string method_;
     void hcl(const Colour& colour, float& h, float& c, float& l);
+
     Colour rgb(float h, float c, float l, float alpha);
     void xyzToRgb(float, float, float, float&, float&, float&);
     void xyzToHcl(float, float, float, float&, float&, float&);
     void hclToXyz(float, float, float, float&, float&, float&);
     void rgbToXyz(float, float, float, float&, float&, float&);
+
+    void dynamic_normal(const stringarray& from, ColourTable& to, int nb);
+    void dynamic_divergent(const stringarray& from, ColourTable& to, int nb);
+
 
 
 private:

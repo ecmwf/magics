@@ -309,6 +309,11 @@ public:
     double distance(const UserPoint&, const UserPoint&) const;
     string name() const { return name_; }
 
+    void setOutputDimension(double width, double height) { 
+        outputWidth_ = width; 
+        outputHeight_ = height;
+    }
+
 protected:
     virtual void print(ostream&) const;
 
@@ -354,6 +359,9 @@ protected:
     int zoomLevel_;
     double unit_;
     double unitEpsilon_;
+
+    double outputWidth_;
+    double outputHeight_;
 
 private:
     // No copy allowed

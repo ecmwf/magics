@@ -226,7 +226,7 @@ void MetaDataVisitor::collect() {
 void StyleEntry::print(ostream& s) const {
     StyleLibrary styles = *WebLibrary::styles_;
 
-    s << "{\"styles\": [ " << endl;
+    s << "\"styles\": [ " << endl;
     string sep = "    ";
     for (auto style = styles_.begin(); style != styles_.end(); ++style) {
         string description = styles.getAttribute(*style, "contour_description", "description to come");
@@ -242,6 +242,12 @@ void StyleEntry::print(ostream& s) const {
         s << sep << "}";
         sep = ",\n    ";
     }
-    s << " 	  ]" << endl;
+    s << " 	  ]," << endl;
+    s << "\"matching-criteria\": {" << endl;
+    sep = "       ";
+    for (auto match = matching_criteria_.begin(); match != matching_criteria_.end(); ++match) {
+        s << sep << "\"" << match->first << "\":\"" << match->second << "\"";
+        sep = ",\n      ";
+    }
     s << "  }" << endl;
 }

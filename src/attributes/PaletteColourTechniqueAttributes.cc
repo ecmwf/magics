@@ -25,9 +25,10 @@
 using namespace magics;
 
 PaletteColourTechniqueAttributes::PaletteColourTechniqueAttributes():
-	palette_(ParameterManager::getString("contour_shade_palette_name"))
+	palette_(ParameterManager::getString("contour_shade_palette_name")),
+	reverse_(ParameterManager::getBool("contour_shade_colour_reverse_list"))
 	,
-	palette_policy_(MagTranslator<string, ListPolicy>().magics("contour_shade_palette_policy"))
+	list_policy_(MagTranslator<string, ColourListPolicy>().magics("contour_shade_colour_list_policy"))
 	
 {
 }
@@ -46,15 +47,17 @@ void PaletteColourTechniqueAttributes::set(const std::map<string, string>& param
 	prefix[i++] = "";
 	
 	setAttribute(prefix, "contour_shade_palette_name", palette_, params);
+	setAttribute(prefix, "contour_shade_colour_reverse_list", reverse_, params);
 	
-	setAttribute(prefix, "contour_shade_palette_policy", palette_policy_, params);
+	setAttribute(prefix, "contour_shade_colour_list_policy", list_policy_, params);
 	
 }
 
 void PaletteColourTechniqueAttributes::copy(const PaletteColourTechniqueAttributes& other)
 {
 	palette_ = other.palette_;
-	palette_policy_ = other.palette_policy_;
+	reverse_ = other.reverse_;
+	list_policy_ = other.list_policy_;
 	
 }
 
@@ -94,7 +97,8 @@ void PaletteColourTechniqueAttributes::print(ostream& out)  const
 {
 	out << "Attributes[";
 	out << " palette = " <<  palette_;
-	out << " palette_policy = " <<  palette_policy_;
+	out << " reverse = " <<  reverse_;
+	out << " list_policy = " <<  list_policy_;
 	
 	out << "]" << "\n";
 }
@@ -104,10 +108,13 @@ void PaletteColourTechniqueAttributes::toxml(ostream& out)  const
 	out <<  "\"\"";
 	out << ", \"contour_shade_palette_name\":";
 	niceprint(out,palette_);
-	out << ", \"contour_shade_palette_policy\":";
-	niceprint(out, palette_policy_);
+	out << ", \"contour_shade_colour_reverse_list\":";
+	niceprint(out,reverse_);
+	out << ", \"contour_shade_colour_list_policy\":";
+	niceprint(out, list_policy_);
 	
 }
 
-static MagicsParameter<string> contour_shade_palette_name("contour_shade_palette_name", "");
-static MagicsParameter<string> contour_shade_palette_policy("contour_shade_palette_policy", "lastone");
+static MagicsParameter<string> contour_shade_palette_name("contour_shade_palette_name", "ecmwf");
+static MagicsParameter<string> contour_shade_colour_reverse_list("contour_shade_colour_reverse_list", "off");
+static MagicsParameter<string> contour_shade_colour_list_policy("contour_shade_colour_list_policy", "lastone");

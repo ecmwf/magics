@@ -42,9 +42,8 @@ public:
         return object;
     }
 
-    virtual void set(LevelSelection&, LevelSelection&, ColourTable&, int) const override;
+    virtual void set(LevelSelection&, LevelSelection&, ColourTable&, int)  override;
     void set(const ColourTechniqueInterface&) override;
-    stringarray getValues() const override { return values_; }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).

@@ -114,11 +114,16 @@ static MagLogObserver MYLOG;
 
 inline bool setMsg(const string& name, bool def) {
     string value = getEnvVariable(name);
-    // value = lowerCase(value);
-    if (value == "no" || value == "off" || value == "false")
+    
+    
+    if (value == "no" || value == "off" || value == "false") {
+        cout << name << " is OFF" << endl;
         return false;
-    if (value == "yes" || value == "on" || value == "true")
+    }
+    if (value == "yes" || value == "on" || value == "true") {
+        cout << "" << name << " is ON" << endl;
         return true;
+    }
 
     return def;
 }
@@ -264,8 +269,12 @@ ostream& MagLog::error() {
 
 ostream& MagLog::debug() {
     broadcast();
-    log_.debugstream_ << "Magics-debug: ";
-    return log_.debugstream_;
+    
+    if (log_.debug_) {
+        cout << "Magics-debug:";
+        return cout;
+    }
+    return log_.devnull_;
 }
 
 ostream& MagLog::profile() {
@@ -279,8 +288,11 @@ ostream& MagLog::profile() {
 
 ostream& MagLog::dev() {
     broadcast();
-    log_.debugstream_ << "Magics-dev: ";
-    return log_.debugstream_;
+    if (log_.dev_) {
+        cout << "Magics-dev:";
+        return cout;
+    }
+    return log_.devnull_;
 }
 
 ostream& MagLog::info() {

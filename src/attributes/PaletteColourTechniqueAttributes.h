@@ -51,7 +51,8 @@ public:
 	//  --  members:
 	string tag_;
 	string palette_;
-	ListPolicy palette_policy_;
+	bool reverse_;
+	ColourListPolicy list_policy_;
 	 
 
 private:

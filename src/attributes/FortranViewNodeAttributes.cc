@@ -47,7 +47,8 @@ FortranViewNodeAttributes::FortranViewNodeAttributes():
 	vertical_(ParameterManager::getString("subpage_align_vertical")),
 	json_(ParameterManager::getString("subpage_map_json_definition")),
 	title_(ParameterManager::getBool("automatic_title")),
-	expand_(ParameterManager::getBool("subpage_expand_mode")),
+	expand_(ParameterManager::getBool("subpage_expand_mode"))
+	,
 	transformation_(MagTranslator<string, Transformation>().magics("subpage_map_projection")),
 	background_(MagTranslator<string, Colour>().magics("subpage_background_colour")),
 	frame_colour_(MagTranslator<string, Colour>().magics("subpage_frame_colour")),
@@ -96,6 +97,7 @@ void FortranViewNodeAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "subpage_map_json_definition", json_, params);
 	setAttribute(prefix, "automatic_title", title_, params);
 	setAttribute(prefix, "subpage_expand_mode", expand_, params);
+	
 	setMember(prefix, "subpage_map_projection", transformation_, params);
 	setMember(prefix, "subpage_background_colour", background_, params);
 	setMember(prefix, "subpage_frame_colour", frame_colour_, params);
@@ -336,6 +338,7 @@ static SimpleObjectMaker<Proj4EPSG900913 , Transformation> EPSG_900913_Proj4EPSG
 static SimpleObjectMaker<Proj4EPSG32661 , Transformation> EPSG_32661_Proj4EPSG32661("EPSG:32661");
 static SimpleObjectMaker<Proj4EPSG32761 , Transformation> EPSG_32761_Proj4EPSG32761("EPSG:32761");
 static SimpleObjectMaker<Proj4EPSG4326 , Transformation> EPSG_4326_Proj4EPSG4326("EPSG:4326");
+static SimpleObjectMaker<Proj4EPSG3035 , Transformation> EPSG_3035_Proj4EPSG3035("EPSG:3035");
 static SimpleObjectMaker<Proj4Goode , Transformation> goode_Proj4Goode("goode");
 static SimpleObjectMaker<Proj4Collignon , Transformation> collignon_Proj4Collignon("collignon");
 static SimpleObjectMaker<Proj4Mollweide , Transformation> mollweide_Proj4Mollweide("mollweide");

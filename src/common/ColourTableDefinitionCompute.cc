@@ -24,11 +24,31 @@
 #include "XmlNode.h"
 
 using namespace magics;
+ColourTableDefinitionCompute::ColourTableDefinitionCompute(): 
+    direction_("clockwise"), method_("rgb") {
+     methods_["anti_clockwise"] = &ColourTableDefinitionCompute::hsl;
+    methods_["clockwise"]      = &ColourTableDefinitionCompute::hsl;
+    methods_["linear"]         = &ColourTableDefinitionCompute::linear;
+    methods_["hsl"]    = &ColourTableDefinitionCompute::hsl;
+    methods_["linear"] = &ColourTableDefinitionCompute::linear;
+    methods_["rgb"]    = &ColourTableDefinitionCompute::linear;
+    methods_["hcl"]    = &ColourTableDefinitionCompute::hcl;
+    dynamicMethods_["normal"]    = &ColourTableDefinitionCompute::dynamic_normal;
+    dynamicMethods_["divergent"] = &ColourTableDefinitionCompute::dynamic_divergent;
+}
 
-ColourTableDefinitionCompute::ColourTableDefinitionCompute() {
+
+ColourTableDefinitionCompute::ColourTableDefinitionCompute(const string& method, const string& direction): 
+    direction_(direction), method_(method) {
     methods_["anti_clockwise"] = &ColourTableDefinitionCompute::hsl;
     methods_["clockwise"]      = &ColourTableDefinitionCompute::hsl;
     methods_["linear"]         = &ColourTableDefinitionCompute::linear;
+    methods_["hsl"]    = &ColourTableDefinitionCompute::hsl;
+    methods_["linear"] = &ColourTableDefinitionCompute::linear;
+    methods_["rgb"]    = &ColourTableDefinitionCompute::linear;
+    methods_["hcl"]    = &ColourTableDefinitionCompute::hcl;
+    dynamicMethods_["normal"]    = &ColourTableDefinitionCompute::dynamic_normal;
+    dynamicMethods_["divergent"] = &ColourTableDefinitionCompute::dynamic_divergent;
 }
 
 ColourTableDefinitionCompute::ColourTableDefinitionCompute(const string& min, const string& max, const string& method,
@@ -38,6 +58,8 @@ ColourTableDefinitionCompute::ColourTableDefinitionCompute(const string& min, co
     methods_["linear"] = &ColourTableDefinitionCompute::linear;
     methods_["rgb"]    = &ColourTableDefinitionCompute::linear;
     methods_["hcl"]    = &ColourTableDefinitionCompute::hcl;
+    dynamicMethods_["normal"]    = &ColourTableDefinitionCompute::dynamic_normal;
+    dynamicMethods_["divergent"] = &ColourTableDefinitionCompute::dynamic_divergent;
 }
 
 
@@ -55,6 +77,7 @@ void ColourTableDefinitionCompute::set(const ColourTableDefinitionComputeInterfa
     minColour_ = attributes.getMin();
     maxColour_ = attributes.getMax();
     direction_ = attributes.getDirection();
+    method_ = "hsl";
 }
 
 void ColourTableDefinitionCompute::set(const XmlNode& node) {
@@ -274,6 +297,136 @@ void ColourTableDefinitionCompute::set(ColourTable& table, int nb) {
         hsl(table, nb);
     else
         (this->*method->second)(table, nb);
+    
+    
+}
+
+void ColourTableDefinitionCompute::dynamic_divergent(const stringarray& from, ColourTable& to, int nb)
+{
+    // Nb is the number of intervals!
+    // We need nb-1 colours!
+    stringarray left;
+    stringarray right;
+    string middle;
+    int count = from.size();
+    int nbcol = nb-1;
+
+
+    // cout  << " dynamic_divergent " << count/2 << "-->nb col:" << nbcol << " " << nbcol/2 << endl;
+
+    if ( count  % 2 == 0) {
+        MagLog::warning() << "Can not create the palette " << endl;
+        dynamic_normal(from, to, nb);
+    }
+
+    for ( int i = 0; i < count/2; i++) 
+        left.push_back(from[i]);
+
+    // cout << "left colours->" << left.size() << endl;
+    
+    middle = from[count/2];
+
+    for (int i = (count/2)+1; i < count; i++)
+        right.push_back(from[i]);
+    
+    // cout << "right colours->" << right.size() << endl;
+    // cout << "Asking " << (nbcol/2) << " colours" << endl;
+    if ( nbcol % 2 == 0) {
+        dynamic_normal(left, to, (nbcol/2)+1);
+        // cout << "after left " << to.size() << endl;
+        dynamic_normal(right, to, (nb/2)+1);
+    //     cout << "after right " << to.size() << endl;
+    // 
+    }
+    else {
+        
+        dynamic_normal(left, to, (nbcol/2)+1);
+        // cout << "after left " << to.size() << endl;
+        to.push_pack(middle);
+        // cout << "middle " << to.size() << endl;
+        dynamic_normal(right, to, (nbcol/2)+1);
+        // cout << "after right " << to.size() << endl;
+    }
+
+//   cout << "return " << to.size() << endl;
+
+}
+
+
+void ColourTableDefinitionCompute::dynamic_normal(const stringarray& from, ColourTable& to, int nb)
+{
+    // Nb is the number of intervals!
+    // We need nb-1 colours!
+    // cout << "dynamic_normal--> " << nb-1 << " colours" << endl;
+    stringarray::const_iterator colour = from.begin();
+    // Nb is the number of intervals!
+    minColour_ = *colour;
+    ++colour;
+    int modulo = 0;
+    int count = 0;
+    int nbcols = (((nb-1)*from.size())/(from.size()-1)) + 1;
+    for ( auto c = colour; c != from.end(); ++c) {
+        maxColour_ = *c;
+       
+        ColourTable workingtable;
+        set(workingtable, nbcols);
+
+        
+        for (int i = 0; i < workingtable.size()-1; ++i) {
+            if ( !modulo ) {
+                to.push_back(workingtable[i]);
+                count++;
+            }
+            modulo++;
+            if ( modulo ==   from.size() )
+                modulo = 0;
+        }
+        minColour_ = maxColour_;
+        
+    }
+    if ( count < nb -1 ) 
+        to.push_pack(from.back());
+
+// cout << "return " << to.size() << endl;
+}
+
+void ColourTableDefinitionCompute::set(const stringarray& from, ColourTable& to, 
+        int nb, ColourListPolicy policy, const string& method)
+{
+   
+    auto colour = from.begin();
+    if (policy == ColourListPolicy::DYNAMIC) {
+        auto helper = dynamicMethods_.find(method);
+        if ( helper != dynamicMethods_.end() )
+            (this->*helper->second)(from, to , nb);
+        else {
+            MagLog::warning() << "Method [" << method_ << "] not found , revertingto default" << endl;
+            dynamic_normal(from, to , nb);
+        }
+            
+        
+        return;
+    }
+    
+    for (int i = 0; i < nb - 1; i++) {
+        if (colour == from.end()) {
+            if (policy == ColourListPolicy::LASTONE) {
+                to.push_back(Colour(from.back()));
+            }
+            else {
+                colour = from.begin();
+                to.push_back(Colour(*colour));
+                colour++;
+            }
+        }
+        else {
+            to.push_back(Colour(*colour));
+            colour++;
+        }
+    }
+    
+
+
 }
 
 

@@ -170,46 +170,45 @@ void ColourTechnique::visit(LegendVisitor& legend) {
         legend.add(new BoxEntry(min, max, box));
     }
 }
-PaletteColourTechnique::PaletteColourTechnique() {}
+PaletteColourTechnique::PaletteColourTechnique() {
+}
 
 PaletteColourTechnique::~PaletteColourTechnique() {}
 
+#include "ColourTableDefinitionCompute.h"
 
-void PaletteColourTechnique::set(LevelSelection& out, LevelSelection& in, ColourTable& table, int nb) const {
+// technique_ -> rgb/hcl/hsl
+// technique_direction_ -> clockwise/anti_clockwise/shortest/longest
+
+
+
+void PaletteColourTechnique::set(LevelSelection& out, LevelSelection& in, ColourTable& table, int nb)  {
     PaletteLibrary library;
     vector<string> colours;
+    Palette palette;
+    string name = palette_;   
+    library.find(name, palette);
 
-    vector<string> colours_;
-    library.find(palette_, colours_);
 
-    if (colours_.empty()) {
+    if (palette.colours_.empty()) {
         MagLog::warning() << "Could not load palette " << palette_ << ": using a default one " << endl;
-        colours_.push_back("blue");
-        colours_.push_back("green");
-        colours_.push_back("yellow");
-        colours_.push_back("orange");
-        colours_.push_back("red");
+        colours.push_back("blue");
+        colours.push_back("green");
+        colours.push_back("yellow");
+        colours.push_back("orange");
+        colours.push_back("red");
     }
 
-    stringarray::const_iterator colour = colours_.begin();
-    // Nb is the number of intervals!
-    // We need nb-1 colours!
-    for (int i = 0; i < nb - 1; i++) {
-        if (colour == colours_.end()) {
-            if (palette_policy_ == ListPolicy::LASTONE) {
-                table.push_back(Colour(colours_.back()));
-            }
-            else {
-                colour = colours_.begin();
-                table.push_back(Colour(*colour));
-                colour++;
-            }
-        }
-        else {
-            table.push_back(Colour(*colour));
-            colour++;
-        }
+    if ( name != palette_ ) {
+        list_policy_ = ColourListPolicy::DYNAMIC;
     }
+
+    if ( reverse_ )
+        std::reverse(palette.colours_.begin(), palette.colours_.end()); 
+
+    ColourTableDefinitionCompute helper;
+    helper.set(palette.colours_, table, nb, list_policy_, palette.method_);
+
 }
 
 
