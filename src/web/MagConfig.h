@@ -191,6 +191,7 @@ struct Palette {
     void tags(const Value&);
     void deprecated(const Value&);
     void deprecatedReverse(const Value&);
+    void method(const Value&);
 
 
     Definition colours_;
@@ -198,6 +199,7 @@ struct Palette {
     Definition deprecated_;
     Definition deprecatedReverse_;
     string name_;
+    string method_;
     void set(const ValueMap&);
 };
 
@@ -214,7 +216,7 @@ public:
 
     map<string, Palette> library_;
 
-    bool find(string& name, Palette::Definition& colours);
+    bool find(string& name, Palette& palette);
     
 };
 

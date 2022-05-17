@@ -46,17 +46,20 @@ public:
     }
     void set(ColourTable&, int) override;
 
-    void set(const stringarray&, ColourTable&, int, ColourListPolicy);
+    void set(const stringarray&, ColourTable&, int, ColourListPolicy, const string& method="normal");
 
     typedef void (ColourTableDefinitionCompute::*ComputeFunction)(ColourTable&, int);
-
+    typedef void (ColourTableDefinitionCompute::*DynamicFunction)(const stringarray& from, ColourTable& to, int nb);
     map<string, ComputeFunction> methods_;
+    map<string, DynamicFunction> dynamicMethods_;
 
     void hsl(ColourTable&, int);
     void hcl(ColourTable&, int);
     void linear(ColourTable&, int);
     void hsl_shortest(ColourTable&, int);
     void hsl_longest(ColourTable&, int);
+
+
 
 
 protected:
@@ -74,7 +77,9 @@ protected:
     void hclToXyz(float, float, float, float&, float&, float&);
     void rgbToXyz(float, float, float, float&, float&, float&);
 
-    void dynamic(const stringarray& from, ColourTable& to, int nb);
+    void dynamic_normal(const stringarray& from, ColourTable& to, int nb);
+    void dynamic_divergent(const stringarray& from, ColourTable& to, int nb);
+
 
 
 private:
