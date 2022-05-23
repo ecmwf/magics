@@ -641,7 +641,7 @@ const char* FortranMagics::metainput() {
     StyleEntry style;
     library->getStyle(request, attributes, style);
     ostringstream out;
-    out << style;
+    out << "{" << style << "}";
     static string temp;
     temp = out.str();
     return temp.c_str();
