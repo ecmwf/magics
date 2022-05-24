@@ -59,6 +59,18 @@ void GribDecoderWrapper::set(const MagRequest& request)
 		string file_name_value = request("GRIB_INPUT_FILE_NAME");
 		gribdecoder_->file_name_ = file_name_value;
 		}
+	if  (request.countValues("GRIB_FIRST_COMPONENT_FILE_NAME") ) {
+		string first_file_name_value = request("GRIB_FIRST_COMPONENT_FILE_NAME");
+		gribdecoder_->first_file_name_ = first_file_name_value;
+		}
+	if  (request.countValues("GRIB_COLOUR_COMPONENT_FILE_NAME") ) {
+		string colour_file_name_value = request("GRIB_COLOUR_COMPONENT_FILE_NAME");
+		gribdecoder_->colour_file_name_ = colour_file_name_value;
+		}
+	if  (request.countValues("GRIB_SECOND_COMPONENT_FILE_NAME") ) {
+		string second_file_name_value = request("GRIB_SECOND_COMPONENT_FILE_NAME");
+		gribdecoder_->second_file_name_ = second_file_name_value;
+		}
 	if  (request.countValues("GRIB_ID") ) {
 		string id_value = request("GRIB_ID");
 		gribdecoder_->id_ = id_value;

@@ -23,6 +23,30 @@ does it submit to any jurisdiction.
 			<release>Magics++0.1</release>
 			<documentation>The name of the input file containing the GRIB code field(s)</documentation>
 		</parameter>
+		<parameter member="first_file_name"
+			to="string"
+			default="grib_input_file_name"
+			from="string"
+			name="grib_first_component_file_name">
+
+			<documentation>The name of the input file containing the u-component of wind</documentation>
+		</parameter>
+		<parameter member="colour_file_name"
+			to="string"
+			default="grib_input_file_name"
+			from="string"
+			name="grib_colour_component_file_name">
+
+			<documentation>The name of the input file containing the u-component of wind</documentation>
+		</parameter>
+		
+		<parameter member="second_file_name"
+			to="string"
+			default="grib_input_file_name"
+			from="string"
+			name="grib_second_component_file_name">
+			<documentation>The name of the input file containing the v-component of wind</documentation>
+		</parameter>
 		<parameter member="id"
 			to="string"
 			default=""
@@ -148,14 +172,14 @@ does it submit to any jurisdiction.
 		</parameter>
 		<parameter member="position_2"
 			to="int"
-			default="2"
+			default="-1"
 			from="int"
 			name="grib_wind_position_2">
 			<documentation>The position in the input file of a wind component field</documentation>
 		</parameter>
 		<parameter member="colour_position"
 			to="int"
-			default="3"
+			default="-1"
 			from="int"
 			name="grib_wind_position_colour">
 			<documentation>The position in the input file of a wind component field used to colour the flag</documentation>

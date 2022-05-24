@@ -53,6 +53,9 @@ public:
 	//  --  members:
 	string tag_;
 	string file_name_;
+	string first_file_name_;
+	string colour_file_name_;
+	string second_file_name_;
 	string id_;
 	bool loop_;
 	bool scaling_;

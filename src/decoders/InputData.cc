@@ -303,6 +303,7 @@ void InputData::visit(Transformation& transformation) {
 
 
             if (magCompare(x_type_, "date")) {
+                
                 transformation.setDataMinMaxX(minmax.first, minmax.second, baseDateX_);
             }
             else {
