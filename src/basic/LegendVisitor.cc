@@ -204,7 +204,8 @@ void LegendVisitor::build() {
     vector<PaperPoint>::const_iterator position = positions_.begin();
     if (title_) {
         Text* legend = new Text();
-        MagFont font;
+        MagFont font(font_);
+        
         double font_size = (title_font_size_ == -1) ? font_size_ : title_font_size_;
         font.size(font_size);
         Colour colour = title_font_colour_->automatic() ? *colour_ : *title_font_colour_;
