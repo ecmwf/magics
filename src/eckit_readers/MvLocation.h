@@ -7,85 +7,100 @@
 
  ***************************** LICENSE END *************************************/
 
-// MvLocation.h,     vk 940901...
-//               rev vk 950303
+#pragma once
 
-#ifndef MvLocation_DEFINED_
-#define MvLocation_DEFINED_
-
-#include "inc_iostream.h"
+#include <ostream>
 
 const double MISSING_LOC_VALUE = -99999.;
 
+//=========================================================
+// WARNING: we cannot use MvSci here because this code is
+// also included in the Magics source!!!
+//=========================================================
 
-//_________________________________________________________________________ MvLocation
 //! Class for geographical locations
 /*! MvLocation is used to store latitude-longitude location values.
  *  Class also provides methods to calculate the distance to another
  *  geographical location
  */
-class MvLocation {
+class MvLocation
+{
     //! Output operator for MvLocation object
     /*! The output is enclosed in parenthesis and latitude and longitude values
-     *  are separated by a comma, for instance:
-     * <PRE>
-     *      MvLocation loc1(51.46,-1.33);
-     *      MvLocation loc2(60.45,25.0);
-     *      std::cout << "Locations are: " << loc1 << " and " << loc2 << std::endl;
-     * </PRE>
-     *  would output the following line:
-     * <PRE>
-     *      Locations are: (51.46,-1.33) and (60.45,25)
-     * </PRE>
-     */
-    friend ostream& operator<<(ostream& aStream, const MvLocation& aLocation);
+ *  are separated by a comma, for instance:
+ * <PRE>
+ *      MvLocation loc1(51.46,-1.33);
+ *      MvLocation loc2(60.45,25.0);
+ *      std::cout << "Locations are: " << loc1 << " and " << loc2 << std::endl;
+ * </PRE>
+ *  would output the following line:
+ * <PRE>
+ *      Locations are: (51.46,-1.33) and (60.45,25)
+ * </PRE>
+ */
+    friend std::ostream& operator<<(std::ostream& aStream, const MvLocation& aLocation);
 
 public:
-    //! Constructor, location is assigned with missing values
-    MvLocation() {
-        fLatitude  = MISSING_LOC_VALUE;
-        fLongitude = MISSING_LOC_VALUE;
-    }
-
-    //! Constructor for latitude-longitude location
+    MvLocation() {}
     MvLocation(double aLat, double aLong) { set(aLat, aLong); }
-
-    //! Sets new latitude-longitude location
-    void set(double aLat, double aLong);
-
-    //! Checks that the stored location is a valid geographical point
-    /*! Latitude value must be in interval [-90,90] and longitude
-     *  value in interval [-360,360], in degrees.
-     */
-    bool ok() { return (fLatitude <= 90 && fLatitude >= -90 && fLongitude <= 360 && fLongitude >= -360); }
-
-    //! Returns the latitude value
-    double latitude() const { return fLatitude; }
-
-    //! Alias to method latitude()
-    double y() const { return fLatitude; }
-
-    //! Returns the longitude value
-    double longitude() const { return fLongitude; }
-
-    //! Alias to method longitude()
-    double x() const { return fLongitude; }
-
-    //! Returns the distance (in radians) to the given point
-    double distanceInRadians(const MvLocation& anOtherLocation) const;
-
-    //! Returns the distance (in degrees) to the given point
-    double distanceInDegrees(const MvLocation& anOtherLocation) const;
-
-    //! Returns the distance (in metres) to the given point
-    double distanceInMeters(const MvLocation& anOtherLocation) const;
-
-    //! Assignment operator
     MvLocation& operator=(const MvLocation& aLoc);
 
-private:
-    double fLatitude;
-    double fLongitude;
+    void set(double aLat, double aLong);
+
+    // Checks that the stored location is a valid geographical point
+    // Latitude value must be in interval [-90,90] and longitude
+    //  value in interval [-360,360], in degrees.
+    bool ok() const { return (lat_ <= 90 && lat_ >= -90 &&
+                        lon_ <= 360 && lon_ >= -360); }
+
+    // Subtracts 360 until the longitude is below 360 (e.g. 360 becomes 0, 370 becomes 10)
+    void ensureLongitudeBelow360();
+
+    double latitude() const { return lat_; }
+    double y() const { return lat_; }
+    double longitude() const { return lon_; }
+    double x() const { return lon_; }
+
+    // Returns the cosine of the angular distance to the given point
+    double cosOfDistance(const MvLocation& other) const;
+    virtual double cosOfDistance(double aLat, double aLon) const;
+
+    // Returns the distance (in radians) to the given point
+    double distanceInRadians(const MvLocation& other) const;
+
+    // Returns the distance (in degrees) to the given point
+    double distanceInDegrees(const MvLocation& other) const;
+
+    // Returns the distance (in metres) to the given point
+    double distanceInMeters(const MvLocation& other) const;
+
+protected:
+    // ideally McSci should be used here, but see warning above!
+    static double degToRad(double d) {return d * cDegree;}
+    static double radToDeg(double r) {return r * cRadian;}
+    static double metresToRadians(double m) {return m*cMetreToRadian;}
+    static double radiansToMetres(double r) {return r*cRadianToMetre;}
+
+    static const double cRadian;
+    static const double cDegree;
+    static const double cMetreToRadian;
+    static const double cRadianToMetre;
+    double lat_{MISSING_LOC_VALUE};
+    double lon_{MISSING_LOC_VALUE};
+};
+
+// A location from that the distance to other locations are computed. It
+// caches some trigonometric values to make the computations faster.
+class MvLocationHub : public MvLocation
+{
+public:
+    using MvLocation::MvLocation;
+    MvLocationHub& operator=(const MvLocationHub& aLoc);
+    double cosOfDistance(double aLat, double aLon) const override;
+
+protected:
+    mutable double cosLat_{-1000.};
+    mutable double sinLat_{-1000.};
 };
 
 //_________________________________________________________________________ MvArea
@@ -93,12 +108,16 @@ private:
 /*! This is another incarnation of MvGeoBox class, used mainly by
  *  MvObsSetIterator. For other usage MvGeoBox is recommended over MvArea.
  */
-class MvArea {
-    friend ostream& operator<<(ostream& aStream, const MvArea& aArea);
+class MvArea
+{
+    friend std::ostream& operator<<(std::ostream& aStream, const MvArea& aArea);
 
 public:
     MvArea();
-    MvArea(const MvLocation& aLoc1, const MvLocation& aLoc2) { set(aLoc1, aLoc2); }
+    MvArea(const MvLocation& aLoc1, const MvLocation& aLoc2)
+    {
+        set(aLoc1, aLoc2);
+    }
 
     void set(const MvLocation& aLoc1, const MvLocation& aLoc2);
     bool inside(const MvLocation& aPoint) const;
@@ -118,12 +137,14 @@ private:
  *  distance (max delta) from the given line, i.e. close enough to be
  *  considered to be within the line.
  */
-class MvXSectionLine {
-    friend ostream& operator<<(ostream& aStream, const MvXSectionLine& aXSectionLine);
+class MvXSectionLine
+{
+    friend std::ostream& operator<<(std::ostream& aStream, const MvXSectionLine& aXSectionLine);
 
 public:
     //! Empty constructor creates a missing line
-    MvXSectionLine(void) {
+    MvXSectionLine(void)
+    {
         fLocation1.set(MISSING_LOC_VALUE, MISSING_LOC_VALUE);
         fLocation2.set(MISSING_LOC_VALUE, MISSING_LOC_VALUE);
         fMaxDeltaInMeters = -1;
@@ -131,22 +152,25 @@ public:
 
     //! Constructor, only points defined, no max delta given
     /*! Use method setMaxDelta() to set the maximum allowed distance from the line
-     */
-    MvXSectionLine(const MvLocation& aLoc1, const MvLocation& aLoc2) {
+	*/
+    MvXSectionLine(const MvLocation& aLoc1, const MvLocation& aLoc2)
+    {
         fLocation1        = aLoc1;
         fLocation2        = aLoc2;
         fMaxDeltaInMeters = -1;
     }
 
     //! Constructor, two points and max distance from the line
-    MvXSectionLine(const MvLocation& aLoc1, const MvLocation& aLoc2, double aDelta) {
+    MvXSectionLine(const MvLocation& aLoc1, const MvLocation& aLoc2, double aDelta)
+    {
         fLocation1        = aLoc1;
         fLocation2        = aLoc2;
         fMaxDeltaInMeters = aDelta;
     }
 
     //! Set a new line between points aLoc1 and aLoc2
-    void setLine(const MvLocation& aLoc1, const MvLocation& aLoc2) {
+    void setLine(const MvLocation& aLoc1, const MvLocation& aLoc2)
+    {
         fLocation1 = aLoc1;
         fLocation2 = aLoc2;
     }
@@ -188,5 +212,4 @@ private:
     double fMaxDeltaInMeters;
 };
 
-#endif
 // MvLocation_DEFINED_
