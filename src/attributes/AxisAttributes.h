@@ -94,6 +94,8 @@ public:
 	string tip_text_;
 	double tip_height_;
 	string tip_quality_;
+	doublearray highlighted_values_;
+	int highlighted_values_thickness_;
 	unique_ptr<AxisMethod> method_;
 	unique_ptr<Colour> line_colour_;
 	LineStyle line_style_;
@@ -108,6 +110,8 @@ public:
 	unique_ptr<Colour> label_colour_;
 	unique_ptr<Colour> minor_tick_colour_;
 	unique_ptr<Colour> tip_colour_;
+	unique_ptr<Colour> highlighted_values_colour_;
+	LineStyle highlighted_values_style_;
 	 
 
 private:

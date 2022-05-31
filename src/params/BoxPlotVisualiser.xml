@@ -9,7 +9,6 @@ does it submit to any jurisdiction.
 <magics>
 	<class perfix="boxplot"
 		directory="visualisers"
-		inherits="BoxPlotDecoder"
 		xmltag="boxplot"
 		name="BoxPlotVisualiser">
 		<documentation>The following parameters allow the user to define both the data

@@ -66,7 +66,9 @@ AxisAttributes::AxisAttributes():
 	tip_(ParameterManager::getBool("axis_tip_title")),
 	tip_text_(ParameterManager::getString("axis_tip_title_text")),
 	tip_height_(ParameterManager::getDouble("axis_tip_title_height")),
-	tip_quality_(ParameterManager::getString("axis_tip_title_quality"))
+	tip_quality_(ParameterManager::getString("axis_tip_title_quality")),
+	highlighted_values_(ParameterManager::getDoubleArray("axis_highlighted_values")),
+	highlighted_values_thickness_(ParameterManager::getInt("axis_highlighted_values_thickness"))
 	,
 	method_(MagTranslator<string, AxisMethod>().magics("axis_type")),
 	line_colour_(MagTranslator<string, Colour>().magics("axis_line_colour")),
@@ -81,7 +83,9 @@ AxisAttributes::AxisAttributes():
 	tick_colour_(MagTranslator<string, Colour>().magics("axis_tick_colour")),
 	label_colour_(MagTranslator<string, Colour>().magics("axis_tick_label_colour")),
 	minor_tick_colour_(MagTranslator<string, Colour>().magics("axis_minor_tick_colour")),
-	tip_colour_(MagTranslator<string, Colour>().magics("axis_tip_title_colour"))
+	tip_colour_(MagTranslator<string, Colour>().magics("axis_tip_title_colour")),
+	highlighted_values_colour_(MagTranslator<string, Colour>().magics("axis_highlighted_values_colour")),
+	highlighted_values_style_(MagTranslator<string, LineStyle>().magics("axis_highlighted_values_style"))
 	
 {
 }
@@ -141,6 +145,8 @@ void AxisAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "axis_tip_title_text", tip_text_, params);
 	setAttribute(prefix, "axis_tip_title_height", tip_height_, params);
 	setAttribute(prefix, "axis_tip_title_quality", tip_quality_, params);
+	setAttribute(prefix, "axis_highlighted_values", highlighted_values_, params);
+	setAttribute(prefix, "axis_highlighted_values_thickness", highlighted_values_thickness_, params);
 	
 	setMember(prefix, "axis_type", method_, params);
 	setMember(prefix, "axis_line_colour", line_colour_, params);
@@ -156,6 +162,8 @@ void AxisAttributes::set(const std::map<string, string>& params)
 	setMember(prefix, "axis_tick_label_colour", label_colour_, params);
 	setMember(prefix, "axis_minor_tick_colour", minor_tick_colour_, params);
 	setMember(prefix, "axis_tip_title_colour", tip_colour_, params);
+	setMember(prefix, "axis_highlighted_values_colour", highlighted_values_colour_, params);
+	setAttribute(prefix, "axis_highlighted_values_style", highlighted_values_style_, params);
 	
 }
 
@@ -203,6 +211,8 @@ void AxisAttributes::copy(const AxisAttributes& other)
 	tip_text_ = other.tip_text_;
 	tip_height_ = other.tip_height_;
 	tip_quality_ = other.tip_quality_;
+	highlighted_values_ = other.highlighted_values_;
+	highlighted_values_thickness_ = other.highlighted_values_thickness_;
 	method_ = unique_ptr<AxisMethod>(other.method_->clone());
 	line_colour_ = unique_ptr<Colour>(other.line_colour_->clone());
 	line_style_ = other.line_style_;
@@ -217,6 +227,8 @@ void AxisAttributes::copy(const AxisAttributes& other)
 	label_colour_ = unique_ptr<Colour>(other.label_colour_->clone());
 	minor_tick_colour_ = unique_ptr<Colour>(other.minor_tick_colour_->clone());
 	tip_colour_ = unique_ptr<Colour>(other.tip_colour_->clone());
+	highlighted_values_colour_ = unique_ptr<Colour>(other.highlighted_values_colour_->clone());
+	highlighted_values_style_ = other.highlighted_values_style_;
 	
 }
 
@@ -301,6 +313,8 @@ void AxisAttributes::print(ostream& out)  const
 	out << " tip_text = " <<  tip_text_;
 	out << " tip_height = " <<  tip_height_;
 	out << " tip_quality = " <<  tip_quality_;
+	out << " highlighted_values = " <<  highlighted_values_;
+	out << " highlighted_values_thickness = " <<  highlighted_values_thickness_;
 	out << " method = " <<  *method_;
 	out << " line_colour = " <<  *line_colour_;
 	out << " line_style = " <<  line_style_;
@@ -315,6 +329,8 @@ void AxisAttributes::print(ostream& out)  const
 	out << " label_colour = " <<  *label_colour_;
 	out << " minor_tick_colour = " <<  *minor_tick_colour_;
 	out << " tip_colour = " <<  *tip_colour_;
+	out << " highlighted_values_colour = " <<  *highlighted_values_colour_;
+	out << " highlighted_values_style = " <<  highlighted_values_style_;
 	
 	out << "]" << "\n";
 }
@@ -406,6 +422,10 @@ void AxisAttributes::toxml(ostream& out)  const
 	niceprint(out,tip_height_);
 	out << ", \"axis_tip_title_quality\":";
 	niceprint(out,tip_quality_);
+	out << ", \"axis_highlighted_values\":";
+	niceprint(out,highlighted_values_);
+	out << ", \"axis_highlighted_values_thickness\":";
+	niceprint(out,highlighted_values_thickness_);
 	out << ", \"axis_type\":";
 	method_->toxml(out);
 	out << ", \"axis_line_colour\":";
@@ -434,6 +454,10 @@ void AxisAttributes::toxml(ostream& out)  const
 	niceprint(out, *minor_tick_colour_);
 	out << ", \"axis_tip_title_colour\":";
 	niceprint(out, *tip_colour_);
+	out << ", \"axis_highlighted_values_colour\":";
+	niceprint(out, *highlighted_values_colour_);
+	out << ", \"axis_highlighted_values_style\":";
+	niceprint(out, highlighted_values_style_);
 	
 }
 
@@ -479,6 +503,8 @@ static MagicsParameter<string> axis_tip_title("axis_tip_title", "off");
 static MagicsParameter<string> axis_tip_title_text("axis_tip_title_text", "");
 static MagicsParameter<double> axis_tip_title_height("axis_tip_title_height", 0.4);
 static MagicsParameter<string> axis_tip_title_quality("axis_tip_title_quality", "medium");
+static MagicsParameter<doublearray> axis_highlighted_values("axis_highlighted_values", floatarray());
+static MagicsParameter<int> axis_highlighted_values_thickness("axis_highlighted_values_thickness", 1);
 static MagicsParameter<string> axis_type("axis_type", "regular");
 static MagicsParameter<string> axis_line_colour("axis_line_colour", "automatic");
 static MagicsParameter<string> axis_line_style("axis_line_style", "solid");
@@ -493,6 +519,8 @@ static MagicsParameter<string> axis_tick_colour("axis_tick_colour", "automatic")
 static MagicsParameter<string> axis_tick_label_colour("axis_tick_label_colour", "automatic");
 static MagicsParameter<string> axis_minor_tick_colour("axis_minor_tick_colour", "automatic");
 static MagicsParameter<string> axis_tip_title_colour("axis_tip_title_colour", "automatic");
+static MagicsParameter<string> axis_highlighted_values_colour("axis_highlighted_values_colour", "black");
+static MagicsParameter<string> axis_highlighted_values_style("axis_highlighted_values_style", "solid");
 #include "AxisMethod.h"
 #include "DateAxis.h"
 static SimpleObjectMaker<AxisMethod , AxisMethod> regular_AxisMethod("regular");

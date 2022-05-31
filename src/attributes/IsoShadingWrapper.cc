@@ -63,12 +63,12 @@ void IsoShadingWrapper::set(const MagRequest& request)
 	
 
 	if  (request.countValues("CONTOUR_SHADE_MAX_LEVEL") ) {
-		double max_value = request("CONTOUR_SHADE_MAX_LEVEL");
-		isoshading_->max_ = max_value;
+		double shade_max_value = request("CONTOUR_SHADE_MAX_LEVEL");
+		isoshading_->shade_max_ = shade_max_value;
 		}
 	if  (request.countValues("CONTOUR_SHADE_MIN_LEVEL") ) {
-		double min_value = request("CONTOUR_SHADE_MIN_LEVEL");
-		isoshading_->min_ = min_value;
+		double shade_min_value = request("CONTOUR_SHADE_MIN_LEVEL");
+		isoshading_->shade_min_ = shade_min_value;
 		}
 	
 	

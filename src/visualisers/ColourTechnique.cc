@@ -45,13 +45,35 @@ void ColourTechnique::print(ostream& out) const {
 void ColourTechnique::prepare(LevelSelection& out, LevelSelection& levels, bool rainbow) {
     if (levels.empty())
         return;
+
+    
     clear();
     bands_.clear();
     ColourTable table;
+
     if (rainbow)
         set(out, levels, table, levels.size() + 1);
-    else
-        set(out, levels, table, levels.size());
+    else {
+        
+        LevelSelection newlevels;
+        int count = levels.size();
+        if (out.minOutOfBond()) {
+            table.push_back(*oob_min_colour_);
+            count--;
+        }
+        if (out.maxOutOfBond()) {
+            count--;
+        }
+        set(out, levels, table, count);
+         if (out.maxOutOfBond()) {
+            table.push_back(*oob_max_colour_);
+            count--;
+        }
+    }
+    cout << " ------------------------------ " << endl;
+
+
+    
 
     if (table.empty())
         table.push_back(Colour("none"));
@@ -90,6 +112,8 @@ void ColourTechnique::prepare(LevelSelection& out, LevelSelection& levels, bool 
     }
     if (!rainbow)
         bands_.insert(make_pair(Interval(levels.back(), levels.back() + EPSILON), left));
+
+    
 
     MagLog::dev() << levels.back() << "<<" << left << "<<" << levels.back() + EPSILON << endl;
 }
@@ -182,14 +206,14 @@ PaletteColourTechnique::~PaletteColourTechnique() {}
 
 
 
-void PaletteColourTechnique::set(LevelSelection& out, LevelSelection& in, ColourTable& table, int nb)  {
+void PaletteColourTechnique::set(LevelSelection&, LevelSelection& in, ColourTable& table, int nb)  {
     PaletteLibrary library;
     vector<string> colours;
     Palette palette;
     string name = palette_;   
     library.find(name, palette);
 
-
+  
     if (palette.colours_.empty()) {
         MagLog::warning() << "Could not load palette " << palette_ << ": using a default one " << endl;
         colours.push_back("blue");

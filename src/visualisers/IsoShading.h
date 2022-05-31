@@ -131,7 +131,7 @@ public:
     virtual bool operator()(LevelSelection& list) override {
         LevelSelection filter;
         for (LevelSelection::const_iterator level = list.begin(); level != list.end(); ++level)
-            if (this->min_ <= *level && *level <= this->max_)
+            if (shade_min_ <= *level && *level <= shade_max_)
                 filter.push_back(*level);
 
 
@@ -140,6 +140,8 @@ public:
 
         if (!filter.empty() && (filter.back() == filter.front()))
             filter.push_back(filter.front());
+
+        
 
 
         return (*this->technique_).prepare(filter, *this->colourMethod_);

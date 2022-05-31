@@ -785,8 +785,8 @@ void GribDecoder::openThirdComponent() {
     MagLog::debug() << "received for colour -> " << colour_position_ << " from file " << colour_file_name_ <<endl;
 
      if (colour_file_name_ == "grib_input_file_name") {
-        current_position_ = ( colour_position_ == -1 ) ? 3 : colour_position_;
-        current_file_name_= file_name_;
+        current_position_  = ( colour_position_ == -1 ) ? 3 : colour_position_;
+        current_file_name_ = file_name_;
     }
     else {
         current_position_ = ( colour_position_ == -1 ) ? 1 : colour_position_;
@@ -794,7 +794,8 @@ void GribDecoder::openThirdComponent() {
     }
     MagLog::debug() << "COLOUR current_position_-> " << current_position_ << " from file " << current_file_name_ <<endl;
 
-    colour_           = open(colour_, false);
+    if (current_file_name_.size() )
+        colour_ = open(colour_, false);
 }
 
 

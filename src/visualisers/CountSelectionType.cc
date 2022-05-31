@@ -32,14 +32,55 @@ CountSelectionType::CountSelectionType() {}
 
 
 void CountSelectionType::calculate(double min, double max, bool) {
+
+ 
     clear();
-    double maxi = (max_ > 1000000000) ? max : max_;
-    double mini = (min_ < -1000000000) ? min : min_;
+
+   
+    vector<double> minbounds = { min, oob_min_, min_, };
+    vector<double> maxbounds = { max, oob_max_, max_ };
+
+    for (auto i = maxbounds.begin(); i != maxbounds.end(); ++i) {
+        cout << "max " << *i << endl;
+    }
+
+    for (auto i = minbounds.begin(); i != minbounds.end(); ++i) {
+        cout << "min " << *i << endl;
+    }
+
+    auto mini = *std::max_element(minbounds.begin(), minbounds.end());
+    auto maxi = *std::min_element(maxbounds.begin(), maxbounds.end());
+    
+    minOutOfBond_ = oob_min_ > std::max(min, min_);
+    maxOutOfBond_ = oob_max_ < std::min(max, max_);
+
+
     int i       = 0;
 
-    i += (max_ > 1000000000) ? 1 : 0;
-    i += (min_ < -1000000000) ? 1 : 0;
+    if ( minOutOfBond_ ) {
+        cout << "minOutOfBond_" << endl;
+        i++;
+    }
 
+    if ( maxOutOfBond_ ) {
+        cout << "maxOutOfBond_" << endl;
+        i++;
+    }
+
+
+    // if ( mini > oob_min_ )
+    //     i++;
+    //  if ( maxi < oob_max_ )
+    //     i++;
+
+    // i += ( same(maxi, 1.0e+21) ) ? 1 : 0;
+    // i += ( same(mini, -1.0e+21) ) ? 1 : 0;
+
+
+    cout << mini << " " << maxi << " " << i << endl;
+
+
+   
 
     double nb = levelCount_ - 1;
     if (same(maxi, mini)) {
@@ -152,13 +193,22 @@ void CountSelectionType::calculate(double min, double max, bool) {
         MagLog::debug() << "New size-->" << size() << endl;
     }
 
-    MagLog::debug() << "count=" << levelCount_ << ", tolerance=" << tolerance_ << ", result=" << size() << endl;
+     if ( minOutOfBond_ ) {
+        insert(begin(), std::max(min, min_));
+        cout << " add " << std::max(min, min_) << endl;
+    }
+
+    if ( maxOutOfBond_ ) {
+        push_back(std::min(max, max_));
+    }
+
+    cout << "count=" << levelCount_ << ", tolerance=" << tolerance_ << ", result=" << size() << endl;
 
     ostringstream level;
     for (const_iterator l = begin(); l != end(); ++l)
         level << *l << " ";
 
-    MagLog::debug() << level.str() << endl;
+    cout << level.str() << endl;
 }
 
 

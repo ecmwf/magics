@@ -367,6 +367,25 @@ protected:
     Colour colour() override;
 };
 
+class OOBEntry : public BoxEntry {
+public:
+    enum class Type { MIN, MAX };
+    OOBEntry(const string label, Type type, Polyline* box = 0) : 
+            BoxEntry(label, box),  type_(type) {}
+    OOBEntry(const double label, Type type,  Polyline* box = 0) : 
+            BoxEntry(label, box),  type_(type) { format(label); }
+    OOBEntry(double min, double max, Type type, Polyline* box = 0) : 
+            BoxEntry(min, max, box), type_(type) { format(min, max); }
+    ~OOBEntry() override;
+    void set(const PaperPoint&, BasicGraphicsObjectContainer&) override;
+    void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&) override;
+    void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&) override;
+   
+protected:
+    Type type_;
+
+};
+
 
 class LegendVisitor : public LayoutVisitor,
                       public LegendVisitorAttributes,

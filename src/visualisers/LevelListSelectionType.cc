@@ -40,15 +40,31 @@ void LevelListSelectionType::print(ostream& out) const {
 }
 
 
-void LevelListSelectionType::calculate(double, double, bool) {
+void LevelListSelectionType::calculate(double min, double max, bool) {
     clear();
+
+    
+    minOutOfBond_ = same(min_, -1.0e+21) && !same(oob_min_, -1.0e+21);
+    maxOutOfBond_ = same(max_, 1.0e+21) && !same(oob_max_, 1.0e+21);
+    double mini = min_;
+    double maxi = max_;
+    if (minOutOfBond_) {
+        push_back(min);
+        push_back(oob_min_);
+        mini = oob_min_;
+    }
+
+    if (maxOutOfBond_) {
+        maxi = oob_max_;
+    }
+
 
 
     doublearray::const_iterator last = list_.begin();
     double prevVal = min_;
     for (doublearray::const_iterator val = list_.begin(); val != list_.end(); ++val) {
         MagLog::dev() << "LevelListSelectionType::calculate(double min, double max)--->" << *val << "\n";
-        if (min_ <= *val && *val <= max_) {
+        if (mini <= *val && *val <= maxi) {
             if (*val < prevVal) {
                 MagLog::error() << " level list values should increase, but " << *val << " follows " << prevVal << endl;
                 break;
@@ -58,6 +74,11 @@ void LevelListSelectionType::calculate(double, double, bool) {
         }
         ++last;
     }
+    if (maxOutOfBond_) {
+        push_back(oob_max_);
+        push_back(max);
+    }
+
 
     // Just in case add another level to close the  last interval !
     if (last != list_.end())
@@ -72,5 +93,5 @@ void LevelListSelectionType::calculate(double, double, bool) {
         sep = ", ";
     }
     print << "]";
-    MagLog::dev() << print.str() << endl;
+    cout << print.str() << endl;
 }

@@ -25,6 +25,7 @@
 #define ColourTechniqueAttributes_H
 
 #include "magics.h"
+#include "Colour.h"
 namespace magics {
 
 class XmlNode;
@@ -50,6 +51,8 @@ public:
 	virtual void toxml(std::ostream& out) const;
 	//  --  members:
 	string tag_;
+	unique_ptr<Colour> oob_min_colour_;
+	unique_ptr<Colour> oob_max_colour_;
 	 
 
 private:

@@ -44,23 +44,32 @@ void IntervalSelectionType::calculate(double min, double max, bool shading) {
     clear();
     std::set<double> levels;
 
+    vector<double> minbounds = { min, oob_min_, min_, };
+    vector<double> maxbounds = { max, oob_max_, max_ };
 
-    double lmax, lmin;
-    if (shading) {
-        if (max_shade_ < min_shade_)
-            MagLog::warning() << "contour_shade_max_level (" << max_shade_ << ") < contour_shade_min_level ("
-                              << min_shade_ << "): Please check your code" << endl;
-        if (same(max_, 1.0e+21)) {
-            max_ = max_shade_;
-        }
-        if (same(min_, -1.0e+21)) {
-            min_ = min_shade_;
-        }
+    for (auto i = maxbounds.begin(); i != maxbounds.end(); ++i) {
+        cout << "max " << *i << endl;
     }
 
+    for (auto i = minbounds.begin(); i != minbounds.end(); ++i) {
+        cout << "min " << *i << endl;
+    }
 
-    lmax = same(max_, 1.0e+21) ? max : max_;
-    lmin = same(min_, -1.0e+21) ? min : min_;
+    auto lmin = *std::max_element(minbounds.begin(), minbounds.end());
+    auto lmax = *std::min_element(maxbounds.begin(), maxbounds.end());
+    
+    minOutOfBond_ = oob_min_ > std::max(min, min_);
+    maxOutOfBond_ = oob_max_ < std::min(max, max_);
+    if ( minOutOfBond_ ) {
+            lmin = oob_min_;
+            levels.insert(min);
+            cout << "HERE" << endl;
+    }
+    
+    if ( maxOutOfBond_ ) {
+            lmax = oob_max_;
+            levels.insert(max);
+    }
 
 
     levels.insert(lmin);
@@ -93,7 +102,7 @@ void IntervalSelectionType::calculate(double min, double max, bool shading) {
         push_back(*level);
     }
     out << "]" << endl;
-    MagLog::dev() << out.str() << endl;
+    cout  << out.str() << endl;
 
     // Now make sure that the reference is inside the interval ..
 }

@@ -21,8 +21,7 @@ does it submit to any jurisdiction.
 			to="float"
 			inherit_parent_reqs="no">
 			<documentation>Highest level for contours to be drawn</documentation>
-			<migration>New Magics: Parameter contour_max_level sent to new Magics[LevelSelection].</migration>
-			<release>Magics++0.3</release>
+
 		</parameter>
 		<parameter from="float"
 			name="contour_min_level"
@@ -31,24 +30,25 @@ does it submit to any jurisdiction.
 			to="float"
 			inherit_parent_reqs="no">
 			<documentation>Lowest level for contours to be drawn</documentation>
-			<migration>New Magics: Parameter contour_min_level sent to new Magics[LevelSelection].</migration>
-			<release>Magics++0.3</release>
 		</parameter>
-		<parameter from="float"
-			name="contour_shade_max_level"
-			default="1.0e+21"
-			member="max_shade"
-			to="float"
-			inherit_parent_reqs="no">
-			<documentation>Highest level for contours to be shaded</documentation>
-		</parameter>
-		<parameter from="float"
-			name="contour_shade_min_level"
+		
+		 <parameter from="float"
+			name="contour_out_of_bound_min"
 			default="-1.0e+21"
-			member="min_shade"
+			member="oob_min"
 			to="float"
 			inherit_parent_reqs="no">
-			<documentation>Lowest level for contours to be shaded</documentation>
+			<documentation>Out of bound minimum value : below that the out_of_bound_min_colour will be used</documentation>
 		</parameter>
+		
+		<parameter from="float"
+			name="contour_out_of_bound_max"
+			default="1.0e+21"
+			member="oob_max"
+			to="float"
+			inherit_parent_reqs="no">
+			<documentation>Out of bound maximun value : above that the out_of_bound_max_colour will be used</documentation>
+		</parameter>
+		
 	</class>
 </magics>

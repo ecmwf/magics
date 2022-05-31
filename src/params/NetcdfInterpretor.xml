@@ -269,12 +269,18 @@ does it submit to any jurisdiction.
                         from="string"
                         name="netcdf_matrix_interpretation"
                         values='automatic/direct/transposed'>
-                        <release>Magics++2.4</release>
                         <documentation>This can speed up the reading of the matrix. 
                         Automatic : No Hint : Magics will create the matrix from the values of the parameters netcdf_x_variable and netcdf_y_variable.
                         Direct : Little hint for Magics : it can load the matrix direcly
                         Transposed :  Little hint for Magics : It has to transpose  the Matrix
                         </documentation>
                 </parameter>
+                <parameter member="ignore_missing"
+			to="bool"
+			default="off"
+			from="string"
+			name="netcdf_ignore_missing_value">
+			<documentation>Ignore or not missing value when setting automatic projection: useful for tiemseries containing missing values. </documentation>
+		</parameter>
         </class>
 </magics>

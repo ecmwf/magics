@@ -33,14 +33,14 @@ does it submit to any jurisdiction.
 			<set name="contour_shade_method" value="polygon_shading"></set>
 
 		</parameter>
-		<parameter member="max"
+		<parameter member="shade_max"
 			to="float"
 			default="1.0e+21"
 			from="float"
 			name="contour_shade_max_level">
 			<documentation>Maximum level for which shading is required</documentation>
 		</parameter>
-		<parameter member="min"
+		<parameter member="shade_min"
 			to="float"
 			default="-1.0e+21"
 			from="float"

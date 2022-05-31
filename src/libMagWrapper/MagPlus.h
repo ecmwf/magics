@@ -114,6 +114,7 @@ protected:
 
     bool raster(magics::MagRequest&);
     bool input(magics::MagRequest&);
+    bool inputBoxplot(magics::MagRequest&);
     bool table(magics::MagRequest&);
     bool binning(magics::MagRequest&);
 
@@ -123,6 +124,7 @@ protected:
     bool import(magics::MagRequest&);
     bool obs(magics::MagRequest&);
     bool graph(magics::MagRequest&);
+    bool boxplot(magics::MagRequest&);
     bool multi(magics::MagRequest&);
 
     bool ptext(magics::MagRequest&);

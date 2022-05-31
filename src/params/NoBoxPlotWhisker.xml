@@ -7,15 +7,9 @@ granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
 <magics>
-	<class inherits="NetcdfInterpretor"
-		xmltag="geopoints"
-		name="NetcdfXYpointsInterpretor"
-		directory="decoders"
-		prefix="netcdf"
-		action="pnetcdf"
-		include="NetcdfGeopointsInterpretor.h">
-		
-		
-	</class>
-
+  <class directory="visualisers"
+    prefix="boxplot"
+    xmltag="boxplot"
+    name="NoBoxPlotWhisker"
+    include='BoxPlotItem.h'></class>
 </magics>

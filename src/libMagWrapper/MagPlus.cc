@@ -50,6 +50,7 @@
 #include "ImportPlotWrapper.h"
 #include "InputDataWrapper.h"
 #include "TableDecoderWrapper.h"
+#include "BoxPlotDecoderWrapper.h"
 
 #include "LegendVisitorWrapper.h"
 #include "TextVisitor.h"
@@ -58,6 +59,7 @@
 #include "GraphPlottingWrapper.h"
 #include "MultiVisdef.h"
 #include "SymbolPlottingWrapper.h"
+#include "BoxPlotVisualiserWrapper.h"
 #include "WindWrapper.h"
 
 #include "EmagramGrid.h"
@@ -209,6 +211,8 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
         sceneCreators_["INPUT_GEO_VECTORS"] = &MagPlus::input;
         sceneCreators_["INPUT_XY_BINNING"]  = &MagPlus::input;
         sceneCreators_["INPUT_GEO_BINNING"] = &MagPlus::input;
+        sceneCreators_["INPUT_BOXPLOT"]     = &MagPlus::inputBoxplot;
+
 
         sceneCreators_["TABLE_XY_POINTS"]   = &MagPlus::table;
         sceneCreators_["TABLE_GEO_POINTS"]  = &MagPlus::table;
@@ -237,6 +241,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
         sceneCreators_["PSYMB"]          = &MagPlus::symbol;
         sceneCreators_["MSYMB"]          = &MagPlus::symbol;
         sceneCreators_["PSYMBPLUS"]      = &MagPlus::symbol;
+        sceneCreators_["MBOXPLOT"]        = &MagPlus::boxplot;
         sceneCreators_["PWIND"]          = &MagPlus::wind;
         sceneCreators_["MWIND"]          = &MagPlus::wind;
         sceneCreators_["MGRAPH"]         = &MagPlus::graph;
@@ -1416,6 +1421,20 @@ bool MagPlus::bufr(magics::MagRequest& in) {
     setIconInfo(in, *obs.object());
     return false;  // do not exit
 }
+
+bool MagPlus::inputBoxplot(magics::MagRequest& in) {
+
+    in.print();
+    VisualAction* action = new VisualAction();
+    top()->push_back(action);
+    push(action);
+
+    BoxPlotDecoderWrapper boxplot;
+    boxplot.set(in);
+    top()->data(boxplot.object());
+    setIconInfo(in, *boxplot.object());
+    return false;  // do not exit
+}
 bool MagPlus::symbol(magics::MagRequest& in) {
     if (in.countValues("SYMBOL_INPUT_MARKER_LIST")) {
         in("SYMBOL_MARKER") = in("SYMBOL_INPUT_MARKER_LIST");
@@ -1472,6 +1491,17 @@ bool MagPlus::obs(magics::MagRequest& in) {
 
 
 
+    return false;  // do not exit
+}
+bool MagPlus::boxplot(magics::MagRequest& in) {
+
+    BoxPlotVisualiserWrapper visdef;
+
+    visdef.set(in);
+
+    MagLog::dev() << "add boxplot visualiser" << *visdef.object() << endl;
+    top()->visdef(visdef.object());
+    pop();
     return false;  // do not exit
 }
 bool MagPlus::dataloop(magics::MagRequest& in) {

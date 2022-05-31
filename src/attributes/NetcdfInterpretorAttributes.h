@@ -84,6 +84,7 @@ public:
 	string aux_y_;
 	string primary_index_;
 	string interpretation_;
+	bool ignore_missing_;
 	 
 
 private:

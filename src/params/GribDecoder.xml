@@ -35,9 +35,7 @@ does it submit to any jurisdiction.
 			to="string"
 			default="grib_input_file_name"
 			from="string"
-			name="grib_colour_component_file_name">
-
-			<documentation>The name of the input file containing the u-component of wind</documentation>
+CountSelection			<documentation>The name of the input file containing the u-component of wind</documentation>
 		</parameter>
 		
 		<parameter member="second_file_name"

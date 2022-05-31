@@ -7,6 +7,25 @@ granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
 <magics>
-    <class directory="visualisers" name="ColourTechnique" python="mcont"/>
+    <class directory="visualisers" name="ColourTechnique" python="mcont">
+   
+		<parameter from="string"
+			name="contour_out_of_bound_min_colour"
+			default="blue"
+			member="oob_min_colour"
+			to="Colour"
+			inherit_parent_reqs="no">
+			<documentation>Colour to use below the out of bound minimum value</documentation>
+		</parameter>
+		
+		<parameter from="string"
+			name="contour_out_of_bound_max_colour"
+			default="red"
+			member="oob_max_colour"
+			to="Colour"
+			inherit_parent_reqs="no">
+			<documentation>Colour to use below the out of bound maximum value</documentation>
+		</parameter>
+        </class>
    
 </magics>

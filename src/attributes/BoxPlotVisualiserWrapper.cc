@@ -37,15 +37,11 @@ BoxPlotVisualiserWrapper::BoxPlotVisualiserWrapper(): boxplotvisualiser_(new Box
 
 
 	
-	BoxPlotDecoderWrapper::object(boxplotvisualiser_);
-	
 
 }
 BoxPlotVisualiserWrapper::BoxPlotVisualiserWrapper(BoxPlotVisualiser* boxplotvisualiser): boxplotvisualiser_(boxplotvisualiser)
 {
 
-	
-	BoxPlotDecoderWrapper::object(boxplotvisualiser_);
 	
 }
 
@@ -57,9 +53,6 @@ BoxPlotVisualiserWrapper::~BoxPlotVisualiserWrapper()
 void BoxPlotVisualiserWrapper::set(const MagRequest& request)
 {
 
-	
-
-	BoxPlotDecoderWrapper::set(request);
 	
 
 	

@@ -311,13 +311,19 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const std::s
         double xmissing = netcdf.getMissing(x_, missing_attribute_);
         double ymissing = netcdf.getMissing(y_, missing_attribute_);
 
+        
         baseDateX_ = "";
         if (!reference_date(netcdf, x_, refDateX_, baseDateX_, xs, datex))
             cf_date(netcdf, x_, refDateX_, baseDateX_, xs, datex);
 
         vector<double>::iterator y         = ys.begin();
         vector<double>::iterator x         = xs.begin();
+
         vector<double>::const_iterator val = values.begin();
+
+
+        minDate_ = *std::min_element(xs.begin(), xs.end());
+        maxDate_ = *std::max_element(xs.begin(), xs.end());
 
         while (x != xs.end() && y != ys.end()) {
 
@@ -371,7 +377,6 @@ void NetcdfXYpointsInterpretor::print(ostream& out) const {
 
 void NetcdfXYpointsInterpretor::visit(Transformation& transformation) {
     // get the data ...
-
     try {
         refDateX_ = (transformation.getAutomaticX()) ? "" : transformation.getReferenceX();
         refDateY_ = (transformation.getAutomaticY()) ? "" : transformation.getReferenceY();
@@ -380,10 +385,15 @@ void NetcdfXYpointsInterpretor::visit(Transformation& transformation) {
 
         if (transformation.getAutomaticX()) {
             if (!this->baseDateX_.empty()) {
-                transformation.setDataMinMaxX(points.minX(), points.maxX(), this->baseDateX_);
+                if ( ignore_missing_) 
+                    transformation.setDataMinMaxX(points.minX(), points.maxX(), this->baseDateX_);
+                else 
+                    transformation.setDataMinMaxX(minDate_, maxDate_, this->baseDateX_);
             }
 
             else {
+               
+                
                 transformation.setMinMaxX(points.minX(), points.maxX());
             }
         }
