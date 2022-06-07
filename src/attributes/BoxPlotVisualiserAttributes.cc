@@ -25,9 +25,28 @@
 using namespace magics;
 
 BoxPlotVisualiserAttributes::BoxPlotVisualiserAttributes():
-	
-	box_(MagTranslator<string, NoBoxPlotBox>().magics("boxplot_box")),
-	whisker_(MagTranslator<string, NoBoxPlotWhisker>().magics("boxplot_whisker"))
+	box_(ParameterManager::getBool("boxplot_box")),
+	box_width_(ParameterManager::getDouble("boxplot_box_width")),
+	box_border_(ParameterManager::getBool("boxplot_box_border")),
+	box_border_thickness_(ParameterManager::getInt("boxplot_box_border_thickness")),
+	median_(ParameterManager::getBool("boxplot_median")),
+	median_thickness_(ParameterManager::getInt("boxplot_median_thickness")),
+	whisker_(ParameterManager::getString("boxplot_whisker")),
+	whisker_box_width_(ParameterManager::getDouble("boxplot_whisker_box_width")),
+	whisker_box_border_(ParameterManager::getBool("boxplot_whisker_box_border")),
+	whisker_box_border_thickness_(ParameterManager::getInt("boxplot_whisker_box_border_thickness")),
+	whisker_line_thickness_(ParameterManager::getInt("boxplot_whisker_line_thickness"))
+	,
+	box_colour_(MagTranslator<string, Colour>().magics("boxplot_box_colour")),
+	box_border_colour_(MagTranslator<string, Colour>().magics("boxplot_box_border_colour")),
+	box_border_style_(MagTranslator<string, LineStyle>().magics("boxplot_box_border_line_style")),
+	median_colour_(MagTranslator<string, Colour>().magics("boxplot_median_colour")),
+	median_style_(MagTranslator<string, LineStyle>().magics("boxplot_median_line_style")),
+	whisker_box_colour_(MagTranslator<string, Colour>().magics("boxplot_whisker_box_colour")),
+	whisker_box_border_colour_(MagTranslator<string, Colour>().magics("boxplot_whisker_box_border_colour")),
+	whisker_box_border_style_(MagTranslator<string, LineStyle>().magics("boxplot_whisker_box_border_line_style")),
+	whisker_line_colour_(MagTranslator<string, Colour>().magics("boxplot_whisker_line_colour")),
+	whisker_line_style_(MagTranslator<string, LineStyle>().magics("boxplot_whisker_line_style"))
 	
 {
 }
@@ -45,16 +64,54 @@ void BoxPlotVisualiserAttributes::set(const std::map<string, string>& params)
 	int i = 0;
 	prefix[i++] = "";
 	
+	setAttribute(prefix, "boxplot_box", box_, params);
+	setAttribute(prefix, "boxplot_box_width", box_width_, params);
+	setAttribute(prefix, "boxplot_box_border", box_border_, params);
+	setAttribute(prefix, "boxplot_box_border_thickness", box_border_thickness_, params);
+	setAttribute(prefix, "boxplot_median", median_, params);
+	setAttribute(prefix, "boxplot_median_thickness", median_thickness_, params);
+	setAttribute(prefix, "boxplot_whisker", whisker_, params);
+	setAttribute(prefix, "boxplot_whisker_box_width", whisker_box_width_, params);
+	setAttribute(prefix, "boxplot_whisker_box_border", whisker_box_border_, params);
+	setAttribute(prefix, "boxplot_whisker_box_border_thickness", whisker_box_border_thickness_, params);
+	setAttribute(prefix, "boxplot_whisker_line_thickness", whisker_line_thickness_, params);
 	
-	setMember(prefix, "boxplot_box", box_, params);
-	setMember(prefix, "boxplot_whisker", whisker_, params);
+	setMember(prefix, "boxplot_box_colour", box_colour_, params);
+	setMember(prefix, "boxplot_box_border_colour", box_border_colour_, params);
+	setAttribute(prefix, "boxplot_box_border_line_style", box_border_style_, params);
+	setMember(prefix, "boxplot_median_colour", median_colour_, params);
+	setAttribute(prefix, "boxplot_median_line_style", median_style_, params);
+	setMember(prefix, "boxplot_whisker_box_colour", whisker_box_colour_, params);
+	setMember(prefix, "boxplot_whisker_box_border_colour", whisker_box_border_colour_, params);
+	setAttribute(prefix, "boxplot_whisker_box_border_line_style", whisker_box_border_style_, params);
+	setMember(prefix, "boxplot_whisker_line_colour", whisker_line_colour_, params);
+	setAttribute(prefix, "boxplot_whisker_line_style", whisker_line_style_, params);
 	
 }
 
 void BoxPlotVisualiserAttributes::copy(const BoxPlotVisualiserAttributes& other)
 {
-	box_ = unique_ptr<NoBoxPlotBox>(other.box_->clone());
-	whisker_ = unique_ptr<NoBoxPlotWhisker>(other.whisker_->clone());
+	box_ = other.box_;
+	box_width_ = other.box_width_;
+	box_border_ = other.box_border_;
+	box_border_thickness_ = other.box_border_thickness_;
+	median_ = other.median_;
+	median_thickness_ = other.median_thickness_;
+	whisker_ = other.whisker_;
+	whisker_box_width_ = other.whisker_box_width_;
+	whisker_box_border_ = other.whisker_box_border_;
+	whisker_box_border_thickness_ = other.whisker_box_border_thickness_;
+	whisker_line_thickness_ = other.whisker_line_thickness_;
+	box_colour_ = unique_ptr<Colour>(other.box_colour_->clone());
+	box_border_colour_ = unique_ptr<Colour>(other.box_border_colour_->clone());
+	box_border_style_ = other.box_border_style_;
+	median_colour_ = unique_ptr<Colour>(other.median_colour_->clone());
+	median_style_ = other.median_style_;
+	whisker_box_colour_ = unique_ptr<Colour>(other.whisker_box_colour_->clone());
+	whisker_box_border_colour_ = unique_ptr<Colour>(other.whisker_box_border_colour_->clone());
+	whisker_box_border_style_ = other.whisker_box_border_style_;
+	whisker_line_colour_ = unique_ptr<Colour>(other.whisker_line_colour_->clone());
+	whisker_line_style_ = other.whisker_line_style_;
 	
 }
 
@@ -63,10 +120,6 @@ bool BoxPlotVisualiserAttributes::accept(const string& node)
 {
 
 	if ( magCompare(node, "boxplot")  )
-		return true;
-	if ( acceptNode(node, box_) )
-		return true;
-	if ( acceptNode(node, whisker_) )
 		return true;
 	
 	return false;
@@ -86,14 +139,10 @@ void BoxPlotVisualiserAttributes::set(const XmlNode& node)
 	if ( apply )
 		set(node.attributes());
 	else {
-		setMember(node.name(), box_, node);
-		setMember(node.name(), whisker_, node);
 		
 	}
 	for (auto &elt : node.elements())
 	{
-		setMember(elt->name(), box_, *elt);
-		setMember(elt->name(), whisker_, *elt);
 		
 	}
 }
@@ -101,8 +150,27 @@ void BoxPlotVisualiserAttributes::set(const XmlNode& node)
 void BoxPlotVisualiserAttributes::print(ostream& out)  const
 {
 	out << "Attributes[";
-	out << " box = " <<  *box_;
-	out << " whisker = " <<  *whisker_;
+	out << " box = " <<  box_;
+	out << " box_width = " <<  box_width_;
+	out << " box_border = " <<  box_border_;
+	out << " box_border_thickness = " <<  box_border_thickness_;
+	out << " median = " <<  median_;
+	out << " median_thickness = " <<  median_thickness_;
+	out << " whisker = " <<  whisker_;
+	out << " whisker_box_width = " <<  whisker_box_width_;
+	out << " whisker_box_border = " <<  whisker_box_border_;
+	out << " whisker_box_border_thickness = " <<  whisker_box_border_thickness_;
+	out << " whisker_line_thickness = " <<  whisker_line_thickness_;
+	out << " box_colour = " <<  *box_colour_;
+	out << " box_border_colour = " <<  *box_border_colour_;
+	out << " box_border_style = " <<  box_border_style_;
+	out << " median_colour = " <<  *median_colour_;
+	out << " median_style = " <<  median_style_;
+	out << " whisker_box_colour = " <<  *whisker_box_colour_;
+	out << " whisker_box_border_colour = " <<  *whisker_box_border_colour_;
+	out << " whisker_box_border_style = " <<  whisker_box_border_style_;
+	out << " whisker_line_colour = " <<  *whisker_line_colour_;
+	out << " whisker_line_style = " <<  whisker_line_style_;
 	
 	out << "]" << "\n";
 }
@@ -111,23 +179,68 @@ void BoxPlotVisualiserAttributes::toxml(ostream& out)  const
 {
 	out <<  "\"boxplot\"";
 	out << ", \"boxplot_box\":";
-	box_->toxml(out);
+	niceprint(out,box_);
+	out << ", \"boxplot_box_width\":";
+	niceprint(out,box_width_);
+	out << ", \"boxplot_box_border\":";
+	niceprint(out,box_border_);
+	out << ", \"boxplot_box_border_thickness\":";
+	niceprint(out,box_border_thickness_);
+	out << ", \"boxplot_median\":";
+	niceprint(out,median_);
+	out << ", \"boxplot_median_thickness\":";
+	niceprint(out,median_thickness_);
 	out << ", \"boxplot_whisker\":";
-	whisker_->toxml(out);
+	niceprint(out,whisker_);
+	out << ", \"boxplot_whisker_box_width\":";
+	niceprint(out,whisker_box_width_);
+	out << ", \"boxplot_whisker_box_border\":";
+	niceprint(out,whisker_box_border_);
+	out << ", \"boxplot_whisker_box_border_thickness\":";
+	niceprint(out,whisker_box_border_thickness_);
+	out << ", \"boxplot_whisker_line_thickness\":";
+	niceprint(out,whisker_line_thickness_);
+	out << ", \"boxplot_box_colour\":";
+	niceprint(out, *box_colour_);
+	out << ", \"boxplot_box_border_colour\":";
+	niceprint(out, *box_border_colour_);
+	out << ", \"boxplot_box_border_line_style\":";
+	niceprint(out, box_border_style_);
+	out << ", \"boxplot_median_colour\":";
+	niceprint(out, *median_colour_);
+	out << ", \"boxplot_median_line_style\":";
+	niceprint(out, median_style_);
+	out << ", \"boxplot_whisker_box_colour\":";
+	niceprint(out, *whisker_box_colour_);
+	out << ", \"boxplot_whisker_box_border_colour\":";
+	niceprint(out, *whisker_box_border_colour_);
+	out << ", \"boxplot_whisker_box_border_line_style\":";
+	niceprint(out, whisker_box_border_style_);
+	out << ", \"boxplot_whisker_line_colour\":";
+	niceprint(out, *whisker_line_colour_);
+	out << ", \"boxplot_whisker_line_style\":";
+	niceprint(out, whisker_line_style_);
 	
 }
 
 static MagicsParameter<string> boxplot_box("boxplot_box", "on");
+static MagicsParameter<double> boxplot_box_width("boxplot_box_width", 1.0);
+static MagicsParameter<string> boxplot_box_border("boxplot_box_border", "on");
+static MagicsParameter<int> boxplot_box_border_thickness("boxplot_box_border_thickness", 1);
+static MagicsParameter<string> boxplot_median("boxplot_median", "on");
+static MagicsParameter<int> boxplot_median_thickness("boxplot_median_thickness", 3);
 static MagicsParameter<string> boxplot_whisker("boxplot_whisker", "line");
-#include "BoxPlotItem.h"
-#include "BoxPlotBasicItem.h"
-static SimpleObjectMaker<BoxPlotBox , NoBoxPlotBox> box_BoxPlotBox("box");
-static SimpleObjectMaker<BoxPlotBox , NoBoxPlotBox> on_BoxPlotBox("on");
-static SimpleObjectMaker<NoBoxPlotBox , NoBoxPlotBox> noBox_NoBoxPlotBox("noBox");
-static SimpleObjectMaker<NoBoxPlotBox , NoBoxPlotBox> off_NoBoxPlotBox("off");
-static SimpleObjectMaker<BoxPlotWhiskerBox , NoBoxPlotWhisker> whiskerbox_BoxPlotWhiskerBox("whiskerbox");
-static SimpleObjectMaker<BoxPlotWhiskerBox , NoBoxPlotWhisker> box_BoxPlotWhiskerBox("box");
-static SimpleObjectMaker<NoBoxPlotWhisker , NoBoxPlotWhisker> nowhisker_NoBoxPlotWhisker("nowhisker");
-static SimpleObjectMaker<NoBoxPlotWhisker , NoBoxPlotWhisker> off_NoBoxPlotWhisker("off");
-static SimpleObjectMaker<BoxPlotWhiskerLine , NoBoxPlotWhisker> whiskerline_BoxPlotWhiskerLine("whiskerline");
-static SimpleObjectMaker<BoxPlotWhiskerLine , NoBoxPlotWhisker> line_BoxPlotWhiskerLine("line");
+static MagicsParameter<double> boxplot_whisker_box_width("boxplot_whisker_box_width", 0.25);
+static MagicsParameter<string> boxplot_whisker_box_border("boxplot_whisker_box_border", "on");
+static MagicsParameter<int> boxplot_whisker_box_border_thickness("boxplot_whisker_box_border_thickness", 1);
+static MagicsParameter<int> boxplot_whisker_line_thickness("boxplot_whisker_line_thickness", 3);
+static MagicsParameter<string> boxplot_box_colour("boxplot_box_colour", "sky");
+static MagicsParameter<string> boxplot_box_border_colour("boxplot_box_border_colour", "navy");
+static MagicsParameter<string> boxplot_box_border_line_style("boxplot_box_border_line_style", "solid");
+static MagicsParameter<string> boxplot_median_colour("boxplot_median_colour", "navy");
+static MagicsParameter<string> boxplot_median_line_style("boxplot_median_line_style", "solid");
+static MagicsParameter<string> boxplot_whisker_box_colour("boxplot_whisker_box_colour", "sky");
+static MagicsParameter<string> boxplot_whisker_box_border_colour("boxplot_whisker_box_border_colour", "navy");
+static MagicsParameter<string> boxplot_whisker_box_border_line_style("boxplot_whisker_box_border_line_style", "solid");
+static MagicsParameter<string> boxplot_whisker_line_colour("boxplot_whisker_line_colour", "navy");
+static MagicsParameter<string> boxplot_whisker_line_style("boxplot_whisker_line_style", "solid");

@@ -208,13 +208,7 @@ YRegularCoordinate.xml
 )
 
 list( APPEND _magics_xmls BoxPlotBox.xml
-		BoxPlotBoxBorder.xml
-		BoxPlotDecoder.xml
-		BoxPlotMedian.xml
 		BoxPlotVisualiser.xml
-		BoxPlotWhiskerBorder.xml
-		BoxPlotWhiskerBox.xml
-		BoxPlotWhiskerLine.xml
 		CdfGraph.xml
 		EpsCloud.xml
 		EpsDirection.xml

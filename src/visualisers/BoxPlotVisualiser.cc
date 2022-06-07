@@ -66,8 +66,8 @@ void BoxPlotVisualiser::operator()(Data& data, BasicGraphicsObjectContainer& vis
         return;
 
 
-    box_->cm(user);
-    whisker_->cm(user);
+    cm_ = user;
+
 
 
     for (const auto& point : points) {
@@ -80,13 +80,168 @@ void BoxPlotVisualiser::operator()(Data& data, BasicGraphicsObjectContainer& vis
         }
 
 
-        (*box_)(visitor, *point);
+        box(visitor, *point);
 
-        whisker_->top(visitor, *point);
-        whisker_->bottom(visitor, *point);
+        if ( magCompare(whisker_, "line")) {
+            whisker_line_top(visitor, *point);
+            whisker_line_bottom(visitor, *point);
+        }
+         if ( magCompare(whisker_, "box")) {
+            whisker_box_top(visitor, *point);
+            whisker_box_bottom(visitor, *point);
+        }
     }
+
+    
+    
 }
 
 void BoxPlotVisualiser::visit(LegendVisitor&) {
     // Not Yet!
+}
+
+
+void BoxPlotVisualiser::box(BasicGraphicsObjectContainer& visitor, const CustomisedPoint& point) const {
+    if ( !box_)
+        return;
+    const Transformation& transformation = visitor.transformation();
+    Polyline* box                        = new Polyline();
+    box->setFilled(true);
+    box->setFillColour(*box_colour_);
+    box->setShading(new FillShadingProperties());
+
+    double width                          = (box_width_ * cm_) / 2;  // Could later be expressed in %
+    CustomisedPoint::const_iterator upper = point.find("upper");
+    CustomisedPoint::const_iterator lower = point.find("lower");
+    CustomisedPoint::const_iterator x     = point.find("x");
+    if (x == point.end() || upper == point.end() || lower == point.end())
+        return;
+    box->push_back(transformation(UserPoint(x->second - width, upper->second)));
+    box->push_back(transformation(UserPoint(x->second + width, upper->second)));
+    box->push_back(transformation(UserPoint(x->second + width, lower->second)));
+    box->push_back(transformation(UserPoint(x->second - width, lower->second)));
+    box->push_back(transformation(UserPoint(x->second - width, upper->second)));
+
+    box_border(*box);
+    visitor.push_back(box);
+
+    CustomisedPoint::const_iterator median = point.find("median");
+
+    if (median == point.end())
+        return;
+
+    if ( median_ ) {
+        Polyline* line = new Polyline();
+
+        line->push_back(transformation(UserPoint(x->second - width, median->second)));
+        line->push_back(transformation(UserPoint(x->second + width, median->second)));
+
+        line->setColour(*median_colour_);
+        line->setLineStyle(median_style_);
+        line->setThickness(median_thickness_);
+        visitor.push_back(line);
+    }
+}
+
+void BoxPlotVisualiser::box_border(Polyline& box) const {
+    if (!box_border_)
+        return;
+    box.setColour(*box_border_colour_);
+    box.setLineStyle(box_border_style_);
+    box.setThickness(box_border_thickness_);
+}
+
+
+
+
+void BoxPlotVisualiser::whisker_box_top(BasicGraphicsObjectContainer& visitor, const CustomisedPoint& point) const {
+    const Transformation& transformation = visitor.transformation();
+    Polyline* whisker                    = new Polyline();
+    whisker->setFilled(true);
+    whisker->setFillColour(*whisker_box_colour_);
+    whisker->setShading(new FillShadingProperties());
+    double width                          = (whisker_box_width_ * cm_) / 2;  // Could later be expressed in %
+    CustomisedPoint::const_iterator max   = point.find("max");
+    CustomisedPoint::const_iterator upper = point.find("upper");
+    CustomisedPoint::const_iterator x     = point.find("x");
+    if (x == point.end() || max == point.end() || upper == point.end())
+        return;
+    whisker->push_back(transformation(UserPoint(x->second - width, max->second)));
+    whisker->push_back(transformation(UserPoint(x->second + width, max->second)));
+    whisker->push_back(transformation(UserPoint(x->second + width, upper->second)));
+    whisker->push_back(transformation(UserPoint(x->second - width, upper->second)));
+    whisker->push_back(transformation(UserPoint(x->second - width, max->second)));
+
+    whisker_border(*whisker);
+    visitor.push_back(whisker);
+}
+
+void  BoxPlotVisualiser::whisker_box_bottom(BasicGraphicsObjectContainer& visitor, const CustomisedPoint& point) const {
+
+    const Transformation& transformation = visitor.transformation();
+    Polyline* whisker                    = new Polyline();
+    whisker->setFilled(true);
+    whisker->setFillColour(*whisker_box_colour_);
+    whisker->setShading(new FillShadingProperties());
+    double width                          = (whisker_box_width_ * cm_) / 2;  // Could later be expressed in %
+    CustomisedPoint::const_iterator min   = point.find("min");
+    CustomisedPoint::const_iterator lower = point.find("lower");
+    CustomisedPoint::const_iterator x     = point.find("x");
+    if (x == point.end() || min == point.end() || lower == point.end())
+        return;
+    whisker->push_back(transformation(UserPoint(x->second - width, min->second)));
+    whisker->push_back(transformation(UserPoint(x->second + width, min->second)));
+    whisker->push_back(transformation(UserPoint(x->second + width, lower->second)));
+    whisker->push_back(transformation(UserPoint(x->second - width, lower->second)));
+    whisker->push_back(transformation(UserPoint(x->second - width, min->second)));
+
+    whisker_border(*whisker);
+    visitor.push_back(whisker);
+}
+
+
+void BoxPlotVisualiser::whisker_line_top(BasicGraphicsObjectContainer& visitor, const CustomisedPoint& point) const {
+    const Transformation& transformation = visitor.transformation();
+    Polyline* whisker                    = new Polyline();
+    whisker->setColour(*whisker_box_colour_);
+    whisker->setLineStyle(whisker_line_style_);
+    whisker->setThickness(whisker_line_thickness_);
+
+    CustomisedPoint::const_iterator max   = point.find("max");
+    CustomisedPoint::const_iterator upper = point.find("upper");
+    CustomisedPoint::const_iterator x     = point.find("x");
+    if (x == point.end() || max == point.end() || upper == point.end())
+        return;
+    whisker->push_back(transformation(UserPoint(x->second, max->second)));
+    whisker->push_back(transformation(UserPoint(x->second, upper->second)));
+
+
+    visitor.push_back(whisker);
+}
+
+void BoxPlotVisualiser::whisker_line_bottom(BasicGraphicsObjectContainer& visitor, const CustomisedPoint& point) const {
+    const Transformation& transformation = visitor.transformation();
+    Polyline* whisker                    = new Polyline();
+    whisker->setColour(*whisker_line_colour_);
+    whisker->setLineStyle(whisker_line_style_);
+    whisker->setThickness(whisker_line_thickness_);
+
+    CustomisedPoint::const_iterator min   = point.find("min");
+    CustomisedPoint::const_iterator lower = point.find("lower");
+    CustomisedPoint::const_iterator x     = point.find("x");
+    if (x == point.end() || min == point.end() || lower == point.end())
+        return;
+    whisker->push_back(transformation(UserPoint(x->second, min->second)));
+    whisker->push_back(transformation(UserPoint(x->second, lower->second)));
+
+
+    visitor.push_back(whisker);
+}
+
+void BoxPlotVisualiser::whisker_border(Polyline& whisker) const {
+    if ( ! whisker_box_border_ )
+        return;
+    whisker.setColour(*whisker_box_border_colour_);
+    whisker.setLineStyle(whisker_box_border_style_);
+    whisker.setThickness(whisker_box_border_thickness_);
 }

@@ -39,8 +39,6 @@
 
 
 
-#include "NoBoxPlotBoxWrapper.h"
-#include "NoBoxPlotWhiskerWrapper.h"
 
 
 namespace magics {
