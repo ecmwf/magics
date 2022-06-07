@@ -13,6 +13,8 @@ BinaryObject.xml
 BinningObject.xml
 BothValuePlotMethod.xml
 Boundaries.xml
+BoxPlotVisualiser.xml
+BoxPlotDecoder.xml
 CalculateColourTechnique.xml
 GradientsColourTechnique.xml
 PaletteColourTechnique.xml
@@ -208,8 +210,7 @@ YRegularCoordinate.xml
 )
 
 list( APPEND _magics_xmls
-		BoxPlotVisualiser.xml
-		BoxPlotDecoder.xml
+		
 		CdfGraph.xml
 		EpsCloud.xml
 		EpsDirection.xml
