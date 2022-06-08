@@ -43,9 +43,7 @@
 #include "ObsDecoderWrapper.h"
 #include "ObsPlottingWrapper.h"
 
-#if 0
 #include "BoxPlotDecoderWrapper.h"
-#endif
 
 #include "ContourWrapper.h"
 #include "GeoJSonWrapper.h"
@@ -58,9 +56,9 @@
 #include "TextVisitor.h"
 #include "TextVisitorWrapper.h"
 
-#if 0
+
 #include "BoxPlotVisualiserWrapper.h"
-#endif
+
 
 #include "GraphPlottingWrapper.h"
 #include "MultiVisdef.h"
@@ -1425,7 +1423,6 @@ bool MagPlus::bufr(magics::MagRequest& in) {
 }
 
 bool MagPlus::inputBoxplot(magics::MagRequest& in) {
-#if 0
     in.print();
     VisualAction* action = new VisualAction();
     top()->push_back(action);
@@ -1435,7 +1432,7 @@ bool MagPlus::inputBoxplot(magics::MagRequest& in) {
     boxplot.set(in);
     top()->data(boxplot.object());
     setIconInfo(in, *boxplot.object());
-#endif
+
     return false;  // do not exit
 }
 bool MagPlus::symbol(magics::MagRequest& in) {
@@ -1495,7 +1492,6 @@ bool MagPlus::obs(magics::MagRequest& in) {
     return false;  // do not exit
 }
 bool MagPlus::boxplot(magics::MagRequest& in) {
-#if 0
     BoxPlotVisualiserWrapper visdef;
 
     visdef.set(in);
@@ -1503,7 +1499,7 @@ bool MagPlus::boxplot(magics::MagRequest& in) {
     MagLog::dev() << "add boxplot visualiser" << *visdef.object() << endl;
     top()->visdef(visdef.object());
     pop();
-#endif
+
     return false;  // do not exit
 }
 bool MagPlus::dataloop(magics::MagRequest& in) {
