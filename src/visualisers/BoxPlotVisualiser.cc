@@ -203,7 +203,7 @@ void  BoxPlotVisualiser::whisker_box_bottom(BasicGraphicsObjectContainer& visito
 void BoxPlotVisualiser::whisker_line_top(BasicGraphicsObjectContainer& visitor, const CustomisedPoint& point) const {
     const Transformation& transformation = visitor.transformation();
     Polyline* whisker                    = new Polyline();
-    whisker->setColour(*whisker_box_colour_);
+    whisker->setColour(*whisker_line_colour_);
     whisker->setLineStyle(whisker_line_style_);
     whisker->setThickness(whisker_line_thickness_);
 
