@@ -62,14 +62,6 @@ void IsoShadingWrapper::set(const MagRequest& request)
 	NoIsoShadingWrapper::set(request);
 	
 
-	if  (request.countValues("CONTOUR_SHADE_MAX_LEVEL") ) {
-		double shade_max_value = request("CONTOUR_SHADE_MAX_LEVEL");
-		isoshading_->shade_max_ = shade_max_value;
-		}
-	if  (request.countValues("CONTOUR_SHADE_MIN_LEVEL") ) {
-		double shade_min_value = request("CONTOUR_SHADE_MIN_LEVEL");
-		isoshading_->shade_min_ = shade_min_value;
-		}
 	
 	
 		string technique_value = request.countValues("CONTOUR_SHADE_TECHNIQUE") ?  (string) request("CONTOUR_SHADE_TECHNIQUE") : "polygon_shading";

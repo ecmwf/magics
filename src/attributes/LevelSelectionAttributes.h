@@ -52,6 +52,8 @@ public:
 	string tag_;
 	double max_;
 	double min_;
+	double shade_max_;
+	double shade_min_;
 	double oob_min_;
 	double oob_max_;
 	 

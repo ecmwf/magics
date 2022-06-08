@@ -39,23 +39,42 @@ void LevelListSelectionType::print(ostream& out) const {
     out << "]";
 }
 
+#define MINSET(v) !same(v, -1.0e+21)
+#define MAXSET(v) !same(v, +1.0e+21)
 
-void LevelListSelectionType::calculate(double min, double max, bool) {
+void LevelListSelectionType::calculate(double min, double max, bool shading) {
     clear();
 
+    double min_level=min;
+    double max_level=max;
+
+    if ( MINSET(min_) )
+        min_level = min_;
     
-    minOutOfBond_ = same(min_, -1.0e+21) && !same(oob_min_, -1.0e+21);
-    maxOutOfBond_ = same(max_, 1.0e+21) && !same(oob_max_, 1.0e+21);
+    if ( MAXSET(max_) )
+        max_level = max_;
+
+    if ( shading && MINSET(shade_min_) )
+        min_level = shade_min_;
+    
+    if ( shading && MAXSET(shade_max_) )
+        max_level = shade_max_;
+
+    minOutOfBond_ = oob_min_ > min_level;
+    maxOutOfBond_ = oob_max_ < max_level;   
+
+    
+   
     double mini = min_;
     double maxi = max_;
     if (minOutOfBond_) {
         push_back(min);
         push_back(oob_min_);
-        mini = oob_min_;
+        min_level = oob_min_;
     }
 
     if (maxOutOfBond_) {
-        maxi = oob_max_;
+        max_level = oob_max_;
     }
 
 

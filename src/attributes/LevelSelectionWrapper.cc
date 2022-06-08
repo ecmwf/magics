@@ -63,6 +63,14 @@ void LevelSelectionWrapper::set(const MagRequest& request)
 		double min_value = request("CONTOUR_MIN_LEVEL");
 		levelselection_->min_ = min_value;
 		}
+	if  (request.countValues("CONTOUR_SHADE_MAX_LEVEL") ) {
+		double shade_max_value = request("CONTOUR_SHADE_MAX_LEVEL");
+		levelselection_->shade_max_ = shade_max_value;
+		}
+	if  (request.countValues("CONTOUR_SHADE_MIN_LEVEL") ) {
+		double shade_min_value = request("CONTOUR_SHADE_MIN_LEVEL");
+		levelselection_->shade_min_ = shade_min_value;
+		}
 	if  (request.countValues("CONTOUR_OUT_OF_BOUND_MIN") ) {
 		double oob_min_value = request("CONTOUR_OUT_OF_BOUND_MIN");
 		levelselection_->oob_min_ = oob_min_value;

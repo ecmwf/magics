@@ -40,56 +40,60 @@ void IntervalSelectionType::print(ostream& out) const {
     out << "]";
 }
 
+#define MINSET(v) !same(v, -1.0e+21)
+#define MAXSET(v) !same(v, +1.0e+21)
 void IntervalSelectionType::calculate(double min, double max, bool shading) {
     clear();
     std::set<double> levels;
 
-    vector<double> minbounds = { min, oob_min_, min_, };
-    vector<double> maxbounds = { max, oob_max_, max_ };
+    double min_level=min;
+    double max_level=max;
 
-    for (auto i = maxbounds.begin(); i != maxbounds.end(); ++i) {
-        cout << "max " << *i << endl;
-    }
-
-    for (auto i = minbounds.begin(); i != minbounds.end(); ++i) {
-        cout << "min " << *i << endl;
-    }
-
-    auto lmin = *std::max_element(minbounds.begin(), minbounds.end());
-    auto lmax = *std::min_element(maxbounds.begin(), maxbounds.end());
+    if ( MINSET(min_) )
+        min_level = min_;
     
-    minOutOfBond_ = oob_min_ > std::max(min, min_);
-    maxOutOfBond_ = oob_max_ < std::min(max, max_);
+    if ( MAXSET(max_) )
+        max_level = max_;
+
+    if ( shading && MINSET(shade_min_) )
+        min_level = shade_min_;
+    
+    if ( shading && MAXSET(shade_max_) )
+        max_level = shade_max_;
+
+
+    minOutOfBond_ = oob_min_ > min_level;
+    maxOutOfBond_ = oob_max_ < max_level;
     if ( minOutOfBond_ ) {
-            lmin = oob_min_;
-            levels.insert(min);
-            cout << "HERE" << endl;
+        levels.insert(min_level);
+        min_level = oob_min_;
     }
     
     if ( maxOutOfBond_ ) {
-            lmax = oob_max_;
-            levels.insert(max);
+        levels.insert(max_level);
+        max_level = oob_max_;
     }
+            
 
 
-    levels.insert(lmin);
-    levels.insert(lmax);
+    levels.insert(min_level);
+    levels.insert(max_level);
 
 
     double level = reference_;
     double newref;
 
     int i = 1;
-    while (level < lmax && !same(level, lmax)) {
-        if (level > lmin)
+    while (level < max_level && !same(level, max_level)) {
+        if (level > min_level)
             levels.insert(level);
         level = reference_ + (i * interval_);
         i++;
     }
     level = reference_;
     i     = 1;
-    while (level > lmin && !same(level, lmin)) {
-        if (level < lmax)
+    while (level > min_level && !same(level, min_level)) {
+        if (level < max_level)
             levels.insert(level);
         level = reference_ - (i * interval_);
         i++;
@@ -102,9 +106,9 @@ void IntervalSelectionType::calculate(double min, double max, bool shading) {
         push_back(*level);
     }
     out << "]" << endl;
-    cout  << out.str() << endl;
+    // cout  << out.str() << endl;
 
-    // Now make sure that the reference is inside the interval ..
+    
 }
 
 double IntervalSelectionType::reference(int freq) const {

@@ -129,22 +129,21 @@ public:
 
     virtual bool needClipping() override { return (*this->technique_).needClipping(); }
     virtual bool operator()(LevelSelection& list) override {
-        LevelSelection filter;
-        for (LevelSelection::const_iterator level = list.begin(); level != list.end(); ++level)
-            if (shade_min_ <= *level && *level <= shade_max_)
-                filter.push_back(*level);
+        // LevelSelection filter;
+        // for (LevelSelection::const_iterator level = list.begin(); level != list.end(); ++level)
+        //     if (shade_min_ <= *level && *level <= shade_max_) {
+        //         filter.push_back(*level);
+        //         cout << shade_min_ << " < " << *level << " < " << shade_max_ << endl;
+        //     }
 
 
-        (*this->colourMethod_).prepare(list, filter);
+        (*this->colourMethod_).prepare(list, list);
+
+        if (!list.empty() && (list.back() == list.front()))
+            list.push_back(list.front());
 
 
-        if (!filter.empty() && (filter.back() == filter.front()))
-            filter.push_back(filter.front());
-
-        
-
-
-        return (*this->technique_).prepare(filter, *this->colourMethod_);
+        return (*this->technique_).prepare(list, *this->colourMethod_);
     }
     // returns true, if the contouring lines have to be created... False, is the shading is finished...
     virtual void visit(LegendVisitor& legend) override {

@@ -30,64 +30,57 @@ using namespace magics;
 
 CountSelectionType::CountSelectionType() {}
 
+#define MINSET(v) !same(v, -1.0e+21)
+#define MAXSET(v) !same(v, +1.0e+21)
 
-void CountSelectionType::calculate(double min, double max, bool) {
+void CountSelectionType::calculate(double min, double max, bool shading) {
 
  
     clear();
 
-   
-    vector<double> minbounds = { min, oob_min_, min_, };
-    vector<double> maxbounds = { max, oob_max_, max_ };
+    double min_level=min;
+    double max_level=max;
 
-    for (auto i = maxbounds.begin(); i != maxbounds.end(); ++i) {
-        cout << "max " << *i << endl;
-    }
-
-    for (auto i = minbounds.begin(); i != minbounds.end(); ++i) {
-        cout << "min " << *i << endl;
-    }
-
-    auto mini = *std::max_element(minbounds.begin(), minbounds.end());
-    auto maxi = *std::min_element(maxbounds.begin(), maxbounds.end());
+    if ( MINSET(min_) )
+        min_level = min_;
     
-    minOutOfBond_ = oob_min_ > std::max(min, min_);
-    maxOutOfBond_ = oob_max_ < std::min(max, max_);
+    if ( MAXSET(max_) )
+        max_level = max_;
 
+    if ( shading && MINSET(shade_min_) )
+        min_level = shade_min_;
+    
+    if ( shading && MAXSET(shade_max_) )
+        max_level = shade_max_;
+
+    minOutOfBond_ = oob_min_ > min_level;
+    maxOutOfBond_ = oob_max_ < max_level;
 
     int i       = 0;
-
     if ( minOutOfBond_ ) {
-        cout << "minOutOfBond_" << endl;
         i++;
+        
     }
-
+    
     if ( maxOutOfBond_ ) {
-        cout << "maxOutOfBond_" << endl;
-        i++;
+       i++;
     }
 
-
-    // if ( mini > oob_min_ )
-    //     i++;
-    //  if ( maxi < oob_max_ )
-    //     i++;
-
-    // i += ( same(maxi, 1.0e+21) ) ? 1 : 0;
-    // i += ( same(mini, -1.0e+21) ) ? 1 : 0;
+    i += ( MINSET(min_level) ) ? 1 : 0;
+    i += ( MAXSET(max_level) ) ? 1 : 0;
 
 
-    cout << mini << " " << maxi << " " << i << endl;
+    cout << min_level << " " << max_level << " " << i << endl;
 
 
    
 
     double nb = levelCount_ - 1;
-    if (same(maxi, mini)) {
-        push_back(mini);
+    if (same(max_level, min_level)) {
+        push_back(min_level);
         return;
     }
-    double step = (maxi - mini) / nb;
+    double step = (max_level - min_level) / nb;
     double toleranceProportion =
         (double)tolerance_ /
         (double)(levelCount_ + 1 + i);  // tolerance as a proportion of the number of levels
@@ -95,7 +88,7 @@ void CountSelectionType::calculate(double min, double max, bool) {
                                         // number of levels we will not actually plot, ie the min/max contours).
     if (same(step, 0)) {
         // Only one isoline!
-        push_back(mini);
+        push_back(min_level);
         return;
     }
 
@@ -147,12 +140,12 @@ void CountSelectionType::calculate(double min, double max, bool) {
     inc *= istep;  // convert back into proper range
 
 
-    double first = floor(mini / inc) * inc;
+    double first = floor(min_level / inc) * inc;
 
-    while (first > mini)
+    while (first > min_level)
         first -= inc;
 
-    push_back(mini);
+    push_back(min_level);
     first += inc;
     double epsilon = inc / 10000.0;
     while (same(epsilon, 0)) {
@@ -161,18 +154,18 @@ void CountSelectionType::calculate(double min, double max, bool) {
     }
 
 
-    for (double val = first; val < maxi; val += inc) {
+    for (double val = first; val < max_level; val += inc) {
         // special case - if the value is close to zero then set it to precisely zero to avoid later formatting issues
         if (fabs(val) < epsilon)
             push_back(0.0);
-        else if (same(val, maxi))
-            push_back(maxi);
+        else if (same(val, max_level))
+            push_back(max_level);
         else
             push_back(val);
     }
 
-    if (maxi != back())
-        push_back(maxi);
+    if (max_level != back())
+        push_back(max_level);
     int si = static_cast<int>(size());
 
 
@@ -182,11 +175,11 @@ void CountSelectionType::calculate(double min, double max, bool) {
     if (si - i < levelCount_ - tolerance_ || si - i > levelCount_ + tolerance_) {
         MagLog::debug() << "Not using nice levels[" << levelCount_ << ", " << tolerance_ << "]-->" << size() << endl;
         clear();
-        step       = (maxi - mini) / (levelCount_ - 1);
-        double val = mini;
+        step       = (max_level - min_level) / (levelCount_ - 1);
+        double val = min_level;
         while (1) {
             push_back(val);
-            if (same(val, maxi) || val > maxi)
+            if (same(val, max_level) || val > max_level)
                 break;
             val += step;
         }
