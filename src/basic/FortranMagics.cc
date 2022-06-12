@@ -429,6 +429,14 @@ void FortranMagics::ptephi() {
 }
 void FortranMagics::pobs() {
     actions();
+
+    // HACK
+    action_->visdef(new ObsPlotting());
+
+    cout << "FortranMagics::pobs() {" << endl;
+    return;
+
+
     action_         = new VisualAction();
     ObsDecoder* obs = new ObsDecoder();
     if (obs->defined()) {
@@ -821,6 +829,8 @@ void FortranMagics::ptext() {
 
 void FortranMagics::psymb() {
     actions();
+
+
 
     string mode;
     string wind;

@@ -46,14 +46,16 @@ public:
     }
 
     void operator()(CustomisedPoint&, ComplexSymbol& symbol) const override {
-        if (!owner_->station_ring_visible_)
-            return;
+       
+        // if (!owner_->station_ring_visible_)
+        //     return;
         SymbolItem* station = new SymbolItem();
         station->x(column_);
         station->y(row_);
         station->colour(*owner_->station_ring_colour_);
-        station->symbol("circle");
-        station->height(owner_->ring_size_);
+        // station->symbol("N_8");
+        station->symbol("duck");
+        station->height(owner_->ring_size_*2);
         symbol.add(station);
     }
 
@@ -109,7 +111,7 @@ public:
         column_    = atoi(find(def, "column").c_str());
         colour_    = find(def, "colour");
         speed_     = find(def, "wind_speed", "wind_speed");
-        direction_ = find(def, "wind_direction", "wind_direction");
+        direction_ = find(def, "wind_direction", "wind_to_direction");
     }
 
 protected:

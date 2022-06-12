@@ -71,6 +71,10 @@ void GeoJSonWrapper::set(const MagRequest& request)
 		double binning_resolution_value = request("GEOJSON_BINNING_GRID_RESOLUTION");
 		geojson_->binning_resolution_ = binning_resolution_value;
 		}
+	if  (request.countValues("GEOJSON_VALUE_PROPERTY") ) {
+		string value_value = request("GEOJSON_VALUE_PROPERTY");
+		geojson_->value_ = value_value;
+		}
 	
 	
 }
