@@ -131,6 +131,8 @@ const ObsTemplate& ObsTable::get(const string& type) {
 
 
 void ObsTemplate::operator()(CustomisedPoint& obs, BasicGraphicsObjectContainer& out) const {
+    
+    cout << "ObsTemplate" << endl;
     if (empty())
         return;  // Nothing to display.
 
@@ -148,6 +150,8 @@ void ObsTemplate::operator()(CustomisedPoint& obs, BasicGraphicsObjectContainer&
     symbol->setHeight(height_ * 0.5);
 
     out.push_back(symbol);
+
+    
 
     for (const_iterator item = begin(); item != end(); ++item)
         (*(*item))(obs, *symbol);

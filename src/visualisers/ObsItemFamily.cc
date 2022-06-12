@@ -53,10 +53,12 @@ void ObsWind::visit(std::set<string>& tokens) {
         return;
     tokens.insert(speed_);
     tokens.insert(direction_);
+    
+
 }
 void ObsWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
-    if (!owner_->wind_visible_)
-        return;
+    // if (!owner_->wind_visible_)
+    //     return;
 
     map<string, double>::iterator it = point.begin();
     map<string, double>::iterator en = point.end();
@@ -65,6 +67,8 @@ void ObsWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
     // F}
     Colour colour = owner_->wind_colour_->automatic() ? *owner_->colour_ : *owner_->wind_colour_;
 
+    
+
     CustomisedPoint::const_iterator speed = point.find(speed_);
     if (speed == point.end())
         return;
@@ -72,11 +76,27 @@ void ObsWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
     if (direction == point.end())
         return;
 
+   
+
+    if ( speed->second  < 1. )
+        colour = Colour("green");
+    
+    if ( speed->second > 1.5 && speed->second <2 )
+        colour = Colour("yellow");
+    if ( speed->second > 2.5 && speed->second <3 )
+        colour = Colour("orange");
+    if ( speed->second > 3.5 && speed->second <4 )
+        colour = Colour("red");
+    if ( speed->second > 4 )
+        colour = Colour("purple");
+
+
     FlagItem* flag = new FlagItem();
     flag->setColour(colour);
-    flag->length(owner_->size_ * 2.5);  // Size to be adjusted later!
+    flag->setThickness(2);
+    flag->length(owner_->size_ * 2.);  // Size to be adjusted later!
 
-    const string origin = "circle";
+    const string origin = "duck";
 
 
     // FMagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: " << point.longitude() << " / " << point.latitude()
@@ -84,7 +104,7 @@ void ObsWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
     // F               << "\n\tcloud amount:   " << point["total_cloud"] << " -> " << origin << std::endl;
 
 
-    flag->setOriginHeight(owner_->ring_size_);
+    flag->setOriginHeight(owner_->ring_size_ * 3);
     flag->setOriginMarker(origin);
     flag->x(0);
     flag->y(0);
@@ -412,6 +432,23 @@ void ObsPresentWeather::visit(std::set<string>& tokens) {
 
 static map<int, string> presentweather;
 void ObsPresentWeather::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
+    vector<string> colour_list = { "none", "none", "none", "none", "cream", "cream", "cream", "cream",
+"cream", "cream","yellow", "yellow", "yellow", "red", "kelly_green",
+"kelly_green", "kelly_green", "red", "red", "red", "kelly_green",
+"kelly_green", "white", "white", "red", "kelly_green", "white",
+"red", "yellow", "red", "cream", "cream", "cream", "cream", "cream",
+"cream", "white", "white", "white", "white", "yellow", "yellow",
+"yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow",
+"yellow", "kelly_green", "kelly_green", "kelly_green", "kelly_green",
+"kelly_green", "kelly_green", "red", "red", "kelly_green",
+"kelly_green", "kelly_green", "kelly_green", "kelly_green",
+"kelly_green", "kelly_green", "kelly_green", "red", "red", "white",
+"white", "white", "white","white", "white", "white", "white", "red",
+"red", "red", "orange", "kelly_green", "kelly_green", "kelly_green",
+"white", "white","white", "white", "red", "red", "red", "red", "red",
+"red", "red", "red", "red", "red", "red", "red", "red"};
+
+
     if (!owner_->present_ww_visible_)
         return;
     if (presentweather.empty()) {
@@ -448,6 +485,7 @@ void ObsPresentWeather::operator()(CustomisedPoint& point, ComplexSymbol& symbol
         presentweather[183] = "ww_81";
         presentweather[189] = "ww_89";
     }
+
     CustomisedPoint::const_iterator value = point.find("present_weather");
     if (value == point.end())
         return;
@@ -457,10 +495,18 @@ void ObsPresentWeather::operator()(CustomisedPoint& point, ComplexSymbol& symbol
         return;
     string ww;
 
+    Colour colour = owner_->present_ww_colour_->automatic() ? *owner_->colour_ : *owner_->present_ww_colour_;
+
+    string c = colour.name();
+
     if (value->second < 100) {
         ostringstream os;
         os << "ww_" << setw(2) << setfill('0') << value->second;
         ww = os.str();
+
+        c = colour_list[value->second];
+        colour = Colour(c);
+
     }
     else {
         map<int, string>::iterator w = presentweather.find(value->second);
@@ -471,17 +517,18 @@ void ObsPresentWeather::operator()(CustomisedPoint& point, ComplexSymbol& symbol
         else
             ww = w->second;
     }
-
+    cout << "Present Weather->" << ww << endl;
     if (ww.empty())
         return;
     SymbolItem* object = new SymbolItem();
     object->x(column_);
     object->y(row_);
 
-    Colour colour = owner_->present_ww_colour_->automatic() ? *owner_->colour_ : *owner_->present_ww_colour_;
+    cout << "Present Weather->" << ww << endl;
+
+   
+
     object->colour(colour);
-
-
     object->symbol(ww);
     // FMagLog::debug() << "\tPresent Weather--->" << ww << " in " << colour << "\n";
     // time->setJustification(MRIGHT);
@@ -623,9 +670,10 @@ void ObsIdentifier::visit(std::set<string>&) {
 }
 
 void ObsIdentifier::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
-    if (!owner_->identifier_visible_)
-        return;
+    // if (!owner_->identifier_visible_)
+    //     return;
     TextItem* time = new TextItem();
+     cout <<  "ObsIdentifier::operator()" << point.identifier() << endl;
 #ifdef OBS_DEBUG_
     // FMagLog::debug() << "Identification for " << point.identifier() << "at[" << column_ << ", " << row_ << "]" <<
     // endl;
@@ -637,6 +685,7 @@ void ObsIdentifier::operator()(CustomisedPoint& point, ComplexSymbol& symbol) co
     time->x(column_);
     time->y(row_);
     time->text(point.identifier());
+    cout << point.identifier() << endl;
     // time->setJustification(MRIGHT);
     time->font(font);
 
@@ -1071,6 +1120,8 @@ void ObsString::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const 
         text        = text.replace(text.find(rkey), rkey.length(), val);
     }
 
+
+    text = "Duck-->&deg;";
 
     TextItem* object = new TextItem();
     object->x(column_);
