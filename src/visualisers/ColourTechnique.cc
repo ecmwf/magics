@@ -51,6 +51,8 @@ void ColourTechnique::prepare(LevelSelection& out, LevelSelection& levels, bool 
     bands_.clear();
     ColourTable table;
 
+     
+
     if (rainbow)
         set(out, levels, table, levels.size() + 1);
     else {
@@ -64,15 +66,20 @@ void ColourTechnique::prepare(LevelSelection& out, LevelSelection& levels, bool 
         if (out.maxOutOfBond()) {
             count--;
         }
+        
         set(out, levels, table, count);
          if (out.maxOutOfBond()) {
             table.push_back(*oob_max_colour_);
             count--;
         }
     }
-    cout << " ------------------------------ " << endl;
 
 
+    // cout << "ColourTechnique::after(" << endl;
+    // for (auto l = levels.begin(); l != levels.end(); ++l)
+    //     cout << *l << endl;
+
+    // cout << "-------------------" << endl;
     
 
     if (table.empty())

@@ -387,12 +387,13 @@ public:
 class Proj4Automatic : public Proj4Projection {
 public:
     Proj4Automatic();
-    void aspectRatio(double&, double&);
+    void aspectRatio(double&, double&) override;
 
-    void init();
+    void init() override;
     
     
-    void setNewPCBox(double minx, double miny, double maxx, double maxy);
+    void setNewPCBox(double minx, double miny, 
+                double maxx, double maxy) override;
     virtual void setExtend() override;
     
 

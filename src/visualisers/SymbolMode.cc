@@ -31,7 +31,7 @@
 using namespace magics;
 
 
-SymbolMode::SymbolMode() {}
+SymbolMode::SymbolMode(): scaling_(1) {}
 
 
 SymbolMode::~SymbolMode() {}
@@ -77,7 +77,7 @@ void SymbolIndividualMode::properties() const {
     if (magCompare(type_, "number")) {
         position            = TextPosition::NONE;
         properties_.colour_ = *colour_;
-        properties_.height_ = height_;
+        properties_.height_ = height_*scaling_;
     }
     else {
         string type                             = lowerCase(text_position_);
@@ -89,7 +89,7 @@ void SymbolIndividualMode::properties() const {
         }
         else {
             properties_.colour_ = *colour_;
-            properties_.height_ = height_;
+            properties_.height_ = height_*scaling_;
         }
     }
     if (magCompare(marker_mode_, "image")) {
@@ -183,7 +183,7 @@ void SymbolTableMode::prepare() {
     int index = 0;
 
     for (doublearray::const_iterator min = min_.begin(); min != min_.end(); ++min) {
-        map_[Interval(*min, *max)]           = SymbolProperties(Colour(*colour), *height, *symbol);
+        map_[Interval(*min, *max)]           = SymbolProperties(Colour(*colour), *height*scaling_, *symbol);
         map_[Interval(*min, *max)].blanking_ = parent_->text_blanking_;
         if (++colour == colour_.end())
             --colour;
@@ -247,8 +247,7 @@ void SymbolIndividualMode::visit(LegendVisitor& legend) {
         symbol->setHeight(legend_height_);
     legend.add(new SimpleSymbolEntry(legend_text_, symbol));
 }
-void SymbolIndividualMode::adjust(double, double, bool, const Transformation&, double) {}
-void SymbolTableMode::adjust(double, double, bool, const Transformation&, double) {}
+
 void SymbolIndividualMode::visit(Data& data, LegendVisitor& legend) {
     Symbol* symbol = properties_.symbol("marker");
     if (legend_height_ != -1)

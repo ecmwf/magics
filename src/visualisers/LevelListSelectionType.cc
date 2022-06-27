@@ -45,9 +45,11 @@ void LevelListSelectionType::print(ostream& out) const {
 void LevelListSelectionType::calculate(double min, double max, bool shading) {
     clear();
 
-    double min_level=min;
-    double max_level=max;
+    double min_level=list_.front();
+    double max_level=list_.back();
 
+    cout << min << " " << min_ << " " << shade_min_ << " " << oob_min_ << endl;
+    cout << max << " " << max_ << " " << shade_max_ << " " << oob_max_ << endl;
     if ( MINSET(min_) )
         min_level = min_;
     
@@ -60,13 +62,14 @@ void LevelListSelectionType::calculate(double min, double max, bool shading) {
     if ( shading && MAXSET(shade_max_) )
         max_level = shade_max_;
 
+
+    
     minOutOfBond_ = oob_min_ > min_level;
     maxOutOfBond_ = oob_max_ < max_level;   
 
     
    
-    double mini = min_;
-    double maxi = max_;
+   
     if (minOutOfBond_) {
         push_back(min);
         push_back(oob_min_);
@@ -83,7 +86,7 @@ void LevelListSelectionType::calculate(double min, double max, bool shading) {
     double prevVal = min_;
     for (doublearray::const_iterator val = list_.begin(); val != list_.end(); ++val) {
         MagLog::dev() << "LevelListSelectionType::calculate(double min, double max)--->" << *val << "\n";
-        if (mini <= *val && *val <= maxi) {
+        if (min_level <= *val && *val <= max_level) {
             if (*val < prevVal) {
                 MagLog::error() << " level list values should increase, but " << *val << " follows " << prevVal << endl;
                 break;
@@ -104,13 +107,13 @@ void LevelListSelectionType::calculate(double min, double max, bool shading) {
         push_back(*last);
 
 
-    ostringstream print;
-    print << "LevelListSelectionType::calculate-->";
-    string sep = "[";
-    for (vector<double>::const_iterator val = begin(); val != end(); ++val) {
-        print << sep << *val;
-        sep = ", ";
-    }
-    print << "]";
-    cout << print.str() << endl;
+    // ostringstream print;
+    // print << "LevelListSelectionType::calculate-->";
+    // string sep = "[";
+    // for (vector<double>::const_iterator val = begin(); val != end(); ++val) {
+    //     print << sep << *val;
+    //     sep = ", ";
+    // }
+    // print << "]";
+    // cout << print.str() << endl;
 }

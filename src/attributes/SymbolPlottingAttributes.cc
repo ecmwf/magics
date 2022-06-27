@@ -26,9 +26,7 @@ using namespace magics;
 
 SymbolPlottingAttributes::SymbolPlottingAttributes():
 	legend_(ParameterManager::getBool("legend")),
-	scaling_method_(ParameterManager::getBool("symbol_scaling_method")),
-	scaling_level_0_(ParameterManager::getDouble("symbol_scaling_level_0_height")),
-	scaling_factor_(ParameterManager::getDouble("symbol_scaling_factor")),
+	unit_method_(ParameterManager::getString("symbol_height_unit")),
 	type_(ParameterManager::getString("symbol_type")),
 	marker_mode_(ParameterManager::getString("symbol_marker_mode")),
 	format_(ParameterManager::getString("symbol_format")),
@@ -63,9 +61,7 @@ void SymbolPlottingAttributes::set(const std::map<string, string>& params)
 	prefix[i++] = "symbol";
 	
 	setAttribute(prefix, "legend", legend_, params);
-	setAttribute(prefix, "symbol_scaling_method", scaling_method_, params);
-	setAttribute(prefix, "symbol_scaling_level_0_height", scaling_level_0_, params);
-	setAttribute(prefix, "symbol_scaling_factor", scaling_factor_, params);
+	setAttribute(prefix, "symbol_height_unit", unit_method_, params);
 	setAttribute(prefix, "symbol_type", type_, params);
 	setAttribute(prefix, "symbol_marker_mode", marker_mode_, params);
 	setAttribute(prefix, "symbol_format", format_, params);
@@ -88,9 +84,7 @@ void SymbolPlottingAttributes::set(const std::map<string, string>& params)
 void SymbolPlottingAttributes::copy(const SymbolPlottingAttributes& other)
 {
 	legend_ = other.legend_;
-	scaling_method_ = other.scaling_method_;
-	scaling_level_0_ = other.scaling_level_0_;
-	scaling_factor_ = other.scaling_factor_;
+	unit_method_ = other.unit_method_;
 	type_ = other.type_;
 	marker_mode_ = other.marker_mode_;
 	format_ = other.format_;
@@ -149,9 +143,7 @@ void SymbolPlottingAttributes::print(ostream& out)  const
 {
 	out << "Attributes[";
 	out << " legend = " <<  legend_;
-	out << " scaling_method = " <<  scaling_method_;
-	out << " scaling_level_0 = " <<  scaling_level_0_;
-	out << " scaling_factor = " <<  scaling_factor_;
+	out << " unit_method = " <<  unit_method_;
 	out << " type = " <<  type_;
 	out << " marker_mode = " <<  marker_mode_;
 	out << " format = " <<  format_;
@@ -176,12 +168,8 @@ void SymbolPlottingAttributes::toxml(ostream& out)  const
 	out <<  "\"symbol\"";
 	out << ", \"legend\":";
 	niceprint(out,legend_);
-	out << ", \"symbol_scaling_method\":";
-	niceprint(out,scaling_method_);
-	out << ", \"symbol_scaling_level_0_height\":";
-	niceprint(out,scaling_level_0_);
-	out << ", \"symbol_scaling_factor\":";
-	niceprint(out,scaling_factor_);
+	out << ", \"symbol_height_unit\":";
+	niceprint(out,unit_method_);
 	out << ", \"symbol_type\":";
 	niceprint(out,type_);
 	out << ", \"symbol_marker_mode\":";
@@ -216,9 +204,7 @@ void SymbolPlottingAttributes::toxml(ostream& out)  const
 }
 
 static MagicsParameter<string> legend("legend", "off");
-static MagicsParameter<string> symbol_scaling_method("symbol_scaling_method", "off");
-static MagicsParameter<double> symbol_scaling_level_0_height("symbol_scaling_level_0_height", 0.1);
-static MagicsParameter<double> symbol_scaling_factor("symbol_scaling_factor", 4.);
+static MagicsParameter<string> symbol_height_unit("symbol_height_unit", "cm");
 static MagicsParameter<string> symbol_type("symbol_type", "number");
 static MagicsParameter<string> symbol_marker_mode("symbol_marker_mode", "index");
 static MagicsParameter<string> symbol_format("symbol_format", "(automatic)");

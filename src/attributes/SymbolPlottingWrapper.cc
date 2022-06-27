@@ -61,19 +61,9 @@ void SymbolPlottingWrapper::set(const MagRequest& request)
 		symbolplotting_->legend_ = MagTranslator<string, bool>()(legend_value);
 		
 		}
-	if  (request.countValues("SYMBOL_SCALING_METHOD") ) {
-		string scaling_method_value = request("SYMBOL_SCALING_METHOD");
-		
-		symbolplotting_->scaling_method_ = MagTranslator<string, bool>()(scaling_method_value);
-		
-		}
-	if  (request.countValues("SYMBOL_SCALING_LEVEL_0_HEIGHT") ) {
-		double scaling_level_0_value = request("SYMBOL_SCALING_LEVEL_0_HEIGHT");
-		symbolplotting_->scaling_level_0_ = scaling_level_0_value;
-		}
-	if  (request.countValues("SYMBOL_SCALING_FACTOR") ) {
-		double scaling_factor_value = request("SYMBOL_SCALING_FACTOR");
-		symbolplotting_->scaling_factor_ = scaling_factor_value;
+	if  (request.countValues("SYMBOL_HEIGHT_UNIT") ) {
+		string unit_method_value = request("SYMBOL_HEIGHT_UNIT");
+		symbolplotting_->unit_method_ = unit_method_value;
 		}
 	if  (request.countValues("SYMBOL_TYPE") ) {
 		string type_value = request("SYMBOL_TYPE");

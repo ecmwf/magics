@@ -188,7 +188,7 @@ public:
 
     virtual bool fast_reproject(double& x, double& y) const { return true; }
 
-    virtual double patchDistance(double) const { NOTIMP; }
+    virtual double patchDistance(double x) const { return x; }
 
     virtual PaperPoint operator()(const PaperPoint& xy) const { return xy; }
     virtual void operator()(const UserPoint& geo, Polyline& out) const;

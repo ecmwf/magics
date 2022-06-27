@@ -68,7 +68,7 @@ public:
         object->copy(*this);
         return object;
     }
-    void adjust(double, double, bool, const Transformation&, double) override;
+    void adjust(double, double, const Transformation&, double) override;
     void copy(const SymbolAdvancedTableMode& other) {
         SymbolAdvancedTableModeAttributes::copy(other);
         SymbolModeAttributes::copy(other);

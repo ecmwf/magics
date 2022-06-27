@@ -129,12 +129,6 @@ public:
 
     virtual bool needClipping() override { return (*this->technique_).needClipping(); }
     virtual bool operator()(LevelSelection& list) override {
-        // LevelSelection filter;
-        // for (LevelSelection::const_iterator level = list.begin(); level != list.end(); ++level)
-        //     if (shade_min_ <= *level && *level <= shade_max_) {
-        //         filter.push_back(*level);
-        //         cout << shade_min_ << " < " << *level << " < " << shade_max_ << endl;
-        //     }
 
 
         (*this->colourMethod_).prepare(list, list);

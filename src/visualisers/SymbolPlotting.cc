@@ -45,12 +45,9 @@ void SymbolPlotting::print(ostream& out) const {
 }
 
 double SymbolPlotting::height(const Transformation& transformation, double height) {
-    if (scaling_method_ == false)
-        return height;
+   
 
-    // get Area !
-
-    return transformation.ratio() * scaling_level_0_ * scaling_factor_;
+    return height;
 }
 
 void SymbolPlotting::getReady(const LegendVisitor& legend) {
@@ -131,6 +128,21 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
     check.push_back("both");
     check.push_back("marker_text");
 
+    const Transformation& transformation = out.transformation();
+
+    // cout << "absolut width " << out.absoluteWidth() << endl;
+    // cout << "absolut height " << out.absoluteHeight() << endl;
+    // cout << "pcminy " << transformation.getMinPCY() << endl;
+    // cout << "pcmaxy " << transformation.getMaxPCY() << endl;
+
+    // cout << "unit " << unit_method_ << endl;
+
+    double factor = ( out.absoluteHeight()*transformation.patchDistance(1))/(transformation.getMaxPCY()-transformation.getMinPCY())    ;
+    // cout << "sacle--> " << factor << endl;
+    // cout << "patch--> " << transformation.patchDistance(1) << endl;
+    factor = magCompare(unit_method_, "geographical") ? 
+        ( out.absoluteHeight()*transformation.patchDistance(1))/(transformation.getMaxPCY()-transformation.getMinPCY()) : 1;
+
     bool valid = false;
 
     for (vector<string>::iterator c = check.begin(); c != check.end(); ++c) {
@@ -156,7 +168,7 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
 
         // Some Mode need to know the min and max of the data, in order to adjust the
         // computation of the levels
-        (*mode_).adjust(points.min(), points.max(), scaling_method_, transformation, scaling_factor_);
+        (*mode_).adjust(points.min(), points.max(), transformation, factor);
         if (legend_only_)
             return;
 
@@ -164,8 +176,6 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
         while (points.more()) {
             PaperPoint xy = transformation(points.current());
             (*this)(xy, out);
-
-
             points.advance();
         }
 
