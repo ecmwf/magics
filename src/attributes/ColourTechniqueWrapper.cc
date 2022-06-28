@@ -55,17 +55,15 @@ void ColourTechniqueWrapper::set(const MagRequest& request)
 
 	
 
-	
 	if  (request.countValues("CONTOUR_OUT_OF_BOUND_MIN_COLOUR") ) {
 		string oob_min_colour_value = request("CONTOUR_OUT_OF_BOUND_MIN_COLOUR");
-		colourtechnique_->oob_min_colour_ = unique_ptr<Colour>(MagTranslator<string, Colour>()(oob_min_colour_value));
-	}
-		
+		colourtechnique_->oob_min_colour_ = oob_min_colour_value;
+		}
 	if  (request.countValues("CONTOUR_OUT_OF_BOUND_MAX_COLOUR") ) {
 		string oob_max_colour_value = request("CONTOUR_OUT_OF_BOUND_MAX_COLOUR");
-		colourtechnique_->oob_max_colour_ = unique_ptr<Colour>(MagTranslator<string, Colour>()(oob_max_colour_value));
-	}
-		
+		colourtechnique_->oob_max_colour_ = oob_max_colour_value;
+		}
+	
 	
 }
 
@@ -73,7 +71,5 @@ void ColourTechniqueWrapper::print(ostream& out)  const
 {
 	out << "ColourTechniqueWrapper[]";
 }
-
-
 
 

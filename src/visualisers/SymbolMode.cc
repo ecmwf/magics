@@ -244,7 +244,8 @@ void SymbolIndividualMode::visit(LegendVisitor& legend) {
     Symbol* symbol = properties_.symbol("marker");
     // overwrite with the legend_height if set..
     if (legend_height_ != -1)
-        symbol->setHeight(legend_height_);
+        // symbol->setHeight(legend_height_);
+        symbol->setHeight(0.5);
     legend.add(new SimpleSymbolEntry(legend_text_, symbol));
 }
 

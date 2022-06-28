@@ -727,50 +727,42 @@ void BoxEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend
     PaperPoint p  = centreSymbolBox(point);
     double x      = p.x();
     double y      = p.y();
-    box_->push_back(PaperPoint(x - width, y - height));
-    box_->push_back(PaperPoint(x - width, y + height));
-    box_->push_back(PaperPoint(x + width, y + height));
-    box_->push_back(PaperPoint(x + width, y - height));
-    box_->push_back(PaperPoint(x - width, y - height));
-    box_->setColour(Colour("black"));
-
-    LegendVisitor::addLegendInfo("legend_entry_colour", box_->getFillColour().rgb());
-    LegendVisitor::addLegendInfo("legend_entry_min_text", from());
-    LegendVisitor::addLegendInfo("legend_entry_max_text", to());
-    LegendVisitor::addLegendInfo("legend_entry_type", "colorbar");
-
-    legend.push_back(box_);
-}
-
-void OOBEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
-    MagLog::debug() << "OOBEntry--->set at " << point << endl;
-    double width  = computeWidth(0.8) / 2;
-    double height = 0.4;
-    PaperPoint p  = centreSymbolBox(point);
-    double x      = p.x();
-    double y      = p.y();
-
-    if ( type_ ==Type::MIN ) {
-        box_->push_back(PaperPoint(x - width, y + (height/2)));
+    if ( isOobMin() ) {
+        box_->push_back(PaperPoint(x - width, y));
         box_->push_back(PaperPoint(x + width, y + height));
         box_->push_back(PaperPoint(x + width, y - height));
-        box_->push_back(PaperPoint(x - width, y + (height/2)));
+        box_->push_back(PaperPoint(x - width, y));
+        LegendVisitor::addLegendInfo("legend_entry_min_text", "");
+        LegendVisitor::addLegendInfo("legend_entry_max_text", to());
+        LegendVisitor::addLegendInfo("legend_entry_type", "min_out_of_bond");
     }
+    else if ( isOobMax() ) {
+        box_->push_back(PaperPoint(x - width, y - height));
+        box_->push_back(PaperPoint(x - width, y + height));
+        box_->push_back(PaperPoint(x + width, y));
+        box_->push_back(PaperPoint(x - width, y - height));
+        LegendVisitor::addLegendInfo("legend_entry_min_text", from());
+        LegendVisitor::addLegendInfo("legend_entry_max_text", "");
+        LegendVisitor::addLegendInfo("legend_entry_type", "max_out_of_bond");
+    }
+
     else {
         box_->push_back(PaperPoint(x - width, y - height));
         box_->push_back(PaperPoint(x - width, y + height));
-        box_->push_back(PaperPoint(x + width, y + (height/2)));
+        box_->push_back(PaperPoint(x + width, y + height));
+        box_->push_back(PaperPoint(x + width, y - height));
         box_->push_back(PaperPoint(x - width, y - height));
+        box_->setColour(Colour("black"));
+        LegendVisitor::addLegendInfo("legend_entry_min_text", from());
+        LegendVisitor::addLegendInfo("legend_entry_max_text", to());
+        LegendVisitor::addLegendInfo("legend_entry_type", "colorbar");
     }
     box_->setColour(Colour("black"));
-
     LegendVisitor::addLegendInfo("legend_entry_colour", box_->getFillColour().rgb());
-    LegendVisitor::addLegendInfo("legend_entry_min_text", from());
-    LegendVisitor::addLegendInfo("legend_entry_max_text", to());
-    LegendVisitor::addLegendInfo("legend_entry_type", "colorbar");
-
     legend.push_back(box_);
 }
+
+
 
 void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
     double width  = 1;
@@ -778,7 +770,7 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
     double x      = point.x();
     double y      = point.y();
 
-    if (text_) {
+    if (text_ &&  !isOobMin()) {
         Text* from = new Text();
         from->push_back(PaperPoint(x - width, y - height - 0.25));
         from->setVerticalAlign(VerticalAlign::BOTTOM);
@@ -802,151 +794,61 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
             from->addText(bottom.str(), font_);
         }
     }
-    if (last_) {
-        Text* to = new Text();
-        to->setAngle(angle_);
-        to->setVerticalAlign(VerticalAlign::BOTTOM);
-        to->push_back(PaperPoint(x + width, y - height - 0.25));
-        legend.push_back(to);
-        if (automatic_) {
-            if (!userMax_) {
-                ostringstream to;
-                to << MagicsFormat(format_, to_);
-                maxText_ = to.str();
-            }
-            to->addText(maxText_, font_);
-        }
-        else
-            to->addText(userText_, font_);
-    }
+   
 
     Polyline* top = new Polyline();
-    top->push_back(PaperPoint(x - (width * 1.), y + (height * 2)));
-    top->push_back(PaperPoint(x + (width * 1.), y + (height * 2)));
     top->setColour(borderColour_);
     top->setThickness(2);
-
     Polyline* bottom = new Polyline();
-    bottom->push_back(PaperPoint(x - width, y - height));
-    bottom->push_back(PaperPoint(x + width, y - height));
     bottom->setColour(borderColour_);
     bottom->setThickness(2);
 
-    box_->push_back(PaperPoint(x - width, y - height));
-    box_->push_back(PaperPoint(x - width, y + height + height));
-    box_->push_back(PaperPoint(x + width, y + height + height));
-    box_->push_back(PaperPoint(x + width, y - height));
-    box_->push_back(PaperPoint(x - width, y - height));
-
-    // Small check
-    Colour colour = (borderColour_.automatic()) ? box_->getFillColour() : borderColour_;
-
-    if (box_->getFillColour() == Colour("none")) {
-        box_->setFilled(false);
-        colour = Colour("black");
-    }
-    box_->setColour(colour);
-
-    legend.push_back(box_);
-    legend.push_back(top);
-    legend.push_back(bottom);
-
-    if (last_) {
-        Polyline* right = new Polyline();
-        right->push_back(PaperPoint(x + width, y - height));
-        right->push_back(PaperPoint(x + width, y + (height * 2)));
-        right->setColour(borderColour_);
-        right->setThickness(2);
-        legend.push_back(right);
-    }
-
-    if (first_) {
-        Polyline* left = new Polyline();
-        left->push_back(PaperPoint(x - width, y - height));
-        left->push_back(PaperPoint(x - width, y + (height * 2)));
-        left->setColour(borderColour_);
-        left->setThickness(2);
-        legend.push_back(left);
-    }
-
-    LegendVisitor::addLegendInfo("legend_entry_colour", box_->getFillColour().rgb());
-    LegendVisitor::addLegendInfo("legend_entry_min_text", from());
-    LegendVisitor::addLegendInfo("legend_entry_max_text", to());
-    LegendVisitor::addLegendInfo("legend_entry_type", "colorbar");
-}
-
-void OOBEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
-    double width  = 1;
-    double height = 0.4;
-    double x      = point.x();
-    double y      = point.y();
-
-    if (text_) {
-        Text* from = new Text();
-        from->push_back(PaperPoint(x - width, y - height - 0.25));
-        from->setVerticalAlign(VerticalAlign::BOTTOM);
-        from->setAngle(angle_);
-        legend.push_back(from);
-
-        if (automatic_) {
-            if (!userMin_) {
-                ostringstream bottom;
-                bottom << MagicsFormat(format_, from_);
-                minText_ = bottom.str();
-            }
-
-            from->addText(minText_, font_);
-        }
-        else if (!last_)
-            from->addText(userText_, font_);
-        else if (userMax_) {
-            ostringstream bottom;
-            bottom << MagicsFormat(format_, from_);
-            from->addText(bottom.str(), font_);
-        }
-    }
-    if (last_) {
-        Text* to = new Text();
-        to->setAngle(angle_);
-        to->setVerticalAlign(VerticalAlign::BOTTOM);
-        to->push_back(PaperPoint(x + width, y - height - 0.25));
-        legend.push_back(to);
-        if (automatic_) {
-            if (!userMax_) {
-                ostringstream to;
-                to << MagicsFormat(format_, to_);
-                maxText_ = to.str();
-            }
-            to->addText(maxText_, font_);
-        }
-        else
-            to->addText(userText_, font_);
-    }
-
-    Polyline* top = new Polyline();
-    top->push_back(PaperPoint(x - (width * 1.), y + (height * 2)));
-    top->push_back(PaperPoint(x + (width * 1.), y + (height * 2)));
-    top->setColour(borderColour_);
-    top->setThickness(2);
-
-    Polyline* bottom = new Polyline();
-    bottom->push_back(PaperPoint(x - width, y - height));
-    bottom->push_back(PaperPoint(x + width, y - height));
-    bottom->setColour(borderColour_);
-    bottom->setThickness(2);
-
-    if ( type_ ==Type::MIN ) {
-        box_->push_back(PaperPoint(x - width, y + (height/2)));
-        box_->push_back(PaperPoint(x + width, y + height));
+    if ( isOobMin() ) {
+        top->push_back(PaperPoint(x, y));
+        top->push_back(PaperPoint(x + (width * 1.), y + (height * 2)));
+    
+        bottom->push_back(PaperPoint(x, y));
+        bottom->push_back(PaperPoint(x + width, y - height));
+        
+        box_->push_back(PaperPoint(x, y));
+        box_->push_back(PaperPoint(x + width, y + height + height));
         box_->push_back(PaperPoint(x + width, y - height));
-        box_->push_back(PaperPoint(x - width, y + (height/2)));
+        box_->push_back(PaperPoint(x, y));
+    }
+    else if ( isOobMax() ) {
+        top->push_back(PaperPoint(x - (width * 1.), y + (height * 2)));
+        top->push_back(PaperPoint(x , y));
+    
+        bottom->push_back(PaperPoint(x - width, y - height));
+        bottom->push_back(PaperPoint(x, y));
+        
+        box_->push_back(PaperPoint(x - width, y - height));
+        box_->push_back(PaperPoint(x - width, y + height + height));
+        box_->push_back(PaperPoint(x , y));
+        box_->push_back(PaperPoint(x - width, y - height));
+
     }
     else {
+        top->push_back(PaperPoint(x - (width * 1.), y + (height * 2)));
+        top->push_back(PaperPoint(x + (width * 1.), y + (height * 2)));
+    
+        bottom->push_back(PaperPoint(x - width, y - height));
+        bottom->push_back(PaperPoint(x + width, y - height));
+        
         box_->push_back(PaperPoint(x - width, y - height));
-        box_->push_back(PaperPoint(x - width, y + height));
-        box_->push_back(PaperPoint(x + width, y + (height/2)));
+        box_->push_back(PaperPoint(x - width, y + height + height));
+        box_->push_back(PaperPoint(x + width, y + height + height));
+        box_->push_back(PaperPoint(x + width, y - height));
         box_->push_back(PaperPoint(x - width, y - height));
+
     }
+
+
+
+
+
+   
+
     // Small check
     Colour colour = (borderColour_.automatic()) ? box_->getFillColour() : borderColour_;
 
@@ -960,16 +862,31 @@ void OOBEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
     legend.push_back(top);
     legend.push_back(bottom);
 
-    if (last_) {
+    if (last_ && !oob_max_) {
         Polyline* right = new Polyline();
         right->push_back(PaperPoint(x + width, y - height));
         right->push_back(PaperPoint(x + width, y + (height * 2)));
         right->setColour(borderColour_);
         right->setThickness(2);
         legend.push_back(right);
+        Text* to = new Text();
+        to->setAngle(angle_);
+        to->setVerticalAlign(VerticalAlign::BOTTOM);
+        to->push_back(PaperPoint(x + width, y - height - 0.25));
+        legend.push_back(to);
+        if (automatic_) {
+            if (!userMax_) {
+                ostringstream to;
+                to << MagicsFormat(format_, to_);
+                maxText_ = to.str();
+            }
+            to->addText(maxText_, font_);
+        }
+        else
+            to->addText(userText_, font_);
     }
 
-    if (first_) {
+    if (first_ && !oob_min_) {
         Polyline* left = new Polyline();
         left->push_back(PaperPoint(x - width, y - height));
         left->push_back(PaperPoint(x - width, y + (height * 2)));
@@ -984,6 +901,13 @@ void OOBEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
     LegendVisitor::addLegendInfo("legend_entry_type", "colorbar");
 }
 
+
+
+
+  
+     
+
+ 
 void BoxEntry::rowHisto(const PaperPoint& point, BasicGraphicsObjectContainer& legend, const Colour& colour) {
     //	ShadingProperties* shading = box_->getShading();
     // Normall the pilyline left the low value on their left!
@@ -1254,120 +1178,7 @@ void BoxEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& 
     LegendVisitor::addLegendInfo("legend_entry_max_text", to());
     LegendVisitor::addLegendInfo("legend_entry_type", "colorbar");
 }
-
-void OOBEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
-    double width  = computeWidth(0.8) / 2;
-    double height = 0.5;
-    PaperPoint p  = centreSymbolBox(point);
-    double x      = p.x();
-    double y      = p.y();
-    PaperPoint pt = leftTextBox(point);
-
-    if (text_) {
-        Text* from = new Text();
-        from->setJustification(Justification::LEFT);
-        from->setVerticalAlign(VerticalAlign::HALF);
-        if (automatic_) {
-            if (!userMin_) {
-                ostringstream bottom;
-                bottom << MagicsFormat(format_, from_);
-                minText_ = bottom.str();
-            }
-
-            from->addText(minText_, font_);
-        }
-        else if (!last_)
-            from->addText(userText_, font_);
-        else {
-            if (automatic_ || userMax_) {
-                ostringstream bottom;
-                bottom << MagicsFormat(format_, from_);
-                from->addText(bottom.str(), font_);
-            }
-        }
-        PaperPoint pfrom(pt);
-        pfrom.y_ = y - height;
-        from->push_back(pfrom);
-        from->setAngle(angle_);
-        legend.push_back(from);
-    }
-    if (last_) {
-        Text* to = new Text();
-        to->setVerticalAlign(VerticalAlign::HALF);
-        to->setJustification(Justification::LEFT);
-        to->setAngle(angle_);
-
-        if (automatic_) {
-            if (maxText_.empty()) {
-                ostringstream to;
-                to << MagicsFormat(format_, to_);
-                maxText_ = to.str();
-            }
-            to->addText(maxText_, font_);
-        }
-        else
-            to->addText(userText_, font_);
-        PaperPoint pto(pt);
-        pto.y_ = y + height;
-        to->push_back(pto);
-        legend.push_back(to);
-    }
-    if ( type_ ==Type::MIN ) {
-        box_->push_back(PaperPoint(x - width, y + (height/2)));
-        box_->push_back(PaperPoint(x + width, y + height));
-        box_->push_back(PaperPoint(x + width, y - height));
-        box_->push_back(PaperPoint(x - width, y + (height/2)));
-    }
-    else {
-        box_->push_back(PaperPoint(x - width, y - height));
-        box_->push_back(PaperPoint(x - width, y + height));
-        box_->push_back(PaperPoint(x + width, y + (height/2)));
-        box_->push_back(PaperPoint(x - width, y - height));
-    }
-    Colour colour = (borderColour_.automatic()) ? box_->getFillColour() : borderColour_;
-    if (box_->getFillColour() == Colour("none")) {
-        box_->setFilled(false);
-    }
-    box_->setColour(colour);
-    legend.push_back(box_);
-
-    Polyline* left = new Polyline();
-    left->push_back(PaperPoint(x - width, y - (height * 1.1)));
-    left->push_back(PaperPoint(x - width, y + (height * 1.1)));
-    left->setColour(borderColour_);
-    left->setThickness(2);
-
-    Polyline* right = new Polyline();
-    right->push_back(PaperPoint(x + width, y - height * 1.1));
-    right->push_back(PaperPoint(x + width, y + (height * 1.1)));
-    right->setColour(borderColour_);
-    right->setThickness(2);
-
-    legend.push_back(left);
-    legend.push_back(right);
-
-    if (last_) {
-        Polyline* top = new Polyline();
-        top->push_back(PaperPoint(x - width, y + (height)));
-        top->push_back(PaperPoint(x + width, y + (height)));
-        top->setColour(borderColour_);
-        top->setThickness(2);
-        legend.push_back(top);
-    }
-    if (first_) {
-        Polyline* bottom = new Polyline();
-        bottom->push_back(PaperPoint(x - width, y - height));
-        bottom->push_back(PaperPoint(x + width, y - height));
-        bottom->setColour(borderColour_);
-        bottom->setThickness(2);
-        legend.push_back(bottom);
-    }
-
-    LegendVisitor::addLegendInfo("legend_entry_colour", box_->getFillColour().rgb());
-    LegendVisitor::addLegendInfo("legend_entry_min_text", from());
-    LegendVisitor::addLegendInfo("legend_entry_max_text", to());
-    LegendVisitor::addLegendInfo("legend_entry_type", "colorbar");
-}
+ 
 
 void BoxEntry::columnHisto(const PaperPoint& point, BasicGraphicsObjectContainer& legend, const Colour& colour) {
     MagLog::debug() << "BoxEntry--->set at " << point << endl;
@@ -1798,4 +1609,4 @@ DoubleLineEntry::~DoubleLineEntry() {}  //{ { delete line1_; delete line2_; }
 LineEntry::~LineEntry() {}
 CdfEntry::~CdfEntry() {}          //{ delete line_;}
 RainbowEntry::~RainbowEntry() {}  //{ delete line_;}
-OOBEntry::~OOBEntry() {}                //{ delete box_; }
+

@@ -29,7 +29,9 @@
 
 using namespace magics;
 
-ColourTechnique::ColourTechnique() : policy_(ListPolicy::LASTONE) {}
+ColourTechnique::ColourTechnique() : policy_(ListPolicy::LASTONE), 
+                minOutOfBound_(false), maxOutOfBound_(false)
+                {}
 
 
 ColourTechnique::~ColourTechnique() {}
@@ -51,6 +53,11 @@ void ColourTechnique::prepare(LevelSelection& out, LevelSelection& levels, bool 
     bands_.clear();
     ColourTable table;
 
+
+
+    minOutOfBound_ = out.minOutOfBond();
+    maxOutOfBound_ = out.maxOutOfBond();
+
      
 
     if (rainbow)
@@ -59,18 +66,22 @@ void ColourTechnique::prepare(LevelSelection& out, LevelSelection& levels, bool 
         
         LevelSelection newlevels;
         int count = levels.size();
-        if (out.minOutOfBond()) {
-            table.push_back(*oob_min_colour_);
+        if (out.minOutOfBond()) count--;
+           
+        if (out.maxOutOfBond()) count--;
             count--;
-        }
-        if (out.maxOutOfBond()) {
-            count--;
-        }
+    
         
         set(out, levels, table, count);
+        if (out.minOutOfBond()) {
+            Colour min_colour = magCompare(oob_min_colour_, "automatic") ? 
+                        table.front().colour() : Colour(oob_min_colour_);
+            table.insert(table.begin(), min_colour);
+        }
          if (out.maxOutOfBond()) {
-            table.push_back(*oob_max_colour_);
-            count--;
+            Colour max_colour = magCompare(oob_max_colour_, "automatic") ? 
+                                        table.back().colour() : Colour(oob_max_colour_);
+            table.push_back(max_colour);
         }
     }
 

@@ -227,7 +227,8 @@ void SymbolAdvancedTableMode::visit(Data& data, LegendVisitor& legend) {
                 Symbol* symbol = new Symbol();
                 (*symbol).setColour(interval->second.colour_);
                 (*symbol).setSymbol(interval->second.marker_);
-                (*symbol).setHeight(interval->second.height_);
+                // (*symbol).setHeight(interval->second.height_);
+                (*symbol).setHeight(0.5);
 
                 string str = data.legendText(interval->first.min_, interval->first.max_);
                 if (str.empty()) {
