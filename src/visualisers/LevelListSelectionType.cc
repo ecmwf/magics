@@ -48,8 +48,7 @@ void LevelListSelectionType::calculate(double min, double max, bool shading) {
     double min_level=list_.front();
     double max_level=list_.back();
 
-    cout << min << " " << min_ << " " << shade_min_ << " " << oob_min_ << endl;
-    cout << max << " " << max_ << " " << shade_max_ << " " << oob_max_ << endl;
+   
     if ( MINSET(min_) )
         min_level = min_;
     

@@ -69,7 +69,7 @@ void ColourTechnique::prepare(LevelSelection& out, LevelSelection& levels, bool 
         if (out.minOutOfBond()) count--;
            
         if (out.maxOutOfBond()) count--;
-            count--;
+        
     
         
         set(out, levels, table, count);
