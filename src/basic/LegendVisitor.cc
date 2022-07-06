@@ -186,6 +186,9 @@ void DoubleLineEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectCont
 void LegendVisitor::build() {
     legend_ = new LegendLayout();
 
+    LegendVisitor::legendEntriesInfo_.clear();
+    LegendVisitor::legendInfo_.clear();
+
     legend_->x(view_x_);
     legend_->y(view_y_);
     legend_->width(view_width_);
@@ -279,6 +282,7 @@ void LegendVisitor::build() {
             continue;
 
         legendEntriesInfo_.push_back(map<string, string>());
+        
         (magCompare(direction_, "column")) ? (*method_).column(*entry, position->x(), position->y(), *legend, *legend_)
                                            : (*method_).row(*entry, position->x(), position->y(), *legend, *legend_);
 
@@ -1573,6 +1577,7 @@ void LegendVisitor::visit(MetaDataVisitor& visitor) {
     ostringstream out;
     out << "{";
     string c1 = "";
+    
     for (auto& entry : legendInfo_) {
         out << c1 << "\"" << entry.first << "\":\"" << entry.second << "\"";
         c1 = ",";
