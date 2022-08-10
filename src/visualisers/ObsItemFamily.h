@@ -46,14 +46,15 @@ public:
     }
 
     void operator()(CustomisedPoint&, ComplexSymbol& symbol) const override {
+       
         if (!owner_->station_ring_visible_)
             return;
         SymbolItem* station = new SymbolItem();
         station->x(column_);
         station->y(row_);
         station->colour(*owner_->station_ring_colour_);
-        station->symbol("circle");
-        station->height(owner_->ring_size_);
+        station->symbol("N_8");
+        station->height(owner_->ring_size_*2);
         symbol.add(station);
     }
 
@@ -104,13 +105,7 @@ public:
     void visit(std::set<string>& tokens) override;
 
     virtual void operator()(CustomisedPoint&, ComplexSymbol&) const override;
-    virtual void set(const map<string, string>& def) override {
-        row_       = atoi(find(def, "row").c_str());
-        column_    = atoi(find(def, "column").c_str());
-        colour_    = find(def, "colour");
-        speed_     = find(def, "wind_speed", "wind_speed");
-        direction_ = find(def, "wind_direction", "wind_direction");
-    }
+    void set(const map<string, string>& def) override;
 
 protected:
     string speed_;

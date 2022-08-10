@@ -151,6 +151,7 @@ protected:
     bool symbolinput_todo_;
     bool matrixinput_todo_;
     bool polyinput_todo_;
+    bool obsinput_todo_;
 
 private:
     FortranMagics();

@@ -42,5 +42,12 @@ does it submit to any jurisdiction.
 			name="geojson_binning_grid_resolution">
 			<documentation>String containing the GeoJson data</documentation>
 		</parameter>
+		<parameter member="value"
+			to="string"
+			default="value"
+			from="string"
+			name="geojson_value_property">
+			<documentation>String containing the GeoJson data</documentation>
+		</parameter>
 	</class>
 </magics>

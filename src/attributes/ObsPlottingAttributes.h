@@ -74,6 +74,7 @@ public:
 	bool time_plot_visible_;
 	bool visibility_visible_;
 	bool wind_visible_;
+	string wind_colour_;
 	bool wind_projected_;
 	unique_ptr<Colour> colour_;
 	unique_ptr<Colour> present_ww_colour_;
@@ -94,7 +95,6 @@ public:
 	unique_ptr<Colour> past_ww_colour_;
 	unique_ptr<Colour> time_plot_colour_;
 	unique_ptr<Colour> visibility_colour_;
-	unique_ptr<Colour> wind_colour_;
 	 
 
 private:

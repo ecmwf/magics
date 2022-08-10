@@ -48,6 +48,7 @@ ObsPlottingAttributes::ObsPlottingAttributes():
 	time_plot_visible_(ParameterManager::getBool("obs_time")),
 	visibility_visible_(ParameterManager::getBool("obs_visibility")),
 	wind_visible_(ParameterManager::getBool("obs_wind")),
+	wind_colour_(ParameterManager::getString("obs_wind_colour")),
 	wind_projected_(ParameterManager::getBool("obs_wind_projected"))
 	,
 	colour_(MagTranslator<string, Colour>().magics("obs_colour")),
@@ -68,8 +69,7 @@ ObsPlottingAttributes::ObsPlottingAttributes():
 	waves_colour_(MagTranslator<string, Colour>().magics("obs_waves_colour")),
 	past_ww_colour_(MagTranslator<string, Colour>().magics("obs_past_weather_colour")),
 	time_plot_colour_(MagTranslator<string, Colour>().magics("obs_time_colour")),
-	visibility_colour_(MagTranslator<string, Colour>().magics("obs_visibility_colour")),
-	wind_colour_(MagTranslator<string, Colour>().magics("obs_wind_colour"))
+	visibility_colour_(MagTranslator<string, Colour>().magics("obs_visibility_colour"))
 	
 {
 }
@@ -110,6 +110,7 @@ void ObsPlottingAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "obs_time", time_plot_visible_, params);
 	setAttribute(prefix, "obs_visibility", visibility_visible_, params);
 	setAttribute(prefix, "obs_wind", wind_visible_, params);
+	setAttribute(prefix, "obs_wind_colour", wind_colour_, params);
 	setAttribute(prefix, "obs_wind_projected", wind_projected_, params);
 	
 	setMember(prefix, "obs_colour", colour_, params);
@@ -131,7 +132,6 @@ void ObsPlottingAttributes::set(const std::map<string, string>& params)
 	setMember(prefix, "obs_past_weather_colour", past_ww_colour_, params);
 	setMember(prefix, "obs_time_colour", time_plot_colour_, params);
 	setMember(prefix, "obs_visibility_colour", visibility_colour_, params);
-	setMember(prefix, "obs_wind_colour", wind_colour_, params);
 	
 }
 
@@ -160,6 +160,7 @@ void ObsPlottingAttributes::copy(const ObsPlottingAttributes& other)
 	time_plot_visible_ = other.time_plot_visible_;
 	visibility_visible_ = other.visibility_visible_;
 	wind_visible_ = other.wind_visible_;
+	wind_colour_ = other.wind_colour_;
 	wind_projected_ = other.wind_projected_;
 	colour_ = unique_ptr<Colour>(other.colour_->clone());
 	present_ww_colour_ = unique_ptr<Colour>(other.present_ww_colour_->clone());
@@ -180,7 +181,6 @@ void ObsPlottingAttributes::copy(const ObsPlottingAttributes& other)
 	past_ww_colour_ = unique_ptr<Colour>(other.past_ww_colour_->clone());
 	time_plot_colour_ = unique_ptr<Colour>(other.time_plot_colour_->clone());
 	visibility_colour_ = unique_ptr<Colour>(other.visibility_colour_->clone());
-	wind_colour_ = unique_ptr<Colour>(other.wind_colour_->clone());
 	
 }
 
@@ -242,6 +242,7 @@ void ObsPlottingAttributes::print(ostream& out)  const
 	out << " time_plot_visible = " <<  time_plot_visible_;
 	out << " visibility_visible = " <<  visibility_visible_;
 	out << " wind_visible = " <<  wind_visible_;
+	out << " wind_colour = " <<  wind_colour_;
 	out << " wind_projected = " <<  wind_projected_;
 	out << " colour = " <<  *colour_;
 	out << " present_ww_colour = " <<  *present_ww_colour_;
@@ -262,7 +263,6 @@ void ObsPlottingAttributes::print(ostream& out)  const
 	out << " past_ww_colour = " <<  *past_ww_colour_;
 	out << " time_plot_colour = " <<  *time_plot_colour_;
 	out << " visibility_colour = " <<  *visibility_colour_;
-	out << " wind_colour = " <<  *wind_colour_;
 	
 	out << "]" << "\n";
 }
@@ -316,6 +316,8 @@ void ObsPlottingAttributes::toxml(ostream& out)  const
 	niceprint(out,visibility_visible_);
 	out << ", \"obs_wind\":";
 	niceprint(out,wind_visible_);
+	out << ", \"obs_wind_colour\":";
+	niceprint(out,wind_colour_);
 	out << ", \"obs_wind_projected\":";
 	niceprint(out,wind_projected_);
 	out << ", \"obs_colour\":";
@@ -356,8 +358,6 @@ void ObsPlottingAttributes::toxml(ostream& out)  const
 	niceprint(out, *time_plot_colour_);
 	out << ", \"obs_visibility_colour\":";
 	niceprint(out, *visibility_colour_);
-	out << ", \"obs_wind_colour\":";
-	niceprint(out, *wind_colour_);
 	
 }
 
@@ -384,6 +384,7 @@ static MagicsParameter<string> obs_past_weather("obs_past_weather", "on");
 static MagicsParameter<string> obs_time("obs_time", "off");
 static MagicsParameter<string> obs_visibility("obs_visibility", "on");
 static MagicsParameter<string> obs_wind("obs_wind", "on");
+static MagicsParameter<string> obs_wind_colour("obs_wind_colour", "automatic");
 static MagicsParameter<string> obs_wind_projected("obs_wind_projected", "on");
 static MagicsParameter<string> obs_colour("obs_colour", "black");
 static MagicsParameter<string> obs_present_weather_colour("obs_present_weather_colour", "automatic");
@@ -404,4 +405,3 @@ static MagicsParameter<string> obs_waves_colour("obs_waves_colour", "black");
 static MagicsParameter<string> obs_past_weather_colour("obs_past_weather_colour", "red");
 static MagicsParameter<string> obs_time_colour("obs_time_colour", "automatic");
 static MagicsParameter<string> obs_visibility_colour("obs_visibility_colour", "automatic");
-static MagicsParameter<string> obs_wind_colour("obs_wind_colour", "automatic");

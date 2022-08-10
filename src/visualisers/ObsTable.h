@@ -28,6 +28,9 @@ public:
         columns_                                = (val != def.end()) ? atoi(val->second.c_str()) : 3;
         val                                     = def.find("rows");
         rows_                                   = (val != def.end()) ? atoi(val->second.c_str()) : 3;
+        cout << "ObsTemplate->" << size() << endl;
+        for (const_iterator item = begin(); item != end(); ++item)
+            (*item)->set(def);
     }
     virtual ~ObsTemplate() {}
     void visit(std::set<string>& tokens) const {
