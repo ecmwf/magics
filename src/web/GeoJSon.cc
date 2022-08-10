@@ -607,9 +607,7 @@ PointsHandler& GeoJSon::points(const Transformation& transformation, bool) {
 
 void GeoJSon::customisedPoints(const Transformation&, const std::set<string>& needs, CustomisedPointsList& out, bool) {
     decode();
-    cout << "GeoJSon::customisedPoints" << endl;
-    for (auto need = needs.begin(); need != needs.end(); ++need)
-        cout << "need " << *need << endl;
+   
     if (parent_) {
         parent_->create(needs, out);
         parent_->shift(needs, out);
@@ -618,16 +616,7 @@ void GeoJSon::customisedPoints(const Transformation&, const std::set<string>& ne
 void GeoJSon::getInfo(const std::set<string>& what, 
             multimap<string, string>& info)
 {
-    // Hack should be read for the data 
-    if (value_ == "value") {
-        info.insert(make_pair("type", "mosmix"));
-        cout << "MOSMIX" << endl;
-    }
-    else {
-        cout << "TYPE-->" << value_ << endl;
+   
         info.insert(make_pair("type", value_));
-    }
-    
-
     
 }

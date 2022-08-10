@@ -331,7 +331,7 @@ does it submit to any jurisdiction.
 			<set name="obs_wind_colour" value="on"/>
 		</parameter>
 		<parameter member="wind_colour"
-			to="Colour"
+			to="string"
 			default="automatic"
 			from="string"
 			name="obs_wind_colour">

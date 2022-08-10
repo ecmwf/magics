@@ -43,7 +43,6 @@ void ObsPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
     std::set<string> needs;
     std::set<string> info;
     multimap<string, string> types;
-    cout << "ObsPlotting::operator()" << endl;
     info.insert("type");
 
     data.getInfo(info, types);
@@ -80,7 +79,6 @@ void ObsPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
         try {
             const ObsTemplate& obs = ObsTable::getTemplate(type->second);
             for (const auto& val : values) {
-                cout << type->second << " " << val->type() << endl;
                 if (type->second == val->type()) {
                     obs(*val, out);
                 }

@@ -187,6 +187,10 @@ void ObsPlottingWrapper::set(const MagRequest& request)
 		obsplotting_->wind_visible_ = MagTranslator<string, bool>()(wind_visible_value);
 		
 		}
+	if  (request.countValues("OBS_WIND_COLOUR") ) {
+		string wind_colour_value = request("OBS_WIND_COLOUR");
+		obsplotting_->wind_colour_ = wind_colour_value;
+		}
 	if  (request.countValues("OBS_WIND_PROJECTED") ) {
 		string wind_projected_value = request("OBS_WIND_PROJECTED");
 		
@@ -289,11 +293,6 @@ void ObsPlottingWrapper::set(const MagRequest& request)
 		obsplotting_->visibility_colour_ = unique_ptr<Colour>(MagTranslator<string, Colour>()(visibility_colour_value));
 	}
 		
-	if  (request.countValues("OBS_WIND_COLOUR") ) {
-		string wind_colour_value = request("OBS_WIND_COLOUR");
-		obsplotting_->wind_colour_ = unique_ptr<Colour>(MagTranslator<string, Colour>()(wind_colour_value));
-	}
-		
 	
 }
 
@@ -301,7 +300,6 @@ void ObsPlottingWrapper::print(ostream& out)  const
 {
 	out << "ObsPlottingWrapper[]";
 }
-
 
 
 

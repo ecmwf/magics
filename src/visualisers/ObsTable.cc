@@ -112,8 +112,7 @@ void ObsTable::add(const string& tag, const map<string, string>& def) {
             if (MagicsGlobal::strict()) {
                 throw;
             }
-            // FMagLog::dev() << "cannot find ObsItem for : " << tag << "\n";
-            cout << "cannot find ObsItem for : " << tag << "\n";
+            MagLog::warning() << "cannot find ObsItem for : " << tag << "\n";
         }
     }
 }
@@ -132,7 +131,7 @@ const ObsTemplate& ObsTable::get(const string& type) {
 
 void ObsTemplate::operator()(CustomisedPoint& obs, BasicGraphicsObjectContainer& out) const {
     
-    cout << "ObsTemplate" << endl;
+    
     if (empty())
         return;  // Nothing to display.
 

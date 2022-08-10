@@ -102,9 +102,11 @@ void FortranMagics::reset() {
     empty_            = true;
     gribindex_        = 0;
     legend_todo_      = false;
+
     symbolinput_todo_ = false;
     matrixinput_todo_ = false;
     polyinput_todo_   = false;
+    obsinput_todo_    = false;
 
 
     while (actions_.size()) {
@@ -430,26 +432,22 @@ void FortranMagics::ptephi() {
 void FortranMagics::pobs() {
     actions();
 
-    // HACK
-    action_->visdef(new ObsPlotting());
-
-    cout << "FortranMagics::pobs() {" << endl;
-    return;
-
-
-    action_         = new VisualAction();
-    ObsDecoder* obs = new ObsDecoder();
-    if (obs->defined()) {
-        action_->data(obs);
-        top()->push_back(action_);
-        action_->visdef(new ObsPlotting());
-        return;
+    if (!action_ || obsinput_todo_ ) {
+        action_         = new VisualAction();
+        ObsDecoder* obs = new ObsDecoder();
+        if (obs->defined()) {
+            action_->data(obs);
+            top()->push_back(action_);
+           
+        }
+        else {
+            action_ = new VisualAction();
+            action_->data(new ObsJSon());
+            top()->push_back(action_);
+        }
     }
-    action_ = new VisualAction();
-    action_->data(new ObsJSon());
-    top()->push_back(action_);
     action_->visdef(new ObsPlotting());
-    return;
+    
 }
 
 #include "MatrixTestDecoder.h"
