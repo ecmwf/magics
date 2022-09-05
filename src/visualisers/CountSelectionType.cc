@@ -41,20 +41,23 @@ void CountSelectionType::calculate(double min, double max, bool shading) {
     double min_level=min;
     double max_level=max;
 
+    double min_limit = min_level;
+    double max_limit = max_level;
+
     if ( MINSET(min_) )
-        min_level = min_;
+        min_limit = min_;
     
     if ( MAXSET(max_) )
-        max_level = max_;
+        max_limit = max_;
 
     if ( shading && MINSET(shade_min_) )
-        min_level = shade_min_;
+        min_limit = shade_min_;
     
     if ( shading && MAXSET(shade_max_) )
-        max_level = shade_max_;
+        max_limit = shade_max_;
 
-    minOutOfBond_ = oob_min_ > min_level;
-    maxOutOfBond_ = oob_max_ < max_level;
+    minOutOfBond_ = oob_min_ > min_limit;
+    maxOutOfBond_ = oob_max_ < max_limit;
 
     int i       = 0;
     if ( minOutOfBond_ ) {
@@ -66,18 +69,13 @@ void CountSelectionType::calculate(double min, double max, bool shading) {
        i++;
     }
 
-    i += ( MINSET(min_level) ) ? 1 : 0;
-    i += ( MAXSET(max_level) ) ? 1 : 0;
+    i += ( MINSET(min_limit) ) ? 1 : 0;
+    i += ( MAXSET(max_limit) ) ? 1 : 0;
 
-
-    cout << min_level << " " << max_level << " " << i << endl;
-
-
-   
 
     double nb = levelCount_ - 1;
-    if (same(max_level, min_level)) {
-        push_back(min_level);
+    if (same(max_limit, min_limit)) {
+        push_back(min_limit);
         return;
     }
     double step = (max_level - min_level) / nb;
@@ -88,7 +86,7 @@ void CountSelectionType::calculate(double min, double max, bool shading) {
                                         // number of levels we will not actually plot, ie the min/max contours).
     if (same(step, 0)) {
         // Only one isoline!
-        push_back(min_level);
+        push_back(min_limit);
         return;
     }
 
@@ -139,13 +137,12 @@ void CountSelectionType::calculate(double min, double max, bool shading) {
 
     inc *= istep;  // convert back into proper range
 
+    double first = floor(min_limit / inc) * inc;
 
-    double first = floor(min_level / inc) * inc;
-
-    while (first > min_level)
+    while (first > min_limit)
         first -= inc;
 
-    push_back(min_level);
+    push_back(min_limit);
     first += inc;
     double epsilon = inc / 10000.0;
     while (same(epsilon, 0)) {
@@ -154,18 +151,18 @@ void CountSelectionType::calculate(double min, double max, bool shading) {
     }
 
 
-    for (double val = first; val < max_level; val += inc) {
+    for (double val = first; val < max_limit; val += inc) {
         // special case - if the value is close to zero then set it to precisely zero to avoid later formatting issues
         if (fabs(val) < epsilon)
             push_back(0.0);
-        else if (same(val, max_level))
-            push_back(max_level);
+        else if (same(val, max_limit))
+            push_back(max_limit);
         else
             push_back(val);
     }
 
-    if (max_level != back())
-        push_back(max_level);
+    if (max_limit != back())
+        push_back(max_limit);
     int si = static_cast<int>(size());
 
 
@@ -178,8 +175,9 @@ void CountSelectionType::calculate(double min, double max, bool shading) {
         step       = (max_level - min_level) / (levelCount_ - 1);
         double val = min_level;
         while (1) {
+            if ( val >= min_limit && val <= max_limit  )
             push_back(val);
-            if (same(val, max_level) || val > max_level)
+            if (same(val, max_limit) || val > max_limit)
                 break;
             val += step;
         }
@@ -195,13 +193,13 @@ void CountSelectionType::calculate(double min, double max, bool shading) {
         push_back(std::min(max, max_));
     }
 
-    cout << "count=" << levelCount_ << ", tolerance=" << tolerance_ << ", result=" << size() << endl;
+    MagLog::debug() << "count=" << levelCount_ << ", tolerance=" << tolerance_ << ", result=" << size() << endl;
 
     ostringstream level;
     for (const_iterator l = begin(); l != end(); ++l)
         level << *l << " ";
 
-    cout << level.str() << endl;
+    MagLog::debug() << level.str() << endl;
 }
 
 

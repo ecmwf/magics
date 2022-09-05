@@ -55,6 +55,7 @@ public:
 	double size_;
 	double ring_size_;
 	bool present_ww_visible_;
+	string present_ww_colour_;
 	bool pressure_visible_;
 	bool upper_air_visible_;
 	bool pressure_tendency_visible_;
@@ -75,9 +76,9 @@ public:
 	bool visibility_visible_;
 	bool wind_visible_;
 	string wind_colour_;
+	int wind_thickness_;
 	bool wind_projected_;
 	unique_ptr<Colour> colour_;
-	unique_ptr<Colour> present_ww_colour_;
 	unique_ptr<Colour> pressure_colour_;
 	unique_ptr<Colour> upper_air_colour_;
 	unique_ptr<Colour> pressure_tendency_colour_;

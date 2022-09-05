@@ -104,7 +104,7 @@ void ObsWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
 
     FlagItem* flag = new FlagItem();
     flag->setColour(colour);
-    flag->setThickness(2);
+    flag->setThickness(owner_->wind_thickness_); 
     flag->length(owner_->size_ * 2.);  // Size to be adjusted later!
 
     const string origin = "circle"; // Duck for hackathon
@@ -513,18 +513,19 @@ void ObsPresentWeather::operator()(CustomisedPoint& point, ComplexSymbol& symbol
         return;
     string ww;
 
-    Colour colour = owner_->present_ww_colour_->automatic() ? *owner_->colour_ : *owner_->present_ww_colour_;
+    string colour = owner_->present_ww_colour_;
+    
+    if ( magCompare(colour, "automatic") )
+        colour = owner_->colour_->name();
+   
 
-    string c = colour.name();
 
     if (value->second < 100) {
         ostringstream os;
         os << "ww_" << setw(2) << setfill('0') << value->second;
         ww = os.str();
-
-        c = colour_list[value->second];
-        colour = Colour(c);
-
+        if ( magCompare(colour, "coloured_present_weather") )
+             colour = colour_list[value->second];
     }
     else {
         map<int, string>::iterator w = presentweather.find(value->second);
@@ -541,10 +542,7 @@ void ObsPresentWeather::operator()(CustomisedPoint& point, ComplexSymbol& symbol
     object->x(column_);
     object->y(row_);
 
-
-   
-
-    object->colour(colour);
+    object->colour(Colour(colour));
     object->symbol(ww);
     
     object->height(owner_->size_);
@@ -1123,8 +1121,6 @@ void ObsString::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const 
         text        = text.replace(text.find(rkey), rkey.length(), val);
     }
 
-
-    text = "Duck-->&deg;";
 
     TextItem* object = new TextItem();
     object->x(column_);
