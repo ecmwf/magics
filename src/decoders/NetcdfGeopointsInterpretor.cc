@@ -65,6 +65,8 @@ bool NetcdfGeopointsInterpretor::interpretAsPoints(PointsList& list, const Trans
         setDim(netcdf, longitude_, longitudes, first, last);
         setDim(netcdf, latitude_, latitudes, first, last);
 
+        double missing = netcdf.getMissing(field_, missing_attribute_);
+
         vector<double>::iterator lat       = latitudes.begin();
         vector<double>::iterator lon       = longitudes.begin();
         vector<double>::const_iterator val = values.begin();
@@ -89,8 +91,10 @@ bool NetcdfGeopointsInterpretor::interpretAsPoints(PointsList& list, const Trans
         lat = latitudes.begin();
         lon = longitudes.begin();
         while (lat != latitudes.end() && lon != longitudes.end() && val != values.end()) {
-            UserPoint* geo = new UserPoint(*lon, *lat, *val);
-            list.push_back(geo);
+            if ( !same(*val, missing) ) {
+                UserPoint* geo = new UserPoint(*lon, *lat, *val);
+                list.push_back(geo);
+            }
             lon++;
             lat++;
             val++;
@@ -256,7 +260,7 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const Transf
 
         double xmissing = netcdf.getMissing(x_, missing_attribute_);
         double ymissing = netcdf.getMissing(y_, missing_attribute_);
-
+        double missing = netcdf.getMissing(field_, missing_attribute_);
         vector<double>::iterator x         = xs.begin();
         vector<double>::iterator y         = ys.begin();
         vector<double>::const_iterator val = values.begin();
@@ -267,7 +271,7 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const Transf
                 value = *val;
                 val++;
             }
-            if (!same(*x, xmissing) || !same(*y, ymissing)) {
+            if (!same(*x, xmissing) || !same(*y, ymissing) || same(value, missing)) {
                 UserPoint* xy = new UserPoint(*x, *y, value);
                 if (projection.in(*xy))
                     list.push_back(xy);
@@ -310,6 +314,7 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const std::s
 
         double xmissing = netcdf.getMissing(x_, missing_attribute_);
         double ymissing = netcdf.getMissing(y_, missing_attribute_);
+        double missing = netcdf.getMissing(field_, missing_attribute_);
 
         
         baseDateX_ = "";
@@ -333,7 +338,7 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const std::s
                 val++;
             }
             if (!same(*y, ymissing) || !same(*x, xmissing)) {
-                list.push_back(new UserPoint(*x, *y, value, (same(*y, ymissing) || same(*x, xmissing))));
+                list.push_back(new UserPoint(*x, *y, value, (same(*y, ymissing) || same(*x, xmissing) || same(value, missing))));
             }
 
             x++;
