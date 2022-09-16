@@ -41,3 +41,6 @@ tmp.*
 *.ppm
 .env
 *.swp
+
+# mac
+.DS_Store
