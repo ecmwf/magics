@@ -64,9 +64,14 @@ bool NetcdfGeopointsInterpretor::interpretAsPoints(PointsList& list, const Trans
         netcdf.get(field_, values, first, last);
         setDim(netcdf, longitude_, longitudes, first, last);
         setDim(netcdf, latitude_, latitudes, first, last);
+        double missing = numeric_limits<double>::max();
 
-        double missing = netcdf.getMissing(field_, missing_attribute_);
+        if (field_.empty() == false) {
+            netcdf.get(field_, values, first, last);
+            missing = netcdf.getMissing(field_, missing_attribute_);
+        }
 
+        
         vector<double>::iterator lat       = latitudes.begin();
         vector<double>::iterator lon       = longitudes.begin();
         vector<double>::const_iterator val = values.begin();
@@ -251,16 +256,20 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const Transf
         vector<double> values;
         map<string, string> first, last;
         setDimensions(dimension_, first, last);
+        double missing = numeric_limits<double>::max();
 
         if (field_.empty() == false) {
             netcdf.get(field_, values, first, last);
+            missing = netcdf.getMissing(field_, missing_attribute_);
         }
         setDim(netcdf, x_, xs, first, last);
         setDim(netcdf, y_, ys, first, last);
 
         double xmissing = netcdf.getMissing(x_, missing_attribute_);
         double ymissing = netcdf.getMissing(y_, missing_attribute_);
-        double missing = netcdf.getMissing(field_, missing_attribute_);
+
+        
+        
         vector<double>::iterator x         = xs.begin();
         vector<double>::iterator y         = ys.begin();
         vector<double>::const_iterator val = values.begin();
@@ -305,16 +314,20 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const std::s
         vector<double> values;
         map<string, string> first, last;
         setDimensions(dimension_, first, last);
+        double missing = numeric_limits<double>::max();
 
         if (field_.empty() == false) {
             netcdf.get(field_, values, first, last);
+            missing = netcdf.getMissing(field_, missing_attribute_);
         }
+
+        
         setDim(netcdf, x_, xs, first, last);
         setDim(netcdf, y_, ys, first, last);
 
         double xmissing = netcdf.getMissing(x_, missing_attribute_);
         double ymissing = netcdf.getMissing(y_, missing_attribute_);
-        double missing = netcdf.getMissing(field_, missing_attribute_);
+        
 
         
         baseDateX_ = "";
