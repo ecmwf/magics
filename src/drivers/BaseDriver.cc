@@ -406,9 +406,9 @@ double BaseDriver::LSF(MFloat* x, MFloat* y, int i0) const {
     return angle;
 }
 
+// Compute the least square fit (regression) line angle. This does not determine the
+// direction of the regression line, so we need an extra step to adjust the computed angle.
 double BaseDriver::arrowHeadLSF(MFloat* x, MFloat* y, int i0) const {
-    // Compute the least square fit (regression) line angle. This does not determine the
-    // direction of the regression line, so we need an extra step to adjust the computed angle. 
     double angle = 0.;
     const unsigned int n = 3;
     const double eps = 1E-5;
@@ -440,7 +440,8 @@ double BaseDriver::arrowHeadLSF(MFloat* x, MFloat* y, int i0) const {
         return 10.;
     }
 
-    // estimate the lines's direction from the line formed by the endpoints
+    // estimate the lines's direction from the line formed by first two point
+    // TODO: also use the last two points
     double dx = projectX(x[i0 + 1]) - projectX(x[i0]);
     double dy = projectY(y[i0 + 1]) - projectY(y[i0]);
 
@@ -451,7 +452,7 @@ double BaseDriver::arrowHeadLSF(MFloat* x, MFloat* y, int i0) const {
     double yAngle = std::sin(angle);
 
     // compute the scalar product between the two vectors and use the
-    // sign of it to decide whether they point in the same direction
+    // sign of it to decide whether they point in the same direction]
     auto sp = dx*xAngle + dy*yAngle;
     if (sp <= 0) {
         angle += PI;
@@ -523,6 +524,7 @@ void BaseDriver::printLine(const magics::Polyline& line) const {
 void BaseDriver::renderArrowHeadsAlongLine(const magics::Polyline& line, MFloat* x,  MFloat* y, unsigned long n) const {
 #ifdef MAG_POLYLINE_ARROW_DEBUG_
     {
+       if (n > 25) {
         // Use this code to draw a green line segment to the beginning of the polyline
         magics::Colour dbgCol("green");
         const unsigned long maxDbgLineLen = 3;
@@ -538,6 +540,7 @@ void BaseDriver::renderArrowHeadsAlongLine(const magics::Polyline& line, MFloat*
         delete[] xx;
         delete[] yy;
         setNewColour(line.getColour());
+       }
     }
 #endif
 
@@ -549,9 +552,8 @@ void BaseDriver::renderArrowHeadsAlongLine(const magics::Polyline& line, MFloat*
 #endif
 
     if (n > minimum_points_for_labelling) {
-    
         unsigned int i = 10;
-        const unsigned int step = 5;
+        const unsigned int step =5;
         static const double cosLimit = std::cos(0.01);
 #ifdef MAG_POLYLINE_ARROW_DEBUG_
         i = 1;
@@ -562,19 +564,19 @@ void BaseDriver::renderArrowHeadsAlongLine(const magics::Polyline& line, MFloat*
             assert(i+1 <= n-1);
             bool closeAngles = false;
             const double angle = arrowHeadLSF(x, y, i);
-//#ifdef MAG_POLYLINE_ARROW_DEBUG_
-//            closeAngles = angle < 4.;
-//#else
+#ifdef MAG_POLYLINE_ARROW_DEBUG_
+            closeAngles = angle < 4.;
+#else
             const double angle2 = arrowHeadLSF(x, y, i + 1);
             if (angle < 4. && angle2 < 4.) {
                 // the cos of the angular diff is the scalar product
                 auto sp = std::cos(angle)*std::cos(angle2) + std::sin(angle)*std::sin(angle2);
                 closeAngles = (sp >= cosLimit);
             }
-//#endif
-            if (closeAngles) {
-                MFloat pro_x = x[i];
-                MFloat pro_y = y[i];
+#endif
+            if  (closeAngles)  {
+                MFloat pro_x = x[i+1];
+                MFloat pro_y = y[i+1];
 
                 Arrow arrow;
                 arrow.copy(*line.arrowProperties());
@@ -590,6 +592,7 @@ void BaseDriver::renderArrowHeadsAlongLine(const magics::Polyline& line, MFloat*
                 ArrowPoint apoint(dx, dy, pp);
                 arrow.push_back(apoint);
                 renderWindArrow(arrow);
+
                 i += step;
             }  // angles are not the same
             i += step;

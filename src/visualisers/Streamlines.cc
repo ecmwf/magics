@@ -170,7 +170,6 @@ bool Streamlines::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
             i++;
         }
 
-
     GSStruct* gs = new GSStruct();
     gs->nx       = nbcolumns;
     gs->ny       = handler.rows();
@@ -274,7 +273,7 @@ bool Streamlines::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
                     // Copy the properties
                     (*rPoly)->copy(poly);
 
-                    // The order of the streamline points have to be adjusted. See MAGP-1349.
+                    // The order of the streamline points has to be adjusted. See MAGP-1349.
                     // To do so we need the unprojected polyline coordinates too.
                     auto rUnprojected = (*rPoly)->clone();
                     assert(rUnprojected);
@@ -294,6 +293,16 @@ bool Streamlines::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
             poly.clear();
         }
     }
+
+    delete gs;
+
+    if (result) {
+        for (int l = 0; l < size; l++) {
+            delete result[l];
+        }
+        delete [] result;
+    }
+
     // ************ MF RV ***************
     // Leak ;-)
     delete[] direction;
