@@ -25,6 +25,9 @@
 #include "LegendVisitor.h"
 #include "Polyline.h"
 #include "Timer.h"
+
+#include <cassert>
+
 using namespace magics;
 
 bool Streamlines::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
