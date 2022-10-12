@@ -59,12 +59,12 @@ void CountSelectionType::calculate(double min, double max, bool shading) {
     maxOutOfBond_ = oob_max_ < max_limit;
 
     int i       = 0;
-    if ( minOutOfBond_ ) {
+    if ( minOutOfBond_ || !MINSET(min_)) {
         i++;
         
     }
     
-    if ( maxOutOfBond_ ) {
+    if ( maxOutOfBond_ || !MAXSET(max_) ) {
        i++;
     }
 
