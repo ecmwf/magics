@@ -2,7 +2,7 @@
 # for Magics
 
 # Build image
-FROM python:3.7.10-slim-buster as build
+FROM python:3.11-slim-buster as build
 
 RUN set -ex \
     && apt-get update
@@ -146,7 +146,7 @@ RUN set -ex \
 #
 # Run-time image.
 #
-FROM python:3.7.10-slim-buster
+FROM python:3.11-slim-buster
 
 # Install run-time depencencies.
 # Delete resources after installation
