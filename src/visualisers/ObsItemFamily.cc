@@ -105,7 +105,7 @@ void ObsWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
     FlagItem* flag = new FlagItem();
     flag->setColour(colour);
     flag->setThickness(owner_->wind_thickness_); 
-    flag->length(owner_->size_ * 2.);  // Size to be adjusted later!
+    flag->length(owner_->size_ * 2.5);  // Size to be adjusted later!
 
     const string origin = "circle"; // Duck for hackathon
 
