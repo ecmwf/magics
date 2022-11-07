@@ -71,27 +71,21 @@ void SymbolIndividualMode::properties() const {
         texthandlers["top"]    = TextPosition::ABOVE;
         texthandlers["bottom"] = TextPosition::BELOW;
         texthandlers["right"]  = TextPosition::RIGHT;
-        texthandlers["centre"] = TextPosition::CENTRE;
+        texthandlers["centre"] = TextPosition::NONE;
     }
     TextPosition position;
-    if (magCompare(type_, "number")) {
-        position            = TextPosition::NONE;
+    string type                             = lowerCase(text_position_);
+    
+    map<string, TextPosition>::iterator pos = texthandlers.find(type);
+    position                                = (pos != texthandlers.end()) ? pos->second : TextPosition::ABOVE;
+    if (magCompare(type_, "text") || magCompare(type_, "number")) {
+        properties_.height_ = 0.05;  // make a very small symbol
+    }
+    else {
         properties_.colour_ = *colour_;
         properties_.height_ = height_*scaling_;
     }
-    else {
-        string type                             = lowerCase(text_position_);
-        map<string, TextPosition>::iterator pos = texthandlers.find(type);
-        position                                = (pos != texthandlers.end()) ? pos->second : TextPosition::ABOVE;
-        if (magCompare(type_, "text")) {
-            properties_.height_ = 0.01;  // make a very small symbol
-            properties_.colour_ = Colour("none");
-        }
-        else {
-            properties_.colour_ = *colour_;
-            properties_.height_ = height_*scaling_;
-        }
-    }
+   
     if (magCompare(marker_mode_, "image")) {
         properties_.image_        = true;
         properties_.image_path_   = image_path_;
