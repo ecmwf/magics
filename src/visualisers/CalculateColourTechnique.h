@@ -39,6 +39,11 @@ public:
 
     void set(const ColourTechniqueInterface&) override;
 
+    void copy(const CalculateColourTechnique&) {
+        CalculateColourTechniqueAttributes::copy(*this);
+        ColourTechniqueAttributes::copy(*this);
+    }
+
 
     virtual ColourTechnique* clone() const override {
         CalculateColourTechnique* object = new CalculateColourTechnique();

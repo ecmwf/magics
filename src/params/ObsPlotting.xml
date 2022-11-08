@@ -51,11 +51,11 @@ does it submit to any jurisdiction.
 			<set name="obs_present_weather_colour" value="on"/>
 		</parameter>
 		<parameter member="present_ww_colour"
-			to="Colour"
+			to="string"
 			default="automatic"
 			from="string"
 			name="obs_present_weather_colour">
-			<documentation>Colour used to display  the present weather</documentation>
+			<documentation>Colour used to display  the present weather. [automatic] will use [obs_colour], [coloured_present_weather] will use the calssical colours for the symbols </documentation>
 		</parameter>
 		<parameter member="pressure_visible"
 			to="bool"
@@ -331,11 +331,18 @@ does it submit to any jurisdiction.
 			<set name="obs_wind_colour" value="on"/>
 		</parameter>
 		<parameter member="wind_colour"
-			to="Colour"
+			to="string"
 			default="automatic"
 			from="string"
 			name="obs_wind_colour">
 			<documentation>Colour used to display wind</documentation>
+		</parameter>
+		<parameter member="wind_thickness"
+			to="int"
+			default="1"
+			from="int"
+			name="obs_wind_thickness">
+			<documentation>Thickness of the wind flags</documentation>
 		</parameter>
 		<parameter member="wind_projected"
 			to="bool"

@@ -53,9 +53,7 @@ public:
 	//  --  members:
 	string tag_;
 	bool legend_;
-	bool scaling_method_;
-	double scaling_level_0_;
-	double scaling_factor_;
+	string unit_method_;
 	string type_;
 	string marker_mode_;
 	string format_;

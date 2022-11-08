@@ -25,7 +25,7 @@
 #define BoxPlotVisualiserAttributes_H
 
 #include "magics.h"
-#include "BoxPlotBasicItem.h"
+#include "Colour.h"
 namespace magics {
 
 class XmlNode;
@@ -51,8 +51,27 @@ public:
 	virtual void toxml(std::ostream& out) const;
 	//  --  members:
 	string tag_;
-	unique_ptr<NoBoxPlotBox> box_;
-	unique_ptr<NoBoxPlotWhisker> whisker_;
+	bool box_;
+	double box_width_;
+	bool box_border_;
+	int box_border_thickness_;
+	bool median_;
+	int median_thickness_;
+	string whisker_;
+	double whisker_box_width_;
+	bool whisker_box_border_;
+	int whisker_box_border_thickness_;
+	int whisker_line_thickness_;
+	unique_ptr<Colour> box_colour_;
+	unique_ptr<Colour> box_border_colour_;
+	LineStyle box_border_style_;
+	unique_ptr<Colour> median_colour_;
+	LineStyle median_style_;
+	unique_ptr<Colour> whisker_box_colour_;
+	unique_ptr<Colour> whisker_box_border_colour_;
+	LineStyle whisker_box_border_style_;
+	unique_ptr<Colour> whisker_line_colour_;
+	LineStyle whisker_line_style_;
 	 
 
 private:

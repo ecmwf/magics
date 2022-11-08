@@ -1324,12 +1324,12 @@ double Proj4Projection::patchDistance(double res) const {
     double x1 = 0;
     double y1 = 60;
     double x2 = 0;
-    double y2 = 61;
-    fast_reproject(x1, y1);
-    fast_reproject(x2, y2);
+    double y2 = 60+res;
 
-    double degree = ((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2));
-    return 1000000000;
+    fast_reproject(y1, x1);
+    fast_reproject(y2, x2);
+
+    return sqrt(((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2)));
 }
 
 void Proj4Projection::collect(MetaDataCollector& collector) const {
@@ -1417,7 +1417,6 @@ void Proj4Projection::setMinMaxX(double min, double max) {
     data_max_longitude_ = std::max(max, data_max_longitude_);
 
 }
-
 
     
 

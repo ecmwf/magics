@@ -54,6 +54,7 @@ public:
 	string path_;
 	string input_;
 	double binning_resolution_;
+	string value_;
 	 
 
 private:

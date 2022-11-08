@@ -369,6 +369,9 @@ protected:
 
 
     double LSF(MFloat* x, MFloat* y, int i0) const;
+    double arrowHeadLSF(MFloat* x, MFloat* y, int i0) const;
+    void renderArrowHeadsAlongLine(const Polyline& line, MFloat* x,  MFloat* y, unsigned long n) const;
+    void renderLabelsAlongLine(const Polyline& line, MFloat* x,  MFloat* y, unsigned long n) const;
 
     mutable int currentPage_;
     mutable string fileName_;

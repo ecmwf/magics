@@ -69,8 +69,9 @@ bool SymbolAdvancedTableMode::accept(double value) const {
 void SymbolAdvancedTableMode::prepare() {}
 
 
-void SymbolAdvancedTableMode::adjust(double min, double max, bool scale, const Transformation& transformation,
+void SymbolAdvancedTableMode::adjust(double min, double max, const Transformation& transformation,
                                      double scaling) {
+
     static map<string, TextPosition> texthandlers;
     if (texthandlers.empty()) {
         texthandlers["none"]   = TextPosition::NONE;
@@ -79,6 +80,7 @@ void SymbolAdvancedTableMode::adjust(double min, double max, bool scale, const T
         texthandlers["bottom"] = TextPosition::BELOW;
         texthandlers["right"]  = TextPosition::RIGHT;
     }
+    scaling_ = scaling;
     map_.clear();
     MagLog::dev() << "Data going from " << min << " to " << max << endl;
     levels_->set(*this);
@@ -93,6 +95,8 @@ void SymbolAdvancedTableMode::adjust(double min, double max, bool scale, const T
     colourMethod_->prepare(*levels_, *levels_);
     height_method_->prepare(*levels_);
 
+    
+   
     if (markers_.empty()) {
         markers_.push_back(15);
     }
@@ -131,9 +135,7 @@ void SymbolAdvancedTableMode::adjust(double min, double max, bool scale, const T
 
         MagLog::debug() << "[" << *level << ", " << *(level + 1) << "]=" << *marker << "(marker)" << *text << "(text)"
                         << endl;
-        double height = height_method_->height(*level);
-        if (scale)
-            height = transformation.ratio() * height * scaling;
+        double height = height_method_->height(*level) * scaling_;
         SymbolProperties properties;
         if (index)
             properties = SymbolProperties(colourMethod_->right(*level), height, *marker, *text);
@@ -225,7 +227,8 @@ void SymbolAdvancedTableMode::visit(Data& data, LegendVisitor& legend) {
                 Symbol* symbol = new Symbol();
                 (*symbol).setColour(interval->second.colour_);
                 (*symbol).setSymbol(interval->second.marker_);
-                (*symbol).setHeight(interval->second.height_);
+                // (*symbol).setHeight(interval->second.height_);
+                (*symbol).setHeight(0.5);
 
                 string str = data.legendText(interval->first.min_, interval->first.max_);
                 if (str.empty()) {

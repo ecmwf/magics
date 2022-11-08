@@ -280,6 +280,8 @@ public:
     void push_front(Polyline&);
     void push_back(Polyline&);
 
+    void reverse() {std::reverse(polygon_.begin(), polygon_.end());}
+
     // Is the pointincluded in the polyline"
     bool in(const PaperPoint&) const;
 

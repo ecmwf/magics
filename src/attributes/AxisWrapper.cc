@@ -245,6 +245,15 @@ void AxisWrapper::set(const MagRequest& request)
 		string tip_quality_value = request("AXIS_TIP_TITLE_QUALITY");
 		axis_->tip_quality_ = tip_quality_value;
 		}
+	doublearray  highlighted_values_value;
+	for (int i = 0; i < request.countValues("AXIS_HIGHLIGHTED_VALUES"); i++)
+		highlighted_values_value.push_back((double)request("AXIS_HIGHLIGHTED_VALUES", i));
+	if ( !highlighted_values_value.empty() )
+		axis_->highlighted_values_ = highlighted_values_value;
+	if  (request.countValues("AXIS_HIGHLIGHTED_VALUES_THICKNESS") ) {
+		int highlighted_values_thickness_value = request("AXIS_HIGHLIGHTED_VALUES_THICKNESS");
+		axis_->highlighted_values_thickness_ = highlighted_values_thickness_value;
+		}
 	
 	
 		string method_value = request.countValues("AXIS_TYPE") ?  (string) request("AXIS_TYPE") : "regular";
@@ -333,6 +342,17 @@ void AxisWrapper::set(const MagRequest& request)
 		axis_->tip_colour_ = unique_ptr<Colour>(MagTranslator<string, Colour>()(tip_colour_value));
 	}
 		
+	if  (request.countValues("AXIS_HIGHLIGHTED_VALUES_COLOUR") ) {
+		string highlighted_values_colour_value = request("AXIS_HIGHLIGHTED_VALUES_COLOUR");
+		axis_->highlighted_values_colour_ = unique_ptr<Colour>(MagTranslator<string, Colour>()(highlighted_values_colour_value));
+	}
+		
+	
+	if  (request.countValues("AXIS_HIGHLIGHTED_VALUES_STYLE") ) {
+		string highlighted_values_style_value = request("AXIS_HIGHLIGHTED_VALUES_STYLE");
+		axis_->highlighted_values_style_ = MagTranslator<string, LineStyle>()(highlighted_values_style_value);
+	}
+		
 	
 }
 
@@ -365,6 +385,8 @@ static SimpleObjectMaker<DateAxisMethodWrapper, AxisMethodWrapper> Axis_axis_typ
 #include "HyperAxisMethodWrapper.h"
 static SimpleObjectMaker<HyperAxisMethod, AxisMethod> Axis_axis_type_geoline ("geoline");
 static SimpleObjectMaker<HyperAxisMethodWrapper, AxisMethodWrapper> Axis_axis_type_geoline_wrapper ("geoline");
+
+
 
 
 

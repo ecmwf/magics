@@ -52,8 +52,6 @@ public:
 	virtual void toxml(std::ostream& out) const;
 	//  --  members:
 	string tag_;
-	double max_;
-	double min_;
 	unique_ptr<ShadingTechnique> technique_;
 	unique_ptr<ColourTechnique> colourMethod_;
 	 

@@ -38,6 +38,12 @@ public:
     bool accept(const string& node) override { return GradientsColourTechniqueAttributes::accept(node); }
 
     void set(const ColourTechniqueInterface&) override;
+    
+    void copy(const GradientsColourTechnique&) {
+        GradientsColourTechniqueAttributes::copy(*this);
+        ColourTechniqueAttributes::copy(*this);
+    }
+
 
 
     virtual ColourTechnique* clone() const override {

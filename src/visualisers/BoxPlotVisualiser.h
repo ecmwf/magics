@@ -57,7 +57,15 @@ protected:
     virtual void print(ostream&) const override;
     double resolution_;
 
+    void box(BasicGraphicsObjectContainer& visitor, const CustomisedPoint& point) const;
+    void box_border(Polyline&) const;
+    void whisker_line_top(BasicGraphicsObjectContainer&, const CustomisedPoint&) const;
+    void whisker_line_bottom(BasicGraphicsObjectContainer&, const CustomisedPoint&) const;
+    void whisker_box_top(BasicGraphicsObjectContainer&, const CustomisedPoint&) const;
+    void whisker_box_bottom(BasicGraphicsObjectContainer&, const CustomisedPoint&) const;
+    void whisker_border(Polyline&) const;
 
+    double cm_; 
 private:
     //! Copy constructor - No copy allowed
     BoxPlotVisualiser(const BoxPlotVisualiser&);

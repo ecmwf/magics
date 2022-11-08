@@ -7,6 +7,14 @@
  <circle cx='0' cy='-0.4' r='0.1' fill='8'/>
 </g>
 
+<g id='duck'>
+ <polyline points='-.25,0.05 -.23,-.1 -.2,-.17 .22,-.17 .25,-.1 .28,-.07 .33,0.3 .25,.1 -.14,.1' fill='black'/>
+ <circle cx='-0.21' cy='0.2' r='0.15' fill='8'/>
+ <circle cx='-0.21' cy='0.22' r='0.04' fill='8'/>
+ <polyline points='-.36,0.25 -.45,.2 -.36,.15 -.36,0.25' fill='black'/>
+ <polyline points='0.2,0.02 -.05,.02 -.02,-0.05' fill='black'/>
+</g>
+
 <g id='WMO_TropicalCycloneNHGE'>
  <polyline points='-0.4,0. -0.4, 0.2 -0.3, 0.45  0.1, 0.7  0.4, 0.7 0., 0.5 -0.2,0.' fill='black'/>
  <polyline points=' 0.4,0.  0.4,-0.2  0.3,-0.45 -0.1,-0.7 -0.4,-0.7 0.,-0.5 0.2,0.'  fill='black'/>

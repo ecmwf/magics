@@ -25,9 +25,7 @@
 using namespace magics;
 
 IsoShadingAttributes::IsoShadingAttributes():
-	max_(ParameterManager::getDouble("contour_shade_max_level")),
-	min_(ParameterManager::getDouble("contour_shade_min_level"))
-	,
+	
 	technique_(MagTranslator<string, ShadingTechnique>().magics("contour_shade_technique")),
 	colourMethod_(MagTranslator<string, ColourTechnique>().magics("contour_shade_colour_method"))
 	
@@ -51,8 +49,6 @@ void IsoShadingAttributes::set(const std::map<string, string>& params)
 	prefix[i++] = "contour_shade";
 	prefix[i++] = "contour_shade";
 	
-	setAttribute(prefix, "contour_shade_max_level", max_, params);
-	setAttribute(prefix, "contour_shade_min_level", min_, params);
 	
 	setMember(prefix, "contour_shade_technique", technique_, params);
 	setMember(prefix, "contour_shade_colour_method", colourMethod_, params);
@@ -61,8 +57,6 @@ void IsoShadingAttributes::set(const std::map<string, string>& params)
 
 void IsoShadingAttributes::copy(const IsoShadingAttributes& other)
 {
-	max_ = other.max_;
-	min_ = other.min_;
 	technique_ = unique_ptr<ShadingTechnique>(other.technique_->clone());
 	colourMethod_ = unique_ptr<ColourTechnique>(other.colourMethod_->clone());
 	
@@ -111,8 +105,6 @@ void IsoShadingAttributes::set(const XmlNode& node)
 void IsoShadingAttributes::print(ostream& out)  const
 {
 	out << "Attributes[";
-	out << " max = " <<  max_;
-	out << " min = " <<  min_;
 	out << " technique = " <<  *technique_;
 	out << " colourMethod = " <<  *colourMethod_;
 	
@@ -122,10 +114,6 @@ void IsoShadingAttributes::print(ostream& out)  const
 void IsoShadingAttributes::toxml(ostream& out)  const
 {
 	out <<  "\"shading\"";
-	out << ", \"contour_shade_max_level\":";
-	niceprint(out,max_);
-	out << ", \"contour_shade_min_level\":";
-	niceprint(out,min_);
 	out << ", \"contour_shade_technique\":";
 	technique_->toxml(out);
 	out << ", \"contour_shade_colour_method\":";
@@ -133,8 +121,6 @@ void IsoShadingAttributes::toxml(ostream& out)  const
 	
 }
 
-static MagicsParameter<double> contour_shade_max_level("contour_shade_max_level", 1.0e+21);
-static MagicsParameter<double> contour_shade_min_level("contour_shade_min_level", -1.0e+21);
 static MagicsParameter<string> contour_shade_technique("contour_shade_technique", "polygon_shading");
 static MagicsParameter<string> contour_shade_colour_method("contour_shade_colour_method", "calculate");
 #include "PolyShadingTechnique.h"

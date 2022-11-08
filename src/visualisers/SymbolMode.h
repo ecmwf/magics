@@ -71,7 +71,9 @@ public:
     virtual void visit(Data&, HistoVisitor&);
 
 
-    virtual void adjust(double, double, bool, const Transformation&, double) {}
+    virtual void adjust(double, double, const Transformation&, double scaling) { 
+        scaling_ = scaling; 
+    }
     void set(const string& type) { type_ = type; }
 
 protected:
@@ -79,6 +81,7 @@ protected:
     virtual void print(ostream&) const override;
     SymbolPlotting* parent_;
     string type_;
+    double scaling_;
 
 private:
     //! Copy constructor - No copy allowed
@@ -118,7 +121,7 @@ public:
         return object;
     }
 
-    void adjust(double, double, bool, const Transformation&, double) override;
+    
     virtual void visit(LegendVisitor&) override;
     void prepare() override {
         update();
@@ -128,6 +131,11 @@ public:
     void properties() const;
     SymbolProperties operator()(double) const override { return properties_; }
     void visit(Data&, LegendVisitor&) override;
+
+    void adjust(double, double, const Transformation&, double scaling) override { 
+        scaling_ = scaling; 
+        properties();
+    }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
@@ -184,8 +192,7 @@ public:
     }
     virtual bool accept(const string& node) override { return SymbolTableModeAttributes::accept(node); }
 
-    void adjust(double, double, bool, const Transformation&, double) override;
-
+   
     void visit(LegendVisitor&) override;
     void visit(Data&, LegendVisitor&) override;
     void visit(Data&, HistoVisitor&) override;

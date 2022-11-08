@@ -52,8 +52,10 @@ public:
 	string tag_;
 	double max_;
 	double min_;
-	double max_shade_;
-	double min_shade_;
+	double shade_max_;
+	double shade_min_;
+	double oob_min_;
+	double oob_max_;
 	 
 
 private:

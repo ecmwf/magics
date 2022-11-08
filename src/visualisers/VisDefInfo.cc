@@ -21,7 +21,7 @@
 //
 //===============================================================
 
-VisDefInfoBase::VisDefInfoBase(string fConf, DataType dataType) : fConf_(fConf), dataType_(dataType) {
+VisDefInfoBase::VisDefInfoBase(const string& fConf, DataType dataType) : fConf_(fConf), dataType_(dataType) {
     loaded_                 = false;
     dataTypeName_[GribType] = "GRIB";
 }
@@ -38,7 +38,7 @@ void VisDefInfoBase::clear() {
     items_.clear();
 }
 
-VisDefInfoItem* VisDefInfoBase::addItem(string name) {
+VisDefInfoItem* VisDefInfoBase::addItem(const string& name) {
     VisDefInfoItem* item = new VisDefInfoItem(name);
     items_.push_back(item);
     return item;
@@ -70,7 +70,7 @@ void VisDefInfoBase::collectKeys() {
 //===============================================================
 
 
-ObstatVisDefInfo::ObstatVisDefInfo(string fConf, DataType dataType) : VisDefInfoBase(fConf, dataType) {
+ObstatVisDefInfo::ObstatVisDefInfo(const string& fConf, DataType dataType) : VisDefInfoBase(fConf, dataType) {
     fConf_ = buildSharePath("ObstatGribVisDef.txt");
 
     loadItems();
@@ -201,7 +201,7 @@ void ObstatVisDefInfo::getAttributes(MetaDataCollector& meta, map<string, string
     }
 }
 
-string ObstatVisDefInfo::removeZerosFromNumber(string s) {
+string ObstatVisDefInfo::removeZerosFromNumber(const string& s) {
     istringstream iss(s);
     int num;
     iss >> num;
@@ -217,7 +217,7 @@ string ObstatVisDefInfo::removeZerosFromNumber(string s) {
 //
 //===================================================
 
-VisDefInfoBase* VisDefInfoFactory::makeItem(string type) {
+VisDefInfoBase* VisDefInfoFactory::makeItem(const string& type) {
     if (type == "ObstatGrib") {
         return new ObstatVisDefInfo("", VisDefInfoBase::GribType);
     }

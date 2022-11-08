@@ -59,7 +59,8 @@ public:
 };
 
 
-class ColourTechnique : public map<double, ColourInfo> {
+class ColourTechnique : public map<double, ColourInfo>, 
+    public ColourTechniqueAttributes {
 public:
     ColourTechnique();
     virtual ~ColourTechnique();
@@ -86,6 +87,9 @@ public:
     void visit(LegendVisitor&);
     ListPolicy getPolicy() const { return policy_; }
 
+    bool minOutOfBound() const { return minOutOfBound_; }
+    bool maxOutOfBound() const { return maxOutOfBound_; }
+
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
     virtual void print(ostream&) const;
@@ -93,6 +97,9 @@ protected:
 
     map<double, pair<double, double> > ranges_;
     double maxLevel_;
+
+    bool minOutOfBound_;
+    bool maxOutOfBound_;
 
     ListPolicy policy_;
 
@@ -123,6 +130,13 @@ public:
     bool accept(const string& node) override { return PaletteColourTechniqueAttributes::accept(node); }
 
     void set(const ColourTechniqueInterface&) override;
+
+    virtual void copy(const PaletteColourTechnique&) {
+        PaletteColourTechniqueAttributes::copy(*this);
+        ColourTechniqueAttributes::copy(*this);
+    }
+
+
 
 
     virtual ColourTechnique* clone() const override {

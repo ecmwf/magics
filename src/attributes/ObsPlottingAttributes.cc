@@ -29,6 +29,7 @@ ObsPlottingAttributes::ObsPlottingAttributes():
 	size_(ParameterManager::getDouble("obs_size")),
 	ring_size_(ParameterManager::getDouble("obs_ring_size")),
 	present_ww_visible_(ParameterManager::getBool("obs_present_weather")),
+	present_ww_colour_(ParameterManager::getString("obs_present_weather_colour")),
 	pressure_visible_(ParameterManager::getBool("obs_pressure")),
 	upper_air_visible_(ParameterManager::getBool("obs_upper_air_pressure")),
 	pressure_tendency_visible_(ParameterManager::getBool("obs_pressure_tendency")),
@@ -48,10 +49,11 @@ ObsPlottingAttributes::ObsPlottingAttributes():
 	time_plot_visible_(ParameterManager::getBool("obs_time")),
 	visibility_visible_(ParameterManager::getBool("obs_visibility")),
 	wind_visible_(ParameterManager::getBool("obs_wind")),
+	wind_colour_(ParameterManager::getString("obs_wind_colour")),
+	wind_thickness_(ParameterManager::getInt("obs_wind_thickness")),
 	wind_projected_(ParameterManager::getBool("obs_wind_projected"))
 	,
 	colour_(MagTranslator<string, Colour>().magics("obs_colour")),
-	present_ww_colour_(MagTranslator<string, Colour>().magics("obs_present_weather_colour")),
 	pressure_colour_(MagTranslator<string, Colour>().magics("obs_pressure_colour")),
 	upper_air_colour_(MagTranslator<string, Colour>().magics("obs_upper_air_pressure_colour")),
 	pressure_tendency_colour_(MagTranslator<string, Colour>().magics("obs_pressure_tendency_colour")),
@@ -68,8 +70,7 @@ ObsPlottingAttributes::ObsPlottingAttributes():
 	waves_colour_(MagTranslator<string, Colour>().magics("obs_waves_colour")),
 	past_ww_colour_(MagTranslator<string, Colour>().magics("obs_past_weather_colour")),
 	time_plot_colour_(MagTranslator<string, Colour>().magics("obs_time_colour")),
-	visibility_colour_(MagTranslator<string, Colour>().magics("obs_visibility_colour")),
-	wind_colour_(MagTranslator<string, Colour>().magics("obs_wind_colour"))
+	visibility_colour_(MagTranslator<string, Colour>().magics("obs_visibility_colour"))
 	
 {
 }
@@ -91,6 +92,7 @@ void ObsPlottingAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "obs_size", size_, params);
 	setAttribute(prefix, "obs_ring_size", ring_size_, params);
 	setAttribute(prefix, "obs_present_weather", present_ww_visible_, params);
+	setAttribute(prefix, "obs_present_weather_colour", present_ww_colour_, params);
 	setAttribute(prefix, "obs_pressure", pressure_visible_, params);
 	setAttribute(prefix, "obs_upper_air_pressure", upper_air_visible_, params);
 	setAttribute(prefix, "obs_pressure_tendency", pressure_tendency_visible_, params);
@@ -110,10 +112,11 @@ void ObsPlottingAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "obs_time", time_plot_visible_, params);
 	setAttribute(prefix, "obs_visibility", visibility_visible_, params);
 	setAttribute(prefix, "obs_wind", wind_visible_, params);
+	setAttribute(prefix, "obs_wind_colour", wind_colour_, params);
+	setAttribute(prefix, "obs_wind_thickness", wind_thickness_, params);
 	setAttribute(prefix, "obs_wind_projected", wind_projected_, params);
 	
 	setMember(prefix, "obs_colour", colour_, params);
-	setMember(prefix, "obs_present_weather_colour", present_ww_colour_, params);
 	setMember(prefix, "obs_pressure_colour", pressure_colour_, params);
 	setMember(prefix, "obs_upper_air_pressure_colour", upper_air_colour_, params);
 	setMember(prefix, "obs_pressure_tendency_colour", pressure_tendency_colour_, params);
@@ -131,7 +134,6 @@ void ObsPlottingAttributes::set(const std::map<string, string>& params)
 	setMember(prefix, "obs_past_weather_colour", past_ww_colour_, params);
 	setMember(prefix, "obs_time_colour", time_plot_colour_, params);
 	setMember(prefix, "obs_visibility_colour", visibility_colour_, params);
-	setMember(prefix, "obs_wind_colour", wind_colour_, params);
 	
 }
 
@@ -141,6 +143,7 @@ void ObsPlottingAttributes::copy(const ObsPlottingAttributes& other)
 	size_ = other.size_;
 	ring_size_ = other.ring_size_;
 	present_ww_visible_ = other.present_ww_visible_;
+	present_ww_colour_ = other.present_ww_colour_;
 	pressure_visible_ = other.pressure_visible_;
 	upper_air_visible_ = other.upper_air_visible_;
 	pressure_tendency_visible_ = other.pressure_tendency_visible_;
@@ -160,9 +163,10 @@ void ObsPlottingAttributes::copy(const ObsPlottingAttributes& other)
 	time_plot_visible_ = other.time_plot_visible_;
 	visibility_visible_ = other.visibility_visible_;
 	wind_visible_ = other.wind_visible_;
+	wind_colour_ = other.wind_colour_;
+	wind_thickness_ = other.wind_thickness_;
 	wind_projected_ = other.wind_projected_;
 	colour_ = unique_ptr<Colour>(other.colour_->clone());
-	present_ww_colour_ = unique_ptr<Colour>(other.present_ww_colour_->clone());
 	pressure_colour_ = unique_ptr<Colour>(other.pressure_colour_->clone());
 	upper_air_colour_ = unique_ptr<Colour>(other.upper_air_colour_->clone());
 	pressure_tendency_colour_ = unique_ptr<Colour>(other.pressure_tendency_colour_->clone());
@@ -180,7 +184,6 @@ void ObsPlottingAttributes::copy(const ObsPlottingAttributes& other)
 	past_ww_colour_ = unique_ptr<Colour>(other.past_ww_colour_->clone());
 	time_plot_colour_ = unique_ptr<Colour>(other.time_plot_colour_->clone());
 	visibility_colour_ = unique_ptr<Colour>(other.visibility_colour_->clone());
-	wind_colour_ = unique_ptr<Colour>(other.wind_colour_->clone());
 	
 }
 
@@ -223,6 +226,7 @@ void ObsPlottingAttributes::print(ostream& out)  const
 	out << " size = " <<  size_;
 	out << " ring_size = " <<  ring_size_;
 	out << " present_ww_visible = " <<  present_ww_visible_;
+	out << " present_ww_colour = " <<  present_ww_colour_;
 	out << " pressure_visible = " <<  pressure_visible_;
 	out << " upper_air_visible = " <<  upper_air_visible_;
 	out << " pressure_tendency_visible = " <<  pressure_tendency_visible_;
@@ -242,9 +246,10 @@ void ObsPlottingAttributes::print(ostream& out)  const
 	out << " time_plot_visible = " <<  time_plot_visible_;
 	out << " visibility_visible = " <<  visibility_visible_;
 	out << " wind_visible = " <<  wind_visible_;
+	out << " wind_colour = " <<  wind_colour_;
+	out << " wind_thickness = " <<  wind_thickness_;
 	out << " wind_projected = " <<  wind_projected_;
 	out << " colour = " <<  *colour_;
-	out << " present_ww_colour = " <<  *present_ww_colour_;
 	out << " pressure_colour = " <<  *pressure_colour_;
 	out << " upper_air_colour = " <<  *upper_air_colour_;
 	out << " pressure_tendency_colour = " <<  *pressure_tendency_colour_;
@@ -262,7 +267,6 @@ void ObsPlottingAttributes::print(ostream& out)  const
 	out << " past_ww_colour = " <<  *past_ww_colour_;
 	out << " time_plot_colour = " <<  *time_plot_colour_;
 	out << " visibility_colour = " <<  *visibility_colour_;
-	out << " wind_colour = " <<  *wind_colour_;
 	
 	out << "]" << "\n";
 }
@@ -278,6 +282,8 @@ void ObsPlottingAttributes::toxml(ostream& out)  const
 	niceprint(out,ring_size_);
 	out << ", \"obs_present_weather\":";
 	niceprint(out,present_ww_visible_);
+	out << ", \"obs_present_weather_colour\":";
+	niceprint(out,present_ww_colour_);
 	out << ", \"obs_pressure\":";
 	niceprint(out,pressure_visible_);
 	out << ", \"obs_upper_air_pressure\":";
@@ -316,12 +322,14 @@ void ObsPlottingAttributes::toxml(ostream& out)  const
 	niceprint(out,visibility_visible_);
 	out << ", \"obs_wind\":";
 	niceprint(out,wind_visible_);
+	out << ", \"obs_wind_colour\":";
+	niceprint(out,wind_colour_);
+	out << ", \"obs_wind_thickness\":";
+	niceprint(out,wind_thickness_);
 	out << ", \"obs_wind_projected\":";
 	niceprint(out,wind_projected_);
 	out << ", \"obs_colour\":";
 	niceprint(out, *colour_);
-	out << ", \"obs_present_weather_colour\":";
-	niceprint(out, *present_ww_colour_);
 	out << ", \"obs_pressure_colour\":";
 	niceprint(out, *pressure_colour_);
 	out << ", \"obs_upper_air_pressure_colour\":";
@@ -356,8 +364,6 @@ void ObsPlottingAttributes::toxml(ostream& out)  const
 	niceprint(out, *time_plot_colour_);
 	out << ", \"obs_visibility_colour\":";
 	niceprint(out, *visibility_colour_);
-	out << ", \"obs_wind_colour\":";
-	niceprint(out, *wind_colour_);
 	
 }
 
@@ -365,6 +371,7 @@ static MagicsParameter<double> obs_distance_apart("obs_distance_apart", 1.0);
 static MagicsParameter<double> obs_size("obs_size", 0.25);
 static MagicsParameter<double> obs_ring_size("obs_ring_size", -1);
 static MagicsParameter<string> obs_present_weather("obs_present_weather", "on");
+static MagicsParameter<string> obs_present_weather_colour("obs_present_weather_colour", "automatic");
 static MagicsParameter<string> obs_pressure("obs_pressure", "on");
 static MagicsParameter<string> obs_upper_air_pressure("obs_upper_air_pressure", "off");
 static MagicsParameter<string> obs_pressure_tendency("obs_pressure_tendency", "on");
@@ -384,9 +391,10 @@ static MagicsParameter<string> obs_past_weather("obs_past_weather", "on");
 static MagicsParameter<string> obs_time("obs_time", "off");
 static MagicsParameter<string> obs_visibility("obs_visibility", "on");
 static MagicsParameter<string> obs_wind("obs_wind", "on");
+static MagicsParameter<string> obs_wind_colour("obs_wind_colour", "automatic");
+static MagicsParameter<int> obs_wind_thickness("obs_wind_thickness", 1);
 static MagicsParameter<string> obs_wind_projected("obs_wind_projected", "on");
 static MagicsParameter<string> obs_colour("obs_colour", "black");
-static MagicsParameter<string> obs_present_weather_colour("obs_present_weather_colour", "automatic");
 static MagicsParameter<string> obs_pressure_colour("obs_pressure_colour", "automatic");
 static MagicsParameter<string> obs_upper_air_pressure_colour("obs_upper_air_pressure_colour", "automatic");
 static MagicsParameter<string> obs_pressure_tendency_colour("obs_pressure_tendency_colour", "red");
@@ -404,4 +412,3 @@ static MagicsParameter<string> obs_waves_colour("obs_waves_colour", "black");
 static MagicsParameter<string> obs_past_weather_colour("obs_past_weather_colour", "red");
 static MagicsParameter<string> obs_time_colour("obs_time_colour", "automatic");
 static MagicsParameter<string> obs_visibility_colour("obs_visibility_colour", "automatic");
-static MagicsParameter<string> obs_wind_colour("obs_wind_colour", "automatic");

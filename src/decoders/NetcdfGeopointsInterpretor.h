@@ -78,7 +78,7 @@ private:
         return s;
     }
 };
-class NetcdfXYpointsInterpretor : public NetcdfInterpretor {
+class NetcdfXYpointsInterpretor : public NetcdfInterpretor  {
 public:
     NetcdfXYpointsInterpretor();
     virtual ~NetcdfXYpointsInterpretor() override;
@@ -117,6 +117,9 @@ public:
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
     virtual void print(ostream&) const override;
+    // Specail case for date in x axis .
+    double minDate_;
+    double maxDate_;
 
 private:
     //! Copy constructor - No copy allowed

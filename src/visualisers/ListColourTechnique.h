@@ -41,6 +41,12 @@ public:
         object->copy(*this);
         return object;
     }
+    void copy(const ListColourTechnique&) {
+        ListColourTechniqueAttributes::copy(*this);
+        ColourTechniqueAttributes::copy(*this);
+    }
+
+    
 
     virtual void set(LevelSelection&, LevelSelection&, ColourTable&, int)  override;
     void set(const ColourTechniqueInterface&) override;

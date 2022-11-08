@@ -22,9 +22,6 @@ Bar.h
 BothValuePlotMethod.h
 Boundaries.cc
 Boundaries.h
-BoxPlotBasicItem.h
-BoxPlotItem.cc
-BoxPlotItem.h
 BoxPlotVisualiser.cc
 BoxPlotVisualiser.h
 CalculateColourTechnique.cc

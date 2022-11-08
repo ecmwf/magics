@@ -478,5 +478,34 @@ does it submit to any jurisdiction.
 			values="high/medium/low">
 			<documentation>Quality of the font</documentation>
 		</parameter>
+		<parameter from="floatarray"
+			name="axis_highlighted_values"
+			default="floatarray()"
+			member="highlighted_values"
+			to="floatarray"
+		>
+		<documentation>List of highlighted values</documentation>
+		</parameter>
+		<parameter member="highlighted_values_colour"
+			to="Colour"
+			default="black"
+			from="string"
+			name="axis_highlighted_values_colour">
+			<documentation>Colour of highlighted values lines</documentation>
+		</parameter>
+		<parameter member="highlighted_values_style"
+			to="LineStyle"
+			default="solid"
+			from="string"
+			name="axis_highlighted_values_style">
+			<documentation>Line style of of highlighted values lines</documentation>
+		</parameter>
+		<parameter member="highlighted_values_thickness"
+			to="int"
+			default="1"
+			from="int"
+			name="axis_highlighted_values_thickness">
+			<documentation>Thickness of of highlighted values lines</documentation>
+		</parameter>
 	</class>
 </magics>

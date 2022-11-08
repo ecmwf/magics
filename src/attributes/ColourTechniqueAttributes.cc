@@ -24,7 +24,9 @@
 
 using namespace magics;
 
-ColourTechniqueAttributes::ColourTechniqueAttributes()
+ColourTechniqueAttributes::ColourTechniqueAttributes():
+	oob_min_colour_(ParameterManager::getString("contour_out_of_bound_min_colour")),
+	oob_max_colour_(ParameterManager::getString("contour_out_of_bound_max_colour"))
 	
 	
 {
@@ -43,12 +45,16 @@ void ColourTechniqueAttributes::set(const std::map<string, string>& params)
 	int i = 0;
 	prefix[i++] = "";
 	
+	setAttribute(prefix, "contour_out_of_bound_min_colour", oob_min_colour_, params);
+	setAttribute(prefix, "contour_out_of_bound_max_colour", oob_max_colour_, params);
 	
 	
 }
 
 void ColourTechniqueAttributes::copy(const ColourTechniqueAttributes& other)
 {
+	oob_min_colour_ = other.oob_min_colour_;
+	oob_max_colour_ = other.oob_max_colour_;
 	
 }
 
@@ -87,6 +93,8 @@ void ColourTechniqueAttributes::set(const XmlNode& node)
 void ColourTechniqueAttributes::print(ostream& out)  const
 {
 	out << "Attributes[";
+	out << " oob_min_colour = " <<  oob_min_colour_;
+	out << " oob_max_colour = " <<  oob_max_colour_;
 	
 	out << "]" << "\n";
 }
@@ -94,6 +102,12 @@ void ColourTechniqueAttributes::print(ostream& out)  const
 void ColourTechniqueAttributes::toxml(ostream& out)  const
 {
 	out <<  "\"\"";
+	out << ", \"contour_out_of_bound_min_colour\":";
+	niceprint(out,oob_min_colour_);
+	out << ", \"contour_out_of_bound_max_colour\":";
+	niceprint(out,oob_max_colour_);
 	
 }
 
+static MagicsParameter<string> contour_out_of_bound_min_colour("contour_out_of_bound_min_colour", "automatic");
+static MagicsParameter<string> contour_out_of_bound_max_colour("contour_out_of_bound_max_colour", "automatic");

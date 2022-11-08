@@ -40,47 +40,60 @@ void IntervalSelectionType::print(ostream& out) const {
     out << "]";
 }
 
+#define MINSET(v) !same(v, -1.0e+21)
+#define MAXSET(v) !same(v, +1.0e+21)
 void IntervalSelectionType::calculate(double min, double max, bool shading) {
     clear();
     std::set<double> levels;
 
+    double min_level=min;
+    double max_level=max;
 
-    double lmax, lmin;
-    if (shading) {
-        if (max_shade_ < min_shade_)
-            MagLog::warning() << "contour_shade_max_level (" << max_shade_ << ") < contour_shade_min_level ("
-                              << min_shade_ << "): Please check your code" << endl;
-        if (same(max_, 1.0e+21)) {
-            max_ = max_shade_;
-        }
-        if (same(min_, -1.0e+21)) {
-            min_ = min_shade_;
-        }
+    if ( MINSET(min_) )
+        min_level = min_;
+    
+    if ( MAXSET(max_) )
+        max_level = max_;
+
+    if ( shading && MINSET(shade_min_) )
+        min_level = shade_min_;
+    
+    if ( shading && MAXSET(shade_max_) )
+        max_level = shade_max_;
+
+
+    minOutOfBond_ = oob_min_ > min_level;
+    maxOutOfBond_ = oob_max_ < max_level;
+    if ( minOutOfBond_ ) {
+        levels.insert(min_level);
+        min_level = oob_min_;
     }
+    
+    if ( maxOutOfBond_ ) {
+        levels.insert(max_level);
+        max_level = oob_max_;
+    }
+            
 
 
-    lmax = same(max_, 1.0e+21) ? max : max_;
-    lmin = same(min_, -1.0e+21) ? min : min_;
-
-
-    levels.insert(lmin);
-    levels.insert(lmax);
+    levels.insert(min_level);
+    levels.insert(max_level);
 
 
     double level = reference_;
     double newref;
 
     int i = 1;
-    while (level < lmax && !same(level, lmax)) {
-        if (level > lmin)
+    while (level < max_level && !same(level, max_level)) {
+        if (level > min_level)
             levels.insert(level);
         level = reference_ + (i * interval_);
         i++;
     }
     level = reference_;
     i     = 1;
-    while (level > lmin && !same(level, lmin)) {
-        if (level < lmax)
+    while (level > min_level && !same(level, min_level)) {
+        if (level < max_level)
             levels.insert(level);
         level = reference_ - (i * interval_);
         i++;
@@ -93,9 +106,9 @@ void IntervalSelectionType::calculate(double min, double max, bool shading) {
         push_back(*level);
     }
     out << "]" << endl;
-    MagLog::dev() << out.str() << endl;
+    // cout  << out.str() << endl;
 
-    // Now make sure that the reference is inside the interval ..
+    
 }
 
 double IntervalSelectionType::reference(int freq) const {

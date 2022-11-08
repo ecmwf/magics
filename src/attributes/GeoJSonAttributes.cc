@@ -28,8 +28,9 @@ GeoJSonAttributes::GeoJSonAttributes():
 	type_(ParameterManager::getString("geojson_input_type")),
 	path_(ParameterManager::getString("geojson_input_filename")),
 	input_(ParameterManager::getString("geojson_input")),
-	binning_resolution_(ParameterManager::getDouble("geojson_binning_grid_resolution"))
-	
+	binning_resolution_(ParameterManager::getDouble("geojson_binning_grid_resolution")),
+	value_(ParameterManager::getString("geojson_value_property"))
+	 
 	
 {
 }
@@ -51,7 +52,9 @@ void GeoJSonAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "geojson_input_filename", path_, params);
 	setAttribute(prefix, "geojson_input", input_, params);
 	setAttribute(prefix, "geojson_binning_grid_resolution", binning_resolution_, params);
+	setAttribute(prefix, "geojson_value_property", value_, params);
 	
+	cout << value_ << endl;
 	
 }
 
@@ -61,6 +64,7 @@ void GeoJSonAttributes::copy(const GeoJSonAttributes& other)
 	path_ = other.path_;
 	input_ = other.input_;
 	binning_resolution_ = other.binning_resolution_;
+	value_ = other.value_;
 	
 }
 
@@ -103,6 +107,7 @@ void GeoJSonAttributes::print(ostream& out)  const
 	out << " path = " <<  path_;
 	out << " input = " <<  input_;
 	out << " binning_resolution = " <<  binning_resolution_;
+	out << " value = " <<  value_;
 	
 	out << "]" << "\n";
 }
@@ -118,6 +123,8 @@ void GeoJSonAttributes::toxml(ostream& out)  const
 	niceprint(out,input_);
 	out << ", \"geojson_binning_grid_resolution\":";
 	niceprint(out,binning_resolution_);
+	out << ", \"geojson_value_property\":";
+	niceprint(out,value_);
 	
 }
 
@@ -125,3 +132,4 @@ static MagicsParameter<string> geojson_input_type("geojson_input_type", "file");
 static MagicsParameter<string> geojson_input_filename("geojson_input_filename", "");
 static MagicsParameter<string> geojson_input("geojson_input", "{}");
 static MagicsParameter<double> geojson_binning_grid_resolution("geojson_binning_grid_resolution", 1.);
+static MagicsParameter<string> geojson_value_property("geojson_value_property", "value");

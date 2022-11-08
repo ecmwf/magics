@@ -43,7 +43,6 @@ void ObsPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
     std::set<string> needs;
     std::set<string> info;
     multimap<string, string> types;
-
     info.insert("type");
 
     data.getInfo(info, types);
@@ -71,6 +70,9 @@ void ObsPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
     data.customisedPoints(transformation, needs, values, all);
 
     out.push_back(new ClearObject());
+
+
+    
 
 
     for (multimap<string, string>::const_iterator type = types.find("type"); type != types.end(); ++type) {

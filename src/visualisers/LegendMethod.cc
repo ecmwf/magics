@@ -67,6 +67,10 @@ void ContinuousLegendMethod::row(LegendEntry& entry, double x, double y, Text& l
         }
 
     labelCount_++;
+    LegendVisitor::legendInfo_.insert(make_pair("legend_display_type", "continuous"));
+    LegendVisitor::legendInfo_.insert(make_pair("legend_label_frequency", tostring(label_frequency_)));
+
+
 }
 
 void ContinuousLegendMethod::column(LegendEntry& entry, double x, double y, Text& legend,
