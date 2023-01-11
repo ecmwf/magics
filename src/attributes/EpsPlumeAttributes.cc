@@ -37,7 +37,9 @@ EpsPlumeAttributes::EpsPlumeAttributes():
 	median_line_thickness_(ParameterManager::getInt("eps_plume_median_line_thickness")),
 	shading_(ParameterManager::getBool("eps_plume_shading")),
 	shading_levels_(ParameterManager::getDoubleArray("eps_plume_shading_level_list")),
-	shading_colours_(ParameterManager::getStringArray("eps_plume_shading_colour_list"))
+	shading_colours_(ParameterManager::getStringArray("eps_plume_shading_colour_list")),
+	background_level_list_(ParameterManager::getDoubleArray("eps_plume_background_level_list")),
+	background_colour_list_(ParameterManager::getStringArray("eps_plume_background_colour_list"))
 	,
 	line_colour_(MagTranslator<string, Colour>().magics("eps_plume_line_colour")),
 	line_style_(MagTranslator<string, LineStyle>().magics("eps_plume_line_style")),
@@ -78,6 +80,8 @@ void EpsPlumeAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "eps_plume_shading", shading_, params);
 	setAttribute(prefix, "eps_plume_shading_level_list", shading_levels_, params);
 	setAttribute(prefix, "eps_plume_shading_colour_list", shading_colours_, params);
+	setAttribute(prefix, "eps_plume_background_level_list", background_level_list_, params);
+	setAttribute(prefix, "eps_plume_background_colour_list", background_colour_list_, params);
 	
 	setMember(prefix, "eps_plume_line_colour", line_colour_, params);
 	setAttribute(prefix, "eps_plume_line_style", line_style_, params);
@@ -105,6 +109,8 @@ void EpsPlumeAttributes::copy(const EpsPlumeAttributes& other)
 	shading_ = other.shading_;
 	shading_levels_ = other.shading_levels_;
 	shading_colours_ = other.shading_colours_;
+	background_level_list_ = other.background_level_list_;
+	background_colour_list_ = other.background_colour_list_;
 	line_colour_ = unique_ptr<Colour>(other.line_colour_->clone());
 	line_style_ = other.line_style_;
 	forecast_line_colour_ = unique_ptr<Colour>(other.forecast_line_colour_->clone());
@@ -164,6 +170,8 @@ void EpsPlumeAttributes::print(ostream& out)  const
 	out << " shading = " <<  shading_;
 	out << " shading_levels = " <<  shading_levels_;
 	out << " shading_colours = " <<  shading_colours_;
+	out << " background_level_list = " <<  background_level_list_;
+	out << " background_colour_list = " <<  background_colour_list_;
 	out << " line_colour = " <<  *line_colour_;
 	out << " line_style = " <<  line_style_;
 	out << " forecast_line_colour = " <<  *forecast_line_colour_;
@@ -205,6 +213,10 @@ void EpsPlumeAttributes::toxml(ostream& out)  const
 	niceprint(out,shading_levels_);
 	out << ", \"eps_plume_shading_colour_list\":";
 	niceprint(out,shading_colours_);
+	out << ", \"eps_plume_background_level_list\":";
+	niceprint(out,background_level_list_);
+	out << ", \"eps_plume_background_colour_list\":";
+	niceprint(out,background_colour_list_);
 	out << ", \"eps_plume_line_colour\":";
 	niceprint(out, *line_colour_);
 	out << ", \"eps_plume_line_style\":";
@@ -237,6 +249,8 @@ static MagicsParameter<int> eps_plume_median_line_thickness("eps_plume_median_li
 static MagicsParameter<string> eps_plume_shading("eps_plume_shading", "off");
 static MagicsParameter<doublearray> eps_plume_shading_level_list("eps_plume_shading_level_list", floatarray());
 static MagicsParameter<stringarray> eps_plume_shading_colour_list("eps_plume_shading_colour_list", stringarray());
+static MagicsParameter<doublearray> eps_plume_background_level_list("eps_plume_background_level_list", floatarray());
+static MagicsParameter<stringarray> eps_plume_background_colour_list("eps_plume_background_colour_list", stringarray());
 static MagicsParameter<string> eps_plume_line_colour("eps_plume_line_colour", "magenta");
 static MagicsParameter<string> eps_plume_line_style("eps_plume_line_style", "solid");
 static MagicsParameter<string> eps_plume_forecast_line_colour("eps_plume_forecast_line_colour", "cyan");

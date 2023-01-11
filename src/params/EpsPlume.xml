@@ -164,5 +164,20 @@ does it submit to any jurisdiction.
 			name="eps_plume_shading_colour_list">
 			<documentation>colours used for plumes shading</documentation>
 		</parameter>
+		<parameter member="background_level_list"
+			to="floatarray"
+			default="floatarray()"
+			from="floatarray"
+			name="eps_plume_background_level_list">
+			<documentation>Background level list</documentation>
+		</parameter>
+		<parameter member="background_colour_list"
+			to="stringarray"
+			default="stringarray()"
+			from="stringarray"
+			name="eps_plume_background_colour_list">
+			<documentation>Background colour list</documentation>
+		</parameter>
+		
 	</class>
 </magics>

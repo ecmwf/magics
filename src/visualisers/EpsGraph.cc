@@ -2660,7 +2660,44 @@ void EpsPlume::verticalprofile(Data& data, BasicGraphicsObjectContainer& visitor
     visitor.push_back(control);
     visitor.push_back(forecast);
 }
+
+void EpsPlume::background(BasicGraphicsObjectContainer& visitor) {
+    // Add background 
+    const Transformation& transformation = visitor.transformation();
+    
+    double from = transformation.getMinY();
+    auto colour = background_colour_list_.begin();
+    for (const auto& level : background_level_list_ ) {
+        Polyline* area = new Polyline();
+        area->setColour(Colour(*colour));
+        area->setFilled(true);
+        area->setShading(new FillShadingProperties());
+        area->setFillColour(Colour(*colour));
+        visitor.push_back(area);
+        area->push_back(PaperPoint(transformation.getMinX(), from));
+        area->push_back(PaperPoint(transformation.getMinX(), level));
+        area->push_back(PaperPoint(transformation.getMaxX(), level));
+        area->push_back(PaperPoint(transformation.getMaxX(), from));
+        area->push_back(PaperPoint(transformation.getMinX(), from));
+        from = level;
+        colour++;
+    }
+    Polyline* area = new Polyline();
+    area->setColour(Colour(*colour));
+    area->setFilled(true);
+    area->setShading(new FillShadingProperties());
+    area->setFillColour(Colour(*colour));
+    visitor.push_back(area);
+    area->push_back(PaperPoint(transformation.getMinX(), from));
+    area->push_back(PaperPoint(transformation.getMinX(), transformation.getMaxY()));
+    area->push_back(PaperPoint(transformation.getMaxX(), transformation.getMaxY()));
+    area->push_back(PaperPoint(transformation.getMaxX(), from));
+    area->push_back(PaperPoint(transformation.getMinX(), from));
+
+}
+
 void EpsPlume::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
+    background(visitor);
     method_                                   = lowerCase(method_);
     std::map<string, Method>::iterator method = methods_.find(method_);
     if (method == methods_.end()) {
@@ -2668,6 +2705,7 @@ void EpsPlume::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
         return;
     }
     (this->*method->second)(data, visitor);
+    
 }
 
 

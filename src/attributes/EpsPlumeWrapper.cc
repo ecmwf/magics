@@ -121,6 +121,16 @@ void EpsPlumeWrapper::set(const MagRequest& request)
 		shading_colours_value.push_back((string)request("EPS_PLUME_SHADING_COLOUR_LIST", i));
 	if ( !shading_colours_value.empty() )
 		epsplume_->shading_colours_ = shading_colours_value;
+	doublearray  background_level_list_value;
+	for (int i = 0; i < request.countValues("EPS_PLUME_BACKGROUND_LEVEL_LIST"); i++)
+		background_level_list_value.push_back((double)request("EPS_PLUME_BACKGROUND_LEVEL_LIST", i));
+	if ( !background_level_list_value.empty() )
+		epsplume_->background_level_list_ = background_level_list_value;
+	stringarray  background_colour_list_value;
+	for (int i = 0; i < request.countValues("EPS_PLUME_BACKGROUND_COLOUR_LIST"); i++)
+		background_colour_list_value.push_back((string)request("EPS_PLUME_BACKGROUND_COLOUR_LIST", i));
+	if ( !background_colour_list_value.empty() )
+		epsplume_->background_colour_list_ = background_colour_list_value;
 	
 	if  (request.countValues("EPS_PLUME_LINE_COLOUR") ) {
 		string line_colour_value = request("EPS_PLUME_LINE_COLOUR");

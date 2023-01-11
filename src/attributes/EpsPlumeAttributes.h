@@ -64,6 +64,8 @@ public:
 	bool shading_;
 	doublearray shading_levels_;
 	stringarray shading_colours_;
+	doublearray background_level_list_;
+	stringarray background_colour_list_;
 	unique_ptr<Colour> line_colour_;
 	LineStyle line_style_;
 	unique_ptr<Colour> forecast_line_colour_;
