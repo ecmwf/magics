@@ -2664,6 +2664,17 @@ void EpsPlume::verticalprofile(Data& data, BasicGraphicsObjectContainer& visitor
 void EpsPlume::background(BasicGraphicsObjectContainer& visitor) {
     // Add background 
     const Transformation& transformation = visitor.transformation();
+    if ( background_level_list_.empty() ) 
+        return;
+
+    if ( background_colour_list_.size() <  background_level_list_.size() + 1 ) {
+        MagLog::error() << "Note enough colours for the EpsPlumes background " << endl;
+        MagLog::error() << "should be at least " << background_level_list_.size() + 1 << " but found " << background_colour_list_.size() << endl;
+        MagLog::error() << " Please check your colour list " << endl;
+        return;
+    }
+
+    
     
     double from = transformation.getMinY();
     auto colour = background_colour_list_.begin();
