@@ -2667,43 +2667,65 @@ void EpsPlume::background(BasicGraphicsObjectContainer& visitor) {
     if ( background_level_list_.empty() ) 
         return;
 
-    if ( background_colour_list_.size() <  background_level_list_.size() + 1 ) {
+    if ( background_colour_list_.size() <  background_level_list_.size() -1 ) {
         MagLog::error() << "Note enough colours for the EpsPlumes background " << endl;
-        MagLog::error() << "should be at least " << background_level_list_.size() + 1 << " but found " << background_colour_list_.size() << endl;
+        MagLog::error() << "should be at least " << background_level_list_.size() -1 << " but found " << background_colour_list_.size() << endl;
         MagLog::error() << " Please check your colour list " << endl;
         return;
     }
 
     
     
-    double from = transformation.getMinY();
+    double min = transformation.getMinY();
+    double max = transformation.getMaxY();
+
     auto colour = background_colour_list_.begin();
-    for (const auto& level : background_level_list_ ) {
-        Polyline* area = new Polyline();
-        area->setColour(Colour(*colour));
-        area->setFilled(true);
-        area->setShading(new FillShadingProperties());
-        area->setFillColour(Colour(*colour));
-        visitor.push_back(area);
-        area->push_back(PaperPoint(transformation.getMinX(), from));
-        area->push_back(PaperPoint(transformation.getMinX(), level));
-        area->push_back(PaperPoint(transformation.getMaxX(), level));
-        area->push_back(PaperPoint(transformation.getMaxX(), from));
-        area->push_back(PaperPoint(transformation.getMinX(), from));
-        from = level;
-        colour++;
+    
+    auto level = background_level_list_.begin();
+    double from = *level;
+    ++level;
+
+    while ( level != background_level_list_.end()) {
+        double to = *level;
+        if ( from < min ) 
+            from = min;
+        if ( to > max ) 
+            to = max;
+        
+        if ( to > from && to <= max ) {
+            Polyline* area = new Polyline();
+            area->setColour(Colour(*colour));
+            area->setFilled(true);
+            area->setShading(new FillShadingProperties());
+            area->setFillColour(Colour(*colour));
+            visitor.push_back(area);
+            area->push_back(PaperPoint(transformation.getMinX(), from));
+            area->push_back(PaperPoint(transformation.getMinX(), to));
+            area->push_back(PaperPoint(transformation.getMaxX(), to));
+            area->push_back(PaperPoint(transformation.getMaxX(), from));
+            area->push_back(PaperPoint(transformation.getMinX(), from));   
+            
+            
+        }
+        from = *level;
+        ++colour;
+        ++level;
     }
-    Polyline* area = new Polyline();
-    area->setColour(Colour(*colour));
-    area->setFilled(true);
-    area->setShading(new FillShadingProperties());
-    area->setFillColour(Colour(*colour));
-    visitor.push_back(area);
-    area->push_back(PaperPoint(transformation.getMinX(), from));
-    area->push_back(PaperPoint(transformation.getMinX(), transformation.getMaxY()));
-    area->push_back(PaperPoint(transformation.getMaxX(), transformation.getMaxY()));
-    area->push_back(PaperPoint(transformation.getMaxX(), from));
-    area->push_back(PaperPoint(transformation.getMinX(), from));
+
+
+    // if ( from <  transformation.getMaxY() ) {
+    //     Polyline* area = new Polyline();
+    //     area->setColour(Colour(*colour));
+    //     area->setFilled(true);
+    //     area->setShading(new FillShadingProperties());
+    //     area->setFillColour(Colour(*colour));
+    //     visitor.push_back(area);
+    //     area->push_back(PaperPoint(transformation.getMinX(), from));
+    //     area->push_back(PaperPoint(transformation.getMinX(), transformation.getMaxY()));
+    //     area->push_back(PaperPoint(transformation.getMaxX(), transformation.getMaxY()));
+    //     area->push_back(PaperPoint(transformation.getMaxX(), from));
+    //     area->push_back(PaperPoint(transformation.getMinX(), from));
+    // }
 
 }
 
