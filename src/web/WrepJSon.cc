@@ -71,6 +71,7 @@ WrepJSon::WrepJSon() :
 
 
     decoders_["eps"]  = &WrepJSon::eps;
+    decoders_["visibility"]  = &WrepJSon::eps;
     decoders_["clim"] = &WrepJSon::eps;
 
     decoders_["profile"]   = &WrepJSon::profile;
@@ -86,6 +87,7 @@ WrepJSon::WrepJSon() :
 
 
     transformationHandlers_["eps"]     = &WrepJSon::eps;
+    transformationHandlers_["visibility"]     = &WrepJSon::eps;
     transformationHandlers_["cdf"]     = &WrepJSon::cdf;
     transformationHandlers_["efi"]     = &WrepJSon::efi;
     transformationHandlers_["profile"] = &WrepJSon::profile;
@@ -1958,7 +1960,11 @@ void WrepJSon::points(const Transformation& transformation, vector<UserPoint>& p
             x -= shift;
         }
         // doubble v =  (*point)->find("value") != (*point)->end() ) : (**point)["value"] : 0;
-        points.push_back(UserPoint(x, (**point)["y"], (**point)["value"]));
+        if ( family_ == "visibility")
+            points.push_back(UserPoint(x, 1, (**point)["y"]));
+        else 
+            points.push_back(UserPoint(x, (**point)["y"], (**point)["value"]));
+
         if ((*point)->missing())
             points.back().flagMissing();
     }
@@ -1975,7 +1981,10 @@ PointsHandler& WrepJSon::points(const Transformation& transformation, bool) {
             x -= shift;
         }
 
-        list_.push_back(new UserPoint(x, (**point)["y"], (**point)["value"]));
+        if ( family_ == "visibility")
+            list_.push_back(new UserPoint(x, 1, (**point)["y"]));
+        else 
+            list_.push_back(new UserPoint(x, (**point)["y"], (**point)["value"]));
         if ((*point)->missing())
             list_.back()->flagMissing();
     }
