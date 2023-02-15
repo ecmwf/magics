@@ -39,7 +39,11 @@ EpsPlumeAttributes::EpsPlumeAttributes():
 	shading_levels_(ParameterManager::getDoubleArray("eps_plume_shading_level_list")),
 	shading_colours_(ParameterManager::getStringArray("eps_plume_shading_colour_list")),
 	background_level_list_(ParameterManager::getDoubleArray("eps_plume_background_level_list")),
-	background_colour_list_(ParameterManager::getStringArray("eps_plume_background_colour_list"))
+	background_colour_list_(ParameterManager::getStringArray("eps_plume_background_colour_list")),
+	background_label_list_(ParameterManager::getStringArray("eps_plume_background_label_list")),
+	background_label_font_(ParameterManager::getString("eps_plume_background_label_font")),
+	background_label_font_size_(ParameterManager::getDouble("eps_plume_background_label_font_size")),
+	background_label_font_style_(ParameterManager::getString("eps_plume_background_label_font_style"))
 	,
 	line_colour_(MagTranslator<string, Colour>().magics("eps_plume_line_colour")),
 	line_style_(MagTranslator<string, LineStyle>().magics("eps_plume_line_style")),
@@ -48,7 +52,8 @@ EpsPlumeAttributes::EpsPlumeAttributes():
 	control_line_colour_(MagTranslator<string, Colour>().magics("eps_plume_control_line_colour")),
 	control_line_style_(MagTranslator<string, LineStyle>().magics("eps_plume_control_line_style")),
 	median_line_colour_(MagTranslator<string, Colour>().magics("eps_plume_median_line_colour")),
-	median_line_style_(MagTranslator<string, LineStyle>().magics("eps_plume_median_line_style"))
+	median_line_style_(MagTranslator<string, LineStyle>().magics("eps_plume_median_line_style")),
+	background_label_font_colour_(MagTranslator<string, Colour>().magics("eps_plume_background_label_font_colour"))
 	
 {
 }
@@ -82,6 +87,10 @@ void EpsPlumeAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "eps_plume_shading_colour_list", shading_colours_, params);
 	setAttribute(prefix, "eps_plume_background_level_list", background_level_list_, params);
 	setAttribute(prefix, "eps_plume_background_colour_list", background_colour_list_, params);
+	setAttribute(prefix, "eps_plume_background_label_list", background_label_list_, params);
+	setAttribute(prefix, "eps_plume_background_label_font", background_label_font_, params);
+	setAttribute(prefix, "eps_plume_background_label_font_size", background_label_font_size_, params);
+	setAttribute(prefix, "eps_plume_background_label_font_style", background_label_font_style_, params);
 	
 	setMember(prefix, "eps_plume_line_colour", line_colour_, params);
 	setAttribute(prefix, "eps_plume_line_style", line_style_, params);
@@ -91,6 +100,7 @@ void EpsPlumeAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "eps_plume_control_line_style", control_line_style_, params);
 	setMember(prefix, "eps_plume_median_line_colour", median_line_colour_, params);
 	setAttribute(prefix, "eps_plume_median_line_style", median_line_style_, params);
+	setMember(prefix, "eps_plume_background_label_font_colour", background_label_font_colour_, params);
 	
 }
 
@@ -111,6 +121,10 @@ void EpsPlumeAttributes::copy(const EpsPlumeAttributes& other)
 	shading_colours_ = other.shading_colours_;
 	background_level_list_ = other.background_level_list_;
 	background_colour_list_ = other.background_colour_list_;
+	background_label_list_ = other.background_label_list_;
+	background_label_font_ = other.background_label_font_;
+	background_label_font_size_ = other.background_label_font_size_;
+	background_label_font_style_ = other.background_label_font_style_;
 	line_colour_ = unique_ptr<Colour>(other.line_colour_->clone());
 	line_style_ = other.line_style_;
 	forecast_line_colour_ = unique_ptr<Colour>(other.forecast_line_colour_->clone());
@@ -119,6 +133,7 @@ void EpsPlumeAttributes::copy(const EpsPlumeAttributes& other)
 	control_line_style_ = other.control_line_style_;
 	median_line_colour_ = unique_ptr<Colour>(other.median_line_colour_->clone());
 	median_line_style_ = other.median_line_style_;
+	background_label_font_colour_ = unique_ptr<Colour>(other.background_label_font_colour_->clone());
 	
 }
 
@@ -172,6 +187,10 @@ void EpsPlumeAttributes::print(ostream& out)  const
 	out << " shading_colours = " <<  shading_colours_;
 	out << " background_level_list = " <<  background_level_list_;
 	out << " background_colour_list = " <<  background_colour_list_;
+	out << " background_label_list = " <<  background_label_list_;
+	out << " background_label_font = " <<  background_label_font_;
+	out << " background_label_font_size = " <<  background_label_font_size_;
+	out << " background_label_font_style = " <<  background_label_font_style_;
 	out << " line_colour = " <<  *line_colour_;
 	out << " line_style = " <<  line_style_;
 	out << " forecast_line_colour = " <<  *forecast_line_colour_;
@@ -180,6 +199,7 @@ void EpsPlumeAttributes::print(ostream& out)  const
 	out << " control_line_style = " <<  control_line_style_;
 	out << " median_line_colour = " <<  *median_line_colour_;
 	out << " median_line_style = " <<  median_line_style_;
+	out << " background_label_font_colour = " <<  *background_label_font_colour_;
 	
 	out << "]" << "\n";
 }
@@ -217,6 +237,14 @@ void EpsPlumeAttributes::toxml(ostream& out)  const
 	niceprint(out,background_level_list_);
 	out << ", \"eps_plume_background_colour_list\":";
 	niceprint(out,background_colour_list_);
+	out << ", \"eps_plume_background_label_list\":";
+	niceprint(out,background_label_list_);
+	out << ", \"eps_plume_background_label_font\":";
+	niceprint(out,background_label_font_);
+	out << ", \"eps_plume_background_label_font_size\":";
+	niceprint(out,background_label_font_size_);
+	out << ", \"eps_plume_background_label_font_style\":";
+	niceprint(out,background_label_font_style_);
 	out << ", \"eps_plume_line_colour\":";
 	niceprint(out, *line_colour_);
 	out << ", \"eps_plume_line_style\":";
@@ -233,6 +261,8 @@ void EpsPlumeAttributes::toxml(ostream& out)  const
 	niceprint(out, *median_line_colour_);
 	out << ", \"eps_plume_median_line_style\":";
 	niceprint(out, median_line_style_);
+	out << ", \"eps_plume_background_label_font_colour\":";
+	niceprint(out, *background_label_font_colour_);
 	
 }
 
@@ -251,6 +281,10 @@ static MagicsParameter<doublearray> eps_plume_shading_level_list("eps_plume_shad
 static MagicsParameter<stringarray> eps_plume_shading_colour_list("eps_plume_shading_colour_list", stringarray());
 static MagicsParameter<doublearray> eps_plume_background_level_list("eps_plume_background_level_list", floatarray());
 static MagicsParameter<stringarray> eps_plume_background_colour_list("eps_plume_background_colour_list", stringarray());
+static MagicsParameter<stringarray> eps_plume_background_label_list("eps_plume_background_label_list", stringarray());
+static MagicsParameter<string> eps_plume_background_label_font("eps_plume_background_label_font", "sansserif");
+static MagicsParameter<double> eps_plume_background_label_font_size("eps_plume_background_label_font_size", 0.25);
+static MagicsParameter<string> eps_plume_background_label_font_style("eps_plume_background_label_font_style", "");
 static MagicsParameter<string> eps_plume_line_colour("eps_plume_line_colour", "magenta");
 static MagicsParameter<string> eps_plume_line_style("eps_plume_line_style", "solid");
 static MagicsParameter<string> eps_plume_forecast_line_colour("eps_plume_forecast_line_colour", "cyan");
@@ -259,3 +293,4 @@ static MagicsParameter<string> eps_plume_control_line_colour("eps_plume_control_
 static MagicsParameter<string> eps_plume_control_line_style("eps_plume_control_line_style", "solid");
 static MagicsParameter<string> eps_plume_median_line_colour("eps_plume_median_line_colour", "cyan");
 static MagicsParameter<string> eps_plume_median_line_style("eps_plume_median_line_style", "solid");
+static MagicsParameter<string> eps_plume_background_label_font_colour("eps_plume_background_label_font_colour", "black");

@@ -2682,6 +2682,7 @@ void EpsPlume::background(BasicGraphicsObjectContainer& visitor) {
     auto colour = background_colour_list_.begin();
     
     auto level = background_level_list_.begin();
+    auto label = background_label_list_.begin();
     double from = *level;
     ++level;
 
@@ -2706,6 +2707,21 @@ void EpsPlume::background(BasicGraphicsObjectContainer& visitor) {
             area->push_back(PaperPoint(transformation.getMinX(), from));   
             
             
+        }
+        if ( label != background_label_list_.end() ) {
+            
+            Text* text = new Text();
+            text->setText(*label);
+            text->setJustification(Justification::LEFT);
+            MagFont font(background_label_font_, background_label_font_style_, background_label_font_size_);
+            font.colour(*background_label_font_colour_);
+            text->setFont(font);
+            double x = transformation.getMinX() + (transformation.getMaxX() - transformation.getMinX())*0.01;
+            double y = from + (to-from)*0.1;
+           
+            text->push_back(PaperPoint(x, y));
+            visitor.push_back(text);
+            ++label;
         }
         from = *level;
         ++colour;
