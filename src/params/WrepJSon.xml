@@ -236,5 +236,12 @@ does it submit to any jurisdiction.
 			visible='off'>
 			<documentation>slecet only one member</documentation>
 		</parameter>
+		<parameter member="y_axis_value"
+			to="float"
+			default="1"
+			from="float"
+			name="wrepjson_y_axis_value">
+			<documentation>Used in the visibility product to define the y value</documentation>
+		</parameter>
 	</class>
 </magics>

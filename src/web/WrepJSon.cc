@@ -1961,7 +1961,7 @@ void WrepJSon::points(const Transformation& transformation, vector<UserPoint>& p
         }
         // doubble v =  (*point)->find("value") != (*point)->end() ) : (**point)["value"] : 0;
         if ( family_ == "visibility")
-            points.push_back(UserPoint(x, 1, (**point)["y"]));
+            points.push_back(UserPoint(x, y_axis_value_, (**point)["y"]));
         else 
             points.push_back(UserPoint(x, (**point)["y"], (**point)["value"]));
 
@@ -1982,7 +1982,7 @@ PointsHandler& WrepJSon::points(const Transformation& transformation, bool) {
         }
 
         if ( family_ == "visibility")
-            list_.push_back(new UserPoint(x, 1, (**point)["y"]));
+            list_.push_back(new UserPoint(x, y_axis_value_, (**point)["y"]));
         else 
             list_.push_back(new UserPoint(x, (**point)["y"], (**point)["value"]));
         if ((*point)->missing())
