@@ -477,7 +477,7 @@ public:
 
     map<string, NetAttribute> getAttributes() { return attributes_; }
     void ignoreDimension(const string& dim) { ignoredDimensions_.push_back(dim); }
-    void interpretDimension(const string& dim) { std::remove( ignoredDimensions_.begin(), ignoredDimensions_.end(), dim ); }
+    void interpretDimension(const string&) { } //std::remove( ignoredDimensions_.begin(), ignoredDimensions_.end(), dim ); }
 
 
 protected:
@@ -488,7 +488,7 @@ protected:
     map<string, NetAttribute> attributes_;
     double missing_;
     mutable map<string, string> detected_;
-    vector <string> ignoredDimensions_; 
+    vector<string> ignoredDimensions_; 
 
 private:
     int file_;
