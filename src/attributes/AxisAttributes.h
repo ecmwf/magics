@@ -100,6 +100,7 @@ public:
 	unique_ptr<Colour> line_colour_;
 	LineStyle line_style_;
 	unique_ptr<Colour> grid_colour_;
+	unique_ptr<Colour> grid_background_colour_;
 	LineStyle grid_style_;
 	unique_ptr<Colour> minor_grid_colour_;
 	LineStyle minor_grid_style_;

@@ -289,6 +289,11 @@ void AxisWrapper::set(const MagRequest& request)
 		axis_->grid_colour_ = unique_ptr<Colour>(MagTranslator<string, Colour>()(grid_colour_value));
 	}
 		
+	if  (request.countValues("AXIS_GRID_BACKGROUND_COLOUR") ) {
+		string grid_background_colour_value = request("AXIS_GRID_BACKGROUND_COLOUR");
+		axis_->grid_background_colour_ = unique_ptr<Colour>(MagTranslator<string, Colour>()(grid_background_colour_value));
+	}
+		
 	
 	if  (request.countValues("AXIS_GRID_LINE_STYLE") ) {
 		string grid_style_value = request("AXIS_GRID_LINE_STYLE");
@@ -385,6 +390,7 @@ static SimpleObjectMaker<DateAxisMethodWrapper, AxisMethodWrapper> Axis_axis_typ
 #include "HyperAxisMethodWrapper.h"
 static SimpleObjectMaker<HyperAxisMethod, AxisMethod> Axis_axis_type_geoline ("geoline");
 static SimpleObjectMaker<HyperAxisMethodWrapper, AxisMethodWrapper> Axis_axis_type_geoline_wrapper ("geoline");
+
 
 
 

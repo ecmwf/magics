@@ -552,8 +552,24 @@ void HorizontalAxis::highlight(DrawingVisitor& out) const {
 void HorizontalAxis::grid(DrawingVisitor& out) const {
     double bottom = out.minY();
     double top    = out.maxY();
+    double left   = out.minX();
+    double right  = out.maxX();
     double pos;
     const Transformation& transformation = out.transformation();
+
+    if (!grid_background_colour_->none()) {
+            Polyline* area = new Polyline();
+            area->setColour(*grid_background_colour_);
+            area->setFilled(true);
+            area->setShading(new FillShadingProperties());
+            area->setFillColour(*grid_background_colour_);
+            out.push_back(area);
+            area->push_back(PaperPoint(left, bottom));
+            area->push_back(PaperPoint(left, top));
+            area->push_back(PaperPoint(right, top));
+            area->push_back(PaperPoint(right, bottom));
+            area->push_back(PaperPoint(left, bottom));   
+    }
 
     if (!grid_) {
         if (grid_reference_level_ != INT_MAX) {
