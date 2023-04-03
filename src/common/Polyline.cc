@@ -107,7 +107,7 @@ struct SouthCleaner {
 
     bool operator()(PaperPoint& point) { return point.y_ < -89; }
 };
-struct LonFinder : std::unary_function<PaperPoint, bool> {
+struct LonFinder {
     LonFinder() {}
 
     bool operator()(PaperPoint& point) const { return (same(point.x_, -180.)); }
