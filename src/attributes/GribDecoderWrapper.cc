@@ -129,6 +129,10 @@ void GribDecoderWrapper::set(const MagRequest& request)
 		int field_position_value = request("GRIB_FIELD_POSITION");
 		gribdecoder_->field_position_ = field_position_value;
 		}
+	if  (request.countValues("GRIB_FIELD_LARGE_POSITION") ) {
+		unsigned long long large_field_position_value = request("GRIB_FIELD_LARGE_POSITION");
+		gribdecoder_->large_field_position_ = large_field_position_value;
+		}
 	if  (request.countValues("GRIB_WIND_POSITION_1") ) {
 		int position_1_value = request("GRIB_WIND_POSITION_1");
 		gribdecoder_->position_1_ = position_1_value;
@@ -140,6 +144,18 @@ void GribDecoderWrapper::set(const MagRequest& request)
 	if  (request.countValues("GRIB_WIND_POSITION_COLOUR") ) {
 		int colour_position_value = request("GRIB_WIND_POSITION_COLOUR");
 		gribdecoder_->colour_position_ = colour_position_value;
+		}
+	if  (request.countValues("GRIB_WIND_LARGE_POSITION_1") ) {
+		unsigned long long large_position_1_value = request("GRIB_WIND_LARGE_POSITION_1");
+		gribdecoder_->large_position_1_ = large_position_1_value;
+		}
+	if  (request.countValues("GRIB_WIND_LARGE_POSITION_2") ) {
+		unsigned long long large_position_2_value = request("GRIB_WIND_LARGE_POSITION_2");
+		gribdecoder_->large_position_2_ = large_position_2_value;
+		}
+	if  (request.countValues("GRIB_WIND_LARGE_POSITION_COLOUR") ) {
+		unsigned long long large_colour_position_value = request("GRIB_WIND_LARGE_POSITION_COLOUR");
+		gribdecoder_->large_colour_position_ = large_colour_position_value;
 		}
 	if  (request.countValues("GRIB_MISSING_VALUE_INDICATOR") ) {
 		double missing_value_value = request("GRIB_MISSING_VALUE_INDICATOR");
@@ -189,78 +205,6 @@ void GribDecoderWrapper::set(const MagRequest& request)
 	gribdecoder_->wind_mode_ =  unique_ptr<WindMode>(wind_mode_wrapper->object());
 	delete wind_mode_wrapper;
 	
-		string large_field_position_value = request.countValues("GRIB_FIELD_LARGE_POSITION") ?  (string) request("GRIB_FIELD_LARGE_POSITION") : "0";
-	MagLog::debug() << " GRIB_FIELD_LARGE_POSITION set to " << large_field_position_value << endl;
-	unsigned long longWrapper* large_field_position_wrapper = 0;
-	try
-	{
-		large_field_position_wrapper = SimpleFactory<unsigned long longWrapper>::create(large_field_position_value);
-	}
-	 catch (NoFactoryException&) {
-		if (MagicsGlobal::strict()) {
-            throw;
-        }
-		MagLog::warning() << "[" << large_field_position_value << "] is not a valid value for large_field_position: reset to default -> [0]" << endl;
-		large_field_position_wrapper = SimpleFactory<unsigned long longWrapper>::create("0");
-	}
-	large_field_position_wrapper->set(request);
-	gribdecoder_->large_field_position_ =  unique_ptr<unsigned long long>(large_field_position_wrapper->object());
-	delete large_field_position_wrapper;
-	
-		string large_position_1_value = request.countValues("GRIB_WIND_LARGE_POSITION_1") ?  (string) request("GRIB_WIND_LARGE_POSITION_1") : "0";
-	MagLog::debug() << " GRIB_WIND_LARGE_POSITION_1 set to " << large_position_1_value << endl;
-	unsigned long longWrapper* large_position_1_wrapper = 0;
-	try
-	{
-		large_position_1_wrapper = SimpleFactory<unsigned long longWrapper>::create(large_position_1_value);
-	}
-	 catch (NoFactoryException&) {
-		if (MagicsGlobal::strict()) {
-            throw;
-        }
-		MagLog::warning() << "[" << large_position_1_value << "] is not a valid value for large_position_1: reset to default -> [0]" << endl;
-		large_position_1_wrapper = SimpleFactory<unsigned long longWrapper>::create("0");
-	}
-	large_position_1_wrapper->set(request);
-	gribdecoder_->large_position_1_ =  unique_ptr<unsigned long long>(large_position_1_wrapper->object());
-	delete large_position_1_wrapper;
-	
-		string large_position_2_value = request.countValues("GRIB_WIND_LARGE_POSITION_2") ?  (string) request("GRIB_WIND_LARGE_POSITION_2") : "0";
-	MagLog::debug() << " GRIB_WIND_LARGE_POSITION_2 set to " << large_position_2_value << endl;
-	unsigned long longWrapper* large_position_2_wrapper = 0;
-	try
-	{
-		large_position_2_wrapper = SimpleFactory<unsigned long longWrapper>::create(large_position_2_value);
-	}
-	 catch (NoFactoryException&) {
-		if (MagicsGlobal::strict()) {
-            throw;
-        }
-		MagLog::warning() << "[" << large_position_2_value << "] is not a valid value for large_position_2: reset to default -> [0]" << endl;
-		large_position_2_wrapper = SimpleFactory<unsigned long longWrapper>::create("0");
-	}
-	large_position_2_wrapper->set(request);
-	gribdecoder_->large_position_2_ =  unique_ptr<unsigned long long>(large_position_2_wrapper->object());
-	delete large_position_2_wrapper;
-	
-		string large_colour_position_value = request.countValues("GRIB_WIND_LARGE_POSITION_COLOUR") ?  (string) request("GRIB_WIND_LARGE_POSITION_COLOUR") : "0";
-	MagLog::debug() << " GRIB_WIND_LARGE_POSITION_COLOUR set to " << large_colour_position_value << endl;
-	unsigned long longWrapper* large_colour_position_wrapper = 0;
-	try
-	{
-		large_colour_position_wrapper = SimpleFactory<unsigned long longWrapper>::create(large_colour_position_value);
-	}
-	 catch (NoFactoryException&) {
-		if (MagicsGlobal::strict()) {
-            throw;
-        }
-		MagLog::warning() << "[" << large_colour_position_value << "] is not a valid value for large_colour_position: reset to default -> [0]" << endl;
-		large_colour_position_wrapper = SimpleFactory<unsigned long longWrapper>::create("0");
-	}
-	large_colour_position_wrapper->set(request);
-	gribdecoder_->large_colour_position_ =  unique_ptr<unsigned long long>(large_colour_position_wrapper->object());
-	delete large_colour_position_wrapper;
-	
 }
 
 void GribDecoderWrapper::print(ostream& out)  const
@@ -298,10 +242,6 @@ static SimpleObjectMaker<SDWindModeWrapper, WindModeWrapper> GribDecoder_grib_wi
 #include "SDWindModeWrapper.h"
 static SimpleObjectMaker<SDWindMode, WindMode> GribDecoder_grib_wind_mode_sd ("sd");
 static SimpleObjectMaker<SDWindModeWrapper, WindModeWrapper> GribDecoder_grib_wind_mode_sd_wrapper ("sd");
-
-
-
-
 
 
 

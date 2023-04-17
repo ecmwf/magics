@@ -17,7 +17,7 @@ class ObjectHandler(ContentHandler):
     basic = {
         "bool": "getBool",
         "int": "getInt",
-        "unsigned lon long": "getULong",
+        "unsigned long long": "getULong",
         "float": "getDouble",
         "string": "getString",
         "stringarray": "getStringArray",
