@@ -70,13 +70,15 @@ void WindPlotting::setAdvanced(double& min, double& max) {
     colourMethod_->set(*this);
     levels_->calculate(min, max, false);
     LevelSelection::const_iterator level = levels_->begin();
+    if ( levels_->size() == 1 )
+        levels_->push_back(levels_->back()*1.00001);
     colourMethod_->prepare(*levels_, *levels_);
     Colour last;
     map_.clear();
     while (true) {
         if (level + 1 == levels_->end())
             break;
-        MagLog::debug() << "[" << *level << ", " << *(level + 1) << "]=" << colourMethod_->right(*level) << endl;
+        MagLog::debug()  << "[" << *level << ", " << *(level + 1) << "]=" << colourMethod_->right(*level) << endl;
         map_[Interval(*level, *(level + 1))] = colourMethod_->right(*level);
         last                                 = colourMethod_->right(*level);
         ++level;

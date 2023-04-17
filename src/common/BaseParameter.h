@@ -65,6 +65,9 @@ public:
     virtual void set(const int&);
     virtual void get(int&) const;
 
+    virtual void set(const unsigned long long&);
+    virtual void get(unsigned long long&) const;
+
     virtual void set(const magvector<int>&);
     virtual void get(magvector<int>&) const;
 
@@ -104,6 +107,8 @@ public:
 
     string getType(const string&) const;
     string getType(const int&) const;
+    string getType(const unsigned long long&) const;
+    string getType(const unsigned int&) const;
     string getType(const double&) const;
     string getType(const magvector<string>&) const;
     string getType(const magvector<int>&) const;

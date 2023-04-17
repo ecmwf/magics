@@ -41,6 +41,10 @@
 
 #include "GribAddressModeWrapper.h"
 #include "WindModeWrapper.h"
+#include "unsigned long longWrapper.h"
+#include "unsigned long longWrapper.h"
+#include "unsigned long longWrapper.h"
+#include "unsigned long longWrapper.h"
 
 
 namespace magics {
