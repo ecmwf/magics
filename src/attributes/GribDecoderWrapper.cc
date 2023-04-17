@@ -130,7 +130,7 @@ void GribDecoderWrapper::set(const MagRequest& request)
 		gribdecoder_->field_position_ = field_position_value;
 		}
 	if  (request.countValues("GRIB_FIELD_LARGE_POSITION") ) {
-		unsigned long long large_field_position_value = request("GRIB_FIELD_LARGE_POSITION");
+		// unsigned long long large_field_position_value = request("GRIB_FIELD_LARGE_POSITION");
 		gribdecoder_->large_field_position_ = large_field_position_value;
 		}
 	if  (request.countValues("GRIB_WIND_POSITION_1") ) {
@@ -146,15 +146,15 @@ void GribDecoderWrapper::set(const MagRequest& request)
 		gribdecoder_->colour_position_ = colour_position_value;
 		}
 	if  (request.countValues("GRIB_WIND_LARGE_POSITION_1") ) {
-		unsigned long long large_position_1_value = request("GRIB_WIND_LARGE_POSITION_1");
+		// unsigned long long large_position_1_value = request("GRIB_WIND_LARGE_POSITION_1");
 		gribdecoder_->large_position_1_ = large_position_1_value;
 		}
 	if  (request.countValues("GRIB_WIND_LARGE_POSITION_2") ) {
-		unsigned long long large_position_2_value = request("GRIB_WIND_LARGE_POSITION_2");
+		// unsigned long long large_position_2_value = request("GRIB_WIND_LARGE_POSITION_2");
 		gribdecoder_->large_position_2_ = large_position_2_value;
 		}
 	if  (request.countValues("GRIB_WIND_LARGE_POSITION_COLOUR") ) {
-		unsigned long long large_colour_position_value = request("GRIB_WIND_LARGE_POSITION_COLOUR");
+		// unsigned long long large_colour_position_value = request("GRIB_WIND_LARGE_POSITION_COLOUR");
 		gribdecoder_->large_colour_position_ = large_colour_position_value;
 		}
 	if  (request.countValues("GRIB_MISSING_VALUE_INDICATOR") ) {
