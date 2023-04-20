@@ -74,6 +74,7 @@ AxisAttributes::AxisAttributes():
 	line_colour_(MagTranslator<string, Colour>().magics("axis_line_colour")),
 	line_style_(MagTranslator<string, LineStyle>().magics("axis_line_style")),
 	grid_colour_(MagTranslator<string, Colour>().magics("axis_grid_colour")),
+	grid_background_colour_(MagTranslator<string, Colour>().magics("axis_grid_background_colour")),
 	grid_style_(MagTranslator<string, LineStyle>().magics("axis_grid_line_style")),
 	minor_grid_colour_(MagTranslator<string, Colour>().magics("axis_minor_grid_colour")),
 	minor_grid_style_(MagTranslator<string, LineStyle>().magics("axis_minor_grid_line_style")),
@@ -152,6 +153,7 @@ void AxisAttributes::set(const std::map<string, string>& params)
 	setMember(prefix, "axis_line_colour", line_colour_, params);
 	setAttribute(prefix, "axis_line_style", line_style_, params);
 	setMember(prefix, "axis_grid_colour", grid_colour_, params);
+	setMember(prefix, "axis_grid_background_colour", grid_background_colour_, params);
 	setAttribute(prefix, "axis_grid_line_style", grid_style_, params);
 	setMember(prefix, "axis_minor_grid_colour", minor_grid_colour_, params);
 	setAttribute(prefix, "axis_minor_grid_line_style", minor_grid_style_, params);
@@ -217,6 +219,7 @@ void AxisAttributes::copy(const AxisAttributes& other)
 	line_colour_ = unique_ptr<Colour>(other.line_colour_->clone());
 	line_style_ = other.line_style_;
 	grid_colour_ = unique_ptr<Colour>(other.grid_colour_->clone());
+	grid_background_colour_ = unique_ptr<Colour>(other.grid_background_colour_->clone());
 	grid_style_ = other.grid_style_;
 	minor_grid_colour_ = unique_ptr<Colour>(other.minor_grid_colour_->clone());
 	minor_grid_style_ = other.minor_grid_style_;
@@ -319,6 +322,7 @@ void AxisAttributes::print(ostream& out)  const
 	out << " line_colour = " <<  *line_colour_;
 	out << " line_style = " <<  line_style_;
 	out << " grid_colour = " <<  *grid_colour_;
+	out << " grid_background_colour = " <<  *grid_background_colour_;
 	out << " grid_style = " <<  grid_style_;
 	out << " minor_grid_colour = " <<  *minor_grid_colour_;
 	out << " minor_grid_style = " <<  minor_grid_style_;
@@ -434,6 +438,8 @@ void AxisAttributes::toxml(ostream& out)  const
 	niceprint(out, line_style_);
 	out << ", \"axis_grid_colour\":";
 	niceprint(out, *grid_colour_);
+	out << ", \"axis_grid_background_colour\":";
+	niceprint(out, *grid_background_colour_);
 	out << ", \"axis_grid_line_style\":";
 	niceprint(out, grid_style_);
 	out << ", \"axis_minor_grid_colour\":";
@@ -509,6 +515,7 @@ static MagicsParameter<string> axis_type("axis_type", "regular");
 static MagicsParameter<string> axis_line_colour("axis_line_colour", "automatic");
 static MagicsParameter<string> axis_line_style("axis_line_style", "solid");
 static MagicsParameter<string> axis_grid_colour("axis_grid_colour", "black");
+static MagicsParameter<string> axis_grid_background_colour("axis_grid_background_colour", "none");
 static MagicsParameter<string> axis_grid_line_style("axis_grid_line_style", "solid");
 static MagicsParameter<string> axis_minor_grid_colour("axis_minor_grid_colour", "black");
 static MagicsParameter<string> axis_minor_grid_line_style("axis_minor_grid_line_style", "solid");

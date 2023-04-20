@@ -45,6 +45,7 @@ public:
 
     template <class T>
     static void set(const string& name, const T& value) {
+        
         ASSERT(table_);
         BaseParameter* param = (*table_).parameter(name);
         if (param) {
@@ -80,6 +81,8 @@ public:
     static double getDouble(const string& name);
 
     static int getInt(const string& name);
+    static int getUnsignedInt(const string& name);
+    static unsigned long long  getULong(const string& name);
 
     static string getString(const string& name);
     static stringarray getStringArray(const string& name);

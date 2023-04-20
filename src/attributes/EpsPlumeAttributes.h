@@ -64,6 +64,12 @@ public:
 	bool shading_;
 	doublearray shading_levels_;
 	stringarray shading_colours_;
+	doublearray background_level_list_;
+	stringarray background_colour_list_;
+	stringarray background_label_list_;
+	string background_label_font_;
+	double background_label_font_size_;
+	string background_label_font_style_;
 	unique_ptr<Colour> line_colour_;
 	LineStyle line_style_;
 	unique_ptr<Colour> forecast_line_colour_;
@@ -72,6 +78,7 @@ public:
 	LineStyle control_line_style_;
 	unique_ptr<Colour> median_line_colour_;
 	LineStyle median_line_style_;
+	unique_ptr<Colour> background_label_font_colour_;
 	 
 
 private:

@@ -437,7 +437,7 @@ protected:
     vector<Colour> shading_legend_;
     void timeserie(Data&, BasicGraphicsObjectContainer&);
     void verticalprofile(Data&, BasicGraphicsObjectContainer&);
-
+    void background(BasicGraphicsObjectContainer& visitor);
 private:
     //! Copy constructor - No copy allowed
     EpsPlume(const EpsPlume&);

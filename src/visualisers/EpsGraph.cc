@@ -2660,7 +2660,93 @@ void EpsPlume::verticalprofile(Data& data, BasicGraphicsObjectContainer& visitor
     visitor.push_back(control);
     visitor.push_back(forecast);
 }
+
+void EpsPlume::background(BasicGraphicsObjectContainer& visitor) {
+    // Add background 
+    const Transformation& transformation = visitor.transformation();
+    if ( background_level_list_.empty() ) 
+        return;
+
+    if ( background_colour_list_.size() <  background_level_list_.size() -1 ) {
+        MagLog::error() << "Note enough colours for the EpsPlumes background " << endl;
+        MagLog::error() << "should be at least " << background_level_list_.size() -1 << " but found " << background_colour_list_.size() << endl;
+        MagLog::error() << " Please check your colour list " << endl;
+        return;
+    }
+
+    
+    
+    double min = transformation.getMinY();
+    double max = transformation.getMaxY();
+
+    auto colour = background_colour_list_.begin();
+    
+    auto level = background_level_list_.begin();
+    auto label = background_label_list_.begin();
+    double from = *level;
+    ++level;
+
+    while ( level != background_level_list_.end()) {
+        double to = *level;
+        if ( from < min ) 
+            from = min;
+        if ( to > max ) 
+            to = max;
+        
+        if ( to > from && to <= max ) {
+            Polyline* area = new Polyline();
+            area->setColour(Colour(*colour));
+            area->setFilled(true);
+            area->setShading(new FillShadingProperties());
+            area->setFillColour(Colour(*colour));
+            visitor.push_back(area);
+            area->push_back(PaperPoint(transformation.getMinX(), from));
+            area->push_back(PaperPoint(transformation.getMinX(), to));
+            area->push_back(PaperPoint(transformation.getMaxX(), to));
+            area->push_back(PaperPoint(transformation.getMaxX(), from));
+            area->push_back(PaperPoint(transformation.getMinX(), from));   
+            
+            
+        }
+        if ( label != background_label_list_.end() ) {
+            
+            Text* text = new Text();
+            text->setText(*label);
+            text->setJustification(Justification::LEFT);
+            MagFont font(background_label_font_, background_label_font_style_, background_label_font_size_);
+            font.colour(*background_label_font_colour_);
+            text->setFont(font);
+            double x = transformation.getMinX() + (transformation.getMaxX() - transformation.getMinX())*0.01;
+            double y = from + (to-from)*0.1;
+           
+            text->push_back(PaperPoint(x, y));
+            visitor.push_back(text);
+            ++label;
+        }
+        from = *level;
+        ++colour;
+        ++level;
+    }
+
+
+    // if ( from <  transformation.getMaxY() ) {
+    //     Polyline* area = new Polyline();
+    //     area->setColour(Colour(*colour));
+    //     area->setFilled(true);
+    //     area->setShading(new FillShadingProperties());
+    //     area->setFillColour(Colour(*colour));
+    //     visitor.push_back(area);
+    //     area->push_back(PaperPoint(transformation.getMinX(), from));
+    //     area->push_back(PaperPoint(transformation.getMinX(), transformation.getMaxY()));
+    //     area->push_back(PaperPoint(transformation.getMaxX(), transformation.getMaxY()));
+    //     area->push_back(PaperPoint(transformation.getMaxX(), from));
+    //     area->push_back(PaperPoint(transformation.getMinX(), from));
+    // }
+
+}
+
 void EpsPlume::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
+    background(visitor);
     method_                                   = lowerCase(method_);
     std::map<string, Method>::iterator method = methods_.find(method_);
     if (method == methods_.end()) {
@@ -2668,6 +2754,7 @@ void EpsPlume::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
         return;
     }
     (this->*method->second)(data, visitor);
+    
 }
 
 

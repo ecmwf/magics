@@ -164,5 +164,51 @@ does it submit to any jurisdiction.
 			name="eps_plume_shading_colour_list">
 			<documentation>colours used for plumes shading</documentation>
 		</parameter>
+		<parameter member="background_level_list"
+			to="floatarray"
+			default="floatarray()"
+			from="floatarray"
+			name="eps_plume_background_level_list">
+			<documentation>Background level list</documentation>
+		</parameter>
+		<parameter member="background_colour_list"
+			to="stringarray"
+			default="stringarray()"
+			from="stringarray"
+			name="eps_plume_background_colour_list">
+			<documentation>Background colour list</documentation>
+		</parameter>
+		<parameter member="background_label_list"
+			to="stringarray"
+			default="stringarray()"
+			from="stringarray"
+			name="eps_plume_background_label_list">
+			<documentation>Background colour list</documentation>
+		</parameter>
+		<parameter xml="background_label_"
+			from="string"
+			name="eps_plume_background_label_font"
+			default="sansserif"
+			member="background_label_font"
+			to="string"></parameter>
+		<parameter xml="font_size"
+			from="float"
+			name="eps_plume_background_label_font_size"
+			default="0.25"
+			member="background_label_font_size"
+			to="float"></parameter>
+		<parameter xml="background_label_style"
+			from="string"
+			name="eps_plume_background_label_font_style"
+			default=""
+			member="background_label_font_style"
+			to="string"></parameter>
+		<parameter xml="font_colour"
+			from="string"
+			name="eps_plume_background_label_font_colour"
+			default="black"
+			member="background_label_font_colour"
+			to="Colour"></parameter>
+		
 	</class>
 </magics>

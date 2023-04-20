@@ -55,7 +55,8 @@ WrepJSonAttributes::WrepJSonAttributes():
 	profile_quantile_(ParameterManager::getString("wrepjson_profile_quantile")),
 	hodograph_grid_(ParameterManager::getBool("wrepjson_hodograph_grid")),
 	hodograph_tephi_(ParameterManager::getBool("wrepjson_hodograph_tephi")),
-	hodograph_member_(ParameterManager::getInt("wrepjson_hodograph_member"))
+	hodograph_member_(ParameterManager::getInt("wrepjson_hodograph_member")),
+	y_axis_value_(ParameterManager::getDouble("wrepjson_y_axis_value"))
 	
 	
 {
@@ -105,6 +106,7 @@ void WrepJSonAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "wrepjson_hodograph_grid", hodograph_grid_, params);
 	setAttribute(prefix, "wrepjson_hodograph_tephi", hodograph_tephi_, params);
 	setAttribute(prefix, "wrepjson_hodograph_member", hodograph_member_, params);
+	setAttribute(prefix, "wrepjson_y_axis_value", y_axis_value_, params);
 	
 	
 }
@@ -142,6 +144,7 @@ void WrepJSonAttributes::copy(const WrepJSonAttributes& other)
 	hodograph_grid_ = other.hodograph_grid_;
 	hodograph_tephi_ = other.hodograph_tephi_;
 	hodograph_member_ = other.hodograph_member_;
+	y_axis_value_ = other.y_axis_value_;
 	
 }
 
@@ -211,6 +214,7 @@ void WrepJSonAttributes::print(ostream& out)  const
 	out << " hodograph_grid = " <<  hodograph_grid_;
 	out << " hodograph_tephi = " <<  hodograph_tephi_;
 	out << " hodograph_member = " <<  hodograph_member_;
+	out << " y_axis_value = " <<  y_axis_value_;
 	
 	out << "]" << "\n";
 }
@@ -280,6 +284,8 @@ void WrepJSonAttributes::toxml(ostream& out)  const
 	niceprint(out,hodograph_tephi_);
 	out << ", \"wrepjson_hodograph_member\":";
 	niceprint(out,hodograph_member_);
+	out << ", \"wrepjson_y_axis_value\":";
+	niceprint(out,y_axis_value_);
 	
 }
 
@@ -314,3 +320,4 @@ static MagicsParameter<string> wrepjson_profile_quantile("wrepjson_profile_quant
 static MagicsParameter<string> wrepjson_hodograph_grid("wrepjson_hodograph_grid", "off");
 static MagicsParameter<string> wrepjson_hodograph_tephi("wrepjson_hodograph_tephi", "off");
 static MagicsParameter<int> wrepjson_hodograph_member("wrepjson_hodograph_member", -1);
+static MagicsParameter<double> wrepjson_y_axis_value("wrepjson_y_axis_value", 1);

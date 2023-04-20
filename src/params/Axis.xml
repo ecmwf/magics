@@ -91,7 +91,13 @@ does it submit to any jurisdiction.
 			from="string"
 			name="axis_grid_colour">
 			<documentation>Colour of grid lines</documentation>
-			<migration>2.13.5 - Default changed fronm YELLOW to BLACK</migration>
+		</parameter>
+		<parameter member="grid_background_colour"
+			to="Colour"
+			default="none"WrepJS
+			from="string"
+			name="axis_grid_background_colour">
+			<documentation>Colour of grid background</documentation>
 		</parameter>
 		<parameter member="grid_style"
 			to="LineStyle"

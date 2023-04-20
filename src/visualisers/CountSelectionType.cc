@@ -35,8 +35,8 @@ CountSelectionType::CountSelectionType() {}
 
 void CountSelectionType::calculate(double min, double max, bool shading) {
 
- 
-    clear();
+  
+      clear();
 
 
     double min_limit=min;
@@ -61,12 +61,13 @@ void CountSelectionType::calculate(double min, double max, bool shading) {
     int i       = 0;
     if ( minOutOfBond_ || !MINSET(min_)) {
         i++;
-        
     }
     
     if ( maxOutOfBond_ || !MAXSET(max_) ) {
        i++;
     }
+
+
 
     // Commented for now, may have to be revisited soon.
     // i += ( MINSET(min_limit) ) ? 1 : 0;
@@ -74,6 +75,12 @@ void CountSelectionType::calculate(double min, double max, bool shading) {
 
     double nb = levelCount_ - 1;
     if (same(max_limit, min_limit)) {
+        push_back(min_limit);
+        return;
+    }
+
+    if (min_limit > max_limit) {
+        push_back(max_limit);
         push_back(min_limit);
         return;
     }

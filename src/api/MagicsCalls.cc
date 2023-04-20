@@ -42,7 +42,20 @@ const char* MagicsCalls::metainput() {
 const char* MagicsCalls::metanetcdf() {
     return FortranMagics::instance().metanetcdf();
 }
+const char* MagicsCalls::long_parameters() {
+    static string result; 
+    ostringstream os;
+    os << "{";
+    os << "\"grib_field_position\": \"grib_field_large_position\",";
+    os << "\"grib_wind_position_1\": \"grib_wind_large_position_1\",";
+    os << "\"grib_wind_position_2\": \"grib_wind_large_position_2\",";
+    os << "\"grib_wind_position_colour\": \"grib_wind_large_position_colour\"";
+    os << "}";
+    result = os.str();
+    return result.c_str();
+    
 
+}
 const char* MagicsCalls::keep_compatibility() {
     NOTIMP;
 }
@@ -385,6 +398,11 @@ void MagicsCalls::seti(const std::string& name, int value) {
     ParameterManager::set(name, value);
 }
 
+void MagicsCalls::setli(const std::string& name, unsigned long long value) {
+    // if (CompatibilityHelper::check(name, value))
+    //     return;
+    ParameterManager::set(name, value);
+}
 
 void MagicsCalls::set1i(const std::string& name, const std::vector<int>& data) {
     set1i(name, data.data(), data.size());

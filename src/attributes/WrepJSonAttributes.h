@@ -81,6 +81,7 @@ public:
 	bool hodograph_grid_;
 	bool hodograph_tephi_;
 	int hodograph_member_;
+	double y_axis_value_;
 	 
 
 private:
