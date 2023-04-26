@@ -627,6 +627,8 @@ magics::Polyline* EpsGraph::newForecast() {
 }
 
 void EpsGraph::pushControl(magics::Polyline* control, BasicGraphicsObjectContainer& visitor) {
+    if ( !control_ )
+        return;
     const Transformation& transformation = visitor.transformation();
     if (!control->empty() && whisker_) {
         transformation(*control, visitor);

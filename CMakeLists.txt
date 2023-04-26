@@ -15,7 +15,10 @@ cmake_minimum_required( VERSION 3.12 FATAL_ERROR )
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../ecbuild/cmake")
 find_package( ecbuild 3.4 REQUIRED )
 
-project( magics VERSION 4.15.0 LANGUAGES CXX )
+
+# In prepaation for hotfix of 4.14.0
+project( magics VERSION 4.14.1 LANGUAGES CXX )
+
 
 # make sure that the header files are installed into include/magics
 # note that this needs to be done before ecbuild_declare_project()
