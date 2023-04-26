@@ -34,6 +34,7 @@
 #include "EpsPlumeAttributes.h"
 #include "EpsShadeAttributes.h"
 #include "EpsWindAttributes.h"
+#include "EpsWaveAttributes.h"
 
 
 #include "BasicGraphicsObject.h"
@@ -257,13 +258,13 @@ private:
     }
 };
 
-class EpsWave : public Visdef {
+class EpsWave : public EpsWaveAttributes, public Visdef {
 public:
     EpsWave() {}
     virtual ~EpsWave() override {}
     // Implements the set method ...
-    void set(const map<string, string>&) {}  // EpsWindAttributes::set(map); }
-    void set(const XmlNode&) {}              // EpsWindAttributes::set(node); }
+    void set(const map<string, string>&) override {}  // EpsWindAttributes::set(map); }
+    void set(const XmlNode&) override {}              // EpsWindAttributes::set(node); }
 
     virtual void operator()(Data&, BasicGraphicsObjectContainer&) override;
     virtual void visit(LegendVisitor&) override;

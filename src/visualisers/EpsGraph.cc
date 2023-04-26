@@ -627,8 +627,10 @@ magics::Polyline* EpsGraph::newForecast() {
 }
 
 void EpsGraph::pushControl(magics::Polyline* control, BasicGraphicsObjectContainer& visitor) {
-    if ( !control_ )
+    if ( !eps_control_ ) {
+        control_ = false;
         return;
+    }
     const Transformation& transformation = visitor.transformation();
     if (!control->empty() && whisker_) {
         transformation(*control, visitor);
@@ -1691,17 +1693,19 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
         }
 
         // Draw the Control
-        if (point->find("control") != point->end()) {
-            magics::Polyline* control = new magics::Polyline();
-            control->setColour(Colour("red"));
-            control->setThickness(2);
-            control->setLineStyle(LineStyle::DASH);
+        if (eps_control_) {
+            if (point->find("control") != point->end()) {
+                magics::Polyline* control = new magics::Polyline();
+                control->setColour(Colour("red"));
+                control->setThickness(2);
+                control->setLineStyle(LineStyle::DASH);
 
-            double angle = (*point)["control"] - 180.;
+                double angle = (*point)["control"] - 180.;
 
-            control->push_back(PaperPoint(x, 0));
-            control->push_back(PaperPoint(x + (l100 * sin(angle * (3.14 / 180.))), l100 * cos(angle * (3.14 / 180.))));
-            visitor.push_back(control);
+                control->push_back(PaperPoint(x, 0));
+                control->push_back(PaperPoint(x + (l100 * sin(angle * (3.14 / 180.))), l100 * cos(angle * (3.14 / 180.))));
+                visitor.push_back(control);
+            }
         }
 
         // Draw the Forecast

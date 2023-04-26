@@ -60,6 +60,12 @@ void EpsWaveWrapper::set(const MagRequest& request)
 		colour_value.push_back((string)request("EPS_ROSE_WAVE_COLOUR", i));
 	if ( !colour_value.empty() )
 		epswave_->colour_ = colour_value;
+	if  (request.countValues("EPS_CONTROL") ) {
+		string eps_control_value = request("EPS_CONTROL");
+		
+		epswave_->eps_control_ = MagTranslator<string, bool>()(eps_control_value);
+		
+		}
 	
 	
 }

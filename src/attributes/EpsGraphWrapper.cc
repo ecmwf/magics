@@ -141,9 +141,9 @@ void EpsGraphWrapper::set(const MagRequest& request)
 		epsgraph_->deterministic_legend_ = deterministic_legend_value;
 		}
 	if  (request.countValues("EPS_CONTROL") ) {
-		string control_value = request("EPS_CONTROL");
+		string eps_control_value = request("EPS_CONTROL");
 		
-		epsgraph_->control_ = MagTranslator<string, bool>()(control_value);
+		epsgraph_->eps_control_ = MagTranslator<string, bool>()(eps_control_value);
 		
 		}
 	if  (request.countValues("EPS_CONTROL_LINE_THICKNESS") ) {

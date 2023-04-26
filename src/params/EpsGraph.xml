@@ -187,12 +187,12 @@ does it submit to any jurisdiction.
 			name="eps_deterministic_legend_text">
 			<documentation>Text to be used in the legend</documentation>
 		</parameter>
-		<parameter member="control"
+		<parameter member="eps_control"
 			to="bool"
 			default="on"
 			from="string"
 			name="eps_control">
-			<documentation>plot the deterministic Forecast</documentation>
+			<documentation>plot the control Forecast</documentation>
 		</parameter>
 		<parameter member="control_colour"
 			to="Colour"
