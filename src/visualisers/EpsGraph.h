@@ -263,8 +263,8 @@ public:
     EpsWave() {}
     virtual ~EpsWave() override {}
     // Implements the set method ...
-    void set(const map<string, string>&) override {}  // EpsWindAttributes::set(map); }
-    void set(const XmlNode&) override {}              // EpsWindAttributes::set(node); }
+    void set(const map<string, string>& map) override { EpsWaveAttributes::set(map); }  // EpsWindAttributes::set(map); }
+    void set(const XmlNode& node) override  { EpsWaveAttributes::set(node) ;}              // EpsWindAttributes::set(node); }
 
     virtual void operator()(Data&, BasicGraphicsObjectContainer&) override;
     virtual void visit(LegendVisitor&) override;
