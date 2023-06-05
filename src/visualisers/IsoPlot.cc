@@ -1342,7 +1342,7 @@ bool IsoPlot::prepare(MatrixHandler& data) {
     double min = data.min();
     double max = data.max();
     (*levelSelection_).clear();
-    (*levelSelection_).calculate(min, max, true);
+    (*levelSelection_).calculate(min, max, shading_->isShading());
     bool need_isolines = (*shading_)(*levelSelection_);
     shading_->reset();
     (*label_).prepare(*levelSelection_, (*colour_).name());
