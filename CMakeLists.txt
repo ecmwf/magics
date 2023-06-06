@@ -17,7 +17,7 @@ find_package( ecbuild 3.4 REQUIRED )
 
 
 # In prepaation for hotfix of 4.14.0
-project( magics VERSION 4.14.1 LANGUAGES CXX )
+project( magics LANGUAGES CXX )
 
 
 # make sure that the header files are installed into include/magics
