@@ -71,7 +71,7 @@ public:
 	bool deterministic_;
 	int deterministic_thickness_;
 	string deterministic_legend_;
-	bool control_;
+	bool eps_control_;
 	int control_thickness_;
 	string control_legend_;
 	bool legend_;

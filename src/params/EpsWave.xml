@@ -22,5 +22,12 @@ does it submit to any jurisdiction.
 			name="eps_rose_wave_colour">
 			<documentation>Rose wind darker colour</documentation>
 		</parameter>
+		<parameter member="eps_control"
+			to="bool"
+			default="on"
+			from="string"
+			name="eps_control">
+			<documentation>plot the control Forecast</documentation>
+		</parameter>
 	</class>
 </magics>

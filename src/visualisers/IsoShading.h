@@ -76,6 +76,7 @@ public:
     virtual bool needClipping() { return false; }
     virtual bool method(ContourMethod*) { return false; }
     virtual void reset() {}
+    virtual bool isShading() { return false; }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
@@ -109,6 +110,8 @@ public:
         object->copy(*this);
         return object;
     }
+    
+    bool isShading() override { return true; }
 
     CellArray* array(MatrixHandler& matrix, IntervalMap<int>& range, const Transformation& transformation, int width,
                      int height, float resolution, const string& technique) override {

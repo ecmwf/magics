@@ -51,6 +51,7 @@ public:
 	//  --  members:
 	string tag_;
 	stringarray colour_;
+	bool eps_control_;
 	 
 
 private:
