@@ -566,6 +566,7 @@ void GribRegularInterpretor::interpretAsMatrix(GribDecoder& grib) const {
 
         if (jPointsAreConsecutive) {
             vector<double>* d = new vector<double>(nb);  // temporary array
+            d->resize(nb);
             double* d1        = &d->front();             // temporary array pointer
             double* d2        = &u->front();             // final array
 
@@ -581,12 +582,14 @@ void GribRegularInterpretor::interpretAsMatrix(GribDecoder& grib) const {
         else  // otherwise, just copy the array of values as they are
         {
             if (v != NULL) {
+                v->resize(nb);
                 grib_get_double_array(grib.uHandle(), "values", &u->front(), &aux);
                 grib_get_double_array(grib.uHandle(), "values", &u->data_.front(), &aux);
                 grib_get_double_array(grib.vHandle(), "values", &v->front(), &aux);
                 grib_get_double_array(grib.vHandle(), "values", &v->data_.front(), &aux);
                 if (c) {
                     c->data_.resize(nb);
+                    c->resize(nb);
                     grib_get_double_array(grib.cHandle(), "values", &c->front(), &aux);
                     grib_get_double_array(grib.cHandle(), "values", &c->data_.front(), &aux);
                 }
@@ -1546,6 +1549,7 @@ void GribRotatedInterpretor::interpretAsMatrix(GribDecoder& grib) const {
         else  // otherwise, just copy the array of values as they are
         {
             if (v != NULL) {
+                v->resize(aux);
                 grib_get_double_array(grib.uHandle(), "values", &u->front(), &aux);
                 grib_get_double_array(grib.uHandle(), "values", &u->data_.front(), &aux);
                 grib_get_double_array(grib.vHandle(), "values", &v->front(), &aux);
