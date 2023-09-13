@@ -2493,6 +2493,13 @@ void EpsPlume::visit(LegendVisitor& legend) {
         median->setLineStyle(median_line_style_);
         legend.add(new LineEntry("Median", median));
     }
+    // if (percentiles_) {
+    //     magics::Polyline* median = new magics::Polyline();
+    //     median->setColour(*median_line_colour_);
+    //     median->setThickness(median_line_thickness_);
+    //     median->setLineStyle(median_line_style_);
+    //     legend.add(new LineEntry("Median", median));
+    // }
 }
 
 void EpsPlume::timeserie(Data& data, BasicGraphicsObjectContainer& visitor) {
@@ -2521,10 +2528,20 @@ void EpsPlume::timeserie(Data& data, BasicGraphicsObjectContainer& visitor) {
     median->setColour(*median_line_colour_);
     median->setThickness(median_line_thickness_);
     median->setLineStyle(median_line_style_);
+
+
+
     map<double, vector<PaperPoint>> shading;
+    map<double, vector<PaperPoint>> percentiles;
+
     if (shading_) {
         for (vector<double>::iterator level = shading_levels_.begin(); level != shading_levels_.end(); ++level)
             shading.insert(make_pair(*level, vector<PaperPoint>()));
+    }
+    if (percentiles_) {
+        for (vector<double>::iterator level = percentiles_list_.begin(); level != percentiles_list_.end(); ++level) {
+            percentiles.insert(make_pair(*level, vector<PaperPoint>()));
+        }
     }
     for (const auto& point : points) {
         double x       = (*point)["step"] + (*point)["shift"];
@@ -2565,6 +2582,11 @@ void EpsPlume::timeserie(Data& data, BasicGraphicsObjectContainer& visitor) {
             std::sort(members.begin(), members.end());
             median->push_back(PaperPoint(x, members[m]));
         }
+        if (percentiles_) {
+            int m = members.size()/2;
+            std::sort(members.begin(), members.end());
+            median->push_back(PaperPoint(x, members[m]));
+        }
         if (shading_) {
             for (vector<double>::iterator level = shading_levels_.begin(); level != shading_levels_.end(); ++level) {
                 int i = *level * (members.size()/100.);
@@ -2573,7 +2595,16 @@ void EpsPlume::timeserie(Data& data, BasicGraphicsObjectContainer& visitor) {
                 shading[*level].push_back(PaperPoint(x, members[i]));
             }
         }
+        if (percentiles_) {
+            for (vector<double>::iterator level = percentiles_list_.begin(); level != percentiles_list_.end(); ++level) {
+                int i = *level * (members.size()/100.);
+                if (i >= members.size())
+                    i = members.size() - 1;
+                percentiles[*level].push_back(PaperPoint(x, members[i]));
+            }
+        }
     }
+    
 
 
     vector<string>::iterator colour = shading_colours_.begin();
@@ -2611,6 +2642,36 @@ void EpsPlume::timeserie(Data& data, BasicGraphicsObjectContainer& visitor) {
         transformation(*forecast, visitor);
     if (median_)
         transformation(*median, visitor);
+    if (percentiles_) {
+        if ( percentiles_line_colour_list_.empty() ) 
+            percentiles_line_colour_list_.push_back("black");
+        if ( percentiles_line_thickness_list_.empty() ) 
+            percentiles_line_thickness_list_.push_back(2);
+        if ( percentiles_line_style_list_.empty() ) 
+            percentiles_line_style_list_.push_back("solid");
+    
+        auto percentiles_line_colour = percentiles_line_colour_list_.begin();
+        auto percentiles_line_thickness = percentiles_line_thickness_list_.begin();
+        auto percentiles_line_style = percentiles_line_style_list_.begin();
+        
+        for ( auto percentile = percentiles.begin(); percentile != percentiles.end (); ++percentile ) {
+            magics::Polyline* line = new magics::Polyline();
+            line->setColour(Colour(*percentiles_line_colour));
+            line->setLineStyle(MagTranslator<string, LineStyle>()(*percentiles_line_style));
+            line->setThickness(*percentiles_line_thickness);
+            
+            if (++percentiles_line_colour == percentiles_line_colour_list_.end() ) --percentiles_line_colour;
+            if (++percentiles_line_thickness == percentiles_line_thickness_list_.end() ) --percentiles_line_thickness;
+            if (++percentiles_line_style == percentiles_line_style_list_.end() ) --percentiles_line_style;
+
+            for (vector<PaperPoint>::iterator point = percentile->second.begin(); point !=  percentile->second.end(); ++point)
+                line->push_back(*point);    
+            
+            transformation(*line, visitor);
+        }
+
+
+    }
 }
 
 void EpsPlume::verticalprofile(Data& data, BasicGraphicsObjectContainer& visitor) {
