@@ -2625,9 +2625,10 @@ void EpsPlume::timeserie(Data& data, BasicGraphicsObjectContainer& visitor) {
         for (vector<PaperPoint>::reverse_iterator point = shading[top].rbegin(); point != shading[top].rend(); ++point)
             line->push_back(*point);
 
-        double grey = ((col.red() + col.blue() + col.green()) / 3.);
-
-        col.setColour(grey, grey, grey);
+        if ( legend_grey_style_ ) {
+            double grey = ((col.red() + col.blue() + col.green()) / 3.);
+            col.setColour(grey, grey, grey);
+        }
 
         ++colour;
         shading_legend_.push_back(col);

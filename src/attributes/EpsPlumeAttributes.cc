@@ -27,6 +27,7 @@ using namespace magics;
 EpsPlumeAttributes::EpsPlumeAttributes():
 	method_(ParameterManager::getString("eps_plume_method")),
 	legend_(ParameterManager::getBool("eps_plume_legend")),
+	legend_grey_style_(ParameterManager::getBool("eps_plume_legend_grey_style")),
 	line_(ParameterManager::getBool("eps_plume_members")),
 	line_thickness_(ParameterManager::getInt("eps_plume_line_thickness")),
 	forecast_(ParameterManager::getBool("eps_plume_forecast")),
@@ -79,6 +80,7 @@ void EpsPlumeAttributes::set(const std::map<string, string>& params)
 	
 	setAttribute(prefix, "eps_plume_method", method_, params);
 	setAttribute(prefix, "eps_plume_legend", legend_, params);
+	setAttribute(prefix, "eps_plume_legend_grey_style", legend_grey_style_, params);
 	setAttribute(prefix, "eps_plume_members", line_, params);
 	setAttribute(prefix, "eps_plume_line_thickness", line_thickness_, params);
 	setAttribute(prefix, "eps_plume_forecast", forecast_, params);
@@ -118,6 +120,7 @@ void EpsPlumeAttributes::copy(const EpsPlumeAttributes& other)
 {
 	method_ = other.method_;
 	legend_ = other.legend_;
+	legend_grey_style_ = other.legend_grey_style_;
 	line_ = other.line_;
 	line_thickness_ = other.line_thickness_;
 	forecast_ = other.forecast_;
@@ -189,6 +192,7 @@ void EpsPlumeAttributes::print(ostream& out)  const
 	out << "Attributes[";
 	out << " method = " <<  method_;
 	out << " legend = " <<  legend_;
+	out << " legend_grey_style = " <<  legend_grey_style_;
 	out << " line = " <<  line_;
 	out << " line_thickness = " <<  line_thickness_;
 	out << " forecast = " <<  forecast_;
@@ -231,6 +235,8 @@ void EpsPlumeAttributes::toxml(ostream& out)  const
 	niceprint(out,method_);
 	out << ", \"eps_plume_legend\":";
 	niceprint(out,legend_);
+	out << ", \"eps_plume_legend_grey_style\":";
+	niceprint(out,legend_grey_style_);
 	out << ", \"eps_plume_members\":";
 	niceprint(out,line_);
 	out << ", \"eps_plume_line_thickness\":";
@@ -298,6 +304,7 @@ void EpsPlumeAttributes::toxml(ostream& out)  const
 
 static MagicsParameter<string> eps_plume_method("eps_plume_method", "time_serie");
 static MagicsParameter<string> eps_plume_legend("eps_plume_legend", "on");
+static MagicsParameter<string> eps_plume_legend_grey_style("eps_plume_legend_grey_style", "on");
 static MagicsParameter<string> eps_plume_members("eps_plume_members", "on");
 static MagicsParameter<int> eps_plume_line_thickness("eps_plume_line_thickness", 1);
 static MagicsParameter<string> eps_plume_forecast("eps_plume_forecast", "on");

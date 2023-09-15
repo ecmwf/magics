@@ -53,6 +53,7 @@ public:
 	string tag_;
 	string method_;
 	bool legend_;
+	bool legend_grey_style_;
 	bool line_;
 	int line_thickness_;
 	bool forecast_;

@@ -31,6 +31,14 @@ does it submit to any jurisdiction.
 			visible='false'>
 			<documentation>ignore legend</documentation>
 		</parameter>
+		<parameter from="string"
+			name="eps_plume_legend_grey_style"
+			default="on"
+			member="legend_grey_style"
+			to="bool"
+			>
+			<documentation>if On ( default) the legend will use a grey scale ootherwise it will use user defined colour</documentation>
+		</parameter>
 		<parameter member="line"
 			to="bool"
 			default="on"
