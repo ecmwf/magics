@@ -28,6 +28,8 @@
 #include "LegendVisitor.h"
 #include "MagicsGlobal.h"
 
+#include "IntervalMap.h"
+
 using namespace magics;
 
 
@@ -117,10 +119,99 @@ struct SortHelper {
 };
 
 
+
+void SymbolPlotting::by_property(Data& data, BasicGraphicsObjectContainer& out) {
+
+    const Transformation& transformation = out.transformation();
+
+    std::set<string> needs;
+
+    needs.insert(property_height_name_);
+    needs.insert(property_colour_name_);
+    if ( property_filter_name_.size() )
+        needs.insert(property_filter_name_);
+
+    if ( property_colour_list_.empty() )
+        property_colour_list_.push_back("red");
+
+
+    IntervalMap<Colour> colourFinder;
+    auto value = property_colour_values_list_.begin();
+    auto colour = property_colour_list_.begin();
+
+    while (true) {
+        if (value + 1 == property_colour_values_list_.end())
+            break;
+        
+        colourFinder[Interval(*value, *(value+1))] = Colour(*colour);        
+        if (colour + 1 != property_colour_list_.end())
+            colour++;
+        ++value;
+    }
+
+
+
+    Colour red("red");
+
+    double factor = ( out.absoluteHeight()*transformation.patchDistance(1))/(transformation.getMaxPCY()-transformation.getMinPCY())    ;
+    // cout << "sacle--> " << factor << endl;
+    // cout << "patch--> " << transformation.patchDistance(1) << endl;
+    factor = magCompare(unit_method_, "geographical") ? 
+        ( out.absoluteHeight()*transformation.patchDistance(1))/(transformation.getMaxPCY()-transformation.getMinPCY()) : 1;
+
+
+    CustomisedPointsList points;
+    data.customisedPoints(out.transformation(), needs, points, true);    
+
+    for (auto& point : points) {
+        double val = 0;
+        if ( property_filter_name_.size() ) {
+            val = (*point)[property_filter_name_];
+            if ( val < property_filter_min_value_ )
+                continue;
+            if ( val >= property_filter_max_value_ )
+                continue;
+
+        }
+
+        double colour = (*point)[property_colour_name_];
+        double height = (*point)[property_height_name_];
+    
+        Symbol* symbol = new Symbol();
+        symbol->setMarker(marker_);
+
+        symbol->setColour(colourFinder.find(colour, red));
+
+
+        if ( height*property_height_scaling_factor_ > 2 ) {
+            height = 2*factor;
+            MagLog::warning() << " Symbol height reset to 2 " << endl;
+        }
+        else 
+            height = height*property_height_scaling_factor_*factor;
+
+        symbol->setHeight(height);
+
+        symbol->push_back(transformation(PaperPoint(point->longitude(), point->latitude())));
+
+        out.push_back(symbol);
+
+    }
+    
+
+
+}
+
+
 void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
     mode_->parent(this);
     mode_->prepare();
     symbols_.clear();
+
+
+    if ( magCompare("property", type_) )
+        return by_property(data, out);
+
     vector<string> check;
     check.push_back("text");
     check.push_back("number");
@@ -142,6 +233,12 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
     // cout << "patch--> " << transformation.patchDistance(1) << endl;
     factor = magCompare(unit_method_, "geographical") ? 
         ( out.absoluteHeight()*transformation.patchDistance(1))/(transformation.getMaxPCY()-transformation.getMinPCY()) : 1;
+
+    // cout << "abs-height->"<< out.absoluteHeight() << endl;
+    // cout << "patch->" << transformation.patchDistance(1) << endl;
+    // cout << "pc height --> " << transformation.getMaxPCY()-transformation.getMinPCY() << endl;
+
+    // cout << "factor-->" << factor << endl;
 
     bool valid = false;
 

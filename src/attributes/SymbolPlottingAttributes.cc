@@ -36,7 +36,16 @@ SymbolPlottingAttributes::SymbolPlottingAttributes():
 	connect_(ParameterManager::getBool("symbol_connect_line")),
 	automatic_connect_colour_(ParameterManager::getBool("symbol_connect_automatic_line_colour")),
 	connect_thickness_(ParameterManager::getInt("symbol_connect_line_thickness")),
-	legend_only_(ParameterManager::getBool("symbol_legend_only"))
+	legend_only_(ParameterManager::getBool("symbol_legend_only")),
+	property_colour_name_(ParameterManager::getString("symbol_property_colour_name")),
+	property_colour_list_(ParameterManager::getStringArray("symbol_property_colour_list")),
+	property_colour_values_list_(ParameterManager::getDoubleArray("symbol_property_colour_values_list")),
+	property_height_name_(ParameterManager::getString("symbol_property_height_name")),
+	property_height_scaling_factor_(ParameterManager::getDouble("symbol_property_height_scaling_factor")),
+	property_filter_name_(ParameterManager::getString("symbol_property_filter_name")),
+	property_filter_min_value_(ParameterManager::getDouble("symbol_property_filter_min_value")),
+	property_filter_max_value_(ParameterManager::getDouble("symbol_property_filter_max_value")),
+	marker_(ParameterManager::getInt("symbol_marker_index"))
 	,
 	mode_(MagTranslator<string, SymbolMode>().magics("symbol_table_mode")),
 	outline_colour_(MagTranslator<string, Colour>().magics("symbol_outline_colour")),
@@ -72,6 +81,15 @@ void SymbolPlottingAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "symbol_connect_automatic_line_colour", automatic_connect_colour_, params);
 	setAttribute(prefix, "symbol_connect_line_thickness", connect_thickness_, params);
 	setAttribute(prefix, "symbol_legend_only", legend_only_, params);
+	setAttribute(prefix, "symbol_property_colour_name", property_colour_name_, params);
+	setAttribute(prefix, "symbol_property_colour_list", property_colour_list_, params);
+	setAttribute(prefix, "symbol_property_colour_values_list", property_colour_values_list_, params);
+	setAttribute(prefix, "symbol_property_height_name", property_height_name_, params);
+	setAttribute(prefix, "symbol_property_height_scaling_factor", property_height_scaling_factor_, params);
+	setAttribute(prefix, "symbol_property_filter_name", property_filter_name_, params);
+	setAttribute(prefix, "symbol_property_filter_min_value", property_filter_min_value_, params);
+	setAttribute(prefix, "symbol_property_filter_max_value", property_filter_max_value_, params);
+	setAttribute(prefix, "symbol_marker_index", marker_, params);
 	
 	setMember(prefix, "symbol_table_mode", mode_, params);
 	setMember(prefix, "symbol_outline_colour", outline_colour_, params);
@@ -95,6 +113,15 @@ void SymbolPlottingAttributes::copy(const SymbolPlottingAttributes& other)
 	automatic_connect_colour_ = other.automatic_connect_colour_;
 	connect_thickness_ = other.connect_thickness_;
 	legend_only_ = other.legend_only_;
+	property_colour_name_ = other.property_colour_name_;
+	property_colour_list_ = other.property_colour_list_;
+	property_colour_values_list_ = other.property_colour_values_list_;
+	property_height_name_ = other.property_height_name_;
+	property_height_scaling_factor_ = other.property_height_scaling_factor_;
+	property_filter_name_ = other.property_filter_name_;
+	property_filter_min_value_ = other.property_filter_min_value_;
+	property_filter_max_value_ = other.property_filter_max_value_;
+	marker_ = other.marker_;
 	mode_ = unique_ptr<SymbolMode>(other.mode_->clone());
 	outline_colour_ = unique_ptr<Colour>(other.outline_colour_->clone());
 	outline_style_ = other.outline_style_;
@@ -154,6 +181,15 @@ void SymbolPlottingAttributes::print(ostream& out)  const
 	out << " automatic_connect_colour = " <<  automatic_connect_colour_;
 	out << " connect_thickness = " <<  connect_thickness_;
 	out << " legend_only = " <<  legend_only_;
+	out << " property_colour_name = " <<  property_colour_name_;
+	out << " property_colour_list = " <<  property_colour_list_;
+	out << " property_colour_values_list = " <<  property_colour_values_list_;
+	out << " property_height_name = " <<  property_height_name_;
+	out << " property_height_scaling_factor = " <<  property_height_scaling_factor_;
+	out << " property_filter_name = " <<  property_filter_name_;
+	out << " property_filter_min_value = " <<  property_filter_min_value_;
+	out << " property_filter_max_value = " <<  property_filter_max_value_;
+	out << " marker = " <<  marker_;
 	out << " mode = " <<  *mode_;
 	out << " outline_colour = " <<  *outline_colour_;
 	out << " outline_style = " <<  outline_style_;
@@ -190,6 +226,24 @@ void SymbolPlottingAttributes::toxml(ostream& out)  const
 	niceprint(out,connect_thickness_);
 	out << ", \"symbol_legend_only\":";
 	niceprint(out,legend_only_);
+	out << ", \"symbol_property_colour_name\":";
+	niceprint(out,property_colour_name_);
+	out << ", \"symbol_property_colour_list\":";
+	niceprint(out,property_colour_list_);
+	out << ", \"symbol_property_colour_values_list\":";
+	niceprint(out,property_colour_values_list_);
+	out << ", \"symbol_property_height_name\":";
+	niceprint(out,property_height_name_);
+	out << ", \"symbol_property_height_scaling_factor\":";
+	niceprint(out,property_height_scaling_factor_);
+	out << ", \"symbol_property_filter_name\":";
+	niceprint(out,property_filter_name_);
+	out << ", \"symbol_property_filter_min_value\":";
+	niceprint(out,property_filter_min_value_);
+	out << ", \"symbol_property_filter_max_value\":";
+	niceprint(out,property_filter_max_value_);
+	out << ", \"symbol_marker_index\":";
+	niceprint(out,marker_);
 	out << ", \"symbol_table_mode\":";
 	mode_->toxml(out);
 	out << ", \"symbol_outline_colour\":";
@@ -215,6 +269,15 @@ static MagicsParameter<string> symbol_connect_line("symbol_connect_line", "off")
 static MagicsParameter<string> symbol_connect_automatic_line_colour("symbol_connect_automatic_line_colour", "on");
 static MagicsParameter<int> symbol_connect_line_thickness("symbol_connect_line_thickness", 1);
 static MagicsParameter<string> symbol_legend_only("symbol_legend_only", "off");
+static MagicsParameter<string> symbol_property_colour_name("symbol_property_colour_name", "colour");
+static MagicsParameter<stringarray> symbol_property_colour_list("symbol_property_colour_list", stringarray());
+static MagicsParameter<doublearray> symbol_property_colour_values_list("symbol_property_colour_values_list", floatarray());
+static MagicsParameter<string> symbol_property_height_name("symbol_property_height_name", "colour");
+static MagicsParameter<double> symbol_property_height_scaling_factor("symbol_property_height_scaling_factor", 1);
+static MagicsParameter<string> symbol_property_filter_name("symbol_property_filter_name", "");
+static MagicsParameter<double> symbol_property_filter_min_value("symbol_property_filter_min_value", LLONG_MIN);
+static MagicsParameter<double> symbol_property_filter_max_value("symbol_property_filter_max_value", LLONG_MAX);
+static MagicsParameter<int> symbol_marker_index("symbol_marker_index", 1);
 static MagicsParameter<string> symbol_table_mode("symbol_table_mode", "OFF");
 static MagicsParameter<string> symbol_outline_colour("symbol_outline_colour", "black");
 static MagicsParameter<string> symbol_outline_style("symbol_outline_style", "solid");

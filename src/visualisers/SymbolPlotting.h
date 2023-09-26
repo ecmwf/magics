@@ -44,6 +44,7 @@ public:
 
 
     virtual void operator()(Data&, BasicGraphicsObjectContainer&) override;
+    void by_property(Data&, BasicGraphicsObjectContainer&);
     virtual void visit(Data&, LegendVisitor&) override;
     bool needLegend() override { return legend_; }
     virtual void visit(Data&, HistoVisitor&) override;

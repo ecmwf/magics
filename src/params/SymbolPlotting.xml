@@ -43,7 +43,7 @@ does it submit to any jurisdiction.
 			default="number"
 			member="type"
 			to="string"
-			values="number/text/marker/wind">
+			values="number/text/marker/wind/property">
 			<documentation>Defines the type of symbol plotting required</documentation>
 			<set name="symbol_text_list" value="text"></set>
 			<set name="symbol_text_position" value="text"></set>
@@ -251,5 +251,80 @@ does it submit to any jurisdiction.
 			visible='off'>
 			<documentation>Inform the contour object do generate only the legend and not the plot .. [Web sdpecific]</documentation>
 		</parameter>
+		<!-- For the type property for CAMS -->
+		<parameter member="property_colour_name"
+			to="string"
+			default="colour"
+			from="string"
+			name="symbol_property_colour_name"
+			visible='off'>
+			<documentation>With GeoSon : property name to use to set the colour</documentation>
+		</parameter>
+		<parameter member="property_colour_list"
+			to="stringarray"
+			default="stringarray()"
+			from="stringarray"
+			name="symbol_property_colour_list"
+			visible='off'>
+			<documentation>With GeoSon : list of colours to use</documentation>
+		</parameter>
+		<parameter member="property_colour_values_list"
+			to="floatarray"
+			default="floatarray()"
+			from="floatarray"
+			name="symbol_property_colour_values_list"
+			visible='off'>
+			<documentation>With GeoSon : list of heights to use</documentation>
+		</parameter>
+
+		<parameter member="property_height_name"
+			to="string"
+			default="colour"
+			from="string"
+			name="symbol_property_height_name"
+			visible='off'>
+			<documentation>With GeoSon : property name to use to set the colour</documentation>
+		</parameter>
+		<parameter member="property_height_scaling_factor"
+			to="float"
+			default="1"
+			from="float"
+			name="symbol_property_height_scaling_factor"
+			visible='off'>
+			<documentation>With GeoSon : property name to use to set the colour</documentation>
+		</parameter>
+
+		<parameter member="property_filter_name"
+			to="string"
+			default=""
+			from="string"
+			name="symbol_property_filter_name"
+			visible='off'>
+			<documentation>With GeoSon : property name to use to set the colour</documentation>
+		</parameter>
+		<parameter member="property_filter_min_value"
+			to="float"
+			default="LLONG_MIN"
+			from="float"
+			name="symbol_property_filter_min_value"
+			visible='off'>
+			<documentation>With GeoSon : property name to use to set the colour</documentation>
+		</parameter>
+		<parameter member="property_filter_max_value"
+			to="float"
+			default="LLONG_MAX"
+			from="float"
+			name="symbol_property_filter_max_value"
+			visible='off'>
+			<documentation>With GeoSon : property name to use to set the colour</documentation>
+		</parameter>
+		<parameter member="marker"
+			to="int"
+			default="1"
+			from="int"
+			name="symbol_marker_index">
+			<documentation>Marker indice:  An integer between 1 and 28</documentation>
+		</parameter>
+		
 	</class>
 </magics>

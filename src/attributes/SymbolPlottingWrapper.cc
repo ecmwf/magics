@@ -115,6 +115,44 @@ void SymbolPlottingWrapper::set(const MagRequest& request)
 		symbolplotting_->legend_only_ = MagTranslator<string, bool>()(legend_only_value);
 		
 		}
+	if  (request.countValues("SYMBOL_PROPERTY_COLOUR_NAME") ) {
+		string property_colour_name_value = request("SYMBOL_PROPERTY_COLOUR_NAME");
+		symbolplotting_->property_colour_name_ = property_colour_name_value;
+		}
+	stringarray  property_colour_list_value;
+	for (int i = 0; i < request.countValues("SYMBOL_PROPERTY_COLOUR_LIST"); i++)
+		property_colour_list_value.push_back((string)request("SYMBOL_PROPERTY_COLOUR_LIST", i));
+	if ( !property_colour_list_value.empty() )
+		symbolplotting_->property_colour_list_ = property_colour_list_value;
+	doublearray  property_colour_values_list_value;
+	for (int i = 0; i < request.countValues("SYMBOL_PROPERTY_COLOUR_VALUES_LIST"); i++)
+		property_colour_values_list_value.push_back((double)request("SYMBOL_PROPERTY_COLOUR_VALUES_LIST", i));
+	if ( !property_colour_values_list_value.empty() )
+		symbolplotting_->property_colour_values_list_ = property_colour_values_list_value;
+	if  (request.countValues("SYMBOL_PROPERTY_HEIGHT_NAME") ) {
+		string property_height_name_value = request("SYMBOL_PROPERTY_HEIGHT_NAME");
+		symbolplotting_->property_height_name_ = property_height_name_value;
+		}
+	if  (request.countValues("SYMBOL_PROPERTY_HEIGHT_SCALING_FACTOR") ) {
+		double property_height_scaling_factor_value = request("SYMBOL_PROPERTY_HEIGHT_SCALING_FACTOR");
+		symbolplotting_->property_height_scaling_factor_ = property_height_scaling_factor_value;
+		}
+	if  (request.countValues("SYMBOL_PROPERTY_FILTER_NAME") ) {
+		string property_filter_name_value = request("SYMBOL_PROPERTY_FILTER_NAME");
+		symbolplotting_->property_filter_name_ = property_filter_name_value;
+		}
+	if  (request.countValues("SYMBOL_PROPERTY_FILTER_MIN_VALUE") ) {
+		double property_filter_min_value_value = request("SYMBOL_PROPERTY_FILTER_MIN_VALUE");
+		symbolplotting_->property_filter_min_value_ = property_filter_min_value_value;
+		}
+	if  (request.countValues("SYMBOL_PROPERTY_FILTER_MAX_VALUE") ) {
+		double property_filter_max_value_value = request("SYMBOL_PROPERTY_FILTER_MAX_VALUE");
+		symbolplotting_->property_filter_max_value_ = property_filter_max_value_value;
+		}
+	if  (request.countValues("SYMBOL_MARKER_INDEX") ) {
+		int marker_value = request("SYMBOL_MARKER_INDEX");
+		symbolplotting_->marker_ = marker_value;
+		}
 	
 	
 		string mode_value = request.countValues("SYMBOL_TABLE_MODE") ?  (string) request("SYMBOL_TABLE_MODE") : "OFF";
