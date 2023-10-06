@@ -28,6 +28,11 @@ does it submit to any jurisdiction.
                         default="cylindrical"
                         from="string"
                         name="grib_tile_projection"></parameter>
+                <parameter member="mode"
+                        to="string"
+                        default="eccharts"
+                        from="string"
+                        name="grib_tile_mode"></parameter>
                 <parameter member="loop"
                         to="bool"
                         default="off"

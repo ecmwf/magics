@@ -49,10 +49,15 @@ string TileDecoder::projection() {
 string TileDecoder::weights() {
     ostringstream out;
     string parent = getEnvVariable("MAGPLUS_TILE");
+   
     if (parent.empty()) {
         parent = buildSharePath("tiles");
     }
-    out << parent << "/weight-" << grid_ << "-" << projection() << "-z" + tostring(z_) << ".nc";
+    if (mode_ == "opencharts" ) 
+        out <<  parent << "/opencharts-cache-" << grid_ << ".nc";
+        
+    else 
+        out << parent << "/weight-" << grid_ << "-" << projection() << "-z" + tostring(z_) << ".nc";
     return out.str();
 }
 
@@ -435,14 +440,10 @@ void TileDecoder::decode() {
 
     Timer timer("Tile", path);
 #ifdef HAVE_NETCDF
+    
     Netcdf netcdf(path, "index");
 
     map<string, string> first, last;
-    first["x"] = tostring(x_);
-    first["y"] = tostring(y_);
-    last["x"]  = tostring(x_);
-    last["y"]  = tostring(y_);
-
     static vector<double> bbox;
     static vector<double> latitudes;
     static vector<double> longitudes;
@@ -450,41 +451,57 @@ void TileDecoder::decode() {
     static vector<double> dindex;
     static vector<double> distances;
 
-    int nblat = netcdf.getDimension("lat") - 1;
-    int nblon = netcdf.getDimension("lon") - 1;
+    if ( mode_ == "opencharts") {
 
-    if (bbox.empty()) {
-        netcdf.get("bounding-box", bbox, first, last);
+        netcdf.get(projection_ + "_lat", latitudes, first, last);
+        netcdf.get(projection_ + "_lon", longitudes, first, last);
+        netcdf.get(projection_ + "_index", dindex, first, last);
+        netcdf.get(projection_ + "_distances", distances, first, last);
+    }
+    else {
+        first["x"] = tostring(x_);
+        first["y"] = tostring(y_);
+        last["x"]  = tostring(x_);
+        last["y"]  = tostring(y_);
 
-        int error;
-        FILE* in = fopen(file_name_.c_str(), "rb");
-        if (!in) {
-            if (MagicsGlobal::strict()) {
-                throw CannotOpenFile(file_name_);
+        
+
+        int nblat = netcdf.getDimension("lat") - 1;
+        int nblon = netcdf.getDimension("lon") - 1;
+
+        if (bbox.empty()) {
+            netcdf.get("bounding-box", bbox, first, last);
+
+            int error;
+            FILE* in = fopen(file_name_.c_str(), "rb");
+            if (!in) {
+                if (MagicsGlobal::strict()) {
+                    throw CannotOpenFile(file_name_);
+                }
+                MagLog::error() << "ERROR: unable to create handle from file" << file_name_ << endl;
+                return;
             }
-            MagLog::error() << "ERROR: unable to create handle from file" << file_name_ << endl;
-            return;
+
+            // Adding a gutter of 5 points to avoid borders in tiles
+            int miny = std::min(bbox[1], bbox[3]);
+            miny     = std::max(0, miny - 5);
+            int maxy = std::max(bbox[1], bbox[3]);
+            maxy     = std::min(nblat, maxy + 5);
+            int minx = std::min(bbox[0], bbox[2]);
+            minx     = std::max(0, minx - 5);
+            int maxx = std::max(bbox[0], bbox[2]);
+            maxx     = std::min(nblon, maxx + 5);
+
+            first["lat"] = tostring(miny);
+            first["lon"] = tostring(minx);
+            last["lat"]  = tostring(maxy);
+            last["lon"]  = tostring(maxx);
+
+            netcdf.get("lat", latitudes, first, last);
+            netcdf.get("lon", longitudes, first, last);
+            netcdf.get("index", dindex, first, last);
+            netcdf.get("distances", distances, first, last);
         }
-
-        // Adding a gutter of 5 points to avoid borders in tiles
-        int miny = std::min(bbox[1], bbox[3]);
-        miny     = std::max(0, miny - 5);
-        int maxy = std::max(bbox[1], bbox[3]);
-        maxy     = std::min(nblat, maxy + 5);
-        int minx = std::min(bbox[0], bbox[2]);
-        minx     = std::max(0, minx - 5);
-        int maxx = std::max(bbox[0], bbox[2]);
-        maxx     = std::min(nblon, maxx + 5);
-
-        first["lat"] = tostring(miny);
-        first["lon"] = tostring(minx);
-        last["lat"]  = tostring(maxy);
-        last["lon"]  = tostring(maxx);
-
-        netcdf.get("lat", latitudes, first, last);
-        netcdf.get("lon", longitudes, first, last);
-        netcdf.get("index", dindex, first, last);
-        netcdf.get("distances", distances, first, last);
     }
 
     int index[4];

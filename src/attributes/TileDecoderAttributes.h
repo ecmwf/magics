@@ -52,6 +52,7 @@ public:
 	string tag_;
 	string file_name_;
 	string projection_;
+	string mode_;
 	bool loop_;
 	int z_;
 	int x_;
