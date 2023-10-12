@@ -68,6 +68,7 @@ string TileDecoder::positions() {
     }
     if (mode_ == "opencharts" ) 
         out <<  parent << "/opencharts-wind-" << grid_ << ".nc";
+    
     else 
         out << parent << "/wind-" << grid_ << "-" << projection() << "-z" + tostring(z_) << ".nc";
 
@@ -175,7 +176,6 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
                                    CustomisedPointsList& out, bool all) {
     string path = positions();
     Timer timer("Tile", path);
-
 #ifdef HAVE_NETCDF
     Netcdf netcdf(path, "index");
 
@@ -235,14 +235,15 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
         double i = *b;
 
         if (i != 0) {
-            if (lon > 180)
-                lon -= 360;
+            if ( mode_ != "opencharts") {
+                if (lon > 180)
+                    lon -= 360;
+            }
             latitudes.push_back(lat);
             longitudes.push_back(lon);
             index.push_back(i);
         }
     }
-
 
     {
         vector<double> uc;
@@ -265,6 +266,7 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
             point->insert(make_pair("y_component", *vx));
             out.push_back(point);
             point->tile(true);
+    
             ux++;
             vx++;
             lat++;
@@ -341,8 +343,10 @@ PointsHandler& TileDecoder::points(const Transformation& t, bool) {
             double i = *b;
 
             if (i != 0) {
-                if (lon > 180)
-                    lon -= 360;
+                if ( mode_ != "opencharts") {
+                    if (lon > 180)
+                        lon -= 360;
+                }
                 latitudes.push_back(lat);
                 longitudes.push_back(lon);
                 index.push_back(i);
