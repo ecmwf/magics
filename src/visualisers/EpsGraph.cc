@@ -2776,6 +2776,8 @@ void EpsPlume::background(BasicGraphicsObjectContainer& visitor) {
             
             
         }
+        double shift =(transformation.getMaxY() - transformation.getMinY())*0.02;
+
         if ( label != background_label_list_.end() ) {
             
             Text* text = new Text();
@@ -2785,10 +2787,11 @@ void EpsPlume::background(BasicGraphicsObjectContainer& visitor) {
             font.colour(*background_label_font_colour_);
             text->setFont(font);
             double x = transformation.getMinX() + (transformation.getMaxX() - transformation.getMinX())*0.01;
-            double y = from + (to-from)*0.1;
-           
-            text->push_back(PaperPoint(x, y));
-            visitor.push_back(text);
+            
+            double y = from + shift;
+            if ( y < transformation.getMaxY() )
+                text->push_back(PaperPoint(x, y));
+                visitor.push_back(text);
             ++label;
         }
         from = *level;
@@ -2796,20 +2799,6 @@ void EpsPlume::background(BasicGraphicsObjectContainer& visitor) {
         ++level;
     }
 
-
-    // if ( from <  transformation.getMaxY() ) {
-    //     Polyline* area = new Polyline();
-    //     area->setColour(Colour(*colour));
-    //     area->setFilled(true);
-    //     area->setShading(new FillShadingProperties());
-    //     area->setFillColour(Colour(*colour));
-    //     visitor.push_back(area);
-    //     area->push_back(PaperPoint(transformation.getMinX(), from));
-    //     area->push_back(PaperPoint(transformation.getMinX(), transformation.getMaxY()));
-    //     area->push_back(PaperPoint(transformation.getMaxX(), transformation.getMaxY()));
-    //     area->push_back(PaperPoint(transformation.getMaxX(), from));
-    //     area->push_back(PaperPoint(transformation.getMinX(), from));
-    // }
 
 }
 
