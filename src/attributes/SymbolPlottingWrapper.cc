@@ -115,20 +115,38 @@ void SymbolPlottingWrapper::set(const MagRequest& request)
 		symbolplotting_->legend_only_ = MagTranslator<string, bool>()(legend_only_value);
 		
 		}
-	if  (request.countValues("SYMBOL_PROPERTY_COLOUR_NAME") ) {
-		string property_colour_name_value = request("SYMBOL_PROPERTY_COLOUR_NAME");
-		symbolplotting_->property_colour_name_ = property_colour_name_value;
+	if  (request.countValues("SYMBOL_PROPERTY_HUE_NAME") ) {
+		string property_hue_name_value = request("SYMBOL_PROPERTY_HUE_NAME");
+		symbolplotting_->property_hue_name_ = property_hue_name_value;
 		}
-	stringarray  property_colour_list_value;
-	for (int i = 0; i < request.countValues("SYMBOL_PROPERTY_COLOUR_LIST"); i++)
-		property_colour_list_value.push_back((string)request("SYMBOL_PROPERTY_COLOUR_LIST", i));
-	if ( !property_colour_list_value.empty() )
-		symbolplotting_->property_colour_list_ = property_colour_list_value;
-	doublearray  property_colour_values_list_value;
-	for (int i = 0; i < request.countValues("SYMBOL_PROPERTY_COLOUR_VALUES_LIST"); i++)
-		property_colour_values_list_value.push_back((double)request("SYMBOL_PROPERTY_COLOUR_VALUES_LIST", i));
-	if ( !property_colour_values_list_value.empty() )
-		symbolplotting_->property_colour_values_list_ = property_colour_values_list_value;
+	doublearray  property_hue_list_value;
+	for (int i = 0; i < request.countValues("SYMBOL_PROPERTY_HUE_LIST"); i++)
+		property_hue_list_value.push_back((double)request("SYMBOL_PROPERTY_HUE_LIST", i));
+	if ( !property_hue_list_value.empty() )
+		symbolplotting_->property_hue_list_ = property_hue_list_value;
+	doublearray  property_hue_values_list_value;
+	for (int i = 0; i < request.countValues("SYMBOL_PROPERTY_HUE_VALUES_LIST"); i++)
+		property_hue_values_list_value.push_back((double)request("SYMBOL_PROPERTY_HUE_VALUES_LIST", i));
+	if ( !property_hue_values_list_value.empty() )
+		symbolplotting_->property_hue_values_list_ = property_hue_values_list_value;
+	if  (request.countValues("SYMBOL_PROPERTY_LIGHTNESS_NAME") ) {
+		string property_lightness_name_value = request("SYMBOL_PROPERTY_LIGHTNESS_NAME");
+		symbolplotting_->property_lightness_name_ = property_lightness_name_value;
+		}
+	doublearray  property_lightness_list_value;
+	for (int i = 0; i < request.countValues("SYMBOL_PROPERTY_LIGHTNESS_LIST"); i++)
+		property_lightness_list_value.push_back((double)request("SYMBOL_PROPERTY_LIGHTNESS_LIST", i));
+	if ( !property_lightness_list_value.empty() )
+		symbolplotting_->property_lightness_list_ = property_lightness_list_value;
+	doublearray  property_lightness_values_list_value;
+	for (int i = 0; i < request.countValues("SYMBOL_PROPERTY_LIGHTNESS_VALUES_LIST"); i++)
+		property_lightness_values_list_value.push_back((double)request("SYMBOL_PROPERTY_LIGHTNESS_VALUES_LIST", i));
+	if ( !property_lightness_values_list_value.empty() )
+		symbolplotting_->property_lightness_values_list_ = property_lightness_values_list_value;
+	if  (request.countValues("SYMBOL_PROPERTY_SATURATION_VALUE") ) {
+		double property_saturation_value_value = request("SYMBOL_PROPERTY_SATURATION_VALUE");
+		symbolplotting_->property_saturation_value_ = property_saturation_value_value;
+		}
 	if  (request.countValues("SYMBOL_PROPERTY_HEIGHT_NAME") ) {
 		string property_height_name_value = request("SYMBOL_PROPERTY_HEIGHT_NAME");
 		symbolplotting_->property_height_name_ = property_height_name_value;

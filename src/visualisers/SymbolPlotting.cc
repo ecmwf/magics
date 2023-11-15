@@ -127,26 +127,40 @@ void SymbolPlotting::by_property(Data& data, BasicGraphicsObjectContainer& out) 
     std::set<string> needs;
 
     needs.insert(property_height_name_);
-    needs.insert(property_colour_name_);
-    if ( property_filter_name_.size() )
-        needs.insert(property_filter_name_);
+    needs.insert(property_hue_name_);
+    needs.insert(property_lightness_name_);
+    
 
-    if ( property_colour_list_.empty() )
-        property_colour_list_.push_back("red");
+    if ( property_hue_list_.empty() )
+        property_hue_list_.push_back(1);
+    if ( property_lightness_list_.empty() )
+        property_lightness_list_.push_back(0.5);
 
 
-    IntervalMap<Colour> colourFinder;
-    auto value = property_colour_values_list_.begin();
-    auto colour = property_colour_list_.begin();
+    IntervalMap<float> hueFinder;
+    auto value_hue = property_hue_values_list_.begin();
+    auto hue = property_hue_list_.begin();
+    IntervalMap<float> lightnessFinder;
+    auto value_lightness = property_lightness_values_list_.begin();
+    auto lightness = property_lightness_list_.begin();
 
     while (true) {
-        if (value + 1 == property_colour_values_list_.end())
+        if (value_hue + 1 == property_hue_values_list_.end())
             break;
         
-        colourFinder[Interval(*value, *(value+1))] = Colour(*colour);        
-        if (colour + 1 != property_colour_list_.end())
-            colour++;
-        ++value;
+        hueFinder[Interval(*value_hue, *(value_hue+1))] = *hue;        
+        if (hue + 1 != property_hue_list_.end())
+            hue++;
+        ++value_hue;
+    }
+    while (true) {
+        if (value_lightness + 1 == property_lightness_values_list_.end())
+            break;
+        
+        lightnessFinder[Interval(*value_lightness, *(value_lightness+1))] = *lightness;        
+        if (lightness + 1 != property_lightness_list_.end())
+            lightness++;
+        ++value_lightness;
     }
 
 
@@ -154,8 +168,7 @@ void SymbolPlotting::by_property(Data& data, BasicGraphicsObjectContainer& out) 
     Colour red("red");
 
     double factor = ( out.absoluteHeight()*transformation.patchDistance(1))/(transformation.getMaxPCY()-transformation.getMinPCY())    ;
-    // cout << "sacle--> " << factor << endl;
-    // cout << "patch--> " << transformation.patchDistance(1) << endl;
+    
     factor = magCompare(unit_method_, "geographical") ? 
         ( out.absoluteHeight()*transformation.patchDistance(1))/(transformation.getMaxPCY()-transformation.getMinPCY()) : 1;
 
@@ -165,22 +178,18 @@ void SymbolPlotting::by_property(Data& data, BasicGraphicsObjectContainer& out) 
 
     for (auto& point : points) {
         double val = 0;
-        if ( property_filter_name_.size() ) {
-            val = (*point)[property_filter_name_];
-            if ( val < property_filter_min_value_ )
-                continue;
-            if ( val >= property_filter_max_value_ )
-                continue;
 
-        }
 
-        double colour = (*point)[property_colour_name_];
+        double hue = (*point)[property_hue_name_];
+        double lightness = (*point)[property_lightness_name_];
         double height = (*point)[property_height_name_];
     
         Symbol* symbol = new Symbol();
         symbol->setMarker(marker_);
-
-        symbol->setColour(colourFinder.find(colour, red));
+       
+        Hsl hsl(hueFinder.find(hue, 0),  property_saturation_value_, lightnessFinder.find(lightness, 0.5));
+        Colour colour(hsl);
+        symbol->setColour(colour);
 
 
         if ( height*property_height_scaling_factor_ > 2 ) {
@@ -221,25 +230,12 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
 
     const Transformation& transformation = out.transformation();
 
-    // cout << "absolut width " << out.absoluteWidth() << endl;
-    // cout << "absolut height " << out.absoluteHeight() << endl;
-    // cout << "pcminy " << transformation.getMinPCY() << endl;
-    // cout << "pcmaxy " << transformation.getMaxPCY() << endl;
-
-    // cout << "unit " << unit_method_ << endl;
-
     double factor = ( out.absoluteHeight()*transformation.patchDistance(1))/(transformation.getMaxPCY()-transformation.getMinPCY())    ;
-    // cout << "sacle--> " << factor << endl;
-    // cout << "patch--> " << transformation.patchDistance(1) << endl;
+    
     factor = magCompare(unit_method_, "geographical") ? 
         ( out.absoluteHeight()*transformation.patchDistance(1))/(transformation.getMaxPCY()-transformation.getMinPCY()) : 1;
 
-    // cout << "abs-height->"<< out.absoluteHeight() << endl;
-    // cout << "patch->" << transformation.patchDistance(1) << endl;
-    // cout << "pc height --> " << transformation.getMaxPCY()-transformation.getMinPCY() << endl;
-
-    // cout << "factor-->" << factor << endl;
-
+    
     bool valid = false;
 
     for (vector<string>::iterator c = check.begin(); c != check.end(); ++c) {
