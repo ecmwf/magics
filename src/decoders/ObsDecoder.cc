@@ -194,7 +194,7 @@ BufrIdentifiers::BufrIdentifiers(int centre) : centre_(centre) {
         // Open the default template for 98!
         // and send a big warning!
         in = fopen(deffile.str().c_str(), "r");
-        MagLog::warning() << "No definition file for [" << centre << "]: We use ECMWF definitions " << endl;
+        MagLog::warning() << "No local definition file for [" << centre << "]: We use ECMWF definitions " << endl;
 
         if (MagicsGlobal::strict()) {
             throw CannotOpenFile(deffile.str());
@@ -293,8 +293,6 @@ public:
     BufrAccessor(const string& descriptor) : descriptor_(descriptor) {
         init();
         auto token = translator_.find(descriptor_);
-        if (token == translator_.end())
-            MagLog::warning() << "Could not find eccodes key for " << descriptor_ << endl;
         eccodes_ = (token == translator_.end()) ? descriptor_ : token->second;
     }
     virtual ~BufrAccessor(){};
@@ -461,7 +459,7 @@ public:
     void operator()(const ObsDecoder& decoder, MvObs& obs, double& val) const {
         const BufrIdentifiers& table = BufrIdentTable::get(obs.originatingCentre());
         int type                     = obs.messageType();
-
+        
         map<int, bool>::const_iterator multilevel = multilevels_.find(type);
         if (multilevel == multilevels_.end()) {
             MagLog::warning() << "BufrMultiLevelAccessor> Unknown observation type [" << val << "]\n";
@@ -470,6 +468,10 @@ public:
         if (type == 0 || type == 1) {
             // surface data
             val = obs.value(surface_);
+            if ( val == kBufrMissingValue ) {
+                // Trying the descriptor for multilevel: some centres are using it for surface.
+                val = obs.value(altitude_);
+            }
         }
         else {
             // MagLog::dev()<< " look for --->" << table.ident(altitude_) << " at " << decoder.getLevel();

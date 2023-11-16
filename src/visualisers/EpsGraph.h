@@ -34,6 +34,7 @@
 #include "EpsPlumeAttributes.h"
 #include "EpsShadeAttributes.h"
 #include "EpsWindAttributes.h"
+#include "EpsWaveAttributes.h"
 
 
 #include "BasicGraphicsObject.h"
@@ -257,13 +258,13 @@ private:
     }
 };
 
-class EpsWave : public Visdef {
+class EpsWave : public EpsWaveAttributes, public Visdef {
 public:
     EpsWave() {}
     virtual ~EpsWave() override {}
     // Implements the set method ...
-    void set(const map<string, string>&) {}  // EpsWindAttributes::set(map); }
-    void set(const XmlNode&) {}              // EpsWindAttributes::set(node); }
+    void set(const map<string, string>& map) override { EpsWaveAttributes::set(map); }  // EpsWindAttributes::set(map); }
+    void set(const XmlNode& node) override  { EpsWaveAttributes::set(node) ;}              // EpsWindAttributes::set(node); }
 
     virtual void operator()(Data&, BasicGraphicsObjectContainer&) override;
     virtual void visit(LegendVisitor&) override;
@@ -437,7 +438,7 @@ protected:
     vector<Colour> shading_legend_;
     void timeserie(Data&, BasicGraphicsObjectContainer&);
     void verticalprofile(Data&, BasicGraphicsObjectContainer&);
-
+    void background(BasicGraphicsObjectContainer& visitor);
 private:
     //! Copy constructor - No copy allowed
     EpsPlume(const EpsPlume&);

@@ -34,15 +34,11 @@
 
 
 
-#include "BoxPlotDecoderWrapper.h"
 
 
 
 
 
-
-#include "NoBoxPlotBoxWrapper.h"
-#include "NoBoxPlotWhiskerWrapper.h"
 
 
 namespace magics {
@@ -50,7 +46,8 @@ namespace magics {
 class MagRequest;
 
 
-class BoxPlotVisualiserWrapper: public BoxPlotDecoderWrapper
+
+class BoxPlotVisualiserWrapper
 
 {
 public:
@@ -69,7 +66,6 @@ public:
 	virtual void object(BoxPlotVisualiser* o) {
 		// Remember to delete the previous object
 		boxplotvisualiser_ = o;
-		BoxPlotDecoderWrapper::object(o);
 		
 
 	}

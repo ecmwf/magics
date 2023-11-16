@@ -31,6 +31,14 @@ does it submit to any jurisdiction.
 			visible='false'>
 			<documentation>ignore legend</documentation>
 		</parameter>
+		<parameter from="string"
+			name="eps_plume_legend_grey_style"
+			default="on"
+			member="legend_grey_style"
+			to="bool"
+			>
+			<documentation>if On ( default) the legend will use a grey scale ootherwise it will use user defined colour</documentation>
+		</parameter>
 		<parameter member="line"
 			to="bool"
 			default="on"
@@ -143,6 +151,41 @@ does it submit to any jurisdiction.
 			name="eps_plume_median_line_thickness">
 			<documentation>Line thickness of the deterministic forecast</documentation>
 		</parameter>
+		<parameter member="percentiles"
+			to="bool"
+			default="off"
+			from="string"
+			name="eps_plume_percentiles">
+			<documentation>show teh precnetiles</documentation>
+		</parameter>
+		<parameter member="percentiles_list"
+			to="floatarray"
+			default="floatarray()"
+			from="floatarray"
+			name="eps_plume_percentiles_list">
+			<documentation>List of the precentiles to display</documentation>
+		</parameter>
+		<parameter member="percentiles_line_colour_list"
+			to="stringarray"
+			default="stringarray()"
+			from="stringarray"
+			name="eps_plume_percentiles_line_colour_list">
+			<documentation>List of colours to use to display the percentiles</documentation>
+		</parameter>
+		<parameter member="percentiles_line_style_list"
+			to="stringarray"
+			default="stringarray()"
+			from="stringarray"
+			name="eps_plume_percentiles_line_style_list">
+			<documentation>List of line-style to use to display the percentiles</documentation>
+		</parameter>
+		<parameter member="percentiles_line_thickness_list"
+			to="intarray"
+			default="intarray()"
+			from="intarray"
+			name="eps_plume_percentiles_line_thickness_list">
+			<documentation>List of line-thickness to use to display the percentiles</documentation>
+		</parameter>
 		<parameter member="shading"
 			to="bool"
 			default="off"
@@ -164,5 +207,51 @@ does it submit to any jurisdiction.
 			name="eps_plume_shading_colour_list">
 			<documentation>colours used for plumes shading</documentation>
 		</parameter>
+		<parameter member="background_level_list"
+			to="floatarray"
+			default="floatarray()"
+			from="floatarray"
+			name="eps_plume_background_level_list">
+			<documentation>Background level list</documentation>
+		</parameter>
+		<parameter member="background_colour_list"
+			to="stringarray"
+			default="stringarray()"
+			from="stringarray"
+			name="eps_plume_background_colour_list">
+			<documentation>Background colour list</documentation>
+		</parameter>
+		<parameter member="background_label_list"
+			to="stringarray"
+			default="stringarray()"
+			from="stringarray"
+			name="eps_plume_background_label_list">
+			<documentation>Background colour list</documentation>
+		</parameter>
+		<parameter xml="background_label_"
+			from="string"
+			name="eps_plume_background_label_font"
+			default="sansserif"
+			member="background_label_font"
+			to="string"></parameter>
+		<parameter xml="font_size"
+			from="float"
+			name="eps_plume_background_label_font_size"
+			default="0.25"
+			member="background_label_font_size"
+			to="float"></parameter>
+		<parameter xml="background_label_style"
+			from="string"
+			name="eps_plume_background_label_font_style"
+			default=""
+			member="background_label_font_style"
+			to="string"></parameter>
+		<parameter xml="font_colour"
+			from="string"
+			name="eps_plume_background_label_font_colour"
+			default="black"
+			member="background_label_font_colour"
+			to="Colour"></parameter>
+		
 	</class>
 </magics>

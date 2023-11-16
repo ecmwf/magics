@@ -404,6 +404,9 @@ double NetVariable::getDefaultMissing() {
 
 string Netcdf::detect(const string& var, const string& type, bool use_cache) const {
 
+    if ( std::find(ignoredDimensions_.begin(), ignoredDimensions_.end(), type) != ignoredDimensions_.end() )
+    // Here we force to ignore the dimension type
+        return "";
     if ( use_cache ) {
         auto cache = detected_.find(var);
         if ( cache != detected_.end() )

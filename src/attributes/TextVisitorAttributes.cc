@@ -277,6 +277,8 @@ bool TextVisitorAttributes::accept(const string& node)
 
 	if ( magCompare(node, "text")  )
 		return true;
+	if ( magCompare(node, "ztext")  )
+		return true;
 	
 	return false;
 }
@@ -289,6 +291,8 @@ void TextVisitorAttributes::set(const XmlNode& node)
 		return;
 
 	if ( magCompare(node.name(), "text")  )
+		apply = true;
+	if ( magCompare(node.name(), "ztext")  )
 		apply = true;
 	
 

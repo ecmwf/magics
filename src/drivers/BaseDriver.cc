@@ -40,10 +40,16 @@
 
 #include "magics.h"
 
+#include <algorithm>
+#include <cmath>
+#include <cassert>
+
+
 using namespace magics;
 
 int BaseDriver::numFiles_ = 0;
 
+//#define MAG_POLYLINE_ARROW_DEBUG_
 
 //! Constructor for all drivers
 /*!
@@ -400,6 +406,61 @@ double BaseDriver::LSF(MFloat* x, MFloat* y, int i0) const {
     return angle;
 }
 
+// Compute the least square fit (regression) line angle. This does not determine the
+// direction of the regression line, so we need an extra step to adjust the computed angle.
+double BaseDriver::arrowHeadLSF(MFloat* x, MFloat* y, int i0) const {
+    double angle = 0.;
+    const unsigned int n = 3;
+    const double eps = 1E-5;
+    double xSum  = 0.;
+    double ySum  = 0.;
+    double x2Sum = 0.;
+    double xySum = 0;
+    
+    for (unsigned int r = 0; r < n; r++) {
+        auto xp = projectX(x[i0 + r]);
+        auto yp = projectY(y[i0 + r]);
+        xSum += xp;
+        ySum += yp;
+        x2Sum += (xp * xp);
+        xySum += (xp * yp);
+    }
+
+    double s1 = n * xySum - xSum * ySum;
+    double s2 = n * x2Sum - xSum * xSum;
+
+    // Compute the LSF line angle. This does not tell us which way the line
+    // goes. We need additional information to estimate it.
+    if (std::fabs(s2) > eps) {
+        angle = std::atan(s1/s2);
+        
+    } else {
+        //std::cout << " (LSF) NS line!" << std::endl;
+        MagLog::debug() << "BaseDriver: Division through zero prevented in calculation of arrowhead angle!" << endl;
+        return 10.;
+    }
+
+    // estimate the lines's direction from the line formed by first two point
+    // TODO: also use the last two points
+    double dx = projectX(x[i0 + 1]) - projectX(x[i0]);
+    double dy = projectY(y[i0 + 1]) - projectY(y[i0]);
+
+   // std::cout << " (LSF) angle=" << angle << " dx=" << dx << " dy=" << dy << std::endl;
+
+    // create unite vector from angle
+    double xAngle = std::cos(angle);
+    double yAngle = std::sin(angle);
+
+    // compute the scalar product between the two vectors and use the
+    // sign of it to decide whether they point in the same direction]
+    auto sp = dx*xAngle + dy*yAngle;
+    if (sp <= 0) {
+        angle += PI;
+        //std::cout << "  --> a=" << angle*180/PI << std::endl;
+    }
+    return angle;
+}
+
 /*!
   \brief Method plotting Polylines with Labels.
 
@@ -449,10 +510,102 @@ void BaseDriver::printLine(const magics::Polyline& line) const {
         }
     }
 
-    const unsigned int minimum_points_for_labelling = 25;  // must be at least -15 : see function LSF above
+    if (arrowHead) {
+        renderArrowHeadsAlongLine(line, x, y, n);
+    } else {
+        renderLabelsAlongLine(line, x, y, n);
+    }
 
-    if ((arrowHead || (line.getLabel().isVisible() && line.getLabel().getText() != "")) &&
-        (n > minimum_points_for_labelling)) {
+    delete[] x;
+    delete[] y;
+    currentColour_ = Colour("none");
+}
+
+void BaseDriver::renderArrowHeadsAlongLine(const magics::Polyline& line, MFloat* x,  MFloat* y, unsigned long n) const {
+#ifdef MAG_POLYLINE_ARROW_DEBUG_
+    {
+       if (n > 25) {
+        // Use this code to draw a green line segment to the beginning of the polyline
+        magics::Colour dbgCol("green");
+        const unsigned long maxDbgLineLen = 3;
+        MFloat* xx = new MFloat[maxDbgLineLen];
+        MFloat* yy = new MFloat[maxDbgLineLen];
+        auto dbgLineLen = std::min(maxDbgLineLen, n);
+        for (unsigned long i = 0; i < dbgLineLen ; i++) {
+            xx[i] = x[i];
+            yy[i] = y[i];
+        }
+        setNewColour(dbgCol);
+        renderPolyline(dbgLineLen, xx, yy);
+        delete[] xx;
+        delete[] yy;
+        setNewColour(line.getColour());
+       }
+    }
+#endif
+
+// when this debug code is enabled we try add an arrowhead to each line
+#ifdef MAG_POLYLINE_ARROW_DEBUG_
+    const unsigned int minimum_points_for_labelling = 4; 
+#else
+    const unsigned int minimum_points_for_labelling = 25;  // must be at least -15 : see function LSF
+#endif
+
+    if (n > minimum_points_for_labelling) {
+        unsigned int i = 10;
+        const unsigned int step =5;
+        static const double cosLimit = std::cos(0.01);
+#ifdef MAG_POLYLINE_ARROW_DEBUG_
+        i = 1;
+        //std::cout << "LINE" << std::endl;
+#endif
+        while (i < n - minimum_points_for_labelling) {
+            assert(i < n-1);
+            assert(i+1 <= n-1);
+            bool closeAngles = false;
+            const double angle = arrowHeadLSF(x, y, i);
+#ifdef MAG_POLYLINE_ARROW_DEBUG_
+            closeAngles = angle < 4.;
+#else
+            const double angle2 = arrowHeadLSF(x, y, i + 1);
+            if (angle < 4. && angle2 < 4.) {
+                // the cos of the angular diff is the scalar product
+                auto sp = std::cos(angle)*std::cos(angle2) + std::sin(angle)*std::sin(angle2);
+                closeAngles = (sp >= cosLimit);
+            }
+#endif
+            if  (closeAngles)  {
+                MFloat pro_x = x[i+1];
+                MFloat pro_y = y[i+1];
+
+                Arrow arrow;
+                arrow.copy(*line.arrowProperties());
+                arrow.setColour(line.getColour());
+                arrow.setArrowPosition(ArrowPosition::HEAD_ONLY);
+
+#ifdef MAG_POLYLINE_ARROW_DEBUG_
+                //std::cout << " add " << angle * 180 / 3.14 << " [" << pro_x << "," << pro_y << "] " <<  x[i+1] << "," << x[i+2] << "," << x[i+3] << std::endl;
+#endif
+                const double dx = std::cos(angle);
+                const double dy = setAngleY(std::sin(angle));
+                PaperPoint pp(pro_x, pro_y);
+                ArrowPoint apoint(dx, dy, pp);
+                arrow.push_back(apoint);
+                renderWindArrow(arrow);
+
+                i += step;
+            }  // angles are not the same
+            i += step;
+        }
+    }
+}
+
+void BaseDriver::renderLabelsAlongLine(const magics::Polyline& line, MFloat* x,  MFloat* y, unsigned long n) const {
+    const unsigned int minimum_points_for_labelling = 25;  // must be at least -15 : see function LSF 
+
+    if (n > minimum_points_for_labelling && 
+        line.getLabel().isVisible() && line.getLabel().getText() != "") {
+
         ASSERT(staLayouts_.empty() == false);
 
         MFloat* labelx = new MFloat[n];  // in theory, we shouldn't need this many entries...
@@ -487,41 +640,23 @@ void BaseDriver::printLine(const magics::Polyline& line) const {
                 const double distance_squared =
                     ((THIS_X - PREV_X) * (THIS_X - PREV_X)) + ((THIS_Y - PREV_Y) * (THIS_Y - PREV_Y));
 
-                if ((arrowHead) || (distance_squared > min_square_distance_between_labels)) {
-                    if (arrowHead) {
-                        MFloat pro_x = x[i];
-                        MFloat pro_y = y[i];
-
-                        Arrow arrow;
-                        arrow.copy(*line.arrowProperties());
-                        arrow.setColour(line.getColour());
-                        arrow.setArrowPosition(ArrowPosition::HEAD_ONLY);
-                        if ((x[i] - x[i + 3]) < 0.)
-                            angle += PI;
-                        const double dx = sin(angle + 1.5707963267949);
-                        const double dy = -setAngleY(cos(angle + 1.5707963267949));
-                        PaperPoint pp(pro_x, pro_y);
-                        ArrowPoint apoint(dx, dy, pp);
-                        arrow.push_back(apoint);
-                        renderWindArrow(arrow);
-                    }
-                    else {
-                        MFloat pro_x = x[i + 2];
-                        MFloat pro_y = y[i + 2];
-                        Text text;
-                        PaperPoint pp(pro_x, pro_y);
-                        text.push_back(pp);
-                        Label label  = line.getLabel();
-                        MagFont font = label.font();
-                        text.setFont(font);
-                        text.addText(label.getText(), font.colour(), font.size());
-                        text.setBlanking(label.getBlanking());
-                        text.setJustification(label.getJustification());
-                        text.setVerticalAlign(VerticalAlign::HALF);
-                        text.setAngle(-setAngleY(angle));
-                        text.setFont(font);
-                        renderText(text);
-                    }
+                if (distance_squared > min_square_distance_between_labels) {                  
+                    MFloat pro_x = x[i + 2];
+                    MFloat pro_y = y[i + 2];
+                    Text text;
+                    PaperPoint pp(pro_x, pro_y);
+                    text.push_back(pp);
+                    Label label  = line.getLabel();
+                    MagFont font = label.font();
+                    text.setFont(font);
+                    text.addText(label.getText(), font.colour(), font.size());
+                    text.setBlanking(label.getBlanking());
+                    text.setJustification(label.getJustification());
+                    text.setVerticalAlign(VerticalAlign::HALF);
+                    text.setAngle(-setAngleY(angle));
+                    text.setFont(font);
+                    renderText(text);
+            
                     labelx[num_labels] = x[i];
                     labely[num_labels] = y[i];
                     num_labels++;
@@ -532,10 +667,7 @@ void BaseDriver::printLine(const magics::Polyline& line) const {
         }
         delete[] labelx;
         delete[] labely;
-    }  // endif enough points for a label
-    delete[] x;
-    delete[] y;
-    currentColour_ = Colour("none");
+    }
 }
 
 void BaseDriver::renderPolyline(vector<PaperPoint>& vP) const {

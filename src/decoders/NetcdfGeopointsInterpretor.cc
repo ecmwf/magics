@@ -64,7 +64,14 @@ bool NetcdfGeopointsInterpretor::interpretAsPoints(PointsList& list, const Trans
         netcdf.get(field_, values, first, last);
         setDim(netcdf, longitude_, longitudes, first, last);
         setDim(netcdf, latitude_, latitudes, first, last);
+        double missing = numeric_limits<double>::max();
 
+        if (field_.empty() == false) {
+            netcdf.get(field_, values, first, last);
+            missing = netcdf.getMissing(field_, missing_attribute_);
+        }
+
+        
         vector<double>::iterator lat       = latitudes.begin();
         vector<double>::iterator lon       = longitudes.begin();
         vector<double>::const_iterator val = values.begin();
@@ -89,8 +96,10 @@ bool NetcdfGeopointsInterpretor::interpretAsPoints(PointsList& list, const Trans
         lat = latitudes.begin();
         lon = longitudes.begin();
         while (lat != latitudes.end() && lon != longitudes.end() && val != values.end()) {
-            UserPoint* geo = new UserPoint(*lon, *lat, *val);
-            list.push_back(geo);
+            if ( !same(*val, missing) ) {
+                UserPoint* geo = new UserPoint(*lon, *lat, *val);
+                list.push_back(geo);
+            }
             lon++;
             lat++;
             val++;
@@ -247,9 +256,11 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const Transf
         vector<double> values;
         map<string, string> first, last;
         setDimensions(dimension_, first, last);
+        double missing = numeric_limits<double>::max();
 
         if (field_.empty() == false) {
             netcdf.get(field_, values, first, last);
+            missing = netcdf.getMissing(field_, missing_attribute_);
         }
         setDim(netcdf, x_, xs, first, last);
         setDim(netcdf, y_, ys, first, last);
@@ -257,6 +268,8 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const Transf
         double xmissing = netcdf.getMissing(x_, missing_attribute_);
         double ymissing = netcdf.getMissing(y_, missing_attribute_);
 
+        
+        
         vector<double>::iterator x         = xs.begin();
         vector<double>::iterator y         = ys.begin();
         vector<double>::const_iterator val = values.begin();
@@ -267,7 +280,7 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const Transf
                 value = *val;
                 val++;
             }
-            if (!same(*x, xmissing) || !same(*y, ymissing)) {
+            if (!same(*x, xmissing) || !same(*y, ymissing) || same(value, missing)) {
                 UserPoint* xy = new UserPoint(*x, *y, value);
                 if (projection.in(*xy))
                     list.push_back(xy);
@@ -301,23 +314,34 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const std::s
         vector<double> values;
         map<string, string> first, last;
         setDimensions(dimension_, first, last);
+        double missing = numeric_limits<double>::max();
 
         if (field_.empty() == false) {
             netcdf.get(field_, values, first, last);
+            missing = netcdf.getMissing(field_, missing_attribute_);
         }
+
+        
         setDim(netcdf, x_, xs, first, last);
         setDim(netcdf, y_, ys, first, last);
 
         double xmissing = netcdf.getMissing(x_, missing_attribute_);
         double ymissing = netcdf.getMissing(y_, missing_attribute_);
+        
 
+        
         baseDateX_ = "";
         if (!reference_date(netcdf, x_, refDateX_, baseDateX_, xs, datex))
             cf_date(netcdf, x_, refDateX_, baseDateX_, xs, datex);
 
         vector<double>::iterator y         = ys.begin();
         vector<double>::iterator x         = xs.begin();
+
         vector<double>::const_iterator val = values.begin();
+
+
+        minDate_ = *std::min_element(xs.begin(), xs.end());
+        maxDate_ = *std::max_element(xs.begin(), xs.end());
 
         while (x != xs.end() && y != ys.end()) {
 
@@ -327,7 +351,7 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const std::s
                 val++;
             }
             if (!same(*y, ymissing) || !same(*x, xmissing)) {
-                list.push_back(new UserPoint(*x, *y, value, (same(*y, ymissing) || same(*x, xmissing))));
+                list.push_back(new UserPoint(*x, *y, value, (same(*y, ymissing) || same(*x, xmissing) || same(value, missing))));
             }
 
             x++;
@@ -380,10 +404,15 @@ void NetcdfXYpointsInterpretor::visit(Transformation& transformation) {
 
         if (transformation.getAutomaticX()) {
             if (!this->baseDateX_.empty()) {
-                transformation.setDataMinMaxX(points.minX(), points.maxX(), this->baseDateX_);
+                if ( ignore_missing_) 
+                    transformation.setDataMinMaxX(points.minX(), points.maxX(), this->baseDateX_);
+                else 
+                    transformation.setDataMinMaxX(minDate_, maxDate_, this->baseDateX_);
             }
 
             else {
+               
+                
                 transformation.setMinMaxX(points.minX(), points.maxX());
             }
         }

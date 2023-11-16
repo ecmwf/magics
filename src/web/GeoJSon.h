@@ -62,6 +62,8 @@ protected:
     GeoObject* current_;
     GeoObject* parent_;
     Matrix* matrix_;
+    void getInfo(const std::set<string>& what, multimap<string, string>& info)  override;
+    
 
 private:
     //! Copy constructor - No copy allowed

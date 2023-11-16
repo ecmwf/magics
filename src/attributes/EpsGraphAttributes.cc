@@ -45,7 +45,7 @@ EpsGraphAttributes::EpsGraphAttributes():
 	deterministic_(ParameterManager::getBool("eps_deterministic")),
 	deterministic_thickness_(ParameterManager::getInt("eps_deterministic_line_thickness")),
 	deterministic_legend_(ParameterManager::getString("eps_deterministic_legend_text")),
-	control_(ParameterManager::getBool("eps_control")),
+	eps_control_(ParameterManager::getBool("eps_control")),
 	control_thickness_(ParameterManager::getInt("eps_control_line_thickness")),
 	control_legend_(ParameterManager::getString("eps_control_legend_text")),
 	legend_(ParameterManager::getBool("legend")),
@@ -99,7 +99,7 @@ void EpsGraphAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "eps_deterministic", deterministic_, params);
 	setAttribute(prefix, "eps_deterministic_line_thickness", deterministic_thickness_, params);
 	setAttribute(prefix, "eps_deterministic_legend_text", deterministic_legend_, params);
-	setAttribute(prefix, "eps_control", control_, params);
+	setAttribute(prefix, "eps_control", eps_control_, params);
 	setAttribute(prefix, "eps_control_line_thickness", control_thickness_, params);
 	setAttribute(prefix, "eps_control_legend_text", control_legend_, params);
 	setAttribute(prefix, "legend", legend_, params);
@@ -141,7 +141,7 @@ void EpsGraphAttributes::copy(const EpsGraphAttributes& other)
 	deterministic_ = other.deterministic_;
 	deterministic_thickness_ = other.deterministic_thickness_;
 	deterministic_legend_ = other.deterministic_legend_;
-	control_ = other.control_;
+	eps_control_ = other.eps_control_;
 	control_thickness_ = other.control_thickness_;
 	control_legend_ = other.control_legend_;
 	legend_ = other.legend_;
@@ -215,7 +215,7 @@ void EpsGraphAttributes::print(ostream& out)  const
 	out << " deterministic = " <<  deterministic_;
 	out << " deterministic_thickness = " <<  deterministic_thickness_;
 	out << " deterministic_legend = " <<  deterministic_legend_;
-	out << " control = " <<  control_;
+	out << " eps_control = " <<  eps_control_;
 	out << " control_thickness = " <<  control_thickness_;
 	out << " control_legend = " <<  control_legend_;
 	out << " legend = " <<  legend_;
@@ -279,7 +279,7 @@ void EpsGraphAttributes::toxml(ostream& out)  const
 	out << ", \"eps_deterministic_legend_text\":";
 	niceprint(out,deterministic_legend_);
 	out << ", \"eps_control\":";
-	niceprint(out,control_);
+	niceprint(out,eps_control_);
 	out << ", \"eps_control_line_thickness\":";
 	niceprint(out,control_thickness_);
 	out << ", \"eps_control_legend_text\":";

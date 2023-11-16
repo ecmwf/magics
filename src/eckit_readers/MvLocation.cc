@@ -7,74 +7,142 @@
 
  ***************************** LICENSE END *************************************/
 
-// MvLocation.cc,     vk 940901...
-//                rev vk 011025
-
-// classes:  MvLocation, MvArea, MvXSectionLine
-
-
-#include "MvLocation.h"
 #include <cmath>
+#include "MvLocation.h"
 
-//_____________________________________________________________________ set
-void MvLocation ::set(double aLat, double aLong) {
-    fLatitude  = aLat;
-    fLongitude = aLong;
-}
+//===================================================
+//
+// MvLocation
+//
+//===================================================
 
-//______________________________________________________________ distanceInRadians
-double MvLocation ::distanceInRadians(const MvLocation& anOtherLocation) const {
-    const double cDEG2RAD = M_PI / 180.0;
+const double MvLocation::cRadian     = 180. / M_PI;
+const double MvLocation::cDegree     = 1 / MvLocation::cRadian;
+const double MvLocation::cRadianToMetre = 1852 *180.0 * 60.0 / M_PI;
+const double MvLocation::cMetreToRadian = 1./MvLocation::cRadianToMetre;
 
-    double lat1 = latitude() * cDEG2RAD;
-    double lat2 = anOtherLocation.latitude() * cDEG2RAD;
-    double lon1 = longitude() * cDEG2RAD;
-    double lon2 = anOtherLocation.longitude() * cDEG2RAD;
 
-    //-- from: http://williams.best.vwh.net/avform.htm (020815/vk) --
-    double d = acos(sin(lat1) * sin(lat2) + cos(lat1) * cos(lat2) * cos(lon1 - lon2));
-
-    return d;
-}
-
-//_____________________________________________________________ distanceInDegrees
-double MvLocation ::distanceInDegrees(const MvLocation& anOtherLocation) const {
-    return distanceInRadians(anOtherLocation) * 180.0 / M_PI;
-}
-
-//_____________________________________________________________ distanceInMeters
-double MvLocation ::distanceInMeters(const MvLocation& anOtherLocation) const {
-    const double cR2NM = 180.0 * 60.0 / M_PI;  //-- radians -> nautical miles
-    const double cNM2M = 1852;                 //-- nautical miles -> metres
-
-    double nm = distanceInRadians(anOtherLocation) * cR2NM;
-    return nm * cNM2M;
-    ;
-}
-
-//_____________________________________________________________ operator=
-MvLocation& MvLocation ::operator=(const MvLocation& aLoc) {
+MvLocation& MvLocation::operator=(const MvLocation& aLoc)
+{
     set(aLoc.latitude(), aLoc.longitude());
     return *this;
 }
-//_____________________________________________________________ operator<<
 
-ostream& operator<<(ostream& aStream, const MvLocation& aLocation) {
+void MvLocation::set(double aLat, double aLong)
+{  
+    lat_ = aLat;
+    lon_ = aLong;
+}
+
+void MvLocation::ensureLongitudeBelow360()
+{
+    while (lon_ >= 360) {
+        lon_ -= 360;
+    }
+}
+
+// compute the cosine of the angular distance between the current and the other location
+double MvLocation::cosOfDistance(double aLat, double aLon) const
+{
+    // short-circuit if the two points are the same, because floating-point
+    // imprecisions can cause a 'nan' on the next calculation
+    if ((lat_ == aLat) && (lon_ == aLon)) {
+        return 1.;
+    }
+
+    double lat1 = degToRad(lat_);
+    double lat2 = degToRad(aLat);
+    double dlon = degToRad(lon_ - aLon);
+
+     //-- from: http://williams.best.vwh.net/avform.htm
+    return std::sin(lat1) * std::sin(lat2) + std::cos(lat1) * std::cos(lat2) * std::cos(dlon);
+}
+
+// compute the cosine of the angular distance between the current and the other location
+double MvLocation::cosOfDistance(const MvLocation& other) const
+{
+    return cosOfDistance(other.latitude(), other.longitude());
+}
+
+// compute the angular distance in radians between the current and the other location
+double MvLocation::distanceInRadians(const MvLocation& other) const
+{
+    return std::acos(cosOfDistance(other));
+}
+
+// compute the angular distance in degrees between the current and the other location
+double MvLocation::distanceInDegrees(const MvLocation& other) const
+{
+    return radToDeg(distanceInRadians(other));
+}
+
+// compute the distance in metres on the surface of Earth
+// between the current and the other location
+double MvLocation::distanceInMeters(const MvLocation& other) const
+{
+    return radiansToMetres(distanceInRadians(other));
+}
+
+std::ostream& operator<<(std::ostream& aStream, const MvLocation& aLocation)
+{
     aStream << "(" << aLocation.latitude() << "," << aLocation.longitude() << ")";
+    /*--- How to get a constant field width + constant nr of decimal digits!?
+   aStream << "(";
+   aStream.width( 6 ); aStream.fill( ' ' );
+   aStream << aLocation.latitude() << ",";
+   aStream.width( 7 ); aStream.fill( ' ' );
+   aStream << aLocation.longitude() << ")";
+---*/
     return aStream;
+}
+
+//===================================================
+//
+// MvLocationHub
+//
+//===================================================
+
+MvLocationHub& MvLocationHub::operator=(const MvLocationHub& aLoc)
+{
+    set(aLoc.latitude(), aLoc.longitude());
+    cosLat_ = aLoc.cosLat_;
+    sinLat_ = aLoc.sinLat_;
+    return *this;
+}
+
+double MvLocationHub::cosOfDistance(double aLat, double aLon) const
+{
+    if (sinLat_ < -100) {
+        sinLat_ = std::sin(degToRad(lat_));
+        cosLat_ = std::cos(degToRad(lat_));
+    }
+
+    // short-circuit if the two points are the same, because floating-point
+    // imprecisions can cause a 'nan' on the next calculation
+    if (lat_ == aLat && lon_ == aLon) {
+        return 1.;
+    }
+
+    double lat2 = degToRad(aLat);
+    double dLon = degToRad(lon_ - aLon);
+
+     //-- from: http://williams.best.vwh.net/avform.htm
+    return sinLat_* std::sin(lat2) + cosLat_ * std::cos(lat2) * std::cos(dLon);
 }
 
 //____________________________________________________________________________
 //============================================================================ MvArea
 //____________________________________________________________________________
 
-MvArea ::MvArea(void) {
+MvArea ::MvArea()
+{
     MvLocation myLocation;
     set(myLocation, myLocation);
 }
 //____________________________________________________________________
 
-void MvArea ::set(const MvLocation& aLocation1, const MvLocation& aLocation2) {
+void MvArea ::set(const MvLocation& aLocation1, const MvLocation& aLocation2)
+{
     double y1 = aLocation1.latitude();
     double x1 = aLocation1.longitude();
     double y2 = aLocation2.latitude();
@@ -94,22 +162,28 @@ void MvArea ::set(const MvLocation& aLocation1, const MvLocation& aLocation2) {
 }
 //____________________________________________________________________
 
-bool MvArea ::inside(const MvLocation& aPoint) const {
-    if (aPoint.latitude() >= fLowerLeft.latitude() && aPoint.latitude() <= fUpperRight.latitude() &&
-        aPoint.longitude() >= fLowerLeft.longitude() && aPoint.longitude() <= fUpperRight.longitude())
+bool MvArea ::inside(const MvLocation& aPoint) const
+{
+    if (aPoint.latitude() >= fLowerLeft.latitude() &&
+        aPoint.latitude() <= fUpperRight.latitude() &&
+        aPoint.longitude() >= fLowerLeft.longitude() &&
+        aPoint.longitude() <= fUpperRight.longitude())
         return true;
     else
         return false;
 }
 //____________________________________________________________________
 
-MvArea& MvArea ::operator=(const MvArea& anArea) {
+MvArea&
+MvArea ::operator=(const MvArea& anArea)
+{
     set(anArea.lowerLeft(), anArea.upperRight());
     return *this;
 }
 //____________________________________________________________________
 
-ostream& operator<<(ostream& aStream, const MvArea& anArea) {
+std::ostream& operator<<(std::ostream& aStream, const MvArea& anArea)
+{
     aStream << anArea.lowerLeft() << "-" << anArea.upperRight();
     return aStream;
 }
@@ -119,7 +193,8 @@ ostream& operator<<(ostream& aStream, const MvArea& anArea) {
 //______________________________________________________________________
 
 //_____________________________________________________________ WithinDelta
-bool MvXSectionLine ::withinDelta(const MvLocation& aLocation) const {
+bool MvXSectionLine ::withinDelta(const MvLocation& aLocation) const
+{
     //-- check that max delta has been set
     if (fMaxDeltaInMeters < 0)
         return false;
@@ -132,7 +207,8 @@ bool MvXSectionLine ::withinDelta(const MvLocation& aLocation) const {
     return insideXLine(aLocation);
 }
 //_____________________________________________________________ InsideXLine
-bool MvXSectionLine ::insideXLine(const MvLocation& aLocation) const {
+bool MvXSectionLine ::insideXLine(const MvLocation& aLocation) const
+{
     MvLocation myLocation = nearestPointOnXLine(aLocation);
     MvArea myArea(fLocation1, fLocation2);
     return myArea.inside(myLocation);
@@ -144,7 +220,9 @@ bool MvXSectionLine ::insideXLine(const MvLocation& aLocation) const {
 // WARNING: calculates distance from a line going through end
 //          points of XSectionLine, NOT ONLY between points!
 //-------------------------------------------------------------
-MvLocation MvXSectionLine ::nearestPointOnXLine(const MvLocation& aLocation) const {
+MvLocation
+MvXSectionLine ::nearestPointOnXLine(const MvLocation& aLocation) const
+{
     MvLocation myNearestPointOnXLine;
 
     double dy = fLocation1.latitude() - fLocation2.latitude();
@@ -177,19 +255,25 @@ MvLocation MvXSectionLine ::nearestPointOnXLine(const MvLocation& aLocation) con
     return myNearestPointOnXLine;
 }
 //_____________________________________________________________ DeltaInDegrees
-double MvXSectionLine ::deltaInDegrees(const MvLocation& aLocation) const {
+double
+MvXSectionLine ::deltaInDegrees(const MvLocation& aLocation) const
+{
     return aLocation.distanceInDegrees(nearestPointOnXLine(aLocation));
 }
 //_____________________________________________________________ DeltaInMeters
 // Q&D approximation for delta, uses DeltaInDegrees
 //-------------------------------------------------------------
-double MvXSectionLine ::deltaInMeters(const MvLocation& aLocation) const {
+double
+MvXSectionLine ::deltaInMeters(const MvLocation& aLocation) const
+{
     //-- Q&D formula, out of my old used brains, unchecked!!!! (vk 940901) --
     double degreeIntoMeters = 6370. * 1000. * 2. * M_PI / 360.;
     return deltaInDegrees(aLocation) * degreeIntoMeters;
 }
 //_____________________________________________________________ operator=
-MvXSectionLine& MvXSectionLine ::operator=(const MvXSectionLine& anXLine) {
+MvXSectionLine&
+MvXSectionLine ::operator=(const MvXSectionLine& anXLine)
+{
     setLine(anXLine.startPoint(), anXLine.endPoint());
     setMaxDelta(anXLine.maxDelta());
     return *this;
@@ -198,7 +282,9 @@ MvXSectionLine& MvXSectionLine ::operator=(const MvXSectionLine& anXLine) {
 // output format: "(lat1,long1)-(lat2,long2)/delta"
 //-------------------------------------------------
 
-ostream& operator<<(ostream& aStream, const MvXSectionLine& anXLine) {
-    aStream << anXLine.startPoint() << "-" << anXLine.endPoint() << "/" << anXLine.fMaxDeltaInMeters;  // << endl;
+std::ostream& operator<<(std::ostream& aStream, const MvXSectionLine& anXLine)
+{
+    aStream << anXLine.startPoint() << "-" << anXLine.endPoint()
+            << "/" << anXLine.fMaxDeltaInMeters;  // << std::endl;
     return aStream;
 }

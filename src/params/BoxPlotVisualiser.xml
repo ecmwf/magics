@@ -9,7 +9,6 @@ does it submit to any jurisdiction.
 <magics>
 	<class perfix="boxplot"
 		directory="visualisers"
-		inherits="BoxPlotDecoder"
 		xmltag="boxplot"
 		name="BoxPlotVisualiser">
 		<documentation>The following parameters allow the user to define both the data
@@ -18,24 +17,157 @@ does it submit to any jurisdiction.
 			name="boxplot_box"
 			default="on"
 			member="box"
-			to="NoBoxPlotBox"
-			include="BoxPlotBasicItem.h">
+			to="bool">
+
 			<documentation>Turns the plotting of the box on or off</documentation>
-			<option xml="box" fortran="on" include="BoxPlotItem.h" name="BoxPlotBox"></option>
-			<option xml="noBox" fortran="off" include="BoxPlotBasicItem.h" name="NoBoxPlotBox"></option>
-			<release>Magics++1.3</release>
+		</parameter>
+
+		<parameter member="box_colour"
+			to="Colour"
+			default="sky"
+			from="string"
+			name="boxplot_box_colour">
+			<documentation>Colour of the box</documentation>
+		</parameter>
+		<parameter member="box_width"
+			to="float"
+			default="1.0"
+			from="float"
+			name="boxplot_box_width">
+			<documentation>Width of the box in centimeters</documentation>
+		</parameter>
+		<parameter from="string"
+			name="boxplot_box_border"
+			default="on"
+			member="box_border"
+			to="bool"
+			>
+			<documentation>Determines whether the box border is drawn or not</documentation>
+		</parameter>
+		<parameter member="box_border_colour"
+			to="Colour"
+			default="navy"
+			from="string"
+			name="boxplot_box_border_colour">
+			<documentation>Colour of the box border</documentation>
+		</parameter>
+		<parameter member="box_border_thickness"
+			to="int"
+			default="1"
+			from="int"
+			name="boxplot_box_border_thickness">
+			<documentation>Thickness of the box border</documentation>
+		</parameter>
+		<parameter member="box_border_style"
+			to="LineStyle"
+			default="solid"
+			from="string"
+			name="boxplot_box_border_line_style">
+			<documentation>Line style of the box border</documentation>
+		</parameter>
+		<parameter from="string"
+			name="boxplot_median"
+			default="on"
+			member="median"
+			to="bool"
+			>
+			<documentation>Determines whether the median line is drawn or not</documentation>
+		</parameter>
+		<parameter member="median_colour"
+			to="Colour"
+			default="navy"
+			from="string"
+			name="boxplot_median_colour">
+			<documentation>Colour of the median line</documentation>
+		</parameter>
+		<parameter member="median_thickness"
+			to="int"
+			default="3"
+			from="int"
+			name="boxplot_median_thickness">
+			<documentation>Thickness of the median line</documentation>
+		</parameter>
+		<parameter member="median_style"
+			to="LineStyle"
+			default="solid"
+			from="string"
+			name="boxplot_median_line_style">
+			<documentation>Line style of the median line</documentation>
 		</parameter>
 		<parameter from="string"
 			name="boxplot_whisker"
 			default="line"
 			member="whisker"
-			to="NoBoxPlotWhisker"
-			include="BoxPlotBasicItem.h">
-			<documentation>Determines whether the whiskers are shown as lines, boxes or not at all</documentation>
-			<option xml="whiskerbox" fortran="box" include="BoxPlotItem.h" name="BoxPlotWhiskerBox"></option>
-			<option xml="nowhisker" fortran="off" include="BoxPlotBasicItem.h" name="NoBoxPlotWhisker"></option>
-			<option xml="whiskerline" fortran="line" include="BoxPlotItem.h" name="BoxPlotWhiskerLine"></option>
-			<release>Magics++1.3</release>
+			to="string"
+			values="box/off/line"
+			>
+			<documentation>Determines whether the whiskers are shown as lines, boxes or not at all </documentation>
+		</parameter>
+
+		<parameter member="whisker_box_colour"
+			to="Colour"
+			default="sky"
+			from="string"
+			name="boxplot_whisker_box_colour">
+			<documentation>Colour of the whisker box</documentation>
+		</parameter>
+		<parameter member="whisker_box_width"
+			to="float"
+			default="0.25"
+			from="float"
+			name="boxplot_whisker_box_width">
+			<documentation>Width of the whisker box in centimeters</documentation>
+		</parameter>
+		<parameter from="string"
+			name="boxplot_whisker_box_border"
+			default="on"
+			member="whisker_box_border"
+			to="bool"
+			>
+			<documentation>Determines whether the whisker box border is drawn or not</documentation>
+			
+		</parameter>
+		<parameter member="whisker_box_border_colour"
+			to="Colour"
+			default="navy"
+			from="string"
+			name="boxplot_whisker_box_border_colour">
+			<documentation>Colour of the whisker box border</documentation>
+		</parameter>
+		<parameter member="whisker_box_border_thickness"
+			to="int"
+			default="1"
+			from="int"
+			name="boxplot_whisker_box_border_thickness">
+			<documentation>Thickness of the whisker box border</documentation>
+		</parameter>
+		<parameter member="whisker_box_border_style"
+			to="LineStyle"
+			default="solid"
+			from="string"
+			name="boxplot_whisker_box_border_line_style">
+			<documentation>Line style of the whisker box border</documentation>
+		</parameter>
+		<parameter member="whisker_line_colour"
+			to="Colour"
+			default="navy"
+			from="string"
+			name="boxplot_whisker_line_colour">
+			<documentation>Colour of the whisker line</documentation>
+		</parameter>
+		<parameter member="whisker_line_thickness"
+			to="int"
+			default="3"
+			from="int"
+			name="boxplot_whisker_line_thickness">
+			<documentation>Thickness of the whisker line</documentation>
+		</parameter>
+		<parameter member="whisker_line_style"
+			to="LineStyle"
+			default="solid"
+			from="string"
+			name="boxplot_whisker_line_style">
+			<documentation>Line style of the whisker line</documentation>
 		</parameter>
 	</class>
 </magics>

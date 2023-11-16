@@ -65,6 +65,12 @@ void EpsPlumeWrapper::set(const MagRequest& request)
 		epsplume_->legend_ = MagTranslator<string, bool>()(legend_value);
 		
 		}
+	if  (request.countValues("EPS_PLUME_LEGEND_GREY_STYLE") ) {
+		string legend_grey_style_value = request("EPS_PLUME_LEGEND_GREY_STYLE");
+		
+		epsplume_->legend_grey_style_ = MagTranslator<string, bool>()(legend_grey_style_value);
+		
+		}
 	if  (request.countValues("EPS_PLUME_MEMBERS") ) {
 		string line_value = request("EPS_PLUME_MEMBERS");
 		
@@ -105,6 +111,32 @@ void EpsPlumeWrapper::set(const MagRequest& request)
 		int median_line_thickness_value = request("EPS_PLUME_MEDIAN_LINE_THICKNESS");
 		epsplume_->median_line_thickness_ = median_line_thickness_value;
 		}
+	if  (request.countValues("EPS_PLUME_PERCENTILES") ) {
+		string percentiles_value = request("EPS_PLUME_PERCENTILES");
+		
+		epsplume_->percentiles_ = MagTranslator<string, bool>()(percentiles_value);
+		
+		}
+	doublearray  percentiles_list_value;
+	for (int i = 0; i < request.countValues("EPS_PLUME_PERCENTILES_LIST"); i++)
+		percentiles_list_value.push_back((double)request("EPS_PLUME_PERCENTILES_LIST", i));
+	if ( !percentiles_list_value.empty() )
+		epsplume_->percentiles_list_ = percentiles_list_value;
+	stringarray  percentiles_line_colour_list_value;
+	for (int i = 0; i < request.countValues("EPS_PLUME_PERCENTILES_LINE_COLOUR_LIST"); i++)
+		percentiles_line_colour_list_value.push_back((string)request("EPS_PLUME_PERCENTILES_LINE_COLOUR_LIST", i));
+	if ( !percentiles_line_colour_list_value.empty() )
+		epsplume_->percentiles_line_colour_list_ = percentiles_line_colour_list_value;
+	stringarray  percentiles_line_style_list_value;
+	for (int i = 0; i < request.countValues("EPS_PLUME_PERCENTILES_LINE_STYLE_LIST"); i++)
+		percentiles_line_style_list_value.push_back((string)request("EPS_PLUME_PERCENTILES_LINE_STYLE_LIST", i));
+	if ( !percentiles_line_style_list_value.empty() )
+		epsplume_->percentiles_line_style_list_ = percentiles_line_style_list_value;
+	intarray percentiles_line_thickness_list_value;
+	for (int i = 0; i < request.countValues("EPS_PLUME_PERCENTILES_LINE_THICKNESS_LIST"); i++)
+		percentiles_line_thickness_list_value.push_back((int)request("EPS_PLUME_PERCENTILES_LINE_THICKNESS_LIST", i));
+	if ( !percentiles_line_thickness_list_value.empty() )
+		epsplume_->percentiles_line_thickness_list_ = percentiles_line_thickness_list_value;
 	if  (request.countValues("EPS_PLUME_SHADING") ) {
 		string shading_value = request("EPS_PLUME_SHADING");
 		
@@ -121,6 +153,33 @@ void EpsPlumeWrapper::set(const MagRequest& request)
 		shading_colours_value.push_back((string)request("EPS_PLUME_SHADING_COLOUR_LIST", i));
 	if ( !shading_colours_value.empty() )
 		epsplume_->shading_colours_ = shading_colours_value;
+	doublearray  background_level_list_value;
+	for (int i = 0; i < request.countValues("EPS_PLUME_BACKGROUND_LEVEL_LIST"); i++)
+		background_level_list_value.push_back((double)request("EPS_PLUME_BACKGROUND_LEVEL_LIST", i));
+	if ( !background_level_list_value.empty() )
+		epsplume_->background_level_list_ = background_level_list_value;
+	stringarray  background_colour_list_value;
+	for (int i = 0; i < request.countValues("EPS_PLUME_BACKGROUND_COLOUR_LIST"); i++)
+		background_colour_list_value.push_back((string)request("EPS_PLUME_BACKGROUND_COLOUR_LIST", i));
+	if ( !background_colour_list_value.empty() )
+		epsplume_->background_colour_list_ = background_colour_list_value;
+	stringarray  background_label_list_value;
+	for (int i = 0; i < request.countValues("EPS_PLUME_BACKGROUND_LABEL_LIST"); i++)
+		background_label_list_value.push_back((string)request("EPS_PLUME_BACKGROUND_LABEL_LIST", i));
+	if ( !background_label_list_value.empty() )
+		epsplume_->background_label_list_ = background_label_list_value;
+	if  (request.countValues("EPS_PLUME_BACKGROUND_LABEL_FONT") ) {
+		string background_label_font_value = request("EPS_PLUME_BACKGROUND_LABEL_FONT");
+		epsplume_->background_label_font_ = background_label_font_value;
+		}
+	if  (request.countValues("EPS_PLUME_BACKGROUND_LABEL_FONT_SIZE") ) {
+		double background_label_font_size_value = request("EPS_PLUME_BACKGROUND_LABEL_FONT_SIZE");
+		epsplume_->background_label_font_size_ = background_label_font_size_value;
+		}
+	if  (request.countValues("EPS_PLUME_BACKGROUND_LABEL_FONT_STYLE") ) {
+		string background_label_font_style_value = request("EPS_PLUME_BACKGROUND_LABEL_FONT_STYLE");
+		epsplume_->background_label_font_style_ = background_label_font_style_value;
+		}
 	
 	if  (request.countValues("EPS_PLUME_LINE_COLOUR") ) {
 		string line_colour_value = request("EPS_PLUME_LINE_COLOUR");
@@ -166,6 +225,11 @@ void EpsPlumeWrapper::set(const MagRequest& request)
 		epsplume_->median_line_style_ = MagTranslator<string, LineStyle>()(median_line_style_value);
 	}
 		
+	if  (request.countValues("EPS_PLUME_BACKGROUND_LABEL_FONT_COLOUR") ) {
+		string background_label_font_colour_value = request("EPS_PLUME_BACKGROUND_LABEL_FONT_COLOUR");
+		epsplume_->background_label_font_colour_ = unique_ptr<Colour>(MagTranslator<string, Colour>()(background_label_font_colour_value));
+	}
+		
 	
 }
 
@@ -173,6 +237,7 @@ void EpsPlumeWrapper::print(ostream& out)  const
 {
 	out << "EpsPlumeWrapper[]";
 }
+
 
 
 

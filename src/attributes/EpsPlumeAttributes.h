@@ -53,6 +53,7 @@ public:
 	string tag_;
 	string method_;
 	bool legend_;
+	bool legend_grey_style_;
 	bool line_;
 	int line_thickness_;
 	bool forecast_;
@@ -61,9 +62,20 @@ public:
 	int control_line_thickness_;
 	bool median_;
 	int median_line_thickness_;
+	bool percentiles_;
+	doublearray percentiles_list_;
+	stringarray percentiles_line_colour_list_;
+	stringarray percentiles_line_style_list_;
+	intarray percentiles_line_thickness_list_;
 	bool shading_;
 	doublearray shading_levels_;
 	stringarray shading_colours_;
+	doublearray background_level_list_;
+	stringarray background_colour_list_;
+	stringarray background_label_list_;
+	string background_label_font_;
+	double background_label_font_size_;
+	string background_label_font_style_;
 	unique_ptr<Colour> line_colour_;
 	LineStyle line_style_;
 	unique_ptr<Colour> forecast_line_colour_;
@@ -72,6 +84,7 @@ public:
 	LineStyle control_line_style_;
 	unique_ptr<Colour> median_line_colour_;
 	LineStyle median_line_style_;
+	unique_ptr<Colour> background_label_font_colour_;
 	 
 
 private:

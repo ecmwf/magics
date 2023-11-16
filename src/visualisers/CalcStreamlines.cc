@@ -24,6 +24,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
+#include <cassert>
+#include <algorithm>
 
 #include "CalcStreamlines.h"
 
@@ -797,4 +799,189 @@ int CalcStreamlines(int density, const float* dir, const GSStruct* gs, OneLineCl
     delete[] y;
 
     return 1;
+}
+
+
+
+namespace {
+// Utility function used only for the streamline point order adjustments.
+// Computes the nearest valid value to the specified x,y coordintes. Field vals defined on the same
+// regular gs grid that is used for the streamline computations. The accepted grid structure is
+// rather restrictive!!!
+bool nearestValidValue(float x, float y, const GSStruct* gs, const float* vals, float& resVal)
+{
+    assert (gs->dy>0.);
+    assert (gs->dx>0.);
+    assert (gs->period_x==0);
+    assert (gs->gs_geo==0);
+
+    if (gs->dx<=0 || gs->dy <=0 || gs->period_x != 0 || gs->gs_geo != 0) {
+        return false;
+    }
+
+    int num = gs->nx * gs->ny;
+
+#if 0
+    std::cout << "\n nearestValidValue" << std::endl;
+    std::cout << "startx=" << gs->startx << " starty=" << gs->starty << " dx=" << gs->dx << " dy=" << gs->dy << std::endl;
+    std::cout << "x=" << x << " y=" << y << std::endl;
+#endif
+    auto startX = gs->startx;
+    auto startY = gs->starty;
+
+     //-- index for column on the west
+    int ix1 = int((x - startX) / gs->dx);
+    if (ix1 > (gs->nx - 1) || ix1 < 0) {
+        return false;
+    }
+
+    //-- index for column on the east
+    int ix2 = ix1 + 1;
+    if (ix2 > (gs->nx - 1) || ix2 < 0) {
+       return false;
+    }
+
+    // NS
+    int iy1 = int((y - startY) / gs->dy);
+    int iy2 = iy1 + 1;
+    if (iy2 > (gs->ny - 1) || iy2 < 0 ) {
+       return false;
+    }
+    if (iy2 > (gs->ny - 1) || iy2 < 0 ) {
+       return false;
+    }
+
+    std::vector<float> valVec, distVec;
+
+    // point 11
+    int index = gs->nx * iy1 + ix1;
+    if (index <0 || index >= num) {
+        return false;
+    }
+    float val = vals[index];
+    if (val == val) {
+        valVec.push_back(val);
+        float dx =  x - gs->startx + ix1 * gs->dx;
+        float dy =  y - gs->starty + iy1 * gs->dy;
+        distVec.push_back(dx*dx + dy*dy);
+    }
+
+    // point 12
+    index = gs->nx * iy1 + ix2;
+    val   = vals[index];
+    if (index <0 || index >= num) {
+        return false;
+    }
+    if (val == val) {
+        valVec.push_back(val);
+        float dx = x - gs->startx + ix2 * gs->dx;
+        float dy = y - gs->starty + iy1 * gs->dy;
+        distVec.push_back(dx*dx + dy*dy);
+    }
+
+    // point 21
+    index = gs->nx * iy2 + ix1;
+    val   = vals[index];
+    if (index <0 || index >= num) {
+        return false;
+    }
+    if (val == val) {
+        valVec.push_back(val);
+        float dx = x - gs->startx + ix1 * gs->dx;
+        float dy = y - gs->starty + iy2 * gs->dy;
+        distVec.push_back(dx*dx + dy*dy);
+    }
+
+    // point 22
+    index = gs->nx * iy2 + ix2;
+    val   = vals[index];
+    if (index <0 || index >= num) {
+        return false;
+    }
+    if (val == val) {
+        valVec.push_back(val);
+        float dx = x - gs->startx + ix2 * gs->dx;
+        float dy = y - gs->starty + iy2 * gs->dy;
+        distVec.push_back(dx*dx + dy*dy);
+    }
+
+    if (!distVec.empty()) {
+        std::vector<int> idxVec(distVec.size());
+        std::iota(idxVec.begin(), idxVec.end(), 0);
+        std::sort(idxVec.begin(), idxVec.end(),
+                [&distVec](size_t i1, size_t i2) { return(distVec[i1] < distVec[i2]);});
+
+        resVal = valVec[idxVec.front()];
+        return true;
+    }
+    return false;
+}
+
+}
+
+// Adjust the order of the streamline points so that they can follow the wind field direction.
+// It must be called after the streamlines were computed and the polyline clipping was already applied.
+// See JIRA issue MAGP-1349 for details.
+// Args:
+//   dir: wind direction field
+//   gs: grid structure
+//   poly: the streamline with projected coordinates
+//   polyUnprojected: the streamline with unrojected coordinates
+// Retval:
+//   true if the adjustment could be performed
+bool AdjustStreamlinesDirection(const float* dir, const GSStruct* gs, magics::Polyline* poly, magics::Polyline* polyUnprojected)
+{
+    if (!dir || !gs || !poly || !polyUnprojected)
+        return false;
+
+    assert(poly->size() == polyUnprojected->size());
+    if (poly->size() != polyUnprojected->size()) {
+        return false;
+    }
+
+    if (poly->size() > 2) {
+        int swapCnt=0;
+        int cnt = 0;
+        for (int i=0; i < std::min(5, static_cast<int>(polyUnprojected->size())-1); i++) {
+            auto x1 = polyUnprojected->get(i).x();
+            auto y1 = polyUnprojected->get(i).y();
+            auto x2 = polyUnprojected->get(i+1).x();
+            auto y2 = polyUnprojected->get(i+1).y();
+            float resVal=0.;
+
+            // get the nearest wind direction value
+            if (nearestValidValue(x1, y1, gs, dir,resVal))
+            {
+                // vector along the line
+                auto dx = x2 - x1;
+                auto dy = y2 - y1;
+
+                // in the input field (vals) the wind direction is the angle of the wind vector measured
+                // from N in clockwise direction. We need to convert it to the standard
+                // polar vector angle (measured from E in anti-clockwise direction).
+                auto wDir =  2.5 * M_PI - resVal;
+
+                // normalised wind vector
+                auto wDx = cos(wDir);
+                auto wDy = sin(wDir);
+
+                // compute the scalar product between the wind vector and line vector and use the
+                // sign of it to decide whether they point in the same direction
+                auto sp = dx*wDx + dy*wDy;
+                swapCnt += (sp < 0)?1:-1;
+                cnt++;
+#if 0
+                std::cout << i << " resVal=" << resVal << " x1=" << x1 << " y1=" << y1 <<
+                         " dx=" << dx << " dy=" << dy << " wDir=" << wDir << " sp=" << sp <<
+                         std::endl;
+#endif
+             }
+        }
+        if (cnt == 0) {
+            return false;
+        } else if (swapCnt > 0) {
+            poly->reverse();
+        }
+    }
+    return true;
 }

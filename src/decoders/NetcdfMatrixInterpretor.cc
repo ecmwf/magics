@@ -55,8 +55,10 @@ void NetcdfMatrixInterpretor::interpret(Netcdf& netcdf, vector<double>& rows, ve
             x.precision(20);
             y.precision(20);
 
+            netcdf.ignoreDimension("time"); // here we send time as expressed in the data, not as a date. 
             y << y_ << "/" << *r << "/" << *r;
             x << x_ << "/" << columns.front() << "/" << columns.back();
+            netcdf.interpretDimension("time"); 
         }
         std::copy(dimension_.begin(), dimension_.end(), std::back_inserter(dims));
         dims.push_back(y.str());

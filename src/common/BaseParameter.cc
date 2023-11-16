@@ -72,6 +72,14 @@ void BaseParameter::set(const bool& value) {
     throw MistmatchType(name_, getType(value), type());
 }
 
+void BaseParameter::get(unsigned long long& value) const {
+    throw MistmatchType(name_, getType(value), type());
+}
+
+void BaseParameter::set(const unsigned long long& value) {
+    throw MistmatchType(name_, getType(value), type());
+}
+
 void BaseParameter::get(bool& value) const {
     throw MistmatchType(name_, getType(value), type());
 }
@@ -307,6 +315,13 @@ void BaseParameter::get(Matrix& value) const {
 
 string BaseParameter::getType(const string&) const {
     return "string";
+}
+string BaseParameter::getType(const unsigned long long&) const {
+    return "unsigned long ";
+}
+
+string BaseParameter::getType(const unsigned int&) const {
+    return "unsigned int ";
 }
 
 string BaseParameter::getType(const int&) const {

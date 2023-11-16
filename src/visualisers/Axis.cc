@@ -389,6 +389,7 @@ void VerticalAxis::label(VerticalAxisVisitor& axis) {
 
        
 
+
         bool out = false;
 
         if (magCompare(label_position_, "inter_tick")) {
@@ -529,11 +530,46 @@ void VerticalAxis::title(VerticalAxisVisitor& out) {
     out.push_back(text);
 }
 
+void HorizontalAxis::highlight(DrawingVisitor& out) const {
+    if ( highlighted_values_.empty() )
+        return;
+    double bottom = out.minY();
+    double top    = out.maxY();
+    const Transformation& transformation = out.transformation();
+
+    for ( auto highlight = highlighted_values_.begin(); highlight != highlighted_values_.end(); ++highlight ) {
+        Polyline* high = new Polyline();
+        high->push_back(PaperPoint(transformation.x(*highlight), bottom));
+        high->push_back(PaperPoint(transformation.x(*highlight), top));
+        high->setColour(*highlighted_values_colour_);
+        high->setLineStyle(highlighted_values_style_);
+        high->setThickness(highlighted_values_thickness_);
+        out.push_back(high);
+    }
+}
+
+
 void HorizontalAxis::grid(DrawingVisitor& out) const {
     double bottom = out.minY();
     double top    = out.maxY();
+    double left   = out.minX();
+    double right  = out.maxX();
     double pos;
     const Transformation& transformation = out.transformation();
+
+    if (!grid_background_colour_->none()) {
+            Polyline* area = new Polyline();
+            area->setColour(*grid_background_colour_);
+            area->setFilled(true);
+            area->setShading(new FillShadingProperties());
+            area->setFillColour(*grid_background_colour_);
+            out.push_back(area);
+            area->push_back(PaperPoint(left, bottom));
+            area->push_back(PaperPoint(left, top));
+            area->push_back(PaperPoint(right, top));
+            area->push_back(PaperPoint(right, bottom));
+            area->push_back(PaperPoint(left, bottom));   
+    }
 
     if (!grid_) {
         if (grid_reference_level_ != INT_MAX) {
@@ -595,6 +631,26 @@ void HorizontalAxis::grid(DrawingVisitor& out) const {
         }
         out.push_back(grid);
     }
+}
+
+void VerticalAxis::highlight(DrawingVisitor& out) const {
+    if ( highlighted_values_.empty() )
+        return;
+    double left  = out.minX();
+    double right = out.maxX();
+    const Transformation& transformation = out.transformation();
+
+    for ( auto highlight = highlighted_values_.begin(); highlight != highlighted_values_.end(); ++highlight ) {
+        Polyline* high = new Polyline();
+        high->push_back(PaperPoint(left, transformation.y(*highlight)));
+        high->push_back(PaperPoint(right, transformation.y(*highlight)));
+        high->setColour(*highlighted_values_colour_);
+        high->setLineStyle(highlighted_values_style_);
+        high->setThickness(highlighted_values_thickness_);
+        out.push_back(high);
+    }
+
+
 }
 
 void VerticalAxis::grid(DrawingVisitor& out) const {

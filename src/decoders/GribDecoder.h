@@ -275,7 +275,8 @@ protected:
     bool directionDone_;
 
     mutable grib_handle* current_handle_;
-    mutable int current_position_;
+    mutable unsigned long long current_position_;
+    mutable string current_file_name_;
 
     string title_;
     static int count_;

@@ -194,6 +194,12 @@ void NetcdfInterpretorWrapper::set(const MagRequest& request)
 		string interpretation_value = request("NETCDF_MATRIX_INTERPRETATION");
 		netcdfinterpretor_->interpretation_ = interpretation_value;
 		}
+	if  (request.countValues("NETCDF_IGNORE_MISSING_VALUE") ) {
+		string ignore_missing_value = request("NETCDF_IGNORE_MISSING_VALUE");
+		
+		netcdfinterpretor_->ignore_missing_ = MagTranslator<string, bool>()(ignore_missing_value);
+		
+		}
 	
 	
 }

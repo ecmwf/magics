@@ -28,6 +28,8 @@
 #include "LegendVisitor.h"
 #include "MagicsGlobal.h"
 
+#include "IntervalMap.h"
+
 using namespace magics;
 
 
@@ -45,12 +47,9 @@ void SymbolPlotting::print(ostream& out) const {
 }
 
 double SymbolPlotting::height(const Transformation& transformation, double height) {
-    if (scaling_method_ == false)
-        return height;
+   
 
-    // get Area !
-
-    return transformation.ratio() * scaling_level_0_ * scaling_factor_;
+    return height;
 }
 
 void SymbolPlotting::getReady(const LegendVisitor& legend) {
@@ -120,10 +119,108 @@ struct SortHelper {
 };
 
 
+
+void SymbolPlotting::by_property(Data& data, BasicGraphicsObjectContainer& out) {
+
+    const Transformation& transformation = out.transformation();
+
+    std::set<string> needs;
+
+    needs.insert(property_height_name_);
+    needs.insert(property_hue_name_);
+    needs.insert(property_lightness_name_);
+    
+
+    if ( property_hue_list_.empty() )
+        property_hue_list_.push_back(1);
+    if ( property_lightness_list_.empty() )
+        property_lightness_list_.push_back(0.5);
+
+
+    IntervalMap<float> hueFinder;
+    auto value_hue = property_hue_values_list_.begin();
+    auto hue = property_hue_list_.begin();
+    IntervalMap<float> lightnessFinder;
+    auto value_lightness = property_lightness_values_list_.begin();
+    auto lightness = property_lightness_list_.begin();
+
+    while (true) {
+        if (value_hue + 1 == property_hue_values_list_.end())
+            break;
+        
+        hueFinder[Interval(*value_hue, *(value_hue+1))] = *hue;        
+        if (hue + 1 != property_hue_list_.end())
+            hue++;
+        ++value_hue;
+    }
+    while (true) {
+        if (value_lightness + 1 == property_lightness_values_list_.end())
+            break;
+        
+        lightnessFinder[Interval(*value_lightness, *(value_lightness+1))] = *lightness;        
+        if (lightness + 1 != property_lightness_list_.end())
+            lightness++;
+        ++value_lightness;
+    }
+
+
+
+    Colour red("red");
+
+    double factor = ( out.absoluteHeight()*transformation.patchDistance(1))/(transformation.getMaxPCY()-transformation.getMinPCY())    ;
+    
+    factor = magCompare(unit_method_, "geographical") ? 
+        ( out.absoluteHeight()*transformation.patchDistance(1))/(transformation.getMaxPCY()-transformation.getMinPCY()) : 1;
+
+
+    CustomisedPointsList points;
+    data.customisedPoints(out.transformation(), needs, points, true);    
+
+    for (auto& point : points) {
+        double val = 0;
+
+
+        double hue = (*point)[property_hue_name_];
+        double lightness = (*point)[property_lightness_name_];
+        double height = (*point)[property_height_name_];
+    
+        Symbol* symbol = new Symbol();
+        symbol->setMarker(marker_);
+       
+        Hsl hsl(hueFinder.find(hue, 0),  property_saturation_value_, lightnessFinder.find(lightness, 0.5));
+        Colour colour(hsl);
+        symbol->setColour(colour);
+
+
+        if ( height*property_height_scaling_factor_ > 2 ) {
+            height = 2*factor;
+            MagLog::warning() << " Symbol height reset to 2 " << endl;
+        }
+        else 
+            height = height*property_height_scaling_factor_*factor;
+
+        symbol->setHeight(height);
+
+        symbol->push_back(transformation(PaperPoint(point->longitude(), point->latitude())));
+
+        out.push_back(symbol);
+
+    }
+    
+
+
+}
+
+
 void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
     mode_->parent(this);
     mode_->prepare();
     symbols_.clear();
+
+
+    if ( magCompare("property", type_) )
+        return by_property(data, out);
+
     vector<string> check;
     check.push_back("text");
     check.push_back("number");
@@ -131,6 +228,14 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
     check.push_back("both");
     check.push_back("marker_text");
 
+    const Transformation& transformation = out.transformation();
+
+    double factor = ( out.absoluteHeight()*transformation.patchDistance(1))/(transformation.getMaxPCY()-transformation.getMinPCY())    ;
+    
+    factor = magCompare(unit_method_, "geographical") ? 
+        ( out.absoluteHeight()*transformation.patchDistance(1))/(transformation.getMaxPCY()-transformation.getMinPCY()) : 1;
+
+    
     bool valid = false;
 
     for (vector<string>::iterator c = check.begin(); c != check.end(); ++c) {
@@ -156,7 +261,7 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
 
         // Some Mode need to know the min and max of the data, in order to adjust the
         // computation of the levels
-        (*mode_).adjust(points.min(), points.max(), scaling_method_, transformation, scaling_factor_);
+        (*mode_).adjust(points.min(), points.max(), transformation, factor);
         if (legend_only_)
             return;
 
@@ -164,8 +269,6 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
         while (points.more()) {
             PaperPoint xy = transformation(points.current());
             (*this)(xy, out);
-
-
             points.advance();
         }
 

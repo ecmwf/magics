@@ -7,11 +7,12 @@ granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
 <magics>
-	<class xmltag="text"
+	<class 
 		name="TextVisitor"
 		xml_data="text_lines"
 		directory="basic"
 		prefix="text"
+		xmltag="text/ztext"
 		xml_doc_inherits="XmlBasicNode"
 		action="ptext">
 		<documentation></documentation>

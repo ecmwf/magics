@@ -37,15 +37,11 @@ BoxPlotVisualiserWrapper::BoxPlotVisualiserWrapper(): boxplotvisualiser_(new Box
 
 
 	
-	BoxPlotDecoderWrapper::object(boxplotvisualiser_);
-	
 
 }
 BoxPlotVisualiserWrapper::BoxPlotVisualiserWrapper(BoxPlotVisualiser* boxplotvisualiser): boxplotvisualiser_(boxplotvisualiser)
 {
 
-	
-	BoxPlotDecoderWrapper::object(boxplotvisualiser_);
 	
 }
 
@@ -59,46 +55,113 @@ void BoxPlotVisualiserWrapper::set(const MagRequest& request)
 
 	
 
-	BoxPlotDecoderWrapper::set(request);
+	if  (request.countValues("BOXPLOT_BOX") ) {
+		string box_value = request("BOXPLOT_BOX");
+		
+		boxplotvisualiser_->box_ = MagTranslator<string, bool>()(box_value);
+		
+		}
+	if  (request.countValues("BOXPLOT_BOX_WIDTH") ) {
+		double box_width_value = request("BOXPLOT_BOX_WIDTH");
+		boxplotvisualiser_->box_width_ = box_width_value;
+		}
+	if  (request.countValues("BOXPLOT_BOX_BORDER") ) {
+		string box_border_value = request("BOXPLOT_BOX_BORDER");
+		
+		boxplotvisualiser_->box_border_ = MagTranslator<string, bool>()(box_border_value);
+		
+		}
+	if  (request.countValues("BOXPLOT_BOX_BORDER_THICKNESS") ) {
+		int box_border_thickness_value = request("BOXPLOT_BOX_BORDER_THICKNESS");
+		boxplotvisualiser_->box_border_thickness_ = box_border_thickness_value;
+		}
+	if  (request.countValues("BOXPLOT_MEDIAN") ) {
+		string median_value = request("BOXPLOT_MEDIAN");
+		
+		boxplotvisualiser_->median_ = MagTranslator<string, bool>()(median_value);
+		
+		}
+	if  (request.countValues("BOXPLOT_MEDIAN_THICKNESS") ) {
+		int median_thickness_value = request("BOXPLOT_MEDIAN_THICKNESS");
+		boxplotvisualiser_->median_thickness_ = median_thickness_value;
+		}
+	if  (request.countValues("BOXPLOT_WHISKER") ) {
+		string whisker_value = request("BOXPLOT_WHISKER");
+		boxplotvisualiser_->whisker_ = whisker_value;
+		}
+	if  (request.countValues("BOXPLOT_WHISKER_BOX_WIDTH") ) {
+		double whisker_box_width_value = request("BOXPLOT_WHISKER_BOX_WIDTH");
+		boxplotvisualiser_->whisker_box_width_ = whisker_box_width_value;
+		}
+	if  (request.countValues("BOXPLOT_WHISKER_BOX_BORDER") ) {
+		string whisker_box_border_value = request("BOXPLOT_WHISKER_BOX_BORDER");
+		
+		boxplotvisualiser_->whisker_box_border_ = MagTranslator<string, bool>()(whisker_box_border_value);
+		
+		}
+	if  (request.countValues("BOXPLOT_WHISKER_BOX_BORDER_THICKNESS") ) {
+		int whisker_box_border_thickness_value = request("BOXPLOT_WHISKER_BOX_BORDER_THICKNESS");
+		boxplotvisualiser_->whisker_box_border_thickness_ = whisker_box_border_thickness_value;
+		}
+	if  (request.countValues("BOXPLOT_WHISKER_LINE_THICKNESS") ) {
+		int whisker_line_thickness_value = request("BOXPLOT_WHISKER_LINE_THICKNESS");
+		boxplotvisualiser_->whisker_line_thickness_ = whisker_line_thickness_value;
+		}
 	
-
+	if  (request.countValues("BOXPLOT_BOX_COLOUR") ) {
+		string box_colour_value = request("BOXPLOT_BOX_COLOUR");
+		boxplotvisualiser_->box_colour_ = unique_ptr<Colour>(MagTranslator<string, Colour>()(box_colour_value));
+	}
+		
+	if  (request.countValues("BOXPLOT_BOX_BORDER_COLOUR") ) {
+		string box_border_colour_value = request("BOXPLOT_BOX_BORDER_COLOUR");
+		boxplotvisualiser_->box_border_colour_ = unique_ptr<Colour>(MagTranslator<string, Colour>()(box_border_colour_value));
+	}
+		
 	
+	if  (request.countValues("BOXPLOT_BOX_BORDER_LINE_STYLE") ) {
+		string box_border_style_value = request("BOXPLOT_BOX_BORDER_LINE_STYLE");
+		boxplotvisualiser_->box_border_style_ = MagTranslator<string, LineStyle>()(box_border_style_value);
+	}
+		
+	if  (request.countValues("BOXPLOT_MEDIAN_COLOUR") ) {
+		string median_colour_value = request("BOXPLOT_MEDIAN_COLOUR");
+		boxplotvisualiser_->median_colour_ = unique_ptr<Colour>(MagTranslator<string, Colour>()(median_colour_value));
+	}
+		
 	
-		string box_value = request.countValues("BOXPLOT_BOX") ?  (string) request("BOXPLOT_BOX") : "on";
-	MagLog::debug() << " BOXPLOT_BOX set to " << box_value << endl;
-	NoBoxPlotBoxWrapper* box_wrapper = 0;
-	try
-	{
-		box_wrapper = SimpleFactory<NoBoxPlotBoxWrapper>::create(box_value);
+	if  (request.countValues("BOXPLOT_MEDIAN_LINE_STYLE") ) {
+		string median_style_value = request("BOXPLOT_MEDIAN_LINE_STYLE");
+		boxplotvisualiser_->median_style_ = MagTranslator<string, LineStyle>()(median_style_value);
 	}
-	 catch (NoFactoryException&) {
-		if (MagicsGlobal::strict()) {
-            throw;
-        }
-		MagLog::warning() << "[" << box_value << "] is not a valid value for box: reset to default -> [on]" << endl;
-		box_wrapper = SimpleFactory<NoBoxPlotBoxWrapper>::create("on");
+		
+	if  (request.countValues("BOXPLOT_WHISKER_BOX_COLOUR") ) {
+		string whisker_box_colour_value = request("BOXPLOT_WHISKER_BOX_COLOUR");
+		boxplotvisualiser_->whisker_box_colour_ = unique_ptr<Colour>(MagTranslator<string, Colour>()(whisker_box_colour_value));
 	}
-	box_wrapper->set(request);
-	boxplotvisualiser_->box_ =  unique_ptr<NoBoxPlotBox>(box_wrapper->object());
-	delete box_wrapper;
+		
+	if  (request.countValues("BOXPLOT_WHISKER_BOX_BORDER_COLOUR") ) {
+		string whisker_box_border_colour_value = request("BOXPLOT_WHISKER_BOX_BORDER_COLOUR");
+		boxplotvisualiser_->whisker_box_border_colour_ = unique_ptr<Colour>(MagTranslator<string, Colour>()(whisker_box_border_colour_value));
+	}
+		
 	
-		string whisker_value = request.countValues("BOXPLOT_WHISKER") ?  (string) request("BOXPLOT_WHISKER") : "line";
-	MagLog::debug() << " BOXPLOT_WHISKER set to " << whisker_value << endl;
-	NoBoxPlotWhiskerWrapper* whisker_wrapper = 0;
-	try
-	{
-		whisker_wrapper = SimpleFactory<NoBoxPlotWhiskerWrapper>::create(whisker_value);
+	if  (request.countValues("BOXPLOT_WHISKER_BOX_BORDER_LINE_STYLE") ) {
+		string whisker_box_border_style_value = request("BOXPLOT_WHISKER_BOX_BORDER_LINE_STYLE");
+		boxplotvisualiser_->whisker_box_border_style_ = MagTranslator<string, LineStyle>()(whisker_box_border_style_value);
 	}
-	 catch (NoFactoryException&) {
-		if (MagicsGlobal::strict()) {
-            throw;
-        }
-		MagLog::warning() << "[" << whisker_value << "] is not a valid value for whisker: reset to default -> [line]" << endl;
-		whisker_wrapper = SimpleFactory<NoBoxPlotWhiskerWrapper>::create("line");
+		
+	if  (request.countValues("BOXPLOT_WHISKER_LINE_COLOUR") ) {
+		string whisker_line_colour_value = request("BOXPLOT_WHISKER_LINE_COLOUR");
+		boxplotvisualiser_->whisker_line_colour_ = unique_ptr<Colour>(MagTranslator<string, Colour>()(whisker_line_colour_value));
 	}
-	whisker_wrapper->set(request);
-	boxplotvisualiser_->whisker_ =  unique_ptr<NoBoxPlotWhisker>(whisker_wrapper->object());
-	delete whisker_wrapper;
+		
+	
+	if  (request.countValues("BOXPLOT_WHISKER_LINE_STYLE") ) {
+		string whisker_line_style_value = request("BOXPLOT_WHISKER_LINE_STYLE");
+		boxplotvisualiser_->whisker_line_style_ = MagTranslator<string, LineStyle>()(whisker_line_style_value);
+	}
+		
 	
 }
 
@@ -108,55 +171,13 @@ void BoxPlotVisualiserWrapper::print(ostream& out)  const
 }
 
 
-#include "BoxPlotBoxWrapper.h"
-static SimpleObjectMaker<BoxPlotBox, NoBoxPlotBox> BoxPlotVisualiser_boxplot_box_box ("box");
-static SimpleObjectMaker<BoxPlotBoxWrapper, NoBoxPlotBoxWrapper> BoxPlotVisualiser_boxplot_box_box_wrapper ("box");
-
-
-#include "BoxPlotBoxWrapper.h"
-static SimpleObjectMaker<BoxPlotBox, NoBoxPlotBox> BoxPlotVisualiser_boxplot_box_on ("on");
-static SimpleObjectMaker<BoxPlotBoxWrapper, NoBoxPlotBoxWrapper> BoxPlotVisualiser_boxplot_box_on_wrapper ("on");
-
-
-#include "NoBoxPlotBoxWrapper.h"
-
-static SimpleObjectMaker<NoBoxPlotBoxWrapper> BoxPlotVisualiser_boxplot_box_noBox_Wrapper("noBox");
-
-
-#include "NoBoxPlotBoxWrapper.h"
-
-static SimpleObjectMaker<NoBoxPlotBoxWrapper> BoxPlotVisualiser_boxplot_box_off_Wrapper("off");
 
 
 
-#include "BoxPlotWhiskerBoxWrapper.h"
-static SimpleObjectMaker<BoxPlotWhiskerBox, NoBoxPlotWhisker> BoxPlotVisualiser_boxplot_whisker_whiskerbox ("whiskerbox");
-static SimpleObjectMaker<BoxPlotWhiskerBoxWrapper, NoBoxPlotWhiskerWrapper> BoxPlotVisualiser_boxplot_whisker_whiskerbox_wrapper ("whiskerbox");
 
 
-#include "BoxPlotWhiskerBoxWrapper.h"
-static SimpleObjectMaker<BoxPlotWhiskerBox, NoBoxPlotWhisker> BoxPlotVisualiser_boxplot_whisker_box ("box");
-static SimpleObjectMaker<BoxPlotWhiskerBoxWrapper, NoBoxPlotWhiskerWrapper> BoxPlotVisualiser_boxplot_whisker_box_wrapper ("box");
 
 
-#include "NoBoxPlotWhiskerWrapper.h"
-
-static SimpleObjectMaker<NoBoxPlotWhiskerWrapper> BoxPlotVisualiser_boxplot_whisker_nowhisker_Wrapper("nowhisker");
-
-
-#include "NoBoxPlotWhiskerWrapper.h"
-
-static SimpleObjectMaker<NoBoxPlotWhiskerWrapper> BoxPlotVisualiser_boxplot_whisker_off_Wrapper("off");
-
-
-#include "BoxPlotWhiskerLineWrapper.h"
-static SimpleObjectMaker<BoxPlotWhiskerLine, NoBoxPlotWhisker> BoxPlotVisualiser_boxplot_whisker_whiskerline ("whiskerline");
-static SimpleObjectMaker<BoxPlotWhiskerLineWrapper, NoBoxPlotWhiskerWrapper> BoxPlotVisualiser_boxplot_whisker_whiskerline_wrapper ("whiskerline");
-
-
-#include "BoxPlotWhiskerLineWrapper.h"
-static SimpleObjectMaker<BoxPlotWhiskerLine, NoBoxPlotWhisker> BoxPlotVisualiser_boxplot_whisker_line ("line");
-static SimpleObjectMaker<BoxPlotWhiskerLineWrapper, NoBoxPlotWhiskerWrapper> BoxPlotVisualiser_boxplot_whisker_line_wrapper ("line");
 
 
 

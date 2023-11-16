@@ -162,7 +162,7 @@ PYTHON_VOID(tile)
 PYTHON_VOID(unmute)  // TODO: review name
 PYTHON_VOID(wind)
 PYTHON_VOID(wrepjson)
-
+PYTHON_CHAR(long_parameters)
 PYTHON_CHAR(knowndrivers)  // TODO: review name
 PYTHON_CHAR(metagrib)      // TODO: review name
 PYTHON_CHAR(metainput)     // TODO: review name
@@ -191,6 +191,10 @@ MAGICS_EXPORT const char* py_setr(const char* name, const double value) {
 
 MAGICS_EXPORT const char* py_seti(const char* name, const int value) {
     return python_void("seti", [name, value] { MagicsCalls::seti(name, value); });
+}
+
+MAGICS_EXPORT const char* py_setli(const char* name, const unsigned long long value) {
+    return python_void("setli", [name, value] { MagicsCalls::setli(name, value); });
 }
 
 MAGICS_EXPORT const char* py_set1r(const char* name, const double* data, const int dim1) {

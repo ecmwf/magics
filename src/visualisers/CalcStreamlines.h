@@ -22,6 +22,7 @@
 #ifndef CalcStreamlines_h
 #define CalcStreamlines_h
 
+#include "Polyline.h"
 
 // Shift the value between 'xstart' and 'xstart+period'
 // -> x in [xstart,xstart+period]
@@ -79,6 +80,6 @@ public:
 
 // Streamline calculator function
 int CalcStreamlines(int density, const float* dir, const GSStruct* gs, OneLineClass**& str_lines, int& linenum);
-
+bool AdjustStreamlinesDirection(const float* dir, const GSStruct* gs, magics::Polyline* poly, magics::Polyline* polyUnprojected);
 
 #endif

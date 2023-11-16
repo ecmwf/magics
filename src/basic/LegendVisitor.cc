@@ -186,6 +186,9 @@ void DoubleLineEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectCont
 void LegendVisitor::build() {
     legend_ = new LegendLayout();
 
+    LegendVisitor::legendEntriesInfo_.clear();
+    LegendVisitor::legendInfo_.clear();
+
     legend_->x(view_x_);
     legend_->y(view_y_);
     legend_->width(view_width_);
@@ -204,7 +207,8 @@ void LegendVisitor::build() {
     vector<PaperPoint>::const_iterator position = positions_.begin();
     if (title_) {
         Text* legend = new Text();
-        MagFont font;
+        MagFont font(font_);
+        
         double font_size = (title_font_size_ == -1) ? font_size_ : title_font_size_;
         font.size(font_size);
         Colour colour = title_font_colour_->automatic() ? *colour_ : *title_font_colour_;
@@ -278,6 +282,7 @@ void LegendVisitor::build() {
             continue;
 
         legendEntriesInfo_.push_back(map<string, string>());
+        
         (magCompare(direction_, "column")) ? (*method_).column(*entry, position->x(), position->y(), *legend, *legend_)
                                            : (*method_).row(*entry, position->x(), position->y(), *legend, *legend_);
 

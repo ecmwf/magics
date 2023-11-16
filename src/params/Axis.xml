@@ -91,7 +91,13 @@ does it submit to any jurisdiction.
 			from="string"
 			name="axis_grid_colour">
 			<documentation>Colour of grid lines</documentation>
-			<migration>2.13.5 - Default changed fronm YELLOW to BLACK</migration>
+		</parameter>
+		<parameter member="grid_background_colour"
+			to="Colour"
+			default="none"
+			from="string"
+			name="axis_grid_background_colour">
+			<documentation>Colour of grid background</documentation>
 		</parameter>
 		<parameter member="grid_style"
 			to="LineStyle"
@@ -477,6 +483,35 @@ does it submit to any jurisdiction.
 			to="string"
 			values="high/medium/low">
 			<documentation>Quality of the font</documentation>
+		</parameter>
+		<parameter from="floatarray"
+			name="axis_highlighted_values"
+			default="floatarray()"
+			member="highlighted_values"
+			to="floatarray"
+		>
+		<documentation>List of highlighted values</documentation>
+		</parameter>
+		<parameter member="highlighted_values_colour"
+			to="Colour"
+			default="black"
+			from="string"
+			name="axis_highlighted_values_colour">
+			<documentation>Colour of highlighted values lines</documentation>
+		</parameter>
+		<parameter member="highlighted_values_style"
+			to="LineStyle"
+			default="solid"
+			from="string"
+			name="axis_highlighted_values_style">
+			<documentation>Line style of of highlighted values lines</documentation>
+		</parameter>
+		<parameter member="highlighted_values_thickness"
+			to="int"
+			default="1"
+			from="int"
+			name="axis_highlighted_values_thickness">
+			<documentation>Thickness of of highlighted values lines</documentation>
 		</parameter>
 	</class>
 </magics>

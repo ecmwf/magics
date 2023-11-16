@@ -27,6 +27,7 @@ using namespace magics;
 EpsPlumeAttributes::EpsPlumeAttributes():
 	method_(ParameterManager::getString("eps_plume_method")),
 	legend_(ParameterManager::getBool("eps_plume_legend")),
+	legend_grey_style_(ParameterManager::getBool("eps_plume_legend_grey_style")),
 	line_(ParameterManager::getBool("eps_plume_members")),
 	line_thickness_(ParameterManager::getInt("eps_plume_line_thickness")),
 	forecast_(ParameterManager::getBool("eps_plume_forecast")),
@@ -35,9 +36,20 @@ EpsPlumeAttributes::EpsPlumeAttributes():
 	control_line_thickness_(ParameterManager::getInt("eps_plume_control_line_thickness")),
 	median_(ParameterManager::getBool("eps_plume_median")),
 	median_line_thickness_(ParameterManager::getInt("eps_plume_median_line_thickness")),
+	percentiles_(ParameterManager::getBool("eps_plume_percentiles")),
+	percentiles_list_(ParameterManager::getDoubleArray("eps_plume_percentiles_list")),
+	percentiles_line_colour_list_(ParameterManager::getStringArray("eps_plume_percentiles_line_colour_list")),
+	percentiles_line_style_list_(ParameterManager::getStringArray("eps_plume_percentiles_line_style_list")),
+	percentiles_line_thickness_list_(ParameterManager::getIntArray("eps_plume_percentiles_line_thickness_list")),
 	shading_(ParameterManager::getBool("eps_plume_shading")),
 	shading_levels_(ParameterManager::getDoubleArray("eps_plume_shading_level_list")),
-	shading_colours_(ParameterManager::getStringArray("eps_plume_shading_colour_list"))
+	shading_colours_(ParameterManager::getStringArray("eps_plume_shading_colour_list")),
+	background_level_list_(ParameterManager::getDoubleArray("eps_plume_background_level_list")),
+	background_colour_list_(ParameterManager::getStringArray("eps_plume_background_colour_list")),
+	background_label_list_(ParameterManager::getStringArray("eps_plume_background_label_list")),
+	background_label_font_(ParameterManager::getString("eps_plume_background_label_font")),
+	background_label_font_size_(ParameterManager::getDouble("eps_plume_background_label_font_size")),
+	background_label_font_style_(ParameterManager::getString("eps_plume_background_label_font_style"))
 	,
 	line_colour_(MagTranslator<string, Colour>().magics("eps_plume_line_colour")),
 	line_style_(MagTranslator<string, LineStyle>().magics("eps_plume_line_style")),
@@ -46,7 +58,8 @@ EpsPlumeAttributes::EpsPlumeAttributes():
 	control_line_colour_(MagTranslator<string, Colour>().magics("eps_plume_control_line_colour")),
 	control_line_style_(MagTranslator<string, LineStyle>().magics("eps_plume_control_line_style")),
 	median_line_colour_(MagTranslator<string, Colour>().magics("eps_plume_median_line_colour")),
-	median_line_style_(MagTranslator<string, LineStyle>().magics("eps_plume_median_line_style"))
+	median_line_style_(MagTranslator<string, LineStyle>().magics("eps_plume_median_line_style")),
+	background_label_font_colour_(MagTranslator<string, Colour>().magics("eps_plume_background_label_font_colour"))
 	
 {
 }
@@ -67,6 +80,7 @@ void EpsPlumeAttributes::set(const std::map<string, string>& params)
 	
 	setAttribute(prefix, "eps_plume_method", method_, params);
 	setAttribute(prefix, "eps_plume_legend", legend_, params);
+	setAttribute(prefix, "eps_plume_legend_grey_style", legend_grey_style_, params);
 	setAttribute(prefix, "eps_plume_members", line_, params);
 	setAttribute(prefix, "eps_plume_line_thickness", line_thickness_, params);
 	setAttribute(prefix, "eps_plume_forecast", forecast_, params);
@@ -75,9 +89,20 @@ void EpsPlumeAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "eps_plume_control_line_thickness", control_line_thickness_, params);
 	setAttribute(prefix, "eps_plume_median", median_, params);
 	setAttribute(prefix, "eps_plume_median_line_thickness", median_line_thickness_, params);
+	setAttribute(prefix, "eps_plume_percentiles", percentiles_, params);
+	setAttribute(prefix, "eps_plume_percentiles_list", percentiles_list_, params);
+	setAttribute(prefix, "eps_plume_percentiles_line_colour_list", percentiles_line_colour_list_, params);
+	setAttribute(prefix, "eps_plume_percentiles_line_style_list", percentiles_line_style_list_, params);
+	setAttribute(prefix, "eps_plume_percentiles_line_thickness_list", percentiles_line_thickness_list_, params);
 	setAttribute(prefix, "eps_plume_shading", shading_, params);
 	setAttribute(prefix, "eps_plume_shading_level_list", shading_levels_, params);
 	setAttribute(prefix, "eps_plume_shading_colour_list", shading_colours_, params);
+	setAttribute(prefix, "eps_plume_background_level_list", background_level_list_, params);
+	setAttribute(prefix, "eps_plume_background_colour_list", background_colour_list_, params);
+	setAttribute(prefix, "eps_plume_background_label_list", background_label_list_, params);
+	setAttribute(prefix, "eps_plume_background_label_font", background_label_font_, params);
+	setAttribute(prefix, "eps_plume_background_label_font_size", background_label_font_size_, params);
+	setAttribute(prefix, "eps_plume_background_label_font_style", background_label_font_style_, params);
 	
 	setMember(prefix, "eps_plume_line_colour", line_colour_, params);
 	setAttribute(prefix, "eps_plume_line_style", line_style_, params);
@@ -87,6 +112,7 @@ void EpsPlumeAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "eps_plume_control_line_style", control_line_style_, params);
 	setMember(prefix, "eps_plume_median_line_colour", median_line_colour_, params);
 	setAttribute(prefix, "eps_plume_median_line_style", median_line_style_, params);
+	setMember(prefix, "eps_plume_background_label_font_colour", background_label_font_colour_, params);
 	
 }
 
@@ -94,6 +120,7 @@ void EpsPlumeAttributes::copy(const EpsPlumeAttributes& other)
 {
 	method_ = other.method_;
 	legend_ = other.legend_;
+	legend_grey_style_ = other.legend_grey_style_;
 	line_ = other.line_;
 	line_thickness_ = other.line_thickness_;
 	forecast_ = other.forecast_;
@@ -102,9 +129,20 @@ void EpsPlumeAttributes::copy(const EpsPlumeAttributes& other)
 	control_line_thickness_ = other.control_line_thickness_;
 	median_ = other.median_;
 	median_line_thickness_ = other.median_line_thickness_;
+	percentiles_ = other.percentiles_;
+	percentiles_list_ = other.percentiles_list_;
+	percentiles_line_colour_list_ = other.percentiles_line_colour_list_;
+	percentiles_line_style_list_ = other.percentiles_line_style_list_;
+	percentiles_line_thickness_list_ = other.percentiles_line_thickness_list_;
 	shading_ = other.shading_;
 	shading_levels_ = other.shading_levels_;
 	shading_colours_ = other.shading_colours_;
+	background_level_list_ = other.background_level_list_;
+	background_colour_list_ = other.background_colour_list_;
+	background_label_list_ = other.background_label_list_;
+	background_label_font_ = other.background_label_font_;
+	background_label_font_size_ = other.background_label_font_size_;
+	background_label_font_style_ = other.background_label_font_style_;
 	line_colour_ = unique_ptr<Colour>(other.line_colour_->clone());
 	line_style_ = other.line_style_;
 	forecast_line_colour_ = unique_ptr<Colour>(other.forecast_line_colour_->clone());
@@ -113,6 +151,7 @@ void EpsPlumeAttributes::copy(const EpsPlumeAttributes& other)
 	control_line_style_ = other.control_line_style_;
 	median_line_colour_ = unique_ptr<Colour>(other.median_line_colour_->clone());
 	median_line_style_ = other.median_line_style_;
+	background_label_font_colour_ = unique_ptr<Colour>(other.background_label_font_colour_->clone());
 	
 }
 
@@ -153,6 +192,7 @@ void EpsPlumeAttributes::print(ostream& out)  const
 	out << "Attributes[";
 	out << " method = " <<  method_;
 	out << " legend = " <<  legend_;
+	out << " legend_grey_style = " <<  legend_grey_style_;
 	out << " line = " <<  line_;
 	out << " line_thickness = " <<  line_thickness_;
 	out << " forecast = " <<  forecast_;
@@ -161,9 +201,20 @@ void EpsPlumeAttributes::print(ostream& out)  const
 	out << " control_line_thickness = " <<  control_line_thickness_;
 	out << " median = " <<  median_;
 	out << " median_line_thickness = " <<  median_line_thickness_;
+	out << " percentiles = " <<  percentiles_;
+	out << " percentiles_list = " <<  percentiles_list_;
+	out << " percentiles_line_colour_list = " <<  percentiles_line_colour_list_;
+	out << " percentiles_line_style_list = " <<  percentiles_line_style_list_;
+	out << " percentiles_line_thickness_list = " <<  percentiles_line_thickness_list_;
 	out << " shading = " <<  shading_;
 	out << " shading_levels = " <<  shading_levels_;
 	out << " shading_colours = " <<  shading_colours_;
+	out << " background_level_list = " <<  background_level_list_;
+	out << " background_colour_list = " <<  background_colour_list_;
+	out << " background_label_list = " <<  background_label_list_;
+	out << " background_label_font = " <<  background_label_font_;
+	out << " background_label_font_size = " <<  background_label_font_size_;
+	out << " background_label_font_style = " <<  background_label_font_style_;
 	out << " line_colour = " <<  *line_colour_;
 	out << " line_style = " <<  line_style_;
 	out << " forecast_line_colour = " <<  *forecast_line_colour_;
@@ -172,6 +223,7 @@ void EpsPlumeAttributes::print(ostream& out)  const
 	out << " control_line_style = " <<  control_line_style_;
 	out << " median_line_colour = " <<  *median_line_colour_;
 	out << " median_line_style = " <<  median_line_style_;
+	out << " background_label_font_colour = " <<  *background_label_font_colour_;
 	
 	out << "]" << "\n";
 }
@@ -183,6 +235,8 @@ void EpsPlumeAttributes::toxml(ostream& out)  const
 	niceprint(out,method_);
 	out << ", \"eps_plume_legend\":";
 	niceprint(out,legend_);
+	out << ", \"eps_plume_legend_grey_style\":";
+	niceprint(out,legend_grey_style_);
 	out << ", \"eps_plume_members\":";
 	niceprint(out,line_);
 	out << ", \"eps_plume_line_thickness\":";
@@ -199,12 +253,34 @@ void EpsPlumeAttributes::toxml(ostream& out)  const
 	niceprint(out,median_);
 	out << ", \"eps_plume_median_line_thickness\":";
 	niceprint(out,median_line_thickness_);
+	out << ", \"eps_plume_percentiles\":";
+	niceprint(out,percentiles_);
+	out << ", \"eps_plume_percentiles_list\":";
+	niceprint(out,percentiles_list_);
+	out << ", \"eps_plume_percentiles_line_colour_list\":";
+	niceprint(out,percentiles_line_colour_list_);
+	out << ", \"eps_plume_percentiles_line_style_list\":";
+	niceprint(out,percentiles_line_style_list_);
+	out << ", \"eps_plume_percentiles_line_thickness_list\":";
+	niceprint(out,percentiles_line_thickness_list_);
 	out << ", \"eps_plume_shading\":";
 	niceprint(out,shading_);
 	out << ", \"eps_plume_shading_level_list\":";
 	niceprint(out,shading_levels_);
 	out << ", \"eps_plume_shading_colour_list\":";
 	niceprint(out,shading_colours_);
+	out << ", \"eps_plume_background_level_list\":";
+	niceprint(out,background_level_list_);
+	out << ", \"eps_plume_background_colour_list\":";
+	niceprint(out,background_colour_list_);
+	out << ", \"eps_plume_background_label_list\":";
+	niceprint(out,background_label_list_);
+	out << ", \"eps_plume_background_label_font\":";
+	niceprint(out,background_label_font_);
+	out << ", \"eps_plume_background_label_font_size\":";
+	niceprint(out,background_label_font_size_);
+	out << ", \"eps_plume_background_label_font_style\":";
+	niceprint(out,background_label_font_style_);
 	out << ", \"eps_plume_line_colour\":";
 	niceprint(out, *line_colour_);
 	out << ", \"eps_plume_line_style\":";
@@ -221,11 +297,14 @@ void EpsPlumeAttributes::toxml(ostream& out)  const
 	niceprint(out, *median_line_colour_);
 	out << ", \"eps_plume_median_line_style\":";
 	niceprint(out, median_line_style_);
+	out << ", \"eps_plume_background_label_font_colour\":";
+	niceprint(out, *background_label_font_colour_);
 	
 }
 
 static MagicsParameter<string> eps_plume_method("eps_plume_method", "time_serie");
 static MagicsParameter<string> eps_plume_legend("eps_plume_legend", "on");
+static MagicsParameter<string> eps_plume_legend_grey_style("eps_plume_legend_grey_style", "on");
 static MagicsParameter<string> eps_plume_members("eps_plume_members", "on");
 static MagicsParameter<int> eps_plume_line_thickness("eps_plume_line_thickness", 1);
 static MagicsParameter<string> eps_plume_forecast("eps_plume_forecast", "on");
@@ -234,9 +313,20 @@ static MagicsParameter<string> eps_plume_control("eps_plume_control", "on");
 static MagicsParameter<int> eps_plume_control_line_thickness("eps_plume_control_line_thickness", 5);
 static MagicsParameter<string> eps_plume_median("eps_plume_median", "off");
 static MagicsParameter<int> eps_plume_median_line_thickness("eps_plume_median_line_thickness", 5);
+static MagicsParameter<string> eps_plume_percentiles("eps_plume_percentiles", "off");
+static MagicsParameter<doublearray> eps_plume_percentiles_list("eps_plume_percentiles_list", floatarray());
+static MagicsParameter<stringarray> eps_plume_percentiles_line_colour_list("eps_plume_percentiles_line_colour_list", stringarray());
+static MagicsParameter<stringarray> eps_plume_percentiles_line_style_list("eps_plume_percentiles_line_style_list", stringarray());
+static MagicsParameter<intarray> eps_plume_percentiles_line_thickness_list("eps_plume_percentiles_line_thickness_list", intarray());
 static MagicsParameter<string> eps_plume_shading("eps_plume_shading", "off");
 static MagicsParameter<doublearray> eps_plume_shading_level_list("eps_plume_shading_level_list", floatarray());
 static MagicsParameter<stringarray> eps_plume_shading_colour_list("eps_plume_shading_colour_list", stringarray());
+static MagicsParameter<doublearray> eps_plume_background_level_list("eps_plume_background_level_list", floatarray());
+static MagicsParameter<stringarray> eps_plume_background_colour_list("eps_plume_background_colour_list", stringarray());
+static MagicsParameter<stringarray> eps_plume_background_label_list("eps_plume_background_label_list", stringarray());
+static MagicsParameter<string> eps_plume_background_label_font("eps_plume_background_label_font", "sansserif");
+static MagicsParameter<double> eps_plume_background_label_font_size("eps_plume_background_label_font_size", 0.25);
+static MagicsParameter<string> eps_plume_background_label_font_style("eps_plume_background_label_font_style", "");
 static MagicsParameter<string> eps_plume_line_colour("eps_plume_line_colour", "magenta");
 static MagicsParameter<string> eps_plume_line_style("eps_plume_line_style", "solid");
 static MagicsParameter<string> eps_plume_forecast_line_colour("eps_plume_forecast_line_colour", "cyan");
@@ -245,3 +335,4 @@ static MagicsParameter<string> eps_plume_control_line_colour("eps_plume_control_
 static MagicsParameter<string> eps_plume_control_line_style("eps_plume_control_line_style", "solid");
 static MagicsParameter<string> eps_plume_median_line_colour("eps_plume_median_line_colour", "cyan");
 static MagicsParameter<string> eps_plume_median_line_style("eps_plume_median_line_style", "solid");
+static MagicsParameter<string> eps_plume_background_label_font_colour("eps_plume_background_label_font_colour", "black");

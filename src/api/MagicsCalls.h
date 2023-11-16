@@ -20,6 +20,7 @@ public:
     static const char* metainput();
     static const char* metanetcdf();
     static const char* keep_compatibility();
+    static const char* long_parameters();
 
     // =================================================================
     static void axis();
@@ -82,6 +83,7 @@ public:
     static void set1c(const std::string& name, const std::vector<std::string>& data);
 
     static void seti(const std::string& name, int value);
+    static void setli(const std::string& name, unsigned long long value);
     static void set1i(const std::string& name, const int* data, const int dim1);
     static void set1i(const std::string& name, const std::vector<int>& data);
     static void set2i(const std::string& name, const int* data, const int dim1, const int dim2);

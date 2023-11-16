@@ -103,6 +103,12 @@ int ParameterManager::getInt(const string& name) {
     ASSERT(get(name, value));
     return value;
 }
+unsigned long long ParameterManager::getULong(const string& name) {
+    unsigned long long value;
+    
+    ASSERT(get(name, value));
+    return value;
+}
 
 string ParameterManager::getString(const string& name) {
     string value;

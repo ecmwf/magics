@@ -27,6 +27,7 @@ using namespace magics;
 TileDecoderAttributes::TileDecoderAttributes():
 	file_name_(ParameterManager::getString("grib_input_file_name")),
 	projection_(ParameterManager::getString("grib_tile_projection")),
+	mode_(ParameterManager::getString("grib_tile_mode")),
 	loop_(ParameterManager::getBool("grib_loop")),
 	z_(ParameterManager::getInt("grib_tile_z")),
 	x_(ParameterManager::getInt("grib_tile_x")),
@@ -54,6 +55,7 @@ void TileDecoderAttributes::set(const std::map<string, string>& params)
 	
 	setAttribute(prefix, "grib_input_file_name", file_name_, params);
 	setAttribute(prefix, "grib_tile_projection", projection_, params);
+	setAttribute(prefix, "grib_tile_mode", mode_, params);
 	setAttribute(prefix, "grib_loop", loop_, params);
 	setAttribute(prefix, "grib_tile_z", z_, params);
 	setAttribute(prefix, "grib_tile_x", x_, params);
@@ -69,6 +71,7 @@ void TileDecoderAttributes::copy(const TileDecoderAttributes& other)
 {
 	file_name_ = other.file_name_;
 	projection_ = other.projection_;
+	mode_ = other.mode_;
 	loop_ = other.loop_;
 	z_ = other.z_;
 	x_ = other.x_;
@@ -116,6 +119,7 @@ void TileDecoderAttributes::print(ostream& out)  const
 	out << "Attributes[";
 	out << " file_name = " <<  file_name_;
 	out << " projection = " <<  projection_;
+	out << " mode = " <<  mode_;
 	out << " loop = " <<  loop_;
 	out << " z = " <<  z_;
 	out << " x = " <<  x_;
@@ -134,6 +138,8 @@ void TileDecoderAttributes::toxml(ostream& out)  const
 	niceprint(out,file_name_);
 	out << ", \"grib_tile_projection\":";
 	niceprint(out,projection_);
+	out << ", \"grib_tile_mode\":";
+	niceprint(out,mode_);
 	out << ", \"grib_loop\":";
 	niceprint(out,loop_);
 	out << ", \"grib_tile_z\":";
@@ -153,6 +159,7 @@ void TileDecoderAttributes::toxml(ostream& out)  const
 
 static MagicsParameter<string> grib_input_file_name("grib_input_file_name", "");
 static MagicsParameter<string> grib_tile_projection("grib_tile_projection", "cylindrical");
+static MagicsParameter<string> grib_tile_mode("grib_tile_mode", "eccharts");
 static MagicsParameter<string> grib_loop("grib_loop", "off");
 static MagicsParameter<int> grib_tile_z("grib_tile_z", 1);
 static MagicsParameter<int> grib_tile_x("grib_tile_x", 0);

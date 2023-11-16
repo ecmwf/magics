@@ -53,6 +53,9 @@ public:
 	//  --  members:
 	string tag_;
 	string file_name_;
+	string first_file_name_;
+	string colour_file_name_;
+	string second_file_name_;
 	string id_;
 	bool loop_;
 	bool scaling_;
@@ -65,9 +68,13 @@ public:
 	bool expver_;
 	bool units_;
 	int field_position_;
+	unsigned long long large_field_position_;
 	int position_1_;
 	int position_2_;
 	int colour_position_;
+	unsigned long long large_position_1_;
+	unsigned long long large_position_2_;
+	unsigned long long large_colour_position_;
 	double missing_value_;
 	bool wind_style_;
 	unique_ptr<GribAddressMode> address_mode_;

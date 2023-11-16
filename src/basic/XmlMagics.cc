@@ -73,6 +73,7 @@ XmlMagics::XmlMagics() : root_(0), gribloop_(0), geographical_(true), driversToS
     actions_["mgb"] = &XmlMagics::binary;
 
     actions_["text"]      = &XmlMagics::text;
+    actions_["ztext"]      = &XmlMagics::text;
     actions_["map"]       = &XmlMagics::map;
     actions_["matrix"]    = &XmlMagics::matrix;
     actions_["cartesian"] = &XmlMagics::cartesian;

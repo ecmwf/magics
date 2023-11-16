@@ -43,6 +43,7 @@
 #include "ObsDecoderWrapper.h"
 #include "ObsPlottingWrapper.h"
 
+#include "BoxPlotDecoderWrapper.h"
 
 #include "ContourWrapper.h"
 #include "GeoJSonWrapper.h"
@@ -54,6 +55,10 @@
 #include "LegendVisitorWrapper.h"
 #include "TextVisitor.h"
 #include "TextVisitorWrapper.h"
+
+
+#include "BoxPlotVisualiserWrapper.h"
+
 
 #include "GraphPlottingWrapper.h"
 #include "MultiVisdef.h"
@@ -209,6 +214,8 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
         sceneCreators_["INPUT_GEO_VECTORS"] = &MagPlus::input;
         sceneCreators_["INPUT_XY_BINNING"]  = &MagPlus::input;
         sceneCreators_["INPUT_GEO_BINNING"] = &MagPlus::input;
+        sceneCreators_["INPUT_BOXPLOT"]     = &MagPlus::inputBoxplot;
+
 
         sceneCreators_["TABLE_XY_POINTS"]   = &MagPlus::table;
         sceneCreators_["TABLE_GEO_POINTS"]  = &MagPlus::table;
@@ -237,6 +244,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
         sceneCreators_["PSYMB"]          = &MagPlus::symbol;
         sceneCreators_["MSYMB"]          = &MagPlus::symbol;
         sceneCreators_["PSYMBPLUS"]      = &MagPlus::symbol;
+        sceneCreators_["MBOXPLOT"]       = &MagPlus::boxplot;
         sceneCreators_["PWIND"]          = &MagPlus::wind;
         sceneCreators_["MWIND"]          = &MagPlus::wind;
         sceneCreators_["MGRAPH"]         = &MagPlus::graph;
@@ -823,7 +831,6 @@ bool MagPlus::binning(magics::MagRequest& in) {
 }
 
 bool MagPlus::grib(magics::MagRequest& in) {
-
     MagLog::dev() << "add grib" << endl;
     in.print();
 
@@ -983,7 +990,6 @@ void MagPlus::setIconInfo(magics::MagRequest& mv, MetviewIcon& object) {
 }
 
 bool MagPlus::gribloop(magics::MagRequest& in) {
-
     MagLog::dev() << "add gribloop" << endl;
     in.print();
     string loop("loop");
@@ -1398,7 +1404,6 @@ bool MagPlus::geojson(magics::MagRequest& in) {
 }
 
 bool MagPlus::bufr(magics::MagRequest& in) {
-
     /*
     // Extract the path ..
     magics::MagRequest record = in("RECORD");
@@ -1414,6 +1419,20 @@ bool MagPlus::bufr(magics::MagRequest& in) {
     obs.set(in);
     top()->data(obs.object());
     setIconInfo(in, *obs.object());
+    return false;  // do not exit
+}
+
+bool MagPlus::inputBoxplot(magics::MagRequest& in) {
+    in.print();
+    VisualAction* action = new VisualAction();
+    top()->push_back(action);
+    push(action);
+
+    BoxPlotDecoderWrapper boxplot;
+    boxplot.set(in);
+    top()->data(boxplot.object());
+    setIconInfo(in, *boxplot.object());
+
     return false;  // do not exit
 }
 bool MagPlus::symbol(magics::MagRequest& in) {
@@ -1461,7 +1480,6 @@ bool MagPlus::graph(magics::MagRequest& in) {
 }
 
 bool MagPlus::obs(magics::MagRequest& in) {
-
     ObsPlottingWrapper visdef;
 
     visdef.set(in);
@@ -1471,6 +1489,16 @@ bool MagPlus::obs(magics::MagRequest& in) {
     pop();
 
 
+    return false;  // do not exit
+}
+bool MagPlus::boxplot(magics::MagRequest& in) {
+    BoxPlotVisualiserWrapper visdef;
+
+    visdef.set(in);
+
+    MagLog::dev() << "add boxplot visualiser" << *visdef.object() << endl;
+    top()->visdef(visdef.object());
+    pop();
 
     return false;  // do not exit
 }
@@ -1784,9 +1812,9 @@ void MagPlus::notify(MagicsEvent& event) {
 }
 
 void MagPlus::unregisterObserver(MagicsObserver* observer) {
-  //  observers_.erase(
-  //      std::remove_if(observers_.begin(), observers_.end(), bind2nd(std::equal_to<MagicsObserver*>(), observer)),
-  //      observers_.end());
+    //  observers_.erase(
+    //      std::remove_if(observers_.begin(), observers_.end(), bind2nd(std::equal_to<MagicsObserver*>(), observer)),
+    //      observers_.end());
 }
 
 void setDouble(const string& key, const ParamJSon& json, MagRequest& out) {

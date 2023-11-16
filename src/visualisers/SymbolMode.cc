@@ -31,7 +31,7 @@
 using namespace magics;
 
 
-SymbolMode::SymbolMode() {}
+SymbolMode::SymbolMode(): scaling_(1) {}
 
 
 SymbolMode::~SymbolMode() {}
@@ -71,27 +71,21 @@ void SymbolIndividualMode::properties() const {
         texthandlers["top"]    = TextPosition::ABOVE;
         texthandlers["bottom"] = TextPosition::BELOW;
         texthandlers["right"]  = TextPosition::RIGHT;
-        texthandlers["centre"] = TextPosition::CENTRE;
+        texthandlers["centre"] = TextPosition::NONE;
     }
     TextPosition position;
-    if (magCompare(type_, "number")) {
-        position            = TextPosition::NONE;
-        properties_.colour_ = *colour_;
-        properties_.height_ = height_;
+    string type                             = lowerCase(text_position_);
+    
+    map<string, TextPosition>::iterator pos = texthandlers.find(type);
+    position                                = (pos != texthandlers.end()) ? pos->second : TextPosition::ABOVE;
+    if (magCompare(type_, "text") || magCompare(type_, "number")) {
+        properties_.height_ = 0.05;  // make a very small symbol
     }
     else {
-        string type                             = lowerCase(text_position_);
-        map<string, TextPosition>::iterator pos = texthandlers.find(type);
-        position                                = (pos != texthandlers.end()) ? pos->second : TextPosition::ABOVE;
-        if (magCompare(type_, "text")) {
-            properties_.height_ = 0.01;  // make a very small symbol
-            properties_.colour_ = Colour("none");
-        }
-        else {
-            properties_.colour_ = *colour_;
-            properties_.height_ = height_;
-        }
+        properties_.colour_ = *colour_;
+        properties_.height_ = height_*scaling_;
     }
+   
     if (magCompare(marker_mode_, "image")) {
         properties_.image_        = true;
         properties_.image_path_   = image_path_;
@@ -183,7 +177,7 @@ void SymbolTableMode::prepare() {
     int index = 0;
 
     for (doublearray::const_iterator min = min_.begin(); min != min_.end(); ++min) {
-        map_[Interval(*min, *max)]           = SymbolProperties(Colour(*colour), *height, *symbol);
+        map_[Interval(*min, *max)]           = SymbolProperties(Colour(*colour), *height*scaling_, *symbol);
         map_[Interval(*min, *max)].blanking_ = parent_->text_blanking_;
         if (++colour == colour_.end())
             --colour;
@@ -244,11 +238,11 @@ void SymbolIndividualMode::visit(LegendVisitor& legend) {
     Symbol* symbol = properties_.symbol("marker");
     // overwrite with the legend_height if set..
     if (legend_height_ != -1)
-        symbol->setHeight(legend_height_);
+        // symbol->setHeight(legend_height_);
+        symbol->setHeight(0.5);
     legend.add(new SimpleSymbolEntry(legend_text_, symbol));
 }
-void SymbolIndividualMode::adjust(double, double, bool, const Transformation&, double) {}
-void SymbolTableMode::adjust(double, double, bool, const Transformation&, double) {}
+
 void SymbolIndividualMode::visit(Data& data, LegendVisitor& legend) {
     Symbol* symbol = properties_.symbol("marker");
     if (legend_height_ != -1)

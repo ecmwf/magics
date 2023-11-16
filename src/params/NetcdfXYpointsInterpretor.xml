@@ -13,5 +13,9 @@ does it submit to any jurisdiction.
 		directory="decoders"
 		prefix="netcdf"
 		action="pnetcdf"
-		include="NetcdfGeopointsInterpretor.h"></class>
+		include="NetcdfGeopointsInterpretor.h">
+		
+		
+	</class>
+
 </magics>

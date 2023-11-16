@@ -25,6 +25,9 @@
 #include "LegendVisitor.h"
 #include "Polyline.h"
 #include "Timer.h"
+
+#include <cassert>
+
 using namespace magics;
 
 bool Streamlines::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
@@ -170,7 +173,6 @@ bool Streamlines::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
             i++;
         }
 
-
     GSStruct* gs = new GSStruct();
     gs->nx       = nbcolumns;
     gs->ny       = handler.rows();
@@ -189,7 +191,6 @@ bool Streamlines::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
     gs->gs_geo            = 0;  // RV
     OneLineClass** result = 0;
     int size;
-
 
     CalcStreamlines(min_density_, direction, gs, result, size);
 
@@ -266,11 +267,45 @@ bool Streamlines::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
                 poly.push_back(pt);
                 prevpt = pt;
             }
-            if (poly.size() >= 2)
-                transformation(poly, parent);
+            if (poly.size() >= 2) {
+                // clip the polyline
+                vector<magics::Polyline*> clippedPoly;
+                transformation(poly, clippedPoly);
+                // process each resulting polyline
+                for (auto rPoly = clippedPoly.begin(); rPoly != clippedPoly.end(); ++rPoly) {
+                    // Copy the properties
+                    (*rPoly)->copy(poly);
+
+                    // The order of the streamline points has to be adjusted. See MAGP-1349.
+                    // To do so we need the unprojected polyline coordinates too.
+                    auto rUnprojected = (*rPoly)->clone();
+                    assert(rUnprojected);
+                    deque<PaperPoint>& polygon = rUnprojected->polygon();
+                    for (size_t k=0; k < polygon.size(); k++) {
+                        UserPoint usp;
+                        transformation.revert(polygon[k], usp);
+                        polygon[k] = PaperPoint(usp.x(), usp.y());
+                    }
+                    // adjust the point order in rPoly
+                    if (AdjustStreamlinesDirection(direction, gs, *rPoly, rUnprojected)) {
+                        parent.push_back(*rPoly);
+                    }
+                    delete rUnprojected;
+                }
+            }
             poly.clear();
         }
     }
+
+    delete gs;
+
+    if (result) {
+        for (int l = 0; l < size; l++) {
+            delete result[l];
+        }
+        delete [] result;
+    }
+
     // ************ MF RV ***************
     // Leak ;-)
     delete[] direction;

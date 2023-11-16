@@ -30,13 +30,13 @@ class MetaDataCollector;
 
 class VisDefInfoItem {
 public:
-    VisDefInfoItem(string name) : name_(name){};
+    VisDefInfoItem(const string& name) : name_(name){};
 
-    string name() { return name_; }
+    string name() const { return name_; }
     const map<string, vector<string> >& keys() const { return keys_; }
     const map<string, string>& attributes() const { return attributes_; }
-    void addKey(string name, string value) { keys_[name].push_back(value); }
-    void addAttribute(string name, string value) { attributes_[name] = value; }
+    void addKey(const string& name, const string& value) { keys_[name].push_back(value); }
+    void addAttribute(const string& name, const string& value) { attributes_[name] = value; }
 
 public:
     string name_;
@@ -53,9 +53,9 @@ public:
 
     virtual ~VisDefInfoBase();
 
-    VisDefInfoItem* addItem(string);
+    VisDefInfoItem* addItem(const string&);
     const vector<string>& keys() { return keys_; }
-    string type() { return type_; }
+    string type() const { return type_; }
 
     // virtual vector<string> visDefFile(MvKeyProfile*,int)   {return QStringList() ;}
     // virtual MvRequest visDefRequest(MvKeyProfile*,int)   {return MvRequest() ;}
@@ -63,14 +63,14 @@ public:
     virtual void getAttributes(MetaDataCollector&, map<string, string>&) {}
 
 
-    bool isLoaded() { return loaded_; }
+    bool isLoaded() const { return loaded_; }
     void clear();
     void deleteItem(int);
     virtual void loadItems() = 0;
     virtual void saveItems() = 0;
 
 protected:
-    VisDefInfoBase(string, DataType);
+    VisDefInfoBase(const string&, DataType);
     void collectKeys();
 
     string fConf_;
@@ -98,7 +98,7 @@ public:
 
 class ObstatVisDefInfo : public VisDefInfoBase {
 public:
-    ObstatVisDefInfo(string, DataType);
+    ObstatVisDefInfo(const string&, DataType);
     ~ObstatVisDefInfo() override{};
 
     void getAttributes(MetaDataCollector&, map<string, string>&) override;
@@ -106,13 +106,13 @@ public:
     void saveItems() override{};
 
 protected:
-    string removeZerosFromNumber(string);
+    string removeZerosFromNumber(const string&);
 };
 
 class VisDefInfoFactory {
 public:
     VisDefInfoFactory(){};
-    static VisDefInfoBase* makeItem(string);
+    static VisDefInfoBase* makeItem(const string&);
 };
 }  // namespace magics
 

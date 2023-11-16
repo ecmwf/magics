@@ -25,7 +25,8 @@
 using namespace magics;
 
 EpsWaveAttributes::EpsWaveAttributes():
-	colour_(ParameterManager::getStringArray("eps_rose_wave_colour"))
+	colour_(ParameterManager::getStringArray("eps_rose_wave_colour")),
+	eps_control_(ParameterManager::getBool("eps_control"))
 	
 	
 {
@@ -46,6 +47,7 @@ void EpsWaveAttributes::set(const std::map<string, string>& params)
 	prefix[i++] = "eps_rose_wave";
 	
 	setAttribute(prefix, "eps_rose_wave_colour", colour_, params);
+	setAttribute(prefix, "eps_control", eps_control_, params);
 	
 	
 }
@@ -53,6 +55,7 @@ void EpsWaveAttributes::set(const std::map<string, string>& params)
 void EpsWaveAttributes::copy(const EpsWaveAttributes& other)
 {
 	colour_ = other.colour_;
+	eps_control_ = other.eps_control_;
 	
 }
 
@@ -92,6 +95,7 @@ void EpsWaveAttributes::print(ostream& out)  const
 {
 	out << "Attributes[";
 	out << " colour = " <<  colour_;
+	out << " eps_control = " <<  eps_control_;
 	
 	out << "]" << "\n";
 }
@@ -101,7 +105,10 @@ void EpsWaveAttributes::toxml(ostream& out)  const
 	out <<  "\"epswave\"";
 	out << ", \"eps_rose_wave_colour\":";
 	niceprint(out,colour_);
+	out << ", \"eps_control\":";
+	niceprint(out,eps_control_);
 	
 }
 
 static MagicsParameter<stringarray> eps_rose_wave_colour("eps_rose_wave_colour", stringarray());
+static MagicsParameter<string> eps_control("eps_control", "on");

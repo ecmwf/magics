@@ -59,7 +59,8 @@ public:
 };
 
 
-class ColourTechnique : public map<double, ColourInfo> {
+class ColourTechnique : public map<double, ColourInfo>, 
+    public ColourTechniqueAttributes {
 public:
     ColourTechnique();
     virtual ~ColourTechnique();
@@ -123,6 +124,13 @@ public:
     bool accept(const string& node) override { return PaletteColourTechniqueAttributes::accept(node); }
 
     void set(const ColourTechniqueInterface&) override;
+
+    virtual void copy(const PaletteColourTechnique&) {
+        PaletteColourTechniqueAttributes::copy(*this);
+        ColourTechniqueAttributes::copy(*this);
+    }
+
+
 
 
     virtual ColourTechnique* clone() const override {

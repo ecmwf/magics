@@ -71,6 +71,9 @@ public:
 
     virtual void grid(DrawingVisitor&) const {}
 
+    virtual void highlight(DrawingVisitor&) const {}
+
+
     string createLabel(const AxisItem&);
 
     double min() const { return method_->min(); }
@@ -136,6 +139,7 @@ public:
             method_->prepare(*this, items_);
         }
         grid(visitor);
+        highlight(visitor);
     }
 
     void visit(TopAxisVisitor& visitor) override {
@@ -167,6 +171,9 @@ public:
     void tip(BottomAxisVisitor& out) const override;
 
     void grid(DrawingVisitor&) const override;
+
+    void highlight(DrawingVisitor&) const override;  
+
 };
 
 class VerticalAxis : public Axis {
@@ -192,6 +199,7 @@ public:
             method_->prepare(*this, items_);
         }
         grid(visitor);
+        highlight(visitor);
     }
     void visit(LeftAxisVisitor& visitor) override {
         if (magCompare(position_, "left"))
@@ -220,6 +228,9 @@ public:
     void tip(RightAxisVisitor& out) const override;
 
     void grid(DrawingVisitor&) const override;
+
+    void highlight(DrawingVisitor&) const override;  
+
 };
 
 }  // namespace magics

@@ -76,6 +76,7 @@ public:
     virtual bool needClipping() { return false; }
     virtual bool method(ContourMethod*) { return false; }
     virtual void reset() {}
+    virtual bool isShading() { return false; }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
@@ -109,6 +110,8 @@ public:
         object->copy(*this);
         return object;
     }
+    
+    bool isShading() override { return true; }
 
     CellArray* array(MatrixHandler& matrix, IntervalMap<int>& range, const Transformation& transformation, int width,
                      int height, float resolution, const string& technique) override {
@@ -129,20 +132,15 @@ public:
 
     virtual bool needClipping() override { return (*this->technique_).needClipping(); }
     virtual bool operator()(LevelSelection& list) override {
-        LevelSelection filter;
-        for (LevelSelection::const_iterator level = list.begin(); level != list.end(); ++level)
-            if (this->min_ <= *level && *level <= this->max_)
-                filter.push_back(*level);
 
 
-        (*this->colourMethod_).prepare(list, filter);
+        (*this->colourMethod_).prepare(list, list);
+
+        if (!list.empty() && (list.back() == list.front()))
+            list.push_back(list.front());
 
 
-        if (!filter.empty() && (filter.back() == filter.front()))
-            filter.push_back(filter.front());
-
-
-        return (*this->technique_).prepare(filter, *this->colourMethod_);
+        return (*this->technique_).prepare(list, *this->colourMethod_);
     }
     // returns true, if the contouring lines have to be created... False, is the shading is finished...
     virtual void visit(LegendVisitor& legend) override {

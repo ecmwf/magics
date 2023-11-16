@@ -193,6 +193,10 @@ void WrepJSonWrapper::set(const MagRequest& request)
 		int hodograph_member_value = request("WREPJSON_HODOGRAPH_MEMBER");
 		wrepjson_->hodograph_member_ = hodograph_member_value;
 		}
+	if  (request.countValues("WREPJSON_Y_AXIS_VALUE") ) {
+		double y_axis_value_value = request("WREPJSON_Y_AXIS_VALUE");
+		wrepjson_->y_axis_value_ = y_axis_value_value;
+		}
 	
 	
 }
