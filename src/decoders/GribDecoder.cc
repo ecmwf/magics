@@ -751,6 +751,9 @@ void GribDecoder::decode2D(const Transformation&) {
 }
 
 void GribDecoder::openField() {
+    
+    current_position_ = (large_field_position_) ? large_field_position_ : field_position_;
+    current_file_name_ =  file_name_;
 
     field_            = open(field_);
 }
@@ -758,7 +761,15 @@ void GribDecoder::openField() {
 void GribDecoder::openFirstComponent() {
     current_position_ = position_1_;
 
-    field_ = open(field_);
+     if (second_file_name_ == "grib_input_file_name") {
+        current_position_ = ( position_2_ == -1 ) ? 2 : position_2_;
+        current_file_name_= file_name_;
+    }
+    else {
+        current_position_ = ( position_2_ == -1 ) ? 1 : position_2_;
+        current_file_name_= second_file_name_;
+    }
+
 }
 
 void GribDecoder::openSecondComponent() {
