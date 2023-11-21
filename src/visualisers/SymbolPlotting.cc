@@ -200,8 +200,10 @@ void SymbolPlotting::by_property(Data& data, BasicGraphicsObjectContainer& out) 
             height = height*property_height_scaling_factor_*factor;
 
         symbol->setHeight(height);
+        
+        PaperPoint xy = transformation(UserPoint(point->longitude(), point->latitude()));
 
-        symbol->push_back(transformation(PaperPoint(point->longitude(), point->latitude())));
+        symbol->push_back(xy);
 
         out.push_back(symbol);
 
@@ -251,7 +253,7 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
 
 
     try {
-        const Transformation& transformation = out.transformation();
+        
 
         // If we need to connect the symbols with a line, we need all the poinst
         // to enable proper clipping of the line! Othewise wee just nedde to get the point
@@ -267,6 +269,7 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
 
         points.setToFirst();
         while (points.more()) {
+            
             PaperPoint xy = transformation(points.current());
             (*this)(xy, out);
             points.advance();
