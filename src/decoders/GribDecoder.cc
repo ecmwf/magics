@@ -1675,6 +1675,9 @@ string GribDecoder::representation() {
     current_handle_ = field_;
     // Now warning, no caching
     string proj =  getstring("projTargetString", false, false);
+    // Here if proj contains latlong we ignore the setting . 
+    if (proj.find("longlat") != std::string::npos) 
+        proj = "";
 
     return (proj.size()) ? "proj" : grid;
 }
