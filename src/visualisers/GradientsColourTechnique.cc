@@ -144,14 +144,15 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
         double to   = stops[stop];
         int istep   = (steps_.empty()) ? 10 : *step;
 
-        in.push_back(from);
+        
         out.push_back(from);
-
+        
         double inc = (to - from) / (istep);
 
         for (int i = 1; i < istep; i++) {
-            in.push_back(from + (i * inc));
+           
             out.push_back(from + (i * inc));
+            
         }
 
         if (!steps_.empty()) {
@@ -162,6 +163,7 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
     }
     in.push_back(stops.back());
     out.push_back(stops.back());
+
 }
 
 /*!

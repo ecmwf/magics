@@ -2034,7 +2034,7 @@ void GribProjInterpretor::interpretAsMatrix(GribDecoder& grib) const {
         if (MagicsGlobal::strict()) {
             throw;
         }
-        throw MagicsException("GribRegularInterpretor - Not enough memory");
+        throw MagicsException("GribProjInterpretor - Not enough memory");
     }
 }
 
