@@ -200,10 +200,20 @@ void SymbolPlotting::by_property(Data& data, BasicGraphicsObjectContainer& out) 
             height = height*property_height_scaling_factor_*factor;
 
         symbol->setHeight(height);
-        
-        PaperPoint xy = transformation(UserPoint(point->longitude(), point->latitude()));
 
-        symbol->push_back(xy);
+        UserPoint geo = UserPoint(point->longitude(), point->latitude());
+        std::stack<UserPoint> duplicates;
+        transformation.wraparound(geo, duplicates);
+        while (duplicates.empty() == false) {
+            PaperPoint xy = transformation(duplicates.top());
+            symbol->push_back(xy);
+            duplicates.pop();   
+        
+        }
+        
+        // PaperPoint xy = transformation(UserPoint(point->longitude(), point->latitude()));
+
+        // symbol->push_back(xy);
 
         out.push_back(symbol);
 
