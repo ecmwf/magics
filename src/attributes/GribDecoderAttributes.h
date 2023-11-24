@@ -71,9 +71,6 @@ public:
 	int position_1_;
 	int position_2_;
 	int colour_position_;
-	unsigned long long large_position_1_;
-	unsigned long long large_position_2_;
-	unsigned long long large_colour_position_;
 	double missing_value_;
 	bool wind_style_;
 	unique_ptr<GribAddressMode> address_mode_;

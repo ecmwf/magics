@@ -191,7 +191,7 @@ does it submit to any jurisdiction.
 			name="grib_wind_position_colour">
 			<documentation>The position in the input file of a wind component field used to colour the flag</documentation>
 		</parameter>
-		<parameter member="large_position_1"
+		<!--parameter member="large_position_1"
 			to="unsigned long long"
 			default="0"
 			from="unsigned long long"
@@ -211,7 +211,7 @@ does it submit to any jurisdiction.
 			from="unsigned long long" 
 			name="grib_wind_large_position_colour">
 			<documentation>The position in the input file of a wind component field used to colour the flag</documentation>
-		</parameter>
+		</parameter-->
 		<parameter from="float"
 			name="grib_missing_value_indicator"
 			visible="false"

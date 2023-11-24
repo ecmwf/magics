@@ -141,18 +141,6 @@ void GribDecoderWrapper::set(const MagRequest& request)
 		int colour_position_value = request("GRIB_WIND_POSITION_COLOUR");
 		gribdecoder_->colour_position_ = colour_position_value;
 		}
-	if  (request.countValues("GRIB_WIND_LARGE_POSITION_1") ) {
-		unsigned long long large_position_1_value = request("GRIB_WIND_LARGE_POSITION_1");
-		gribdecoder_->large_position_1_ = large_position_1_value;
-		}
-	if  (request.countValues("GRIB_WIND_LARGE_POSITION_2") ) {
-		unsigned long long large_position_2_value = request("GRIB_WIND_LARGE_POSITION_2");
-		gribdecoder_->large_position_2_ = large_position_2_value;
-		}
-	if  (request.countValues("GRIB_WIND_LARGE_POSITION_COLOUR") ) {
-		unsigned long long large_colour_position_value = request("GRIB_WIND_LARGE_POSITION_COLOUR");
-		gribdecoder_->large_colour_position_ = large_colour_position_value;
-		}
 	if  (request.countValues("GRIB_MISSING_VALUE_INDICATOR") ) {
 		double missing_value_value = request("GRIB_MISSING_VALUE_INDICATOR");
 		gribdecoder_->missing_value_ = missing_value_value;
