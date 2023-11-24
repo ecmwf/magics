@@ -68,7 +68,6 @@ public:
 	bool expver_;
 	bool units_;
 	int field_position_;
-	unsigned long long large_field_position_;
 	int position_1_;
 	int position_2_;
 	int colour_position_;

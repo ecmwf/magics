@@ -163,13 +163,13 @@ does it submit to any jurisdiction.
 			name="grib_field_position">
 			<documentation>The position in the input file of a field other than a wind component</documentation>
 		</parameter>
-		<parameter member="large_field_position"
+		<!--parameter member="large_field_position"
 			to="unsigned long long"
 			default="0"
 			from="unsigned long long"
 			name="grib_field_large_position">
 			<documentation>used when the offset is too big</documentation>
-		</parameter>
+		</parameter-->
 		<parameter member="position_1"
 			to="int"
 			default="1"

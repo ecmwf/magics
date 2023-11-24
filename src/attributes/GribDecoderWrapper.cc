@@ -129,10 +129,6 @@ void GribDecoderWrapper::set(const MagRequest& request)
 		int field_position_value = request("GRIB_FIELD_POSITION");
 		gribdecoder_->field_position_ = field_position_value;
 		}
-	if  (request.countValues("GRIB_FIELD_LARGE_POSITION") ) {
-		unsigned long long large_field_position_value = request("GRIB_FIELD_LARGE_POSITION");
-		gribdecoder_->large_field_position_ = large_field_position_value;
-		}
 	if  (request.countValues("GRIB_WIND_POSITION_1") ) {
 		int position_1_value = request("GRIB_WIND_POSITION_1");
 		gribdecoder_->position_1_ = position_1_value;

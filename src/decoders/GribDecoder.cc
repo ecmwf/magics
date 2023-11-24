@@ -752,7 +752,8 @@ void GribDecoder::decode2D(const Transformation&) {
 
 void GribDecoder::openField() {
     
-    current_position_ = (large_field_position_) ? large_field_position_ : field_position_;
+    // current_position_ = (large_field_position_) ? large_field_position_ : field_position_;
+    current_position_ =  field_position_;
     current_file_name_ =  file_name_;
 
     field_            = open(field_);
