@@ -118,29 +118,10 @@ struct SortHelper {
     }
 };
 
-
-
-void SymbolPlotting::by_property(Data& data, BasicGraphicsObjectContainer& out) {
-
-    const Transformation& transformation = out.transformation();
-
-    std::set<string> needs;
-
-    needs.insert(property_height_name_);
-    needs.insert(property_hue_name_);
-    needs.insert(property_lightness_name_);
-    
-
-    if ( property_hue_list_.empty() )
-        property_hue_list_.push_back(1);
-    if ( property_lightness_list_.empty() )
-        property_lightness_list_.push_back(0.5);
-
-
-    IntervalMap<float> hueFinder;
+void SymbolPlotting::by_property_prepare(IntervalMap<float>& hueFinder, IntervalMap<float>& lightnessFinder) 
+{
     auto value_hue = property_hue_values_list_.begin();
     auto hue = property_hue_list_.begin();
-    IntervalMap<float> lightnessFinder;
     auto value_lightness = property_lightness_values_list_.begin();
     auto lightness = property_lightness_list_.begin();
 
@@ -162,10 +143,32 @@ void SymbolPlotting::by_property(Data& data, BasicGraphicsObjectContainer& out) 
             lightness++;
         ++value_lightness;
     }
+}
+
+void SymbolPlotting::by_property(Data& data, BasicGraphicsObjectContainer& out) {
+
+    const Transformation& transformation = out.transformation();
+
+    std::set<string> needs;
+
+    needs.insert(property_height_name_);
+    needs.insert(property_hue_name_);
+    needs.insert(property_lightness_name_);
+    
+
+    if ( property_hue_list_.empty() )
+        property_hue_list_.push_back(1);
+    if ( property_lightness_list_.empty() )
+        property_lightness_list_.push_back(0.5);
 
 
+    IntervalMap<float> hueFinder;
+    IntervalMap<float> lightnessFinder;
+    
+    by_property_prepare(hueFinder, lightnessFinder);
 
-    Colour red("red");
+
+    Colour red("blue");
 
     double factor = ( out.absoluteHeight()*transformation.patchDistance(1))/(transformation.getMaxPCY()-transformation.getMinPCY())    ;
     
@@ -189,6 +192,7 @@ void SymbolPlotting::by_property(Data& data, BasicGraphicsObjectContainer& out) 
        
         Hsl hsl(hueFinder.find(hue, 0),  property_saturation_value_, lightnessFinder.find(lightness, 0.5));
         Colour colour(hsl);
+        cout << colour << endl;
         symbol->setColour(colour);
 
 
@@ -210,11 +214,6 @@ void SymbolPlotting::by_property(Data& data, BasicGraphicsObjectContainer& out) 
             duplicates.pop();   
         
         }
-        
-        // PaperPoint xy = transformation(UserPoint(point->longitude(), point->latitude()));
-
-        // symbol->push_back(xy);
-
         out.push_back(symbol);
 
     }
@@ -312,11 +311,44 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
     }
 }
 
+
+void SymbolPlotting::by_property_legend(Data& data, LegendVisitor& legend) {
+
+    IntervalMap<float> hueFinder;
+    IntervalMap<float> lightnessFinder;
+    
+    by_property_prepare(hueFinder, lightnessFinder);
+
+
+
+    for (IntervalMap<float>::const_iterator hue = hueFinder.begin(); hue != hueFinder.end(); ++hue) 
+        for (IntervalMap<float>::const_iterator lightness = lightnessFinder.begin(); lightness != lightnessFinder.end(); ++lightness) 
+        {
+                Polyline* box = new Polyline();
+                double min = lightness->first.min_;
+                double max = lightness->first.max_;
+
+                box->setShading(new FillShadingProperties());
+
+                Hsl hsl(hue->second,  property_saturation_value_, lightness->second);
+                Colour colour(hsl);
+                cout << "add legend " << colour << endl;
+
+                box->setFillColour(colour);
+                box->setFilled(true);
+
+                legend.add(new BoxEntry(min, max, box));
+            }
+}
+
 void SymbolPlotting::visit(Data& data, LegendVisitor& legend) {
     MagLog::debug() << " SymbolPlotting::visit to create a legend ... "
                     << "\n";
     if (!legend_)
         return;
+     if ( magCompare("property", type_) )
+        return by_property_legend(data, legend);
+
     (*mode_).visit(data, legend);
 }
 

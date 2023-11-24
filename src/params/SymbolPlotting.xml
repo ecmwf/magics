@@ -328,30 +328,7 @@ does it submit to any jurisdiction.
 			<documentation>With GeoSon : property name to use to set the colour</documentation>
 		</parameter>
 
-		<parameter member="property_filter_name"
-			to="string"
-			default=""
-			from="string"
-			name="symbol_property_filter_name"
-			visible='off'>
-			<documentation>With GeoSon : property name to use to set the colour</documentation>
-		</parameter>
-		<parameter member="property_filter_min_value"
-			to="float"
-			default="LLONG_MIN"
-			from="float"
-			name="symbol_property_filter_min_value"
-			visible='off'>
-			<documentation>With GeoSon : property name to use to set the colour</documentation>
-		</parameter>
-		<parameter member="property_filter_max_value"
-			to="float"
-			default="LLONG_MAX"
-			from="float"
-			name="symbol_property_filter_max_value"
-			visible='off'>
-			<documentation>With GeoSon : property name to use to set the colour</documentation>
-		</parameter>
+		
 		<parameter member="marker"
 			to="int"
 			default="1"
