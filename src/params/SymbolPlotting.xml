@@ -29,9 +29,7 @@ does it submit to any jurisdiction.
 			<documentation>Turn legend on or off (ON/OFF) : New Parameter!</documentation>
 			<set name="legend_user_text" value="on"></set>
 		</parameter>
-		<parameter member="unit_method"
-			to="string"
-			default="cm"
+		
 		<parameter member="unit_method"
 			to="string"
 			default="cm"

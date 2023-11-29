@@ -57,11 +57,11 @@ void IntervalSelectionType::calculate(double min, double max, bool shading) {
     if ( MAXSET(max_) )
         max_level = max_;
 
-    if ( shading && MINSET(min_shade_) )
-        min_level = min_shade_;
+    if ( shading && MINSET(shade_min_) )
+        min_level = shade_min_;
     
-    if ( shading && MAXSET(max_shade_) )
-        max_level = max_shade_;
+    if ( shading && MAXSET(shade_max_) )
+        max_level = shade_max_;
     
 
 
