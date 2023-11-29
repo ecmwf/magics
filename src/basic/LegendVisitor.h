@@ -45,6 +45,8 @@ public:
     LegendEntry(const string& label) :
         last_(false),
         first_(false),
+        oob_max_(false),
+        oob_min_(false),
         text_(true),
         label_(label),
         fromto_(false),
@@ -56,6 +58,8 @@ public:
     LegendEntry(double label) :
         last_(false),
         first_(false),
+        oob_max_(false),
+        oob_min_(false),
         text_(true),
         label_(""),
         fromto_(false),
@@ -69,6 +73,8 @@ public:
     LegendEntry(double min, double max) :
         last_(false),
         first_(false),
+        oob_max_(false),
+        oob_min_(false),
         text_(true),
         label_(""),
         fromto_(false),
@@ -117,7 +123,10 @@ public:
     void angle(double angle) { angle_ = angle; }
     void set(const LegendVisitor&);
     void last() { last_ = true; }
+    void oob(bool oob_min, bool oob_max) { oob_min_ = oob_min, oob_max_ = oob_max; }
     bool isLast() { return last_; }
+    bool isOobMin() { return first_ && oob_min_; }
+    bool isOobMax() { return last_ && oob_max_; }
     bool isFirst() { return first_; }
     void first() { first_ = true; }
     void notext() { text_ = false; }
@@ -157,6 +166,8 @@ public:
 protected:
     bool last_;
     bool first_;
+    bool oob_max_;
+    bool oob_min_;
     bool text_;
     bool automatic_;  // True if the tlegend text is generated automaticaly from the value.
     mutable string label_;
@@ -366,6 +377,7 @@ protected:
     Polyline* box_;
     Colour colour() override;
 };
+
 
 
 class LegendVisitor : public LayoutVisitor,

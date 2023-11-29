@@ -32,6 +32,9 @@ does it submit to any jurisdiction.
 		<parameter member="unit_method"
 			to="string"
 			default="cm"
+		<parameter member="unit_method"
+			to="string"
+			default="cm"
 			from="string"
 			name="symbol_height_unit"
 			values= "cm/geograhical">

@@ -1418,7 +1418,6 @@ void Proj4Projection::setMinMaxX(double min, double max) {
 
 }
 
-
     
 
 

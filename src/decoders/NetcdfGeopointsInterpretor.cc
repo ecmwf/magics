@@ -395,7 +395,6 @@ void NetcdfXYpointsInterpretor::print(ostream& out) const {
 
 void NetcdfXYpointsInterpretor::visit(Transformation& transformation) {
     // get the data ...
-
     try {
         refDateX_ = (transformation.getAutomaticX()) ? "" : transformation.getReferenceX();
         refDateY_ = (transformation.getAutomaticY()) ? "" : transformation.getReferenceY();

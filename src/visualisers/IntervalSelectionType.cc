@@ -95,9 +95,9 @@ void IntervalSelectionType::calculate(double min, double max, bool shading) {
         push_back(*level);
     }
     out << "]" << endl;
-    MagLog::dev() << out.str() << endl;
+    // cout  << out.str() << endl;
 
-    // Now make sure that the reference is inside the interval ..
+    
 }
 
 double IntervalSelectionType::reference(int freq) const {

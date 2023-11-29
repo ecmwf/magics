@@ -54,6 +54,7 @@ public:
 	string tag_;
 	bool legend_;
 	string unit_method_;
+	string unit_method_;
 	string type_;
 	string marker_mode_;
 	string format_;

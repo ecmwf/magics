@@ -103,9 +103,11 @@ void FortranMagics::reset() {
     gribindex_        = 0;
     legend_todo_      = false;
 
+
     symbolinput_todo_ = false;
     matrixinput_todo_ = false;
     polyinput_todo_   = false;
+    obsinput_todo_    = false;
     obsinput_todo_    = false;
 
 
@@ -453,6 +455,7 @@ void FortranMagics::pobs() {
     // top()->push_back(action_);
     action_->visdef(new ObsPlotting());
     
+    
 }
 
 #include "MatrixTestDecoder.h"
@@ -652,7 +655,7 @@ const char* FortranMagics::metainput() {
     StyleEntry style;
     library->getStyle(request, attributes, style);
     ostringstream out;
-    out << style;
+    out << "{" << style << "}";
     static string temp;
     temp = out.str();
     return temp.c_str();
@@ -832,6 +835,8 @@ void FortranMagics::ptext() {
 
 void FortranMagics::psymb() {
     actions();
+
+
 
     string mode;
     string wind;

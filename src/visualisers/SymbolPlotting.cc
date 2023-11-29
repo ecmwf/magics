@@ -30,6 +30,8 @@
 
 #include "IntervalMap.h"
 
+#include "IntervalMap.h"
+
 using namespace magics;
 
 

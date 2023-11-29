@@ -58,9 +58,15 @@ public:
     virtual double reference(int) const;
     virtual void thinLevels(int frequency, vector<double>&) const;
 
+    bool minOutOfBond() { return minOutOfBond_; }
+    bool maxOutOfBond() { return maxOutOfBond_; }
+
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
     virtual void print(ostream&) const override;
+    bool minOutOfBond_;
+    bool maxOutOfBond_; 
+;
 
 private:
     //! Copy constructor - No copy allowed
@@ -74,6 +80,7 @@ private:
         p.print(s);
         return s;
     }
+
 };
 
 template <>

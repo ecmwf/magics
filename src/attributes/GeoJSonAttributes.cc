@@ -30,7 +30,7 @@ GeoJSonAttributes::GeoJSonAttributes():
 	input_(ParameterManager::getString("geojson_input")),
 	binning_resolution_(ParameterManager::getDouble("geojson_binning_grid_resolution")),
 	value_(ParameterManager::getString("geojson_value_property"))
-	
+	 
 	
 {
 }
@@ -54,6 +54,7 @@ void GeoJSonAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "geojson_binning_grid_resolution", binning_resolution_, params);
 	setAttribute(prefix, "geojson_value_property", value_, params);
 	
+	cout << value_ << endl;
 	
 }
 

@@ -47,6 +47,30 @@ does it submit to any jurisdiction.
 			name="grib_second_component_file_name">
 			<documentation>The name of the input file containing the v-component of wind</documentation>
 		</parameter>
+		<parameter member="first_file_name"
+			to="string"
+			default="grib_input_file_name"
+			from="string"
+			name="grib_first_component_file_name">
+
+			<documentation>The name of the input file containing the u-component of wind</documentation>
+		</parameter>
+		<parameter member="colour_file_name"
+			to="string"
+			default="grib_input_file_name"
+			from="string"
+			name="grib_colour_component_file_name">
+
+			<documentation>The name of the input file containing the u-component of wind</documentation>
+		</parameter>
+		
+		<parameter member="second_file_name"
+			to="string"
+			default="grib_input_file_name"
+			from="string"
+			name="grib_second_component_file_name">
+			<documentation>The name of the input file containing the v-component of wind</documentation>
+		</parameter>
 		<parameter member="id"
 			to="string"
 			default=""

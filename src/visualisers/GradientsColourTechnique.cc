@@ -33,7 +33,6 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
     // First make sure that
     ColourTableDefinitionCompute helper;
 
-
     if (colours_.size() < 2) {
         MagLog::warning() << " No enough colours given to the gradients method" << endl;
         return;
@@ -161,7 +160,6 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
                 --step;
         }
     }
-    in.push_back(stops.back());
     out.push_back(stops.back());
 
 }
