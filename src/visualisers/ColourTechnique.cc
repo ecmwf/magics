@@ -29,9 +29,7 @@
 
 using namespace magics;
 
-ColourTechnique::ColourTechnique() : policy_(ListPolicy::LASTONE), 
-                minOutOfBound_(false), maxOutOfBound_(false)
-                {}
+ColourTechnique::ColourTechnique() : policy_(ListPolicy::LASTONE) {}
 
 
 ColourTechnique::~ColourTechnique() {}
