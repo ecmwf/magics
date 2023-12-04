@@ -164,31 +164,7 @@ void SymbolPlotting::by_property(Data& data, BasicGraphicsObjectContainer& out) 
         property_lightness_list_.push_back(0.5);
 
 
-    IntervalMap<float> hueFinder;
-    auto value_hue = property_hue_values_list_.begin();
-    auto hue = property_hue_list_.begin();
-    IntervalMap<float> lightnessFinder;
-    auto value_lightness = property_lightness_values_list_.begin();
-    auto lightness = property_lightness_list_.begin();
-
-    while (true) {
-        if (value_hue + 1 == property_hue_values_list_.end())
-            break;
-        
-        hueFinder[Interval(*value_hue, *(value_hue+1))] = *hue;        
-        if (hue + 1 != property_hue_list_.end())
-            hue++;
-        ++value_hue;
-    }
-    while (true) {
-        if (value_lightness + 1 == property_lightness_values_list_.end())
-            break;
-        
-        lightnessFinder[Interval(*value_lightness, *(value_lightness+1))] = *lightness;        
-        if (lightness + 1 != property_lightness_list_.end())
-            lightness++;
-        ++value_lightness;
-    }
+    
 
     IntervalMap<float> hueFinder;
     IntervalMap<float> lightnessFinder;
