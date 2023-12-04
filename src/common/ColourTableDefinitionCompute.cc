@@ -275,10 +275,6 @@ void ColourTableDefinitionCompute::hcl(ColourTable& table, int nb) {
 void ColourTableDefinitionCompute::set(ColourTable& table, int nb) {
     prepare();
 
-    MagLog::dev() << "ColourTableDefinitionCompute::set->min-->" << minColour_ << endl;
-    MagLog::dev() << "ColourTableDefinitionCompute::set->max-->" << maxColour_ << endl;
-    MagLog::dev() << "nb interval-->" << nb << endl;
-
     if (nb == 1) {
         table.push_back(minColour_);
         return;
@@ -292,6 +288,8 @@ void ColourTableDefinitionCompute::set(ColourTable& table, int nb) {
         table.push_back(maxColour_);
         return;
     }
+
+
     std::map<string, ComputeFunction>::iterator method = methods_.find(lowerCase(method_));
     if (method == methods_.end())
         hsl(table, nb);
@@ -394,6 +392,8 @@ void ColourTableDefinitionCompute::set(const stringarray& from, ColourTable& to,
         int nb, ColourListPolicy policy, const string& method)
 {
    
+
+   cout << "SET" << policy << endl;
     auto colour = from.begin();
     if (policy == ColourListPolicy::DYNAMIC) {
         auto helper = dynamicMethods_.find(method);
@@ -409,6 +409,7 @@ void ColourTableDefinitionCompute::set(const stringarray& from, ColourTable& to,
     }
     
     for (int i = 0; i < nb - 1; i++) {
+        cout << i << "->" << *colour << endl;
         if (colour == from.end()) {
             if (policy == ColourListPolicy::LASTONE) {
                 to.push_back(Colour(from.back()));

@@ -95,7 +95,7 @@ void IntervalSelectionType::calculate(double min, double max, bool shading) {
         push_back(*level);
     }
     out << "]" << endl;
-    // cout  << out.str() << endl;
+    MagLog::dev()  << out.str() << endl;
 
     
 }

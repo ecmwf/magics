@@ -45,53 +45,15 @@ void ColourTechnique::print(ostream& out) const {
 }
 
 void ColourTechnique::prepare(LevelSelection& out, LevelSelection& levels, bool rainbow) {
-    if (levels.empty())
+       if (levels.empty())
         return;
-
-    
     clear();
     bands_.clear();
     ColourTable table;
-
-
-
-    minOutOfBound_ = out.minOutOfBond();
-    maxOutOfBound_ = out.maxOutOfBond();
-
-     
-
     if (rainbow)
         set(out, levels, table, levels.size() + 1);
-    else {
-        
-        LevelSelection newlevels;
-        int count = levels.size();
-        if (out.minOutOfBond()) count--;
-           
-        if (out.maxOutOfBond()) count--;
-        
-    
-        
-        set(out, levels, table, count);
-        if (out.minOutOfBond()) {
-            Colour min_colour = magCompare(oob_min_colour_, "automatic") ? 
-                        table.front().colour() : Colour(oob_min_colour_);
-            table.insert(table.begin(), min_colour);
-        }
-         if (out.maxOutOfBond()) {
-            Colour max_colour = magCompare(oob_max_colour_, "automatic") ? 
-                                        table.back().colour() : Colour(oob_max_colour_);
-            table.push_back(max_colour);
-        }
-    }
-
-
-    // cout << "ColourTechnique::after(" << endl;
-    // for (auto l = levels.begin(); l != levels.end(); ++l)
-    //     cout << *l << endl;
-
-    // cout << "-------------------" << endl;
-    
+    else
+        set(out, levels, table, levels.size());
 
     if (table.empty())
         table.push_back(Colour("none"));
@@ -130,8 +92,6 @@ void ColourTechnique::prepare(LevelSelection& out, LevelSelection& levels, bool 
     }
     if (!rainbow)
         bands_.insert(make_pair(Interval(levels.back(), levels.back() + EPSILON), left));
-
-    
 
     MagLog::dev() << levels.back() << "<<" << left << "<<" << levels.back() + EPSILON << endl;
 }

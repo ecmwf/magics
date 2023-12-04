@@ -50,8 +50,6 @@ public:
 	virtual void toxml(std::ostream& out) const;
 	//  --  members:
 	string tag_;
-	string oob_min_colour_;
-	string oob_max_colour_;
 	 
 
 private:
