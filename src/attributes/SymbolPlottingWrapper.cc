@@ -155,18 +155,6 @@ void SymbolPlottingWrapper::set(const MagRequest& request)
 		double property_height_scaling_factor_value = request("SYMBOL_PROPERTY_HEIGHT_SCALING_FACTOR");
 		symbolplotting_->property_height_scaling_factor_ = property_height_scaling_factor_value;
 		}
-	if  (request.countValues("SYMBOL_PROPERTY_FILTER_NAME") ) {
-		string property_filter_name_value = request("SYMBOL_PROPERTY_FILTER_NAME");
-		symbolplotting_->property_filter_name_ = property_filter_name_value;
-		}
-	if  (request.countValues("SYMBOL_PROPERTY_FILTER_MIN_VALUE") ) {
-		double property_filter_min_value_value = request("SYMBOL_PROPERTY_FILTER_MIN_VALUE");
-		symbolplotting_->property_filter_min_value_ = property_filter_min_value_value;
-		}
-	if  (request.countValues("SYMBOL_PROPERTY_FILTER_MAX_VALUE") ) {
-		double property_filter_max_value_value = request("SYMBOL_PROPERTY_FILTER_MAX_VALUE");
-		symbolplotting_->property_filter_max_value_ = property_filter_max_value_value;
-		}
 	if  (request.countValues("SYMBOL_MARKER_INDEX") ) {
 		int marker_value = request("SYMBOL_MARKER_INDEX");
 		symbolplotting_->marker_ = marker_value;

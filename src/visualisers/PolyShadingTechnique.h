@@ -141,7 +141,6 @@ struct LegendEntryBuilder {
         box->setColour(colours_.right(min));
 
         LegendEntry* entry = new BoxEntry(min, max, box);
-        entry->oob(colours_.minOutOfBound(), colours_.maxOutOfBound());
         if (first_) {
             first_ = false;
             entry->first();

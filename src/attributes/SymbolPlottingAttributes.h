@@ -73,9 +73,6 @@ public:
 	double property_saturation_value_;
 	string property_height_name_;
 	double property_height_scaling_factor_;
-	string property_filter_name_;
-	double property_filter_min_value_;
-	double property_filter_max_value_;
 	int marker_;
 	unique_ptr<SymbolMode> mode_;
 	unique_ptr<Colour> outline_colour_;

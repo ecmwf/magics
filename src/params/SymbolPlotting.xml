@@ -29,6 +29,7 @@ does it submit to any jurisdiction.
 			<documentation>Turn legend on or off (ON/OFF) : New Parameter!</documentation>
 			<set name="legend_user_text" value="on"></set>
 		</parameter>
+		
 		<parameter member="unit_method"
 			to="string"
 			default="cm"
@@ -315,6 +316,40 @@ does it submit to any jurisdiction.
 			to="string"
 			default="colour"
 			from="string"
+			name="symbol_property_lightness_name"
+			visible='off'>
+			<documentation>With GeoSon : property name to use to set the colour</documentation>
+		</parameter>
+		<parameter member="property_lightness_list"
+			to="floatarray"
+			default="floatarray()"
+			from="floatarray"
+			name="symbol_property_lightness_list"
+			visible='off'>
+			<documentation>With GeoSon : list of colours to use</documentation>
+		</parameter>
+		<parameter member="property_lightness_values_list"
+			to="floatarray"
+			default="floatarray()"
+			from="floatarray"
+			name="symbol_property_lightness_values_list"
+			visible='off'>
+			<documentation>With GeoSon : list of heights to use</documentation>
+		</parameter>
+
+		<parameter member="property_saturation_value"
+			to="float"
+			default="1"
+			from="float"
+			name="symbol_property_saturation_value"
+			visible='off'>
+			<documentation>With GeoSon : list of colours to use</documentation>
+		</parameter>
+
+		<parameter member="property_height_name"
+			to="string"
+			default="colour"
+			from="string"
 			name="symbol_property_height_name"
 			visible='off'>
 			<documentation>With GeoSon : property name to use to set the colour</documentation>
@@ -328,30 +363,7 @@ does it submit to any jurisdiction.
 			<documentation>With GeoSon : property name to use to set the colour</documentation>
 		</parameter>
 
-		<parameter member="property_filter_name"
-			to="string"
-			default=""
-			from="string"
-			name="symbol_property_filter_name"
-			visible='off'>
-			<documentation>With GeoSon : property name to use to set the colour</documentation>
-		</parameter>
-		<parameter member="property_filter_min_value"
-			to="float"
-			default="LLONG_MIN"
-			from="float"
-			name="symbol_property_filter_min_value"
-			visible='off'>
-			<documentation>With GeoSon : property name to use to set the colour</documentation>
-		</parameter>
-		<parameter member="property_filter_max_value"
-			to="float"
-			default="LLONG_MAX"
-			from="float"
-			name="symbol_property_filter_max_value"
-			visible='off'>
-			<documentation>With GeoSon : property name to use to set the colour</documentation>
-		</parameter>
+		
 		<parameter member="marker"
 			to="int"
 			default="1"

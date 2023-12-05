@@ -24,12 +24,14 @@
 #include "MagicsParameter.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "MagicsSettings.h"
+#include "MagicsGlobal.h"
 
 using namespace magics;
 
 
+
 MagicsSettingsWrapper::MagicsSettingsWrapper(): magicssettings_(new MagicsSettings())
+
 
 {
 
@@ -55,15 +57,21 @@ void MagicsSettingsWrapper::set(const MagRequest& request)
 
 	if  (request.countValues("MAGICS_SILENT") ) {
 		string silent_value = request("MAGICS_SILENT");
+		
 		magicssettings_->silent_ = MagTranslator<string, bool>()(silent_value);
+		
 		}
 	if  (request.countValues("MAGICS_BACKWARD_COMPATIBILITY") ) {
 		string compatibility_value = request("MAGICS_BACKWARD_COMPATIBILITY");
+		
 		magicssettings_->compatibility_ = MagTranslator<string, bool>()(compatibility_value);
+		
 		}
 	if  (request.countValues("MAGICS_STRICT_MODE") ) {
 		string strict_value = request("MAGICS_STRICT_MODE");
+		
 		magicssettings_->strict_ = MagTranslator<string, bool>()(strict_value);
+		
 		}
 	
 	

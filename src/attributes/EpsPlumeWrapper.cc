@@ -65,6 +65,12 @@ void EpsPlumeWrapper::set(const MagRequest& request)
 		epsplume_->legend_ = MagTranslator<string, bool>()(legend_value);
 		
 		}
+	if  (request.countValues("EPS_PLUME_LEGEND_GREY_STYLE") ) {
+		string legend_grey_style_value = request("EPS_PLUME_LEGEND_GREY_STYLE");
+		
+		epsplume_->legend_grey_style_ = MagTranslator<string, bool>()(legend_grey_style_value);
+		
+		}
 	if  (request.countValues("EPS_PLUME_MEMBERS") ) {
 		string line_value = request("EPS_PLUME_MEMBERS");
 		
