@@ -391,9 +391,6 @@ void ColourTableDefinitionCompute::dynamic_normal(const stringarray& from, Colou
 void ColourTableDefinitionCompute::set(const stringarray& from, ColourTable& to, 
         int nb, ColourListPolicy policy, const string& method)
 {
-   
-
-   cout << "SET" << policy << endl;
     auto colour = from.begin();
     if (policy == ColourListPolicy::DYNAMIC) {
         auto helper = dynamicMethods_.find(method);
@@ -409,21 +406,18 @@ void ColourTableDefinitionCompute::set(const stringarray& from, ColourTable& to,
     }
     
     for (int i = 0; i < nb - 1; i++) {
-        cout << i << "->" << *colour << endl;
+        to.push_back(Colour(*colour));
+        colour++;
+
         if (colour == from.end()) {
             if (policy == ColourListPolicy::LASTONE) {
-                to.push_back(Colour(from.back()));
+               colour--;
             }
             else {
                 colour = from.begin();
-                to.push_back(Colour(*colour));
-                colour++;
             }
         }
-        else {
-            to.push_back(Colour(*colour));
-            colour++;
-        }
+        
     }
     
 
