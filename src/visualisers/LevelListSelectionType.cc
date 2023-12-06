@@ -45,12 +45,17 @@ void LevelListSelectionType::print(ostream& out) const {
 void LevelListSelectionType::calculate(double min, double max, bool shading) {
     clear();
 
+// Here have to take into account contour_min/max and comtour_shade_min/max : we take the max of the min and the min of the max. 
+
+    double use_min = ( shade_min_ > min_ ) ? shade_min_ : min_;
+    double use_max = ( shade_max_ < max_ ) ? shade_max_ : max_;
+
 
     doublearray::const_iterator last = list_.begin();
-    double prevVal = min_;
+    double prevVal = use_min;
     for (doublearray::const_iterator val = list_.begin(); val != list_.end(); ++val) {
         MagLog::dev() << "LevelListSelectionType::calculate(double min, double max)--->" << *val << "\n";
-        if (min_ <= *val && *val <= max_) {
+        if (use_min <= *val && *val <= use_max) {
             if (*val < prevVal) {
                 MagLog::error() << " level list values should increase, but " << *val << " follows " << prevVal << endl;
                 break;
