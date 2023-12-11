@@ -322,6 +322,7 @@ void Transformation::operator()(const magics::Polyline& from, BasicGraphicsObjec
 }
 
 void Transformation::operator()(const magics::Polyline& from, vector<magics::Polyline*>& out) const {
+   
     if (from.empty())
         return;
 

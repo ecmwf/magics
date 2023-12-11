@@ -34,59 +34,21 @@ CountSelectionType::CountSelectionType() {}
 #define MAXSET(v) !same(v, +1.0e+21)
 
 void CountSelectionType::calculate(double min, double max, bool shading) {
-
-  
-      clear();
-
-
-    double min_limit=min;
-    double max_limit=max;
-
-    
-    if ( MINSET(min_) )
-        min_limit = min_;
-    
-    if ( MAXSET(max_) )
-        max_limit = max_;
-
-    if ( shading && MINSET(shade_min_) )
-        min_limit = shade_min_;
-    
-    if ( shading && MAXSET(shade_max_) )
-        max_limit = shade_max_;
-
-    minOutOfBond_ = oob_min_ > min_limit;
-    maxOutOfBond_ = oob_max_ < max_limit;
-
+clear();
+    double maxi = (max_ > 1000000000) ? max : max_;
+    double mini = (min_ < -1000000000) ? min : min_;
     int i       = 0;
-    if ( minOutOfBond_ || !MINSET(min_)) {
-        i++;
-    }
-    
-    if ( maxOutOfBond_ || !MAXSET(max_) ) {
-       i++;
-    }
 
+    i += (max_ > 1000000000) ? 1 : 0;
+    i += (min_ < -1000000000) ? 1 : 0;
 
-
-    // Commented for now, may have to be revisited soon.
-    // i += ( MINSET(min_limit) ) ? 1 : 0;
-    // i += ( MAXSET(max_limit) ) ? 1 : 0;
 
     double nb = levelCount_ - 1;
-    if (same(max_limit, min_limit)) {
-        push_back(min_limit);
+    if (same(maxi, mini)) {
+        push_back(mini);
         return;
     }
-
-    if (min_limit > max_limit) {
-        push_back(max_limit);
-        push_back(min_limit);
-        return;
-    }
-
-   
-    double step = (max_limit - min_limit) / nb;
+    double step = (maxi - mini) / nb;
     double toleranceProportion =
         (double)tolerance_ /
         (double)(levelCount_ + 1 + i);  // tolerance as a proportion of the number of levels
@@ -94,7 +56,7 @@ void CountSelectionType::calculate(double min, double max, bool shading) {
                                         // number of levels we will not actually plot, ie the min/max contours).
     if (same(step, 0)) {
         // Only one isoline!
-        push_back(min_limit);
+        push_back(mini);
         return;
     }
 
@@ -145,12 +107,13 @@ void CountSelectionType::calculate(double min, double max, bool shading) {
 
     inc *= istep;  // convert back into proper range
 
-    double first = floor(min_limit / inc) * inc;
 
-    while (first > min_limit)
+    double first = floor(mini / inc) * inc;
+
+    while (first > mini)
         first -= inc;
 
-    push_back(min_limit);
+    push_back(mini);
     first += inc;
     double epsilon = inc / 10000.0;
     while (same(epsilon, 0)) {
@@ -159,20 +122,18 @@ void CountSelectionType::calculate(double min, double max, bool shading) {
     }
 
 
-
-    for (double val = first; val < max_limit; val += inc) {
+    for (double val = first; val < maxi; val += inc) {
         // special case - if the value is close to zero then set it to precisely zero to avoid later formatting issues
         if (fabs(val) < epsilon)
             push_back(0.0);
-        else if (same(val, max_limit))
-            push_back(max_limit);
+        else if (same(val, maxi))
+            push_back(maxi);
         else
             push_back(val);
     }
 
-    if (max_limit != back())
-        push_back(max_limit);
-
+    if (maxi != back())
+        push_back(maxi);
     int si = static_cast<int>(size());
 
 
@@ -180,36 +141,27 @@ void CountSelectionType::calculate(double min, double max, bool shading) {
     // so as to ensure the correct number, even if they are not nice
 
     if (si - i < levelCount_ - tolerance_ || si - i > levelCount_ + tolerance_) {
-        MagLog::debug()  << "Not using nice levels[" << levelCount_ << ", " << tolerance_ << "]-->" << size() << endl;
+        MagLog::debug() << "Not using nice levels[" << levelCount_ << ", " << tolerance_ << "]-->" << size() << endl;
         clear();
-        step       = (max_limit - min_limit) / (levelCount_ - 1);
-        double val = min_limit;
+        step       = (maxi - mini) / (levelCount_ - 1);
+        double val = mini;
         while (1) {
-            if ( val >= min_limit && val <= max_limit  )
             push_back(val);
-            if (same(val, max_limit) || val > max_limit)
+            if (same(val, maxi) || val > maxi)
                 break;
             val += step;
         }
         MagLog::debug() << "New size-->" << size() << endl;
     }
 
-     if ( minOutOfBond_ ) {
-        insert(begin(), std::max(min, min_));
-    }
+    MagLog::debug() << "count=" << levelCount_ << ", tolerance=" << tolerance_ << ", result=" << size() << endl;
 
-    if ( maxOutOfBond_ ) {
-        push_back(std::min(max, max_));
-    }
-
-    
     ostringstream level;
     for (const_iterator l = begin(); l != end(); ++l)
         level << *l << " ";
 
-    MagLog::debug()  << level.str() << endl;
+    MagLog::debug() << level.str() << endl;
 }
-
 
 CountSelectionType::~CountSelectionType() {}
 

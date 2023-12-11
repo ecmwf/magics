@@ -115,6 +115,50 @@ void SymbolPlottingWrapper::set(const MagRequest& request)
 		symbolplotting_->legend_only_ = MagTranslator<string, bool>()(legend_only_value);
 		
 		}
+	if  (request.countValues("SYMBOL_PROPERTY_HUE_NAME") ) {
+		string property_hue_name_value = request("SYMBOL_PROPERTY_HUE_NAME");
+		symbolplotting_->property_hue_name_ = property_hue_name_value;
+		}
+	doublearray  property_hue_list_value;
+	for (int i = 0; i < request.countValues("SYMBOL_PROPERTY_HUE_LIST"); i++)
+		property_hue_list_value.push_back((double)request("SYMBOL_PROPERTY_HUE_LIST", i));
+	if ( !property_hue_list_value.empty() )
+		symbolplotting_->property_hue_list_ = property_hue_list_value;
+	doublearray  property_hue_values_list_value;
+	for (int i = 0; i < request.countValues("SYMBOL_PROPERTY_HUE_VALUES_LIST"); i++)
+		property_hue_values_list_value.push_back((double)request("SYMBOL_PROPERTY_HUE_VALUES_LIST", i));
+	if ( !property_hue_values_list_value.empty() )
+		symbolplotting_->property_hue_values_list_ = property_hue_values_list_value;
+	if  (request.countValues("SYMBOL_PROPERTY_LIGHTNESS_NAME") ) {
+		string property_lightness_name_value = request("SYMBOL_PROPERTY_LIGHTNESS_NAME");
+		symbolplotting_->property_lightness_name_ = property_lightness_name_value;
+		}
+	doublearray  property_lightness_list_value;
+	for (int i = 0; i < request.countValues("SYMBOL_PROPERTY_LIGHTNESS_LIST"); i++)
+		property_lightness_list_value.push_back((double)request("SYMBOL_PROPERTY_LIGHTNESS_LIST", i));
+	if ( !property_lightness_list_value.empty() )
+		symbolplotting_->property_lightness_list_ = property_lightness_list_value;
+	doublearray  property_lightness_values_list_value;
+	for (int i = 0; i < request.countValues("SYMBOL_PROPERTY_LIGHTNESS_VALUES_LIST"); i++)
+		property_lightness_values_list_value.push_back((double)request("SYMBOL_PROPERTY_LIGHTNESS_VALUES_LIST", i));
+	if ( !property_lightness_values_list_value.empty() )
+		symbolplotting_->property_lightness_values_list_ = property_lightness_values_list_value;
+	if  (request.countValues("SYMBOL_PROPERTY_SATURATION_VALUE") ) {
+		double property_saturation_value_value = request("SYMBOL_PROPERTY_SATURATION_VALUE");
+		symbolplotting_->property_saturation_value_ = property_saturation_value_value;
+		}
+	if  (request.countValues("SYMBOL_PROPERTY_HEIGHT_NAME") ) {
+		string property_height_name_value = request("SYMBOL_PROPERTY_HEIGHT_NAME");
+		symbolplotting_->property_height_name_ = property_height_name_value;
+		}
+	if  (request.countValues("SYMBOL_PROPERTY_HEIGHT_SCALING_FACTOR") ) {
+		double property_height_scaling_factor_value = request("SYMBOL_PROPERTY_HEIGHT_SCALING_FACTOR");
+		symbolplotting_->property_height_scaling_factor_ = property_height_scaling_factor_value;
+		}
+	if  (request.countValues("SYMBOL_MARKER_INDEX") ) {
+		int marker_value = request("SYMBOL_MARKER_INDEX");
+		symbolplotting_->marker_ = marker_value;
+		}
 	
 	
 		string mode_value = request.countValues("SYMBOL_TABLE_MODE") ?  (string) request("SYMBOL_TABLE_MODE") : "OFF";

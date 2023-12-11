@@ -41,13 +41,9 @@ GribDecoderAttributes::GribDecoderAttributes():
 	expver_(ParameterManager::getBool("grib_text_experiment")),
 	units_(ParameterManager::getBool("grib_text_units")),
 	field_position_(ParameterManager::getInt("grib_field_position")),
-	large_field_position_(ParameterManager::getULong("grib_field_large_position")),
 	position_1_(ParameterManager::getInt("grib_wind_position_1")),
 	position_2_(ParameterManager::getInt("grib_wind_position_2")),
 	colour_position_(ParameterManager::getInt("grib_wind_position_colour")),
-	large_position_1_(ParameterManager::getULong("grib_wind_large_position_1")),
-	large_position_2_(ParameterManager::getULong("grib_wind_large_position_2")),
-	large_colour_position_(ParameterManager::getULong("grib_wind_large_position_colour")),
 	missing_value_(ParameterManager::getDouble("grib_missing_value_indicator")),
 	wind_style_(ParameterManager::getBool("grib_wind_style"))
 	,
@@ -87,13 +83,9 @@ void GribDecoderAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "grib_text_experiment", expver_, params);
 	setAttribute(prefix, "grib_text_units", units_, params);
 	setAttribute(prefix, "grib_field_position", field_position_, params);
-	setAttribute(prefix, "grib_field_large_position", large_field_position_, params);
 	setAttribute(prefix, "grib_wind_position_1", position_1_, params);
 	setAttribute(prefix, "grib_wind_position_2", position_2_, params);
 	setAttribute(prefix, "grib_wind_position_colour", colour_position_, params);
-	setAttribute(prefix, "grib_wind_large_position_1", large_position_1_, params);
-	setAttribute(prefix, "grib_wind_large_position_2", large_position_2_, params);
-	setAttribute(prefix, "grib_wind_large_position_colour", large_colour_position_, params);
 	setAttribute(prefix, "grib_missing_value_indicator", missing_value_, params);
 	setAttribute(prefix, "grib_wind_style", wind_style_, params);
 	
@@ -120,13 +112,9 @@ void GribDecoderAttributes::copy(const GribDecoderAttributes& other)
 	expver_ = other.expver_;
 	units_ = other.units_;
 	field_position_ = other.field_position_;
-	large_field_position_ = other.large_field_position_;
 	position_1_ = other.position_1_;
 	position_2_ = other.position_2_;
 	colour_position_ = other.colour_position_;
-	large_position_1_ = other.large_position_1_;
-	large_position_2_ = other.large_position_2_;
-	large_colour_position_ = other.large_colour_position_;
 	missing_value_ = other.missing_value_;
 	wind_style_ = other.wind_style_;
 	address_mode_ = unique_ptr<GribAddressMode>(other.address_mode_->clone());
@@ -193,13 +181,9 @@ void GribDecoderAttributes::print(ostream& out)  const
 	out << " expver = " <<  expver_;
 	out << " units = " <<  units_;
 	out << " field_position = " <<  field_position_;
-	out << " large_field_position = " <<  large_field_position_;
 	out << " position_1 = " <<  position_1_;
 	out << " position_2 = " <<  position_2_;
 	out << " colour_position = " <<  colour_position_;
-	out << " large_position_1 = " <<  large_position_1_;
-	out << " large_position_2 = " <<  large_position_2_;
-	out << " large_colour_position = " <<  large_colour_position_;
 	out << " missing_value = " <<  missing_value_;
 	out << " wind_style = " <<  wind_style_;
 	out << " address_mode = " <<  *address_mode_;
@@ -243,20 +227,12 @@ void GribDecoderAttributes::toxml(ostream& out)  const
 	niceprint(out,units_);
 	out << ", \"grib_field_position\":";
 	niceprint(out,field_position_);
-	out << ", \"grib_field_large_position\":";
-	niceprint(out,large_field_position_);
 	out << ", \"grib_wind_position_1\":";
 	niceprint(out,position_1_);
 	out << ", \"grib_wind_position_2\":";
 	niceprint(out,position_2_);
 	out << ", \"grib_wind_position_colour\":";
 	niceprint(out,colour_position_);
-	out << ", \"grib_wind_large_position_1\":";
-	niceprint(out,large_position_1_);
-	out << ", \"grib_wind_large_position_2\":";
-	niceprint(out,large_position_2_);
-	out << ", \"grib_wind_large_position_colour\":";
-	niceprint(out,large_colour_position_);
 	out << ", \"grib_missing_value_indicator\":";
 	niceprint(out,missing_value_);
 	out << ", \"grib_wind_style\":";
@@ -284,13 +260,9 @@ static MagicsParameter<int> grib_interpolation_method_missing_fill_count("grib_i
 static MagicsParameter<string> grib_text_experiment("grib_text_experiment", "off");
 static MagicsParameter<string> grib_text_units("grib_text_units", "off");
 static MagicsParameter<int> grib_field_position("grib_field_position", 1);
-static MagicsParameter<unsigned long long> grib_field_large_position("grib_field_large_position", 0);
 static MagicsParameter<int> grib_wind_position_1("grib_wind_position_1", 1);
 static MagicsParameter<int> grib_wind_position_2("grib_wind_position_2", -1);
 static MagicsParameter<int> grib_wind_position_colour("grib_wind_position_colour", -1);
-static MagicsParameter<unsigned long long> grib_wind_large_position_1("grib_wind_large_position_1", 0);
-static MagicsParameter<unsigned long long> grib_wind_large_position_2("grib_wind_large_position_2", 0);
-static MagicsParameter<unsigned long long> grib_wind_large_position_colour("grib_wind_large_position_colour", 0);
 static MagicsParameter<double> grib_missing_value_indicator("grib_missing_value_indicator", -1.5e+21);
 static MagicsParameter<string> grib_wind_style("grib_wind_style", "off");
 static MagicsParameter<string> grib_file_address_mode("grib_file_address_mode", "record");

@@ -8,7 +8,7 @@
  * nor does it submit to any jurisdiction.
  */
 
-/*! \file FortranMagics.cc
+/*! \file ics.cc
     \brief Implementation of the Template class FortranMagics.
 
     Magics Team - ECMWF 2007
@@ -103,9 +103,11 @@ void FortranMagics::reset() {
     gribindex_        = 0;
     legend_todo_      = false;
 
+
     symbolinput_todo_ = false;
     matrixinput_todo_ = false;
     polyinput_todo_   = false;
+    obsinput_todo_    = false;
     obsinput_todo_    = false;
 
 
@@ -435,7 +437,9 @@ void FortranMagics::pobs() {
     if (!action_ || obsinput_todo_ ) {
         action_         = new VisualAction();
         ObsDecoder* obs = new ObsDecoder();
+        cout << "OBS" << endl;
         if (obs->defined()) {
+            cout << "defined" << endl;
             action_->data(obs);
             top()->push_back(action_);
            
@@ -446,7 +450,11 @@ void FortranMagics::pobs() {
             top()->push_back(action_);
         }
     }
+    // action_ = new VisualAction();
+    // action_->data(new ObsJSon());
+    // top()->push_back(action_);
     action_->visdef(new ObsPlotting());
+    
     
 }
 

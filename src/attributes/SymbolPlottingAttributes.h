@@ -64,6 +64,16 @@ public:
 	bool automatic_connect_colour_;
 	int connect_thickness_;
 	bool legend_only_;
+	string property_hue_name_;
+	doublearray property_hue_list_;
+	doublearray property_hue_values_list_;
+	string property_lightness_name_;
+	doublearray property_lightness_list_;
+	doublearray property_lightness_values_list_;
+	double property_saturation_value_;
+	string property_height_name_;
+	double property_height_scaling_factor_;
+	int marker_;
 	unique_ptr<SymbolMode> mode_;
 	unique_ptr<Colour> outline_colour_;
 	LineStyle outline_style_;

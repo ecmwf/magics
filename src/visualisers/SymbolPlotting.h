@@ -44,8 +44,13 @@ public:
 
 
     virtual void operator()(Data&, BasicGraphicsObjectContainer&) override;
+    
     virtual void visit(Data&, LegendVisitor&) override;
+    void by_property(Data&, BasicGraphicsObjectContainer&);
+    void by_property_legend(Data&, LegendVisitor&);
+    void by_property_prepare(IntervalMap<float>&, IntervalMap<float>&); 
     bool needLegend() override { return legend_; }
+
     virtual void visit(Data&, HistoVisitor&) override;
     void operator()(const PaperPoint&, BasicGraphicsObjectContainer&) const;
     void getReady(const LegendVisitor& legend) override;

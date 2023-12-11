@@ -40,11 +40,13 @@ void IntervalSelectionType::print(ostream& out) const {
     out << "]";
 }
 
+
 #define MINSET(v) !same(v, -1.0e+21)
 #define MAXSET(v) !same(v, +1.0e+21)
 void IntervalSelectionType::calculate(double min, double max, bool shading) {
     clear();
     std::set<double> levels;
+
 
     double min_level=min;
     double max_level=max;
@@ -60,26 +62,13 @@ void IntervalSelectionType::calculate(double min, double max, bool shading) {
     
     if ( shading && MAXSET(shade_max_) )
         max_level = shade_max_;
-
-
-    minOutOfBond_ = oob_min_ > min_level;
-    maxOutOfBond_ = oob_max_ < max_level;
-    if ( minOutOfBond_ ) {
-        levels.insert(min_level);
-        min_level = oob_min_;
-    }
     
-    if ( maxOutOfBond_ ) {
-        levels.insert(max_level);
-        max_level = oob_max_;
-    }
-            
 
 
     levels.insert(min_level);
     levels.insert(max_level);
 
-
+    
     double level = reference_;
     double newref;
 
@@ -106,7 +95,7 @@ void IntervalSelectionType::calculate(double min, double max, bool shading) {
         push_back(*level);
     }
     out << "]" << endl;
-    // cout  << out.str() << endl;
+    MagLog::dev()  << out.str() << endl;
 
     
 }

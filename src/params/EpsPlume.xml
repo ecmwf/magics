@@ -31,6 +31,14 @@ does it submit to any jurisdiction.
 			visible='false'>
 			<documentation>ignore legend</documentation>
 		</parameter>
+		<parameter from="string"
+			name="eps_plume_legend_grey_style"
+			default="on"
+			member="legend_grey_style"
+			to="bool"
+			>
+			<documentation>if On ( default) the legend will use a grey scale ootherwise it will use user defined colour</documentation>
+		</parameter>
 		<parameter member="line"
 			to="bool"
 			default="on"
@@ -142,6 +150,41 @@ does it submit to any jurisdiction.
 			from="int"
 			name="eps_plume_median_line_thickness">
 			<documentation>Line thickness of the deterministic forecast</documentation>
+		</parameter>
+		<parameter member="percentiles"
+			to="bool"
+			default="off"
+			from="string"
+			name="eps_plume_percentiles">
+			<documentation>show teh precnetiles</documentation>
+		</parameter>
+		<parameter member="percentiles_list"
+			to="floatarray"
+			default="floatarray()"
+			from="floatarray"
+			name="eps_plume_percentiles_list">
+			<documentation>List of the precentiles to display</documentation>
+		</parameter>
+		<parameter member="percentiles_line_colour_list"
+			to="stringarray"
+			default="stringarray()"
+			from="stringarray"
+			name="eps_plume_percentiles_line_colour_list">
+			<documentation>List of colours to use to display the percentiles</documentation>
+		</parameter>
+		<parameter member="percentiles_line_style_list"
+			to="stringarray"
+			default="stringarray()"
+			from="stringarray"
+			name="eps_plume_percentiles_line_style_list">
+			<documentation>List of line-style to use to display the percentiles</documentation>
+		</parameter>
+		<parameter member="percentiles_line_thickness_list"
+			to="intarray"
+			default="intarray()"
+			from="intarray"
+			name="eps_plume_percentiles_line_thickness_list">
+			<documentation>List of line-thickness to use to display the percentiles</documentation>
 		</parameter>
 		<parameter member="shading"
 			to="bool"

@@ -45,47 +45,17 @@ void LevelListSelectionType::print(ostream& out) const {
 void LevelListSelectionType::calculate(double min, double max, bool shading) {
     clear();
 
-    double min_level=list_.front();
-    double max_level=list_.back();
+// Here have to take into account contour_min/max and comtour_shade_min/max : we take the max of the min and the min of the max. 
 
-   
-    if ( MINSET(min_) )
-        min_level = min_;
-    
-    if ( MAXSET(max_) )
-        max_level = max_;
-
-    if ( shading && MINSET(shade_min_) )
-        min_level = shade_min_;
-    
-    if ( shading && MAXSET(shade_max_) )
-        max_level = shade_max_;
-
-
-    
-    minOutOfBond_ = oob_min_ > min_level;
-    maxOutOfBond_ = oob_max_ < max_level;   
-
-    
-   
-   
-    if (minOutOfBond_) {
-        push_back(min);
-        push_back(oob_min_);
-        min_level = oob_min_;
-    }
-
-    if (maxOutOfBond_) {
-        max_level = oob_max_;
-    }
-
+    double use_min = ( shade_min_ > min_ ) ? shade_min_ : min_;
+    double use_max = ( shade_max_ < max_ ) ? shade_max_ : max_;
 
 
     doublearray::const_iterator last = list_.begin();
-    double prevVal = min_;
+    double prevVal = use_min;
     for (doublearray::const_iterator val = list_.begin(); val != list_.end(); ++val) {
         MagLog::dev() << "LevelListSelectionType::calculate(double min, double max)--->" << *val << "\n";
-        if (min_level <= *val && *val <= max_level) {
+        if (use_min <= *val && *val <= use_max) {
             if (*val < prevVal) {
                 MagLog::error() << " level list values should increase, but " << *val << " follows " << prevVal << endl;
                 break;
@@ -95,24 +65,19 @@ void LevelListSelectionType::calculate(double min, double max, bool shading) {
         }
         ++last;
     }
-    if (maxOutOfBond_) {
-        push_back(oob_max_);
-        push_back(max);
-    }
-
 
     // Just in case add another level to close the  last interval !
     if (last != list_.end())
         push_back(*last);
 
 
-    // ostringstream print;
-    // print << "LevelListSelectionType::calculate-->";
-    // string sep = "[";
-    // for (vector<double>::const_iterator val = begin(); val != end(); ++val) {
-    //     print << sep << *val;
-    //     sep = ", ";
-    // }
-    // print << "]";
-    // cout << print.str() << endl;
+    ostringstream print;
+    print << "LevelListSelectionType::calculate-->";
+    string sep = "[";
+    for (vector<double>::const_iterator val = begin(); val != end(); ++val) {
+        print << sep << *val;
+        sep = ", ";
+    }
+    print << "]";
+    MagLog::dev() << print.str() << endl;
 }

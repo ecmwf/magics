@@ -28,6 +28,10 @@
 #include "LegendVisitor.h"
 #include "MagicsGlobal.h"
 
+#include "IntervalMap.h"
+
+#include "IntervalMap.h"
+
 using namespace magics;
 
 
@@ -116,11 +120,121 @@ struct SortHelper {
     }
 };
 
+void SymbolPlotting::by_property_prepare(IntervalMap<float>& hueFinder, IntervalMap<float>& lightnessFinder) 
+{
+    auto value_hue = property_hue_values_list_.begin();
+    auto hue = property_hue_list_.begin();
+    auto value_lightness = property_lightness_values_list_.begin();
+    auto lightness = property_lightness_list_.begin();
+
+    while (true) {
+        if (value_hue + 1 == property_hue_values_list_.end())
+            break;
+        
+        hueFinder[Interval(*value_hue, *(value_hue+1))] = *hue;        
+        if (hue + 1 != property_hue_list_.end())
+            hue++;
+        ++value_hue;
+    }
+    while (true) {
+        if (value_lightness + 1 == property_lightness_values_list_.end())
+            break;
+        
+        lightnessFinder[Interval(*value_lightness, *(value_lightness+1))] = *lightness;        
+        if (lightness + 1 != property_lightness_list_.end())
+            lightness++;
+        ++value_lightness;
+    }
+}
+
+void SymbolPlotting::by_property(Data& data, BasicGraphicsObjectContainer& out) {
+
+    const Transformation& transformation = out.transformation();
+
+    std::set<string> needs;
+
+    needs.insert(property_height_name_);
+    needs.insert(property_hue_name_);
+    needs.insert(property_lightness_name_);
+    
+
+    if ( property_hue_list_.empty() )
+        property_hue_list_.push_back(1);
+    if ( property_lightness_list_.empty() )
+        property_lightness_list_.push_back(0.5);
+
+
+    
+
+    IntervalMap<float> hueFinder;
+    IntervalMap<float> lightnessFinder;
+    
+    by_property_prepare(hueFinder, lightnessFinder);
+
+
+    Colour red("blue");
+
+    double factor = ( out.absoluteHeight()*transformation.patchDistance(1))/(transformation.getMaxPCY()-transformation.getMinPCY())    ;
+    
+    factor = magCompare(unit_method_, "geographical") ? 
+        ( out.absoluteHeight()*transformation.patchDistance(1))/(transformation.getMaxPCY()-transformation.getMinPCY()) : 1;
+
+
+    CustomisedPointsList points;
+    data.customisedPoints(out.transformation(), needs, points, true);    
+
+    for (auto& point : points) {
+        double val = 0;
+
+
+        double hue = (*point)[property_hue_name_];
+        double lightness = (*point)[property_lightness_name_];
+        double height = (*point)[property_height_name_];
+    
+        Symbol* symbol = new Symbol();
+        symbol->setMarker(marker_);
+       
+        Hsl hsl(hueFinder.find(hue, 0),  property_saturation_value_, lightnessFinder.find(lightness, 0.5));
+        Colour colour(hsl);
+        symbol->setColour(colour);
+
+
+        if ( height*property_height_scaling_factor_ > 2 ) {
+            height = 2*factor;
+            MagLog::warning() << " Symbol height reset to 2 " << endl;
+        }
+        else 
+            height = height*property_height_scaling_factor_*factor;
+
+        symbol->setHeight(height);
+
+        UserPoint geo = UserPoint(point->longitude(), point->latitude());
+        std::stack<UserPoint> duplicates;
+        transformation.wraparound(geo, duplicates);
+        while (duplicates.empty() == false) {
+            PaperPoint xy = transformation(duplicates.top());
+            symbol->push_back(xy);
+            duplicates.pop();   
+        
+        }
+        out.push_back(symbol);
+
+    }
+    
+
+
+}
+
 
 void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
     mode_->parent(this);
     mode_->prepare();
     symbols_.clear();
+
+
+    if ( magCompare("property", type_) )
+        return by_property(data, out);
+
     vector<string> check;
     check.push_back("text");
     check.push_back("number");
@@ -130,19 +244,12 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
 
     const Transformation& transformation = out.transformation();
 
-    // cout << "absolut width " << out.absoluteWidth() << endl;
-    // cout << "absolut height " << out.absoluteHeight() << endl;
-    // cout << "pcminy " << transformation.getMinPCY() << endl;
-    // cout << "pcmaxy " << transformation.getMaxPCY() << endl;
-
-    // cout << "unit " << unit_method_ << endl;
-
     double factor = ( out.absoluteHeight()*transformation.patchDistance(1))/(transformation.getMaxPCY()-transformation.getMinPCY())    ;
-    // cout << "sacle--> " << factor << endl;
-    // cout << "patch--> " << transformation.patchDistance(1) << endl;
+    
     factor = magCompare(unit_method_, "geographical") ? 
         ( out.absoluteHeight()*transformation.patchDistance(1))/(transformation.getMaxPCY()-transformation.getMinPCY()) : 1;
 
+    
     bool valid = false;
 
     for (vector<string>::iterator c = check.begin(); c != check.end(); ++c) {
@@ -158,7 +265,7 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
 
 
     try {
-        const Transformation& transformation = out.transformation();
+        
 
         // If we need to connect the symbols with a line, we need all the poinst
         // to enable proper clipping of the line! Othewise wee just nedde to get the point
@@ -174,6 +281,7 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
 
         points.setToFirst();
         while (points.more()) {
+            
             PaperPoint xy = transformation(points.current());
             (*this)(xy, out);
             points.advance();
@@ -206,11 +314,44 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
     }
 }
 
+
+void SymbolPlotting::by_property_legend(Data& data, LegendVisitor& legend) {
+
+    IntervalMap<float> hueFinder;
+    IntervalMap<float> lightnessFinder;
+    
+    by_property_prepare(hueFinder, lightnessFinder);
+
+
+
+    for (IntervalMap<float>::const_iterator hue = hueFinder.begin(); hue != hueFinder.end(); ++hue) 
+        for (IntervalMap<float>::const_iterator lightness = lightnessFinder.begin(); lightness != lightnessFinder.end(); ++lightness) 
+        {
+                Polyline* box = new Polyline();
+                double min = lightness->first.min_;
+                double max = lightness->first.max_;
+
+                box->setShading(new FillShadingProperties());
+
+                Hsl hsl(hue->second,  property_saturation_value_, lightness->second);
+                Colour colour(hsl);
+                cout << "add legend " << colour << endl;
+
+                box->setFillColour(colour);
+                box->setFilled(true);
+
+                legend.add(new BoxEntry(min, max, box));
+            }
+}
+
 void SymbolPlotting::visit(Data& data, LegendVisitor& legend) {
     MagLog::debug() << " SymbolPlotting::visit to create a legend ... "
                     << "\n";
     if (!legend_)
         return;
+     if ( magCompare("property", type_) )
+        return by_property_legend(data, legend);
+
     (*mode_).visit(data, legend);
 }
 

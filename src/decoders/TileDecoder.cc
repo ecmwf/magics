@@ -49,10 +49,14 @@ string TileDecoder::projection() {
 string TileDecoder::weights() {
     ostringstream out;
     string parent = getEnvVariable("MAGPLUS_TILE");
+   
     if (parent.empty()) {
         parent = buildSharePath("tiles");
     }
-    out << parent << "/weight-" << grid_ << "-" << projection() << "-z" + tostring(z_) << ".nc";
+    if (mode_ == "opencharts" ) 
+        out <<  parent << "/opencharts-cache-" << grid_ << ".nc";
+    else 
+        out << parent << "/weight-" << grid_ << "-" << projection() << "-z" + tostring(z_) << ".nc";
     return out.str();
 }
 
@@ -62,7 +66,11 @@ string TileDecoder::positions() {
     if (parent.empty()) {
         parent = buildSharePath("tiles");
     }
-    out << parent << "/wind-" << grid_ << "-" << projection() << "-z" + tostring(z_) << ".nc";
+    if (mode_ == "opencharts" ) 
+        out <<  parent << "/opencharts-wind-" << grid_ << ".nc";
+    
+    else 
+        out << parent << "/wind-" << grid_ << "-" << projection() << "-z" + tostring(z_) << ".nc";
 
     return out.str();
 }
@@ -73,7 +81,12 @@ string TileDecoder::positions_symbols() {
     if (parent.empty()) {
         parent = buildSharePath("tiles");
     }
-    out << parent << "/symbol-" << grid_ << "-" << projection() << "-z" + tostring(z_) << ".nc";
+    if (mode_ == "opencharts" ) {
+        out <<  parent << "/opencharts-symbol-" << grid_ << ".nc";
+    }
+
+    else 
+        out << parent << "/symbol-" << grid_ << "-" << projection() << "-z" + tostring(z_) << ".nc";
     file_ = ifstream(out.str());
     if (file_.good()) {
         file_.close();
@@ -105,6 +118,20 @@ bool TileDecoder::ok() {
     grid_         = string(val);
 
     string path = weights();
+    if (mode_ == "opencharts" ) {
+        try {
+            Netcdf netcdf(path, "index");
+            map<string, string> first, last;
+            static vector<double> latitudes;
+            netcdf.get(projection_ + "_lat", latitudes, first, last);
+            return true;
+        }
+        catch(...) {
+            return false;
+        }
+    }
+
+
     file_       = ifstream(path);
     if (!file_.good()) {
         file_.close();
@@ -149,20 +176,31 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
                                    CustomisedPointsList& out, bool all) {
     string path = positions();
     Timer timer("Tile", path);
-
 #ifdef HAVE_NETCDF
     Netcdf netcdf(path, "index");
 
-    map<string, string> first, last;
-    first["x"] = tostring(x_);
-    first["y"] = tostring(y_);
-    last["x"]  = tostring(x_);
-    last["y"]  = tostring(y_);
-    vector<double> bbox;
     vector<double> latitudes;
     vector<double> longitudes;
     vector<double> values;
     vector<int> index;
+
+    map<string, string> first, last;
+
+    if ( mode_ == "opencharts") {
+
+        // netcdf.get(projection_ + "_lat", latitudes, first, last);
+        // netcdf.get(projection_ + "_lon", longitudes, first, last);
+        netcdf.get(projection_ + "_index", values, first, last);
+       
+    }
+    else {
+        first["x"] = tostring(x_);
+        first["y"] = tostring(y_);
+        last["x"]  = tostring(x_);
+        last["y"]  = tostring(y_);
+        netcdf.get("index", values, first, last);
+    }
+    
 
     int error;
 
@@ -188,9 +226,6 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
         return;
     }
 
-    int nbpoints = netcdf.getDimension("points");
-    // netcdf.get("bounding-box", bbox, first, last);
-    netcdf.get("index", values, first, last);
 
     for (auto b = values.begin(); b != values.end(); ++b) {
         double lat = *b;
@@ -200,14 +235,15 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
         double i = *b;
 
         if (i != 0) {
-            if (lon > 180)
-                lon -= 360;
+            if ( mode_ != "opencharts") {
+                if (lon > 180)
+                    lon -= 360;
+            }
             latitudes.push_back(lat);
             longitudes.push_back(lon);
             index.push_back(i);
         }
     }
-
 
     {
         vector<double> uc;
@@ -230,6 +266,7 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
             point->insert(make_pair("y_component", *vx));
             out.push_back(point);
             point->tile(true);
+    
             ux++;
             vx++;
             lat++;
@@ -244,20 +281,34 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
 PointsHandler& TileDecoder::points(const Transformation& t, bool) {
     string path = positions_symbols();
     Timer timer("Tile", path);
+   
 
 #ifdef HAVE_NETCDF
     Netcdf netcdf(path, "index");
 
-    map<string, string> first, last;
-    first["x"] = tostring(x_);
-    first["y"] = tostring(y_);
-    last["x"]  = tostring(x_);
-    last["y"]  = tostring(y_);
-    // vector<double> bbox;
-    static vector<double> latitudes;
-    static vector<double> longitudes;
-    static vector<double> values;
+    vector<double> latitudes;
+    vector<double> longitudes;
+    vector<double> values;
     vector<int> index;
+
+    map<string, string> first, last;
+
+    if ( mode_ == "opencharts") {
+        // netcdf.get(projection_ + "_lat", latitudes, first, last);
+        // netcdf.get(projection_ + "_lon", longitudes, first, last);
+        netcdf.get(projection_ + "_index", values, first, last);
+
+
+       
+    }
+    else {
+        first["x"] = tostring(x_);
+        first["y"] = tostring(y_);
+        last["x"]  = tostring(x_);
+        last["y"]  = tostring(y_);
+        netcdf.get("index", values, first, last);
+    }
+    
 
     int error;
 
@@ -280,12 +331,8 @@ PointsHandler& TileDecoder::points(const Transformation& t, bool) {
         return *(pointsHandlers_.back());
     }
 
-
+    
     if (latitudes.size() == 0) {
-        int nbpoints = netcdf.getDimension("points");
-        // netcdf.get("bounding-box", bbox, first, last);
-        netcdf.get("index", values, first, last);
-
 
         for (auto b = values.begin(); b != values.end(); ++b) {
             double lat = *b;
@@ -295,13 +342,14 @@ PointsHandler& TileDecoder::points(const Transformation& t, bool) {
             double i = *b;
 
             if (i != 0) {
-                if (lon > 180)
-                    lon -= 360;
-                // transformation.fast_reproject(lon, lat);
-
+                if ( mode_ != "opencharts") {
+                    if (lon > 180)
+                        lon -= 360;
+                }
                 latitudes.push_back(lat);
                 longitudes.push_back(lon);
                 index.push_back(i);
+                
             }
         }
     }
@@ -428,21 +476,19 @@ Data* TileDecoder::next() {
 
 
 void TileDecoder::decode() {
-    if (matrix_.size())
-        return;
+    if (matrix_.size()) {
+        matrix_ = Matrix();
+       
+    }
 
     string path = weights();
 
     Timer timer("Tile", path);
 #ifdef HAVE_NETCDF
+    
     Netcdf netcdf(path, "index");
 
     map<string, string> first, last;
-    first["x"] = tostring(x_);
-    first["y"] = tostring(y_);
-    last["x"]  = tostring(x_);
-    last["y"]  = tostring(y_);
-
     static vector<double> bbox;
     static vector<double> latitudes;
     static vector<double> longitudes;
@@ -450,10 +496,25 @@ void TileDecoder::decode() {
     static vector<double> dindex;
     static vector<double> distances;
 
-    int nblat = netcdf.getDimension("lat") - 1;
-    int nblon = netcdf.getDimension("lon") - 1;
+    if ( mode_ == "opencharts") {
 
-    if (bbox.empty()) {
+        netcdf.get(projection_ + "_lat", latitudes, first, last);
+        netcdf.get(projection_ + "_lon", longitudes, first, last);
+        netcdf.get(projection_ + "_index", dindex, first, last);
+        netcdf.get(projection_ + "_distances", distances, first, last);
+    }
+    else {
+        first["x"] = tostring(x_);
+        first["y"] = tostring(y_);
+        last["x"]  = tostring(x_);
+        last["y"]  = tostring(y_);
+
+        
+
+        int nblat = netcdf.getDimension("lat") - 1;
+        int nblon = netcdf.getDimension("lon") - 1;
+
+        
         netcdf.get("bounding-box", bbox, first, last);
 
         int error;
@@ -481,10 +542,13 @@ void TileDecoder::decode() {
         last["lat"]  = tostring(maxy);
         last["lon"]  = tostring(maxx);
 
+       
+
         netcdf.get("lat", latitudes, first, last);
         netcdf.get("lon", longitudes, first, last);
         netcdf.get("index", dindex, first, last);
         netcdf.get("distances", distances, first, last);
+    
     }
 
     int index[4];
