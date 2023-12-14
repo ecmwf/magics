@@ -48,7 +48,7 @@ public:
         if (magCompare(node.name(), "png") || magCompare(node.name(), "pdf") || magCompare(node.name(), "cairo_ps") ||
             magCompare(node.name(), "cairo_svg") ||
             //     magCompare(node.name(), "x") ||
-            magCompare(node.name(), "cairo_eps") || magCompare(node.name(), "geotiff")) {
+            magCompare(node.name(), "cairo_eps") || magCompare(node.name(), "geotiff") || magCompare(node.name(), "webp")) {
             XmlNode basic = node;
             basic.name("driver");
             BaseDriver::set(basic);
@@ -72,7 +72,8 @@ public:
     void setSVG() const { backend_ = "svg"; }
     //	void setX()   const {backend_ = "x";}
     void setGEOTIFF() const { backend_ = "geotiff"; }
-    void setCairo() const { backend_ = "cairo"; }
+    void setWEBP()    const { backend_ = "webp"; }
+    void setCairo()   const { backend_ = "cairo"; }
 
 private:
     MAGICS_NO_EXPORT void startPage() const override;
@@ -118,6 +119,9 @@ private:
     MAGICS_NO_EXPORT MFloat setY(const MFloat y) const override { return y; }
 #ifdef HAVE_GEOTIFF
     MAGICS_NO_EXPORT void write_tiff() const;
+#endif
+#ifdef HAVE_WEBP
+    MAGICS_NO_EXPORT void write_webp() const;
 #endif
     MAGICS_NO_EXPORT bool write_8bit_png() const;
     mutable MFloat offsetX_;

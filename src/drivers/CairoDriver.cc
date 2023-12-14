@@ -120,7 +120,7 @@ void CairoDriver::open() {
 
 
 void CairoDriver::setupNewSurface() const {
-    if (magCompare(backend_, "png") || magCompare(backend_, "geotiff")) {
+    if (magCompare(backend_, "png") || magCompare(backend_, "geotiff") || magCompare(backend_, "webp")) {
         surface_ = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, dimensionXglobal_, dimensionYglobal_);
     }
     else if (magCompare(backend_, "pdf")) {
@@ -206,7 +206,7 @@ void CairoDriver::setupNewSurface() const {
 #endif
     }
 
-    if (magCompare(transparent_, "off") || !(magCompare(backend_, "png") || magCompare(backend_, "geotiff"))) {
+    if (magCompare(transparent_, "off") || !(magCompare(backend_, "png") || magCompare(backend_, "geotiff")|| magCompare(backend_, "webp"))) {
         cairo_set_source_rgb(cr_, 1.0, 1.0, 1.0); /* white */
     }
     else {
@@ -243,7 +243,7 @@ void CairoDriver::close() {
 */
 MAGICS_NO_EXPORT void CairoDriver::startPage() const {
     if (currentPage_ > 0) {
-        if (magCompare(backend_, "png") || magCompare(backend_, "geotiff")) {
+        if (magCompare(backend_, "png") || magCompare(backend_, "geotiff") || magCompare(backend_, "webp")) {
             cairo_destroy(cr_);
             cairo_surface_destroy(surface_);
 
@@ -344,6 +344,14 @@ MAGICS_NO_EXPORT void CairoDriver::endPage() const {
         MagLog::error() << "CairoDriver: GEOTIFF not enabled!" << std::endl;
 #endif
     }
+    else if (magCompare(backend_, "webp")) {
+#ifdef HAVE_WEBP
+        fileName_ = getFileName("webp", currentPage_);
+        write_webp();
+#else
+        MagLog::error() << "CairoDriver: WebP not enabled!" << std::endl;
+#endif
+    }
 }
 
 
@@ -359,6 +367,103 @@ void CairoDriver::closeLayer(Layer&) const {
     }
     cairo_restore(cr_);
 }
+
+#ifdef HAVE_WEBP
+
+#include <webp/encode.h>
+/*!
+  \brief write raster into WebP
+
+  Only the raw raster (normally written to a PNG) is here written into a Webp.
+
+*/
+MAGICS_NO_EXPORT void CairoDriver::write_webp() const {
+
+    WebPPicture picture;
+    uint32_t* argb_output;
+
+    int x, y;
+
+    const int width             = cairo_image_surface_get_width(surface_);
+    const int height            = cairo_image_surface_get_height(surface_);
+    const int stride            = cairo_image_surface_get_stride(surface_);
+    const cairo_format_t format = cairo_image_surface_get_format(surface_);
+    unsigned char* data         = cairo_image_surface_get_data(surface_);
+
+    if (format != CAIRO_FORMAT_RGB24 && format != CAIRO_FORMAT_ARGB32) {
+        MagLog::error() << "CairoDriver: invalid Cairo image format. Not able to create WebP. "<< fileName_ << std::endl;
+        return;
+    }
+
+    // Configure WebP  - especially compression
+    WebPConfig config;
+    if (!WebPConfigPreset(&config, WEBP_PRESET_DRAWING, quality_))
+        return;
+    config.lossless     = 1;
+    config.quality      = 90;
+    config.thread_level = 1;
+    config.method       = 2; // Compression method (0=fast/larger, 6=slow/smaller)
+
+    if (!WebPValidateConfig(&config)) {return;}
+    if (!WebPPictureInit(&picture)) {return;}
+     picture.use_argb = 1;
+     picture.width = width;
+     picture.height = height;
+
+    if (!WebPPictureAlloc(&picture)) {return;}
+
+    // Set up write-to-memory
+    WebPMemoryWriter writer;
+    WebPMemoryWriterInit(&writer);
+    picture.writer = WebPMemoryWrite;
+    picture.custom_ptr = &writer;
+ 
+    // Copy image data into WebP picture
+    argb_output = picture.argb;
+    for (y = 0; y < height; y++) {
+
+        // Get pixels at start of each row
+        uint32_t* src = (uint32_t*) data;
+        uint32_t* dst = argb_output;
+
+        // For each pixel in row
+        for (x = 0; x < width; x++) {
+
+            // Pull pixel data, removing alpha channel if necessary
+            uint32_t src_pixel = *src;
+            if (format != CAIRO_FORMAT_ARGB32)
+                src_pixel |= 0xFF000000;
+            *dst = src_pixel;
+            src++;
+            dst++;
+        }
+        // Next row
+        data += stride;
+        argb_output += picture.argb_stride;
+    }
+
+    ////// Encode image 
+    const int result = WebPEncode(&config, &picture);
+    if (result < 1) {
+          MagLog::error() << "CairoDriver: Encoding error: "<<picture.error_code<<". Not able to create WebP. "<< fileName_ << std::endl;
+          return;
+    } 
+
+    FILE *f = ::fopen(fileName_.c_str(), "wb");
+    if( f == NULL ) {
+        MagLog::error() << "CairoDriver: Cannot WebP file "<< fileName_ << std::endl;
+     	return;
+    }
+
+    uint8_t* webp    = writer.mem;
+    size_t webp_size = writer.size;
+    fwrite(webp, webp_size, 1, f);
+    fclose(f);
+
+    WebPPictureFree(&picture);
+    return;
+}
+#endif  // HAVE_WEBP
 
 
 #ifdef HAVE_GEOTIFF

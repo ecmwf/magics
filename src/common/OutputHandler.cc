@@ -92,7 +92,7 @@ void OutputHandler::set(const XmlNode& node, DriverManager& magics) {
 void OutputHandler::drivers(vector<string>& ds) {
     vector<string> all = {"ps",        "eps",     "ps_pdf", "gd_png", "jpeg",  "gif",       "gif_animation",
                           "svg",       "mgb",     "png",    "pdf",    "cairo", "cairo_svg", "cairo_ps",
-                          "cairo_eps", "geotiff", "kml",    "geojson"};
+                          "cairo_eps", "geotiff", "webp", "kml",    "geojson"};
 
     for (const auto& d : all) {
         try {
@@ -141,6 +141,9 @@ static SimpleObjectMaker<CAIRO_PsOutputFactory, OutputFactory> cps("cairo_ps");
 static SimpleObjectMaker<CAIRO_EpsOutputFactory, OutputFactory> ceps("cairo_eps");
 #ifdef HAVE_GEOTIFF
 static SimpleObjectMaker<CAIRO_GeoTiffOutputFactory, OutputFactory> geotiff("geotiff");
+#endif
+#ifdef HAVE_WEBP
+static SimpleObjectMaker<CAIRO_WebpOutputFactory, OutputFactory> webp("webp");
 #endif
 #endif
 
