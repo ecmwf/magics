@@ -56,6 +56,12 @@ ecbuild_add_option( FEATURE GEOTIFF
                     CONDITION HAVE_CAIRO
                     REQUIRED_PACKAGES GeoTIFF )
 
+ecbuild_add_option( FEATURE WEBP
+                    DEFAULT OFF
+                    DESCRIPTION "webp support [implies cairo]"
+                    CONDITION HAVE_CAIRO
+                    REQUIRED_PACKAGES WEBP )
+
 ecbuild_add_option( FEATURE NETCDF
                     DEFAULT ON
                     DESCRIPTION "enable netcdf support"
@@ -272,6 +278,12 @@ if( HAVE_GEOTIFF )
 	list( APPEND MAGICS_EXTRA_INCLUDE_DIRS	${GEOTIFF_INCLUDE_DIR} )
 	list( APPEND MAGICS_EXTRA_LIBRARIES	${GEOTIFF_LIBRARY} )
 	list( APPEND MAGICS_EXTRA_DEFINITIONS	HAVE_GEOTIFF )
+endif()
+
+if( HAVE_WEBP )
+	list( APPEND MAGICS_EXTRA_INCLUDE_DIRS	${WEBP_INCLUDE_DIR} )
+	list( APPEND MAGICS_EXTRA_LIBRARIES ${WEBP_LIBRARY} )
+	list( APPEND MAGICS_EXTRA_DEFINITIONS	HAVE_WEBP )
 endif()
 
 list( APPEND MAGICS_EXTRA_LIBRARIES     ${CMAKE_THREAD_LIBS_INIT} )
