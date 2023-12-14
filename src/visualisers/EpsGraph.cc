@@ -2589,15 +2589,18 @@ void EpsPlume::timeserie(Data& data, BasicGraphicsObjectContainer& visitor) {
         }
         if (shading_) {
             for (vector<double>::iterator level = shading_levels_.begin(); level != shading_levels_.end(); ++level) {
-                int i = *level * (members.size()/100.);
+                int i = (*level/100) * members.size();
+            
                 if (i >= members.size())
                     i = members.size() - 1;
+
+        
                 shading[*level].push_back(PaperPoint(x, members[i]));
             }
         }
         if (percentiles_) {
             for (vector<double>::iterator level = percentiles_list_.begin(); level != percentiles_list_.end(); ++level) {
-                int i = *level * (members.size()/100.);
+                int i = (*level/100) * members.size();
                 if (i >= members.size())
                     i = members.size() - 1;
                 percentiles[*level].push_back(PaperPoint(x, members[i]));
