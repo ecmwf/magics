@@ -18,7 +18,15 @@
 #include "Value.h"
 
 
-#if ((defined(_MSVC_LANG) && _MSVC_LANG >= 201703L) || __cplusplus >= 201703L)
+#define STD_FILESYSTEM_INCLUDE_MISSING 0
+#ifdef __has_include
+    #if !__has_include(<filesystem>)
+        #define STD_FILESYSTEM_INCLUDE_MISSING 1
+    #endif
+#endif
+
+
+#if ((defined(_MSVC_LANG) && _MSVC_LANG >= 201703L) || (__cplusplus >= 201703L) && !STD_FILESYSTEM_INCLUDE_MISSING)
 #include <filesystem>
 namespace fs = std::filesystem;
 #else
