@@ -229,6 +229,14 @@ void CAIRO_GeoTiffOutputFactory::set(DriverManager& magics, const XmlNode& node)
 
     magics.push_back(driver);
 }
+
+void CAIRO_WebpOutputFactory::set(DriverManager& magics, const XmlNode& node) {
+    CairoDriver* driver = new CairoDriver();
+    driver->set(node);
+    driver->setWEBP();
+
+    magics.push_back(driver);
+}
 #endif
 
 void KML_KmlOutputFactory::set(DriverManager& magics, const XmlNode& node) {
