@@ -8,10 +8,6 @@
  * does it submit to any jurisdiction.
  */
 
-#include "TeUtils.h"
-#include "TeDefines.h"
-#include "TeException.h"
-
 #include <ctype.h>
 #include <stdio.h>
 #include <cstdlib>
@@ -33,6 +29,9 @@
 #error "Unsuported plataform for physical memory checking"
 #endif
 
+#include "TeUtils.h"
+#include "TeDefines.h"
+#include "TeException.h"
 
 string Te2String(const int value) {
     char name[TeNAME_LENGTH];
