@@ -252,6 +252,15 @@ public:
     virtual OutputFactory* clone() const override { return new CAIRO_GeoTiffOutputFactory(); }
     virtual void set(DriverManager&, const XmlNode&) override;
 };
+
+class CAIRO_WebpOutputFactory : public OutputFactory {
+public:
+    CAIRO_WebpOutputFactory() {}
+    virtual ~CAIRO_WebpOutputFactory() override {}
+
+    virtual OutputFactory* clone() const override { return new CAIRO_WebpOutputFactory(); }
+    virtual void set(DriverManager&, const XmlNode&) override;
+};
 #endif
 
 class KML_KmlOutputFactory : public OutputFactory {
