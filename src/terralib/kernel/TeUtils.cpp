@@ -18,6 +18,9 @@
 #include <cstring>  //FAMI
 #include <iostream>
 
+#if 0
+/* The code below is unused and does not always compile */
+
 /* The following includes are needed for pysical memory checking */
 #if TePLATFORM == TePLATFORMCODE_MSWINDOWS
 #include <windows.h>
@@ -33,6 +36,7 @@
 #error "Unsuported plataform for physical memory checking"
 #endif
 
+#endif
 
 string Te2String(const int value) {
     char name[TeNAME_LENGTH];
@@ -430,6 +434,8 @@ string TeCheckName(const string& name, bool& changed, string& invalidChar) {
     return newName;
 }
 
+#if 0
+/* The code below is unused and does not always compile */
 
 unsigned long int TeGetFreePhysicalMemory() {
     unsigned long int freemem = 0;
@@ -553,3 +559,5 @@ bool TeCheckFileExistence(const std::string& filename) {
         return true;
     }
 }
+
+#endif
