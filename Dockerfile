@@ -110,7 +110,7 @@ RUN set -eux \
 
 # Install eccodes
 # requires ecbuild
-ARG ECCODES_VERSION=2021.03.0
+ARG ECCODES_VERSION=2.24.0
 RUN set -eux \
     && mkdir -p /src/ \
     && cd /src \
