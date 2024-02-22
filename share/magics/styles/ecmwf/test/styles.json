@@ -1,0 +1,6 @@
+{
+    "red_lines" : {
+        "contour" : "on",
+        "contour_line_colour" : "red"
+    }
+}

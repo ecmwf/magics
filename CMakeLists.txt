@@ -15,10 +15,7 @@ cmake_minimum_required( VERSION 3.12 FATAL_ERROR )
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../ecbuild/cmake")
 find_package( ecbuild 3.4 REQUIRED )
 
-
-# In prepaation for hotfix of 4.14.0
-project( magics LANGUAGES CXX )
-
+project( magics VERSION 4.16.0 LANGUAGES CXX )
 
 # make sure that the header files are installed into include/magics
 # note that this needs to be done before ecbuild_declare_project()
@@ -28,7 +25,7 @@ set(INSTALL_INCLUDE_DIR include/magics CACHE PATH "Magics installation directory
 
 include(ecbuild_system NO_POLICY_SCOPE)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_C_STANDARD 99)
 
@@ -58,6 +55,12 @@ ecbuild_add_option( FEATURE GEOTIFF
                     DESCRIPTION "geotiff support [implies cairo] -  work on progress"
                     CONDITION HAVE_CAIRO
                     REQUIRED_PACKAGES GeoTIFF )
+
+ecbuild_add_option( FEATURE WEBP
+                    DEFAULT OFF
+                    DESCRIPTION "webp support [implies cairo]"
+                    CONDITION HAVE_CAIRO
+                    REQUIRED_PACKAGES WEBP )
 
 ecbuild_add_option( FEATURE NETCDF
                     DEFAULT ON
@@ -275,6 +278,12 @@ if( HAVE_GEOTIFF )
 	list( APPEND MAGICS_EXTRA_INCLUDE_DIRS	${GEOTIFF_INCLUDE_DIR} )
 	list( APPEND MAGICS_EXTRA_LIBRARIES	${GEOTIFF_LIBRARY} )
 	list( APPEND MAGICS_EXTRA_DEFINITIONS	HAVE_GEOTIFF )
+endif()
+
+if( HAVE_WEBP )
+	list( APPEND MAGICS_EXTRA_INCLUDE_DIRS	${WEBP_INCLUDE_DIR} )
+	list( APPEND MAGICS_EXTRA_LIBRARIES ${WEBP_LIBRARY} )
+	list( APPEND MAGICS_EXTRA_DEFINITIONS	HAVE_WEBP )
 endif()
 
 list( APPEND MAGICS_EXTRA_LIBRARIES     ${CMAKE_THREAD_LIBS_INIT} )

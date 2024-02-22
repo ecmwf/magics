@@ -29,6 +29,7 @@ does it submit to any jurisdiction.
 			<documentation>Turn legend on or off (ON/OFF) : New Parameter!</documentation>
 			<set name="legend_user_text" value="on"></set>
 		</parameter>
+		
 		<parameter member="unit_method"
 			to="string"
 			default="cm"
@@ -43,7 +44,7 @@ does it submit to any jurisdiction.
 			default="number"
 			member="type"
 			to="string"
-			values="number/text/marker/wind">
+			values="number/text/marker/wind/property">
 			<documentation>Defines the type of symbol plotting required</documentation>
 			<set name="symbol_text_list" value="text"></set>
 			<set name="symbol_text_position" value="text"></set>
@@ -251,5 +252,125 @@ does it submit to any jurisdiction.
 			visible='off'>
 			<documentation>Inform the contour object do generate only the legend and not the plot .. [Web sdpecific]</documentation>
 		</parameter>
+		<!-- For the type property for CAMS -->
+		<parameter member="property_hue_name"
+			to="string"
+			default="colour"
+			from="string"
+			name="symbol_property_hue_name"
+			visible='off'>
+			<documentation>With GeoSon : property name to use to set the colour</documentation>
+		</parameter>
+		<parameter member="property_hue_list"
+			to="floatarray"
+			default="floatarray()"
+			from="floatarray"
+			name="symbol_property_hue_list"
+			visible='off'>
+			<documentation>With GeoSon : list of colours to use</documentation>
+		</parameter>
+		<parameter member="property_hue_values_list"
+			to="floatarray"
+			default="floatarray()"
+			from="floatarray"
+			name="symbol_property_hue_values_list"
+			visible='off'>
+			<documentation>With GeoSon : list of heights to use</documentation>
+		</parameter>
+
+		<parameter member="property_lightness_name"
+			to="string"
+			default="colour"
+			from="string"
+			name="symbol_property_lightness_name"
+			visible='off'>
+			<documentation>With GeoSon : property name to use to set the colour</documentation>
+		</parameter>
+		<parameter member="property_lightness_list"
+			to="floatarray"
+			default="floatarray()"
+			from="floatarray"
+			name="symbol_property_lightness_list"
+			visible='off'>
+			<documentation>With GeoSon : list of colours to use</documentation>
+		</parameter>
+		<parameter member="property_lightness_values_list"
+			to="floatarray"
+			default="floatarray()"
+			from="floatarray"
+			name="symbol_property_lightness_values_list"
+			visible='off'>
+			<documentation>With GeoSon : list of heights to use</documentation>
+		</parameter>
+
+		<parameter member="property_saturation_value"
+			to="float"
+			default="1"
+			from="float"
+			name="symbol_property_saturation_value"
+			visible='off'>
+			<documentation>With GeoSon : list of colours to use</documentation>
+		</parameter>
+
+		<parameter member="property_height_name"
+			to="string"
+			default="colour"
+			from="string"
+			name="symbol_property_lightness_name"
+			visible='off'>
+			<documentation>With GeoSon : property name to use to set the colour</documentation>
+		</parameter>
+		<parameter member="property_lightness_list"
+			to="floatarray"
+			default="floatarray()"
+			from="floatarray"
+			name="symbol_property_lightness_list"
+			visible='off'>
+			<documentation>With GeoSon : list of colours to use</documentation>
+		</parameter>
+		<parameter member="property_lightness_values_list"
+			to="floatarray"
+			default="floatarray()"
+			from="floatarray"
+			name="symbol_property_lightness_values_list"
+			visible='off'>
+			<documentation>With GeoSon : list of heights to use</documentation>
+		</parameter>
+
+		<parameter member="property_saturation_value"
+			to="float"
+			default="1"
+			from="float"
+			name="symbol_property_saturation_value"
+			visible='off'>
+			<documentation>With GeoSon : list of colours to use</documentation>
+		</parameter>
+
+		<parameter member="property_height_name"
+			to="string"
+			default="colour"
+			from="string"
+			name="symbol_property_height_name"
+			visible='off'>
+			<documentation>With GeoSon : property name to use to set the colour</documentation>
+		</parameter>
+		<parameter member="property_height_scaling_factor"
+			to="float"
+			default="1"
+			from="float"
+			name="symbol_property_height_scaling_factor"
+			visible='off'>
+			<documentation>With GeoSon : property name to use to set the colour</documentation>
+		</parameter>
+
+		
+		<parameter member="marker"
+			to="int"
+			default="1"
+			from="int"
+			name="symbol_marker_index">
+			<documentation>Marker indice:  An integer between 1 and 28</documentation>
+		</parameter>
+		
 	</class>
 </magics>

@@ -36,7 +36,17 @@ SymbolPlottingAttributes::SymbolPlottingAttributes():
 	connect_(ParameterManager::getBool("symbol_connect_line")),
 	automatic_connect_colour_(ParameterManager::getBool("symbol_connect_automatic_line_colour")),
 	connect_thickness_(ParameterManager::getInt("symbol_connect_line_thickness")),
-	legend_only_(ParameterManager::getBool("symbol_legend_only"))
+	legend_only_(ParameterManager::getBool("symbol_legend_only")),
+	property_hue_name_(ParameterManager::getString("symbol_property_hue_name")),
+	property_hue_list_(ParameterManager::getDoubleArray("symbol_property_hue_list")),
+	property_hue_values_list_(ParameterManager::getDoubleArray("symbol_property_hue_values_list")),
+	property_lightness_name_(ParameterManager::getString("symbol_property_lightness_name")),
+	property_lightness_list_(ParameterManager::getDoubleArray("symbol_property_lightness_list")),
+	property_lightness_values_list_(ParameterManager::getDoubleArray("symbol_property_lightness_values_list")),
+	property_saturation_value_(ParameterManager::getDouble("symbol_property_saturation_value")),
+	property_height_name_(ParameterManager::getString("symbol_property_height_name")),
+	property_height_scaling_factor_(ParameterManager::getDouble("symbol_property_height_scaling_factor")),
+	marker_(ParameterManager::getInt("symbol_marker_index"))
 	,
 	mode_(MagTranslator<string, SymbolMode>().magics("symbol_table_mode")),
 	outline_colour_(MagTranslator<string, Colour>().magics("symbol_outline_colour")),
@@ -72,6 +82,16 @@ void SymbolPlottingAttributes::set(const std::map<string, string>& params)
 	setAttribute(prefix, "symbol_connect_automatic_line_colour", automatic_connect_colour_, params);
 	setAttribute(prefix, "symbol_connect_line_thickness", connect_thickness_, params);
 	setAttribute(prefix, "symbol_legend_only", legend_only_, params);
+	setAttribute(prefix, "symbol_property_hue_name", property_hue_name_, params);
+	setAttribute(prefix, "symbol_property_hue_list", property_hue_list_, params);
+	setAttribute(prefix, "symbol_property_hue_values_list", property_hue_values_list_, params);
+	setAttribute(prefix, "symbol_property_lightness_name", property_lightness_name_, params);
+	setAttribute(prefix, "symbol_property_lightness_list", property_lightness_list_, params);
+	setAttribute(prefix, "symbol_property_lightness_values_list", property_lightness_values_list_, params);
+	setAttribute(prefix, "symbol_property_saturation_value", property_saturation_value_, params);
+	setAttribute(prefix, "symbol_property_height_name", property_height_name_, params);
+	setAttribute(prefix, "symbol_property_height_scaling_factor", property_height_scaling_factor_, params);
+	setAttribute(prefix, "symbol_marker_index", marker_, params);
 	
 	setMember(prefix, "symbol_table_mode", mode_, params);
 	setMember(prefix, "symbol_outline_colour", outline_colour_, params);
@@ -95,6 +115,16 @@ void SymbolPlottingAttributes::copy(const SymbolPlottingAttributes& other)
 	automatic_connect_colour_ = other.automatic_connect_colour_;
 	connect_thickness_ = other.connect_thickness_;
 	legend_only_ = other.legend_only_;
+	property_hue_name_ = other.property_hue_name_;
+	property_hue_list_ = other.property_hue_list_;
+	property_hue_values_list_ = other.property_hue_values_list_;
+	property_lightness_name_ = other.property_lightness_name_;
+	property_lightness_list_ = other.property_lightness_list_;
+	property_lightness_values_list_ = other.property_lightness_values_list_;
+	property_saturation_value_ = other.property_saturation_value_;
+	property_height_name_ = other.property_height_name_;
+	property_height_scaling_factor_ = other.property_height_scaling_factor_;
+	marker_ = other.marker_;
 	mode_ = unique_ptr<SymbolMode>(other.mode_->clone());
 	outline_colour_ = unique_ptr<Colour>(other.outline_colour_->clone());
 	outline_style_ = other.outline_style_;
@@ -154,6 +184,16 @@ void SymbolPlottingAttributes::print(ostream& out)  const
 	out << " automatic_connect_colour = " <<  automatic_connect_colour_;
 	out << " connect_thickness = " <<  connect_thickness_;
 	out << " legend_only = " <<  legend_only_;
+	out << " property_hue_name = " <<  property_hue_name_;
+	out << " property_hue_list = " <<  property_hue_list_;
+	out << " property_hue_values_list = " <<  property_hue_values_list_;
+	out << " property_lightness_name = " <<  property_lightness_name_;
+	out << " property_lightness_list = " <<  property_lightness_list_;
+	out << " property_lightness_values_list = " <<  property_lightness_values_list_;
+	out << " property_saturation_value = " <<  property_saturation_value_;
+	out << " property_height_name = " <<  property_height_name_;
+	out << " property_height_scaling_factor = " <<  property_height_scaling_factor_;
+	out << " marker = " <<  marker_;
 	out << " mode = " <<  *mode_;
 	out << " outline_colour = " <<  *outline_colour_;
 	out << " outline_style = " <<  outline_style_;
@@ -190,6 +230,26 @@ void SymbolPlottingAttributes::toxml(ostream& out)  const
 	niceprint(out,connect_thickness_);
 	out << ", \"symbol_legend_only\":";
 	niceprint(out,legend_only_);
+	out << ", \"symbol_property_hue_name\":";
+	niceprint(out,property_hue_name_);
+	out << ", \"symbol_property_hue_list\":";
+	niceprint(out,property_hue_list_);
+	out << ", \"symbol_property_hue_values_list\":";
+	niceprint(out,property_hue_values_list_);
+	out << ", \"symbol_property_lightness_name\":";
+	niceprint(out,property_lightness_name_);
+	out << ", \"symbol_property_lightness_list\":";
+	niceprint(out,property_lightness_list_);
+	out << ", \"symbol_property_lightness_values_list\":";
+	niceprint(out,property_lightness_values_list_);
+	out << ", \"symbol_property_saturation_value\":";
+	niceprint(out,property_saturation_value_);
+	out << ", \"symbol_property_height_name\":";
+	niceprint(out,property_height_name_);
+	out << ", \"symbol_property_height_scaling_factor\":";
+	niceprint(out,property_height_scaling_factor_);
+	out << ", \"symbol_marker_index\":";
+	niceprint(out,marker_);
 	out << ", \"symbol_table_mode\":";
 	mode_->toxml(out);
 	out << ", \"symbol_outline_colour\":";
@@ -215,6 +275,16 @@ static MagicsParameter<string> symbol_connect_line("symbol_connect_line", "off")
 static MagicsParameter<string> symbol_connect_automatic_line_colour("symbol_connect_automatic_line_colour", "on");
 static MagicsParameter<int> symbol_connect_line_thickness("symbol_connect_line_thickness", 1);
 static MagicsParameter<string> symbol_legend_only("symbol_legend_only", "off");
+static MagicsParameter<string> symbol_property_hue_name("symbol_property_hue_name", "colour");
+static MagicsParameter<doublearray> symbol_property_hue_list("symbol_property_hue_list", floatarray());
+static MagicsParameter<doublearray> symbol_property_hue_values_list("symbol_property_hue_values_list", floatarray());
+static MagicsParameter<string> symbol_property_lightness_name("symbol_property_lightness_name", "colour");
+static MagicsParameter<doublearray> symbol_property_lightness_list("symbol_property_lightness_list", floatarray());
+static MagicsParameter<doublearray> symbol_property_lightness_values_list("symbol_property_lightness_values_list", floatarray());
+static MagicsParameter<double> symbol_property_saturation_value("symbol_property_saturation_value", 1);
+static MagicsParameter<string> symbol_property_height_name("symbol_property_height_name", "colour");
+static MagicsParameter<double> symbol_property_height_scaling_factor("symbol_property_height_scaling_factor", 1);
+static MagicsParameter<int> symbol_marker_index("symbol_marker_index", 1);
 static MagicsParameter<string> symbol_table_mode("symbol_table_mode", "OFF");
 static MagicsParameter<string> symbol_outline_colour("symbol_outline_colour", "black");
 static MagicsParameter<string> symbol_outline_style("symbol_outline_style", "solid");

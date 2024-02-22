@@ -53,6 +53,7 @@ public:
 	string tag_;
 	string method_;
 	bool legend_;
+	bool legend_grey_style_;
 	bool line_;
 	int line_thickness_;
 	bool forecast_;
@@ -61,6 +62,11 @@ public:
 	int control_line_thickness_;
 	bool median_;
 	int median_line_thickness_;
+	bool percentiles_;
+	doublearray percentiles_list_;
+	stringarray percentiles_line_colour_list_;
+	stringarray percentiles_line_style_list_;
+	intarray percentiles_line_thickness_list_;
 	bool shading_;
 	doublearray shading_levels_;
 	stringarray shading_colours_;

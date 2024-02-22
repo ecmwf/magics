@@ -47,6 +47,7 @@ does it submit to any jurisdiction.
 			name="grib_second_component_file_name">
 			<documentation>The name of the input file containing the v-component of wind</documentation>
 		</parameter>
+	
 		<parameter member="id"
 			to="string"
 			default=""
@@ -163,13 +164,13 @@ does it submit to any jurisdiction.
 			name="grib_field_position">
 			<documentation>The position in the input file of a field other than a wind component</documentation>
 		</parameter>
-		<parameter member="large_field_position"
+		<!--parameter member="large_field_position"
 			to="unsigned long long"
 			default="0"
 			from="unsigned long long"
 			name="grib_field_large_position">
 			<documentation>used when the offset is too big</documentation>
-		</parameter>
+		</parameter-->
 		<parameter member="position_1"
 			to="int"
 			default="1"
@@ -191,7 +192,7 @@ does it submit to any jurisdiction.
 			name="grib_wind_position_colour">
 			<documentation>The position in the input file of a wind component field used to colour the flag</documentation>
 		</parameter>
-		<parameter member="large_position_1"
+		<!--parameter member="large_position_1"
 			to="unsigned long long"
 			default="0"
 			from="unsigned long long"
@@ -211,7 +212,7 @@ does it submit to any jurisdiction.
 			from="unsigned long long" 
 			name="grib_wind_large_position_colour">
 			<documentation>The position in the input file of a wind component field used to colour the flag</documentation>
-		</parameter>
+		</parameter-->
 		<parameter from="float"
 			name="grib_missing_value_indicator"
 			visible="false"

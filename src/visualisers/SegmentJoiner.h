@@ -23,6 +23,8 @@
 
 using namespace std;
 
+namespace magics {
+
 struct Point {
     double x_;
     double y_;
@@ -142,5 +144,7 @@ private:
     SegList segments_;
     bool dirty_;
 };
+
+}
 
 #endif

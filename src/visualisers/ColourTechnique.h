@@ -87,8 +87,6 @@ public:
     void visit(LegendVisitor&);
     ListPolicy getPolicy() const { return policy_; }
 
-    bool minOutOfBound() const { return minOutOfBound_; }
-    bool maxOutOfBound() const { return maxOutOfBound_; }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
@@ -98,9 +96,7 @@ protected:
     map<double, pair<double, double> > ranges_;
     double maxLevel_;
 
-    bool minOutOfBound_;
-    bool maxOutOfBound_;
-
+    
     ListPolicy policy_;
 
 

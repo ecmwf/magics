@@ -752,7 +752,8 @@ void GribDecoder::decode2D(const Transformation&) {
 
 void GribDecoder::openField() {
     
-    current_position_ = (large_field_position_) ? large_field_position_ : field_position_;
+    // current_position_ = (large_field_position_) ? large_field_position_ : field_position_;
+    current_position_ =  field_position_;
     current_file_name_ =  file_name_;
 
     field_            = open(field_);
@@ -760,12 +761,21 @@ void GribDecoder::openField() {
 
 void GribDecoder::openFirstComponent() {
     current_position_ = position_1_;
-    current_file_name_ =  (first_file_name_ == "grib_input_file_name") ?   file_name_ : first_file_name_;
-    field_ = open(field_);
+     
+    if (first_file_name_ == "grib_input_file_name") {
+        current_file_name_= file_name_;
+    }
+    else {
+        current_file_name_= first_file_name_;
+    }
+
+    MagLog::debug() << "received-> " << current_position_ << " from file " << current_file_name_ <<endl;
+    field_       = open(NULL, false);
+
 }
 
 void GribDecoder::openSecondComponent() {
-    MagLog::debug() << "received-> " << position_2_ << " from file " << second_file_name_ <<endl;
+    
 
     if (second_file_name_ == "grib_input_file_name") {
         current_position_ = ( position_2_ == -1 ) ? 2 : position_2_;
@@ -1668,6 +1678,7 @@ string GribDecoder::representation() {
     // Now warning, no caching
     string proj =  getstring("projTargetString", false, false);
     // Here if proj contains latlong we ignore the setting . 
+
     if (proj.find("longlat") != std::string::npos) 
         proj = "";
 
@@ -2487,7 +2498,9 @@ void GribDecoder::uComponent() {
     string name;
     grib_handle* handle = uHandle(name);
 
+
     grib_get_size(handle, "values", &nb);
+
     xValues_ = new double[nb];
     grib_get_double_array(handle, "values", xValues_, &nb);
 }

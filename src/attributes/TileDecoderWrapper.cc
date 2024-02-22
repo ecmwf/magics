@@ -63,6 +63,10 @@ void TileDecoderWrapper::set(const MagRequest& request)
 		string projection_value = request("GRIB_TILE_PROJECTION");
 		tiledecoder_->projection_ = projection_value;
 		}
+	if  (request.countValues("GRIB_TILE_MODE") ) {
+		string mode_value = request("GRIB_TILE_MODE");
+		tiledecoder_->mode_ = mode_value;
+		}
 	if  (request.countValues("GRIB_LOOP") ) {
 		string loop_value = request("GRIB_LOOP");
 		
