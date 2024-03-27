@@ -230,6 +230,7 @@ else()
   # For NVIDIA
   ecbuild_add_cxx_flags("--diag_suppress=partial_override" NO_FAIL)
   ecbuild_add_cxx_flags("--diag_suppress=virtual_function_decl_hidden" NO_FAIL)
+  ecbuild_add_cxx_flags("--diag_suppress=code_is_unreachable" NO_FAIL)
 
   # set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-unused-parameter -Wno-overloaded-virtual -Wno-unused-variable -Wno-reorder-ctor -Wno-sign-compare")
 
