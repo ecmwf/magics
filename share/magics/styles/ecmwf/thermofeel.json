@@ -1,0 +1,22 @@
+[
+  {
+    "prefered_units": "C",
+    "match": [
+      {
+        "paramId": "260004"
+      },
+      {
+        "paramId": "260005"
+      },
+      {
+        "paramId": "261022"
+      },
+      {
+        "paramId": "261001"
+      },
+      {
+        "paramId": "261014"
+      }
+    ]
+  }
+]
