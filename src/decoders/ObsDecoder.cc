@@ -27,6 +27,11 @@
 #include "TextVisitor.h"
 #include "expat.h"
 
+#include <algorithm>
+#include <set>
+#include <string>
+#include <vector>
+
 using namespace magics;
 
 map<int, bool> multilevels_;
@@ -52,7 +57,7 @@ protected:
 class BufrFamily : public map<string, BufrSubType> {
 public:
     BufrFamily(const string&);
-    ~BufrFamily(){};
+    ~BufrFamily() {};
 
     void currentType(const map<string, string>& def) { type_ = def.find("value")->second; }
 
@@ -176,7 +181,7 @@ static void XMLCALL character(void* userData, const char* s, int len) {
 
 BufrIdentifiers::BufrIdentifiers(int centre) : centre_(centre) {
     ostringstream file, deffile;
-    file    << buildSharePath("bufr_" + to_string(centre) + ".xml");
+    file << buildSharePath("bufr_" + to_string(centre) + ".xml");
     deffile << buildSharePath("bufr_98.xml");
     char buf[BUFSIZ];
     XML_Parser parser = XML_ParserCreate(NULL);
@@ -293,9 +298,9 @@ public:
     BufrAccessor(const string& descriptor) : descriptor_(descriptor) {
         init();
         auto token = translator_.find(descriptor_);
-        eccodes_ = (token == translator_.end()) ? descriptor_ : token->second;
+        eccodes_   = (token == translator_.end()) ? descriptor_ : token->second;
     }
-    virtual ~BufrAccessor(){};
+    virtual ~BufrAccessor() {};
     virtual void operator()(const ObsDecoder&, MvObs&, string&) const {}
     virtual void operator()(const ObsDecoder&, MvObs& obs, double& val) const { val = obs.value(eccodes_); }
     virtual void print() {}
@@ -311,7 +316,7 @@ map<string, string> BufrAccessor::translator_;
 class BufrMultiValueAccessor : public BufrAccessor {
 public:
     BufrMultiValueAccessor(const string& descriptor, int index) : BufrAccessor(descriptor), index_(index) {}
-    virtual ~BufrMultiValueAccessor(){};
+    virtual ~BufrMultiValueAccessor() {};
     virtual void operator()(const ObsDecoder&, MvObs& obs, double& val) const {
         const BufrIdentifiers& table = BufrIdentTable::get(obs.originatingCentre());
         val                          = obs.valueByOccurrence(index_, descriptor_);
@@ -381,7 +386,7 @@ public:
 class BufrTypeAccessor : public BufrAccessor {
 public:
     BufrTypeAccessor() { descriptor_ = "type"; };
-    virtual ~BufrTypeAccessor(){};
+    virtual ~BufrTypeAccessor() {};
     void operator()(const ObsDecoder&, MvObs& obs, string& val) const {
         val = obs.messageType();
 
@@ -459,7 +464,7 @@ public:
     void operator()(const ObsDecoder& decoder, MvObs& obs, double& val) const {
         const BufrIdentifiers& table = BufrIdentTable::get(obs.originatingCentre());
         int type                     = obs.messageType();
-        
+
         map<int, bool>::const_iterator multilevel = multilevels_.find(type);
         if (multilevel == multilevels_.end()) {
             MagLog::warning() << "BufrMultiLevelAccessor> Unknown observation type [" << val << "]\n";
@@ -468,7 +473,7 @@ public:
         if (type == 0 || type == 1) {
             // surface data
             val = obs.value(surface_);
-            if ( val == kBufrMissingValue ) {
+            if (val == kBufrMissingValue) {
                 // Trying the descriptor for multilevel: some centres are using it for surface.
                 val = obs.value(altitude_);
             }
@@ -492,8 +497,43 @@ protected:
 
 class BufrGeopotentialAccessor : public BufrMultiLevelAccessor {
 public:
-    BufrGeopotentialAccessor() : BufrMultiLevelAccessor("geopotential") {}
+    BufrGeopotentialAccessor() : BufrMultiLevelAccessor("geopotential") {
+        keys_       = {"geopotential", "nonCoordinateGeopotential", "nonCoordinateGeopotentialHeight"};
+        heightKeys_ = {"nonCoordinateGeopotentialHeight"};
+    }
+
     virtual ~BufrGeopotentialAccessor() {}
+
+    void operator()(const ObsDecoder& decoder, MvObs& obs, double& val) const {
+        const BufrIdentifiers& table = BufrIdentTable::get(obs.originatingCentre());
+        int type                     = obs.messageType();
+
+        map<int, bool>::const_iterator multilevel = multilevels_.find(type);
+        if (multilevel == multilevels_.end()) {
+            MagLog::warning() << "BufrMultiLevelAccessor> Unknown observation type [" << val << "]\n";
+            val = kBufrMissingValue;
+        }
+
+        if (type != 0 && type != 1 && type != 4 && type != 5) {
+            for (auto key : keys_) {
+                val = obs.valueByPressureLevel(decoder.level_, key);
+                // std::cout << "level: " << decoder.level_ << " key: " << key << " val: " << val << std::endl;
+                if (val != kBufrMissingValue) {
+                    if (heightKeys_.find(key) != heightKeys_.end()) {
+                        val *= 9.81;
+                    }
+                    return;
+                }
+            };
+        }
+
+        BufrMultiLevelAccessor::operator()(decoder, obs, val);
+    }
+
+
+protected:
+    std::vector<std::string> keys_;
+    std::set<std::string> heightKeys_;
 };
 
 class BufrTemperatureAccessor : public BufrMultiLevelAccessor {
@@ -670,7 +710,6 @@ void ObsDecoder::customisedPoints(const Transformation& transformation, const st
 
     map<string, BufrAccessor*> accessors;
     for (std::set<string>::const_iterator token = tokens.begin(); token != tokens.end(); ++token) {
-
         try {
             BufrAccessor* accessor = SimpleObjectMaker<BufrAccessor>::create(*token);
             accessors.insert(make_pair(*token, accessor));
@@ -679,7 +718,6 @@ void ObsDecoder::customisedPoints(const Transformation& transformation, const st
             BufrAccessor* accessor = new BufrAccessor(*token);
             accessors.insert(make_pair(*token, accessor));
         }
-
     }
 
     // Create the type accessor!

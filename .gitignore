@@ -29,6 +29,7 @@ build
 .ipynb_checkpoints
 
 .vscode
+.vscode/
 *.sublime-workspace
 notebook/.ipynb_checkpoints
 compile_commands.json
@@ -41,6 +42,7 @@ tmp.*
 *.ppm
 .env
 *.swp
+
 
 # mac
 .DS_Store
