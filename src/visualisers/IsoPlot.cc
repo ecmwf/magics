@@ -1677,7 +1677,7 @@ CellArray::CellArray(MatrixHandler& data, IntervalMap<int>& range, const Transfo
         double missing = data.missing();
 
 
-        int i = 0;
+        auto i = points_.begin();
 
         MagLog::dev() << "min = " << data.min() << "  max = " << data.max() << endl;
         for (vector<std::pair<double, double> >::iterator xy = xypoints.begin(); xy != xypoints.end(); ++xy) {
@@ -1701,7 +1701,7 @@ CellArray::CellArray(MatrixHandler& data, IntervalMap<int>& range, const Transfo
             else {
                 // cout << "MISSING VALUE-->" << geo->second << ", " << geo->first << endl;
             }
-            points_[i] = value;
+            points_.insert(i, value);
             i++;
             ++geo;
         }
