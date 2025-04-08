@@ -103,6 +103,8 @@
   <type value='2'>
 	<subtype value='91'>pilot</subtype>
 	<subtype value='101' template='temp'>temp</subtype>
+    <subtype value='109' template='temp'>temp</subtype>
+    <subtype value='111' template='temp'>temp</subtype>
   </type>
 
   <type value='4'>
