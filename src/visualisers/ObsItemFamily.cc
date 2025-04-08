@@ -41,15 +41,14 @@ void ObsItemBox::set(const map<string, string>& def) {
     key_           = find(def, "key", "");
     format_        = find(def, "format", "");
     justification_ = translate(find(def, "justification", "centre"));
-    
 }
 
-void ObsWind::set(const map<string, string>& def)  {
-        row_       = atoi(find(def, "row").c_str());
-        column_    = atoi(find(def, "column").c_str());
-        colour_    = find(def, "colour");
-        speed_     = find(def, "wind_speed", "wind_speed");
-        direction_ = find(def, "wind_direction", "wind_direction");
+void ObsWind::set(const map<string, string>& def) {
+    row_       = atoi(find(def, "row").c_str());
+    column_    = atoi(find(def, "column").c_str());
+    colour_    = find(def, "colour");
+    speed_     = find(def, "wind_speed", "wind_speed");
+    direction_ = find(def, "wind_direction", "wind_direction");
 }
 
 
@@ -62,8 +61,6 @@ void ObsWind::visit(std::set<string>& tokens) {
         return;
     tokens.insert(speed_);
     tokens.insert(direction_);
-    
-
 }
 void ObsWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
     if (!owner_->wind_visible_)
@@ -71,9 +68,9 @@ void ObsWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
 
     map<string, double>::iterator it = point.begin();
     map<string, double>::iterator en = point.end();
-   
-    string  colouring = (colour_.size() ) ? colour_ : owner_->wind_colour_;
-    Colour  colour;
+
+    string colouring = (colour_.size()) ? colour_ : owner_->wind_colour_;
+    Colour colour;
 
 
     CustomisedPoint::const_iterator speed = point.find(speed_);
@@ -82,20 +79,19 @@ void ObsWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
     CustomisedPoint::const_iterator direction = point.find(direction_);
     if (direction == point.end())
         return;
-    
-    if ( magCompare(colouring, "automatic") )
+
+    if (magCompare(colouring, "automatic"))
         colour = *owner_->colour_;
-    if ( magCompare(colouring, "coloured_wind") ) 
-    {
-        if ( speed->second  < 1. )
+    if (magCompare(colouring, "coloured_wind")) {
+        if (speed->second < 1.)
             colour = Colour("green");
-        if ( speed->second > 1.5 && speed->second <2 )
+        if (speed->second > 1.5 && speed->second < 2)
             colour = Colour("yellow");
-        if ( speed->second > 2.5 && speed->second <3 )
+        if (speed->second > 2.5 && speed->second < 3)
             colour = Colour("orange");
-        if ( speed->second > 3.5 && speed->second <4 )
+        if (speed->second > 3.5 && speed->second < 4)
             colour = Colour("red");
-        if ( speed->second > 4 )
+        if (speed->second > 4)
             colour = Colour("purple");
     }
     else {
@@ -104,10 +100,10 @@ void ObsWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
 
     FlagItem* flag = new FlagItem();
     flag->setColour(colour);
-    flag->setThickness(owner_->wind_thickness_); 
+    flag->setThickness(owner_->wind_thickness_);
     flag->length(owner_->size_ * 2.5);  // Size to be adjusted later!
 
-    const string origin = "circle"; // Duck for hackathon
+    const string origin = "circle";  // Duck for hackathon
 
 
     flag->setOriginHeight(owner_->ring_size_);
@@ -150,18 +146,18 @@ void ObsCloudAndWind::setOrigins() {
 void ObsCloudAndWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
     if (!owner_->wind_visible_)
         return;
-    
-    
-    string  colouring = owner_->wind_colour_;
-    Colour  colour;
+
+
+    string colouring = owner_->wind_colour_;
+    Colour colour;
 
 
     map<string, double>::iterator it = point.begin();
     map<string, double>::iterator en = point.end();
-   
+
     symbol.setHeight(owner_->size_);
 
-    int total_cloud = maground((point["total_cloud"] / 100.) * 8);
+    int total_cloud                         = maground((point["total_cloud"] / 100.) * 8);
     map<int, string>::const_iterator marker = origins_.find(total_cloud);
     string origin;
 
@@ -178,19 +174,18 @@ void ObsCloudAndWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) 
     CustomisedPoint::const_iterator idirection = point.find("wind_direction");
     double direction                           = (idirection == point.end()) ? 0 : idirection->second;
 
-    if ( magCompare(colouring, "automatic") )
+    if (magCompare(colouring, "automatic"))
         colour = *owner_->colour_;
-    if ( magCompare(colouring, "coloured_wind") ) 
-    {
-        if ( speed  < 1. )
+    if (magCompare(colouring, "coloured_wind")) {
+        if (speed < 1.)
             colour = Colour("green");
-        if ( speed > 1.5 && speed <2 )
+        if (speed > 1.5 && speed < 2)
             colour = Colour("yellow");
-        if ( speed > 2.5 && speed <3 )
+        if (speed > 2.5 && speed < 3)
             colour = Colour("orange");
-        if ( speed > 3.5 && speed <4 )
+        if (speed > 3.5 && speed < 4)
             colour = Colour("red");
-        if ( speed > 4 )
+        if (speed > 4)
             colour = Colour("purple");
     }
     else {
@@ -221,8 +216,6 @@ void ObsCloudAndWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) 
     flag->length(owner_->size_ * 2.5);  // Size to be adjusted later!
     flag->thickness(1.5);
 
-
-    
 
     flag->setOriginHeight(owner_->ring_size_ * 1.75);
     flag->setOriginMarker(origin);
@@ -274,7 +267,6 @@ void ObsPressure::operator()(CustomisedPoint& point, ComplexSymbol& symbol) cons
     double pressure = fmod(value->second / 10, 1000);
     os << setw(3) << setfill('0') << pressure;
     object->text(os.str());
-
 
 
     object->font(font);
@@ -450,21 +442,22 @@ void ObsPresentWeather::visit(std::set<string>& tokens) {
 
 static map<int, string> presentweather;
 void ObsPresentWeather::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
-    vector<string> colour_list = { "none", "none", "none", "none", "cream", "cream", "cream", "cream",
-"cream", "cream","yellow", "yellow", "yellow", "red", "kelly_green",
-"kelly_green", "kelly_green", "red", "red", "red", "kelly_green",
-"kelly_green", "white", "white", "red", "kelly_green", "white",
-"red", "yellow", "red", "cream", "cream", "cream", "cream", "cream",
-"cream", "white", "white", "white", "white", "yellow", "yellow",
-"yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow",
-"yellow", "kelly_green", "kelly_green", "kelly_green", "kelly_green",
-"kelly_green", "kelly_green", "red", "red", "kelly_green",
-"kelly_green", "kelly_green", "kelly_green", "kelly_green",
-"kelly_green", "kelly_green", "kelly_green", "red", "red", "white",
-"white", "white", "white","white", "white", "white", "white", "red",
-"red", "red", "orange", "kelly_green", "kelly_green", "kelly_green",
-"white", "white","white", "white", "red", "red", "red", "red", "red",
-"red", "red", "red", "red", "red", "red", "red", "red"};
+    vector<string> colour_list = {
+        "none",        "none",        "none",        "none",        "cream",       "cream",       "cream",
+        "cream",       "cream",       "cream",       "yellow",      "yellow",      "yellow",      "red",
+        "kelly_green", "kelly_green", "kelly_green", "red",         "red",         "red",         "kelly_green",
+        "kelly_green", "white",       "white",       "red",         "kelly_green", "white",       "red",
+        "yellow",      "red",         "cream",       "cream",       "cream",       "cream",       "cream",
+        "cream",       "white",       "white",       "white",       "white",       "yellow",      "yellow",
+        "yellow",      "yellow",      "yellow",      "yellow",      "yellow",      "yellow",      "yellow",
+        "yellow",      "kelly_green", "kelly_green", "kelly_green", "kelly_green", "kelly_green", "kelly_green",
+        "red",         "red",         "kelly_green", "kelly_green", "kelly_green", "kelly_green", "kelly_green",
+        "kelly_green", "kelly_green", "kelly_green", "red",         "red",         "white",       "white",
+        "white",       "white",       "white",       "white",       "white",       "white",       "red",
+        "red",         "red",         "orange",      "kelly_green", "kelly_green", "kelly_green", "white",
+        "white",       "white",       "white",       "red",         "red",         "red",         "red",
+        "red",         "red",         "red",         "red",         "red",         "red",         "red",
+        "red",         "red"};
 
 
     if (!owner_->present_ww_visible_)
@@ -480,28 +473,56 @@ void ObsPresentWeather::operator()(CustomisedPoint& point, ComplexSymbol& symbol
         presentweather[121] = "ww_60";
         presentweather[122] = "ww_20";
         presentweather[123] = "ww_61";
+        presentweather[124] = "ww_70";
         presentweather[130] = "ww_45";  // Fog
         presentweather[131] = "ww_41";
         presentweather[132] = "ww_42";
         presentweather[133] = "ww_44";
         presentweather[134] = "ww_46";
+        presentweather[135] = "ww_48";
         presentweather[140] = "ww_60";
         presentweather[141] = "ww_61";
         presentweather[150] = "ww_51";
         presentweather[151] = "ww_51";
         presentweather[152] = "ww_52";
         presentweather[153] = "ww_55";
+        presentweather[154] = "ww_56";
+        presentweather[155] = "ww_57";
+        presentweather[156] = "ww_57";
         presentweather[157] = "ww_58";
         presentweather[158] = "ww_59";
         presentweather[160] = "ww_60";
         presentweather[161] = "ww_61";
         presentweather[162] = "ww_62";
         presentweather[163] = "ww_65";
+        presentweather[164] = "ww_66";
+        presentweather[165] = "ww_67";
+        presentweather[166] = "ww_67";
+        presentweather[167] = "ww_68";
+        presentweather[168] = "ww_69";
+        presentweather[170] = "ww_70";
+        presentweather[171] = "ww_71";
+        presentweather[172] = "ww_72";
+        presentweather[173] = "ww_74";
+        presentweather[174] = "ww_79";
+        presentweather[175] = "ww_79";
+        presentweather[176] = "ww_79";
+        presentweather[177] = "ww_77";
+        presentweather[178] = "ww_78";
         presentweather[180] = "ww_80";
         presentweather[181] = "ww_80";
         presentweather[182] = "ww_81";
         presentweather[183] = "ww_81";
+        presentweather[184] = "ww_82";
+        presentweather[185] = "ww_85";
+        presentweather[186] = "ww_86";
+        presentweather[187] = "ww_86";
         presentweather[189] = "ww_89";
+        presentweather[190] = "ww_90";
+        presentweather[192] = "ww_95";
+        presentweather[193] = "ww_96";
+        presentweather[195] = "ww_97";
+        presentweather[196] = "ww_99";
     }
 
     CustomisedPoint::const_iterator value = point.find("present_weather");
@@ -514,18 +535,17 @@ void ObsPresentWeather::operator()(CustomisedPoint& point, ComplexSymbol& symbol
     string ww;
 
     string colour = owner_->present_ww_colour_;
-    
-    if ( magCompare(colour, "automatic") )
+
+    if (magCompare(colour, "automatic"))
         colour = owner_->colour_->name();
-   
 
 
     if (value->second < 100) {
         ostringstream os;
         os << "ww_" << setw(2) << setfill('0') << value->second;
         ww = os.str();
-        if ( magCompare(colour, "coloured_present_weather") )
-             colour = colour_list[value->second];
+        if (magCompare(colour, "coloured_present_weather"))
+            colour = colour_list[value->second];
     }
     else {
         map<int, string>::iterator w = presentweather.find(value->second);
@@ -544,7 +564,7 @@ void ObsPresentWeather::operator()(CustomisedPoint& point, ComplexSymbol& symbol
 
     object->colour(Colour(colour));
     object->symbol(ww);
-    
+
     object->height(owner_->size_);
     symbol.add(object);
 }
@@ -591,7 +611,6 @@ void ObsTimePlot::operator()(CustomisedPoint& point, ComplexSymbol& symbol) cons
     CustomisedPoint::const_iterator value = point.find("time");
     if (value == point.end())
         return;
-
 
 
     Colour colour = owner_->time_plot_colour_->automatic() ? *owner_->colour_ : *owner_->time_plot_colour_;
