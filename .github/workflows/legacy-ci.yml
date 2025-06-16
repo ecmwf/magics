@@ -94,7 +94,7 @@ jobs:
         dependencies: |
           ecmwf/ecbuild
           ecmwf/eccodes
-          MathisRosenhauer/libaec@master
+          MathisRosenhauer/libaec@refs/tags/v1.1.3
           OSGeo/PROJ@refs/tags/8.1.1
         dependency_branch: develop
 
