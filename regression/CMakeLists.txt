@@ -48,7 +48,7 @@ function( add_magics_test )
 	foreach( data ${_p_DATA} )
         string( REGEX REPLACE "[^A-Za-z0-9_]" "_" target "${_p_NAME}_data_${data}" )
         ecbuild_get_test_data( NAME ${data} TARGET ${target} NOCHECK 
-            DIRNAME magics/regression/${where})
+            DIRNAME magics/test-data/regression/${where})
         list( APPEND targets  "${target}")
 	endforeach()
 
@@ -74,7 +74,7 @@ function( add_magics_test )
         	list( APPEND targets "${target}")
 	    
 			ecbuild_get_test_data( NAME ${todo} NOCHECK 
-				DIRNAME magics/reference/${version}/${where} )
+				DIRNAME magics/test-data/reference/${version}/${where} )
 		endforeach()
 	
 		set( versions "${versions}${version} " )
