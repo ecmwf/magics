@@ -5,6 +5,7 @@ builds:
     config:
       dependencies:
         - ecmwf/eccodes
+        - ecmwf/eckit
         - ecmwf/odc
       confluence_space: "MAGP"
       confluence_page_title: "Releases"
