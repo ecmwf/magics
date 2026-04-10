@@ -2,6 +2,9 @@ builds:
   - name: "tarball"
     type: "tarball"
     enabled: true
+    config:
+      confluence_space: "MAGP"
+      confluence_page_title: "Releases"
 
 release:
   enabled: true
