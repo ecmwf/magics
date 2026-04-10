@@ -1,0 +1,7 @@
+builds:
+  - name: "tarball"
+    type: "tarball"
+    enabled: true
+
+release:
+  enabled: true
