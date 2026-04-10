@@ -2115,6 +2115,11 @@ public:
         string param = grib.getString("name");
         title.back() += param;
         title.back() += " ";
+        string chemName = grib.getstring("chemName", false);
+        if (chemName != "") {
+            title.back() += "of " + chemName;
+            title.back() += " ";        
+        }
     }
 };
 
