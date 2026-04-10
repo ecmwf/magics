@@ -3,6 +3,9 @@ builds:
     type: "tarball"
     enabled: true
     config:
+      dependencies:
+        - ecmwf/eccodes
+        - ecmwf/odc
       confluence_space: "MAGP"
       confluence_page_title: "Releases"
 
