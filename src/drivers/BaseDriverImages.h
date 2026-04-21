@@ -18,6 +18,7 @@
     Changes:
 
 */
+#include <cstdint>
 
 #include "magics.h"
 
@@ -51,17 +52,15 @@ MAGICS_NO_EXPORT void BaseDriver::renderImage(const ImportObject& obj) const {
     MFloat width  = 0;
     MFloat height = 0;
 
-    if (obj.getWidth() == -1 && magCompare(f, "png") ) {
+    if (obj.getWidth() == -1 && magCompare(f, "png")) {
 #ifndef HAVE_CAIRO
-        MagLog::error()
-            << "BaseDriverImages: image size cannot be determined (Cairo library required)!"
-            << endl;
+        MagLog::error() << "BaseDriverImages: image size cannot be determined (Cairo library required)!" << endl;
         return;
 #else
         cairo_surface_t* surface = cairo_image_surface_create_from_png(obj.getPath().c_str());
-        if (cairo_surface_status(surface))
-        {
-            MagLog::error() << "BaseDriverImages: Cannot read PNG to establish size - " <<obj.getPath().c_str()<< endl;
+        if (cairo_surface_status(surface)) {
+            MagLog::error() << "BaseDriverImages: Cannot read PNG to establish size - " << obj.getPath().c_str()
+                            << endl;
             return;
         }
         width  = cairo_image_surface_get_width(surface);
@@ -79,18 +78,18 @@ MAGICS_NO_EXPORT void BaseDriver::renderImage(const ImportObject& obj) const {
     pixinput.filename   = obj.getPath();
     pixinput.format     = format;
     pixinput.resolution = 300;
-    
-    if (obj.getOriginReference() == ImageProperties::centre){
-        pixinput.x0        = projectX(obj.getOrigin().x() - (ow * .5));
-        pixinput.y0        = projectY(obj.getOrigin().y() - (oh * .5));
-        pixinput.x1        = projectX(obj.getOrigin().x() + (ow * .5));
-        pixinput.y1        = projectY(obj.getOrigin().y() + (oh * .5));
-    }                    
-    else{
-        pixinput.x0        = projectX(obj.getOrigin().x());
-        pixinput.y0        = projectY(obj.getOrigin().y());
-        pixinput.x1        = projectX(obj.getOrigin().x() + ow);
-        pixinput.y1        = projectY(obj.getOrigin().y() + oh);
+
+    if (obj.getOriginReference() == ImageProperties::centre) {
+        pixinput.x0 = projectX(obj.getOrigin().x() - (ow * .5));
+        pixinput.y0 = projectY(obj.getOrigin().y() - (oh * .5));
+        pixinput.x1 = projectX(obj.getOrigin().x() + (ow * .5));
+        pixinput.y1 = projectY(obj.getOrigin().y() + (oh * .5));
+    }
+    else {
+        pixinput.x0 = projectX(obj.getOrigin().x());
+        pixinput.y0 = projectY(obj.getOrigin().y());
+        pixinput.x1 = projectX(obj.getOrigin().x() + ow);
+        pixinput.y1 = projectY(obj.getOrigin().y() + oh);
     }
     convertToPixmap(pixinput);
 }  // end BaseDriver::renderImage()
@@ -108,9 +107,9 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const PixmapInput& in) const {
 #else
     debugOutput("Start Image conversion");
 
-    int Landscape = 0;
-    MFloat bx1 = 100.;
-    MFloat by1 = 100.;
+    int Landscape        = 0;
+    MFloat bx1           = 100.;
+    MFloat by1           = 100.;
     unsigned char* image = 0;
     int col = 0, row = 0;
     int status = 0;
@@ -119,8 +118,7 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const PixmapInput& in) const {
 #ifdef HAVE_CAIRO
     if (in.format == GraphicsFormat::PNG) {
         cairo_surface_t* surface = cairo_image_surface_create_from_png(in.filename.c_str());
-        if (cairo_surface_status(surface))
-        {
+        if (cairo_surface_status(surface)) {
             MagLog::error() << "BaseDriverImages: Cannot read PNG through Cairo!" << endl;
             return false;
         }
@@ -145,30 +143,31 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const PixmapInput& in) const {
             case CAIRO_FORMAT_ARGB32:
                 MagLog::debug() << "BaseDriverImages: Read PNG ARGB32" << endl;
                 pixmapFormat = "rgba";
-                bytes = 4;
+                bytes        = 4;
                 break;
-          }
+        }
 
-        uint8_t*   src        = cairo_image_surface_get_data(surface);
-        const int  src_stride = cairo_image_surface_get_stride(surface);
-        image                 = new unsigned char[row * col * bytes];
-        unsigned char* p      = image;
-  
+        uint8_t* src         = cairo_image_surface_get_data(surface);
+        const int src_stride = cairo_image_surface_get_stride(surface);
+        image                = new unsigned char[row * col * bytes];
+        unsigned char* p     = image;
+
         for (int i = 0; i < row; i++) {
-            uint32_t *s = (uint32_t*)(src + i * src_stride);        
+            uint32_t* s = (uint32_t*)(src + i * src_stride);
             for (int j = 0; j < col; j++) {
-                uint32_t point = s[j];
-                const unsigned char a = (unsigned char) ((point >> 24) & 0xff);
-                const unsigned char r = (unsigned char) ((point >> 16) & 0xff);
-                const unsigned char g = (unsigned char) ((point >> 8) & 0xff);
-                const unsigned char b = (unsigned char) ((point >> 0) & 0xff);
-                *(p++) = r;
-                *(p++) = g;
-                *(p++) = b;
-                *(p++) = a;
+                uint32_t point        = s[j];
+                const unsigned char a = (unsigned char)((point >> 24) & 0xff);
+                const unsigned char r = (unsigned char)((point >> 16) & 0xff);
+                const unsigned char g = (unsigned char)((point >> 8) & 0xff);
+                const unsigned char b = (unsigned char)((point >> 0) & 0xff);
+                *(p++)                = r;
+                *(p++)                = g;
+                *(p++)                = b;
+                *(p++)                = a;
             }
         }
-    } else
+    }
+    else
 #endif
     {
         MagLog::warning() << "BaseDriverImages: graphics formats (" << in.format << ") is NOT supported!" << endl;
@@ -176,17 +175,17 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const PixmapInput& in) const {
     }
 
     Pixmap pixmap;
-    pixmap.x0          = in.x0;
-    pixmap.y0          = in.y0;
-    pixmap.x1          = in.x1;
-    pixmap.y1          = in.y1;
-    pixmap.w           = col;
-    pixmap.h           = row;
-    pixmap.pixmap      = image;
-    pixmap.landscape   = Landscape;
-    pixmap.alpha       = (pixmapFormat == "rgba");
-    pixmap.offset      = false;
-    status = renderPixmap(pixmap);
+    pixmap.x0        = in.x0;
+    pixmap.y0        = in.y0;
+    pixmap.x1        = in.x1;
+    pixmap.y1        = in.y1;
+    pixmap.w         = col;
+    pixmap.h         = row;
+    pixmap.pixmap    = image;
+    pixmap.landscape = Landscape;
+    pixmap.alpha     = (pixmapFormat == "rgba");
+    pixmap.offset    = false;
+    status           = renderPixmap(pixmap);
 
     if (!status)
         MagLog::warning()
