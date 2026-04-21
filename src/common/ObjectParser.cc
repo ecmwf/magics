@@ -14,6 +14,7 @@
 /// @date   Jun 2012
 
 #include <codecvt>
+#include <cstdint>
 #include <locale>
 
 #include "ObjectParser.h"
