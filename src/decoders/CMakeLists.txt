@@ -102,6 +102,7 @@ decoders/NetcdfOrcaInterpretor.h
 decoders/NetcdfVectorInterpretor.cc
 decoders/NetcdfVectorInterpretor.h
 decoders/NetcdfProj4MatrixInterpretor.h
+decoders/NetcdfProj4MatrixInterpretor.cc
 #<----Netcdf
 )
 endif()
