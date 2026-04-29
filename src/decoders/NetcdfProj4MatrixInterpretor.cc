@@ -12,14 +12,14 @@
     \brief Implementation of a Netcdf interpreter that works on any NetCDF file
            which provides a PROJ.4 definition (global attribute, variable
            attribute, grid‑mapping variable, or a dedicated "proj4" variable).
-
-    Magics Team – extended by ChatGPT (2024)
 */
 
 #include "NetcdfProj4MatrixInterpretor.h"
-#include "NetcdfData.h"
+#include "Layer.h"
 #include "MagLog.h"
+#include "MagicsGlobal.h"
 #include "Matrix.h"
+#include "NetcdfData.h"
 
 using namespace magics;
 
@@ -52,22 +52,23 @@ static std::string findProj4(Netcdf& netcdf, const std::string& field) {
         NetVariable v = netcdf.getVariable("proj4");
         if (v.type() == NC_CHAR || v.type() == NC_STRING) {
             // First try an attribute named "proj4"
-            std::string txt;
-            v.getAttribute("proj4", txt);
+            std::string txt = v.getAttribute("proj4", std::string(""));
             if (!txt.empty())
                 return txt;
-            // Otherwise read the scalar value directly
-            std::vector<std::string> vec(1);
-            v.get(vec);
-            if (!vec.empty())
-                return vec[0];
+            // Otherwise read the variable value directly as text
+            size_t len = v.getSize();
+            if (len > 0) {
+                std::vector<char> buf(len + 1, '\0');
+                nc_get_var_text(v.netcdf_, v.id_, buf.data());
+                return std::string(buf.data());
+            }
         }
     }
     catch (...) {
         // variable does not exist – silently ignore
     }
 
-    return ""; // nothing found
+    return "";  // nothing found
 }
 
 /* ------------------------------------------------------------------
@@ -83,11 +84,11 @@ NetcdfInterpretor* NetcdfProj4MatrixInterpretor::guess(const NetcdfInterpretor& 
     // Try to locate a proj4 definition.  The helper checks many places.
     std::string proj4 = findProj4(netcdf, from.field_.empty() ? from.x_component_ : from.field_);
     if (proj4.empty())
-        return nullptr; // not a proj4‑grid file
+        return nullptr;  // not a proj4‑grid file
 
     // We have a proj4 definition → create the interpreter.
     NetcdfProj4MatrixInterpretor* p = new NetcdfProj4MatrixInterpretor();
-    p->NetcdfInterpretor::copy(from);   // copy generic members (path, field, scaling…)
+    p->NetcdfInterpretor::copy(from);  // copy generic members (path, field, scaling…)
     p->proj4_ = proj4;
 
     // Determine which variables contain the X/Y coordinates.  We first try the
@@ -98,13 +99,16 @@ NetcdfInterpretor* NetcdfProj4MatrixInterpretor::guess(const NetcdfInterpretor& 
     if (!lon.empty() && !lat.empty()) {
         p->xVar_ = lon;
         p->yVar_ = lat;
-    } else {
+    }
+    else {
         // projection_x_coordinate / projection_y_coordinate are common in
         // rotated or LCC grids.
         p->xVar_ = netcdf.detect(from.field_, "projection_x_coordinate");
         p->yVar_ = netcdf.detect(from.field_, "projection_y_coordinate");
-        if (p->xVar_.empty()) p->xVar_ = "x";
-        if (p->yVar_.empty()) p->yVar_ = "y";
+        if (p->xVar_.empty())
+            p->xVar_ = "x";
+        if (p->yVar_.empty())
+            p->yVar_ = "y";
     }
 
     return p;
@@ -114,7 +118,8 @@ NetcdfInterpretor* NetcdfProj4MatrixInterpretor::guess(const NetcdfInterpretor& 
    2) interpretAsMatrix – read the data and build a Proj4Matrix
    ------------------------------------------------------------------ */
 bool NetcdfProj4MatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
-    if (*matrix) return false; // already allocated elsewhere
+    if (*matrix)
+        return false;  // already allocated elsewhere
 
     Netcdf netcdf(path_, dimension_method_);
 
@@ -137,7 +142,7 @@ bool NetcdfProj4MatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
         // dedicated coordinate variables, the call will still work because the
         // dimension names themselves are used as the axis values.
         netcdf.get(xVar_, matrix_->columnsAxis(), first, last);
-        netcdf.get(yVar_, matrix_->rowsAxis(),    first, last);
+        netcdf.get(yVar_, matrix_->rowsAxis(), first, last);
 
         // Load the actual data field.
         vector<double> data;
@@ -160,7 +165,8 @@ bool NetcdfProj4MatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
         matrix_->setMapsAxis();
     }
     catch (MagicsException& e) {
-        if (MagicsGlobal::strict()) throw;
+        if (MagicsGlobal::strict())
+            throw;
         MagLog::error() << e << std::endl;
         matrix_.reset(nullptr);
         return false;
@@ -182,5 +188,4 @@ void NetcdfProj4MatrixInterpretor::visit(MetaDataCollector& mdc) {
 // Optional factory registration – allows users to force this interpreter via
 // <netcdf interpreter="proj4" …>.  If you do not need that feature you can
 // comment the line out.
-static SimpleObjectMaker<NetcdfProj4MatrixInterpretor,
-                         NetcdfInterpretor> netcdf_proj4_interpretor("proj4");
+static SimpleObjectMaker<NetcdfProj4MatrixInterpretor, NetcdfInterpretor> netcdf_proj4_interpretor("proj4");
