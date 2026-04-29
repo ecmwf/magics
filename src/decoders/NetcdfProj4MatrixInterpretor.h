@@ -1,6 +1,8 @@
 #ifndef NetcdfProj4MatrixInterpretor_H
 #define NetcdfProj4MatrixInterpretor_H
 
+#include <memory>
+#include "Matrix.h"
 #include "NetcdfInterpretor.h"
 
 namespace magics {
@@ -29,6 +31,7 @@ private:
     std::string proj4_;   // the proj4 definition we discovered
     std::string xVar_;    // name of the x‑coordinate variable (default "x")
     std::string yVar_;    // name of the y‑coordinate variable (default "y")
+    std::unique_ptr<Proj4Matrix> matrix_;
 };
 
 } // namespace magics

@@ -19,7 +19,7 @@
 #include "NetcdfProj4MatrixInterpretor.h"
 #include "NetcdfData.h"
 #include "MagLog.h"
-#include "Proj4Matrix.h"
+#include "Matrix.h"
 
 using namespace magics;
 
