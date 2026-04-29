@@ -24,13 +24,14 @@
 #include <limits>
 
 #include "Layer.h"
+#include "MagicsGlobal.h"
 #include "NetcdfData.h"
 #include "NetcdfGeoMatrixInterpretor.h"
 #include "NetcdfMatrixInterpretor.h"
 #include "NetcdfOrcaInterpretor.h"
+#include "NetcdfProj4MatrixInterpretor.h"
 #include "NetcdfVectorInterpretor.h"
 #include "XmlReader.h"
-#include "MagicsGlobal.h"
 
 using namespace magics;
 
@@ -60,6 +61,26 @@ NetcdfInterpretor* NetcdfGuessInterpretor::guess() const {
 
         if (delegate_)
             return delegate_;
+        // 1️⃣ Try the new proj4‑based interpreter first
+        delegate_ = NetcdfProj4MatrixInterpretor::guess(*this);
+        if (delegate_)
+            return delegate_;
+
+        // 2️⃣ Existing CF‑based interpreters (unchanged order)
+        delegate_ = NetcdfGeoMatrixInterpretor::guess(*this);
+        if (delegate_)
+            return delegate_;
+
+        delegate_ = NetcdfGeoVectorInterpretor::guess(*this);
+        if (delegate_)
+            return delegate_;
+
+        delegate_ = NetcdfOrcaInterpretor::guess(*this);
+        if (delegate_)
+            return delegate_;
+
+        // 3️⃣ If none of the specialised guesses succeeded we fall back to a plain
+        //    matrix and emit the usual warning.
         MagLog::warning() << "Could not guess the type of netcdf: Use default -->matrix" << endl;
     }
     catch (...) {
@@ -178,23 +199,18 @@ bool NetcdfInterpretor::cf_date(Netcdf& netcdf, const string& var, const string&
     vector<string> times = {"standard_name", "long_name"};
 
     string date;
-    for ( auto t = times.begin(); t != times.end(); ++t) {
+    for (auto t = times.begin(); t != times.end(); ++t) {
+        date = netcdf.getVariableAttribute(var, *t, string(""));
 
-        date = netcdf.getVariableAttribute(var, *t , string(""));
-
-        if ( date.size() )
+        if (date.size())
             break;
     }
-
-
-
 
 
     if (date.empty())
         return false;
     if (date != "time" && date != "date and time")
         return false;
-
 
 
     string units = netcdf.getVariableAttribute(var, "units", string(""));
