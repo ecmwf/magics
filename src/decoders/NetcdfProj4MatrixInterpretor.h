@@ -23,7 +23,13 @@ public:
     bool interpretAsMatrix(Matrix** matrix) override;
 
     // -----------------------------------------------------------------
-    // 3) expose the proj4 string as meta‑data (optional but handy)
+    // 3) set geographic extent on the transformation (converts projected
+    //    meter corners to lat/lon so WMS reports the correct bounding box)
+    // -----------------------------------------------------------------
+    void visit(Transformation& transformation) override;
+
+    // -----------------------------------------------------------------
+    // 4) expose the proj4 string as meta‑data (optional but handy)
     // -----------------------------------------------------------------
     void visit(MetaDataCollector& mdc) override;
 

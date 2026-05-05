@@ -15,6 +15,8 @@
 */
 
 #include "NetcdfProj4MatrixInterpretor.h"
+#include <algorithm>
+#include <limits>
 #include "Layer.h"
 #include "MagLog.h"
 #include "MagicsGlobal.h"
@@ -178,7 +180,47 @@ bool NetcdfProj4MatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
 }
 
 /* ------------------------------------------------------------------
-   3) Optional meta‑data – makes debugging easier
+   3) Set geographic extent on the transformation so WMS reports the
+      correct bounding box.  The matrix axes are in projected metres;
+      we revert the four grid corners to lat/lon and use their envelope.
+   ------------------------------------------------------------------ */
+void NetcdfProj4MatrixInterpretor::visit(Transformation& transformation) {
+    if (!matrix_ || proj4_.empty())
+        return;
+
+    LatLonProjP projHelper(proj4_);
+
+    const auto& cols = matrix_->columnsAxis();
+    const auto& rows = matrix_->rowsAxis();
+    if (cols.empty() || rows.empty())
+        return;
+
+    double x0 = cols.front(), y0 = rows.front();
+    double x1 = cols.back(),  y1 = rows.back();
+
+    // Revert all four corners projected → lon/lat
+    double lons[4], lats[4];
+    double cx[4] = {x0, x1, x0, x1};
+    double cy[4] = {y0, y0, y1, y1};
+    for (int k = 0; k < 4; ++k) {
+        lons[k] = cx[k];
+        lats[k] = cy[k];
+        if (projHelper.revert(lons[k], lats[k]) != 0) return;
+    }
+
+    double minLon = *std::min_element(lons, lons + 4);
+    double maxLon = *std::max_element(lons, lons + 4);
+    double minLat = *std::min_element(lats, lats + 4);
+    double maxLat = *std::max_element(lats, lats + 4);
+
+    if (transformation.getAutomaticX())
+        transformation.setMinMaxX(minLon, maxLon);
+    if (transformation.getAutomaticY())
+        transformation.setMinMaxY(minLat, maxLat);
+}
+
+/* ------------------------------------------------------------------
+   4) Optional meta‑data – makes debugging easier
    ------------------------------------------------------------------ */
 void NetcdfProj4MatrixInterpretor::visit(MetaDataCollector& mdc) {
     NetcdfInterpretor::visit(mdc);
