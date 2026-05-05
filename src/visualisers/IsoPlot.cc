@@ -1203,6 +1203,12 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
 
     MagLog::debug() << "Min=" << min << ", Max=" << max << endl;
 
+    // If data range has no overlap with the level range, the levels loop below
+    // would produce a single artificial band [last_level, data_max] covering
+    // every grid point, causing O(N) polygon segment allocation for all N cells.
+    if (max <= (*levelSelection_).front() || min >= (*levelSelection_).back())
+        return;
+
     if ((*levelSelection_).front() > min)
         levels_.push_back(min);
 
