@@ -38,10 +38,12 @@ static std::string findProj4(Netcdf& netcdf, const std::string& field) {
     if (!proj4.empty())
         return proj4;
 
-    // 3) Grid‑mapping variable – look for the attribute "proj4_params"
+    // 3) Grid‑mapping variable – look for "proj4" or "proj4_params" attribute
     std::string mapping = netcdf.getVariableAttribute(field, "grid_mapping", std::string(""));
     if (!mapping.empty()) {
-        proj4 = netcdf.getVariableAttribute(mapping, "proj4_params", std::string(""));
+        proj4 = netcdf.getVariableAttribute(mapping, "proj4", std::string(""));
+        if (proj4.empty())
+            proj4 = netcdf.getVariableAttribute(mapping, "proj4_params", std::string(""));
         if (!proj4.empty())
             return proj4;
     }
