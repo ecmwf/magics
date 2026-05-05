@@ -17,6 +17,7 @@
 #include "NetcdfProj4MatrixInterpretor.h"
 #include <algorithm>
 #include <limits>
+#include "ContourLibrary.h"
 #include "Layer.h"
 #include "MagLog.h"
 #include "MagicsGlobal.h"
@@ -131,6 +132,16 @@ bool NetcdfProj4MatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
     // proper axis values.
     matrix_.reset(new Proj4Matrix(proj4_));
     *matrix = matrix_.get();
+
+    if (automatic_scaling_) {
+        WebLibrary settings;
+        MetaDataCollector needs;
+        settings.askId(needs);
+        for (auto need = needs.begin(); need != needs.end(); ++need) {
+            need->second = getAttribute(field_, need->first, "");
+        }
+        settings.getScaling(needs, scaling_, offset_);
+    }
 
     try {
         // Missing value handling – same as the GeoMatrix interpreter.
