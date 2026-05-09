@@ -1,0 +1,14 @@
+builds:
+  - name: "tarball"
+    type: "tarball"
+    enabled: true
+    config:
+      dependencies:
+        - ecmwf/eccodes
+        - ecmwf/eckit
+        - ecmwf/odc
+      confluence_space: "MAGP"
+      confluence_page_title: "Releases"
+
+release:
+  enabled: true
