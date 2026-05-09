@@ -20,6 +20,7 @@
 #include "ObjectParser.h"
 #include "Translator.h"
 #include "Value.h"
+#include <stdint.h>
 
 namespace magics {
 
