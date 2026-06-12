@@ -21,6 +21,7 @@
 
 #include "NetcdfGeoMatrixInterpretor.h"
 
+#include <algorithm>
 #include <limits>
 
 #include "ContourLibrary.h"
@@ -53,8 +54,43 @@ string NetcdfGeoMatrixInterpretor::proj4Detected(Netcdf& netcdf) {
 
 
     string mapping = netcdf.getVariableAttribute(field_, "grid_mapping", string(""));
-    if (mapping.size())
-        return netcdf.getVariableAttribute(mapping, "proj4_params", string(""));
+    if (mapping.size()) {
+        proj4 = netcdf.getVariableAttribute(mapping, "proj4_params", string(""));
+        if (proj4.size())
+            return proj4;
+    }
+
+    // Extended detection: standard "proj4" attribute names
+    proj4 = netcdf.getAttribute("proj4", string(""));
+    if (proj4.size())
+        return proj4;
+
+    if (!field_.empty()) {
+        proj4 = netcdf.getVariableAttribute(field_, "proj4", string(""));
+        if (proj4.size())
+            return proj4;
+    }
+
+    if (mapping.size()) {
+        proj4 = netcdf.getVariableAttribute(mapping, "proj4", string(""));
+        if (proj4.size())
+            return proj4;
+    }
+
+    // Dedicated scalar variable named "proj4"
+    try {
+        NetVariable v = netcdf.getVariable("proj4");
+        if (v.type() == NC_CHAR || v.type() == NC_STRING) {
+            size_t len = v.getSize();
+            if (len > 0) {
+                vector<char> buf(len + 1, '\0');
+                nc_get_var_text(v.netcdf_, v.id_, buf.data());
+                return string(buf.data());
+            }
+        }
+    }
+    catch (...) {}
+
     return "";
 }
 
@@ -65,7 +101,7 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix) {
     Netcdf netcdf(path_, dimension_method_);
 
     string proj4 = proj4Detected(netcdf);
-
+    proj4_ = proj4;
 
     if (proj4.empty()) {
         matrix_.reset(new Matrix());
@@ -172,18 +208,38 @@ UserPoint* NetcdfGeoMatrixInterpretor::newPoint(double lon, double lat, double v
 }
 
 void NetcdfGeoMatrixInterpretor::visit(Transformation& transformation) {
-    // Here are in a dump ode .. the coordinates are pixels.
-    if (transformation.getAutomaticX()) {
-        transformation.setMinMaxX(matrix_->columnsAxis().front(), matrix_->columnsAxis().back());
+    double minX = matrix_->columnsAxis().front();
+    double maxX = matrix_->columnsAxis().back();
+    double minY = matrix_->rowsAxis().front();
+    double maxY = matrix_->rowsAxis().back();
+
+    if (!proj4_.empty()) {
+        // Projected grid: revert the four corners to lat/lon so the transformation
+        // receives geographic bounds instead of projection-space coordinates.
+        LatLonProjP projHelper(proj4_);
+        double lons[4] = {minX, maxX, minX, maxX};
+        double lats[4] = {minY, minY, maxY, maxY};
+        bool ok = true;
+        for (int k = 0; k < 4 && ok; ++k)
+            ok = (projHelper.revert(lons[k], lats[k]) == 0);
+        if (ok) {
+            minX = *std::min_element(lons, lons + 4);
+            maxX = *std::max_element(lons, lons + 4);
+            minY = *std::min_element(lats, lats + 4);
+            maxY = *std::max_element(lats, lats + 4);
+        }
     }
-    if (transformation.getAutomaticY()) {
-        transformation.setMinMaxY(matrix_->rowsAxis().front(), matrix_->rowsAxis().back());
-    }
+
+    if (transformation.getAutomaticX())
+        transformation.setMinMaxX(minX, maxX);
+    if (transformation.getAutomaticY())
+        transformation.setMinMaxY(minY, maxY);
 }
 
 bool NetcdfGeoMatrixInterpretor::interpretAsPoints(PointsList& list) {
     Netcdf netcdf(path_, dimension_method_);
     string proj4 = proj4Detected(netcdf);
+    proj4_ = proj4;
 
     if (!proj4.empty()) {
         projection_ = new LatLonProjP(proj4);
@@ -364,7 +420,7 @@ NetcdfInterpretor* NetcdfGeoMatrixInterpretor::guess(const NetcdfInterpretor& fr
     string projection_y_coordinate = netcdf.detect(variable, "projection_y_coordinate", use_cache);
     string projection_x_coordinate = netcdf.detect(variable, "projection_x_coordinate", use_cache);
 
-    if (projection_y_coordinate.size() && projection_y_coordinate.size()) {
+    if (projection_y_coordinate.size() && projection_x_coordinate.size()) {
         NetcdfGeoMatrixInterpretor* interpretor = new NetcdfGeoMatrixInterpretor();
         interpretor->NetcdfInterpretor::copy(from);
 
@@ -376,6 +432,22 @@ NetcdfInterpretor* NetcdfGeoMatrixInterpretor::guess(const NetcdfInterpretor& fr
             interpretor->number_variable_ = netcdf.detect(variable, "number", use_cache);
             return interpretor;
         }
+        delete interpretor;
+    }
+
+    // No CF axis variables found — if a proj4 string is present fall back to bare x/y dims.
+    {
+        NetcdfGeoMatrixInterpretor* interpretor = new NetcdfGeoMatrixInterpretor();
+        interpretor->NetcdfInterpretor::copy(from);
+        if (interpretor->proj4Detected(netcdf).size()) {
+            interpretor->latitude_        = "y";
+            interpretor->longitude_       = "x";
+            interpretor->time_variable_   = netcdf.detect(variable, "time", use_cache);
+            interpretor->level_variable_  = netcdf.detect(variable, "level", use_cache);
+            interpretor->number_variable_ = netcdf.detect(variable, "number", use_cache);
+            return interpretor;
+        }
+        delete interpretor;
     }
 
     return 0;

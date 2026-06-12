@@ -15,7 +15,7 @@
 
     Started: Tue 17-Feb-2004
 
-    Changes:
+    Changes: 12-06-2026 Extended proj4 string detection, added bare x/y fallback, fixed visit(Transformation) bounding box for projected grids (Eduard)
 
 */
 
@@ -65,6 +65,7 @@ protected:
     virtual void print(ostream&) const override;
     std::unique_ptr<Matrix> matrix_;
     LatLonProjP *projection_;
+    string proj4_;
 
 private:
     //! Copy constructor - No copy allowed
