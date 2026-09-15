@@ -144,6 +144,7 @@ Proj4EPSG32661.xml
 Proj4EPSG32761.xml
 Proj4EPSG4326.xml
 Proj4EPSG3857.xml
+Proj4EPSG8857.xml
 Proj4EPSG900913.xml
 Proj4Geos.xml
 Proj4Goode.xml

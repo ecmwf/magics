@@ -92,6 +92,16 @@
             }
         },
         {
+            "EPSG:8857": {
+               "definition": "+proj=eqearth +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs",
+                "max_latitude": 90,
+                "max_longitude": 180,
+                "method": "geos",
+                "min_latitude": -90,
+                "min_longitude": -180
+            }
+        },
+        {
             "cylindrical": {
                 "definition": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
                 "max_latitude": 90,
