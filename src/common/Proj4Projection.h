@@ -305,6 +305,10 @@ class Proj4EPSG3035 : public Proj4Projection {
 public:
     Proj4EPSG3035() : Proj4Projection("EPSG:3035") {}
 };
+class Proj4ESRI54035 : public Proj4Projection {
+public:
+    Proj4ESRI54035() : Proj4Projection("ESRI:54035") {}
+};
 class Proj4Geos : public Proj4Projection {
 public:
     Proj4Geos() : Proj4Projection("geos") {}

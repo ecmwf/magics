@@ -339,6 +339,7 @@ static SimpleObjectMaker<Proj4EPSG32661 , Transformation> EPSG_32661_Proj4EPSG32
 static SimpleObjectMaker<Proj4EPSG32761 , Transformation> EPSG_32761_Proj4EPSG32761("EPSG:32761");
 static SimpleObjectMaker<Proj4EPSG4326 , Transformation> EPSG_4326_Proj4EPSG4326("EPSG:4326");
 static SimpleObjectMaker<Proj4EPSG3035 , Transformation> EPSG_3035_Proj4EPSG3035("EPSG:3035");
+static SimpleObjectMaker<Proj4ESRI54035 , Transformation> ESRI54035_Proj4ESRI54035("ESRI:54035");
 static SimpleObjectMaker<Proj4Goode , Transformation> goode_Proj4Goode("goode");
 static SimpleObjectMaker<Proj4Collignon , Transformation> collignon_Proj4Collignon("collignon");
 static SimpleObjectMaker<Proj4Mollweide , Transformation> mollweide_Proj4Mollweide("mollweide");

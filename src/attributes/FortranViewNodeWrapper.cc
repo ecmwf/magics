@@ -312,6 +312,11 @@ static SimpleObjectMaker<Proj4EPSG3035, Transformation> FortranViewNode_subpage_
 static SimpleObjectMaker<Proj4EPSG3035Wrapper, TransformationWrapper> FortranViewNode_subpage_map_projection_EPSG3035_wrapper ("EPSG:3035");
 
 
+#include "Proj4ESRI54035Wrapper.h"
+static SimpleObjectMaker<Proj4ESRI54035, Transformation> FortranViewNode_subpage_map_projection_ESRI54035 ("ESRI:54035");
+static SimpleObjectMaker<Proj4ESRI54035Wrapper, TransformationWrapper> FortranViewNode_subpage_map_projection_ESRI54035_wrapper ("ESRI:54035");
+
+
 #include "Proj4GoodeWrapper.h"
 static SimpleObjectMaker<Proj4Goode, Transformation> FortranViewNode_subpage_map_projection_goode ("goode");
 static SimpleObjectMaker<Proj4GoodeWrapper, TransformationWrapper> FortranViewNode_subpage_map_projection_goode_wrapper ("goode");
