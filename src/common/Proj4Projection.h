@@ -213,6 +213,7 @@ public:
     void tpers();
     void simple();
     void projectionSimple();
+    void projectedCorners();
     void cleaninit() override { init(); }
 
     void add(double, double);
@@ -244,6 +245,12 @@ protected:
     double xpcmax_;
     double ypcmin_;
     double ypcmax_;
+    // Corners of the area as requested in the projected coordinate system, kept to
+    // rebuild the area when it extends outside of the domain of the projection.
+    double pcxmin_;
+    double pcxmax_;
+    double pcymin_;
+    double pcymax_;
     double xgutter_;
     double ygutter_;
     

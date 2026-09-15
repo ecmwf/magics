@@ -217,7 +217,11 @@ Proj4Projection::Proj4Projection(const string& definition) :
     gridMaxLat_(-DBL_MAX),
     wraparound_(false),
     useData_(false),
-    helper_(0) {
+    helper_(0),
+    pcxmin_(0),
+    pcxmax_(0),
+    pcymin_(0),
+    pcymax_(0) {
     // init();
     EpsgConfig config;
     config.init();
@@ -235,7 +239,11 @@ Proj4Projection::Proj4Projection() :
     gridMaxLat_(-DBL_MAX),
     wraparound_(false),
     useData_(false),
-    helper_(0) {
+    helper_(0),
+    pcxmin_(0),
+    pcxmax_(0),
+    pcymin_(0),
+    pcymax_(0) {
     // init();
     EpsgConfig config;
     config.init();
@@ -306,6 +314,7 @@ void Proj4Projection::init() {
     helpers_["corners"]    = &Proj4Projection::corners;
     helpers_["centre"]     = &Proj4Projection::centre;
     helpers_["projection"] = &Proj4Projection::projectionSimple;
+    helpers_["projected_corners"] = &Proj4Projection::projectedCorners;
     helpers_["data"]       = &Proj4Projection::data;
 
     if (coordinates_system_ == "projection")
@@ -566,41 +575,106 @@ void Proj4Projection::simple() {
 }
 
 void Proj4Projection::projectionSimple() {
-
-   
+    // The corners of the area are given in the projected coordinate system.
     xpcmin_ = min_longitude_;
     ypcmin_ = min_latitude_;
     xpcmax_ = max_longitude_;
     ypcmax_ = max_latitude_;
 
+    // Keep them: the area may have to be rebuilt later (see projectedCorners()).
+    pcxmin_ = xpcmin_;
+    pcymin_ = ypcmin_;
+    pcxmax_ = xpcmax_;
+    pcymax_ = ypcmax_;
 
-    int error;
-    
-    helper_->revert(min_longitude_, min_latitude_);
-    error = helper_->revert(max_longitude_, max_latitude_);
-    double x = max_longitude_;
-    double y = max_latitude_;
+    magics::Polyline box;
+    box.box(PaperPoint(xpcmin_, ypcmin_), PaperPoint(xpcmax_, ypcmax_));
 
-    helper_->convert(x, y);
+    // Visible part of the area: its intersection with the domain of the projection.
+    vector<magics::Polyline*> newbox;
+    PCEnveloppe_->intersect(box, newbox);
+
+    bool inside = PCEnveloppe_->within(PaperPoint(xpcmin_, ypcmin_)) && PCEnveloppe_->within(PaperPoint(xpcmax_, ypcmax_));
+
+    if (inside) {
+        // Geographical extent of the area: revert the corners.
+        helper_->revert(min_longitude_, min_latitude_);
+        helper_->revert(max_longitude_, max_latitude_);
+    }
+    else {
+        // At least one corner is outside of the domain of the projection. This happens with
+        // world projections with a curved outline (Robinson, Mollweide, Equal Earth, ...) when
+        // the area is a rectangle covering the edge of the outline, e.g. a WMS tile. The inverse
+        // transformation is undefined there: depending on the projection, PROJ reports an error,
+        // returns infinite values or silently returns wrapped values. Use the vertices of the
+        // visible part of the area instead.
+        double minlon = DBL_MAX, minlat = DBL_MAX, maxlon = -DBL_MAX, maxlat = -DBL_MAX;
+        if (!newbox.empty()) {
+            for (auto point = newbox.front()->begin(); point != newbox.front()->end(); ++point) {
+                double lon = point->x();
+                double lat = point->y();
+                if (helper_->revert(lon, lat) || !std::isfinite(lon) || !std::isfinite(lat))
+                    continue;
+                minlon = std::min(minlon, lon);
+                maxlon = std::max(maxlon, lon);
+                minlat = std::min(minlat, lat);
+                maxlat = std::max(maxlat, lat);
+            }
+        }
+        if (minlon == DBL_MAX) {
+            // Nothing of the area is inside the domain of the projection: nothing will be drawn.
+            // Use the point of the outline closest to the centre of the area, and a degenerate envelope.
+            double cx = (xpcmin_ + xpcmax_) / 2;
+            double cy = (ypcmin_ + ypcmax_) / 2;
+            double best = DBL_MAX;
+            PaperPoint closest(cx, cy);
+            for (auto point = PCEnveloppe_->begin(); point != PCEnveloppe_->end(); ++point) {
+                double distance = (point->x() - cx) * (point->x() - cx) + (point->y() - cy) * (point->y() - cy);
+                if (distance < best) {
+                    best    = distance;
+                    closest = *point;
+                }
+            }
+            minlon = closest.x();
+            minlat = closest.y();
+            helper_->revert(minlon, minlat);
+            maxlon = minlon;
+            maxlat = minlat;
+
+            magics::Polyline* empty = new magics::Polyline();
+            empty->box(closest, closest);
+            newbox.push_back(empty);
+        }
+        min_longitude_ = minlon;
+        max_longitude_ = maxlon;
+        min_latitude_  = minlat;
+        max_latitude_  = maxlat;
+    }
 
     if (max_longitude_ < 0) {
         max_longitude_ += 360.;
     }
 
-    magics::Polyline box;
-    box.box(PaperPoint(xpcmin_, ypcmin_), PaperPoint(xpcmax_, ypcmax_));
-
-    vector<magics::Polyline*> newbox;
-    PCEnveloppe_->intersect(box, newbox);
     if (newbox.empty()) {
         MagLog::warning() << "Proj4 : the sub-area is not valid : use global view instead" << endl;
     }
     else {
         PCEnveloppe_ = newbox.front();
     }
-    // reset
-    setting_            = "corners";
+
+    // reset: the area is now defined by its geographical corners. When a corner is outside of
+    // the domain of the projection, the geographical corners cannot be reprojected back to the
+    // requested area, so rebuild the area from the projected corners instead (projectedCorners()).
+    setting_            = inside ? "corners" : "projected_corners";
     coordinates_system_ = "latlon";
+}
+
+void Proj4Projection::projectedCorners() {
+    min_longitude_ = pcxmin_;
+    min_latitude_  = pcymin_;
+    max_longitude_ = pcxmax_;
+    max_latitude_  = pcymax_;
+    projectionSimple();
 }
 
 void Proj4Projection::geos() {
