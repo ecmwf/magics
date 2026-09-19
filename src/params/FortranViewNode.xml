@@ -78,6 +78,7 @@ does it submit to any jurisdiction.
 			<option fortran="goes_east" include="Proj4Projection.h" name="Proj4Geose"></option>
 			<option fortran="lambert" include="Proj4Projection.h" name="Proj4Lambert"></option>
 			<option fortran="EPSG:3857" include="Proj4Projection.h" name="Proj4EPSG3857"></option>
+			<option fortran="EPSG:8857" include="Proj4Projection.h" name="Proj4EPSG8857"></option>
 			<option fortran="EPSG:900913" include="Proj4Projection.h" name="Proj4EPSG900913"></option>
 			<option fortran="EPSG:32661" include="Proj4Projection.h" name="Proj4EPSG32661"></option>
 			<option fortran="EPSG:32761" include="Proj4Projection.h" name="Proj4EPSG32761"></option>

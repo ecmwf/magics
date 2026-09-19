@@ -287,6 +287,11 @@ static SimpleObjectMaker<Proj4EPSG3857, Transformation> FortranViewNode_subpage_
 static SimpleObjectMaker<Proj4EPSG3857Wrapper, TransformationWrapper> FortranViewNode_subpage_map_projection_EPSG3857_wrapper ("EPSG:3857");
 
 
+#include "Proj4EPSG8857Wrapper.h"
+static SimpleObjectMaker<Proj4EPSG8857, Transformation> FortranViewNode_subpage_map_projection_EPSG8857 ("EPSG:8857");
+static SimpleObjectMaker<Proj4EPSG8857Wrapper, TransformationWrapper> FortranViewNode_subpage_map_projection_EPSG8857_wrapper ("EPSG:8857");
+
+
 #include "Proj4EPSG900913Wrapper.h"
 static SimpleObjectMaker<Proj4EPSG900913, Transformation> FortranViewNode_subpage_map_projection_EPSG900913 ("EPSG:900913");
 static SimpleObjectMaker<Proj4EPSG900913Wrapper, TransformationWrapper> FortranViewNode_subpage_map_projection_EPSG900913_wrapper ("EPSG:900913");

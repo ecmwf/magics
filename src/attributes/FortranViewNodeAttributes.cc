@@ -334,6 +334,7 @@ static SimpleObjectMaker<Proj4Meteosat57 , Transformation> meteosat_57E_Proj4Met
 static SimpleObjectMaker<Proj4Geose , Transformation> goes_east_Proj4Geose("goes_east");
 static SimpleObjectMaker<Proj4Lambert , Transformation> lambert_Proj4Lambert("lambert");
 static SimpleObjectMaker<Proj4EPSG3857 , Transformation> EPSG_3857_Proj4EPSG3857("EPSG:3857");
+static SimpleObjectMaker<Proj4EPSG8857 , Transformation> EPSG_8857_Proj4EPSG8857("EPSG:8857");
 static SimpleObjectMaker<Proj4EPSG900913 , Transformation> EPSG_900913_Proj4EPSG900913("EPSG:900913");
 static SimpleObjectMaker<Proj4EPSG32661 , Transformation> EPSG_32661_Proj4EPSG32661("EPSG:32661");
 static SimpleObjectMaker<Proj4EPSG32761 , Transformation> EPSG_32761_Proj4EPSG32761("EPSG:32761");

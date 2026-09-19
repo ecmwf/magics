@@ -297,6 +297,10 @@ class Proj4EPSG3857 : public Proj4Projection {
 public:
     Proj4EPSG3857() : Proj4Projection("EPSG:3857") {}
 };
+class Proj4EPSG8857 : public Proj4Projection {
+public:
+    Proj4EPSG8857() : Proj4Projection("EPSG:8857") {}
+};
 class Proj4EPSG900913 : public Proj4Projection {
 public:
     Proj4EPSG900913() : Proj4Projection("EPSG:3857") {}
