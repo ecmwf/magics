@@ -1205,15 +1205,29 @@ void Proj4Projection::revert(const vector<std::pair<double, double> >& in,
     for (vector<std::pair<double, double> >::const_iterator pt = in.begin(); pt != in.end(); ++pt) {
         double x = pt->first;
         double y = pt->second;
-        PaperPoint p(x, y);
-
-        // Trying to remove this test, to make the wind tiles working
-        // if (PCEnveloppe_->within(p) == false) {
-        //     out.push_back(make_pair(HUGE_VAL, HUGE_VAL));
-        //     continue;
-        // }
 
         int error = helper_->revert(x, y);
+
+        // Some projections (e.g. Equal Earth / +proj=eqearth) do not report an
+        // error when inverting a PC point that lies outside the projection's
+        // valid area. Instead of failing, their inverse returns a spurious but
+        // in-range lon/lat. Because the contouring grid is a rectangular box in
+        // PC space, those "corner" cells (outside the globe outline) would then
+        // sample real data and isolines would be drawn beyond the Earth. Guard
+        // against it with a round-trip: the reverted lon/lat must re-project
+        // back onto the original PC point, otherwise the point is out of domain.
+        // (We deliberately avoid PCEnveloppe_->within() here: it was disabled in
+        //  2021 / MAGP-1297 to fix a gradient_shading crash and wind tiles.)
+        if (!error) {
+            double px = x;  // lon
+            double py = y;  // lat
+            if (fast_reproject(px, py)) {
+                const double tolx = (xpcmax_ - xpcmin_) * 1e-4;
+                const double toly = (ypcmax_ - ypcmin_) * 1e-4;
+                if (std::fabs(px - pt->first) > tolx || std::fabs(py - pt->second) > toly)
+                    error = 1;
+            }
+        }
 
         if (error) {
             //The point is outside the projection, we return a HUGE_VAL point
