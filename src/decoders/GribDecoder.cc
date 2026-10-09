@@ -2233,6 +2233,7 @@ public:
             map_["heightAboveGround"] = &GribLevelHandler::heightAboveGround;
             map_["hybrid"]            = &GribLevelHandler::hybrid;
             map_["soilLayer"]         = &GribLevelHandler::soilLayer;
+            map_["seaIceLayer"]       = &GribLevelHandler::seaIceLayer;
         }
     }
 
@@ -2292,6 +2293,12 @@ protected:
         ostringstream out;
         long level = grib.getLong("level");
         out << "Soil layer " << level;
+        return out.str();
+    }
+    string seaIceLayer(const string&, const GribDecoder& grib) const {
+        ostringstream out;
+        long level = grib.getLong("mars.levelist");
+        out << "Sea ice layer " << level;
         return out.str();
     }
 };
