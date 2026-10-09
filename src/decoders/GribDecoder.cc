@@ -2232,6 +2232,7 @@ public:
             map_["heightAboveGround"] = &GribLevelHandler::heightAboveGround;
             map_["heightAboveGround"] = &GribLevelHandler::heightAboveGround;
             map_["hybrid"]            = &GribLevelHandler::hybrid;
+            map_["soilLayer"]         = &GribLevelHandler::soilLayer;
         }
     }
 
@@ -2285,6 +2286,12 @@ protected:
         ostringstream out;
         long level = grib.getLong("level");
         out << "Model level " << level;
+        return out.str();
+    }
+    string soilLayer(const string&, const GribDecoder& grib) const {
+        ostringstream out;
+        long level = grib.getLong("level");
+        out << "Soil layer " << level;
         return out.str();
     }
 };
