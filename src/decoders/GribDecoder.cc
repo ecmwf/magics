@@ -2457,6 +2457,51 @@ public:
     }
 };
 
+class WaveSpectraHandler : public TitleFieldHandler {
+public:
+    WaveSpectraHandler() {}
+    ~WaveSpectraHandler() {}
+    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib) override {
+
+        // initial check that this template has wave information
+        if (grib.getLong("productDefinitionTemplateNumber") != 99) {
+            return;
+        }
+
+        // check that we have arrays of freqs and dirs
+        size_t nb_frq;
+        grib_get_size(grib.id(), "scaledValuesOfWaveFrequencies", &nb_frq);
+        size_t nb_dir;
+        grib_get_size(grib.id(), "scaledValuesOfWaveDirections", &nb_dir);
+
+        if (nb_frq == 0 || nb_dir == 0) {
+            return;
+        }
+
+        // calculate the frequency from the index, lookup table and scaling factor
+        long frq = grib.getLong("waveFrequencyNumber");
+        long frq_scale_factor = grib.getLong("scaleFactorOfWaveFrequencies");
+        double* scaledFreqs = new double[nb_frq];
+        grib_get_double_array(grib.id(), "scaledValuesOfWaveFrequencies", scaledFreqs, &nb_frq);
+        double frqDivisor = std::pow(10.0, static_cast<double>(frq_scale_factor));
+        double realFrq = scaledFreqs[frq] / frqDivisor;
+
+
+        // calculate the direction from the index, lookup table and scaling factor
+        long dir = grib.getLong("waveDirectionNumber");
+        long dir_scale_factor = grib.getLong("scaleFactorOfWaveDirections");
+        double* scaledDirs = new double[nb_dir];
+        grib_get_double_array(grib.id(), "scaledValuesOfWaveDirections", scaledDirs, &nb_dir);
+        double dirDivisor = std::pow(10.0, static_cast<double>(dir_scale_factor));
+        double realDir = scaledDirs[dir] / dirDivisor;
+
+        title.back() += " ";
+        ostringstream out;
+        out << "freq " << realFrq << " dir " << realDir;
+        title.back() += out.str();
+    }
+};
+
 class GribExpverHandler : public TitleFieldHandler {
 public:
     GribExpverHandler() {}
@@ -2558,6 +2603,8 @@ static SimpleObjectMaker<GribExpverHandler, TitleFieldHandler> gribexpverhandler
 static SimpleObjectMaker<GribPlotTypeHandler, TitleFieldHandler> gribplottypehandler("plot_type");
 static SimpleObjectMaker<SatelliteHandler, TitleFieldHandler> satellitehandler("satellite");
 static SimpleObjectMaker<ChannelHandler, TitleFieldHandler> channelhandler("channel");
+static SimpleObjectMaker<WaveSpectraHandler, TitleFieldHandler> wavespectrahandler("wave_spectra");
+
 static SimpleObjectMaker<GribBaseDateHandler, TitleFieldHandler> datehandler("date");
 static SimpleObjectMaker<GribIgnoreHandler, TitleFieldHandler> texthandler("text");
 
