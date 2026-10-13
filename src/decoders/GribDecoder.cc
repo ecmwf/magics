@@ -2457,6 +2457,16 @@ public:
     }
 };
 
+
+static double scaleWaveValue(double val, long scaleFactor, long gribEdition) {
+    if (gribEdition == 1) {
+        return val / static_cast<double>(scaleFactor);
+    }
+    else {
+        return val * std::pow(10.0, static_cast<double>(-scaleFactor));
+    }
+}
+
 class WaveSpectraHandler : public TitleFieldHandler {
 public:
     WaveSpectraHandler() {}
@@ -2478,13 +2488,14 @@ public:
             return;
         }
 
+        long edition = grib.getLong("edition");
+
         // calculate the frequency from the index, lookup table and scaling factor
         long frq = grib.getLong("waveFrequencyNumber");
         long frq_scale_factor = grib.getLong("scaleFactorOfWaveFrequencies");
         double* scaledFreqs = new double[nb_frq];
         grib_get_double_array(grib.id(), "scaledValuesOfWaveFrequencies", scaledFreqs, &nb_frq);
-        double frqDivisor = std::pow(10.0, static_cast<double>(frq_scale_factor));
-        double realFrq = scaledFreqs[frq] / frqDivisor;
+        double realFrq = scaleWaveValue(scaledFreqs[frq], frq_scale_factor, edition);
 
 
         // calculate the direction from the index, lookup table and scaling factor
@@ -2492,8 +2503,7 @@ public:
         long dir_scale_factor = grib.getLong("scaleFactorOfWaveDirections");
         double* scaledDirs = new double[nb_dir];
         grib_get_double_array(grib.id(), "scaledValuesOfWaveDirections", scaledDirs, &nb_dir);
-        double dirDivisor = std::pow(10.0, static_cast<double>(dir_scale_factor));
-        double realDir = scaledDirs[dir] / dirDivisor;
+        double realDir = scaleWaveValue(scaledDirs[dir], dir_scale_factor, edition);
 
         title.back() += " ";
         ostringstream out;
