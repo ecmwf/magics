@@ -95,6 +95,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <stdint.h>
 
 using std::cerr;
 using std::cout;
@@ -376,9 +377,9 @@ inline MAGICS_NO_EXPORT string buildSharePath(const string& config, const string
             found = libpath.find_last_of("/\\");
             magplushome = libpath.substr(0,found);
        }
-       else 
+       else
 #endif
-         magplushome = string(MAGICS_INSTALL_PATH);  
+         magplushome = string(MAGICS_INSTALL_PATH);
     }
     ostringstream out;
     out << magplushome << "/share/magics/" << config;
