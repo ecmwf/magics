@@ -1093,12 +1093,14 @@ MAGICS_NO_EXPORT void CairoDriver::renderText(const Text& text) const {
     const size_t len   = alltextstring.length();
 
     GError* pError = 0;
-    PangoAttrList* pAttrList;
+    PangoAttrList* pAttrList = 0;
     char* pText = 0;
 
-    pango_parse_markup(glyphs, len, 0, &pAttrList, &pText, NULL, &pError);
-    if (pError) {
-        MagLog::warning() << "CAIRO-PANGO: " << pError->message << "\n  for text: " << glyphs << endl;
+    if (!pango_parse_markup(glyphs, len, 0, &pAttrList, &pText, NULL, &pError)) {
+        MagLog::warning() << "CAIRO-PANGO: " << (pError ? pError->message : "cannot parse markup")
+                          << "\n  for text: " << glyphs << endl;
+        if (pError)
+            g_error_free(pError);
         return;
     }
 
@@ -1148,6 +1150,10 @@ MAGICS_NO_EXPORT void CairoDriver::renderText(const Text& text) const {
         pango_cairo_show_layout(cr_, layout);
         cairo_restore(cr_);
     }
+
+    g_object_unref(layout);
+    pango_attr_list_unref(pAttrList);
+    g_free(pText);
 }
 
 /*!
