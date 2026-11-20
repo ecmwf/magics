@@ -378,7 +378,11 @@ void StaticLayer::clean() {
     layer_->clear();
 }
 
-StaticLayer::~StaticLayer() {}
+StaticLayer::~StaticLayer() {
+    // Once redisplayed, layer_ is one of our children and is deleted by ~BasicGraphicsObjectContainer.
+    if (updateText_)
+        delete layer_;
+}
 
 void StaticLayer::set(LayoutVisitor* visitor) {
     // if ( layer_->isOrphan() )
@@ -516,9 +520,17 @@ SceneLayer::SceneLayer() : rules_(0), currentIndex_(0), legend_(0), currentFrame
 }
 
 SceneLayer::~SceneLayer() {
+    // The SceneLayer owns its layers: they are created by the visitors (VisualAction, Coastlines, ...)
+    // and handed over via add(); nobody else deletes them. Previously they were only clear()ed, which
+    // leaked every layer together with the complete tree of graphical objects (contours, coastlines,
+    // labels, ...) hanging from it, once per plot.
+    // textHandler_ and legendHandler_ are members that get add()ed in interactive mode: do not delete them.
     for (vector<Layer*>::iterator layer = layers_.begin(); layer != layers_.end(); ++layer) {
-        (*layer)->clear();
+        if (*layer != &textHandler_ && *layer != &legendHandler_)
+            delete *layer;
     }
+    layers_.clear();
+    delete layout_;
 }
 
 void SceneLayer::text(TextVisitor* text) {
